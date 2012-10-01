@@ -1,0 +1,30 @@
+<style type="text/css">
+.colorr{
+	color: #FF0000
+
+}
+.colorv{
+	Color: #01DF01
+}
+.frm-fld-x{
+	padding: 0px;
+	margin: 0px;
+	background-color: #EEEEFF;
+	padding: 3px 0 3px 0;
+}
+.frm-fld-x-odd{
+	padding: 0px;
+	margin: 0px;
+	background-color: #EEEEEE;
+	padding: 3px 0 3px 0;
+}
+.error {
+	background-color: #FFCCCC;
+	border: 1px solid #FF0033;
+	padding: 3px 3px 3px 30px;
+	margin:3px;
+	background-image: url(lib/cancel.png);
+	background-repeat: no-repeat;
+	background-position: 3px 3px;
+}
+</style>

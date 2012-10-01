@@ -1,0 +1,45 @@
+<pre>%!PS-Adobe-3.0
+%%Title: Datamatrix Barcode 
+%%Creator: JpGraph Barcode http://www.aditus.nu/jpgraph/
+%%CreationDate: Tue 6 Oct 21:03:30 2009
+%%DocumentPaperSizes: A4
+%%EndComments
+%%BeginProlog
+%%EndProlog
+
+%%Page: 1 1
+
+%Module width: 3 pt
+
+%Data for bars. Only black bars are defined.
+%The figures are for each row and in format: [xpos]
+%Data: A Datamatrix barcode
+3.05 setlinewidth
+[[0][6][12][18][24][30][36][42][48][54]] {{} forall 60 moveto 0 -3.05 rlineto stroke} forall
+[[0][6][12][18][21][33][36][39][42][51][54][57]] {{} forall 57 moveto 0 -3.05 rlineto stroke} forall
+[[0][18][21][24][36][42][51]] {{} forall 54 moveto 0 -3.05 rlineto stroke} forall
+[[0][12][15][24][30][36][39][42][45][48][51][54][57]] {{} forall 51 moveto 0 -3.05 rlineto stroke} forall
+[[0][6][9][21][24][33][36][51][54]] {{} forall 48 moveto 0 -3.05 rlineto stroke} forall
+[[0][3][6][15][18][21][24][33][48][51][57]] {{} forall 45 moveto 0 -3.05 rlineto stroke} forall
+[[0][9][12][15][24][27][39][51][54]] {{} forall 42 moveto 0 -3.05 rlineto stroke} forall
+[[0][6][18][24][27][33][39][42][48][54][57]] {{} forall 39 moveto 0 -3.05 rlineto stroke} forall
+[[0][9][12][15][21][24][27][30][33][39][45][54]] {{} forall 36 moveto 0 -3.05 rlineto stroke} forall
+[[0][3][15][18][21][24][30][33][36][39][48][57]] {{} forall 33 moveto 0 -3.05 rlineto stroke} forall
+[[0][3][6][18][21][27][39][45]] {{} forall 30 moveto 0 -3.05 rlineto stroke} forall
+[[0][15][18][21][27][30][33][36][42][51][54][57]] {{} forall 27 moveto 0 -3.05 rlineto stroke} forall
+[[0][3][6][12][15][18][21][30][33][36][39][42][45][48]] {{} forall 24 moveto 0 -3.05 rlineto stroke} forall
+[[0][6][12][27][30][42][57]] {{} forall 21 moveto 0 -3.05 rlineto stroke} forall
+[[0][3][9][15][18][24][33][39][42][45][48]] {{} forall 18 moveto 0 -3.05 rlineto stroke} forall
+[[0][9][12][21][27][30][36][39][42][45][57]] {{} forall 15 moveto 0 -3.05 rlineto stroke} forall
+[[0][9][12][24][39][42][48][51][54]] {{} forall 12 moveto 0 -3.05 rlineto stroke} forall
+[[0][9][21][27][36][39][42][45][51][57]] {{} forall 9 moveto 0 -3.05 rlineto stroke} forall
+[[0][15][21][24][27][36][39][42][45][54]] {{} forall 6 moveto 0 -3.05 rlineto stroke} forall
+[[0][3][6][9][12][15][18][21][24][27][30][33][36][39][42][45][48][51][54][57]] {{} forall 3 moveto 0 -3.05 rlineto stroke} forall
+
+%End of Datamatrix Barcode 
+
+showpage 
+
+%%Trailer
+
+</pre>

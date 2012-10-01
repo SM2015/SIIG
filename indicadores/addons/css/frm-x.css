@@ -1,0 +1,141 @@
+/* CSS Document */
+
+/* Forms Elements */
+
+.frm-fld-x{
+	padding: 0px;
+	margin: 0px;
+	background-color: #EFF7FF;
+	padding: 3px 0 3px 0;
+}
+
+.frm-fld-x-odd{
+	padding: 0px;
+	margin: 0px;
+	padding: 3px 0 3px 0;
+}
+
+input.frm-btn-x  {
+	border: 3px double #999999;
+	border-top-color: #CCCCCC;
+	border-left-color: #CCCCCC;
+	padding: 2px;
+	background-color: rgb(255, 238, 159);
+	color: #333333;
+	font-weight: bold;
+	font-family: Verdana, Helvetica, Arial, sans-serif;
+	font-size: 75%;
+}
+
+input.frm-btn-x:active {
+	border: 3px double #CCCCCC;
+	border-top-color: #999999;
+	border-left-color: #999999;
+	background-color: rgb(239, 223, 149);
+}
+
+form.frm {  /* set width in form, not fieldset (still takes up more room w/ fieldset width */
+  font:100% verdana,arial,sans-serif;
+  margin: 0;
+  padding: 0;
+  min-width: 200px;
+  max-width: 700px;
+  font-family: Verdana, Helvetica, Arial, sans-serif;
+  font-size: 75%;
+	
+}
+
+
+form fieldset {
+  / * clear: both; note that this clear causes inputs to break to left in ie5.x mac, commented out */
+  border-color: #FFFCCC;
+  border-width: 1px;
+  border-style: solid;
+  padding: 10px;        /* padding in fieldset support spotty in IE */
+  margin: 0;
+}
+
+form fieldset legend {
+	font-size:90%; /* bump up legend font size, not too large or it'll overwrite border on left */
+                       /* be careful with padding, it'll shift the nice offset on top of border  */
+	padding-left: 5px;
+	padding-right: 5px;
+
+}
+form textarea {
+
+	
+}
+
+form label { 
+	display: block;  /* block float the labels to left column, set a width */
+	float: left; 
+	width: 30%; 
+	padding: 0; 
+	margin: 5px 0 0; /* set top margin same as form input - textarea etc. elements */
+	text-align: right; 
+	
+}
+
+form fieldset label:first-letter { /* use first-letter pseudo-class to underline accesskey, note that */
+	/*text-decoration:underline;*/    /* Firefox 1.07 WIN and Explorer 5.2 Mac don't support first-letter */
+                                    /* pseudo-class on legend elements, but do support it on label elements */
+                                    /* we instead underline first letter on each label element and accesskey */
+                                    /* each input. doing only legends would  lessens cognitive load */
+                                   /* opera breaks after first letter underlined legends but not labels */
+}
+
+form input, form textarea {
+	/* display: inline; inline display must not be set or will hide submit buttons in IE 5x mac */
+	width:auto;      /* set width of form elements to auto-size, otherwise watch for wrap on resize */
+	margin:5px 0 0 10px; /* set margin on left of form elements rather than right of
+                              label aligns textarea better in IE */
+}
+
+form select {
+	/* display: inline; inline display must not be set or will hide submit buttons in IE 5x mac */
+	width:auto;      /* set width of form elements to auto-size, otherwise watch for wrap on resize */
+	margin:5px 0 0 10px; /* set margin on left of form elements rather than right of
+                              label aligns textarea better in IE */
+}
+form input:focus, textarea:focus {
+	border: 1px solid Lime;
+}
+
+form input#reset {
+	margin-left:0px; /* set margin-left back to zero on reset button (set above) */
+}
+
+textarea { overflow: auto; }
+
+form small {
+
+	margin:5px 0 0 10px; /* instructions/comments left margin set to align w/ right column inputs */
+	padding: 1px 3px;
+	font-size: 80%;
+	color: Gray;
+	width:auto; 
+}
+
+form small#reset {
+	margin-left:0px; /* set margin-left back to zero on reset button (set above) */
+}
+form .required{
+color: #FF3300;
+font-weight:bold;
+} /* uses class instead of div, more efficient */
+
+form br {
+	clear:left; /* setting clear on inputs didn't work consistently, so brs added for degrade */
+}
+
+/* GUI Elements */
+
+.info {
+	background-color:#CCFFFF;
+	border: 1px solid #006699;
+	padding: 3px 3px 3px 30px;
+	margin:3px;
+}
+
+

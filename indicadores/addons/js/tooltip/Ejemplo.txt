@@ -1,0 +1,28 @@
+variables:
+	while($row2=mysql_fetch_array($Datos)){
+		$cantidad=$row2["Cantidad"];
+		$NombreMedicina=$row2["medicina"];
+		$Concentracion=$row2["Concentracion"];    <------ En ejemplo de ToolTip
+		$forma=$row2["FormaFarmaceutica"];
+		$presentacion=$row2["Presentacion"];
+		$Presentacion=$row2["FormaFarmaceutica"].", ".$row2["Presentacion"];
+		$dosis=$row2["Dosis"];
+		$idmedicina=$row2["IdMedicina"];
+		$Estado=$row2["IdEstado"];
+
+
+
+
+
+<td align="center" style="vertical-align:middle"><span onmouseover="Tip('Concentraci&oacute;n: <?php echo $Concentracion;?>')" onmouseout="UnTip()"><?php echo"$Concentracion"; ?></span></td>
+
+
+Carga del ToolTip simepre abajo de <body>
+
+<body onLoad="inicio()">
+<script language="javascript" src="../tooltip/wz_tooltip.js"></script>
+
+
+TOOL TIP EN BOTON CON IMG
+
+      <td colspan="5" align="right"><input type="submit" name="generar" value="Generar Reporte" onMouseOver="this.style.color='#009900';Tip('Generar Reportes<br><img src=\'../../images/cerrando.gif\'>',TEXTALIGN,'center')" onMouseOut="this.style.color='#000000';UnTip()" style="border-bottom-color:#000099; border-left-color:#000099; border-top-color:#000099; border-right-color:#000099"></td>

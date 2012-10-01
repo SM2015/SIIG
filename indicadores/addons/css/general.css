@@ -1,0 +1,78 @@
+.colorr{
+	color: #FF0000;
+	text-decoration: blink;
+}
+.colorv{
+	Color: #0B610B;
+}
+.frm-fld-x{
+	padding: 0px;
+	margin: 0px;
+	background-color: #EEEEFF;
+	padding: 3px 0 3px 0;
+}
+.frm-fld-x-odd{
+	padding: 0px;
+	margin: 0px;
+	background-color: #EEEEEE;
+	padding: 3px 0 3px 0;
+}
+.error {
+	background-color: #FFCCCC;
+	border: 1px solid #FF0033;
+	padding: 3px 3px 3px 30px;
+	margin:3px;
+	background-image: url(lib/cancel.png);
+	background-repeat: no-repeat;
+	background-position: 3px 3px;
+}
+div.workarea { padding:10px; float:left }
+
+ul.draglist { 
+    position: relative;
+    width: 400px; 
+    height:440px;
+    background: #f7f7f7;
+    border: 1px solid gray;
+    list-style: none;
+    margin:0;
+    padding:0;
+}
+
+ul.draglist li {
+    margin: 1px;
+    cursor: move;
+    zoom: 1;
+}
+
+ul.draglist_alt { 
+    position: relative;
+    width: 300px; 
+    list-style: none;
+    margin:0;
+    padding:0;
+    /*
+       The bottom padding provides the cushion that makes the empty 
+       list targetable.  Alternatively, we could leave the padding 
+       off by default, adding it when we detect that the list is empty.
+    */
+    padding-bottom:20px;
+}
+
+ul.draglist_alt li {
+    margin: 1px;
+    cursor: move; 
+}
+
+
+li.list1 {
+    background-color: #D1E6EC;
+    border:1px solid #7EA6B2;
+}
+
+li.list2 {
+    background-color: #D8D4E2;
+    border:1px solid #6B4C86;
+}
+
+#user_actions { float: right; }

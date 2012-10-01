@@ -1,0 +1,49 @@
+<html>
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>PhpMathPublisher : Demo Page Maker</title>
+<meta name="keywords" content="mathematic,math,mathematics,mathématique,math renderer,php,formulae,latex,mathml,publishing,pascal brachet,brachet">
+<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+<p align="center"><IMG src="header.gif" border="0"></p>
+<div id="header">Système de publication mathématique en ligne<br><IMG src="sample.png" border="0"></div>
+<div id="contentlabel">Caractéristiques</div>
+<div id="contentbox"><p>PhpMathPublisher permet la publication d'expressions mathématiques sur le web en n'utilisant que Php.
+<ul>
+<li><strong>Principe de fonctionnement : </strong>chaque formule est transformée en image par le script qui renvoie le code html à utiliser.</li>
+<li><strong>Avantages pour les visiteurs : </strong>le script ne crée qu'une simple page html composée de texte et d'images qui peut-être vue par n'importe quel navigateur actuel.<br>Le visiteur n'a rien à installer sur son système : ni fontes, ni plugins...</li>
+<li><strong>Avantages pour les webmestres : </strong>
+	<ul>
+	<li>Un simple serveur avec php suffit : PhpMathPublisher n'a besoin que de quelques fontes et de la librairie GD.<br>Contrairement aux autres systèmes utilisant des programmes basés sur LaTeX, PhpMathPublisher peut donc s'installer chez tous les hébergeurs fournissant php.</li>
+	<li>PhpMathPublisher est simple à installer et à utiliser. Une simple commande suffit à convertir un texte mathématique en code html.</li>
+	<li>Il peut-être facilement incorporé aux portails, weblogs et forums voulant pouvoir publier des expressions mathématiques.</li>
+	<li>Le webmestre est sur que les pages générées par PhpMathPublisher sont compatibles avec tous les navigateurs standards et tous les systèmes.</li>
+	<li>Les images générées par PhpMathPublisher sont transparentes et peuvent donc s'adapter à toutes les présentations.</li>
+	</ul>
+</li>
+</ul>
+</p></div>
+<div id="contentlabel">Installation et utilisation</div>
+<div id="contentbox">
+<p>
+<ol>
+<li>PhpMathPublisher a besoin d'un répertoire pour les fontes et les images. Le webmestre peut utiliser n'importe quel répertoire (ou utiliser les répertoires fonts/ et img/ fournis par défaut) : il doit simplement indiquer leurs chemins (absolus) au début du script "mathpublisher.php" .<br>(Attention : chez certains hébergeurs, le répertoire fonts/ doit-être placé à la racine du site)</li>
+<li>Le webmestre installe les fontes dans leur répertoire (elles sont dans le répertoire fonts/ du paquet à télécharger).</li>
+<li>Le programme lui-même est contenu dans un seul fichier : "mathpublisher.php" <br>
+Il suffit d'utiliser dans n'importe quelle page php, la commande  "echo mathfilter($text,$size,$pathtoimg);" (après un include("mathpublisher.php") ;)<br>
+$text représente le texte contenant des expressions mathématiques, $size représente la taille de la police utilisée pour les formules et $pathtoimg représente le chemin relatif entre la page web et le répertoire où sont stockées les images.<br>
+La fonction "mathfilter" va créer les images des formules et renvoyer le code html correspondant.
+Le texte peut contenir toutes les balises html standards en dehors de la balise &#060;m&#062;...&#060;/m&#062; qui sert aux formules mathématiques. La syntaxe à respecter pour les formules mathématiques est indiquée dans le fichier <A href="help_fr.html" target="_blank">help_fr.html</A>.<br>
+Le code des pages de démonstration fournies dans le répertoire "examples_fr/" permettent de voir comment utiliser le script en pratique.
+</li>
+</ol>
+<strong>Remarque : </strong>si la fonte cmex10.ttf pose problème sur votre serveur (racine, intégrale...), vous pouvez essayer de la remplacer par la fonte cmex10.ttf version Bakoma (<A href="http://www.ctan.org/tex-archive/fonts/cm/ps-type1/bakoma/ttf/">http://www.ctan.org/tex-archive/fonts/cm/ps-type1/bakoma/ttf/</A>).
+</p>
+</div>
+<div id="footer">
+<p><A href="http://www.xm1math.net/phpmathpublisher/index_fr.html">PhpMathPublisher</A> - Copyright 2005 <b>Pascal Brachet - France</b> <br>
+L'auteur est professeur de mathématiques au lycée Bernard Palissy à Agen.<br>
+Ce programme est distribué selon les termes de la licence libre GPL.</p>
+</div>
+</body>
+</html>

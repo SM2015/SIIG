@@ -1,0 +1,11 @@
+body {font-family:"Times New Roman",serif}
+h2 {color:#000BA0}
+.title1 {font-weight:bold; color:#A00000}
+.codediv{
+	background:whitesmoke;
+	width:1000px;
+	height: 400px;	
+	overflow: auto;
+	border: 1px solid;
+	font:courier;
+}
