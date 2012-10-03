@@ -146,8 +146,27 @@ function bdd_cerrar($link){
 	pg_close($link);
 }
 
+function encriptar_clave($valor){
+    $clave = md5('111');
+    $tama_iv = mcrypt_enc_get_iv_size(40);
+    $iv = mcrypt_create_iv($tama_iv,MCRYPT_RAND);
+    $texto = $valor;
+    $texto_cifrado = mcrypt_encrypt(MCRYPT_DES,$clave,$texto,MCRYPT_MODE_ECB,$iv);
 
+    return utf8_encode($texto_cifrado);
 
+}
+
+function decriptar_clave($valor){
+    $clave = md5('111');
+    $tama_iv = mcrypt_enc_get_iv_size(40);
+    $iv = mcrypt_create_iv($tama_iv,MCRYPT_RAND);
+    $texto = $valor;
+    $texto_cifrado = mcrypt_decrypt(MCRYPT_DES,$clave,$texto,MCRYPT_MODE_ECB,$iv);
+
+    return $texto_cifrado;
+
+}
 
 
 

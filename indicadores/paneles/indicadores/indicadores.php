@@ -415,7 +415,6 @@ function bloquear(id,obj){
     bdd_cerrar($cnx);
 }
 
-
 function graficar(){
 $datos = (isset($_REQUEST['datos'])) ? $_REQUEST['datos'] : '%'; // se obtiene el o los id del indicador
 $datos = substr($datos, 1); //se elimina la ',' de la variable del id indicador
@@ -825,6 +824,7 @@ function comparar1($conexion,$sentencia){
     $rs = bdd_pg_query($cnx, $q);
     if ($rs) {
             $reg = bdd_pg_fetch_row($rs);
+            $reg[5]=decriptar_clave(utf8_decode($reg[5]));
             $ip=$reg[3];
             if ($ip== '127.0.0.0'){
                     $ip="localhost";
@@ -895,6 +895,7 @@ function llenarcombo($conexion,$sentencia){
     $rs = bdd_pg_query($cnx, $q);
     if ($rs) {
             $reg = bdd_pg_fetch_row($rs);
+            $reg[5]=decriptar_clave(utf8_decode($reg[5]));
             $ip=$reg[3];
             if ($ip== '127.0.0.0'){
                     $ip="localhost";
@@ -961,6 +962,7 @@ function consulta($conexion, $sentencia){
     $rs = bdd_pg_query($cnx, $q);
     if ($rs) {
             $reg = bdd_pg_fetch_row($rs);
+            $reg[5]=decriptar_clave(utf8_decode($reg[5]));
             $ip=$reg[3];
             if ($ip== '127.0.0.0'){
                     $ip="localhost";
@@ -991,6 +993,7 @@ function consulta($conexion, $sentencia){
     }
     return $rs;
 }
+
 function consulta1($conexion, $rsxx){
     $cnx = bdd_conectar();
     $q = '	SELECT
@@ -1008,6 +1011,7 @@ function consulta1($conexion, $rsxx){
     $rs = bdd_pg_query($cnx, $q);
     if ($rs) {
             $reg = bdd_pg_fetch_row($rs);
+            $reg[5]=decriptar_clave(utf8_decode($reg[5]));
             $ip=$reg[3];
             if ($ip== '127.0.0.0'){
                     $ip="localhost";
@@ -1053,6 +1057,7 @@ function consulta2($conexion, $sentencia){
     $rs = bdd_pg_query($cnx, $q);
     if ($rs) {
             $reg = bdd_pg_fetch_row($rs);
+            $reg[5]=decriptar_clave(utf8_decode($reg[5]));
             $ip=$reg[3];
             if ($ip== '127.0.0.0'){
                     $ip="localhost";
