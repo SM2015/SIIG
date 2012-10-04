@@ -105,23 +105,24 @@ frmvalidator.addValidation("id_motor","dontselect=0","El nombre del motor de la 
 bdd_cerrar($cnx);
 }
 
-
 function grabar_nuevo_conexion(){
 $cnx = bdd_conectar();
 $tem =(isset($_POST['nombre_conexion'])) ? $_POST['nombre_conexion'] : "";
 $puerto =(isset($_POST['puerto'])) ? $_POST['puerto'] : "";
 $instancias =(isset($_POST['instancia'])) ? $_POST['instancia'] : "";
+$texto_cifrado = encriptar_clave($_POST['clave']);
+
 $q = "INSERT INTO conexion (nombre_conexion, ip, usuario, clave, nombre_base_datos, id_motor, comentario, puerto, instancia  ) VALUES (
   '".$tem."', 
   '".$_POST['ip']."', 
   '".$_POST['usuario']."', 
-  '".$_POST['clave']."', 
+  '".$texto_cifrado."', 
   '".$_POST['nombre_base_datos']."', 
   ". $_POST['id_motor'] .", 
   '".$_POST['comentario']."',
   '". $puerto ."',
   '". $instancias ."')";
-	$rs = bdd_pg_query($cnx, $q);
+$rs = bdd_pg_query($cnx, $q);
 	$af = bdd_pg_affected_rows($rs);
 	if ($af){ 
 		?>
@@ -137,7 +138,6 @@ $q = "INSERT INTO conexion (nombre_conexion, ip, usuario, clave, nombre_base_dat
 	}
 	bdd_cerrar($cnx);
 }
-
 
 function listarTodos($table, $data, $url , $fields = '*', $per_page = 10) {
 	$cnx = bdd_conectar();
@@ -296,8 +296,10 @@ function editar_conexion($id){
 		where 
 			conexion.id_conexion='.$id;
 	$rs = bdd_pg_query($cnx, $q);
+       
 	if ($rs) { 
-		$reg = bdd_pg_fetch_row($rs)
+		$reg = bdd_pg_fetch_row($rs);
+                $reg[7]= decriptar_clave(utf8_decode($reg[7]));
 		?>
 		<h3>Editar Una Conexion</h3>
 		<form action="<?php echo $_SERVER['PHP_SELF']?>?action=guardar" method="POST" id="edit" name="edit" >
@@ -343,7 +345,7 @@ function editar_conexion($id){
 						</TD>
 					</TR>
 					<TR class="frm-fld-x-odd">
-						<TD width="20%">Clave</TD>
+						<TD width="20%">Clave </TD>
 						<TD width="80%">
 							<input type="password" tabindex="5" name="clave" id="clave" value="<?php echo $reg[7];?>" onblur="compararps()" />
 					</TR>
@@ -409,9 +411,10 @@ $puerto =(isset($_POST['puerto'])) ? $_POST['puerto'] : "";
 $instancia = (isset($_POST['instancia'])) ? $_POST['instancia'] : "";
 $ip =(isset($_POST['ip'])) ? $_POST['ip'] : "";
 $usuario =(isset($_POST['usuario'])) ? $_POST['usuario'] : "";
-$clave =(isset($_POST['clave'])) ? $_POST['clave'] : "";
+//$clave =(isset($_POST['clave'])) ? $_POST['clave'] : "";
 $nombre_base_datos =(isset($_POST['nombre_base_datos'])) ? $_POST['nombre_base_datos'] : "";
 $comentario =(isset($_POST['comentario'])) ? $_POST['comentario'] : "";
+$texto_cifrado = encriptar_clave($_POST['clave']);
 
 	$q = "UPDATE public.conexion SET
 			nombre_conexion= 	'".$nombre_conexion."'
@@ -420,7 +423,7 @@ $comentario =(isset($_POST['comentario'])) ? $_POST['comentario'] : "";
 		,	instancia= 		'".$instancia."'
 		,	ip= 			'".$ip."'
 		,	usuario= 		'".$usuario."'
-		,	clave= 			'".$clave."'
+		,	clave= 			'".$texto_cifrado."'
 		,	nombre_base_datos= 	'".$nombre_base_datos."'
 		,	comentario= 		'".$comentario."'
 		where 

@@ -20,6 +20,8 @@ $q = '	SELECT
 $rs = bdd_pg_query($cnx, $q);
 if ($rs) { 
         $reg = bdd_pg_fetch_row($rs);
+        $reg[5]=  decriptar_clave(utf8_decode($reg[5]));
+        
         $ip=$reg[3];
         if ($ip== '127.0.0.0'){
                 $ip="localhost";
