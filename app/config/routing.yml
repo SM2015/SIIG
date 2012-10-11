@@ -1,3 +1,7 @@
+_inicio:
+    pattern:  /
+    defaults: { _controller: SonataAdminBundle:Core:dashboard }
+
 indicadores:
     resource: "@IndicadoresBundle/Controller/"
     type:     annotation
