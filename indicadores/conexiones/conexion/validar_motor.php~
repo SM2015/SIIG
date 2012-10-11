@@ -1,7 +1,0 @@
-<?php
-$clave=(isset($_REQUEST['Clave'])) ? $_REQUEST['Clave'] : NULL;
-
-
-?>
-
-<?php print "prueba=".$id_motor;?>
