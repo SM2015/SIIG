@@ -1,0 +1,14 @@
+{# Modificado para que agregar el botón para ir al listado #}
+
+{% extends 'SonataAdminBundle:CRUD:delete.html.twig' %}
+
+{% block actions %}
+    <div class="sonata-actions">
+        {% if admin.hasroute('list') and admin.isGranted('LIST')%}
+            <a class="btn sonata-action-element" href="{{ admin.generateUrl('list') }}">{{ 'link_action_list'|trans({}, 'SonataAdminBundle') }}</a>
+        {% endif %}
+        {% if admin.hasRoute('create') and admin.isGranted('CREATE')%}
+            <a class="btn sonata-action-element" href="{{ admin.generateUrl('create') }}">{{ 'link_action_create'|trans({}, 'SonataAdminBundle') }}</a>
+        {% endif %}
+    </div>
+{% endblock %}
