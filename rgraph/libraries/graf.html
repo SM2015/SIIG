@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+     <title>A basic example of a combined Bar and Line chart</title>
+    
+    <meta name="keywords" content="rgraph javascript charts html5 canvas basic example of a combined Bar/Line chart" />
+    <meta name="description" content=" A basic example of a combined Bar and Line chart" />
+    <meta name="googlebot" content="NOODP">
+
+    <!-- Include the RGraph libraries -->
+    <script src="RGraph.common.core.js" ></script>
+    <script src="RGraph.common.tooltips.js" ></script>
+    <script src="RGraph.bar.js" ></script>
+    <script src="RGraph.line.js" ></script>
+    <!--[if lt IE 9]><script src="../excanvas/excanvas.original.js"></script><![endif]-->
+
+</head>
+
+<body>
+
+    <h1>A basic example of a combined Bar/Line chart</h1>
+
+    <!-- The canvas on to which the chart is drawn -->
+    <canvas id="cvs" width="1000" height="250" !style="border: 1px solid gray">[No canvas support]</canvas>
+
+    <!-- The Javascript code that creates the chart -->
+    <script>
+        window.onload = function ()
+        {
+            /**
+            * The order in which you create the charts is important - the Line chart must be last
+            */
+            var bar  = new RGraph.Bar('cvs', [143,140,141,135,136,132,129,125,126,127,127,129]);
+            var line = new RGraph.Line('cvs', [36,35,35,36,37,36,38,38,38,37,39,34]);
+
+            /**
+            * Some Line chart configuration
+            */
+            line.Set('chart.background.grid', false);
+            line.Set('chart.noaxes', true);
+            line.Set('chart.linewidth', 3);
+            line.Set('chart.tickmarks', 'endcircle');
+            line.Set('chart.yaxispos', 'right');
+            line.Set('chart.ymax', 50);
+            line.Set('chart.title', 'A combined Bar and Line chart');
+            
+            if (!RGraph.isIE8()) {
+                line.Set('chart.tooltips.event', 'onmousemove');
+                line.Set('chart.tooltips', ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']);
+            }
+
+            /**
+            * Some Bar chart configuration
+            */
+            bar.Set('chart.background.grid.autofit', true);
+            bar.Set('chart.ymax', 250);
+            bar.Set('chart.gutter.left', 50);
+            bar.Set('chart.gutter.right', 5);
+            bar.Set('chart.colors', ['yellow']);
+            bar.Set('chart.strokestyle', 'black');
+            bar.Set('chart.labels', ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']);
+            if (!RGraph.isIE8()) {
+                bar.Set('chart.tooltips', ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']);
+            }
+            
+            /**
+            * Add the Line chart to the Bar chart
+            */
+            
+            if (RGraph.isOld()) {
+                alert("[RGRAPH] Sorry, your browser doesn't support this");
+            }
+            
+            /**
+            * These gutters determine the correct placement of the Line chart
+            */
+            line.Set('chart.gutter.left', bar.Get('chart.gutter.left') + ((line.canvas.width - bar.Get('chart.gutter.left') - bar.Get('chart.gutter.right')) / 24));
+            line.Set('chart.gutter.right', ((line.canvas.width - bar.Get('chart.gutter.left') - bar.Get('chart.gutter.right')) / 24) + bar.Get('chart.gutter.right'));
+            
+            /**
+            * Don't show Y labels on the Line chart
+            */
+            line.Set('chart.ylabels', false);
+            
+            /**
+            * Now draw the Bar chart, which also causes the line chart to be drawn
+            */
+            bar.Draw();
+            line.Draw();
+        }
+    </script>
+    
+    <p>
+        This is an example of a Bar chart combined with a Line chart. The source code is documented to make it easier
+        for you to copy and paste it if you wish.
+    </p>
+
+</body>
+</html>

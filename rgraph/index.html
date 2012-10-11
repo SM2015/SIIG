@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <!--
+        /**
+        * o------------------------------------------------------------------------------o
+        * | This file is part of the RGraph package - you can learn more at:             |
+        * |                                                                              |
+        * |                          http://www.rgraph.net                               |
+        * |                                                                              |
+        * | This package is licensed under the RGraph license. For all kinds of business |
+        * | purposes there is a small one-time licensing fee to pay and for non          |
+        * | commercial  purposes it is free to use. You can read the full license here:  |
+        * |                                                                              |
+        * |                      http://www.rgraph.net/LICENSE.txt                       |
+        * o------------------------------------------------------------------------------o
+        */
+    -->
+
+    <title>RGraph: Javascript charts library</title>
+    <link rel="stylesheet" href="css/website.css" type="text/css" media="screen" />
+
+    <RELEASE_SCRIPT_REMOVE>
+        <!-- These get replaced by a single combined JS file -->
+        <script src="libraries/RGraph.common.effects.js" ></script>
+        <script src="libraries/RGraph.common.core.js" ></script>
+        <script src="libraries/RGraph.common.tooltips.js" ></script>
+        <script src="libraries/RGraph.line.js" ></script>
+        <script src="libraries/RGraph.bar.js" ></script>
+    </RELEASE_SCRIPT_REMOVE>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js" ></script>
+    <!--[if IE 8]>
+        <script src="excanvas/excanvas.original.js"></script>
+    <![endif]-->
+
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <link rel="alternate" type="application/rss+xml" title="RGraph: Javascript charts library" href="http://support.rgraph.net/rss">
+
+    <meta name="verify-v1" content="5y8rHGO/NPFDYU8jBgyT3qI7CSiEoPaeB+4x2TXan+4=" />
+    <meta name="keywords" content="html5 charts canvas graph rgraph javascript line chart bar charts" />
+    <meta name="description" content="RGraph: Javascript charts library" />
+    
+    <meta property="og:title" content="RGraph: Javascript charts library" />
+    <meta property="og:description" content="A javascript charts library based on the HTML5 canvas tag" />
+    <meta property="og:image" content="http://www.rgraph.net/images/logo.png"/>
+    <meta property="fb:admins" content="825417645" />
+    
+    <!-- Place this tag in your head or just before your close body tag -->
+    <script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+    
+    
+    <style>        
+        .color_square {
+            display: inline;
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+        }
+        
+        .black {
+            background-color: black;
+        }
+        
+        .red {
+            background-color: red;
+        }
+    </style>
+    
+    <script>
+        window.onload = function (e)
+        {
+            if (RGraph.isIE8()) {
+                CreateLineChart();
+            }
+        }        
+    </script>
+
+    <script>
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-54706-2']);
+      _gaq.push(['_trackPageview']);
+    
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+</head>
+<body>
+
+    <!-- Social networking buttons -->
+        <div id="social_icons" class="warning" style="border-radius: 10px; top: 1px; position: fixed; width: 175px; height: 20px">
+            <a title="Bookmark with delicious" href="http://delicious.com/save?jump=close&v=4&noui&jump=close&url=http://www.rgraph.net&notes=RGraph%20is%20a%20HTML5%20based%20javascript%20charts%20library%20supporting%20a%20wide%20range%20of%20different%20chart%20types&title=RGraph:%20Javascript%20charts%20%26%20graph%20library" target="_blank"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAIAAABL1vtsAAAAK3RFWHRDcmVhdGlvbiBUaW1lAFN1biA0IE9jdCAyMDA5IDE2OjU1OjAyIC0wMDAwXdSr9wAAAAd0SU1FB9oGBBA4IE+EyF0AAAAJcEhZcwAACvAAAArwAUKsNJgAAAAEZ0FNQQAAsY8L/GEFAAADUklEQVR42qVUQYtcRRCuqu432Y3ZYEDFOBhDkJCQ9SAExKOXhYAI7uhJD2JAlOAf8OJvCd70JHgKJAoGPEg8iEEW9xCi7AaDybiZeW/mve4qv+qejfFs87bnbb/ur77vq6pmsy/p/41Yf5TeEcpGZMRE4ivKrPT5Zzeufb3XyEkRMTOSqNanfv7hR1sffLIe1ymGrxxiSBMRNhGH8j+fmYMpPf/cq+devhj0OD4aE0BCwCe69s2v80W4/PHZp5+lePfua6dOeVgzYRZ2Tr7ZKRHNZrP791MjGwSODIYeki1tnBj/8P2tM2fOvv0exel0Oh6PpUbx75DBhn8AQ5SSLjqzAHBww7KaIY7YQ+qG+Med4sUwLHMeQhhRPXQ4xEiN0oIf/Z1TJBYIUFPnC8BFlyxyOx8cIoRglFfn+BDAHEyUlm2eT1PGwVj2WHaPMDfDkQ3QaRxCVUsiFAqs5APnXU1Z7buUO25zZuCxBRNlzfD5yDBYqqzdHthIT2ooS2AGpG6ZMhhbKEQ1VXoIlMJiMawgRFwLUuolwUULOxstzsyXfQpiWWGik+Mspp7WBAMVkCshQZonGVjR4+GElnkvhcFiRxJUM5Ajk2aV8EDCHYqPVhmZTCZd19WiLEXFoKY6Wi6fev3iW5cuvZH7YwnJQIGqm4ToEto+v/DiS7MKMVy//u3BwYHZf+1wm9benbz5/uUTHp5L0q3OI5ajfz14Zm//d98HhchToeBv8KwKIRhObbKHsNI1BT/vD94L3ZSmprNqp/ePVelkj7mgHB0vLwJrKHmDpzFYbQU4m7XNuigswBAkuJSvaS0uNq5gTRg5IbStSaxKcqaAQwGJxFOw81AjM1chxKt+98eBYASoS8m3n0V9F6Q8rDwbjWIolfW4taxOXnHIAIjVWwD3RxnFEECimlAQzuIYxvGNEPiwM+BW/NdXceHqeChYLobixfnv7++3bev7X7nw2/b2Ngep10xpUVqZyrq2NqoGeIOBSG0iknv3/tzd3R2PT6565MqVT2OMN7+72fc9x8brKg+FtO3s7Fz94ioIN+5aPrwTfWxtbZ0+/WPxvly/t2+f+/mnW8NQWhK84T+kaeIQJDZoCLAEBFZB8Oja+ubm5vnzv1Q7/wE5+e63NZwqQQAAAABJRU5ErkJggg==" alt="Bookmark with delicious" width="22" height="22" border="0" style="position: relative; top: 1px" /></a>
+            <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.rgraph.net" data-count="none" data-via="_RGraph">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+            <iframe src="http://www.facebook.com/plugins/like.php?app_id=253862424642173&amp;href=http%3A%2F%2Fwww.rgraph.net&amp;send=false&amp;layout=button_count&amp;width=450&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font=arial&amp;height=21" scrolling="no" frameborder="0" style="width: 80px; height:21px; position: relative; top: 1px"></iframe>
+            <!-- SHARE BUTTON: <a name="fb_share"></a><script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script> -->
+        </div>
+
+        <script>
+            // Opera fix
+            if (navigator.userAgent.indexOf('Opera') == -1) {
+              document.getElementById("social_icons").style.position = 'fixed';
+            }
+        </script>
+        
+        <div id="google_plusone">
+            <!-- Place this tag where you want the +1 button to render -->
+            <g:plusone href="http://www.rgraph.net"></g:plusone>
+        </div>
+
+    <!-- Social networking buttons -->
+
+
+    <div id="title">
+        <div id="image">
+            <br />
+            <img src="data:image/png;base64,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" align="absmiddle" alt="RGraph: Javascript charts library" width="64" height="64" style="position: relative; top: 15px" />
+        </div>
+        
+        <div id="text">
+            <h1 id="title">RGraph: <span>Javascript charts library</span></h1>
+            <i style="position: relative; top: -20px; left: 5px">Interactive javascript charts using the HTML5 canvas tag</i>
+        </div>
+    </div>
+
+    <!-- END HEADER -->
+
+    <div style="text-align: center">
+        <div class="warning" style="display: inline">
+            <b>New:</b> RGraph now has a growing animation and effects library - read more about it
+            <a href="docs/effects.html"><b>here</b></a>
+        </div>
+    </div>
+
+
+        
+        <canvas id="cvs" width="480" height="250" style="float: right; margin-top: 8px">[IE8+ is required to view the charts.]</canvas><br />
+
+        <script>
+            /**
+            * Create the line graph
+            */
+            function CreateLineChart ()
+            {
+                var data1 = [4,6,12,16,8,4,2,8, 18,16,14,16];
+                var data2 = [2,4,8, 4, 2,6,6,12,8, 10,6, 8];
+                var labels = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+
+                // Must create the bar chart first when there's an overlayed line
+                var myBar = new RGraph.Bar('cvs', [3,5,10,10,5,5,4,5,13,13,10,12]);
+                
+                var grad = myBar.context.createLinearGradient(0,125,0,250);
+                grad.addColorStop(0, '#ccc');
+                grad.addColorStop(1, 'white');
+                
+                myBar.Set('chart.colors', [grad]);
+                myBar.Set('chart.noaxes', true);
+                myBar.Set('chart.ylabels', false);
+                myBar.Set('chart.gutter.left', 40);
+                myBar.Set('chart.ymax', 20);
+                myBar.Set('chart.background.grid.width', 1);
+                myBar.Set('chart.background.grid.color', '#ddd');
+                myBar.Set('chart.background.grid.autofit', true);
+                myBar.Set('chart.background.grid.autofit.numvlines', 12);
+                myBar.Set('chart.background.grid.autofit.numhlines', 5);
+
+                var myLine = new RGraph.Line('cvs', data1, data2);
+                myLine.Set('chart.labels', labels);
+                myLine.Set('chart.gutter.left', 40);
+                myLine.Set('chart.gutter.top', 35);
+                myLine.Set('chart.gutter.right', 5);
+                myLine.Set('chart.gutter.bottom', 20);
+                myLine.Set('chart.colors', ['red', 'black']);
+                myLine.Set('chart.units.post', '%');
+                myLine.Set('chart.tickmarks', null);
+                myLine.Set('chart.linewidth', 5);
+                myLine.Set('chart.hmargin', 10);
+                myLine.Set('chart.title', 'Robert and Daniels stats (with average bar chart)');
+                myLine.Set('chart.title.vpos', 0.5);
+                myLine.Set('chart.text.color', '#333');
+                myLine.Set('chart.text.font', 'Arial');
+                myLine.Set('chart.key', ['Robert', 'Daniel']);
+                myLine.Set('chart.key.rounded', true);
+                myLine.Set('chart.key.background', 'white');
+                myLine.Set('chart.key.position.x', myLine.Get('chart.gutter.left') + 10);
+                myLine.Set('chart.shadow', true);
+                myLine.Set('chart.shadow.blur', 0);
+                myLine.Set('chart.shadow.color', ['#faa','#aaa']);
+                myLine.Set('chart.background.grid', false);
+                
+                if (RGraph.isIE8()) {
+                    // Change the shadow color
+                    myLine.Set('chart.shadow.color', '#666');
+                } else {
+                    // Only show tooltips for capable browsers - NOT IE8
+                    window.__rgraph_line_object__ = myLine;
+                    
+                    /**
+                    * This function is used to create the tooltip - instead of an array of tooltips
+                    */
+                    function line_chart_tooltip_func (i)
+                    {
+                        var obj   = window.__rgraph_line_object__
+                        var index = i;
+                        
+
+                        while (i > 11) {
+                            index   = i - 12;
+                            i       = i - 12;
+                        }
+
+                        // Add the index to the window object so it can be used
+                        // in the ontooltip event handler in making the Pie
+                        window.__rgraph_line_tooltip_index__ = index;
+
+                        var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+                    
+                        return '<canvas id="tooltip_cvs" width="50" height="50" style="float: right">[No canvas support]</canvas><div style="float: right"><b>' + months[index] + '</b><br /><div class="color_square red"></div> Robert: ' + obj.original_data[0][index] + '<br /><div class="color_square black"></div> Daniel: ' + obj.original_data[1][index] + '</div>';
+                    }
+                    myLine.Set('chart.tooltips', line_chart_tooltip_func);
+                    myLine.Set('chart.tooltips.effect', 'fade');
+                    myLine.Set('chart.tooltips.css.class', 'line_graph_css');
+                    
+                    function DrawTooltipChart (obj)
+                    {
+                        var tt = RGraph.Registry.Get('chart.tooltip');
+
+                        // Extract the data from the tooltip HTML itself
+                        var r_data = data1[__rgraph_line_tooltip_index__];
+                        var d_data = data2[__rgraph_line_tooltip_index__];
+
+                        var bar = new RGraph.Bar('tooltip_cvs', [r_data, d_data]);
+                        bar.Set('chart.gutter.top', 5);
+                        bar.Set('chart.gutter.bottom', 5);
+                        bar.Set('chart.gutter.left', 5);
+                        bar.Set('chart.gutter.right', 5);
+                        bar.Set('chart.noyaxis', true);
+                        bar.Set('chart.background.grid', false);
+                        bar.Set('chart.colors', ['red', 'black']);
+                        bar.Set('chart.colors.sequential', true);
+                        bar.Set('chart.shadow', true);
+                        bar.Set('chart.shadow.offsetx', 0);
+                        bar.Set('chart.shadow.offsety', 0);
+                        bar.Set('chart.shadow.blur', 15);
+                        bar.Set('chart.strokestyle', 'rgba(0,0,0,0)');
+                        bar.Draw();
+                        RGraph.Effects.Bar.Grow(bar);
+                    }
+                    RGraph.AddCustomEventListener(myLine, 'ontooltip', DrawTooltipChart);
+                }
+                
+                myLine.Set('chart.animation.unfold.x', true);
+                myLine.Set('chart.animation.unfold.y', true);
+                
+                myBar.Set('chart.line', myLine);
+                if (RGraph.isIE9() || navigator.userAgent.indexOf('Chrome') > 0) {
+                    RGraph.Effects.Bar.Grow(myBar);
+                } else {
+                    myBar.Draw();
+                }
+
+                /**
+                * Use the Unfold effect if it's not IE8
+                */
+                if (!RGraph.isIE8()) {
+                    // This does the .Draw() as part of the effect
+                    RGraph.Effects.Line.Unfold(myLine, null, function (obj) {obj.Set('chart.shadow.blur', 15);RGraph.Clear(obj.canvas);obj.Draw();});
+                    RGraph.Effects.Fade.In(myLine);
+                } else {
+                    myLine.Draw();
+                    myLine.canvas.style.top = 0;
+                    myLine.canvas.style.left = 0;
+                    myLine.canvas.style.width = '480px';
+                    myLine.canvas.style.height = '250px';
+                }
+            }
+        </script>
+
+    <h2>Faster <span>websites with RGraph</span></h2>
+    <p>
+        RGraph is a Javascript charts library. By using the HTML5 canvas tag, these javascript charts are created in the web
+        browser, meaning quicker charts and less web server load. RGraph is an easy way of speeding up your website.
+        
+    </p>
+
+    <p>
+        RGraph uses the HTML5 canvas tag to produce a wide variety of javascript charts and graph types.
+        It is covered by the RGraph License.
+    </p>
+
+    <div style="text-align: center">
+        <a href="examples/index.html" id="read-more"><b>Examples</b></a> &amp;
+        <a href="docs/index.html" id="read-more">Documentation</a>
+    </div>
+    
+    <h2>Available <span>charts</span></h2>
+        <p>
+            RGraph supports over twenty different types of javascript charts, including: Bar charts, Bipolar charts, Donut charts,
+            Fuel charts, Funnel charts, Gantt charts, Horizontal Bar charts, Horizontal Progress bars, LED grids, Line charts, Meter charts,
+            Odometer charts, Pie charts, Radar charts, Radial Scatter charts, Rose charts, Scatter charts, Thermometer charts,
+            Vertical Progress bars and Waterfall charts. In addition there are variants available on many charts.
+        </p>
+
+    <a name="download"></a>
+    <h2>Download <span>RGraph</span></h2>
+    
+    <?php if($_SERVER['SERVER_NAME'] == 'www.rgraph.net' OR $_SERVER['SERVER_NAME'] == 'www.rgraph.org' OR isset($_GET['showdownloadlinks'])): ?>
+        <div id="downloadlinks">
+        
+            <?php ShowDownloadLinks() ?>
+
+            <p>
+                These are the latest full versions - not time-limited or branded trials. Note that the website is based on the latest
+                release, be it stable or beta.
+            </p>
+        </div>
+
+    <?php else: ?>
+
+        <span style="color: red">
+            [Only available on <a href="http://www.rgraph.net#download">http://www.rgraph.net</a>]
+        </span>
+    <?php endif ?>
+
+    
+    <script>
+        /**
+        * Hide the download links if not online
+        */
+        if (location.host != 'www.rgraph.net' && location.host != 'www.rgraph.org' && location.host != 'dev.rgraph.net') {
+            var downloadlinks = document.getElementById("downloadlinks");
+            
+            if (downloadlinks) {
+                document.getElementById("downloadlinks").style.display = 'none';
+            }
+        }
+    </script>
+
+
+    <a name="license"></a>
+    <h2>The <span>RGraph license</span></h2>
+
+    <div style="float: right; padding-left: 15px; padding-right: 40px; text-align: center">
+        <form action="https://checkout.google.com/api/checkout/v2/checkoutForm/Merchant/456239608328156" id="BB_BuyButtonForm" method="post" name="BB_BuyButtonForm">
+            <input name="item_name_1" type="hidden" value="RGraph License" />
+            <input name="item_description_1" type="hidden" value="License for RGraph: Javascript charts library" />
+            <input name="item_quantity_1" type="hidden" value="1" />
+            <input name="item_price_1" type="hidden" value="79.0" />
+            <input name="item_currency_1" type="hidden" value="GBP" />
+            <input name="_charset_" type="hidden" value="utf-8" />
+            <input alt="" width="116" height="61" src="images/buy.png" type="image" />
+        </form>
+
+        <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+            <input type="hidden" name="cmd" value="_s-xclick">
+            <input type="hidden" name="hosted_button_id" value="FDVK4T4GKQ6M8">
+            <input type="image" src="images/paypal.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online.">
+            <img alt="" border="0" src="https://www.paypalobjects.com/en_GB/i/scr/pixel.gif" width="1" height="1">
+        </form>
+    </div>
+
+    <p>
+        RGraph is covered by the RGraph license. A summary is that for commercial/business use there is a small one-time
+        licensing fee of 79 GBP (roughly 125 USD). For non-commercial purposes it's freely usable.
+        
+        There are some
+        <a href="docs/licensing.html"><b>licensing FAQs</b></a> that should help to answer any
+        questions you might have. If you need one, you can <a href="http://www.rgraph.net/invoice.html">get an invoice here</a>.
+    </p>
+
+    <p>
+        If you have any questions about RGraph licensing, you can send your question to: <a href="mailto:licensing@rgraph.net">licensing@rgraph.net</a>.
+        If your question is of a support nature, please use the <a href="http://support.rgraph.net" target="_blank">support forum</a>.
+    </p>
+    
+    <p>
+        You can read the license on the <a href="docs/licensing.html#license.text">licensing FAQs page</a>
+    </p>
+    
+    <!-- <iframe width="100%" height="300" src="LICENSE.txt"></iframe> -->
+
+    <script>
+        if (!RGraph.isIE8()) {
+            CreateLineChart();
+        }
+    </script>
+
+
+    <br clear="all" />
+
+
+
+
+    <?php if ($_SERVER['SERVER_NAME'] != 'www.rgraph.net'): ?>
+        <p style="text-align: left">
+            <a href="http://www.rgraph.net" target="_blank"> &laquo; Keep up-to-date at www.rgraph.net</a>
+        </p>
+    <?php endif ?>
+    
+    <div id="rgraph"></div>
+    
+    <script>
+        if (location.host.match(/^dev\.rgraph/)) {
+            document.getElementById("rgraph").innerHTML = '<div id="devtag">DEVELOPMENT<br /><a href="http://www.rgraph.net">Go to the live version &raquo;</a></div>';
+        }
+    </script>
+
+    <script>
+        (function swapImages ()
+        {
+            document.getElementById("social_icons").getElementsByTagName('IMG')[0].src = 'images/delicious.png';
+            document.getElementById("title").getElementsByTagName('IMG')[0].src = 'images/logo.png';
+        })()
+    </script>
+</body>
+</html><!-- 2011-08-27 -->

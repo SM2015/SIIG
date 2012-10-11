@@ -1,0 +1,41 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>31.3. The Init() method</title><link rel="stylesheet" href="manual.css" type="text/css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.74.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="ch31.html" title="Chapter 31. Creating Critical chain buffer penetration charts"><link rel="prev" href="ch31s02.html" title="31.2. Creating a utility class to construct CC BP charts"><link rel="next" href="ch31s04.html" title="31.4. Suggested improvements"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">31.3. The Init() method</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch31s02.html">Prev</a> </td><th width="60%" align="center">Chapter 31. Creating Critical chain buffer penetration charts</th><td width="20%" align="right"> <a accesskey="n" href="ch31s04.html">Next</a></td></tr></table><hr></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2499271"></a>31.3. The Init() method</h2></div></div></div><p>This is the real method that actually constructs the graph. While we will not go
+                through every single line in details we will highlight the complications and some
+                formatting options we have used.</p><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="id2499285"></a>31.3.1. Creating the colored backgrounds</h3></div></div></div><p>In order to create the colored background we create filled area plots and add
+                    them to the graph. Starting with the "brown" and successively adding the rest to
+                    create the colored band effect we want. <a class="xref" href="ch31s03.html#fig.ccbp-background-step" title="Figure 31.6. Steps to create the background">Figure 31.6</a> shows in "slow-motion" how this is
+                    done by adding four area plots, one at a time.</p><div class="figure"><a name="fig.ccbp-background-step"></a><p class="title"><b>Figure 31.6. Steps to create the background</b></p><div class="figure-contents"><div class="mediaobject"><img src="images/ccbp-creating-background-indicators.png" alt="Steps to create the background"></div></div></div><br class="figure-break"><p>The exact position for the lines are calculated with the positions given for
+                    each color band. The position for each color band is specified by giving the
+                    y-coordinate at x=0 and the y-coordinate at the maximum x-scale value.</p><p>When adding the area plots there is one thing we have to modify. By default
+                    the fill is done between the line and the y=0 line. In our case we need the fill
+                    to go all the way down to the min y-value. To change this behavior we need to
+                    call the method</p><p>
+                    </p><div class="itemizedlist"><ul type="disc"><li><p><code class="code">LinePlot::SetFillFromYMin()</code></p></li></ul></div><p>
+                </p><p>for each of the areas.</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="id2499371"></a>31.3.2. Getting the grid lines right</h3></div></div></div><p>Since we want some discrete horizontal grid lines we might think that it is
+                    enough to do the normal</p><p>
+                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$graph-&gt;ygrid-&gt;Show();</span></pre></td></tr></table></div><p>
+                </p><p>However, doing that will not show any grid lines. The reason is hat by default
+                    the grid lines are drawn at the bottom of the plot. Since we have filled area
+                    plots covering 100% of the pot area no grid lines would show. In order to change
+                    this we need to move the grid line to the front with a call to the method</p><p>
+                    </p><div class="itemizedlist"><ul type="disc"><li><p><code class="code">Graph::SetGridDepth($aDepth)</code></p></li></ul></div><p>
+                </p><p>using the argument <code class="code">DEPTH_FRONT</code>. The rest of the grid line
+                    formatting is just basic style and color modification to make the grid visible
+                    but just barely.</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="id2499072"></a>31.3.3. Getting the scale and labels right</h3></div></div></div><p>For this type of graph we have manually set the distance between each tick
+                    label to 25 units. This would put labels as 0,25,50, and so on. The maximum
+                    value (the user specifies) will be adjusted so that it is always an even
+                    multiple of 25 to allow the last tick mark to be at the end of the axis.</p><p>As can be seen from the previous images we are using one feature that hasn't
+                    been previously exemplified and that is the possibility to have unique colors on
+                    each label on the scale. We use this for the x-scale by having the negative
+                    labels in black and the positive labels in white. The reason is purely
+                    functional to allow the scale labels to be more easy to read against the colored
+                    background.</p><p>The color of the labels are specified as the second argument to </p><p>
+                    </p><div class="itemizedlist"><ul type="disc"><li><p><code class="code">Axis::SetColor($aAxisColor,$aLabelColor)</code></p></li></ul></div><p>
+                </p><p>In addition we have also hidden the zero labels since they would just be
+                    disturbing in the middle and doesn't really add any information we don't already
+                    have.</p><p>Finally the labels are formatted to show a percentage sign after each label.
+                    This is done by a format string</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="id2499138"></a>31.3.4. Adjusting the margin and text sizes</h3></div></div></div><p>In the beginning of the <code class="code">Init()</code> method the margins for the graph
+                    is adjusted depending on the actual size the user specified. The same goes with
+                    establishing the basic font size used for the scale labels as well as the titles
+                    (both graph and axis). The size is just based on heuristics on what (in our
+                    view) gives a well balanced graph.</p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch31s02.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="ch31.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="ch31s04.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">31.2. Creating a utility class to construct CC BP charts </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> 31.4. Suggested improvements</td></tr></table></div></body></html>

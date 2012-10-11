@@ -1,0 +1,3 @@
+This program is licensed under the terms of the GNU Open Source GPL 3.0 license.
+Commercial use is prohibited. Visit <a href='http://www.interpid.eu/fpdf-components'>http://www.interpid.eu/fpdf-components</a> if you need to obtain a commercial license.
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or any later version.
