@@ -69,4 +69,4 @@ $ app/console fos:user:create --super-admin
 ~~~
 
 ### Cargar la aplicación
-http://localhost/siig
+http://localhost/siig/app_dev.php
