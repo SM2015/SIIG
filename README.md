@@ -65,7 +65,7 @@ $ app/console doctrine:schema:update --force
 
 ### Crear un usuario administrador
 ~~~
-$ app/console help fos:user:create --super-admin
+$ app/console fos:user:create --super-admin
 ~~~
 
 ### Cargar la aplicación
