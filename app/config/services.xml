@@ -1,0 +1,127 @@
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="sonata.admin.responsable_dato" class="MINSAL\IndicadoresBundle\Admin\ResponsableDatoAdmin">
+            <tag name="sonata.admin" 
+                 manager_type="orm" 
+                 group="Catálogos" 
+                 label="responsable_datos"
+            />
+            <argument />
+            <argument>MINSAL\IndicadoresBundle\Entity\ResponsableDato</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+        </service>
+        
+        <service id="sonata.admin.fuente_dato" class="MINSAL\IndicadoresBundle\Admin\FuenteDatoAdmin">
+            <tag name="sonata.admin" 
+                 manager_type="orm" 
+                 group="Catálogos" 
+                 label="fuente_datos"
+            />
+            <argument />
+            <argument>MINSAL\IndicadoresBundle\Entity\FuenteDato</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+        </service>
+        
+        <service id="sonata.admin.responsable_indicador" class="MINSAL\IndicadoresBundle\Admin\ResponsableIndicadorAdmin">
+            <tag name="sonata.admin" 
+                 manager_type="orm" 
+                 group="Catálogos" 
+                 label="responsable_indicador"
+            />
+            <argument />
+            <argument>MINSAL\IndicadoresBundle\Entity\ResponsableIndicador</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+        </service>
+
+        <service id="sonata.admin.clasificacion_tecnica" class="MINSAL\IndicadoresBundle\Admin\ClasificacionTecnicaAdmin">
+            <tag name="sonata.admin" 
+                 manager_type="orm" 
+                 group="Catálogos" 
+                 label="clasificacion_tecnica"
+            />
+            <argument />
+            <argument>MINSAL\IndicadoresBundle\Entity\ClasificacionTecnica</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+        </service>
+
+        <service id="sonata.admin.clasificacion_privacidad" class="MINSAL\IndicadoresBundle\Admin\ClasificacionPrivacidadAdmin">
+            <tag name="sonata.admin" 
+                 manager_type="orm" 
+                 group="Catálogos" 
+                 label="clasificacion_privacidad"
+            />
+            <argument />
+            <argument>MINSAL\IndicadoresBundle\Entity\ClasificacionPrivacidad</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+        </service>
+
+        <service id="sonata.admin.clasificacion_nivel" class="MINSAL\IndicadoresBundle\Admin\ClasificacionNivelAdmin">
+            <tag name="sonata.admin" 
+                 manager_type="orm" 
+                 group="Catálogos" 
+                 label="clasificacion_nivel"
+            />
+            <argument />
+            <argument>MINSAL\IndicadoresBundle\Entity\ClasificacionNivel</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+        </service>
+
+        <service id="sonata.admin.clasificacion_uso" class="MINSAL\IndicadoresBundle\Admin\ClasificacionUsoAdmin">
+            <tag name="sonata.admin" 
+                 manager_type="orm" 
+                 group="Catálogos" 
+                 label="clasificacion_uso"
+            />
+            <argument />
+            <argument>MINSAL\IndicadoresBundle\Entity\ClasificacionUso</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+        </service>
+
+        <service id="sonata.admin.conexion" class="MINSAL\IndicadoresBundle\Admin\ConexionAdmin">
+            <tag name="sonata.admin" 
+                 manager_type="orm" 
+                 group="Conexiones" 
+                 label="conexion_bd"
+            />
+            <argument />
+            <argument>MINSAL\IndicadoresBundle\Entity\Conexion</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+        </service>
+        
+        <service id="sonata.admin.sentencia" class="MINSAL\IndicadoresBundle\Admin\SentenciaAdmin">
+            <tag name="sonata.admin"
+                 manager_type="orm" 
+                 group="Conexiones" 
+                 label="sentencia_sql"
+            />
+            <argument />
+            <argument>MINSAL\IndicadoresBundle\Entity\Sentencia</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+        </service>
+        
+        <service id="sonata.admin.variable" class="MINSAL\IndicadoresBundle\Admin\VariableDatoAdmin">
+            <tag name="sonata.admin"
+                 manager_type="orm" 
+                 group="Fórmulas de indicadores" 
+                 label="variables"
+            />
+            <argument />
+            <argument>MINSAL\IndicadoresBundle\Entity\VariableDato</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+        </service>
+
+        <service id="sonata.admin.ficha" class="MINSAL\IndicadoresBundle\Admin\FichaTecnicaAdmin">
+            <tag name="sonata.admin"
+                 manager_type="orm" 
+                 group="Fórmulas de indicadores" 
+                 label="ficha_tecnica"
+            />
+            <argument />
+            <argument>MINSAL\IndicadoresBundle\Entity\FichaTecnica</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+        </service>
+
+    </services>
+</container>

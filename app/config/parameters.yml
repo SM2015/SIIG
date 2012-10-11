@@ -1,0 +1,14 @@
+parameters:
+    database_driver: pdo_pgsql
+    database_host: localhost
+    database_port: null
+    database_name: indicadores2
+    database_user: admin
+    database_password: rodriguez
+    mailer_transport: smtp
+    mailer_host: localhost
+    mailer_user: null
+    mailer_password: null
+    locale: es_SV
+    secret: 295125e6c66ab2a1038b62ad3c910733510
+    database_path: null
