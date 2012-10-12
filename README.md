@@ -74,7 +74,7 @@ En el archivo /etc/hosts agregamos la línea
 
 Habilitamos el VirtualHost
 ~~~
-$ sudo a2ensite /etc/apache2/sites-available/siig.localhost
+$ sudo a2ensite siig.localhost
 ~~~
 
 También es recomendable activar el módulo mod_rewrite
