@@ -3,3 +3,13 @@
         padding-top: 10px;
     }
 }
+.sonata-bc div.connection {
+    border: 1px solid #DDDDDD;
+    border-radius: 6px 6px 6px 6px;
+    box-shadow: 2px 2px 10px #CCCCCC;
+    left: 50%;
+    margin: 10px 0 0 -250px;
+    position: relative;
+    top: 35%;
+    width: 460px;
+}
