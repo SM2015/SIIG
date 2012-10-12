@@ -39,6 +39,53 @@ $ php composer.phar install
 ### Servidor web
 Se puede crear un enlace en /var/www y hacia la carpeta web de nuestro proyecto y utilizarlo 
 como http://localhost/siig o se puede configurar un VirtualHost
+####Configurar un VirtualHost
+Creamos el archivo para la definición del VirtualHost
+~~~
+$ sudo nano /etc/apache2/sites-available/siig.localhost
+~~~
+El contenido será similar a esto:
+~~~
+<VirtualHost 127.0.0.7>
+ 
+    ServerName siig.localhost
+    DocumentRoot /ruta_al_directorio_descargado/web
+ 
+    <Directory /ruta_al_directorio_descargado/web >
+         Options Indexes FollowSymLinks MultiViews
+         AllowOverride All
+         Order allow,deny
+         allow from all
+    </Directory>
+ 
+    ErrorLog ${APACHE_LOG_DIR}/siig-error.localhost.log
+    # Possible values include: debug, info, notice, warn, error, crit,
+    # alert, emerg.
+    LogLevel warn
+    CustomLog ${APACHE_LOG_DIR}/siig-access.localhost.log combined
+</VirtualHost>
+
+~~~
+
+En el archivo /etc/hosts agregamos la línea 
+~~~
+127.0.0.7               siig.localhost
+~~~
+
+Habilitamos el VirtualHost
+~~~
+$ sudo a2ensite /etc/apache2/sites-available/siig.localhost
+~~~
+
+También es recomendable activar el módulo mod_rewrite
+~~~
+$ sudo a2enmod rewrite
+~~~
+
+Reiniciar apache
+~~~
+$ sudo /etc/init.d/apache2 restart
+~~~
 
 ### Permisos sobre carpetas
 Es necesario tener [soporte para ACL](https://help.ubuntu.com/community/FilePermissionsACLs) en la partición en que 
