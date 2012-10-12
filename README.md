@@ -97,7 +97,7 @@ $ sudo setfacl -dR -m u:www-data:rwx -m u:`whoami`:rwx app/cache app/logs
 ~~~
 
 ### Verificar la configuración
-Entra a la siguiente dirección desde el navegador http://localhost/siig/config.php 
+Entra a la siguiente dirección desde el navegador http://siig.localhost/config.php 
 Si aparece algún error debe ser corregido antes de continuar
 
 ### Configuración de la conexión
@@ -116,4 +116,4 @@ $ app/console fos:user:create --super-admin
 ~~~
 
 ### Cargar la aplicación
-http://localhost/siig/app_dev.php
+http://siig.localhost/app_dev.php
