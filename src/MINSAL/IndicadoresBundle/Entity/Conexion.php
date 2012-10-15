@@ -306,4 +306,8 @@ class Conexion
     {
         return $this->idMotor;
     }
+    
+    public function __toString() {
+        return $this->nombreConexion.' - '.$this->ip .' - ' . $this->nombreBaseDatos;
+    }
 }
