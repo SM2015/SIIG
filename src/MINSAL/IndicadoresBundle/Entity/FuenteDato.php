@@ -183,4 +183,8 @@ class FuenteDato
     {
         return $this->cargo;
     }
+    
+    public function __toString() {
+        return $this->establecimiento;
+    }
 }

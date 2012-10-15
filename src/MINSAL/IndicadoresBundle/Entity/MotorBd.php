@@ -93,4 +93,8 @@ class MotorBd
     {
         return $this->codigo;
     }
+    
+    public function __toString() {
+        return $this->nombre;
+    }
 }
