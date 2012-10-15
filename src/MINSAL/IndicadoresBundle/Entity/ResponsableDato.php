@@ -183,4 +183,8 @@ class ResponsableDato
     {
         return $this->cargo;
     }
+    
+    public function __toString() {
+        return $this->establecimiento;
+    }
 }
