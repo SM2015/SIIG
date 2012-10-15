@@ -23,6 +23,13 @@ class Presentacion
     private $id;
 
     /**
+     * @var string $codigo
+     *
+     * @ORM\Column(name="codigo", type="string", length=20, nullable=false)
+     */
+    private $codigo;
+    
+    /**
      * @var string $descripcion
      *
      * @ORM\Column(name="descripcion", type="string", length=40, nullable=false)
@@ -66,5 +73,28 @@ class Presentacion
     
     public function __toString() {
         return $this->descripcion;
+    }
+
+    /**
+     * Set codigo
+     *
+     * @param string $codigo
+     * @return Presentacion
+     */
+    public function setCodigo($codigo)
+    {
+        $this->codigo = $codigo;
+    
+        return $this;
+    }
+
+    /**
+     * Get codigo
+     *
+     * @return string 
+     */
+    public function getCodigo()
+    {
+        return $this->codigo;
     }
 }
