@@ -110,6 +110,11 @@ $ app/console doctrine:database:create
 $ app/console doctrine:schema:update --force
 ~~~
 
+### Cargar datos iniciales
+~~~
+$ app/console doctrine:fixtures:load
+~~~
+
 ### Crear un usuario administrador
 ~~~
 $ app/console fos:user:create --super-admin
