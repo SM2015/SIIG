@@ -530,7 +530,11 @@ class FichaTecnica
     }
     
     /**
-     * @ORM\OneToMany(targetEntity="FichaTecnicaVariableDato", mappedBy="idFichaTecnica")
+     * @ORM\ManyToMany(targetEntity="VariableDato")
+     * @ORM\JoinTable(name="ficha_tecnica_variable_dato",
+     *      joinColumns={@ORM\JoinColumn(name="id_ficha_tecnica", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="id_variable_dato", referencedColumnName="id")}
+     *      )
      **/
     private $variables;
     
@@ -552,6 +556,8 @@ class FichaTecnica
      *      )
      **/
     private $presentaciones;
+    
+    
         
     /**
      * Constructor
