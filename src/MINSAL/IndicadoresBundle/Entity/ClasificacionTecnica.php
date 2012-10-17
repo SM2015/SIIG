@@ -23,11 +23,19 @@ class ClasificacionTecnica
     private $id;
 
     /**
+     * @var string $codigo
+     *
+     * @ORM\Column(name="codigo", type="string", length=15, nullable=false)
+     */
+    private $codigo;
+    
+    /**
      * @var string $descripcion
      *
      * @ORM\Column(name="descripcion", type="string", length=50, nullable=false)
      */
     private $descripcion;
+    
 
     /**
      * @var string $comentario
@@ -96,5 +104,28 @@ class ClasificacionTecnica
     
     public function __toString() {
         return $this->descripcion;
+    }
+
+    /**
+     * Set codigo
+     *
+     * @param string $codigo
+     * @return ClasificacionTecnica
+     */
+    public function setCodigo($codigo)
+    {
+        $this->codigo = $codigo;
+    
+        return $this;
+    }
+
+    /**
+     * Get codigo
+     *
+     * @return string 
+     */
+    public function getCodigo()
+    {
+        return $this->codigo;
     }
 }

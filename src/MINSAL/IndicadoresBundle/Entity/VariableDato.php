@@ -98,11 +98,6 @@ class VariableDato
     private $idWebService;
 
     /**
-     * @ORM\OneToMany(targetEntity="FichaTecnicaVariableDato", mappedBy="idVariableDato")
-     **/
-    private $fichasTecnicas;
-
-    /**
      * Get id
      *
      * @return integer 
@@ -322,44 +317,5 @@ class VariableDato
     public function __toString() {
         return $this->nombre;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->fichasTecnicas = new \Doctrine\Common\Collections\ArrayCollection();
-    }
     
-    /**
-     * Add fichasTecnicas
-     *
-     * @param MINSAL\IndicadoresBundle\Entity\FichaTecnicaVariableDato $fichasTecnicas
-     * @return VariableDato
-     */
-    public function addFichasTecnica(\MINSAL\IndicadoresBundle\Entity\FichaTecnicaVariableDato $fichasTecnicas)
-    {
-        $this->fichasTecnicas[] = $fichasTecnicas;
-    
-        return $this;
-    }
-
-    /**
-     * Remove fichasTecnicas
-     *
-     * @param MINSAL\IndicadoresBundle\Entity\FichaTecnicaVariableDato $fichasTecnicas
-     */
-    public function removeFichasTecnica(\MINSAL\IndicadoresBundle\Entity\FichaTecnicaVariableDato $fichasTecnicas)
-    {
-        $this->fichasTecnicas->removeElement($fichasTecnicas);
-    }
-
-    /**
-     * Get fichasTecnicas
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getFichasTecnicas()
-    {
-        return $this->fichasTecnicas;
-    }
 }

@@ -565,7 +565,8 @@ class FichaTecnica
     public function __construct()
     {
         $this->periodos = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->presentaciones = new \Doctrine\Common\Collections\ArrayCollection();        
+        $this->presentaciones = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->variables = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
     /**
