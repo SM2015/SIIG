@@ -37,8 +37,8 @@ class Campo
     private $descripcion;
     
     /**
-     * @ORM\ManyToOne(targetEntity="TablaDatos")
-     * @ORM\JoinColumn(name="id_tabla_dato", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="OrigenDatos")
+     * @ORM\JoinColumn(name="id_origen_datos", referencedColumnName="id")
      **/
     private $tablaDato;
     
@@ -104,29 +104,7 @@ class Campo
     {
         return $this->descripcion;
     }
-
-    /**
-     * Set tablaDato
-     *
-     * @param MINSAL\IndicadoresBundle\Entity\TablaDato $tablaDato
-     * @return Campo
-     */
-    public function setTablaDato(\MINSAL\IndicadoresBundle\Entity\TablaDato $tablaDato = null)
-    {
-        $this->tablaDato = $tablaDato;
     
-        return $this;
-    }
-
-    /**
-     * Get tablaDato
-     *
-     * @return MINSAL\IndicadoresBundle\Entity\TablaDato 
-     */
-    public function getTablaDato()
-    {
-        return $this->tablaDato;
-    }
 
     /**
      * Set tipoCampo
@@ -149,5 +127,28 @@ class Campo
     public function getTipoCampo()
     {
         return $this->tipoCampo;
+    }
+
+    /**
+     * Set tablaDato
+     *
+     * @param MINSAL\IndicadoresBundle\Entity\OrigenDatos $tablaDato
+     * @return Campo
+     */
+    public function setTablaDato(\MINSAL\IndicadoresBundle\Entity\OrigenDatos $tablaDato = null)
+    {
+        $this->tablaDato = $tablaDato;
+    
+        return $this;
+    }
+
+    /**
+     * Get tablaDato
+     *
+     * @return MINSAL\IndicadoresBundle\Entity\OrigenDatos 
+     */
+    public function getTablaDato()
+    {
+        return $this->tablaDato;
     }
 }

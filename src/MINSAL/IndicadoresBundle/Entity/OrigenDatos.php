@@ -7,10 +7,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * MINSAL\IndicadoresBundle\Entity\TablaDatos
  *
- * @ORM\Table(name="tabla_datos")
+ * @ORM\Table(name="origen_datos")
  * @ORM\Entity
  */
-class TablaDatos
+class OrigenDatos
 {
     /**
      * @var integer $id
@@ -35,6 +35,19 @@ class TablaDatos
      * @ORM\Column(name="descripcion", type="text", nullable=true)
      */
     private $descripcion;
+    
+    /**
+     * @ORM\OneToOne(targetEntity="Sentencia")
+     * @ORM\JoinColumn(name="id_sentencia_sql", referencedColumnName="id")
+     **/
+    private $sentenciaSql;
+    
+    /**
+     * @var string $archivo
+     *
+     * @ORM\Column(name="archivo", type="text", nullable=true)
+     */
+    private $archivo;
     
 
     /**
@@ -91,5 +104,51 @@ class TablaDatos
     public function getDescripcion()
     {
         return $this->descripcion;
+    }
+
+    /**
+     * Set archivo
+     *
+     * @param string $archivo
+     * @return OrigenDatos
+     */
+    public function setArchivo($archivo)
+    {
+        $this->archivo = $archivo;
+    
+        return $this;
+    }
+
+    /**
+     * Get archivo
+     *
+     * @return string 
+     */
+    public function getArchivo()
+    {
+        return $this->archivo;
+    }
+
+    /**
+     * Set sentenciaSql
+     *
+     * @param MINSAL\IndicadoresBundle\Entity\Sentencia $sentenciaSql
+     * @return OrigenDatos
+     */
+    public function setSentenciaSql(\MINSAL\IndicadoresBundle\Entity\Sentencia $sentenciaSql = null)
+    {
+        $this->sentenciaSql = $sentenciaSql;
+    
+        return $this;
+    }
+
+    /**
+     * Get sentenciaSql
+     *
+     * @return MINSAL\IndicadoresBundle\Entity\Sentencia 
+     */
+    public function getSentenciaSql()
+    {
+        return $this->sentenciaSql;
     }
 }

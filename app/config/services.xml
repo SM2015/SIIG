@@ -82,7 +82,7 @@
         <service id="sonata.admin.conexion" class="MINSAL\IndicadoresBundle\Admin\ConexionAdmin">
             <tag name="sonata.admin" 
                  manager_type="orm" 
-                 group="Conexiones" 
+                 group="Origen de datos" 
                  label="conexion_bd"
             />
             <argument />
@@ -93,7 +93,7 @@
         <service id="sonata.admin.sentencia" class="MINSAL\IndicadoresBundle\Admin\SentenciaAdmin">
             <tag name="sonata.admin"
                  manager_type="orm" 
-                 group="Conexiones" 
+                 group="Origen de datos" 
                  label="sentencia_sql"
             />
             <argument />
@@ -121,6 +121,16 @@
             <argument />
             <argument>MINSAL\IndicadoresBundle\Entity\FichaTecnica</argument>
             <argument>SonataAdminBundle:CRUD</argument>
+        </service>
+        <service id="sonata.admin.ficha" class="MINSAL\IndicadoresBundle\Admin\OrigenDatoAdmin">
+            <tag name="sonata.admin"
+                 manager_type="orm" 
+                 group="Origen de datos" 
+                 label="configurar_origen_datos"
+            />    
+            <argument />
+            <argument>MINSAL\IndicadoresBundle\Entity\OrigenDatos</argument>
+            <argument>SonataAdminBundle:CRUD</argument>       
         </service>
 
     </services>
