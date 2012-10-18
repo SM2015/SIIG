@@ -28,6 +28,13 @@ class Periodos
      * @ORM\Column(name="descripcion", type="string", length=25, nullable=false)
      */
     private $descripcion;
+    
+    /**
+     * @var string $codigo
+     *
+     * @ORM\Column(name="codigo", type="string", length=7, nullable=false)
+     */
+    private $codigo;
 
     /**
      * @var string $sentencia
@@ -96,5 +103,28 @@ class Periodos
     
     public function __toString() {
         return $this->descripcion;
+    }
+
+    /**
+     * Set codigo
+     *
+     * @param string $codigo
+     * @return Periodos
+     */
+    public function setCodigo($codigo)
+    {
+        $this->codigo = $codigo;
+    
+        return $this;
+    }
+
+    /**
+     * Get codigo
+     *
+     * @return string 
+     */
+    public function getCodigo()
+    {
+        return $this->codigo;
     }
 }

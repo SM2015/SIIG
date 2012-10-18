@@ -156,4 +156,8 @@ class Sentencia
     {
         return $this->idConexion;
     }
+    
+    public function __toString() {
+        return $this->nombreConsulta;
+    }
 }
