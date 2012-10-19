@@ -26,6 +26,7 @@
 	"knplabs/knp-menu-bundle":"1.1.*",
         "simplethings/entity-audit-bundle": "master",
 	"friendsofsymfony/user-bundle": "*",
+        "friendsofsymfony/jsrouting-bundle": "master",
         "sonata-project/easy-extends-bundle": "*",
         "sonata-project/user-bundle": "*"
     },

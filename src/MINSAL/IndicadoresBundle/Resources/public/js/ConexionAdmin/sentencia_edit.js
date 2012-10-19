@@ -1,9 +1,4 @@
-$(document).ready(function(){   
-    
-    // Voy a ordenar unos controles que el AdminBundle no los saca bien
-    // id que se está usando para los nombres de los formularios (es aleatorio)
-    var $id = $('select[id$="_idConexion"]').attr('id').split('_')[0];
-    
+$(document).ready(function(){
     // La barra con los botones de acción
     // Agregaré el de probar conexión     
     $('#btn_probar_sentencia').appendTo('div .form-actions');
@@ -21,7 +16,7 @@ $(document).ready(function(){
         $('#datos').html('');
         
         // la url a consultar la guardé en el atributo 'url' del botón
-        $.getJSON($(this).attr('url'), datos, function(resp){            
+        $.getJSON(Routing.generate('origen_dato_conexion_probar_sentencia'), datos, function(resp){            
             $('#resultado_probar_consulta').html(resp.mensaje);
             
             // Los encabezados de la fila
