@@ -41,8 +41,7 @@ $(document).ready(function(){
          var patron = new RegExp($id+"%5B","ig");
          var datos = $("form").serialize().replace(patron,'').replace(/%5D/ig,'').replace(/%5B/ig,'');                  
          
-         // la url a consultar la guardé en el atributo 'url' del botón
-         $('#resultado_probar_conexion').load($(this).attr('url'), datos);
+         $('#resultado_probar_conexion').load(Routing.generate('origen_dato_conexion_probar'), datos);
 
      })
 });

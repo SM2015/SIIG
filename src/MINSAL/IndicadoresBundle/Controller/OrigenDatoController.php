@@ -10,7 +10,7 @@ use Doctrine\DBAL as DBAL;
 class OrigenDatoController extends Controller {
 
     /**
-     * @Route("/origen_dato/conexion/probar", name="origen_dato_conexion_probar")
+     * @Route("/origen_dato/conexion/probar", name="origen_dato_conexion_probar", options={"expose"=true})
      */
     public function probarConexionAction() {
 
@@ -26,7 +26,7 @@ class OrigenDatoController extends Controller {
     }
 
     /**
-     * @Route("/origen_dato/conexion/probar_sentencia", name="origen_dato_conexion_probar_sentencia")
+     * @Route("/origen_dato/conexion/probar_sentencia", name="origen_dato_conexion_probar_sentencia", options={"expose"=true})
      */
     public function probarSentenciaAction() {
         

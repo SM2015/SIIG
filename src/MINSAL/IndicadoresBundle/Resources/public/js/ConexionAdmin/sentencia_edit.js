@@ -21,7 +21,7 @@ $(document).ready(function(){
         $('#datos').html('');
         
         // la url a consultar la guardé en el atributo 'url' del botón
-        $.getJSON($(this).attr('url'), datos, function(resp){            
+        $.getJSON(Routing.generate('origen_dato_conexion_probar_sentencia'), datos, function(resp){            
             $('#resultado_probar_consulta').html(resp.mensaje);
             
             // Los encabezados de la fila
