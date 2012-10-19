@@ -144,3 +144,7 @@ sonata_user:
             handler:            sonata.user.profile.form.handler.default
             name:               sonata_user_profile_form
             validation_groups:  [Profile]
+            
+sonata_doctrine_orm_admin:
+    templates:
+        form: [ IndicadoresBundle:Form:form_admin_fields.html.twig ]            

@@ -1,9 +1,4 @@
-$(document).ready(function(){   
-    
-    // Voy a ordenar unos controles que el AdminBundle no los saca bien
-    // id que se está usando para los nombres de los formularios (es aleatorio)
-    var $id = $('select[id$="_idConexion"]').attr('id').split('_')[0];
-    
+$(document).ready(function(){
     // La barra con los botones de acción
     // Agregaré el de probar conexión     
     $('#btn_probar_sentencia').appendTo('div .form-actions');
