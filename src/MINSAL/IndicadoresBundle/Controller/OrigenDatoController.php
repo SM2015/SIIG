@@ -105,5 +105,16 @@ class OrigenDatoController extends Controller {
         $conn = DBAL\DriverManager::getConnection($connectionParams, $config);
         return $conn;
     }
-
+    
+    /**
+     * @Route("/origen_dato/conexion/origen/{id}/leer", name="origen_dato_leer", options={"expose"=true})
+     */
+    public function leerOrigenAction($id) {        
+        $resultado = array('estado' => 'error', 'mensaje'=>'', 'datos' => array() );
+        $em = $this->getDoctrine()->getEntityManager();
+        $origenDato = $em->getRepository("IndicadoresBundle:OrigenDatos")->find($id);
+        $resultado['datos'] = $origenDato->getSentenciaSql()->getSentenciaSql();
+        
+        return new Response(json_encode($resultado));
+    }
 }
