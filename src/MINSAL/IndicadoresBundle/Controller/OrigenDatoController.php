@@ -29,33 +29,30 @@ class OrigenDatoController extends Controller {
      * @Route("/origen_dato/conexion/probar_sentencia", name="origen_dato_conexion_probar_sentencia", options={"expose"=true})
      */
     public function probarSentenciaAction() {
-        
-        $resultado = array('estado' => 'error', 'mensaje'=>'', 'datos' => array() );
+
+        $resultado = array('estado' => 'error', 'mensaje' => '', 'datos' => array());
         $sql = $this->getRequest()->get('sentenciaSql');
         // Verificar que no tenga UPDATE o DELETE
         $patron = '/\bUPDATE\b|\bDELETE\b|\bINSERT\b|\bCREATE\b|\bDROP\b/i';
         //
-        if (preg_match($patron, $sql) == FALSE) {            
+        if (preg_match($patron, $sql) == FALSE) {
             $conn = $this->getConexionGenerica('consulta_sql');
             try {
-                $query = $conn->query($sql.' LIMIT 50');
-                if ( $query->rowCount() > 0)
+                $query = $conn->query($sql . ' LIMIT 50');
+                if ($query->rowCount() > 0)
                     $resultado['datos'] = $query->fetchAll();
                 $resultado['estado'] = 'ok';
                 $resultado['mensaje'] = '<span style="color: green">' . $this->get('translator')->trans('sentencia_success') . '</span>';
-               
-            } catch (\PDOException $e) {                
+            } catch (\PDOException $e) {
                 $resultado['mensaje'] = '<span style="color: red">' . $this->get('translator')->trans('sentencia_error') . ': ' . $e->getMessage() . '</span>';
-            } catch (DBAL\DBALException $e) {                
+            } catch (DBAL\DBALException $e) {
                 $resultado['mensaje'] = '<span style="color: red">' . $this->get('translator')->trans('sentencia_error') . ': ' . $e->getMessage() . '</span>';
             }
-            
-        }
-        else{            
+        } else {
             $resultado['mensaje'] = $this->get('translator')->trans('solo_select');
         }
 
-        
+
         return new Response(json_encode($resultado));
     }
 
@@ -63,7 +60,7 @@ class OrigenDatoController extends Controller {
      * Crear una conexión para realizar pruebas
      * @param type $objeto_prueba, puede ser 'base_datos' o 'consulta_sql'
      */
-    public function getConexionGenerica($objeto_prueba) {
+    public function getConexionGenerica($objeto_prueba, $idConexion = null) {
         $req = $this->getRequest();
         $em = $this->getDoctrine()->getEntityManager();
 
@@ -77,8 +74,11 @@ class OrigenDatoController extends Controller {
                 'port' => $req->get('puerto')
             );
         } elseif ($objeto_prueba == 'consulta_sql') {
-            $conexion = $em->find('IndicadoresBundle:Conexion', $req->get('idConexion'));
-            
+            if ($idConexion == null)
+                $conexion = $em->find('IndicadoresBundle:Conexion', $req->get('idConexion'));
+            else
+                $conexion = $em->find('IndicadoresBundle:Conexion', $idConexion);
+
             $datos = array('dbname' => $conexion->getNombreBaseDatos(),
                 'user' => $conexion->getUsuario(),
                 'password' => $conexion->getClave(),
@@ -105,16 +105,41 @@ class OrigenDatoController extends Controller {
         $conn = DBAL\DriverManager::getConnection($connectionParams, $config);
         return $conn;
     }
-    
+
     /**
      * @Route("/origen_dato/conexion/origen/{id}/leer", name="origen_dato_leer", options={"expose"=true})
      */
-    public function leerOrigenAction($id) {        
-        $resultado = array('estado' => 'error', 'mensaje'=>'', 'datos' => array() );
+    public function leerOrigenAction($id) {
+        $resultado = array('estado' => 'error', 
+            'mensaje' => '', 
+            'tipos_datos' => array(),
+            'significados' => array(),
+            'datos' => array());
+        return new Response(json_encode($resultado));
         $em = $this->getDoctrine()->getEntityManager();
-        $origenDato = $em->getRepository("IndicadoresBundle:OrigenDatos")->find($id);
-        $resultado['datos'] = $origenDato->getSentenciaSql()->getSentenciaSql();
         
+        $resultado['tipos_datos'] = $em->createQuery("SELECT tp FROM IndicadoresBundle:TipoCampo tp")->getArrayResult();
+        $resultado['significados'] = $em->createQuery("SELECT sv FROM IndicadoresBundle:SignificadoVariable sv")->getArrayResult();
+        
+        $origenDato = $em->getRepository("IndicadoresBundle:OrigenDatos")->find($id);
+        
+        
+        $sentenciaSQL = $origenDato->getSentenciaSql()->getSentenciaSql();
+        $idConexion = $origenDato->getSentenciaSql()->getIdConexion()->getId();        
+        
+        $conn = $this->getConexionGenerica('consulta_sql', $idConexion);
+        try {
+            $query = $conn->query($sentenciaSQL . ' LIMIT 20');
+            if ($query->rowCount() > 0)
+                $resultado['datos'] = $query->fetchAll();
+            $resultado['estado'] = 'ok';
+            $resultado['mensaje'] = '<span style="color: green">' . $this->get('translator')->trans('sentencia_success') . '</span>';
+        } catch (\PDOException $e) {
+            $resultado['mensaje'] = '<span style="color: red">' . $this->get('translator')->trans('sentencia_error') . ': ' . $e->getMessage() . '</span>';
+        } catch (DBAL\DBALException $e) {
+            $resultado['mensaje'] = '<span style="color: red">' . $this->get('translator')->trans('sentencia_error') . ': ' . $e->getMessage() . '</span>';
+        }
         return new Response(json_encode($resultado));
     }
+
 }

@@ -7,45 +7,51 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * MINSAL\IndicadoresBundle\Entity\CatGenero
  *
- * @ORM\Table(name="cat_genero")
+ * @ORM\Table(name="significado_variable")
  * @ORM\Entity
  */
-class CatGenero
+class SignificadoVariable
 {
     /**
-     * @var integer $idGenero
+     * @var integer $id
      *
-     * @ORM\Column(name="id_genero", type="integer", nullable=false)
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="cat_genero_id_genero_seq", allocationSize=1, initialValue=1)
+     * @ORM\SequenceGenerator(sequenceName="significado_variable_id_genero_seq", allocationSize=1, initialValue=1)
      */
-    private $idGenero;
+    private $id;
 
     /**
      * @var string $descripcion
      *
-     * @ORM\Column(name="descripcion", type="string", length=100, nullable=false)
+     * @ORM\Column(name="descripcion", type="string", length=200, nullable=false)
      */
     private $descripcion;
 
-
+    /**
+     * @var string $codigo
+     *
+     * @ORM\Column(name="codigo", type="string", length=40, nullable=false)
+     */
+    private $codigo;
+    
 
     /**
-     * Get idGenero
+     * Get id
      *
      * @return integer 
      */
-    public function getIdGenero()
+    public function getId()
     {
-        return $this->idGenero;
+        return $this->id;
     }
 
     /**
      * Set descripcion
      *
      * @param string $descripcion
-     * @return CatGenero
+     * @return SignificadoVariable
      */
     public function setDescripcion($descripcion)
     {
@@ -62,5 +68,28 @@ class CatGenero
     public function getDescripcion()
     {
         return $this->descripcion;
+    }
+
+    /**
+     * Set codigo
+     *
+     * @param string $codigo
+     * @return SignificadoVariable
+     */
+    public function setCodigo($codigo)
+    {
+        $this->codigo = $codigo;
+    
+        return $this;
+    }
+
+    /**
+     * Get codigo
+     *
+     * @return string 
+     */
+    public function getCodigo()
+    {
+        return $this->codigo;
     }
 }

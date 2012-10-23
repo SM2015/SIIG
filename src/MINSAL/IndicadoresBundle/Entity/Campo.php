@@ -40,13 +40,19 @@ class Campo
      * @ORM\ManyToOne(targetEntity="OrigenDatos")
      * @ORM\JoinColumn(name="id_origen_datos", referencedColumnName="id")
      **/
-    private $tablaDato;
+    private $origenDato;
     
     /**
      * @ORM\ManyToOne(targetEntity="TipoCampo")
      * @ORM\JoinColumn(name="id_tipo_campo", referencedColumnName="id")
      **/
     private $tipoCampo;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="SignificadoVariable")
+     * @ORM\JoinColumn(name="id_significado_variable", referencedColumnName="id")
+     **/
+    private $significado;
     
 
     /**
@@ -150,5 +156,51 @@ class Campo
     public function getTablaDato()
     {
         return $this->tablaDato;
+    }
+
+    /**
+     * Set origenDato
+     *
+     * @param MINSAL\IndicadoresBundle\Entity\OrigenDatos $origenDato
+     * @return Campo
+     */
+    public function setOrigenDato(\MINSAL\IndicadoresBundle\Entity\OrigenDatos $origenDato = null)
+    {
+        $this->origenDato = $origenDato;
+    
+        return $this;
+    }
+
+    /**
+     * Get origenDato
+     *
+     * @return MINSAL\IndicadoresBundle\Entity\OrigenDatos 
+     */
+    public function getOrigenDato()
+    {
+        return $this->origenDato;
+    }
+
+    /**
+     * Set significado
+     *
+     * @param MINSAL\IndicadoresBundle\Entity\SignificadoVariable $significado
+     * @return Campo
+     */
+    public function setSignificado(\MINSAL\IndicadoresBundle\Entity\SignificadoVariable $significado = null)
+    {
+        $this->significado = $significado;
+    
+        return $this;
+    }
+
+    /**
+     * Get significado
+     *
+     * @return MINSAL\IndicadoresBundle\Entity\SignificadoVariable 
+     */
+    public function getSignificado()
+    {
+        return $this->significado;
     }
 }

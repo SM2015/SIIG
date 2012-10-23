@@ -20,7 +20,8 @@ class OrigenDatoAdmin extends Admin {
                 ->add('nombre', null, array('label' => $this->getTranslator()->trans('nombre')))
                 ->add('descripcion', null, array('label' => $this->getTranslator()->trans('descripcion'), 'required' => false))
                 ->add('sentenciaSql', null, array('label' => $this->getTranslator()->trans('sentencia_sql'), 'required' => false))
-                ->add('archivo', 'file', array('label' => $this->getTranslator()->trans('archivo'), 'required' => false))
+                ->add('archivoNombre', null, array('label' => $this->getTranslator()->trans('archivo_asociado'), 'required' => false, 'read_only'=>true))
+                ->add('file', 'file', array('label' => $this->getTranslator()->trans('subir_nuevo_archivo'), 'required' => false))                
         ;
     }
 
@@ -38,18 +39,16 @@ class OrigenDatoAdmin extends Admin {
     }
 
     public function validate(ErrorElement $errorElement, $object) {
-        if ($object->getArchivo()=='' and $object->getSentenciaSql() == '') {
+        if ($object->file == '' and $object->getSentenciaSql() == '') {
             $errorElement->with('value')
                     ->addViolation('Debe ingresar una de las dos opciones: Una sentencia SQL o un archivo')
                     ->end();
         }
-        if ($object->getArchivo()!='' and $object->getSentenciaSql() != '') {
+        if ($object->file != '' and $object->getSentenciaSql() != '') {
             $errorElement->with('value')
                     ->addViolation('Solo puede ingresar una de las dos opciones: Una sentencia SQL o un archivo. No ambas')
                     ->end();
         }
-        
-         new \Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntityValidator($registry)
     }
 
     public function getBatchActions() {
@@ -66,6 +65,19 @@ class OrigenDatoAdmin extends Admin {
                 return parent::getTemplate($name);
                 break;
         }
+    }
+
+    public function prePersist($origenDato) {
+        $this->saveFile($origenDato);
+    }
+
+    public function preUpdate($origenDato) {
+        $this->saveFile($origenDato);
+    }
+
+    public function saveFile($origenDato) {
+        $basepath = $this->getRequest()->getBasePath();
+        $origenDato->upload($basepath);
     }
 
 }

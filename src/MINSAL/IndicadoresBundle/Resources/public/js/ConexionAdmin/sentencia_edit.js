@@ -17,8 +17,7 @@ $(document).ready(function(){
         
         //Limpiar la tabla de datos
         $('#datos').html('');
-        
-        // la url a consultar la guardé en el atributo 'url' del botón
+                
         $.getJSON(Routing.generate('origen_dato_conexion_probar_sentencia'), datos, function(resp){            
             $('#resultado_probar_consulta').html(resp.mensaje);
             
