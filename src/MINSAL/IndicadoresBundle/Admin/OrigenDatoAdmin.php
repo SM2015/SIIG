@@ -7,7 +7,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Validator\ErrorElement;
 use Sonata\AdminBundle\Form\FormMapper;
-use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class OrigenDatoAdmin extends Admin {
     /* protected $datagridValues = array(
@@ -88,20 +88,7 @@ class OrigenDatoAdmin extends Admin {
     public function prePersist($origenDato) {
         $this->saveFile($origenDato);
     }
-
-    public function postPersist($origenDato) {
-        /* Después de haber guardado el objeto vamos a guardar
-         * los campos de este
-         */
-        //$mn = $this->getModelManager();
-        $container = new Container();
-
-        $origenDatoController = $container->get('indicadores.origen_dato_controller');
-
-        $datos = $origenDatoController->leerOrigenAction($origenDato->getId());
-        print_r($datos);
-    }
-
+    
     public function preUpdate($origenDato) {
         $this->saveFile($origenDato);
     }
@@ -110,15 +97,7 @@ class OrigenDatoAdmin extends Admin {
         $basepath = $this->getRequest()->getBasePath();
         $origenDato->upload($basepath);
     }
-    protected $container;
-
-    public function __construct($code, $class, $baseControllerName, ContainerInterface $container)
-    {
-        parent::__construct($code, $class, $baseControllerName);
-
-        $this->container = $container;
-    }
-
+    
 }
 
 ?>
