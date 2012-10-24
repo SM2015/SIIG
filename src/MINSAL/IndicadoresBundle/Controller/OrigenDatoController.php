@@ -128,16 +128,26 @@ class OrigenDatoController extends Controller {
 
         $origenDato = $em->find("IndicadoresBundle:OrigenDatos", $id);
 
-
+        
         if ($origenDato->getArchivoNombre() != '') {
             $resultado['tipo_origen'] = 'archivo';
             $reader = new Excel();
             try {
                 $reader->loadFile($origenDato->getAbsolutePath());
-                $datos = $reader->getSheet()->toArray($nullValue = null, $calculateFormulas = true, $formatData = false, $returnCellRef = true);
-                foreach ($datos as $fila)
-                    $resultado['datos'][] = $fila;
-                $resultado['nombre_campos'] = array_values(array_shift($resultado['datos']));
+                $datos = $reader->getSheet()->toArray($nullValue = null, $calculateFormulas = false, $formatData = false, $returnCellRef = false);
+                $resultado['nombre_campos'] = array_values(array_shift($datos));
+                
+                // Buscar por columnas que tengan null en el título
+                $primer_null = array_search(null, $resultado['nombre_campos']);
+                
+                if ($primer_null==false)
+                    foreach ($datos as $fila)
+                        $resultado['datos'][] = $fila;
+                else{
+                    $resultado['nombre_campos'] = array_slice($resultado['nombre_campos'], 0, $primer_null, true);
+                    foreach ($datos as $fila)
+                        $resultado['datos'][] = array_slice($fila, 0, $primer_null, true);
+                }
                 $resultado['estado'] = 'ok';
             } catch (\Exception $e) {
                 $resultado['mensaje'] = '<span style="color: red">' . $e->getMessage() . '</span>';
@@ -161,7 +171,7 @@ class OrigenDatoController extends Controller {
             } catch (DBAL\DBALException $e) {
                 $resultado['mensaje'] = '<span style="color: red">' . $this->get('translator')->trans('sentencia_error') . ': ' . $e->getMessage() . '</span>';
             }
-        }
+        }                
         // Guardar los campos
         if ($resultado['estado'] == 'ok') {
             $nombres_id = array();
@@ -182,7 +192,11 @@ class OrigenDatoController extends Controller {
                     $nombres_id[$campo->getId()] = $nombre_campo;
                 
             }
-            $em->flush();
+            try{                                
+                $em->flush();
+            } catch (\Exception $e){
+                $resultado = array('estado' => 'error', 'mensaje' => '<div class="alert alert-error"> '.$this->get('translator')->trans('camio_no_realizado').'</div>');
+            }
             $resultado['nombre_campos'] = $nombres_id;
         }
         return new Response(json_encode($resultado));
@@ -213,7 +227,7 @@ class OrigenDatoController extends Controller {
         try{
             $em->flush();
         }  catch (\Exception $e){
-            $resultado = array('estado' => 'ok', 'mensaje' => '<div class="alert alert-error"> '.$this->get('translator')->trans('camio_no_realizado').'</div>');
+            $resultado = array('estado' => 'error', 'mensaje' => '<div class="alert alert-error"> '.$this->get('translator')->trans('camio_no_realizado').'</div>');
         }
         return new Response(json_encode($resultado));
     }
