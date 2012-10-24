@@ -92,8 +92,8 @@ Es necesario tener [soporte para ACL](https://help.ubuntu.com/community/FilePerm
 está el proyecto y luego ejecutar
 
 ~~~
-$ sudo setfacl -R -m u:www-data:rwx -m u:`whoami`:rwx app/cache app/logs
-$ sudo setfacl -dR -m u:www-data:rwx -m u:`whoami`:rwx app/cache app/logs
+$ sudo setfacl -R -m u:www-data:rwx -m u:`whoami`:rwx app/cache app/logs web/uploads
+$ sudo setfacl -dR -m u:www-data:rwx -m u:`whoami`:rwx app/cache app/logs web/uploads
 ~~~
 
 ### Verificar la configuración
