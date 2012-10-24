@@ -1,4 +1,7 @@
 $(document).ready(function(){
+    // id que se está usando para los nombres de los formularios (es aleatorio)
+    var $id = $('select[id$="_idConexion"]').attr('id').split('_')[0];
+    
     // La barra con los botones de acción
     // Agregaré el de probar conexión     
     $('#btn_probar_sentencia').appendTo('div .form-actions');
@@ -14,8 +17,7 @@ $(document).ready(function(){
         
         //Limpiar la tabla de datos
         $('#datos').html('');
-        
-        // la url a consultar la guardé en el atributo 'url' del botón
+                
         $.getJSON(Routing.generate('origen_dato_conexion_probar_sentencia'), datos, function(resp){            
             $('#resultado_probar_consulta').html(resp.mensaje);
             

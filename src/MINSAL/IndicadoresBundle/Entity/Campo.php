@@ -40,13 +40,19 @@ class Campo
      * @ORM\ManyToOne(targetEntity="OrigenDatos")
      * @ORM\JoinColumn(name="id_origen_datos", referencedColumnName="id")
      **/
-    private $tablaDato;
+    private $origenDato;
     
     /**
      * @ORM\ManyToOne(targetEntity="TipoCampo")
      * @ORM\JoinColumn(name="id_tipo_campo", referencedColumnName="id")
      **/
     private $tipoCampo;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="SignificadoVariable")
+     * @ORM\JoinColumn(name="id_significado_variable", referencedColumnName="id")
+     **/
+    private $significado;
     
 
     /**
@@ -129,26 +135,50 @@ class Campo
         return $this->tipoCampo;
     }
 
+
     /**
-     * Set tablaDato
+     * Set origenDato
      *
-     * @param MINSAL\IndicadoresBundle\Entity\OrigenDatos $tablaDato
+     * @param MINSAL\IndicadoresBundle\Entity\OrigenDatos $origenDato
      * @return Campo
      */
-    public function setTablaDato(\MINSAL\IndicadoresBundle\Entity\OrigenDatos $tablaDato = null)
+    public function setOrigenDato(\MINSAL\IndicadoresBundle\Entity\OrigenDatos $origenDato = null)
     {
-        $this->tablaDato = $tablaDato;
+        $this->origenDato = $origenDato;
     
         return $this;
     }
 
     /**
-     * Get tablaDato
+     * Get origenDato
      *
      * @return MINSAL\IndicadoresBundle\Entity\OrigenDatos 
      */
-    public function getTablaDato()
+    public function getOrigenDato()
     {
-        return $this->tablaDato;
+        return $this->origenDato;
+    }
+
+    /**
+     * Set significado
+     *
+     * @param MINSAL\IndicadoresBundle\Entity\SignificadoVariable $significado
+     * @return Campo
+     */
+    public function setSignificado(\MINSAL\IndicadoresBundle\Entity\SignificadoVariable $significado = null)
+    {
+        $this->significado = $significado;
+    
+        return $this;
+    }
+
+    /**
+     * Get significado
+     *
+     * @return MINSAL\IndicadoresBundle\Entity\SignificadoVariable 
+     */
+    public function getSignificado()
+    {
+        return $this->significado;
     }
 }

@@ -122,16 +122,15 @@
             <argument>MINSAL\IndicadoresBundle\Entity\FichaTecnica</argument>
             <argument>SonataAdminBundle:CRUD</argument>
         </service>
-        <service id="sonata.admin.ficha" class="MINSAL\IndicadoresBundle\Admin\OrigenDatoAdmin">
+        <service id="sonata.admin.origen_dato" class="MINSAL\IndicadoresBundle\Admin\OrigenDatoAdmin">
             <tag name="sonata.admin"
                  manager_type="orm" 
                  group="Origen de datos" 
                  label="configurar_origen_datos"
             />    
-            <argument />
+            <argument />            
             <argument>MINSAL\IndicadoresBundle\Entity\OrigenDatos</argument>
             <argument>SonataAdminBundle:CRUD</argument>       
         </service>
-
     </services>
 </container>

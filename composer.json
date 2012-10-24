@@ -28,7 +28,8 @@
 	"friendsofsymfony/user-bundle": "*",
         "friendsofsymfony/jsrouting-bundle": "master",
         "sonata-project/easy-extends-bundle": "*",
-        "sonata-project/user-bundle": "*"
+        "sonata-project/user-bundle": "*",
+        "os/excel-bundle": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [
@@ -47,6 +48,7 @@
     "minimum-stability": "dev",
     "extra": {
         "symfony-app-dir": "app",
-        "symfony-web-dir": "web"
+        "symfony-web-dir": "web",
+	"symfony-assets-install": "symlink"
     }
 }

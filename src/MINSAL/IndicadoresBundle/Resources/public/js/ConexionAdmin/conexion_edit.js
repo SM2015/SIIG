@@ -1,4 +1,7 @@
 $(document).ready(function(){   
+    // id que se está usando para los nombres de los formularios (es aleatorio)
+    var $id = $('input[id$="_usuario"]').attr('id').split('_')[0];
+     
      // La barra con los botones de acción
      // Agregaré el de probar conexión     
      $('#btn_probar_conexion').appendTo('div .form-actions');
