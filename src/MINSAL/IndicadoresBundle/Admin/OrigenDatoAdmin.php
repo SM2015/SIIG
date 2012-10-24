@@ -7,6 +7,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Validator\ErrorElement;
 use Sonata\AdminBundle\Form\FormMapper;
+use Symfony\Component\DependencyInjection\Container;
 
 class OrigenDatoAdmin extends Admin {
     /* protected $datagridValues = array(
@@ -20,8 +21,8 @@ class OrigenDatoAdmin extends Admin {
                 ->add('nombre', null, array('label' => $this->getTranslator()->trans('nombre')))
                 ->add('descripcion', null, array('label' => $this->getTranslator()->trans('descripcion'), 'required' => false))
                 ->add('sentenciaSql', null, array('label' => $this->getTranslator()->trans('sentencia_sql'), 'required' => false))
-                ->add('archivoNombre', null, array('label' => $this->getTranslator()->trans('archivo_asociado'), 'required' => false, 'read_only'=>true))
-                ->add('file', 'file', array('label' => $this->getTranslator()->trans('subir_nuevo_archivo'), 'required' => false))                
+                ->add('archivoNombre', null, array('label' => $this->getTranslator()->trans('archivo_asociado'), 'required' => false, 'read_only' => true))
+                ->add('file', 'file', array('label' => $this->getTranslator()->trans('subir_nuevo_archivo'), 'required' => false))
         ;
     }
 
@@ -49,6 +50,23 @@ class OrigenDatoAdmin extends Admin {
                     ->addViolation('Solo puede ingresar una de las dos opciones: Una sentencia SQL o un archivo. No ambas')
                     ->end();
         }
+        // Revisar la validación, no me reconoce los archivos con los tipos que debería
+        /*
+         * 'application/octet-stream',
+          'text/comma-separated-values',
+          'application/zip',
+          'text/x-c++'
+         */
+        /* $errorElement
+          ->with('file')
+          ->assertFile(array(
+          'mimeTypes' => array("application/vnd.ms-excel",
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          'text/csv','application/vnd.oasis.opendocument.spreadsheet',
+          'application/vnd.ms-office'
+          )))
+          ->end()
+          ; */
     }
 
     public function getBatchActions() {
@@ -71,6 +89,19 @@ class OrigenDatoAdmin extends Admin {
         $this->saveFile($origenDato);
     }
 
+    public function postPersist($origenDato) {
+        /* Después de haber guardado el objeto vamos a guardar
+         * los campos de este
+         */
+        //$mn = $this->getModelManager();
+        $container = new Container();
+
+        $origenDatoController = $container->get('indicadores.origen_dato_controller');
+
+        $datos = $origenDatoController->leerOrigenAction($origenDato->getId());
+        print_r($datos);
+    }
+
     public function preUpdate($origenDato) {
         $this->saveFile($origenDato);
     }
@@ -78,6 +109,14 @@ class OrigenDatoAdmin extends Admin {
     public function saveFile($origenDato) {
         $basepath = $this->getRequest()->getBasePath();
         $origenDato->upload($basepath);
+    }
+    protected $container;
+
+    public function __construct($code, $class, $baseControllerName, ContainerInterface $container)
+    {
+        parent::__construct($code, $class, $baseControllerName);
+
+        $this->container = $container;
     }
 
 }

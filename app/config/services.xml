@@ -132,6 +132,7 @@
             <argument>MINSAL\IndicadoresBundle\Entity\OrigenDatos</argument>
             <argument>SonataAdminBundle:CRUD</argument>       
         </service>
-
+        <service id="indicadores.origen_dato_controller" class="MINSAL\IndicadoresBundle\Controller\OrigenDatoController"  >
+        </service>       
     </services>
 </container>

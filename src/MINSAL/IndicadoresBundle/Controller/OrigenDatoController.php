@@ -4,13 +4,17 @@ namespace MINSAL\IndicadoresBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\DBAL as DBAL;
+
+use MINSAL\IndicadoresBundle\Excel\Excel as Excel;
+
 
 class OrigenDatoController extends Controller {
 
     /**
-     * @Route("/origen_dato/conexion/probar", name="origen_dato_conexion_probar", options={"expose"=true})
+     * @Route("/conexion/probar", name="origen_dato_conexion_probar", options={"expose"=true})
      */
     public function probarConexionAction() {
 
@@ -26,7 +30,7 @@ class OrigenDatoController extends Controller {
     }
 
     /**
-     * @Route("/origen_dato/conexion/probar_sentencia", name="origen_dato_conexion_probar_sentencia", options={"expose"=true})
+     * @Route("/sentencia/probar", name="origen_dato_conexion_probar_sentencia", options={"expose"=true})
      */
     public function probarSentenciaAction() {
 
@@ -107,15 +111,17 @@ class OrigenDatoController extends Controller {
     }
 
     /**
-     * @Route("/origen_dato/conexion/origen/{id}/leer", name="origen_dato_leer", options={"expose"=true})
+     * @Route("/{id}/leer", name="origen_dato_leer", options={"expose"=true})
      */
     public function leerOrigenAction($id) {
         $resultado = array('estado' => 'error', 
             'mensaje' => '', 
             'tipos_datos' => array(),
+            'tipo_origen' => '',
             'significados' => array(),
+            'nombre_campos' => array(),
             'datos' => array());
-        return new Response(json_encode($resultado));
+        
         $em = $this->getDoctrine()->getEntityManager();
         
         $resultado['tipos_datos'] = $em->createQuery("SELECT tp FROM IndicadoresBundle:TipoCampo tp")->getArrayResult();
@@ -124,20 +130,40 @@ class OrigenDatoController extends Controller {
         $origenDato = $em->getRepository("IndicadoresBundle:OrigenDatos")->find($id);
         
         
-        $sentenciaSQL = $origenDato->getSentenciaSql()->getSentenciaSql();
-        $idConexion = $origenDato->getSentenciaSql()->getIdConexion()->getId();        
+        if ($origenDato->getArchivoNombre() != ''){
+            $resultado['tipo_origen'] ='archivo';            
+            $reader = new Excel();
+            try{
+                $reader->loadFile($origenDato->getAbsolutePath());
+                $datos = $reader->getSheet()->toArray($nullValue=null, $calculateFormulas=true, $formatData=false, $returnCellRef=true);                        
+                foreach($datos as $fila)
+                    $resultado['datos'][]=$fila;
+                $resultado['nombre_campos'] = array_shift($resultado['datos']);
+                $resultado['estado'] ='ok';
+            }  catch (\Exception $e){
+                $resultado['mensaje'] = '<span style="color: red">' . $e->getMessage() . '</span>';                
+            }
+            
+        }
+        else {
+            $resultado['tipo_origen'] ='sql';
+            $sentenciaSQL = $origenDato->getSentenciaSql()->getSentenciaSql();
+            $idConexion = $origenDato->getSentenciaSql()->getIdConexion()->getId();        
         
-        $conn = $this->getConexionGenerica('consulta_sql', $idConexion);
-        try {
-            $query = $conn->query($sentenciaSQL . ' LIMIT 20');
-            if ($query->rowCount() > 0)
-                $resultado['datos'] = $query->fetchAll();
-            $resultado['estado'] = 'ok';
-            $resultado['mensaje'] = '<span style="color: green">' . $this->get('translator')->trans('sentencia_success') . '</span>';
-        } catch (\PDOException $e) {
-            $resultado['mensaje'] = '<span style="color: red">' . $this->get('translator')->trans('sentencia_error') . ': ' . $e->getMessage() . '</span>';
-        } catch (DBAL\DBALException $e) {
-            $resultado['mensaje'] = '<span style="color: red">' . $this->get('translator')->trans('sentencia_error') . ': ' . $e->getMessage() . '</span>';
+            $conn = $this->getConexionGenerica('consulta_sql', $idConexion);
+            try {
+                $query = $conn->query($sentenciaSQL . ' LIMIT 20');
+                if ($query->rowCount() > 0){
+                    $resultado['datos'] = $query->fetchAll();
+                    $resultado['nombre_campos'] = $resultado['datos'][0];
+                }
+                $resultado['estado'] = 'ok';
+                $resultado['mensaje'] = '<span style="color: green">' . $this->get('translator')->trans('sentencia_success') . '</span>';
+            } catch (\PDOException $e) {
+                $resultado['mensaje'] = '<span style="color: red">' . $this->get('translator')->trans('sentencia_error') . ': ' . $e->getMessage() . '</span>';
+            } catch (DBAL\DBALException $e) {
+                $resultado['mensaje'] = '<span style="color: red">' . $this->get('translator')->trans('sentencia_error') . ': ' . $e->getMessage() . '</span>';
+            }
         }
         return new Response(json_encode($resultado));
     }

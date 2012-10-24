@@ -61,9 +61,10 @@ class OrigenDatos {
         return null === $this->archivoNombre ? null : $this->getUploadDir() . '/' . $this->archivoNombre;
     }
 
-    protected function getUploadRootDir($basepath) {
+    protected function getUploadRootDir() {
         // the absolute directory path where uploaded documents should be saved
-        return $basepath . $this->getUploadDir();
+        return __DIR__.'/../../../../web/'.$this->getUploadDir();
+        //return $basepath . $this->getUploadDir();
     }
 
     protected function getUploadDir() {
