@@ -130,7 +130,7 @@
             />    
             <argument />            
             <argument>MINSAL\IndicadoresBundle\Entity\OrigenDatos</argument>
-            <argument>SonataAdminBundle:CRUD</argument>       
+            <argument>IndicadoresBundle:OrigenDatoAdmin</argument>       
         </service>
     </services>
 </container>

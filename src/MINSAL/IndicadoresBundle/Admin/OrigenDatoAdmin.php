@@ -15,7 +15,7 @@ class OrigenDatoAdmin extends Admin {
       '_sort_order' => 'ASC', // Descendant ordering (default = 'ASC')
       '_sort_by' => 'nombreBaseDatos' // name of the ordered field (default = the model id field, if any)
       ); */
-
+    
     protected function configureFormFields(FormMapper $formMapper) {
         $formMapper
                 ->add('nombre', null, array('label' => $this->getTranslator()->trans('nombre')))
@@ -36,6 +36,9 @@ class OrigenDatoAdmin extends Admin {
     protected function configureListFields(ListMapper $listMapper) {
         $listMapper
                 ->addIdentifier('nombre', null, array('label' => $this->getTranslator()->trans('nombre')))
+                ->add('descripcion', null, array('label' => $this->getTranslator()->trans('descripcion')))
+                ->add('sentenciaSql', null, array('label' => $this->getTranslator()->trans('sentencia_sql')))
+                ->add('archivoNombre', null, array('label' => $this->getTranslator()->trans('archivo_asociado')))                
         ;
     }
 
@@ -69,9 +72,21 @@ class OrigenDatoAdmin extends Admin {
           ; */
     }
 
-    public function getBatchActions() {
-        $actions = parent::getBatchActions();
-        $actions['delete'] = null;
+    public function getBatchActions() {        
+        //$actions = parent::getBatchActions();
+        $actions = array();
+        
+        $actions['merge']=array(
+            'label'            => $this->trans('action_merge'),
+            'ask_confirmation' => true // If true, a confirmation will be asked before performing the action
+        );
+        $actions['load_data']=array(
+            'label'            => $this->trans('action_load_data'),
+            'ask_confirmation' => true // If true, a confirmation will be asked before performing the action
+        );
+        
+
+        return $actions;
     }
 
     public function getTemplate($name) {
