@@ -132,5 +132,8 @@
             <argument>MINSAL\IndicadoresBundle\Entity\OrigenDatos</argument>
             <argument>IndicadoresBundle:OrigenDatoAdmin</argument>       
         </service>
+        <service id="indicadores.cargar_origen_datos_servicio" class="MINSAL\IndicadoresBundle\Consumer\CargarOrigenDatoConsumer">            
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
     </services>
 </container>

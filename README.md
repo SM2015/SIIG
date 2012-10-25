@@ -120,5 +120,41 @@ $ app/console doctrine:fixtures:load
 $ app/console fos:user:create --super-admin
 ~~~
 
+### Instalación de [RabbitMQ](http://www.rabbitmq.com/)
+[RabbitMQ](http://www.rabbitmq.com/) es un sistema de mensajería empresarial completo y altamente confiable basado en el estándar AMQP
+[Charla sobre RabbitMQ](http://www.symfony.es/noticias/2011/07/06/desymfony-2011-reduciendo-el-acoplamiento-entre-aplicaciones-con-rabbitmq/)
+- Agregar la siguiente línea a /etc/apt/sources.list: 
+
+~~~
+deb http://www.rabbitmq.com/debian/ testing main
+~~~
+
+- Agregar la clave pública
+~~~
+wget http://www.rabbitmq.com/rabbitmq-signing-key-public.asc
+sudo apt-key add rabbitmq-signing-key-public.asc
+~~~
+
+- Ejecutar apt-get update
+
+- Instalar el paquete
+~~~
+sudo apt-get install rabbitmq-server
+~~~
+
+- Verificar que el servicio de rabbitmq esté corriendo
+~~~
+sudo /etc/init.d/rabbitmq-server start
+~~~
+
+- Habilitar la interfaz web de administración
+~~~
+rabbitmq-plugins enable rabbitmq_management
+sudo /etc/init.d/rabbitmq-server restart
+~~~
+
+- Cargar la interfaz web: entrar a la dirección http://server_name:55672/mgmt/
+El usuario por defecto es **guest** y la clave **guest**
+
 ### Cargar la aplicación
 http://siig.localhost/app_dev.php
