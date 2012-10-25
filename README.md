@@ -7,6 +7,7 @@
 
 ### Instalación de los requerimientos desde ubuntu (con postgresql como gestor de base de datos)
 ~~~
+$ sudo apt-get update
 $ sudo apt-get install php5 php5-pgsql php5-sqlite sqlite php5-xdebug  php-apc php5-cli php5-xsl php5-intl apache2 postgresql acl git-core curl
 ~~~
 
@@ -110,6 +111,29 @@ $ app/console doctrine:database:create
 $ app/console doctrine:schema:update --force
 ~~~
 
+### Instalación de [HStore](http://www.postgresql.org/docs/9.1/static/hstore.html)
+- Ejecutar desde la terminal
+~~~
+$ sudo apt-get install postgresql-contrib
+~~~
+
+- Ejecutar en dentro de la base de datos 
+~~~
+create extension hstore;
+~~~
+
+- Crear la tabla especial que no se manejará con el ORM
+~~~
+CREATE TABLE fila_origen_dato(
+    id serial,
+    id_origen_dato integer,
+    datos hstore,
+
+    PRIMARY KEY (id),
+    FOREIGN KEY (id_origen_dato) REFERENCES origen_datos(id) on update CASCADE on delete RESTRICT
+);
+~~~
+
 ### Cargar datos iniciales
 ~~~
 $ app/console doctrine:fixtures:load
@@ -123,34 +147,37 @@ $ app/console fos:user:create --super-admin
 ### Instalación de [RabbitMQ](http://www.rabbitmq.com/)
 [RabbitMQ](http://www.rabbitmq.com/) es un sistema de mensajería empresarial completo y altamente confiable basado en el estándar AMQP
 [Charla sobre RabbitMQ](http://www.symfony.es/noticias/2011/07/06/desymfony-2011-reduciendo-el-acoplamiento-entre-aplicaciones-con-rabbitmq/)
-- Agregar la siguiente línea a /etc/apt/sources.list: 
 
+- Agregar el repositorio
 ~~~
-deb http://www.rabbitmq.com/debian/ testing main
+sudo sh -c 'echo "deb http://www.rabbitmq.com/debian/ testing main" >> /etc/apt/sources.list'
 ~~~
 
 - Agregar la clave pública
 ~~~
-wget http://www.rabbitmq.com/rabbitmq-signing-key-public.asc
-sudo apt-key add rabbitmq-signing-key-public.asc
+$ wget http://www.rabbitmq.com/rabbitmq-signing-key-public.asc
+$ sudo apt-key add rabbitmq-signing-key-public.asc
 ~~~
 
-- Ejecutar apt-get update
+- Ejecutar 
+~~~
+$ sudo apt-get update
+~~~
 
 - Instalar el paquete
 ~~~
-sudo apt-get install rabbitmq-server
+$ sudo apt-get install rabbitmq-server
 ~~~
 
 - Verificar que el servicio de rabbitmq esté corriendo
 ~~~
-sudo /etc/init.d/rabbitmq-server start
+$ sudo /etc/init.d/rabbitmq-server start
 ~~~
 
 - Habilitar la interfaz web de administración
 ~~~
-rabbitmq-plugins enable rabbitmq_management
-sudo /etc/init.d/rabbitmq-server restart
+$ sudo rabbitmq-plugins enable rabbitmq_management
+$ sudo /etc/init.d/rabbitmq-server restart
 ~~~
 
 - Cargar la interfaz web: entrar a la dirección http://server_name:55672/mgmt/
