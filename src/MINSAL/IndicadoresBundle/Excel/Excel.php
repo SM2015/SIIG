@@ -4,8 +4,7 @@ namespace MINSAL\IndicadoresBundle\Excel;
 use PHPExcel_IOFactory;
 use OS\ExcelBundle\Excel\Excel as ExcelBase;
 
-class Excel extends ExcelBase{
-    protected $options = array('readOnly' => true);
+class Excel extends ExcelBase{    
     /**
      * Parse and load and spreadsheet file
      * 
@@ -26,27 +25,6 @@ class Excel extends ExcelBase{
 
         $this->setActiveSheet();
     }
-
-    /**
-     * Active a sheet by indix
-     *
-     * @param int $index
-     */
-    public function setActiveSheet($index = 0) {
-        $this->currentSheet = $this->phpExcel->setActiveSheetIndex($index);
-    }
-
-    /**
-     * Return activated sheet
-     * 
-     * @return \PHPExcel_Worksheet
-     */
-    public function getSheet() {
-        return $this->currentSheet;
-    }
-
-    
-
 }
 
 ?>
