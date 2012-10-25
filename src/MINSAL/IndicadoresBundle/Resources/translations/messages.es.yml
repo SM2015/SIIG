@@ -49,10 +49,6 @@
 'Clasificacion Uso Edit': Clasificación Según Uso - Editar
 
 'sentencia': Sentencia SQL
-'Sentencia List': Sentencia SQL - Listado
-'Sentencia Delete': Sentencia SQL - Borrar
-'Sentencia Create': Sentencia SQL - Crear
-'Sentencia Edit': Sentencia SQL - Editar
 
 'Variable Dato List': Variable de Dato - Listado
 'Variable Dato Delete': Variable de Dato - Borrar
@@ -106,4 +102,8 @@
 'selecione_2_o_mas_elementos': Seleccione 2 o más elementos
 'archivo_asociado': Archivo asociado
 'subir_nuevo_archivo': Subir nuevo archivo
-'configurar_origen_datos': Configurar Origen de Datos
+'origen_datos': Origen de Datos
+'origen_datos_archivo': 'Cargar datos desde archivo: Hoja de cálculo (Excel y OpenOffice/LibreOffice) o archivo de texto (CSV) '
+'origen_datos_sql': Cargar datos desde sentencia SQL
+'tipo_campo_cambiado_a': Tipo de campo cambiado a
+'significado_campo_cambiado_a': Significado de campo cambiado a

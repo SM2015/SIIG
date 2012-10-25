@@ -8,10 +8,12 @@
 {% block form %}
     {{ parent() }}
     {# Si se está editando el objeto presentar la intefaz para configurar el origen de datos#}
-
-    {% if admin.id(object) %}
+    <input type=button name="btn_probar_sentencia" 
+           id='btn_probar_sentencia' class='btn'
+           value='{{admin.trans('probar_sentencia')}}'
+           >
+    {% if admin.id(object) %}    
     <div id='configurar' data='{{object.id}}'>
     </div>
     {% endif %}
-
 {% endblock form %}
