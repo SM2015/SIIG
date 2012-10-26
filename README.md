@@ -117,7 +117,7 @@ $ app/console doctrine:schema:update --force
 $ sudo apt-get install postgresql-contrib
 ~~~
 
-- Ejecutar en dentro de la base de datos 
+- Ejecutar dentro de la base de datos 
 ~~~
 create extension hstore;
 ~~~
