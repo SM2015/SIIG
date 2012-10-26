@@ -41,7 +41,7 @@ class OrigenDatos {
     /**
      * @var string $sentenciaSql
      *
-     * @ORM\Column(name="sentencia_sql", type="text", nullable=false)
+     * @ORM\Column(name="sentencia_sql", type="text", nullable=true)
      */
     private $sentenciaSql;
 

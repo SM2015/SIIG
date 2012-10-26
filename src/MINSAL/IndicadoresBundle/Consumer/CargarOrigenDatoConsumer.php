@@ -64,14 +64,26 @@ class CargarOrigenDatoConsumer implements ConsumerInterface{
                     foreach ($datos_aux as $fila)
                         $datos[] = array_slice($fila, 0, $primer_null, true);
                 }
+                $fix_datos=array();
+                foreach ($datos as $k=>$f){
+                    foreach($f as $indice=>$campo){
+                        $fix_datos[$k][$nombre_campos[$indice]] = trim($campo);
+                    }
+                }
+
             } catch (\Exception $e) {
                 return false;
-            }            
+            }
+            $datos = $fix_datos;
         }
+        
+        //Borrar los datos existentes por el momento así será pero debería haber una forma de ir a traer solo los nuevos
+        $sql = "DELETE FROM fila_origen_dato WHERE id_origen_dato='$msg[id_origen_dato]' ";
+        $em->getConnection()->exec($sql);
         
         //Esta cola la utilizaré solo para leer todos los datos y luego mandar uno por uno
         // a otra cola que se encarará de guardarlo en la base de datos
-        // luego se puede probar a mandar por grupos
+        // luego se puede probar a mandar por grupos       
         foreach($datos as $fila){
             $msg_guardar = array('id_origen_dato'=>$msg['id_origen_dato'],
                 'datos'=>$fila);
