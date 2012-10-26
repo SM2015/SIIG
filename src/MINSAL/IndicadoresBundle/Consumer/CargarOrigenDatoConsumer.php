@@ -6,23 +6,29 @@ namespace MINSAL\IndicadoresBundle\Consumer;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
 
-use Doctrine\ORM\EntityManager;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\Response;
+use MINSAL\IndicadoresBundle\Entity\Conexion;
+use Doctrine\DBAL as DBAL;
 
 use MINSAL\IndicadoresBundle\Excel\Excel as Excel;
 
-class CargarOrigenDatoConsumer implements ConsumerInterface{
-    protected $em;
 
-    public function __construct(EntityManager $em)
+class CargarOrigenDatoConsumer implements ConsumerInterface{
+    protected $container;    
+
+    public function __construct(ContainerInterface $container)
     {
-        $this->em = $em;
+        $this->container = $container;
     }
     public function execute(AMQPMessage $msg)
     {        
         $msg = unserialize($msg->body);
+        $em = $this->container->get('doctrine.orm.entity_manager');
         
-        $origenDato = $this->em->find('IndicadoresBundle:OrigenDatos', $msg['id_origen_dato']);
-        
+        $origenDato = $em->find('IndicadoresBundle:OrigenDatos', $msg['id_origen_dato']);
+        // Si se retorna falso se enviará un mensaje que le indicará al producer que no se pudo procesar
+        // correctamente el mensaje y será enviado nuevamente
         $datos = array();
         $nombre_campos = array();
         if ($origenDato->getSentenciaSql() != '') {
@@ -33,7 +39,7 @@ class CargarOrigenDatoConsumer implements ConsumerInterface{
                 $query = $conn->query($origenDato->getSentenciaSql());
                 if ($query->rowCount() > 0) {
                     $datos = $query->fetchAll();
-                    $nombre_campos = array_keys($resultado['datos'][0]);
+                    $nombre_campos = array_keys($datos[0]);
                 }
             } catch (\PDOException $e) {
                 return false;
@@ -62,6 +68,18 @@ class CargarOrigenDatoConsumer implements ConsumerInterface{
                 return false;
             }            
         }
+        
+        //Esta cola la utilizaré solo para leer todos los datos y luego mandar uno por uno
+        // a otra cola que se encarará de guardarlo en la base de datos
+        // luego se puede probar a mandar por grupos
+        foreach($datos as $fila){
+            $msg_guardar = array('id_origen_dato'=>$msg['id_origen_dato'],
+                'datos'=>$fila);
+            $this->container->get('old_sound_rabbit_mq.guardar_registro_producer')
+                 ->publish(serialize($msg_guardar));
+        }
+        
+        return new Response('');
     }
     
     public function getConexionGenerica(Conexion $conexion) {        

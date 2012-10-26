@@ -161,9 +161,17 @@ old_sound_rabbit_mq:
         cargar_origen_datos:
             connection: default
             exchange_options: {name: 'cargar_origen_datos', type: direct}
+        guardar_registro:
+            connection: default
+            exchange_options: {name: 'guardar_registro', type: direct}
     consumers:
         cargar_origen_datos:
             connection: default
             exchange_options: {name: 'cargar_origen_datos', type: direct}
             queue_options:    {name: 'cargar_origen_datos'}
-            callback:         indicadores.cargar_origen_datos_servicio      
+            callback:         indicadores.cargar_origen_datos_servicio
+        guardar_registro:
+            connection: default
+            exchange_options: {name: 'guardar_registro', type: direct}
+            queue_options:    {name: 'guardar_registro'}
+            callback:         indicadores.guardar_registro_origen_dato
