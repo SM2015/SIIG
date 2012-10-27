@@ -39,11 +39,22 @@ class OrigenDatos {
     private $descripcion;
 
     /**
-     * @ORM\OneToOne(targetEntity="Sentencia")
-     * @ORM\JoinColumn(name="id_sentencia_sql", referencedColumnName="id")
-     * */
+     * @var string $sentenciaSql
+     *
+     * @ORM\Column(name="sentencia_sql", type="text", nullable=true)
+     */
     private $sentenciaSql;
 
+    /**
+     * @var Conexion
+     *
+     * @ORM\ManyToOne(targetEntity="Conexion")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_conexion", referencedColumnName="id")
+     * })
+     */
+    private $idConexion;
+    
     /**
      * @var string $archivoNombre
      *
@@ -144,30 +155,8 @@ class OrigenDatos {
     public function getDescripcion() {
         return $this->descripcion;
     }
-
+        
     
-    /**
-     * Set sentenciaSql
-     *
-     * @param MINSAL\IndicadoresBundle\Entity\Sentencia $sentenciaSql
-     * @return OrigenDatos
-     */
-    public function setSentenciaSql(\MINSAL\IndicadoresBundle\Entity\Sentencia $sentenciaSql = null) {
-        $this->sentenciaSql = $sentenciaSql;
-
-        return $this;
-    }
-
-    /**
-     * Get sentenciaSql
-     *
-     * @return MINSAL\IndicadoresBundle\Entity\Sentencia 
-     */
-    public function getSentenciaSql() {
-        return $this->sentenciaSql;
-    }
-
-
     /**
      * Set archivoNombre
      *
@@ -189,5 +178,51 @@ class OrigenDatos {
     public function getArchivoNombre()
     {
         return $this->archivoNombre;
+    }
+
+    /**
+     * Set sentenciaSql
+     *
+     * @param string $sentenciaSql
+     * @return OrigenDatos
+     */
+    public function setSentenciaSql($sentenciaSql)
+    {
+        $this->sentenciaSql = $sentenciaSql;
+    
+        return $this;
+    }
+
+    /**
+     * Get sentenciaSql
+     *
+     * @return string 
+     */
+    public function getSentenciaSql()
+    {
+        return $this->sentenciaSql;
+    }
+
+    /**
+     * Set idConexion
+     *
+     * @param MINSAL\IndicadoresBundle\Entity\Conexion $idConexion
+     * @return OrigenDatos
+     */
+    public function setIdConexion(\MINSAL\IndicadoresBundle\Entity\Conexion $idConexion = null)
+    {
+        $this->idConexion = $idConexion;
+    
+        return $this;
+    }
+
+    /**
+     * Get idConexion
+     *
+     * @return MINSAL\IndicadoresBundle\Entity\Conexion 
+     */
+    public function getIdConexion()
+    {
+        return $this->idConexion;
     }
 }

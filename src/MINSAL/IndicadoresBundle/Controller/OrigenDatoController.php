@@ -129,7 +129,26 @@ class OrigenDatoController extends Controller {
         $origenDato = $em->find("IndicadoresBundle:OrigenDatos", $id);
 
         
-        if ($origenDato->getArchivoNombre() != '') {
+        if ($origenDato->getSentenciaSql() != '') {
+            $resultado['tipo_origen'] = 'sql';
+            $sentenciaSQL = $origenDato->getSentenciaSql();
+            $idConexion = $origenDato->getIdConexion()->getId();
+
+            $conn = $this->getConexionGenerica('consulta_sql', $idConexion);
+            try {
+                $query = $conn->query($sentenciaSQL . ' LIMIT 20');
+                if ($query->rowCount() > 0) {
+                    $resultado['datos'] = $query->fetchAll();
+                    $resultado['nombre_campos'] = array_keys($resultado['datos'][0]);
+                }
+                $resultado['estado'] = 'ok';
+                $resultado['mensaje'] = '<span style="color: green">' . $this->get('translator')->trans('sentencia_success') . '</span>';
+            } catch (\PDOException $e) {
+                $resultado['mensaje'] = '<span style="color: red">' . $this->get('translator')->trans('sentencia_error') . ': ' . $e->getMessage() . '</span>';
+            } catch (DBAL\DBALException $e) {
+                $resultado['mensaje'] = '<span style="color: red">' . $this->get('translator')->trans('sentencia_error') . ': ' . $e->getMessage() . '</span>';
+            }
+        } else {
             $resultado['tipo_origen'] = 'archivo';
             $reader = new Excel();
             try {
@@ -151,26 +170,7 @@ class OrigenDatoController extends Controller {
                 $resultado['estado'] = 'ok';
             } catch (\Exception $e) {
                 $resultado['mensaje'] = '<span style="color: red">' . $e->getMessage() . '</span>';
-            }
-        } else {
-            $resultado['tipo_origen'] = 'sql';
-            $sentenciaSQL = $origenDato->getSentenciaSql()->getSentenciaSql();
-            $idConexion = $origenDato->getSentenciaSql()->getIdConexion()->getId();
-
-            $conn = $this->getConexionGenerica('consulta_sql', $idConexion);
-            try {
-                $query = $conn->query($sentenciaSQL . ' LIMIT 20');
-                if ($query->rowCount() > 0) {
-                    $resultado['datos'] = $query->fetchAll();
-                    $resultado['nombre_campos'] = array_keys($resultado['datos'][0]);
-                }
-                $resultado['estado'] = 'ok';
-                $resultado['mensaje'] = '<span style="color: green">' . $this->get('translator')->trans('sentencia_success') . '</span>';
-            } catch (\PDOException $e) {
-                $resultado['mensaje'] = '<span style="color: red">' . $this->get('translator')->trans('sentencia_error') . ': ' . $e->getMessage() . '</span>';
-            } catch (DBAL\DBALException $e) {
-                $resultado['mensaje'] = '<span style="color: red">' . $this->get('translator')->trans('sentencia_error') . ': ' . $e->getMessage() . '</span>';
-            }
+            }            
         }                
         // Guardar los campos
         if ($resultado['estado'] == 'ok') {
