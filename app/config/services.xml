@@ -88,18 +88,7 @@
             <argument />
             <argument>MINSAL\IndicadoresBundle\Entity\Conexion</argument>
             <argument>SonataAdminBundle:CRUD</argument>
-        </service>
-        
-        <service id="sonata.admin.sentencia" class="MINSAL\IndicadoresBundle\Admin\SentenciaAdmin">
-            <tag name="sonata.admin"
-                 manager_type="orm" 
-                 group="Origen de datos" 
-                 label="sentencia_sql"
-            />
-            <argument />
-            <argument>MINSAL\IndicadoresBundle\Entity\Sentencia</argument>
-            <argument>SonataAdminBundle:CRUD</argument>
-        </service>
+        </service>                
         
         <service id="sonata.admin.variable" class="MINSAL\IndicadoresBundle\Admin\VariableDatoAdmin">
             <tag name="sonata.admin"
@@ -126,11 +115,18 @@
             <tag name="sonata.admin"
                  manager_type="orm" 
                  group="Origen de datos" 
-                 label="configurar_origen_datos"
+                 label="origen_datos"
             />    
             <argument />            
             <argument>MINSAL\IndicadoresBundle\Entity\OrigenDatos</argument>
             <argument>IndicadoresBundle:OrigenDatoAdmin</argument>       
         </service>
+        <service id="indicadores.cargar_origen_datos_servicio" class="MINSAL\IndicadoresBundle\Consumer\CargarOrigenDatoConsumer">            
+            <argument type="service" id="service_container" />            
+        </service>
+        <service id="indicadores.guardar_registro_origen_dato" class="MINSAL\IndicadoresBundle\Consumer\GuardarRegistroOrigenDatoConsumer">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+        
     </services>
 </container>

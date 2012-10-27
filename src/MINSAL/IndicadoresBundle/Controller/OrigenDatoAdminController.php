@@ -4,9 +4,10 @@ namespace MINSAL\IndicadoresBundle\Controller;
 
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
-
 //use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-//use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Console\Input\ArrayInput;
 
 class OrigenDatoAdminController extends Controller {
 
@@ -17,8 +18,7 @@ class OrigenDatoAdminController extends Controller {
 
 
         $selecciones = $parameterBag->get('idx');
-        print_r($selecciones);
-        
+
         if (count($selecciones) > 1)
             return true;
         else
@@ -28,9 +28,19 @@ class OrigenDatoAdminController extends Controller {
     public function batchActionMerge(ProxyQueryInterface $selectedModelQuery) {
         var_dump($this->getRequest());
     }
-    
+
     public function batchActionLoadData(ProxyQueryInterface $selectedModelQuery) {
-        var_dump($this->getRequest());
+        $request = $this->get('request')->request;
+
+        //Mardar a la cola de carga de datos cada origen seleccionado        
+        $selecciones = $request->get('idx');
+        foreach ($selecciones as $origen) {
+            $msg = array('id_origen_dato' => $origen);
+            $this->get('old_sound_rabbit_mq.cargar_origen_datos_producer')
+                    ->publish(serialize($msg));
+        }
+        $this->get('session')->setFlash('sonata_flash_success', $this->get('translator')->trans('flash_batch_load_data_success'));
+        return new RedirectResponse($this->admin->generateUrl('list', $this->admin->getFilterParameters()));
     }
 
 }

@@ -10,33 +10,39 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class OrigenDatoAdmin extends Admin {
-    /* protected $datagridValues = array(
-      '_page' => 1, // Display the first page (default = 1)
-      '_sort_order' => 'ASC', // Descendant ordering (default = 'ASC')
-      '_sort_by' => 'nombreBaseDatos' // name of the ordered field (default = the model id field, if any)
-      ); */
+     protected $datagridValues = array(
+        '_page' => 1, // Display the first page (default = 1)
+        '_sort_order' => 'ASC', // Descendant ordering (default = 'ASC')
+        '_sort_by' => 'nombre' // name of the ordered field (default = the model id field, if any)
+    ); 
     
     protected function configureFormFields(FormMapper $formMapper) {
         $formMapper
                 ->add('nombre', null, array('label' => $this->getTranslator()->trans('nombre')))
                 ->add('descripcion', null, array('label' => $this->getTranslator()->trans('descripcion'), 'required' => false))
-                ->add('sentenciaSql', null, array('label' => $this->getTranslator()->trans('sentencia_sql'), 'required' => false))
-                ->add('archivoNombre', null, array('label' => $this->getTranslator()->trans('archivo_asociado'), 'required' => false, 'read_only' => true))
-                ->add('file', 'file', array('label' => $this->getTranslator()->trans('subir_nuevo_archivo'), 'required' => false))
+                ->with($this->getTranslator()->trans('origen_datos_sql'))
+                    ->add('idConexion', null, array('label' => $this->getTranslator()->trans('nombre_conexion'), 'required'=>false))
+                    ->add('sentenciaSql', null, array('label' => $this->getTranslator()->trans('sentencia_sql'), 'required'=>false))
+                ->end()
+                ->with($this->getTranslator()->trans('origen_datos_archivo'))
+                    ->add('archivoNombre', null, array('label' => $this->getTranslator()->trans('archivo_asociado'), 'required' => false, 'read_only' => true))
+                    ->add('file', 'file', array('label' => $this->getTranslator()->trans('subir_nuevo_archivo'), 'required' => false))
+                ->end()
         ;
     }
 
-    /* protected function configureDatagridFilters(DatagridMapper $datagridMapper) {
-      $datagridMapper
-      ->add('nombreConexion', null, array('label' => $this->getTranslator()->trans('nombre_conexion')))
-      ->add('idMotor', null, array('label' => $this->getTranslator()->trans('motor')))
-      ;
-      } */
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper) {
+        $datagridMapper
+                ->add('idConexion', null, array('label' => $this->getTranslator()->trans('nombre_conexion')))
+                ->add('nombre', null, array('label' => $this->getTranslator()->trans('nombre')))
+        ;
+    }
 
     protected function configureListFields(ListMapper $listMapper) {
         $listMapper
                 ->addIdentifier('nombre', null, array('label' => $this->getTranslator()->trans('nombre')))
                 ->add('descripcion', null, array('label' => $this->getTranslator()->trans('descripcion')))
+                ->add('idConexion', null, array('label' => $this->getTranslator()->trans('nombre_conexion')))
                 ->add('sentenciaSql', null, array('label' => $this->getTranslator()->trans('sentencia_sql')))
                 ->add('archivoNombre', null, array('label' => $this->getTranslator()->trans('archivo_asociado')))                
         ;

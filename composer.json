@@ -29,7 +29,8 @@
         "friendsofsymfony/jsrouting-bundle": "master",
         "sonata-project/easy-extends-bundle": "*",
         "sonata-project/user-bundle": "*",
-        "os/excel-bundle": "dev-master"
+        "os/excel-bundle": "dev-master",
+        "oldsound/rabbitmq-bundle": "*"
     },
     "scripts": {
         "post-install-cmd": [

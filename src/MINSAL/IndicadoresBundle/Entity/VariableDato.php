@@ -78,26 +78,6 @@ class VariableDato
     private $idResponsableDato;
 
     /**
-     * @var Sentencia
-     *
-     * @ORM\ManyToOne(targetEntity="Sentencia")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_sentencia", referencedColumnName="id")
-     * })
-     */
-    private $idSentencia;
-
-    /**
-     * @var WebService
-     *
-     * @ORM\ManyToOne(targetEntity="WebService")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_web_service", referencedColumnName="id_web_service")
-     * })
-     */
-    private $idWebService;
-
-    /**
      * Get id
      *
      * @return integer 
