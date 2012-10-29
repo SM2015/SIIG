@@ -17,7 +17,7 @@ class OrigenDatos {
     /**
      * @var integer $id
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id", type="bigint", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="SEQUENCE")
      * @ORM\SequenceGenerator(sequenceName="tabla_datos_id_seq", allocationSize=1, initialValue=1)
@@ -63,6 +63,25 @@ class OrigenDatos {
     protected $archivoNombre;
     
     public $file;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="OrigenDatos", mappedBy="fusiones")
+     **/
+    private $fusionados;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="OrigenDatos", inversedBy="fusionados")
+     * @ORM\JoinTable(name="fusiones",
+     *      joinColumns={@ORM\JoinColumn(name="id_origen_dato", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="id_origen_dato_fusionado", referencedColumnName="id")}
+     *      )
+     **/
+    private $fusiones;
+
+    public function __construct() {
+        $this->friendsWithMe = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->myFriends = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     public function getAbsolutePath() {
         return null === $this->archivoNombre ? null : $this->getUploadRootDir() . '/' . $this->archivoNombre;
@@ -224,5 +243,75 @@ class OrigenDatos {
     public function getIdConexion()
     {
         return $this->idConexion;
+    }
+
+    /**
+     * Add fusionados
+     *
+     * @param MINSAL\IndicadoresBundle\Entity\OrigenDatos $fusionados
+     * @return OrigenDatos
+     */
+    public function addFusionado(\MINSAL\IndicadoresBundle\Entity\OrigenDatos $fusionados)
+    {
+        $this->fusionados[] = $fusionados;
+    
+        return $this;
+    }
+
+    /**
+     * Remove fusionados
+     *
+     * @param MINSAL\IndicadoresBundle\Entity\OrigenDatos $fusionados
+     */
+    public function removeFusionado(\MINSAL\IndicadoresBundle\Entity\OrigenDatos $fusionados)
+    {
+        $this->fusionados->removeElement($fusionados);
+    }
+
+    /**
+     * Get fusionados
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getFusionados()
+    {
+        return $this->fusionados;
+    }
+
+    /**
+     * Add fusiones
+     *
+     * @param MINSAL\IndicadoresBundle\Entity\OrigenDatos $fusiones
+     * @return OrigenDatos
+     */
+    public function addFusione(\MINSAL\IndicadoresBundle\Entity\OrigenDatos $fusiones)
+    {
+        $this->fusiones[] = $fusiones;
+    
+        return $this;
+    }
+
+    /**
+     * Remove fusiones
+     *
+     * @param MINSAL\IndicadoresBundle\Entity\OrigenDatos $fusiones
+     */
+    public function removeFusione(\MINSAL\IndicadoresBundle\Entity\OrigenDatos $fusiones)
+    {
+        $this->fusiones->removeElement($fusiones);
+    }
+
+    /**
+     * Get fusiones
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getFusiones()
+    {
+        return $this->fusiones;
+    }
+    
+    public function __toString() {
+        return $this->nombre;
     }
 }

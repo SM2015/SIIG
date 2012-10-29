@@ -32,7 +32,7 @@ class VariableDato
     /**
      * @var integer $confiabilidad
      *
-     * @ORM\Column(name="confiabilidad", type="integer", nullable=false)
+     * @ORM\Column(name="confiabilidad", type="integer", nullable=true)
      */
     private $confiabilidad;
 
@@ -76,6 +76,16 @@ class VariableDato
      * })
      */
     private $idResponsableDato;
+    
+    /**
+     * @var OrigenDatos
+     *
+     * @ORM\ManyToOne(targetEntity="OrigenDatos")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_origen_datos", referencedColumnName="id")
+     * })
+     */
+    private $idOrigenDatos;
 
     /**
      * Get id
@@ -295,7 +305,31 @@ class VariableDato
     }
     
     public function __toString() {
-        return $this->nombre;
+        return $this->nombre. '(' . $this->iniciales . ')';
+    }
+    
+
+    /**
+     * Set idOrigenDato
+     *
+     * @param MINSAL\IndicadoresBundle\Entity\OrigenDatos $idOrigenDato
+     * @return VariableDato
+     */
+    public function setIdOrigenDatos(\MINSAL\IndicadoresBundle\Entity\OrigenDatos $idOrigenDatos = null)
+    {
+        $this->idOrigenDatos = $idOrigenDatos;
+    
+        return $this;
+    }
+
+    /**
+     * Get idOrigenDato
+     *
+     * @return MINSAL\IndicadoresBundle\Entity\OrigenDatos 
+     */
+    public function getIdOrigenDatos()
+    {
+        return $this->idOrigenDatos;
     }
     
 }

@@ -174,6 +174,13 @@ $ sudo apt-get install rabbitmq-server
 $ sudo /etc/init.d/rabbitmq-server start
 ~~~
 
+- Programar en el cron, los dos procesos para la ejecución de las colas que cargarán los datos
+(Falta verificar su funcionamiento desde el cron)
+~~~
+php /ruta_hacia_proyecto/app/console rabbitmq:consumer cargar_origen_datos
+php /ruta_hacia_proyecto/app/console rabbitmq:consumer guardar_registro
+~~~
+
 - Habilitar la interfaz web de administración
 ~~~
 $ sudo rabbitmq-plugins enable rabbitmq_management

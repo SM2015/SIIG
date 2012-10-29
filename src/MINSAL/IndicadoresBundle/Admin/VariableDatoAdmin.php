@@ -18,12 +18,12 @@ class VariableDatoAdmin extends Admin {
 
     protected function configureFormFields(FormMapper $formMapper) {
         $formMapper
-                ->add('idSentencia', null, array('label' => $this->getTranslator()->trans('sentencia_sql'), 'required'=>false))
+                ->add('idOrigenDatos', null, array('label' => $this->getTranslator()->trans('origen_dato'), 'required'=>false))
                 ->add('nombre', null, array('label' => $this->getTranslator()->trans('nombre_variable')))
                 ->add('iniciales', null, array('label' => $this->getTranslator()->trans('iniciales')))
                 ->add('idFuenteDato', null, array('label' => $this->getTranslator()->trans('fuente_datos')))
                 ->add('idResponsableDato', null, array('label' => $this->getTranslator()->trans('responsable_datos')))
-                ->add('confiabilidad', null, array('label' => $this->getTranslator()->trans('confiabilidad')))
+                ->add('confiabilidad', null, array('label' => $this->getTranslator()->trans('confiabilidad'), 'required'=>false))
                 ->add('comentario', null, array('label' => $this->getTranslator()->trans('comentario'), 'required'=>false))
         ;
     }
@@ -37,13 +37,12 @@ class VariableDatoAdmin extends Admin {
     }
 
     protected function configureListFields(ListMapper $listMapper) {
-        $listMapper
-                ->add('idFuenteDato', null, array('label' => $this->getTranslator()->trans('fuente_datos')))
+        $listMapper                
                 ->add('idResponsableDato', null, array('label' => $this->getTranslator()->trans('responsable_datos')))
                 ->addIdentifier('nombre', null, array('label' => $this->getTranslator()->trans('nombre_variable')))
                 ->add('iniciales', null, array('label' => $this->getTranslator()->trans('iniciales')))
                 ->add('confiabilidad', null, array('label' => $this->getTranslator()->trans('confiabilidad')))
-                ->add('idSentencia', null, array('label' => $this->getTranslator()->trans('sentencia_sql')))
+                ->add('idOrigenDatos', null, array('label' => $this->getTranslator()->trans('origen_dato')))
 
         ;
     }

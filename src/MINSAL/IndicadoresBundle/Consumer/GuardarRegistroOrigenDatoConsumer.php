@@ -21,7 +21,7 @@ class GuardarRegistroOrigenDatoConsumer implements ConsumerInterface {
 
         // Si se retorna falso se enviará un mensaje que le indicará al producer que no se pudo procesar
         // correctamente el mensaje y será enviado nuevamente
-        $datos = str_replace(array('{', '}', '":"'), array("'", "'", '"=>"'), json_encode($msg['datos']));
+        $datos = str_replace(array('{', '}', '":"', '":'), array("'", "'", '"=>"','"=>'), json_encode($msg['datos']));
         
         $sql = "INSERT INTO fila_origen_dato(id, id_origen_dato, datos) 
                     VALUES (nextval('fila_origen_dato_id_seq'::regclass), '$msg[id_origen_dato]', $datos)";
