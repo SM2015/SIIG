@@ -24,6 +24,7 @@ Los siguientes requerimientos describen la funcionalidad que ofrecerá el sistem
 |REQTI002   | Que se generen alertas de los indicadores               |
 |REQTI003   | Capacidad para agregar/manejar nuevos indicadores       |
 |REQTI004   | Búsquedas por cada variable involucrada en cada indicador        |
+|REQTI005   | Tablero personalizable para cada usuario                |
 
 ##Categoría: Generales
 |REF        | Descripción                                             |
