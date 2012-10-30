@@ -38,10 +38,8 @@ class VariableDatoAdmin extends Admin {
 
     protected function configureListFields(ListMapper $listMapper) {
         $listMapper                
-                ->add('idResponsableDato', null, array('label' => $this->getTranslator()->trans('responsable_datos')))
                 ->addIdentifier('nombre', null, array('label' => $this->getTranslator()->trans('nombre_variable')))
-                ->add('iniciales', null, array('label' => $this->getTranslator()->trans('iniciales')))
-                ->add('confiabilidad', null, array('label' => $this->getTranslator()->trans('confiabilidad')))
+                ->add('iniciales', null, array('label' => $this->getTranslator()->trans('iniciales')))                
                 ->add('idOrigenDatos', null, array('label' => $this->getTranslator()->trans('origen_dato')))
 
         ;

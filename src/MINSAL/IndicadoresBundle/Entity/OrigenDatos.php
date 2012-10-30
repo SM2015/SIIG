@@ -61,16 +61,12 @@ class OrigenDatos {
      * @ORM\Column(name="archivo_nombre", type="string", length=100, nullable=true)
      */    
     protected $archivoNombre;
-    
+             
     public $file;
     
+    
     /**
-     * @ORM\ManyToMany(targetEntity="OrigenDatos", mappedBy="fusiones")
-     **/
-    private $fusionados;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="OrigenDatos", inversedBy="fusionados")
+     * @ORM\ManyToMany(targetEntity="OrigenDatos")
      * @ORM\JoinTable(name="fusiones",
      *      joinColumns={@ORM\JoinColumn(name="id_origen_dato", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="id_origen_dato_fusionado", referencedColumnName="id")}
@@ -79,8 +75,8 @@ class OrigenDatos {
     private $fusiones;
 
     public function __construct() {
-        $this->friendsWithMe = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->myFriends = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->fusiones = new \Doctrine\Common\Collections\ArrayCollection();        
+        $this->campos = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     public function getAbsolutePath() {
@@ -245,38 +241,13 @@ class OrigenDatos {
         return $this->idConexion;
     }
 
-    /**
-     * Add fusionados
-     *
-     * @param MINSAL\IndicadoresBundle\Entity\OrigenDatos $fusionados
-     * @return OrigenDatos
-     */
-    public function addFusionado(\MINSAL\IndicadoresBundle\Entity\OrigenDatos $fusionados)
-    {
-        $this->fusionados[] = $fusionados;
     
-        return $this;
+    
+    public function __toString() {
+        return $this->nombre;
     }
 
-    /**
-     * Remove fusionados
-     *
-     * @param MINSAL\IndicadoresBundle\Entity\OrigenDatos $fusionados
-     */
-    public function removeFusionado(\MINSAL\IndicadoresBundle\Entity\OrigenDatos $fusionados)
-    {
-        $this->fusionados->removeElement($fusionados);
-    }
-
-    /**
-     * Get fusionados
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getFusionados()
-    {
-        return $this->fusionados;
-    }
+        
 
     /**
      * Add fusiones
@@ -309,9 +280,5 @@ class OrigenDatos {
     public function getFusiones()
     {
         return $this->fusiones;
-    }
-    
-    public function __toString() {
-        return $this->nombre;
     }
 }
