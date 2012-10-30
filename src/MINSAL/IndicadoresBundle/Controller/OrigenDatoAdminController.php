@@ -26,14 +26,17 @@ class OrigenDatoAdminController extends Controller {
     }
 
     public function batchActionMerge(ProxyQueryInterface $selectedModelQuery) {
-        var_dump($this->getRequest());
+        $selecciones = $this->getRequest()->get('idx');
+        
+        
+        foreach ($selecciones as $origen){
+            
+        }
     }
 
     public function batchActionLoadData(ProxyQueryInterface $selectedModelQuery) {
-        $request = $this->get('request')->request;
-
         //Mardar a la cola de carga de datos cada origen seleccionado        
-        $selecciones = $request->get('idx');
+        $selecciones = $this->getRequest()->get('idx');
         foreach ($selecciones as $origen) {
             $msg = array('id_origen_dato' => $origen);
             $this->get('old_sound_rabbit_mq.cargar_origen_datos_producer')

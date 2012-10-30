@@ -19,7 +19,7 @@ class FichaTecnicaAdmin extends Admin {
     protected function configureFormFields(FormMapper $formMapper) {
         $formMapper
                 ->add('nombre', null, array('label' => $this->getTranslator()->trans('nombre_indicador')))
-                ->add('tema', null, array('label' => $this->getTranslator()->trans('tema')))
+                ->add('tema', null, array('label' => $this->getTranslator()->trans('tema'), 'required'=>false))
                 ->add('concepto', null, array('label' => $this->getTranslator()->trans('concepto')))
                 ->add('objetivo', null, array('label' => $this->getTranslator()->trans('objetivo')))
                 ->add('uso', null, array('label' => $this->getTranslator()->trans('uso')))
@@ -33,9 +33,9 @@ class FichaTecnicaAdmin extends Admin {
                 ->add('idClasificacionUso', null, array('label' => $this->getTranslator()->trans('clasificacion_uso')))
                 ->add('periodos', null, array('label' => $this->getTranslator()->trans('periodicidad'),'expanded' => true))
                 ->add('idResponsableIndicador', null, array('label' => $this->getTranslator()->trans('responsable_indicador')))
-                ->add('confiabilidad', null, array('label' => $this->getTranslator()->trans('confiabilidad')))
+                ->add('confiabilidad', null, array('label' => $this->getTranslator()->trans('confiabilidad'), 'required'=>false))
                 ->add('estandar', null, array('label' => $this->getTranslator()->trans('estandar_nacional')))
-                ->add('observacion', 'textarea', array('label' => $this->getTranslator()->trans('comentario')))
+                ->add('observacion', 'textarea', array('label' => $this->getTranslator()->trans('comentario'), 'required'=>false))
                 ->add('presentaciones', null, array('label' => $this->getTranslator()->trans('presentacion'),'expanded' => true))
         ;
     }

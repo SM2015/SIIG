@@ -17,7 +17,7 @@ class OrigenDatos {
     /**
      * @var integer $id
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id", type="bigint", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="SEQUENCE")
      * @ORM\SequenceGenerator(sequenceName="tabla_datos_id_seq", allocationSize=1, initialValue=1)
@@ -61,8 +61,23 @@ class OrigenDatos {
      * @ORM\Column(name="archivo_nombre", type="string", length=100, nullable=true)
      */    
     protected $archivoNombre;
-    
+             
     public $file;
+    
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="OrigenDatos")
+     * @ORM\JoinTable(name="fusiones",
+     *      joinColumns={@ORM\JoinColumn(name="id_origen_dato", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="id_origen_dato_fusionado", referencedColumnName="id")}
+     *      )
+     **/
+    private $fusiones;
+
+    public function __construct() {
+        $this->fusiones = new \Doctrine\Common\Collections\ArrayCollection();        
+        $this->campos = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     public function getAbsolutePath() {
         return null === $this->archivoNombre ? null : $this->getUploadRootDir() . '/' . $this->archivoNombre;
@@ -224,5 +239,46 @@ class OrigenDatos {
     public function getIdConexion()
     {
         return $this->idConexion;
+    }
+
+    
+    
+    public function __toString() {
+        return $this->nombre;
+    }
+
+        
+
+    /**
+     * Add fusiones
+     *
+     * @param MINSAL\IndicadoresBundle\Entity\OrigenDatos $fusiones
+     * @return OrigenDatos
+     */
+    public function addFusione(\MINSAL\IndicadoresBundle\Entity\OrigenDatos $fusiones)
+    {
+        $this->fusiones[] = $fusiones;
+    
+        return $this;
+    }
+
+    /**
+     * Remove fusiones
+     *
+     * @param MINSAL\IndicadoresBundle\Entity\OrigenDatos $fusiones
+     */
+    public function removeFusione(\MINSAL\IndicadoresBundle\Entity\OrigenDatos $fusiones)
+    {
+        $this->fusiones->removeElement($fusiones);
+    }
+
+    /**
+     * Get fusiones
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getFusiones()
+    {
+        return $this->fusiones;
     }
 }

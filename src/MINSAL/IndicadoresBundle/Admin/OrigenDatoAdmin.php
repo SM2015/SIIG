@@ -20,14 +20,14 @@ class OrigenDatoAdmin extends Admin {
         $formMapper
                 ->add('nombre', null, array('label' => $this->getTranslator()->trans('nombre')))
                 ->add('descripcion', null, array('label' => $this->getTranslator()->trans('descripcion'), 'required' => false))
-                ->with($this->getTranslator()->trans('origen_datos_sql'))
+                ->with($this->getTranslator()->trans('origen_datos_sql'), array('collapsed' => true))
                     ->add('idConexion', null, array('label' => $this->getTranslator()->trans('nombre_conexion'), 'required'=>false))
                     ->add('sentenciaSql', null, array('label' => $this->getTranslator()->trans('sentencia_sql'), 'required'=>false))
                 ->end()
-                ->with($this->getTranslator()->trans('origen_datos_archivo'))
+                ->with($this->getTranslator()->trans('origen_datos_archivo'), array('collapsed' => true))
                     ->add('archivoNombre', null, array('label' => $this->getTranslator()->trans('archivo_asociado'), 'required' => false, 'read_only' => true))
                     ->add('file', 'file', array('label' => $this->getTranslator()->trans('subir_nuevo_archivo'), 'required' => false))
-                ->end()
+                ->end()                
         ;
     }
 

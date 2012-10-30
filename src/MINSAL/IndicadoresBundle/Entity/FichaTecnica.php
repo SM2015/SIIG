@@ -32,7 +32,7 @@ class FichaTecnica
     /**
      * @var string $tema
      *
-     * @ORM\Column(name="tema", type="text", nullable=true)
+     * @ORM\Column(name="tema", type="text", nullable=false)
      */
     private $tema;
 
@@ -88,7 +88,7 @@ class FichaTecnica
     /**
      * @var integer $confiabilidad
      *
-     * @ORM\Column(name="confiabilidad", type="integer", nullable=false)
+     * @ORM\Column(name="confiabilidad", type="integer", nullable=true)
      */
     private $confiabilidad;
 
