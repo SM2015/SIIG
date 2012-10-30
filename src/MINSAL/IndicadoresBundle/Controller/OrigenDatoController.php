@@ -127,7 +127,7 @@ class OrigenDatoController extends Controller {
         $resultado['significados'] = $em->createQuery("SELECT sv FROM IndicadoresBundle:SignificadoVariable sv")->getArrayResult();
 
         $origenDato = $em->find("IndicadoresBundle:OrigenDatos", $id);
-
+        
         
         if ($origenDato->getSentenciaSql() != '') {
             $resultado['tipo_origen'] = 'sql';
@@ -179,7 +179,8 @@ class OrigenDatoController extends Controller {
             $tipo_campo = $em->getRepository("IndicadoresBundle:TipoCampo")->findOneByCodigo('texto');
             foreach ($resultado['nombre_campos'] as $k => $nombre_campo) {
                 // si existe no guardarlo
-                $campo = $em->getRepository('IndicadoresBundle:Campo')->findOneByNombre($nombre_campo);
+                $campo = $em->getRepository('IndicadoresBundle:Campo')->findOneBy(array('nombre'=>$nombre_campo,
+                                                                            'origenDato'=>$origenDato));
                 if (!$campo) {
                     $campo[$k] = new Campo();
                     $campo[$k]->setNombre($nombre_campo);
