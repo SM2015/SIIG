@@ -73,6 +73,11 @@ class OrigenDatos {
      *      )
      **/
     private $fusiones;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Campo", mappedBy="origenDato")
+     */
+    private $campos;
 
     public function __construct() {
         $this->fusiones = new \Doctrine\Common\Collections\ArrayCollection();        
@@ -280,5 +285,38 @@ class OrigenDatos {
     public function getFusiones()
     {
         return $this->fusiones;
+    }
+
+    /**
+     * Add campos
+     *
+     * @param MINSAL\IndicadoresBundle\Entity\Campo $campos
+     * @return OrigenDatos
+     */
+    public function addCampo(\MINSAL\IndicadoresBundle\Entity\Campo $campos)
+    {
+        $this->campos[] = $campos;
+    
+        return $this;
+    }
+
+    /**
+     * Remove campos
+     *
+     * @param MINSAL\IndicadoresBundle\Entity\Campo $campos
+     */
+    public function removeCampo(\MINSAL\IndicadoresBundle\Entity\Campo $campos)
+    {
+        $this->campos->removeElement($campos);
+    }
+
+    /**
+     * Get campos
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getCampos()
+    {
+        return $this->campos;
     }
 }

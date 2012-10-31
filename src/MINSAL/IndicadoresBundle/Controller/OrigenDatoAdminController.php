@@ -27,11 +27,20 @@ class OrigenDatoAdminController extends Controller {
 
     public function batchActionMerge(ProxyQueryInterface $selectedModelQuery) {
         $selecciones = $this->getRequest()->get('idx');
+        $em = $this->getDoctrine()->getEntityManager();
         
-        
+        //Obtener la cantidad menor que contienen lo indicadores
+        //Ese será la cantidad de campos del origen fusionado
+        $menor = 0;
         foreach ($selecciones as $origen){
-            
+            $origenDato = $em->find('IndicadoresBundle:OrigenDatos', $origen);
+            if (count($origenDato->getCampos()) < $menor)
+                $menor = count($origenDato->getCampos());            
         }
+        
+        return $this->render('IndicadoresBundle:OrigenDatoAdmin:merge_selection.html.twig', 
+                array('cantidad_campos' => $menor)
+                );
     }
 
     public function batchActionLoadData(ProxyQueryInterface $selectedModelQuery) {
