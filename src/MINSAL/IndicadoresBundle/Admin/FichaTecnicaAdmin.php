@@ -19,7 +19,7 @@ class FichaTecnicaAdmin extends Admin {
     protected function configureFormFields(FormMapper $formMapper) {
         $formMapper
                 ->add('nombre', null, array('label' => $this->getTranslator()->trans('nombre_indicador')))
-                ->add('tema', null, array('label' => $this->getTranslator()->trans('tema'), 'required'=>false))
+                ->add('tema', null, array('label' => $this->getTranslator()->trans('tema')))
                 ->add('concepto', null, array('label' => $this->getTranslator()->trans('concepto')))
                 ->add('objetivo', null, array('label' => $this->getTranslator()->trans('objetivo')))
                 ->add('uso', null, array('label' => $this->getTranslator()->trans('uso')))
