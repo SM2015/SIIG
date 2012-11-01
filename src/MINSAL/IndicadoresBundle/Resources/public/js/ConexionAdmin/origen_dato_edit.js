@@ -6,7 +6,7 @@ $(document).ready(function(){
     
     // La barra con los botones de acción
     // Agregaré el de probar conexión     
-    $('#btn_probar_sentencia').appendTo('div .form-actions');
+    $('#sonata-ba-field-container-'+$id+'_sentenciaSql').append($('#btn_probar_sentencia'));
     $('div .form-actions').after('<div ><table border=1 align=center id="datos" ></table></div>')
     $('#btn_probar_sentencia').after("<span id='resultado_probar_consulta'></span>");
      
@@ -88,9 +88,19 @@ $(document).ready(function(){
                         $('#fila'+indice).append("<TD>"+campo+"</TD>");
                     })
                 })
+                
+                //Elegir los valores que ya tienen, en el caso que esté modificando
+                $.each(resp.campos, function(campo, fila){                    
+                    $('#tipo_campo__'+fila.id).val(fila.tipo);
+                    $('#significado_variable__'+fila.id).val(fila.significado);
+                })
             }
             $('#datos select').change(function(){
                 var valor = $(this).attr('value');
+                if (valor == '-1'){
+                    alert('Debe elegir un valor'); return false;
+                }
+                      
                 var id_control = $(this).attr('id');
                 var id_origen_dato = $('#configurar').attr('data')
                 
@@ -108,4 +118,3 @@ $(document).ready(function(){
     }
      
 });
-
