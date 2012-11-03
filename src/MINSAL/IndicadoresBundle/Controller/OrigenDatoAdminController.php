@@ -5,9 +5,9 @@ namespace MINSAL\IndicadoresBundle\Controller;
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 //use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\Response;
+//use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\Console\Input\ArrayInput;
+//use Symfony\Component\Console\Input\ArrayInput;
 
 class OrigenDatoAdminController extends Controller {
 
@@ -29,17 +29,20 @@ class OrigenDatoAdminController extends Controller {
         $selecciones = $this->getRequest()->get('idx');
         $em = $this->getDoctrine()->getEntityManager();
         
+        $cant_origenes = count($selecciones);
         //Obtener la cantidad menor que contienen lo indicadores
         //Ese será la cantidad de campos del origen fusionado
-        $menor = 0;
-        foreach ($selecciones as $origen){
-            $origenDato = $em->find('IndicadoresBundle:OrigenDatos', $origen);
-            if (count($origenDato->getCampos()) < $menor)
-                $menor = count($origenDato->getCampos());            
-        }
+        $menor_cantidad_campos = 1000000;
+        foreach ($selecciones as $k=>$origen){
+            $origenDato[$k] = $em->find('IndicadoresBundle:OrigenDatos', $origen);
+            if (count($origenDato[$k]->getCampos()) < $menor_cantidad_campos)
+                $menor_cantidad_campos = count($origenDato[$k]->getCampos());
+        }        
         
         return $this->render('IndicadoresBundle:OrigenDatoAdmin:merge_selection.html.twig', 
-                array('cantidad_campos' => $menor)
+                array('cantidad_campos' => $menor_cantidad_campos,
+                    'cantidad_origenes' => $cant_origenes,
+                    'origen_dato' => $origenDato)
                 );
     }
 
