@@ -8,6 +8,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Validator\ErrorElement;
 use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Sonata\AdminBundle\Route\RouteCollection;
 
 class OrigenDatoAdmin extends Admin {
      protected $datagridValues = array(
@@ -117,6 +118,11 @@ class OrigenDatoAdmin extends Admin {
     public function saveFile($origenDato) {
         $basepath = $this->getRequest()->getBasePath();
         $origenDato->upload($basepath);
+    }
+    
+    protected function configureRoutes(RouteCollection $collection)
+    {
+        $collection->add('merge_save','merge/save'); 
     }
     
 }

@@ -4,8 +4,8 @@ namespace MINSAL\IndicadoresBundle\Controller;
 
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
-//use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-//use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 //use Symfony\Component\Console\Input\ArrayInput;
 
@@ -56,6 +56,17 @@ class OrigenDatoAdminController extends Controller {
         }
         $this->get('session')->setFlash('sonata_flash_success', $this->get('translator')->trans('flash_batch_load_data_success'));
         return new RedirectResponse($this->admin->generateUrl('list', $this->admin->getFilterParameters()));
+    }
+    
+    
+    public function mergeSaveAction() {
+        $opciones = $this->getRequest()->get('fusionar');
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        foreach ($opciones as $opcion){
+            $id_primer_campo = $opcion[1];
+        }
+        return new Response('');
     }
 
 }

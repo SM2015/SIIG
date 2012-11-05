@@ -8,8 +8,27 @@ $(document).ready(function(){
         $('#'+clase_select).val(nombre);
         
         // Buscar en el otro origen de dato una correspondencia exacta        
-        $('.'+clase).each(function(i,control){
-            $(this).attr('selected',true);
+        var option = $('option:selected', this);
+        $('.'+clase).not(option).each(function(i,control){            
+            var padre= $(this).parent();
+            padre.data('previo',padre.val());
+            $(this).attr('selected',true).change();
+        });
+        
+        // Si usa un campo desactivarlo para que no se vuelva a utilizar
+        $('select').click(function () {
+            $(this).data('previo',$(this).val())
+        }).change(function() { 
+            var columna = $(this).parent().attr('class');
+            // Desabilitar en los otros controles
+            $('.'+columna+' > select').not(this)
+                .children('option[value=' + this.value + ']')
+                .attr('disabled', true)            
+            // Se se ha hecho un cambio, activar el anterior valor
+            if ($(this).data('previo'))
+                $('.'+columna+' > select').not(this)
+                    .children('option[value=' + $(this).data('previo') + ']')
+                    .attr('disabled', false)
         });
     })
 });
