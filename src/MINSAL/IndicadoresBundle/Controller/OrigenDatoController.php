@@ -124,7 +124,7 @@ class OrigenDatoController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
 
         $resultado['tipos_datos'] = $em->createQuery("SELECT tp FROM IndicadoresBundle:TipoCampo tp")->getArrayResult();
-        $resultado['significados'] = $em->createQuery("SELECT sv FROM IndicadoresBundle:SignificadoVariable sv")->getArrayResult();
+        $resultado['significados'] = $em->createQuery("SELECT sv FROM IndicadoresBundle:SignificadoCampo sv")->getArrayResult();
 
         $origenDato = $em->find("IndicadoresBundle:OrigenDatos", $id);
         
@@ -228,7 +228,7 @@ class OrigenDatoController extends Controller {
             $mensaje = $campo->getNombre().': '.$this->get('translator')->trans('tipo_campo_cambiado_a').' '.$tipo_campo->getDescripcion();
             $campo->setTipoCampo($tipo_campo);
         } else {
-            $significado_variable = $em->find("IndicadoresBundle:SignificadoVariable", $valor);
+            $significado_variable = $em->find("IndicadoresBundle:SignificadoCampo", $valor);
             $mensaje = $campo->getNombre().': '.$this->get('translator')->trans('significado_campo_cambiado_a').' '.$significado_variable->getDescripcion();
             $campo->setSignificado($significado_variable);
         }

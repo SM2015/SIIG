@@ -7,6 +7,9 @@ use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use MINSAL\IndicadoresBundle\Entity\OrigenDatos;
+use MINSAL\IndicadoresBundle\Entity\Campo;
+use MINSAL\IndicadoresBundle\Entity\FusionOrigenesDatos;
 //use Symfony\Component\Console\Input\ArrayInput;
 
 class OrigenDatoAdminController extends Controller {
@@ -60,13 +63,60 @@ class OrigenDatoAdminController extends Controller {
     
     
     public function mergeSaveAction() {
-        $opciones = $this->getRequest()->get('fusionar');
+        $req = $this->getRequest();
+        $opciones = $req->get('fusionar');
         $em = $this->getDoctrine()->getEntityManager();
         
-        foreach ($opciones as $opcion){
-            $id_primer_campo = $opcion[1];
+        //Crear el origen
+        $origenDato = new OrigenDatos();
+        $origenDato->setNombre($req->get('nombre'));
+        $origenDato->setDescripcion($req->get('descripcion'));
+        $origenDato->setEsFusionado(true);
+        
+        $campos = array();
+        $origen_fusionar_campos= array();
+        foreach ($req->get('origenes_fusionados') as $k=>$origen_id){$origen_fusionar_campos[$k]='';}
+        
+        foreach ($opciones as $k => $opcion){
+            if ($opcion[0]=='')
+                continue;
+            $campos[$k] = new Campo();
+            
+            //El nombre viene en el primer elemento del arreglo
+            $campos[$k]->setNombre(array_shift($opcion));            
+            $id_primer_campo = $opcion[0];            
+            // el significado y tipo lo tomo del primer campo
+            $campo_fusionar = $em->find('IndicadoresBundle:Campo', $id_primer_campo);
+            
+            $campos[$k]->setSignificado($campo_fusionar->getSignificado());
+            $campos[$k]->setTipoCampo($campo_fusionar->getTipoCampo());
+            $campos[$k]->setOrigenDato($origenDato);
+            $em->persist($campos[$k]);
+            
+            // formar la cadena con los nombre de los campos a tomar de cada origen
+            foreach($opcion as $k=>$id_campo){
+                $campo = $em->find('IndicadoresBundle:Campo', $id_campo);
+                $origen_fusionar_campos[$k] .= "'" . $campo->getNombre() . "', ";
+            }
         }
-        return new Response('');
+                
+        foreach ($req->get('origenes_fusionados') as $k=>$origen_id){
+            $origenFu = $em->find('IndicadoresBundle:OrigenDatos', $origen_id);
+            
+            $fusion[$k] = new FusionOrigenesDatos();
+            
+            $fusion[$k]->setOrigenDatos($origenDato);
+            $fusion[$k]->setOrigenDatosFusionado($origenFu);            
+            $fusion[$k]->setCampos(trim(trim($origen_fusionar_campos[$k]),','));
+            $em->persist($fusion[$k]);
+            
+        }
+        
+        $em->persist($origenDato);
+        $em->flush();
+        
+        $this->get('session')->setFlash('sonata_flash_success', $origenDato->getNombre() . ' '.$this->get('translator')->trans('origen_fusionado_creado'));
+        return new RedirectResponse($this->admin->generateUrl('list', $this->admin->getFilterParameters()));
     }
 
 }

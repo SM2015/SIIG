@@ -44,6 +44,7 @@ class OrigenDatoAdmin extends Admin {
                 ->addIdentifier('nombre', null, array('label' => $this->getTranslator()->trans('nombre')))
                 ->add('descripcion', null, array('label' => $this->getTranslator()->trans('descripcion')))
                 ->add('idConexion', null, array('label' => $this->getTranslator()->trans('nombre_conexion')))
+                ->add('esFusionado', null, array('label' => $this->getTranslator()->trans('es_fusionado')))
                 ->add('sentenciaSql', null, array('label' => $this->getTranslator()->trans('sentencia_sql')))
                 ->add('archivoNombre', null, array('label' => $this->getTranslator()->trans('archivo_asociado')))                
         ;

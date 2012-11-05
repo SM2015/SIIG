@@ -6,13 +6,22 @@
 {% endblock %}
 {% block content %}
     <form action="{{ admin.generateUrl('merge_save') }}" method="post">
-    <TABLE border=1 class='table table-hover'>        
+        <fieldset>
+            <legend>Datos del origen fusionado</legend>
+                <label for="nombre">{{'nombre'|trans}}</label><input type="text" name='nombre' placeholder="{{'nombre_origen_fusionado'|trans}}" required="true"/>
+                <label for="descripcion">{{'descripcion'|trans}}</label><textarea type="text" name='descripcion' placeholder="{{'descripcion_origen_fusionado'|trans}}" ></textarea>                
+        </fieldset>
+    <TABLE border=1 class='table table-hover'>
+        <caption><h2>Elija los campos que serán parte del origen fusionado</h2></caption>
         <THEAD>
             <TR>
                 <TH>{{'campos'|trans}}</TH>
                 <TH>{{'origen_fusionado'|trans}}</TH>
                 {% for origen in origen_dato  %}
-                <TH>{{origen.nombre}}</TH>
+                    <TH>
+                        {{origen.nombre}}
+                        <input type="hidden" value="{{origen.id}}" name='origenes_fusionados[]' />
+                    </TH>
                 {% endfor %}
             </TR>
         </THEAD>

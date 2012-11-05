@@ -49,8 +49,8 @@ class Campo
     private $tipoCampo;
     
     /**
-     * @ORM\ManyToOne(targetEntity="SignificadoVariable")
-     * @ORM\JoinColumn(name="id_significado_variable", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="SignificadoCampo")
+     * @ORM\JoinColumn(name="id_significado_campo", referencedColumnName="id")
      **/
     private $significado;
     
@@ -162,10 +162,10 @@ class Campo
     /**
      * Set significado
      *
-     * @param MINSAL\IndicadoresBundle\Entity\SignificadoVariable $significado
+     * @param MINSAL\IndicadoresBundle\Entity\SignificadoCampo $significado
      * @return Campo
      */
-    public function setSignificado(\MINSAL\IndicadoresBundle\Entity\SignificadoVariable $significado = null)
+    public function setSignificado(\MINSAL\IndicadoresBundle\Entity\SignificadoCampo $significado = null)
     {
         $this->significado = $significado;
     
@@ -175,7 +175,7 @@ class Campo
     /**
      * Get significado
      *
-     * @return MINSAL\IndicadoresBundle\Entity\SignificadoVariable 
+     * @return MINSAL\IndicadoresBundle\Entity\SignificadoCampo
      */
     public function getSignificado()
     {

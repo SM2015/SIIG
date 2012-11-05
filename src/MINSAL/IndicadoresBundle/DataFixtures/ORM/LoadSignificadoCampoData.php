@@ -8,7 +8,7 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 
 use MINSAL\IndicadoresBundle\DataFixtures\ORM\LoadMaster;
 
-class LoadSignificadoVariableData extends AbstractFixture implements OrderedFixtureInterface
+class LoadSignificadoCampoData extends AbstractFixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
@@ -17,7 +17,8 @@ class LoadSignificadoVariableData extends AbstractFixture implements OrderedFixt
         $datos[2]['campos'] = array('Codigo'=>'edad','Descripcion'=>'Edad');
         $datos[3]['campos'] = array('Codigo'=>'id_establecimiento','Descripcion'=>'Id Establecimiento');
         $datos[4]['campos'] = array('Codigo'=>'id_municipio','Descripcion'=>'Id Municipio');
-        $datos[4]['campos'] = array('Codigo'=>'id_area','Descripcion'=>'Id Área');
+        $datos[5]['campos'] = array('Codigo'=>'id_area','Descripcion'=>'Id Área');
+        $datos[6]['campos'] = array('Codigo'=>'calculo','Descripcion'=>'Campo para cálculos');
         
         $master = new LoadMaster();
         $master->save($datos, $manager, $this);
