@@ -124,11 +124,20 @@ class OrigenDatoController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
 
         $resultado['tipos_datos'] = $em->createQuery("SELECT tp FROM IndicadoresBundle:TipoCampo tp")->getArrayResult();
-        $resultado['significados'] = $em->createQuery("SELECT sv FROM IndicadoresBundle:SignificadoVariable sv")->getArrayResult();
+        $resultado['significados'] = $em->createQuery("SELECT sv FROM IndicadoresBundle:SignificadoCampo sv")->getArrayResult();
 
         $origenDato = $em->find("IndicadoresBundle:OrigenDatos", $id);
         
+        //recuperar los campos ya existentes en el origen de datos
+        $campos_existentes = $em->getRepository('IndicadoresBundle:Campo')->findBy(array('origenDato'=>$origenDato));        
         
+        $campos = array();
+        foreach ($campos_existentes as $campo){
+            $campos[$campo->getNombre()]['id'] = $campo->getId();
+            $campos[$campo->getNombre()]['significado'] = ($campo->getSignificado()) ? $campo->getSignificado()->getId() : null;
+            $campos[$campo->getNombre()]['tipo'] = ($campo->getTipoCampo()) ? $campo->getTipoCampo()->getId() : null;
+        }
+        $resultado['campos'] = $campos;        
         if ($origenDato->getSentenciaSql() != '') {
             $resultado['tipo_origen'] = 'sql';
             $sentenciaSQL = $origenDato->getSentenciaSql();
@@ -175,13 +184,12 @@ class OrigenDatoController extends Controller {
         // Guardar los campos
         if ($resultado['estado'] == 'ok') {
             $nombres_id = array();
+            $campo = array();
             //Por defecto poner tipo texto
             $tipo_campo = $em->getRepository("IndicadoresBundle:TipoCampo")->findOneByCodigo('texto');
             foreach ($resultado['nombre_campos'] as $k => $nombre_campo) {
-                // si existe no guardarlo
-                $campo = $em->getRepository('IndicadoresBundle:Campo')->findOneBy(array('nombre'=>$nombre_campo,
-                                                                            'origenDato'=>$origenDato));
-                if (!$campo) {
+                // si existe no guardarlo                
+                if (!array_key_exists($nombre_campo, $campos)){
                     $campo[$k] = new Campo();
                     $campo[$k]->setNombre($nombre_campo);
                     $campo[$k]->setOrigenDato($origenDato);
@@ -190,7 +198,7 @@ class OrigenDatoController extends Controller {
                     $nombres_id[$campo[$k]->getId()] = $nombre_campo;
                 }
                 else
-                    $nombres_id[$campo->getId()] = $nombre_campo;
+                    $nombres_id[$campos[$nombre_campo]['id']] = $nombre_campo;
                 
             }
             try{                                
@@ -220,7 +228,7 @@ class OrigenDatoController extends Controller {
             $mensaje = $campo->getNombre().': '.$this->get('translator')->trans('tipo_campo_cambiado_a').' '.$tipo_campo->getDescripcion();
             $campo->setTipoCampo($tipo_campo);
         } else {
-            $significado_variable = $em->find("IndicadoresBundle:SignificadoVariable", $valor);
+            $significado_variable = $em->find("IndicadoresBundle:SignificadoCampo", $valor);
             $mensaje = $campo->getNombre().': '.$this->get('translator')->trans('significado_campo_cambiado_a').' '.$significado_variable->getDescripcion();
             $campo->setSignificado($significado_variable);
         }

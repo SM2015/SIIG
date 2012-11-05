@@ -7,10 +7,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * MINSAL\IndicadoresBundle\Entity\CatGenero
  *
- * @ORM\Table(name="significado_variable")
+ * @ORM\Table(name="significado_campo")
  * @ORM\Entity
  */
-class SignificadoVariable
+class SignificadoCampo
 {
     /**
      * @var integer $id
@@ -18,7 +18,7 @@ class SignificadoVariable
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="significado_variable_id_genero_seq", allocationSize=1, initialValue=1)
+     * @ORM\SequenceGenerator(sequenceName="significado_campo_id_genero_seq", allocationSize=1, initialValue=1)
      */
     private $id;
 
@@ -51,7 +51,7 @@ class SignificadoVariable
      * Set descripcion
      *
      * @param string $descripcion
-     * @return SignificadoVariable
+     * @return SignificadoCampo
      */
     public function setDescripcion($descripcion)
     {
@@ -74,7 +74,7 @@ class SignificadoVariable
      * Set codigo
      *
      * @param string $codigo
-     * @return SignificadoVariable
+     * @return SignificadoCampo
      */
     public function setCodigo($codigo)
     {
