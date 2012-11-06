@@ -1,0 +1,13 @@
+/* 
+    Document   : dashboard
+    Created on : Nov 6, 2012, 10:24:15 AM
+    Author     : ogir
+    Description:
+        Purpose of the stylesheet follows.
+*/
+.sonata-bc .row-fluid .span6{width:70%;}
+gallery.custom-state-active { background: #eee; }
+.gallery li { float: left; width: 130px; padding: 0.4em; margin: 0 0.4em 0.4em 0; text-align: center; }
+.gallery li h5 { margin: 0 0 0.4em; cursor: move; }
+.gallery li a { float: right; }
+.gallery li a.ui-icon-circle-plus { float: left; }

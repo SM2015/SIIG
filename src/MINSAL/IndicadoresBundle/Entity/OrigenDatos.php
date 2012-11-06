@@ -70,20 +70,30 @@ class OrigenDatos {
      * @ORM\Column(name="es_fusionado", type="boolean")
      */    
     private $esFusionado;
-            
+               
     /**
-    * @ORM\OneToMany(targetEntity="FusionOrigenesDatos", mappedBy="origenDatos")
-    **/
-    private $fusiones;
-
-    /**
-     * @ORM\OneToMany(targetEntity="Campo", mappedBy="origenDato")
+     * @var string $camposFusionados
+     *
+     * @ORM\Column(name="campos_fusionados", type="text", nullable=true)
      */
+    private $camposFusionados;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="OrigenDatos")
+     * @ORM\JoinTable(name="origen_datos_fusiones",
+     *      joinColumns={@ORM\JoinColumn(name="id_origen_dato", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="id_origen_dato_fusionado", referencedColumnName="id")}
+     *      )
+     **/
+    private $fusiones;
+    
+    /**
+    * @ORM\OneToMany(targetEntity="Campo", mappedBy="origenDato")
+    */
     private $campos;
-
+    
     public function __construct() {
         $this->fusiones = new \Doctrine\Common\Collections\ArrayCollection();        
-        $this->campos = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     public function getAbsolutePath() {
@@ -252,7 +262,86 @@ class OrigenDatos {
     
     public function __toString() {
         return $this->nombre;
-    }   
+    }
+
+    /**
+     * Set esFusionado
+     *
+     * @param boolean $esFusionado
+     * @return OrigenDatos
+     */
+    public function setEsFusionado($esFusionado)
+    {
+        $this->esFusionado = $esFusionado;
+    
+        return $this;
+    }
+
+    /**
+     * Get esFusionado
+     *
+     * @return boolean 
+     */
+    public function getEsFusionado()
+    {
+        return $this->esFusionado;
+    }
+
+    /**
+     * Set camposFusionados
+     *
+     * @param string $camposFusionados
+     * @return OrigenDatos
+     */
+    public function setCamposFusionados($camposFusionados)
+    {
+        $this->camposFusionados = $camposFusionados;
+    
+        return $this;
+    }
+
+    /**
+     * Get camposFusionados
+     *
+     * @return string 
+     */
+    public function getCamposFusionados()
+    {
+        return $this->camposFusionados;
+    }
+
+    /**
+     * Add fusiones
+     *
+     * @param MINSAL\IndicadoresBundle\Entity\OrigenDatos $fusiones
+     * @return OrigenDatos
+     */
+    public function addFusione(\MINSAL\IndicadoresBundle\Entity\OrigenDatos $fusiones)
+    {
+        $this->fusiones[] = $fusiones;
+    
+        return $this;
+    }
+
+    /**
+     * Remove fusiones
+     *
+     * @param MINSAL\IndicadoresBundle\Entity\OrigenDatos $fusiones
+     */
+    public function removeFusione(\MINSAL\IndicadoresBundle\Entity\OrigenDatos $fusiones)
+    {
+        $this->fusiones->removeElement($fusiones);
+    }
+
+    /**
+     * Get fusiones
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getFusiones()
+    {
+        return $this->fusiones;
+    }
 
     /**
      * Add campos
@@ -285,61 +374,5 @@ class OrigenDatos {
     public function getCampos()
     {
         return $this->campos;
-    }
-
-    /**
-     * Set esFusionado
-     *
-     * @param boolean $esFusionado
-     * @return OrigenDatos
-     */
-    public function setEsFusionado($esFusionado)
-    {
-        $this->esFusionado = $esFusionado;
-    
-        return $this;
-    }
-
-    /**
-     * Get esFusionado
-     *
-     * @return boolean 
-     */
-    public function getEsFusionado()
-    {
-        return $this->esFusionado;
-    }
-
-    /**
-     * Add fusiones
-     *
-     * @param MINSAL\IndicadoresBundle\Entity\FusionOrigenesDatos $fusiones
-     * @return OrigenDatos
-     */
-    public function addFusione(\MINSAL\IndicadoresBundle\Entity\FusionOrigenesDatos $fusiones)
-    {
-        $this->fusiones[] = $fusiones;
-    
-        return $this;
-    }
-
-    /**
-     * Remove fusiones
-     *
-     * @param MINSAL\IndicadoresBundle\Entity\FusionOrigenesDatos $fusiones
-     */
-    public function removeFusione(\MINSAL\IndicadoresBundle\Entity\FusionOrigenesDatos $fusiones)
-    {
-        $this->fusiones->removeElement($fusiones);
-    }
-
-    /**
-     * Get fusiones
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getFusiones()
-    {
-        return $this->fusiones;
     }
 }

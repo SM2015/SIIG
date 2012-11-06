@@ -7,6 +7,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Validator\ErrorElement;
 use Sonata\AdminBundle\Form\FormMapper;
+use MINSAL\IndicadoresBundle\Entity\FichaTecnica;
 
 class FichaTecnicaAdmin extends Admin {
 
@@ -70,6 +71,20 @@ class FichaTecnicaAdmin extends Admin {
     public function getBatchActions() {
         $actions = parent::getBatchActions();
         $actions['delete'] = null;
+    }
+    
+    public function postPersist($fichaTecnica) {
+        $this->crearCamposIndicador($fichaTecnica);
+    }
+    
+    public function postUpdate($fichaTecnica) {
+        $this->crearCamposIndicador($fichaTecnica);
+    }
+    
+    public function crearCamposIndicador(FichaTecnica $fichaTecnica) {
+        //Recuperar las variables
+        $variables = $fichaTecnica->getVariables();
+        print_r($variables);
     }
 
 }

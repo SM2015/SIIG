@@ -7,15 +7,15 @@
 {% block content %}
     <form action="{{ admin.generateUrl('merge_save') }}" method="post">
         <fieldset>
-            <legend>Datos del origen fusionado</legend>
+            <legend>{{'datos_origen_fusionado'|trans}}Datos del origen fusionado</legend>
                 <label for="nombre">{{'nombre'|trans}}</label><input type="text" name='nombre' placeholder="{{'nombre_origen_fusionado'|trans}}" required="true"/>
                 <label for="descripcion">{{'descripcion'|trans}}</label><textarea type="text" name='descripcion' placeholder="{{'descripcion_origen_fusionado'|trans}}" ></textarea>                
         </fieldset>
     <TABLE border=1 class='table table-hover'>
-        <caption><h2>Elija los campos que serán parte del origen fusionado</h2></caption>
+        <caption><h4>{{'mensaje_fusionar'|trans}}</h4></caption>
         <THEAD>
             <TR>
-                <TH>{{'campos'|trans}}</TH>
+                <TH></TH>
                 <TH>{{'origen_fusionado'|trans}}</TH>
                 {% for origen in origen_dato  %}
                     <TH>
@@ -26,27 +26,16 @@
             </TR>
         </THEAD>
         <TBODY>
-            {% for i in range(1, cantidad_campos) %}
+            {% for campo in campos %}
             <TR>
-                <TD>{{'campo '|trans}} {{i}}</TD>
                 <TD>
-                    <INPUT type="text" size=25 maxlength="35" name='fusionar[{{i}}][]' 
-                           placeholder="{{'nombre_campo'|trans}}" 
-                           value=''
-                           id='fusionar{{i}}'
-                           title='{{'nombre_campo'|trans}}' 
-                    />
+                    <input type="checkbox" value="{{campo.value}}" name="campos_fusionar[]" checked="true"/>
+                </TD>                
+                <TD>
+                    {{campo.nombre}}
                 </TD>
-                {% for origen in origen_dato  %}
-                <TD class='origen{{origen.id}}'>
-                    <SELECT name="fusionar[{{i}}][]" class='fusionar{{i}}' size="{{origen.campos|length}}">
-                        {% for campo in origen.campos%}
-                            <OPTION value="{{campo.id}}" 
-                                    class="fusionar{{i}}_significado{{campo.significado.id}}_tipo{{campo.tipoCampo.id}}">{{campo.nombre}}
-                            </OPTION>
-                        {% endfor %}
-                    </SELECT>
-                </TD>
+                {% for dato in campo.datos %}
+                <TD>{{dato.nombre}} / {{dato.significado}}</TD>
                 {% endfor %}
             </TR>
             {% endfor %}

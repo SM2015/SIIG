@@ -108,3 +108,11 @@
 'tipo_campo_cambiado_a': Tipo de campo cambiado a
 'significado_campo_cambiado_a': Significado de campo cambiado a
 'flash_batch_load_data_success': Se ha iniciado el proceso de carga de datos para los orígenes especificados
+'mensaje_fusionar': Elija los campos que serán parte del origen fusionado (Solo se pueden fusionar campos de igual tipo y significado)
+'origen_fusionado': Origen fusionado
+'datos_origen_fusionado': Datos del origen fusionado
+
+'sonata_user': Usuarios y grupos
+'catalogos': Catálogos
+'origen_datos': Orígenes de datos
+'indicadores': Indicadores

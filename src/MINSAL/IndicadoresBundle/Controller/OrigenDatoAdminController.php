@@ -31,22 +31,55 @@ class OrigenDatoAdminController extends Controller {
     public function batchActionMerge(ProxyQueryInterface $selectedModelQuery) {
         $selecciones = $this->getRequest()->get('idx');
         $em = $this->getDoctrine()->getEntityManager();
-        
-        $cant_origenes = count($selecciones);
-        //Obtener la cantidad menor que contienen lo indicadores
-        //Ese será la cantidad de campos del origen fusionado
-        $menor_cantidad_campos = 1000000;
+          
+        //Obtener la información de los campos de cada origen
+        $origen_campos = array();
         foreach ($selecciones as $k=>$origen){
             $origenDato[$k] = $em->find('IndicadoresBundle:OrigenDatos', $origen);
-            if (count($origenDato[$k]->getCampos()) < $menor_cantidad_campos)
-                $menor_cantidad_campos = count($origenDato[$k]->getCampos());
-        }        
+            foreach ($origenDato[$k]->getCampos() as $campo){
+                //La llave para considerar campo comun será el mismo tipo y significado
+                $llave = $campo->getSignificado()->getId().'-'.$campo->getTipoCampo()->getId();
+                $origen_campos[$origen][$llave]['id'] = $campo->getId();
+                $origen_campos[$origen][$llave]['nombre'] = $campo->getNombre();
+                $origen_campos[$origen][$llave]['significado'] = $campo->getSignificado()->getCodigo();
+                $origen_campos[$origen][$llave]['idSignificado'] = $campo->getSignificado()->getId();
+                $origen_campos[$origen][$llave]['idTipo'] = $campo->getTipoCampo()->getId();                
+            }
+            
+        }
+        
+        //Determinar los campos comunes (con igual significado)
+        $aux = $origen_campos;
+        $campos_comunes = array_shift($aux);
+        foreach ($aux as $a){
+            $campos_comunes = array_intersect_key($campos_comunes, $a);
+        }
+        
+        //Dejar solo los campos que son comunes
+        foreach($origen_campos as $k=>$campos){
+            $origen_campos[$k] = array_intersect_key($campos, $campos_comunes);
+        }
+        
+        // Ordenar y darle la estructura para mostar en la plantilla
+        $campos_ord = array();
+        foreach ($campos_comunes as $sig_tipo => $c){            
+            $campos_ord[$sig_tipo]['value']['nombre'] =  $c['significado'];
+            $campos_ord[$sig_tipo]['value']['idSignificado'] =  $c['idSignificado'];
+            $campos_ord[$sig_tipo]['value']['idTipo'] =  $c['idTipo'];
+            
+            $campos_ord[$sig_tipo]['nombre'] =  $c['significado'];
+            $campos_ord[$sig_tipo]['value']['origenes_a_Fusionar']='';
+            foreach ($origen_campos as $origen => $campos){
+                $campos_ord[$sig_tipo]['datos'][$origen] = $campos[$sig_tipo];                
+            }
+            $campos_ord[$sig_tipo]['value']['origenes_a_Fusionar'] = trim ($campos_ord[$sig_tipo]['value']['origenes_a_Fusionar'],',');
+            $campos_ord[$sig_tipo]['value'] = json_encode($campos_ord[$sig_tipo]['value']);
+        }
         
         return $this->render('IndicadoresBundle:OrigenDatoAdmin:merge_selection.html.twig', 
-                array('cantidad_campos' => $menor_cantidad_campos,
-                    'cantidad_origenes' => $cant_origenes,
-                    'origen_dato' => $origenDato)
-                );
+                array('origen_dato' => $origenDato,
+                    'campos' => $campos_ord
+                ));
     }
 
     public function batchActionLoadData(ProxyQueryInterface $selectedModelQuery) {
@@ -71,46 +104,20 @@ class OrigenDatoAdminController extends Controller {
         $origenDato = new OrigenDatos();
         $origenDato->setNombre($req->get('nombre'));
         $origenDato->setDescripcion($req->get('descripcion'));
-        $origenDato->setEsFusionado(true);
-        
-        $campos = array();
-        $origen_fusionar_campos= array();
-        foreach ($req->get('origenes_fusionados') as $k=>$origen_id){$origen_fusionar_campos[$k]='';}
-        
-        foreach ($opciones as $k => $opcion){
-            if ($opcion[0]=='')
-                continue;
-            $campos[$k] = new Campo();
-            
-            //El nombre viene en el primer elemento del arreglo
-            $campos[$k]->setNombre(array_shift($opcion));            
-            $id_primer_campo = $opcion[0];            
-            // el significado y tipo lo tomo del primer campo
-            $campo_fusionar = $em->find('IndicadoresBundle:Campo', $id_primer_campo);
-            
-            $campos[$k]->setSignificado($campo_fusionar->getSignificado());
-            $campos[$k]->setTipoCampo($campo_fusionar->getTipoCampo());
-            $campos[$k]->setOrigenDato($origenDato);
-            $em->persist($campos[$k]);
-            
-            // formar la cadena con los nombre de los campos a tomar de cada origen
-            foreach($opcion as $k=>$id_campo){
-                $campo = $em->find('IndicadoresBundle:Campo', $id_campo);
-                $origen_fusionar_campos[$k] .= "'" . $campo->getNombre() . "', ";
-            }
-        }
+        $origenDato->setEsFusionado(true);                      
                 
         foreach ($req->get('origenes_fusionados') as $k=>$origen_id){
             $origenFu = $em->find('IndicadoresBundle:OrigenDatos', $origen_id);
-            
-            $fusion[$k] = new FusionOrigenesDatos();
-            
-            $fusion[$k]->setOrigenDatos($origenDato);
-            $fusion[$k]->setOrigenDatosFusionado($origenFu);            
-            $fusion[$k]->setCampos(trim(trim($origen_fusionar_campos[$k]),','));
-            $em->persist($fusion[$k]);
-            
+            $origenDato->addFusione($origenFu);
         }
+        
+        $campos_fusionados ='';
+        foreach ($req->get('campos_fusionar') as $campo){
+            $obj = json_decode($campo);
+            $campos_fusionados .= "'".$obj->nombre."',";
+        }
+        $campos_fusionados = trim($campos_fusionados,',');
+        $origenDato->setCamposFusionados($campos_fusionados);
         
         $em->persist($origenDato);
         $em->flush();

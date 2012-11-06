@@ -557,6 +557,14 @@ class FichaTecnica
      **/
     private $presentaciones;
     
+    /**
+     * @ORM\ManyToMany(targetEntity="Campo")
+     * @ORM\JoinTable(name="ficha_tecnica_campo",
+     *      joinColumns={@ORM\JoinColumn(name="id_ficha_tecnica", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="id_campo", referencedColumnName="id")}
+     *      )
+     **/
+    private $campos;
     
         
     /**
@@ -668,5 +676,38 @@ class FichaTecnica
     public function getVariables()
     {
         return $this->variables;
+    }
+
+    /**
+     * Add campos
+     *
+     * @param MINSAL\IndicadoresBundle\Entity\Campo $campos
+     * @return FichaTecnica
+     */
+    public function addCampo(\MINSAL\IndicadoresBundle\Entity\Campo $campos)
+    {
+        $this->campos[] = $campos;
+    
+        return $this;
+    }
+
+    /**
+     * Remove campos
+     *
+     * @param MINSAL\IndicadoresBundle\Entity\Campo $campos
+     */
+    public function removeCampo(\MINSAL\IndicadoresBundle\Entity\Campo $campos)
+    {
+        $this->campos->removeElement($campos);
+    }
+
+    /**
+     * Get campos
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getCampos()
+    {
+        return $this->campos;
     }
 }

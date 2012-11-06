@@ -26,7 +26,7 @@ class GuardarRegistroOrigenDatoConsumer implements ConsumerInterface {
             $datos .= "'$campo','$valor',"; 
         }
         
-        $datos = preg_replace('/,$/', '', $datos);
+        $datos = trim($datos,',');
         
         $sql = "INSERT INTO fila_origen_dato(id, id_origen_dato, datos) 
                     VALUES (nextval('fila_origen_dato_id_seq'::regclass), '$msg[id_origen_dato]', hstore(ARRAY[$datos]))";
