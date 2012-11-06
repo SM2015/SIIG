@@ -1,5 +1,16 @@
 # Requerimientos
 
+## Perfiles de usuario
+
+Se ha identificado los siguientes perfiles de usuario
+
+| Nombre              | Conocimiento deseado |Responsabilidades                           |
+|---------------------|----------------------|--------------------------------------------|
+| Administrador       | Adminsitración sistemas informáticos | Gestión de usuarios y catálogos             |
+| Técnico - datos     | Bases de datos, lenguaje SQL | Creación/configuración de las conexiones y orígenes de datos; gestión de los catálogos responsable y fuente de datos|
+| Técnico - indicador | Estadísticos         |Gestión de la ficha técnica del indicador, así como de las variables asociadas a la fórmula del indicador |
+| usuario - tablero   | Estadísticos         |Interpretación de resultados de indicadores  |
+
 Los siguientes requerimientos describen la funcionalidad que ofrecerá el sistema.
 
 ##Categoría: Captura de datos
