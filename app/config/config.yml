@@ -70,8 +70,8 @@ sonata_block:
         #sonata.admin_doctrine_orm.block.audit:
         #    contexts:   [admin]
 
-        sonata.block.service.text:
-        sonata.block.service.rss:
+        #sonata.block.service.text:
+        #sonata.block.service.rss:
 
         # Some specific block from the SonataMediaBundle
         #sonata.media.block.media:
@@ -109,6 +109,8 @@ sonata_admin:
         edit:    SonataAdminBundle:CRUD:edit.html.twig
         # se personalizó la plantilla de borrar
         delete:  IndicadoresBundle:CRUD:delete.html.twig
+        dashboard: IndicadoresBundle:Core:dashboard.html.twig
+        list_block: IndicadoresBundle:Block:block_admin_list.html.twig
     dashboard:
         blocks:
             # display a dashboard block

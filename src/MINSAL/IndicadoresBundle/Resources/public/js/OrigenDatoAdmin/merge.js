@@ -1,4 +1,4 @@
-$(document).ready(function(){   
+$(document).ready(function(){
     //Verificar que al menos un campo esté seleccionado
     $('input:checkbox').change(function(){
         if ($('input:checkbox:checked').size() < 1){

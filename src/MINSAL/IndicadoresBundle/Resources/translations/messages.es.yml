@@ -111,3 +111,8 @@
 'mensaje_fusionar': Elija los campos que serán parte del origen fusionado (Solo se pueden fusionar campos de igual tipo y significado)
 'origen_fusionado': Origen fusionado
 'datos_origen_fusionado': Datos del origen fusionado
+
+'sonata_user': Usuarios y grupos
+'catalogos': Catálogos
+'origen_datos': Orígenes de datos
+'indicadores': Indicadores

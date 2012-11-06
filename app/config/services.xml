@@ -5,7 +5,7 @@
         <service id="sonata.admin.responsable_dato" class="MINSAL\IndicadoresBundle\Admin\ResponsableDatoAdmin">
             <tag name="sonata.admin" 
                  manager_type="orm" 
-                 group="Catálogos" 
+                 group="catalogos" 
                  label="responsable_datos"
             />
             <argument />
@@ -16,7 +16,7 @@
         <service id="sonata.admin.fuente_dato" class="MINSAL\IndicadoresBundle\Admin\FuenteDatoAdmin">
             <tag name="sonata.admin" 
                  manager_type="orm" 
-                 group="Catálogos" 
+                 group="catalogos" 
                  label="fuente_datos"
             />
             <argument />
@@ -27,7 +27,7 @@
         <service id="sonata.admin.responsable_indicador" class="MINSAL\IndicadoresBundle\Admin\ResponsableIndicadorAdmin">
             <tag name="sonata.admin" 
                  manager_type="orm" 
-                 group="Catálogos" 
+                 group="catalogos" 
                  label="responsable_indicador"
             />
             <argument />
@@ -38,7 +38,7 @@
         <service id="sonata.admin.clasificacion_tecnica" class="MINSAL\IndicadoresBundle\Admin\ClasificacionTecnicaAdmin">
             <tag name="sonata.admin" 
                  manager_type="orm" 
-                 group="Catálogos" 
+                 group="catalogos" 
                  label="clasificacion_tecnica"
             />
             <argument />
@@ -49,7 +49,7 @@
         <service id="sonata.admin.clasificacion_privacidad" class="MINSAL\IndicadoresBundle\Admin\ClasificacionPrivacidadAdmin">
             <tag name="sonata.admin" 
                  manager_type="orm" 
-                 group="Catálogos" 
+                 group="catalogos" 
                  label="clasificacion_privacidad"
             />
             <argument />
@@ -60,7 +60,7 @@
         <service id="sonata.admin.clasificacion_nivel" class="MINSAL\IndicadoresBundle\Admin\ClasificacionNivelAdmin">
             <tag name="sonata.admin" 
                  manager_type="orm" 
-                 group="Catálogos" 
+                 group="catalogos" 
                  label="clasificacion_nivel"
             />
             <argument />
@@ -71,7 +71,7 @@
         <service id="sonata.admin.clasificacion_uso" class="MINSAL\IndicadoresBundle\Admin\ClasificacionUsoAdmin">
             <tag name="sonata.admin" 
                  manager_type="orm" 
-                 group="Catálogos" 
+                 group="catalogos" 
                  label="clasificacion_uso"
             />
             <argument />
@@ -82,18 +82,28 @@
         <service id="sonata.admin.conexion" class="MINSAL\IndicadoresBundle\Admin\ConexionAdmin">
             <tag name="sonata.admin" 
                  manager_type="orm" 
-                 group="Origen de datos" 
+                 group="origen_datos" 
                  label="conexion_bd"
             />
             <argument />
             <argument>MINSAL\IndicadoresBundle\Entity\Conexion</argument>
             <argument>SonataAdminBundle:CRUD</argument>
-        </service>                
+        </service>
+        <service id="sonata.admin.origen_dato" class="MINSAL\IndicadoresBundle\Admin\OrigenDatoAdmin">
+            <tag name="sonata.admin"
+                 manager_type="orm" 
+                 group="origen_datos" 
+                 label="origen_datos"
+            />    
+            <argument />            
+            <argument>MINSAL\IndicadoresBundle\Entity\OrigenDatos</argument>
+            <argument>IndicadoresBundle:OrigenDatoAdmin</argument>       
+        </service>
         
         <service id="sonata.admin.variable" class="MINSAL\IndicadoresBundle\Admin\VariableDatoAdmin">
             <tag name="sonata.admin"
                  manager_type="orm" 
-                 group="Fórmulas de indicadores" 
+                 group="indicadores" 
                  label="variables"
             />
             <argument />
@@ -104,23 +114,13 @@
         <service id="sonata.admin.ficha" class="MINSAL\IndicadoresBundle\Admin\FichaTecnicaAdmin">
             <tag name="sonata.admin"
                  manager_type="orm" 
-                 group="Fórmulas de indicadores" 
+                 group="indicadores" 
                  label="ficha_tecnica"
             />
             <argument />
             <argument>MINSAL\IndicadoresBundle\Entity\FichaTecnica</argument>
             <argument>SonataAdminBundle:CRUD</argument>
-        </service>
-        <service id="sonata.admin.origen_dato" class="MINSAL\IndicadoresBundle\Admin\OrigenDatoAdmin">
-            <tag name="sonata.admin"
-                 manager_type="orm" 
-                 group="Origen de datos" 
-                 label="origen_datos"
-            />    
-            <argument />            
-            <argument>MINSAL\IndicadoresBundle\Entity\OrigenDatos</argument>
-            <argument>IndicadoresBundle:OrigenDatoAdmin</argument>       
-        </service>
+        </service>        
         <service id="indicadores.cargar_origen_datos_servicio" class="MINSAL\IndicadoresBundle\Consumer\CargarOrigenDatoConsumer">            
             <argument type="service" id="service_container" />            
         </service>
