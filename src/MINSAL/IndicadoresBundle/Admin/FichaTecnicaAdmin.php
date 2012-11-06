@@ -73,11 +73,11 @@ class FichaTecnicaAdmin extends Admin {
         $actions['delete'] = null;
     }
     
-    public function postPersist(FichaTecnica $fichaTecnica) {
+    public function postPersist($fichaTecnica) {
         $this->crearCamposIndicador($fichaTecnica);
     }
     
-    public function postUpdate(FichaTecnica $fichaTecnica) {
+    public function postUpdate($fichaTecnica) {
         $this->crearCamposIndicador($fichaTecnica);
     }
     
