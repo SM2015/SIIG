@@ -3,6 +3,7 @@
 namespace MINSAL\IndicadoresBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * MINSAL\IndicadoresBundle\Entity\FuenteDato
@@ -40,6 +41,7 @@ class FuenteDato
      * @var string $correo
      *
      * @ORM\Column(name="correo", type="string", length=50, nullable=false)
+     * @Assert\Email()
      */
     private $correo;
 

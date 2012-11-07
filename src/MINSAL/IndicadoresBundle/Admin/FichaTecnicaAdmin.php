@@ -59,15 +59,6 @@ class FichaTecnicaAdmin extends Admin {
         ;
     }
 
-    public function validate(ErrorElement $errorElement, $object) {
-        $errorElement
-                ->with('confiabilidad')
-                    ->assertMin(array('limit'=>0))
-                    ->assertMax(array('limit'=>100))
-                ->end()
-        ;
-    }
-
     public function getBatchActions() {
         $actions = parent::getBatchActions();
         $actions['delete'] = null;

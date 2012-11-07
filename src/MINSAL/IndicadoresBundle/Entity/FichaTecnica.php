@@ -3,6 +3,7 @@
 namespace MINSAL\IndicadoresBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * MINSAL\IndicadoresBundle\Entity\FichaTecnica
@@ -89,6 +90,11 @@ class FichaTecnica
      * @var integer $confiabilidad
      *
      * @ORM\Column(name="confiabilidad", type="integer", nullable=true)
+     * 
+     * @Assert\Range(
+     *      min = "0",
+     *      max = "100"
+     * )
      */
     private $confiabilidad;
 

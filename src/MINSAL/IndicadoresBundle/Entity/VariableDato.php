@@ -3,6 +3,7 @@
 namespace MINSAL\IndicadoresBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * MINSAL\IndicadoresBundle\Entity\VariableDato
@@ -33,6 +34,11 @@ class VariableDato
      * @var integer $confiabilidad
      *
      * @ORM\Column(name="confiabilidad", type="integer", nullable=true)
+     * 
+     * @Assert\Range(
+     *      min = "0",
+     *      max = "100"
+     * )
      */
     private $confiabilidad;
 
@@ -85,7 +91,7 @@ class VariableDato
      *   @ORM\JoinColumn(name="id_origen_datos", referencedColumnName="id")
      * })
      */
-    private $idOrigenDatos;
+    private $origenDatos;
 
     /**
      * Get id
@@ -306,30 +312,29 @@ class VariableDato
     
     public function __toString() {
         return $this->nombre. '(' . $this->iniciales . ')';
-    }
-    
+    }    
+        
 
     /**
-     * Set idOrigenDato
+     * Set origenDatos
      *
-     * @param MINSAL\IndicadoresBundle\Entity\OrigenDatos $idOrigenDato
+     * @param MINSAL\IndicadoresBundle\Entity\OrigenDatos $origenDatos
      * @return VariableDato
      */
-    public function setIdOrigenDatos(\MINSAL\IndicadoresBundle\Entity\OrigenDatos $idOrigenDatos = null)
+    public function setOrigenDatos(\MINSAL\IndicadoresBundle\Entity\OrigenDatos $origenDatos = null)
     {
-        $this->idOrigenDatos = $idOrigenDatos;
+        $this->origenDatos = $origenDatos;
     
         return $this;
     }
 
     /**
-     * Get idOrigenDato
+     * Get origenDatos
      *
      * @return MINSAL\IndicadoresBundle\Entity\OrigenDatos 
      */
-    public function getIdOrigenDatos()
+    public function getOrigenDatos()
     {
-        return $this->idOrigenDatos;
+        return $this->origenDatos;
     }
-    
 }

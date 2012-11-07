@@ -116,3 +116,6 @@
 'catalogos': Catálogos
 'origen_datos': Orígenes de datos
 'indicadores': Indicadores
+'origen_no_configurado': Origen de datos no válido, debe configurar todos sus campos, edite el origen de datos para realizar la configuración.
+'es_fusionado': Es fusionado
+'origen_dato': Origen de datos

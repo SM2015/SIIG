@@ -58,10 +58,6 @@ class ConexionAdmin extends Admin {
         ;
     }
 
-    public function validate(ErrorElement $errorElement, $object) {
-        
-    }
-
     public function getBatchActions() {
         $actions = parent::getBatchActions();
         $actions['delete'] = null;

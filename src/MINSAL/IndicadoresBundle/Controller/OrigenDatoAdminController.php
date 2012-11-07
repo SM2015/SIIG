@@ -15,13 +15,19 @@ use MINSAL\IndicadoresBundle\Entity\FusionOrigenesDatos;
 class OrigenDatoAdminController extends Controller {
 
     public function batchActionMergeIsRelevant(array $normalizedSelectedIds, $allEntitiesSelected) {
-        // here you have access to all POST parameters, if you use some custom ones
-        // POST parameters are kept even after the confirmation page.
+        $em = $this->getDoctrine()->getEntityManager();
         $parameterBag = $this->get('request')->request;
 
-
         $selecciones = $parameterBag->get('idx');
-
+        // Verificar que los orígenes esten configurados
+        foreach($selecciones as $id_origen){
+            $origenDato = $em->find('IndicadoresBundle:OrigenDatos', $id_origen);
+            $campos_no_configurados = $em->getRepository('IndicadoresBundle:Campo')
+                    ->findBy(array('origenDato' => $id_origen,
+                                    'significado' => null));
+            if (count($campos_no_configurados) > 0)
+                return $origenDato->getNombre().': '.$this->get('translator')->trans('origen_no_configurado');
+        }
         if (count($selecciones) > 1)
             return true;
         else
@@ -82,6 +88,23 @@ class OrigenDatoAdminController extends Controller {
                 ));
     }
 
+    public function batchActionLoadDataIsRelevant(array $normalizedSelectedIds, $allEntitiesSelected) {
+        $em = $this->getDoctrine()->getEntityManager();
+        $parameterBag = $this->get('request')->request;
+
+        $selecciones = $parameterBag->get('idx');
+        // Verificar que los orígenes esten configurados
+        foreach($selecciones as $id_origen){
+            $origenDato = $em->find('IndicadoresBundle:OrigenDatos', $id_origen);
+            $campos_no_configurados = $em->getRepository('IndicadoresBundle:Campo')
+                    ->findBy(array('origenDato' => $id_origen,
+                                    'significado' => null));
+            if (count($campos_no_configurados) > 0)
+                return $origenDato->getNombre().': '.$this->get('translator')->trans('origen_no_configurado');
+        }
+                
+    }
+    
     public function batchActionLoadData(ProxyQueryInterface $selectedModelQuery) {
         //Mardar a la cola de carga de datos cada origen seleccionado        
         $selecciones = $this->getRequest()->get('idx');
