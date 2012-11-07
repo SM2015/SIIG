@@ -19,7 +19,7 @@
                 {{ form_widget(form) }}
 
                 {% if errors|length > 0 %}                                        
-                    <i class="ui-icon ui-icon-alert" data-content="{{form_errors(form)}}" style="display: inline-block"></i>
+                    <i class="ui-icon ui-icon-alert" data-title="{{'error'|trans}}" data-content="{{form_errors(form)}}" style="display: inline-block"></i>
                 {% endif %}
 
                 {% if sonata_admin.field_description.help %}

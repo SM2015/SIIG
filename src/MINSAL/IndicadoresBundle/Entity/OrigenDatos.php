@@ -53,7 +53,7 @@ class OrigenDatos {
      *   @ORM\JoinColumn(name="id_conexion", referencedColumnName="id")
      * })
      */
-    private $idConexion;
+    private $conexion;
     
     /**
      * @var string $archivoNombre
@@ -67,7 +67,7 @@ class OrigenDatos {
     /**
      * @var string $esFusionado
      *
-     * @ORM\Column(name="es_fusionado", type="boolean")
+     * @ORM\Column(name="es_fusionado", type="boolean", nullable=true)
      */    
     private $esFusionado;
                
@@ -234,31 +234,6 @@ class OrigenDatos {
     {
         return $this->sentenciaSql;
     }
-
-    /**
-     * Set idConexion
-     *
-     * @param MINSAL\IndicadoresBundle\Entity\Conexion $idConexion
-     * @return OrigenDatos
-     */
-    public function setIdConexion(\MINSAL\IndicadoresBundle\Entity\Conexion $idConexion = null)
-    {
-        $this->idConexion = $idConexion;
-    
-        return $this;
-    }
-
-    /**
-     * Get idConexion
-     *
-     * @return MINSAL\IndicadoresBundle\Entity\Conexion 
-     */
-    public function getIdConexion()
-    {
-        return $this->idConexion;
-    }
-
-    
     
     public function __toString() {
         return $this->nombre;
@@ -374,5 +349,28 @@ class OrigenDatos {
     public function getCampos()
     {
         return $this->campos;
+    }
+
+    /**
+     * Set conexion
+     *
+     * @param MINSAL\IndicadoresBundle\Entity\Conexion $conexion
+     * @return OrigenDatos
+     */
+    public function setConexion(\MINSAL\IndicadoresBundle\Entity\Conexion $conexion = null)
+    {
+        $this->conexion = $conexion;
+    
+        return $this;
+    }
+
+    /**
+     * Get conexion
+     *
+     * @return MINSAL\IndicadoresBundle\Entity\Conexion 
+     */
+    public function getConexion()
+    {
+        return $this->conexion;
     }
 }

@@ -17,8 +17,8 @@ class OrigenDatoController extends Controller {
      */
     public function probarConexionAction() {
 
-        $conn = $this->getConexionGenerica('base_datos');
         try {
+            $conn = $this->getConexionGenerica('base_datos');
             $conn->connect();
             $mensaje = '<span style="color: green">' . $this->get('translator')->trans('conexion_success') . '</span>';
         } catch (\PDOException $e) {
@@ -39,8 +39,8 @@ class OrigenDatoController extends Controller {
         $patron = '/\bUPDATE\b|\bDELETE\b|\bINSERT\b|\bCREATE\b|\bDROP\b/i';
         //
         if (preg_match($patron, $sql) == FALSE) {
-            $conn = $this->getConexionGenerica('consulta_sql');
             try {
+                $conn = $this->getConexionGenerica('consulta_sql');            
                 $query = $conn->query($sql . ' LIMIT 50');
                 if ($query->rowCount() > 0)
                     $resultado['datos'] = $query->fetchAll();
@@ -67,28 +67,32 @@ class OrigenDatoController extends Controller {
         $req = $this->getRequest();
         $em = $this->getDoctrine()->getEntityManager();
 
-        if ($objeto_prueba == 'base_datos') {
-            $motor = $em->find('IndicadoresBundle:MotorBd', $req->get('idMotor'));
-            $datos = array('dbname' => $req->get('nombreBaseDatos'),
-                'user' => $req->get('usuario'),
-                'password' => $req->get('clavefirst'),
-                'host' => $req->get('ip'),
-                'driver' => $motor->getCodigo(),
-                'port' => $req->get('puerto')
-            );
-        } elseif ($objeto_prueba == 'consulta_sql') {
-            if ($idConexion == null)
-                $conexion = $em->find('IndicadoresBundle:Conexion', $req->get('idConexion'));
-            else
-                $conexion = $em->find('IndicadoresBundle:Conexion', $idConexion);
+        try {
+            if ($objeto_prueba == 'base_datos') {
+                $motor = $em->find('IndicadoresBundle:MotorBd', $req->get('idMotor'));
+                $datos = array('dbname' => $req->get('nombreBaseDatos'),
+                    'user' => $req->get('usuario'),
+                    'password' => $req->get('clavefirst'),
+                    'host' => $req->get('ip'),
+                    'driver' => $motor->getCodigo(),
+                    'port' => $req->get('puerto')
+                );
+            } elseif ($objeto_prueba == 'consulta_sql') {
+                if ($idConexion == null)
+                    $conexion = $em->find('IndicadoresBundle:Conexion', $req->get('conexion'));
+                else
+                    $conexion = $em->find('IndicadoresBundle:Conexion', $idConexion);
 
-            $datos = array('dbname' => $conexion->getNombreBaseDatos(),
-                'user' => $conexion->getUsuario(),
-                'password' => $conexion->getClave(),
-                'host' => $conexion->getIp(),
-                'driver' => $conexion->getIdMotor()->getCodigo(),
-                'port' => $conexion->getPuerto()
-            );
+                $datos = array('dbname' => $conexion->getNombreBaseDatos(),
+                    'user' => $conexion->getUsuario(),
+                    'password' => $conexion->getClave(),
+                    'host' => $conexion->getIp(),
+                    'driver' => $conexion->getIdMotor()->getCodigo(),
+                    'port' => $conexion->getPuerto()
+                );
+            }
+        } catch (\Exception $e) {
+            throw new \PDOException($e->getMessage());
         }
 
 
@@ -127,21 +131,21 @@ class OrigenDatoController extends Controller {
         $resultado['significados'] = $em->createQuery("SELECT sv FROM IndicadoresBundle:SignificadoCampo sv")->getArrayResult();
 
         $origenDato = $em->find("IndicadoresBundle:OrigenDatos", $id);
-        
+
         //recuperar los campos ya existentes en el origen de datos
-        $campos_existentes = $em->getRepository('IndicadoresBundle:Campo')->findBy(array('origenDato'=>$origenDato));        
-        
+        $campos_existentes = $em->getRepository('IndicadoresBundle:Campo')->findBy(array('origenDato' => $origenDato));
+
         $campos = array();
-        foreach ($campos_existentes as $campo){
+        foreach ($campos_existentes as $campo) {
             $campos[$campo->getNombre()]['id'] = $campo->getId();
             $campos[$campo->getNombre()]['significado'] = ($campo->getSignificado()) ? $campo->getSignificado()->getId() : null;
             $campos[$campo->getNombre()]['tipo'] = ($campo->getTipoCampo()) ? $campo->getTipoCampo()->getId() : null;
         }
-        $resultado['campos'] = $campos;        
+        $resultado['campos'] = $campos;
         if ($origenDato->getSentenciaSql() != '') {
             $resultado['tipo_origen'] = 'sql';
             $sentenciaSQL = $origenDato->getSentenciaSql();
-            $idConexion = $origenDato->getIdConexion()->getId();
+            $idConexion = $origenDato->getConexion()->getId();
 
             $conn = $this->getConexionGenerica('consulta_sql', $idConexion);
             try {
@@ -164,14 +168,14 @@ class OrigenDatoController extends Controller {
                 $reader->loadFile($origenDato->getAbsolutePath());
                 $datos = $reader->getSheet()->toArray($nullValue = null, $calculateFormulas = false, $formatData = false, $returnCellRef = false);
                 $resultado['nombre_campos'] = array_values(array_shift($datos));
-                
+
                 // Buscar por columnas que tengan null en el título
                 $primer_null = array_search(null, $resultado['nombre_campos']);
-                
-                if ($primer_null==false)
+
+                if ($primer_null == false)
                     foreach ($datos as $fila)
                         $resultado['datos'][] = $fila;
-                else{
+                else {
                     $resultado['nombre_campos'] = array_slice($resultado['nombre_campos'], 0, $primer_null, true);
                     foreach ($datos as $fila)
                         $resultado['datos'][] = array_slice($fila, 0, $primer_null, true);
@@ -179,8 +183,8 @@ class OrigenDatoController extends Controller {
                 $resultado['estado'] = 'ok';
             } catch (\Exception $e) {
                 $resultado['mensaje'] = '<span style="color: red">' . $e->getMessage() . '</span>';
-            }            
-        }                
+            }
+        }
         // Guardar los campos
         if ($resultado['estado'] == 'ok') {
             $nombres_id = array();
@@ -189,7 +193,7 @@ class OrigenDatoController extends Controller {
             $tipo_campo = $em->getRepository("IndicadoresBundle:TipoCampo")->findOneByCodigo('texto');
             foreach ($resultado['nombre_campos'] as $k => $nombre_campo) {
                 // si existe no guardarlo                
-                if (!array_key_exists($nombre_campo, $campos)){
+                if (!array_key_exists($nombre_campo, $campos)) {
                     $campo[$k] = new Campo();
                     $campo[$k]->setNombre($nombre_campo);
                     $campo[$k]->setOrigenDato($origenDato);
@@ -199,12 +203,11 @@ class OrigenDatoController extends Controller {
                 }
                 else
                     $nombres_id[$campos[$nombre_campo]['id']] = $nombre_campo;
-                
             }
-            try{                                
+            try {
                 $em->flush();
-            } catch (\Exception $e){
-                $resultado = array('estado' => 'error', 'mensaje' => '<div class="alert alert-error"> '.$this->get('translator')->trans('camio_no_realizado').'</div>');
+            } catch (\Exception $e) {
+                $resultado = array('estado' => 'error', 'mensaje' => '<div class="alert alert-error"> ' . $this->get('translator')->trans('camio_no_realizado') . '</div>');
             }
             $resultado['nombre_campos'] = $nombres_id;
         }
@@ -222,21 +225,21 @@ class OrigenDatoController extends Controller {
         list($tipo_cambio, $id) = explode('__', $req->get('control'));
         $valor = $req->get('valor');
         $campo = $em->find("IndicadoresBundle:Campo", $id);
-        
+
         if ($tipo_cambio == 'tipo_campo') {
             $tipo_campo = $em->find("IndicadoresBundle:TipoCampo", $valor);
-            $mensaje = $campo->getNombre().': '.$this->get('translator')->trans('tipo_campo_cambiado_a').' '.$tipo_campo->getDescripcion();
+            $mensaje = $campo->getNombre() . ': ' . $this->get('translator')->trans('tipo_campo_cambiado_a') . ' ' . $tipo_campo->getDescripcion();
             $campo->setTipoCampo($tipo_campo);
         } else {
             $significado_variable = $em->find("IndicadoresBundle:SignificadoCampo", $valor);
-            $mensaje = $campo->getNombre().': '.$this->get('translator')->trans('significado_campo_cambiado_a').' '.$significado_variable->getDescripcion();
+            $mensaje = $campo->getNombre() . ': ' . $this->get('translator')->trans('significado_campo_cambiado_a') . ' ' . $significado_variable->getDescripcion();
             $campo->setSignificado($significado_variable);
         }
-        $resultado['mensaje'] = '<div class="alert alert-success">'.$mensaje.'</div>';
-        try{
+        $resultado['mensaje'] = '<div class="alert alert-success">' . $mensaje . '</div>';
+        try {
             $em->flush();
-        }  catch (\Exception $e){
-            $resultado = array('estado' => 'error', 'mensaje' => '<div class="alert alert-error"> '.$this->get('translator')->trans('camio_no_realizado').'</div>');
+        } catch (\Exception $e) {
+            $resultado = array('estado' => 'error', 'mensaje' => '<div class="alert alert-error"> ' . $this->get('translator')->trans('camio_no_realizado') . '</div>');
         }
         return new Response(json_encode($resultado));
     }

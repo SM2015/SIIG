@@ -22,7 +22,7 @@ class OrigenDatoAdmin extends Admin {
                 ->add('nombre', null, array('label' => $this->getTranslator()->trans('nombre')))
                 ->add('descripcion', null, array('label' => $this->getTranslator()->trans('descripcion'), 'required' => false))
                 ->with($this->getTranslator()->trans('origen_datos_sql'), array('collapsed' => true))
-                    ->add('idConexion', null, array('label' => $this->getTranslator()->trans('nombre_conexion'), 'required'=>false))
+                    ->add('conexion', null, array('label' => $this->getTranslator()->trans('nombre_conexion'), 'required'=>false))
                     ->add('sentenciaSql', null, array('label' => $this->getTranslator()->trans('sentencia_sql'), 'required'=>false))
                 ->end()
                 ->with($this->getTranslator()->trans('origen_datos_archivo'), array('collapsed' => true))
@@ -34,7 +34,7 @@ class OrigenDatoAdmin extends Admin {
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper) {
         $datagridMapper
-                ->add('idConexion', null, array('label' => $this->getTranslator()->trans('nombre_conexion')))
+                ->add('conexion', null, array('label' => $this->getTranslator()->trans('nombre_conexion')))
                 ->add('nombre', null, array('label' => $this->getTranslator()->trans('nombre')))
         ;
     }
@@ -43,7 +43,7 @@ class OrigenDatoAdmin extends Admin {
         $listMapper
                 ->addIdentifier('nombre', null, array('label' => $this->getTranslator()->trans('nombre')))
                 ->add('descripcion', null, array('label' => $this->getTranslator()->trans('descripcion')))
-                ->add('idConexion', null, array('label' => $this->getTranslator()->trans('nombre_conexion')))
+                ->add('conexion', null, array('label' => $this->getTranslator()->trans('nombre_conexion')))
                 ->add('esFusionado', null, array('label' => $this->getTranslator()->trans('es_fusionado')))
                 ->add('sentenciaSql', null, array('label' => $this->getTranslator()->trans('sentencia_sql')))
                 ->add('archivoNombre', null, array('label' => $this->getTranslator()->trans('archivo_asociado')))                
@@ -53,12 +53,17 @@ class OrigenDatoAdmin extends Admin {
     public function validate(ErrorElement $errorElement, $object) {
         if ($object->file == '' and $object->getSentenciaSql() == '') {
             $errorElement->with('sentenciaSql')
-                    ->addViolation('Debe ingresar una de las dos opciones: Una sentencia SQL o un archivo')
+                        ->addViolation($this->getTranslator()->trans('validacion.sentencia_o_archivo'))
                     ->end();
         }
         if ($object->file != '' and $object->getSentenciaSql() != '') {
             $errorElement->with('sentenciaSql')
-                    ->addViolation('Solo puede ingresar una de las dos opciones: Una sentencia SQL o un archivo. No ambas')
+                        ->addViolation($this->getTranslator()->trans('validacion.sentencia_o_archivo_no_ambas'))
+                    ->end();
+        }
+        if($object->getSentenciaSql() != '' and $object->getConexion() ==''){
+            $errorElement->with('conexion')
+                        ->addViolation($this->getTranslator()->trans('validacion.requerido'))
                     ->end();
         }
         // Revisar la validación, no me reconoce los archivos con los tipos que debería
