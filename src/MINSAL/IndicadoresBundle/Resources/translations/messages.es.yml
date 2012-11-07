@@ -119,3 +119,12 @@
 'origen_no_configurado': Origen de datos no válido, debe configurar todos sus campos, edite el origen de datos para realizar la configuración.
 'es_fusionado': Es fusionado
 'origen_dato': Origen de datos
+'error': Error
+
+validacion:
+  requerido: Este dato es requerido
+  sentencia_o_archivo_no_ambas: 'Solo puede ingresar una de las dos opciones: Una sentencia SQL o un archivo. No ambas'
+  sentencia_o_archivo: 'Debe ingresar una de las dos opciones: Una sentencia SQL o un archivo'
+  sentencia_sql_origen_requeridos: 'Debe especificar la sentencia SQL y la conexión'
+  debe_elegir_una_opcion: 'Debe elegir una opción'
+  elija_al_menos_un_campo: 'Debe haber al menos un campo seleccionado'

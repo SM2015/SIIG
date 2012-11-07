@@ -2,7 +2,7 @@ $(document).ready(function(){
     
     //****************** PARTE PARA PROBAR LA SENTENCIA SQL
     // id que se está usando para los nombres de los formularios (es aleatorio)
-    var $id = $('select[id$="_idConexion"]').attr('id').split('_')[0];
+    var $id = $('select[id$="_conexion"]').attr('id').split('_')[0];
     
     // La barra con los botones de acción
     // Agregaré el de probar conexión     
@@ -14,8 +14,8 @@ $(document).ready(function(){
         /* A cada nombre de campo se le agrega como prefijo el id que se está usando 
          * para el formulario, lo quitaré para que sea más fácil de manipular del lado del servidor
         */       
-        if ($('#'+$id+'_sentenciaSql').val() == ''){
-            alert('No ha ingresado ninguna sentencia SQL');
+        if ($('#'+$id+'_sentenciaSql').val() == '' || $('#'+$id+'_conexion').val() == ''){
+            alert(trans.sentencia_sql_origen_requeridos);
             return
         }
             
@@ -98,7 +98,7 @@ $(document).ready(function(){
             $('#datos select').change(function(){
                 var valor = $(this).attr('value');
                 if (valor == '-1'){
-                    alert('Debe elegir un valor'); return false;
+                    alert(trans.debe_elegir_una_opcion); return false;
                 }
                       
                 var id_control = $(this).attr('id');
