@@ -67,7 +67,7 @@ class OrigenDatos {
     /**
      * @var string $esFusionado
      *
-     * @ORM\Column(name="es_fusionado", type="boolean")
+     * @ORM\Column(name="es_fusionado", type="boolean", nullable=true)
      */    
     private $esFusionado;
                

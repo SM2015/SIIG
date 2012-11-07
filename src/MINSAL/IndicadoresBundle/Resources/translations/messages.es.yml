@@ -121,6 +121,10 @@
 'origen_dato': Origen de datos
 'error': Error
 
+'elija_tipo_dato': Elija el tipo de dato
+'elija_significado_dato': 'Elija el significado del dato'
+'configure_campos': 'Configure los campos: se muestra solo una parte de los datos'
+
 validacion:
   requerido: Este dato es requerido
   sentencia_o_archivo_no_ambas: 'Solo puede ingresar una de las dos opciones: Una sentencia SQL o un archivo. No ambas'
