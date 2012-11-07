@@ -39,10 +39,7 @@ class ClasificacionNivelAdmin extends Admin
             ->add('comentario', null, array('required'=>false, 'label'=> $this->getTranslator()->trans('comentario')))
         ;
     }
-
-    public function validate(ErrorElement $errorElement, $object)
-    {        
-    }
+    
     public function getBatchActions(){
         $actions = parent::getBatchActions();
         $actions['delete'] = null;

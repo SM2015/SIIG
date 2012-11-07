@@ -50,14 +50,6 @@ class ResponsableIndicadorAdmin extends Admin
         ;
     }
 
-    public function validate(ErrorElement $errorElement, $object)
-    {
-        $errorElement
-            ->with('correo')
-                ->assertEmail()
-            ->end()
-        ;
-    }
     public function getBatchActions(){
         $actions = parent::getBatchActions();
         $actions['delete'] = null;

@@ -52,12 +52,12 @@ class OrigenDatoAdmin extends Admin {
 
     public function validate(ErrorElement $errorElement, $object) {
         if ($object->file == '' and $object->getSentenciaSql() == '') {
-            $errorElement->with('value')
+            $errorElement->with('sentenciaSql')
                     ->addViolation('Debe ingresar una de las dos opciones: Una sentencia SQL o un archivo')
                     ->end();
         }
         if ($object->file != '' and $object->getSentenciaSql() != '') {
-            $errorElement->with('value')
+            $errorElement->with('sentenciaSql')
                     ->addViolation('Solo puede ingresar una de las dos opciones: Una sentencia SQL o un archivo. No ambas')
                     ->end();
         }

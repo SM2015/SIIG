@@ -18,7 +18,7 @@ class VariableDatoAdmin extends Admin {
 
     protected function configureFormFields(FormMapper $formMapper) {
         $formMapper
-                ->add('idOrigenDatos', null, array('label' => $this->getTranslator()->trans('origen_dato'), 'required'=>false))
+                ->add('origenDatos', null, array('label' => $this->getTranslator()->trans('origen_dato'), 'required'=>false))
                 ->add('nombre', null, array('label' => $this->getTranslator()->trans('nombre_variable')))
                 ->add('iniciales', null, array('label' => $this->getTranslator()->trans('iniciales')))
                 ->add('idFuenteDato', null, array('label' => $this->getTranslator()->trans('fuente_datos')))
@@ -40,18 +40,23 @@ class VariableDatoAdmin extends Admin {
         $listMapper                
                 ->addIdentifier('nombre', null, array('label' => $this->getTranslator()->trans('nombre_variable')))
                 ->add('iniciales', null, array('label' => $this->getTranslator()->trans('iniciales')))                
-                ->add('idOrigenDatos', null, array('label' => $this->getTranslator()->trans('origen_dato')))
+                ->add('origenDatos', null, array('label' => $this->getTranslator()->trans('origen_dato')))
 
         ;
     }
 
-    public function validate(ErrorElement $errorElement, $object) {
-        $errorElement
-                ->with('confiabilidad')
-                    ->assertMin(array('limit'=>0))
-                    ->assertMax(array('limit'=>100))
-                ->end()
-        ;
+    public function validate(ErrorElement $errorElement, $object) {        
+        $campos_no_configurados = $this->getModelManager()->findBy('IndicadoresBundle:Campo', 
+                array('origenDato' => $object->getOrigenDatos(),
+                    'significado' => null));
+        
+        if (count($campos_no_configurados) > 0){
+            $errorElement
+                ->with('origenDatos')
+                    ->addViolation($this->getTranslator()->trans('origen_no_configurado'))
+                ->end();
+        }
+            
     }
 
     public function getBatchActions() {
