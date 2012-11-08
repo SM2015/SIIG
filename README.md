@@ -122,7 +122,7 @@ $ sudo apt-get install postgresql-contrib
 create extension hstore;
 ~~~
 
-- Crear la tabla especial que no se manejará con el ORM
+- Crear la tabla especial que no se manejará con el ORM, hacerlo con el usuario dueño de la base de datos
 ~~~
 CREATE TABLE fila_origen_dato(
     id serial,
