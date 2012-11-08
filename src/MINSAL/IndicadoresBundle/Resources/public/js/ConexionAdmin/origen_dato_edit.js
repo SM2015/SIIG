@@ -72,7 +72,7 @@ $(document).ready(function(){
             // Construir las opciones de significado de datos
             var significado_datos = '<OPTION value=-1>'+trans.elija_significado_dato+'</OPTION>';
             $.each(resp.significados, function(indice, fila){
-                significado_datos = significado_datos +"<OPTION VALUE='"+fila.id+"'>"+fila.descripcion+"</OPTION>";
+                significado_datos = significado_datos +"<OPTION data-significado_codigo='"+fila.codigo+"' VALUE='"+fila.id+"'>"+fila.descripcion+"</OPTION>";
             });
             
             // Los encabezados de la fila
@@ -93,7 +93,7 @@ $(document).ready(function(){
                 "<SELECT class='tipo_campo' id='tipo_campo__"+id+"' title='"+trans.elija_tipo_dato+"' >"+tipos_datos+"</SELECT>"+
                 "</TD>"+
                 "<TD>"+
-                "<SELECT class='significado' id='significado_variable__"+id+"' title='"+trans.elija_significado_dato+"' >"+significado_datos+"</SELECT>"+
+                "<SELECT class='significado' data-significado_codigo='"+resp.campos[valor]['significado_codigo']+"' id='significado_variable__"+id+"' title='"+trans.elija_significado_dato+"' >"+significado_datos+"</SELECT>"+
                 "</TD>"+
                 "<TD>"+
                 resp.datos[valor]+
@@ -109,12 +109,16 @@ $(document).ready(function(){
             })
             
             
-            //No debe haber dos campos con el mismo significado
-            // Si se elije un significado se debe desactivar esa opcion de los demas
+            /*o debe haber dos campos con el mismo significado
+             Si se elije un significado se debe desactivar esa opcion de los demas
+             Excepto si el origen es catálogo, en ese caso no se podrá repetir
+             pk y descripcion
+            */
             $('SELECT.significado').each(function(){
-                $('SELECT.significado').not(this)
-                .children('option[value=' + this.value + ']')
-                .attr('disabled', true)
+                if (resp.es_catalogo==false || (resp.es_catalogo && ($(this).attr('data-significado_codigo')=='pk' ||$(this).attr('data-significado_codigo')=='descripcion')))
+                    $('SELECT.significado').not(this)
+                    .children('option[value=' + this.value + ']')
+                    .attr('disabled', true)
             });
             
             $('SELECT.significado').click(function () {
@@ -127,10 +131,15 @@ $(document).ready(function(){
                     return false;
                 }
                 
+                //Cambiar el significado del select con el valor seleccionado
+                sig =  $(this).children("option:selected").val();                
+                $(this).attr('data-significado_codigo', sig);
+                
                 // Desabilitar en los otros controles
-                $('SELECT.significado').not(this)
-                .children('option[value=' + this.value + ']')
-                .attr('disabled', true)
+                if (resp.es_catalogo==false || (resp.es_catalogo && ($(this).attr('data-significado_codigo')=='pk' ||$(this).attr('data-significado_codigo')=='descripcion')))
+                    $('SELECT.significado').not(this)
+                        .children('option[value=' + this.value + ']')
+                        .attr('disabled', true)
                 
                 // Si se ha hecho un cambio, activar el anterior valor
                 if ($(this).data('previo'))

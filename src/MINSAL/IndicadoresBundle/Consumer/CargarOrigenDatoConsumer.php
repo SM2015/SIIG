@@ -77,27 +77,49 @@ class CargarOrigenDatoConsumer implements ConsumerInterface{
             $datos = $fix_datos;
         }
         
-        //Borrar los datos existentes por el momento así será pero debería haber una forma de ir a traer solo los nuevos
-        $sql = "DELETE FROM fila_origen_dato WHERE id_origen_dato='$msg[id_origen_dato]' ";
-        $em->getConnection()->exec($sql);
-        
-        // Recuperar el nombre y significado de los campos del origen de datos
-        foreach($origenDato->getCampos() as $campo){
-            $campos_sig[$campo->getNombre()] = $campo->getSignificado()->getCodigo();
-        }
-        //Esta cola la utilizaré solo para leer todos los datos y luego mandar uno por uno
-        // a otra cola que se encarará de guardarlo en la base de datos
-        // luego se puede probar a mandar por grupos       
-        foreach($datos as $fila){
-            $nueva_fila = array();
-            foreach($fila as $k=>$v){
-                $nueva_fila[$campos_sig[$k]] = $v;
+        if ($origenDato->getEsCatalogo()){
+            //Recuperar la información para construir la tabla
+            $nombre_tabla = $origenDato->getNombreCatalogo();
+            $campos = $origenDato->getCampos();
+            //Verificar si existe la tabla
+            $sql = "CREATE TABLE IF NOT EXISTS $nombre_tabla (";
+            foreach ($campos as $campo){
+                $sql .= $campo->getNombre() . " " . $campo->getTipoCampo()->getCodigo();
+                if ($campo->getSignificado()->getCodigo() =='pk')
+                    $sql .= ' PRIMARY KEY ';
+                $sql .= ', ';
             }
-            $msg_guardar = array('id_origen_dato'=>$msg['id_origen_dato'],
-                'datos'=>$nueva_fila);
-            $this->container->get('old_sound_rabbit_mq.guardar_registro_producer')
-                 ->publish(serialize($msg_guardar));
+            
+            $sql = trim(trim($sql),',').')';
+            try{
+                $em->getConnection()->exec($sql);
+            }  catch (\PDOException $e){
+                echo $e->getMessages();
+            }
         }
+        else{
+            //Borrar los datos existentes por el momento así será pero debería haber una forma de ir a traer solo los nuevos
+            $sql = "DELETE FROM fila_origen_dato WHERE id_origen_dato='$msg[id_origen_dato]' ";
+            $em->getConnection()->exec($sql);
+
+            // Recuperar el nombre y significado de los campos del origen de datos
+            foreach($origenDato->getCampos() as $campo){
+                $campos_sig[$campo->getNombre()] = $campo->getSignificado()->getCodigo();
+            }
+            //Esta cola la utilizaré solo para leer todos los datos y luego mandar uno por uno
+            // a otra cola que se encarará de guardarlo en la base de datos
+            // luego se puede probar a mandar por grupos       
+            foreach($datos as $fila){
+                $nueva_fila = array();
+                foreach($fila as $k=>$v){
+                    $nueva_fila[$campos_sig[$k]] = $v;
+                }
+                $msg_guardar = array('id_origen_dato'=>$msg['id_origen_dato'],
+                    'datos'=>$nueva_fila);
+                $this->container->get('old_sound_rabbit_mq.guardar_registro_producer')
+                     ->publish(serialize($msg_guardar));
+            }
+        }    
         
         return new Response('');
     }

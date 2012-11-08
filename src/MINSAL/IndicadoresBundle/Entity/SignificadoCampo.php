@@ -35,6 +35,18 @@ class SignificadoCampo
      */
     private $codigo;
     
+    /**
+     * @var string $uso_en_catalogo
+     *
+     * @ORM\Column(name="uso_en_catalogo", type="boolean", nullable=true)
+     */    
+    private $usoEnCatalogo;
+    
+
+    public function __construct() {
+        $this->usoEnCatalogo = false;
+    }
+
 
     /**
      * Get id
@@ -103,5 +115,28 @@ class SignificadoCampo
         $this->id = $id;
     
         return $this;
+    }
+
+    /**
+     * Set usoEnCatalogo
+     *
+     * @param boolean $usoEnCatalogo
+     * @return SignificadoCampo
+     */
+    public function setUsoEnCatalogo($usoEnCatalogo)
+    {
+        $this->usoEnCatalogo = $usoEnCatalogo;
+    
+        return $this;
+    }
+
+    /**
+     * Get usoEnCatalogo
+     *
+     * @return boolean 
+     */
+    public function getUsoEnCatalogo()
+    {
+        return $this->usoEnCatalogo;
     }
 }

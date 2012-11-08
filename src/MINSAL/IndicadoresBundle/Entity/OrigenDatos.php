@@ -69,7 +69,21 @@ class OrigenDatos {
      * @ORM\Column(name="es_fusionado", type="boolean", nullable=true)
      */    
     private $esFusionado;
-               
+    
+        /**
+     * @var string $esCatalogo
+     *
+     * @ORM\Column(name="es_catalogo", type="boolean", nullable=true)
+     */    
+    private $esCatalogo;
+    
+    /**
+     * @var string $nombreCatalogo
+     *
+     * @ORM\Column(name="nombre_catalogo", type="string", length=100, nullable=true)
+     */    
+    protected $nombreCatalogo;
+    
     /**
      * @var string $camposFusionados
      *
@@ -92,7 +106,8 @@ class OrigenDatos {
     private $campos;
     
     public function __construct() {
-        $this->fusiones = new \Doctrine\Common\Collections\ArrayCollection();        
+        $this->fusiones = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->esCatalogo = false;
     }
 
     public function getAbsolutePath() {
@@ -384,5 +399,51 @@ class OrigenDatos {
         $this->id = $id;
     
         return $this;
+    }
+
+    /**
+     * Set esCatalogo
+     *
+     * @param boolean $esCatalogo
+     * @return OrigenDatos
+     */
+    public function setEsCatalogo($esCatalogo)
+    {
+        $this->esCatalogo = $esCatalogo;
+    
+        return $this;
+    }
+
+    /**
+     * Get esCatalogo
+     *
+     * @return boolean 
+     */
+    public function getEsCatalogo()
+    {
+        return $this->esCatalogo;
+    }
+
+    /**
+     * Set nombreCatalogo
+     *
+     * @param string $nombreCatalogo
+     * @return OrigenDatos
+     */
+    public function setNombreCatalogo($nombreCatalogo)
+    {
+        $this->nombreCatalogo = $nombreCatalogo;
+    
+        return $this;
+    }
+
+    /**
+     * Get nombreCatalogo
+     *
+     * @return string 
+     */
+    public function getNombreCatalogo()
+    {
+        return $this->nombreCatalogo;
     }
 }

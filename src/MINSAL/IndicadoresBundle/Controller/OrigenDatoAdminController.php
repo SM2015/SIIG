@@ -22,6 +22,8 @@ class OrigenDatoAdminController extends Controller {
         // Verificar que los orígenes esten configurados
         foreach($selecciones as $id_origen){
             $origenDato = $em->find('IndicadoresBundle:OrigenDatos', $id_origen);
+            if ($origenDato->getEsCatalogo())
+                return $this->get('translator')->trans('fusion.no_catalogos');
             $campos_no_configurados = $em->getRepository('IndicadoresBundle:Campo')
                     ->findBy(array('origenDato' => $id_origen,
                                     'significado' => null));
@@ -31,7 +33,7 @@ class OrigenDatoAdminController extends Controller {
         if (count($selecciones) > 1)
             return true;
         else
-            return $this->get('translator')->trans('selecione_2_o_mas_elementos');
+            return $this->get('translator')->trans('fusion.selecione_2_o_mas_elementos');
     }
 
     public function batchActionMerge(ProxyQueryInterface $selectedModelQuery) {
