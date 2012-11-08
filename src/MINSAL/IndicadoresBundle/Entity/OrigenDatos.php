@@ -19,8 +19,7 @@ class OrigenDatos {
      *
      * @ORM\Column(name="id", type="bigint", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="tabla_datos_id_seq", allocationSize=1, initialValue=1)
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
@@ -372,5 +371,18 @@ class OrigenDatos {
     public function getConexion()
     {
         return $this->conexion;
+    }
+
+    /**
+     * Set id
+     *
+     * @param integer $id
+     * @return OrigenDatos
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    
+        return $this;
     }
 }

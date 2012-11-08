@@ -18,8 +18,7 @@ class VariableDato
      *
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="variable_dato_id_seq", allocationSize=1, initialValue=1)
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
@@ -336,5 +335,18 @@ class VariableDato
     public function getOrigenDatos()
     {
         return $this->origenDatos;
+    }
+
+    /**
+     * Set id
+     *
+     * @param integer $id
+     * @return VariableDato
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    
+        return $this;
     }
 }

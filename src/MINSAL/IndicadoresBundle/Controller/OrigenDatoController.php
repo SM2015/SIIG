@@ -127,8 +127,8 @@ class OrigenDatoController extends Controller {
 
         $em = $this->getDoctrine()->getEntityManager();
 
-        $resultado['tipos_datos'] = $em->createQuery("SELECT tp FROM IndicadoresBundle:TipoCampo tp")->getArrayResult();
-        $resultado['significados'] = $em->createQuery("SELECT sv FROM IndicadoresBundle:SignificadoCampo sv")->getArrayResult();
+        $resultado['tipos_datos'] = $em->createQuery("SELECT tp FROM IndicadoresBundle:TipoCampo tp ORDER BY tp.descripcion")->getArrayResult();
+        $resultado['significados'] = $em->createQuery("SELECT sv FROM IndicadoresBundle:SignificadoCampo sv ORDER BY sv.descripcion")->getArrayResult();
 
         $origenDato = $em->find("IndicadoresBundle:OrigenDatos", $id);
 
@@ -211,6 +211,15 @@ class OrigenDatoController extends Controller {
             }
             $resultado['nombre_campos'] = $nombres_id;
         }
+        
+        //Cambiar la estructura
+        $aux = array();
+        foreach ($resultado['nombre_campos'] as $n)
+            $aux[$n]='';
+        foreach (array_slice($resultado['datos'],0,10) as $fila)
+            foreach ($fila as $k=>$v)
+                $aux[$k] .= $v . ', ';
+        $resultado['datos'] = $aux;
         return new Response(json_encode($resultado));
     }
 

@@ -17,8 +17,7 @@ class ClasificacionPrivacidad
      *
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="clasificacion_privacidad_id_seq", allocationSize=1, initialValue=1)
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
@@ -126,5 +125,18 @@ class ClasificacionPrivacidad
     public function getCodigo()
     {
         return $this->codigo;
+    }
+
+    /**
+     * Set id
+     *
+     * @param integer $id
+     * @return ClasificacionPrivacidad
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    
+        return $this;
     }
 }

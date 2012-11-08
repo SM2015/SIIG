@@ -121,9 +121,14 @@
 'origen_dato': Origen de datos
 'error': Error
 
-'elija_tipo_dato': Elija el tipo de dato
-'elija_significado_dato': 'Elija el significado del dato'
-'configure_campos': 'Configure los campos: se muestra solo una parte de los datos'
+javascript:
+  'elija_tipo_dato': Elija el tipo de dato
+  'elija_significado_dato': 'Elija el significado del dato'
+  'configure_campos': 'Configure los campos: se muestra solo una parte de los datos'
+  'nombre_campo': 'Nombre del campo'
+  'tipo': Tipo
+  'significado': Significado
+  'datos_muestra': Datos de muestra
 
 validacion:
   requerido: Este dato es requerido
