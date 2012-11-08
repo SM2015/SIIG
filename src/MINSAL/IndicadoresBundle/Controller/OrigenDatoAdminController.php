@@ -102,6 +102,7 @@ class OrigenDatoAdminController extends Controller {
             if (count($campos_no_configurados) > 0)
                 return $origenDato->getNombre().': '.$this->get('translator')->trans('origen_no_configurado');
         }
+        return true;
                 
     }
     

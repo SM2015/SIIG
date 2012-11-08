@@ -32,7 +32,7 @@ class CargarOrigenDatoConsumer implements ConsumerInterface{
         $datos = array();
         $nombre_campos = array();
         if ($origenDato->getSentenciaSql() != '') {
-            $conexion = $origenDato->getIdConexion();
+            $conexion = $origenDato->getConexion();
             $conn = $this->getConexionGenerica($conexion);
             
             try {
