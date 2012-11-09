@@ -7,6 +7,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Validator\ErrorElement;
 use Sonata\AdminBundle\Form\FormMapper;
+use Doctrine\ORM\EntityRepository;
 
 class VariableDatoAdmin extends Admin {
 
@@ -17,8 +18,17 @@ class VariableDatoAdmin extends Admin {
     );
 
     protected function configureFormFields(FormMapper $formMapper) {
-        $formMapper
-                ->add('origenDatos', null, array('label' => $this->getTranslator()->trans('origen_dato'), 'required'=>false))
+        $formMapper                
+                ->add('origenDatos', 'entity', array('label' => $this->getTranslator()->trans('origen_dato'),
+                    'class' => 'IndicadoresBundle:OrigenDatos',
+                    'property' => 'nombreCatalogo',
+                    'query_builder' => function(EntityRepository $er) {
+                        return $er->createQueryBuilder('od')
+                                ->where('od.esCatalogo = :es_catalogo')
+                                ->orderBy('od.nombreCatalogo', 'ASC')
+                                ->setParameter('es_catalogo', 'false');
+                    }
+                ))
                 ->add('nombre', null, array('label' => $this->getTranslator()->trans('nombre_variable')))
                 ->add('iniciales', null, array('label' => $this->getTranslator()->trans('iniciales')))
                 ->add('idFuenteDato', null, array('label' => $this->getTranslator()->trans('fuente_datos')))

@@ -44,7 +44,7 @@ class SignificadoCampo
     
      /**
      * @ORM\OneToOne(targetEntity="OrigenDatos")
-     * @ORM\JoinColumn(name="id_catalogo", referencedColumnName="id")
+     * @ORM\JoinColumn(name="id_catalogo", referencedColumnName="id", onDelete="SET NULL")
      **/
     private $catalogo;
     
