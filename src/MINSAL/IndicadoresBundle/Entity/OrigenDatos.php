@@ -9,7 +9,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * MINSAL\IndicadoresBundle\Entity\TablaDatos
  *
  * @ORM\Table(name="origen_datos")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="MINSAL\IndicadoresBundle\Entity\OrigenDatosRepository")
  * @UniqueEntity(fields="sentenciaSql", message="La sentencia SQL ya fue utilizada")
  */
 class OrigenDatos {

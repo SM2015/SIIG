@@ -5,12 +5,19 @@ telefono: 'Número telefónico'
 cargo: 'Cargo'
 nombre_establecimiento: 'Nombre del establecimento'
 descripcion: 'Descripción'
+codigo: 'Código'
+uso_catalogo: 'Se usará en catálogos'
+catalogo: 'Catálogo asociado'
 comentario: 'Comentario'
 formato_xxxx-xxxx: 'Formato XXXX-XXXX'
+elija_catalogo: 'Debe seleccionar un catálogo'
+marque_uso_en_catalogo: 'Ha especificado el nombre de un catálogo, debe marcar esta opción'
 
 'clasificacion_tecnica' : 'Clasificación Técnica'
 'Clasificacion Tecnica List': 'Clasificación Técnica - Listado'
 'Clasificacion Tecnica Delete': 'Clasificación Técnica - Borrar'
+
+significado_campo: Significado de campos
 
 'responsable_datos': 'Responsable Datos'
 'Responsable Dato List': 'Responsable de Dato - Listado'
@@ -142,3 +149,5 @@ validacion:
   sentencia_sql_origen_requeridos: 'Debe especificar la sentencia SQL y la conexión'
   debe_elegir_una_opcion: 'Debe elegir una opción'
   elija_al_menos_un_campo: 'Debe haber al menos un campo seleccionado'
+
+
