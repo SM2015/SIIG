@@ -78,7 +78,16 @@
             <argument>MINSAL\IndicadoresBundle\Entity\ClasificacionUso</argument>
             <argument>SonataAdminBundle:CRUD</argument>
         </service>
-
+        <service id="sonata.admin.significado_campo" class="MINSAL\IndicadoresBundle\Admin\SignificadoCampoAdmin">
+            <tag name="sonata.admin" 
+                 manager_type="orm" 
+                 group="catalogos" 
+                 label="significado_campo"
+            />
+            <argument />
+            <argument>MINSAL\IndicadoresBundle\Entity\SignificadoCampo</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+        </service>
         <service id="sonata.admin.conexion" class="MINSAL\IndicadoresBundle\Admin\ConexionAdmin">
             <tag name="sonata.admin" 
                  manager_type="orm" 
