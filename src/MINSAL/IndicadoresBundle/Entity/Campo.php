@@ -37,7 +37,7 @@ class Campo
     
     /**
      * @ORM\ManyToOne(targetEntity="OrigenDatos", inversedBy="campos")
-     * @ORM\JoinColumn(name="id_origen_datos", referencedColumnName="id")
+     * @ORM\JoinColumn(name="id_origen_datos", referencedColumnName="id", onDelete="CASCADE")
      **/
     private $origenDato;
     

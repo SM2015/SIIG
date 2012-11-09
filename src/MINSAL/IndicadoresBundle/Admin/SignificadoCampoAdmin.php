@@ -21,7 +21,7 @@ class SignificadoCampoAdmin extends Admin
         $formMapper            
             ->add('codigo', null, array('label'=> $this->getTranslator()->trans('codigo')))            
             ->add('descripcion', null, array('label'=> $this->getTranslator()->trans('descripcion')))            
-            ->add('usoEnCatalogo', null, array('label'=> $this->getTranslator()->trans('uso_catalogo')))
+            ->add('usoEnCatalogo', null, array('label'=> $this->getTranslator()->trans('uso_en_catalogo')))
             ->add('catalogo', null, array('label'=> $this->getTranslator()->trans('catalogo')))
 
         ;
@@ -40,7 +40,8 @@ class SignificadoCampoAdmin extends Admin
         $listMapper            
             ->addIdentifier('codigo', null, array('label'=> $this->getTranslator()->trans('codigo')))
             ->add('descripcion', null, array('label'=> $this->getTranslator()->trans('descripcion')))
-            ->add('uso_en_catalogo', null, array('label'=> $this->getTranslator()->trans('uso_en_catalogo')))
+            ->add('usoEnCatalogo', null, array('label'=> $this->getTranslator()->trans('uso_en_catalogo')))
+            ->add('catalogo', null, array('label'=> $this->getTranslator()->trans('catalogo')))
             
         ;
     }

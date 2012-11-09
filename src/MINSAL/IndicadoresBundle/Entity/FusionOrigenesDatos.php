@@ -24,13 +24,13 @@ class FusionOrigenesDatos {
     
     /**
      * @ORM\ManyToOne(targetEntity="OrigenDatos", inversedBy="fusiones")
-     * @ORM\JoinColumn(name="id_origen_datos", referencedColumnName="id")
+     * @ORM\JoinColumn(name="id_origen_datos", referencedColumnName="id", onDelete="CASCADE")
      **/
     private $origenDatos;
     
     /**
      * @ORM\ManyToOne(targetEntity="OrigenDatos")
-     * @ORM\JoinColumn(name="id_origen_datos_fusionado", referencedColumnName="id")
+     * @ORM\JoinColumn(name="id_origen_datos_fusionado", referencedColumnName="id", onDelete="CASCADE")
      **/
     private $origenDatosFusionado;
     
