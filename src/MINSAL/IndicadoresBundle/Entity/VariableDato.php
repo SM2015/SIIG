@@ -310,7 +310,7 @@ class VariableDato
     }
     
     public function __toString() {
-        return $this->nombre. '(' . $this->iniciales . ')';
+        return $this->nombre. ' (' . $this->iniciales . ')';
     }    
         
 

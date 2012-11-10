@@ -21,11 +21,11 @@ class VariableDatoAdmin extends Admin {
         $formMapper                
                 ->add('origenDatos', 'entity', array('label' => $this->getTranslator()->trans('origen_dato'),
                     'class' => 'IndicadoresBundle:OrigenDatos',
-                    'property' => 'nombreCatalogo',
+                    'property' => 'nombre',
                     'query_builder' => function(EntityRepository $er) {
                         return $er->createQueryBuilder('od')
                                 ->where('od.esCatalogo = :es_catalogo')
-                                ->orderBy('od.nombreCatalogo', 'ASC')
+                                ->orderBy('od.nombre', 'ASC')
                                 ->setParameter('es_catalogo', 'false');
                     }
                 ))
