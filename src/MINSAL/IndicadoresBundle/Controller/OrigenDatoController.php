@@ -121,26 +121,36 @@ class OrigenDatoController extends Controller {
             'mensaje' => '',
             'tipos_datos' => array(),
             'tipo_origen' => '',
+            'es_catalogo' => '',
             'significados' => array(),
             'nombre_campos' => array(),
             'datos' => array());
 
         $em = $this->getDoctrine()->getEntityManager();
 
-        $resultado['tipos_datos'] = $em->createQuery("SELECT tp FROM IndicadoresBundle:TipoCampo tp")->getArrayResult();
-        $resultado['significados'] = $em->createQuery("SELECT sv FROM IndicadoresBundle:SignificadoCampo sv")->getArrayResult();
-
         $origenDato = $em->find("IndicadoresBundle:OrigenDatos", $id);
+        $resultado['es_catalogo'] = $origenDato->getEsCatalogo();
+        
+        $sql = "SELECT tp 
+                    FROM IndicadoresBundle:TipoCampo tp 
+                    ORDER BY tp.descripcion";
+        $resultado['tipos_datos'] = $em->createQuery($sql)->getArrayResult();
+        
+        $sql ="SELECT sv 
+                    FROM IndicadoresBundle:SignificadoCampo sv                      
+                    WHERE sv.usoEnCatalogo = :uso_en_catalogo 
+                    ORDER BY sv.descripcion";
+        $resultado['significados'] = $em->createQuery($sql)
+                                        ->setParameter('uso_en_catalogo', $origenDato->getEsCatalogo())
+                                        ->getArrayResult();
 
         //recuperar los campos ya existentes en el origen de datos
         $campos_existentes = $em->getRepository('IndicadoresBundle:Campo')->findBy(array('origenDato' => $origenDato));
 
         $campos = array();
-        foreach ($campos_existentes as $campo) {
+        foreach ($campos_existentes as $campo) 
             $campos[$campo->getNombre()]['id'] = $campo->getId();
-            $campos[$campo->getNombre()]['significado'] = ($campo->getSignificado()) ? $campo->getSignificado()->getId() : null;
-            $campos[$campo->getNombre()]['tipo'] = ($campo->getTipoCampo()) ? $campo->getTipoCampo()->getId() : null;
-        }
+        
         $resultado['campos'] = $campos;
         if ($origenDato->getSentenciaSql() != '') {
             $resultado['tipo_origen'] = 'sql';
@@ -181,6 +191,12 @@ class OrigenDatoController extends Controller {
                         $resultado['datos'][] = array_slice($fila, 0, $primer_null, true);
                 }
                 $resultado['estado'] = 'ok';
+                
+                // Poner el nombre de la columna como indice del arreglo
+                $aux= array();
+                foreach ($resultado['datos'] as $fila)
+                    $aux[] = array_combine($resultado['nombre_campos'], $fila);
+                $resultado['datos'] = $aux;
             } catch (\Exception $e) {
                 $resultado['mensaje'] = '<span style="color: red">' . $e->getMessage() . '</span>';
             }
@@ -191,8 +207,10 @@ class OrigenDatoController extends Controller {
             $campo = array();
             //Por defecto poner tipo texto
             $tipo_campo = $em->getRepository("IndicadoresBundle:TipoCampo")->findOneByCodigo('texto');
-            foreach ($resultado['nombre_campos'] as $k => $nombre_campo) {
-                // si existe no guardarlo                
+            $util = new \MINSAL\IndicadoresBundle\Util\Util();
+            foreach ($resultado['nombre_campos'] as $k => $nombre) {
+                // si existe no guardarlo 
+                $nombre_campo = $util->slug($nombre);
                 if (!array_key_exists($nombre_campo, $campos)) {
                     $campo[$k] = new Campo();
                     $campo[$k]->setNombre($nombre_campo);
@@ -211,6 +229,25 @@ class OrigenDatoController extends Controller {
             }
             $resultado['nombre_campos'] = $nombres_id;
         }
+        
+        $campos_existentes = $em->getRepository('IndicadoresBundle:Campo')->findBy(array('origenDato' => $origenDato));
+        $campos = array();
+        foreach ($campos_existentes as $campo) {
+            $campos[$campo->getNombre()]['id'] = $campo->getId();
+            $campos[$campo->getNombre()]['significado'] = ($campo->getSignificado()) ? $campo->getSignificado()->getId() : null;
+            $campos[$campo->getNombre()]['significado_codigo'] = ($campo->getSignificado()) ? $campo->getSignificado()->getCodigo() : null;
+            $campos[$campo->getNombre()]['tipo'] = ($campo->getTipoCampo()) ? $campo->getTipoCampo()->getId() : null;
+        }
+        $resultado['campos'] = $campos;
+        
+        //Cambiar la estructura        
+        $aux = array();
+        foreach ($resultado['nombre_campos'] as $n)
+            $aux[$n]='';
+        foreach (array_slice($resultado['datos'],0,10) as $fila)
+            foreach ($fila as $k=>$v)
+                $aux[$k] .= $v . ', ';
+        $resultado['datos'] = $aux;
         return new Response(json_encode($resultado));
     }
 

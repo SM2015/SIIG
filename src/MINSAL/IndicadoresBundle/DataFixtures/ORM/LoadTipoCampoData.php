@@ -13,9 +13,11 @@ class LoadTipoCampoData extends AbstractFixture implements OrderedFixtureInterfa
     public function load(ObjectManager $manager)
     {
         $datos = array();
-        $datos[1]['campos'] = array('Codigo'=>'numero','Descripcion'=>'Número');
-        $datos[2]['campos'] = array('Codigo'=>'texto','Descripcion'=>'Texto');
-        $datos[3]['campos'] = array('Codigo'=>'fecha','Descripcion'=>'Fecha');
+        $datos[1]['campos'] = array('Codigo'=>'float','Descripcion'=>'Número flotante');
+        $datos[2]['campos'] = array('Codigo'=>'text','Descripcion'=>'Texto');
+        $datos[3]['campos'] = array('Codigo'=>'date','Descripcion'=>'Fecha');
+        $datos[4]['campos'] = array('Codigo'=>'varchar(255)','Descripcion'=>'Cadena de texto');
+        $datos[5]['campos'] = array('Codigo'=>'integer','Descripcion'=>'Entero');
         
         $master = new LoadMaster();
         $master->save($datos, $manager, $this);

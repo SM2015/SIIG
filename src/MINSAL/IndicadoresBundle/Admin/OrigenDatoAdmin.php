@@ -19,8 +19,11 @@ class OrigenDatoAdmin extends Admin {
     
     protected function configureFormFields(FormMapper $formMapper) {
         $formMapper
-                ->add('nombre', null, array('label' => $this->getTranslator()->trans('nombre')))
-                ->add('descripcion', null, array('label' => $this->getTranslator()->trans('descripcion'), 'required' => false))
+                ->with($this->getTranslator()->trans('datos_generales'), array('collapsed' => false))
+                    ->add('nombre', null, array('label' => $this->getTranslator()->trans('nombre')))
+                    ->add('descripcion', null, array('label' => $this->getTranslator()->trans('descripcion'), 'required' => false))
+                    ->add('esCatalogo', null, array('label' => $this->getTranslator()->trans('es_catalogo')))
+                ->end()
                 ->with($this->getTranslator()->trans('origen_datos_sql'), array('collapsed' => true))
                     ->add('conexion', null, array('label' => $this->getTranslator()->trans('nombre_conexion'), 'required'=>false))
                     ->add('sentenciaSql', null, array('label' => $this->getTranslator()->trans('sentencia_sql'), 'required'=>false))
@@ -44,14 +47,15 @@ class OrigenDatoAdmin extends Admin {
                 ->addIdentifier('nombre', null, array('label' => $this->getTranslator()->trans('nombre')))
                 ->add('descripcion', null, array('label' => $this->getTranslator()->trans('descripcion')))
                 ->add('conexion', null, array('label' => $this->getTranslator()->trans('nombre_conexion')))
-                ->add('esFusionado', null, array('label' => $this->getTranslator()->trans('es_fusionado')))
+                ->add('esFusionado', null, array('label' => $this->getTranslator()->trans('fusion.es_fusionado')))
+                ->add('esCatalogo', null, array('label' => $this->getTranslator()->trans('es_catalogo')))
                 ->add('sentenciaSql', null, array('label' => $this->getTranslator()->trans('sentencia_sql')))
                 ->add('archivoNombre', null, array('label' => $this->getTranslator()->trans('archivo_asociado')))                
         ;
     }
 
     public function validate(ErrorElement $errorElement, $object) {
-        if ($object->file == '' and $object->getSentenciaSql() == '') {
+        if ($object->file == '' and $object->getArchivoNombre()=='' and $object->getSentenciaSql() == '') {
             $errorElement->with('sentenciaSql')
                         ->addViolation($this->getTranslator()->trans('validacion.sentencia_o_archivo'))
                     ->end();
@@ -115,6 +119,12 @@ class OrigenDatoAdmin extends Admin {
 
     public function prePersist($origenDato) {
         $this->saveFile($origenDato);
+        
+        if ($origenDato->getEsCatalogo()){
+            // replace all non letters or digits by -
+            $util = new \MINSAL\IndicadoresBundle\Util\Util();
+            $origenDato->setNombreCatalogo('ctl_'.$util->slug($origenDato->getNombre()));
+        }
     }
     
     public function preUpdate($origenDato) {

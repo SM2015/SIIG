@@ -17,8 +17,7 @@ class Campo
      *
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="campo_id_seq", allocationSize=1, initialValue=1)
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
@@ -38,7 +37,7 @@ class Campo
     
     /**
      * @ORM\ManyToOne(targetEntity="OrigenDatos", inversedBy="campos")
-     * @ORM\JoinColumn(name="id_origen_datos", referencedColumnName="id")
+     * @ORM\JoinColumn(name="id_origen_datos", referencedColumnName="id", onDelete="CASCADE")
      **/
     private $origenDato;
     
@@ -180,5 +179,18 @@ class Campo
     public function getSignificado()
     {
         return $this->significado;
+    }
+
+    /**
+     * Set id
+     *
+     * @param integer $id
+     * @return Campo
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    
+        return $this;
     }
 }

@@ -17,8 +17,7 @@ class SignificadoCampo
      *
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="significado_campo_id_genero_seq", allocationSize=1, initialValue=1)
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
@@ -36,6 +35,24 @@ class SignificadoCampo
      */
     private $codigo;
     
+    /**
+     * @var string $uso_en_catalogo
+     *
+     * @ORM\Column(name="uso_en_catalogo", type="boolean", nullable=true)
+     */    
+    private $usoEnCatalogo;
+    
+     /**
+     * @ORM\OneToOne(targetEntity="OrigenDatos")
+     * @ORM\JoinColumn(name="id_catalogo", referencedColumnName="id", onDelete="SET NULL")
+     **/
+    private $catalogo;
+    
+
+    public function __construct() {
+        $this->usoEnCatalogo = false;
+    }
+
 
     /**
      * Get id
@@ -91,5 +108,64 @@ class SignificadoCampo
     public function getCodigo()
     {
         return $this->codigo;
+    }
+
+    /**
+     * Set id
+     *
+     * @param integer $id
+     * @return SignificadoCampo
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    
+        return $this;
+    }
+
+    /**
+     * Set usoEnCatalogo
+     *
+     * @param boolean $usoEnCatalogo
+     * @return SignificadoCampo
+     */
+    public function setUsoEnCatalogo($usoEnCatalogo)
+    {
+        $this->usoEnCatalogo = $usoEnCatalogo;
+    
+        return $this;
+    }
+
+    /**
+     * Get usoEnCatalogo
+     *
+     * @return boolean 
+     */
+    public function getUsoEnCatalogo()
+    {
+        return $this->usoEnCatalogo;
+    }
+
+    /**
+     * Set catalogo
+     *
+     * @param MINSAL\IndicadoresBundle\Entity\OrigenDatos $catalogo
+     * @return SignificadoCampo
+     */
+    public function setCatalogo(\MINSAL\IndicadoresBundle\Entity\OrigenDatos $catalogo = null)
+    {
+        $this->catalogo = $catalogo;
+    
+        return $this;
+    }
+
+    /**
+     * Get catalogo
+     *
+     * @return MINSAL\IndicadoresBundle\Entity\OrigenDatos 
+     */
+    public function getCatalogo()
+    {
+        return $this->catalogo;
     }
 }

@@ -53,7 +53,8 @@ $(document).ready(function(){
      
     //Si existe la capa configurar, cargar los datos    
     if ($('#configurar').length){
-        $('#configurar').append('<table border=1 align=center id="datos" class="table table-striped"></table>')
+        $('#configurar').append('<table id="datos"></table>');
+        $('#datos').addClass("table table-condensed table-hover");
         $('#datos').before("<div id='mensajito_cambio'></div>");
         $.getJSON(Routing.generate('origen_dato_leer',{
             id: $('#configurar').attr('data')
@@ -71,53 +72,107 @@ $(document).ready(function(){
             // Construir las opciones de significado de datos
             var significado_datos = '<OPTION value=-1>'+trans.elija_significado_dato+'</OPTION>';
             $.each(resp.significados, function(indice, fila){
-                significado_datos = significado_datos +"<OPTION VALUE='"+fila.id+"'>"+fila.descripcion+"</OPTION>";
+                significado_datos = significado_datos +"<OPTION data-significado_codigo='"+fila.codigo+"' VALUE='"+fila.id+"'>"+fila.descripcion+"</OPTION>";
             });
-            if (resp.datos.length > 0){
-                // Los encabezados de la fila
-                $('#datos').append("<CAPTION>"+trans.configure_campos+"</CAPTION><THEAD><TR id='fila_enc' class='info'></TR></THEAD>");
-                $.each(resp.nombre_campos, function(id, valor){                    
-                    nombre_columna = valor;
-                    
-                    tipos = "<SELECT id='tipo_campo__"+id+"' title='"+trans.elija_tipo_dato+"' >"+tipos_datos+"</SELECT>";
-                    significados = "<SELECT id='significado_variable__"+id+"' title='"+trans.elija_significado_dato+"' >"+significado_datos+"</SELECT>";
-                    $('#fila_enc').append("<TH>"+nombre_columna+'<BR>'+tipos+significados+"</TH>");
-                })
             
-                //Los datos
-                $.each(resp.datos, function(indice,fila){
-                    $('#datos').append("<TR id='fila"+indice+"'></TR>");
-                    $.each(fila, function(i, campo){
-                        $('#fila'+indice).append("<TD>"+campo+"</TD>");
-                    })
-                })
+            // Los encabezados de la fila
+            $('#datos').append("<CAPTION>"+trans.configure_campos+
+                "</CAPTION>"+
+                "<THEAD>"+
+                "<TR id='fila_enc' class='info'>"+
+                "<TH>"+trans.nombre_campo+"</TH>"+
+                "<TH>"+trans.tipo+"</TH>"+
+                "<TH>"+trans.significado+"</TH>"+
+                "<TH>"+trans.datos_muestra+"</TH>"+
+                "</TR></THEAD>"+
+                "<TBODY id='datos_body'></TBODY>");
+            $.each(resp.nombre_campos, function(id, valor){
+                fila = "<TR>"+
+                "<TD>"+valor+"</TD>"+
+                "<TD>"+                   
+                "<SELECT class='tipo_campo' id='tipo_campo__"+id+"' title='"+trans.elija_tipo_dato+"' >"+tipos_datos+"</SELECT>"+
+                "</TD>"+
+                "<TD>"+
+                "<SELECT class='significado' data-significado_codigo='"+resp.campos[valor]['significado_codigo']+"' id='significado_variable__"+id+"' title='"+trans.elija_significado_dato+"' >"+significado_datos+"</SELECT>"+
+                "</TD>"+
+                "<TD>"+
+                resp.datos[valor]+
+                "</TD>"+
+                "</TR>";
+                $('#datos_body').append(fila);
+            })
                 
-                //Elegir los valores que ya tienen, en el caso que esté modificando
-                $.each(resp.campos, function(campo, fila){                    
-                    $('#tipo_campo__'+fila.id).val(fila.tipo);
-                    $('#significado_variable__'+fila.id).val(fila.significado);
-                })
-            }
-            $('#datos select').change(function(){
+            //Elegir los valores que ya tienen, en el caso que esté modificando
+            $.each(resp.campos, function(campo, fila){                    
+                $('#tipo_campo__'+fila.id).val(fila.tipo);
+                $('#significado_variable__'+fila.id).val(fila.significado);
+            })
+            
+            
+            /*o debe haber dos campos con el mismo significado
+             Si se elije un significado se debe desactivar esa opcion de los demas
+             Excepto si el origen es catálogo, en ese caso no se podrá repetir
+             pk y descripcion
+            */
+            $('SELECT.significado').each(function(){
+                if (resp.es_catalogo==false || (resp.es_catalogo && ($(this).attr('data-significado_codigo')=='pk' ||$(this).attr('data-significado_codigo')=='descripcion')))
+                    $('SELECT.significado').not(this)
+                    .children('option[value=' + this.value + ']')
+                    .attr('disabled', true)
+            });
+            
+            $('SELECT.significado').click(function () {
+                $(this).data('previo',$(this).val())
+            }).change(function() {
                 var valor = $(this).attr('value');
-                if (valor == '-1'){
-                    alert(trans.debe_elegir_una_opcion); return false;
+                if (valor == '-1'){                    
+                    $(this).children('option[value=' + $(this).data('previo') + ']').attr('selected', true);
+                    alert(trans.debe_elegir_una_opcion);
+                    return false;
                 }
-                      
-                var id_control = $(this).attr('id');
-                var id_origen_dato = $('#configurar').attr('data')
                 
-                datos = {origen_dato: id_origen_dato,
-                    control: id_control,
-                    valor: valor
-                };
-                $.getJSON(Routing.generate('configurar_campo'), datos,
-                    function(resp){ 
-                        $('#mensajito_cambio').html(resp.mensaje);
-                    })
-            })   
+                //Cambiar el significado del select con el valor seleccionado
+                sig =  $(this).children("option:selected").val();                
+                $(this).attr('data-significado_codigo', sig);
+                
+                // Desabilitar en los otros controles
+                if (resp.es_catalogo==false || (resp.es_catalogo && ($(this).attr('data-significado_codigo')=='pk' ||$(this).attr('data-significado_codigo')=='descripcion')))
+                    $('SELECT.significado').not(this)
+                        .children('option[value=' + this.value + ']')
+                        .attr('disabled', true)
+                
+                // Si se ha hecho un cambio, activar el anterior valor
+                if ($(this).data('previo'))
+                    $('SELECT.significado').not(this)
+                    .children('option[value=' + $(this).data('previo') + ']')
+                    .attr('disabled', false)
+                guardar_cambio($(this));
+            });
+            $('SELECT.tipo_campo').change(function(){
+                guardar_cambio($(this));
+            })
+            
+            $objs = $('SELECT.tipo_campo');
+            $objs[parseInt($objs.length/2)].focus();
             
         });
+    }
+    
+    function guardar_cambio(obj){
+        var valor = obj.attr('value');
+        
+        var id_control = obj.attr('id');
+        var id_origen_dato = $('#configurar').attr('data')
+                
+        datos = {
+            origen_dato: id_origen_dato,
+            control: id_control,
+            valor: valor
+        };
+        $.getJSON(Routing.generate('configurar_campo'), datos,
+            function(resp){ 
+                $('#mensajito_cambio').html(resp.mensaje);
+            })
     }
      
 });

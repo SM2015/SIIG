@@ -18,8 +18,7 @@ class FichaTecnica
      *
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="ficha_tecnica_id_seq", allocationSize=1, initialValue=1)
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
@@ -715,5 +714,18 @@ class FichaTecnica
     public function getCampos()
     {
         return $this->campos;
+    }
+
+    /**
+     * Set id
+     *
+     * @param integer $id
+     * @return FichaTecnica
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    
+        return $this;
     }
 }

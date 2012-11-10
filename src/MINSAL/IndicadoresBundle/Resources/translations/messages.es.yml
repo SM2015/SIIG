@@ -1,129 +1,151 @@
-'establecimiento': Establecimiento
-'contacto': Contacto
-'correo_electronico': Correo Electrónico
-'telefono': Número telefónico
-'cargo': Cargo
-'nombre_establecimiento': Nombre del establecimento
-'descripcion': Descripción
-'comentario': Comentario
-'formato_xxxx-xxxx': Formato XXXX-XXXX
+establecimiento: 'Establecimiento'
+contacto: 'Contacto'
+correo_electronico: 'Correo Electrónico'
+telefono: 'Número telefónico'
+cargo: 'Cargo'
+nombre_establecimiento: 'Nombre del establecimento'
+descripcion: 'Descripción'
+codigo: 'Código'
+uso_catalogo: 'Se usará en catálogos'
+formula: 'Fórmula'
+ayuda_ingreso_formula: 'Para utilizar variables escriba las iniciales de la variable entre llaves. Ej.: {NAI} / {PTDA} * 100 '
+vars_sel_diff_vars_formula: 'Las variables utilizadas en la fórmula deben coincidir con las variables seleccionadas'
+sintaxis_invalida: 'La fórmula contiene errores de sintaxis'
+sintaxis_invalida_variables_entre_llaves: 'La fórmula contiene errores de sintaxis, las variables deben ir entre llaves({ }) '
+catalogo: 'Catálogo asociado'
+comentario: 'Comentario'
+formato_xxxx-xxxx: 'Formato XXXX-XXXX'
+elija_catalogo: 'Debe seleccionar un catálogo'
+marque_uso_en_catalogo: 'Ha especificado el nombre de un catálogo, debe marcar esta opción'
 
-'clasificacion_tecnica' : Clasificación Técnica
-'Clasificacion Tecnica List': Clasificación Técnica - Listado
-'Clasificacion Tecnica Delete': Clasificación Técnica - Borrar
+'clasificacion_tecnica' : 'Clasificación Técnica'
+'Clasificacion Tecnica List': 'Clasificación Técnica - Listado'
+'Clasificacion Tecnica Delete': 'Clasificación Técnica - Borrar'
 
-'responsable_datos': Responsable Datos
-'Responsable Dato List': Responsable de Dato - Listado
-'Responsable Dato Delete': Responsable de Dato - Borrar
-'Responsable Dato Create': Responsable de Dato - Crear
-'Responsable Dato Edit': Responsable de Dato - Editar
+significado_campo: Significado de campos
 
-'fuente_datos' : Fuente Datos
-'Fuente Dato List': Fuente de Dato - Listado
-'Fuente Dato Delete': Fuente de Dato - Borrar
-'Fuente Dato Create': Fuente de Dato - Crear
-'Fuente Dato Edit': Fuente de Dato - Editar
+'responsable_datos': 'Responsable Datos'
+'Responsable Dato List': 'Responsable de Dato - Listado'
+'Responsable Dato Delete': 'Responsable de Dato - Borrar'
+'Responsable Dato Create': 'Responsable de Dato - Crear'
+'Responsable Dato Edit': 'Responsable de Dato - Editar'
 
-'responsable_indicador': Responsable Indicador
-'Responsable Indicador List': Responsable de Indicador - Listado
-'Responsable Indicador Delete': Responsable de Indicador - Borrar
-'Responsable Indicador Create': Responsable de Indicador - Crear
-'Responsable Indicador Edit': Responsable de Indicador - Editar
+'fuente_datos' : 'Fuente Datos'
+'Fuente Dato List': 'Fuente de Dato - Listado'
+'Fuente Dato Delete': 'Fuente de Dato - Borrar'
+'Fuente Dato Create': 'Fuente de Dato - Crear'
+'Fuente Dato Edit': 'Fuente de Dato - Editar'
 
-'clasificacion_privacidad': Clasificación de privacidad
-'Clasificacion Privacidad List': Clasificación de Privacidad - Listado
-'Clasificacion Privacidad Delete': Clasificación de Privacidad - Borrar
-'Clasificacion Privacidad Create': Clasificación de Privacidad - Crear
-'Clasificacion Privacidad Edit': Clasificación de Privacidad - Editar
+'responsable_indicador': 'Responsable Indicador'
+'Responsable Indicador List': 'Responsable de Indicador - Listado'
+'Responsable Indicador Delete': 'Responsable de Indicador - Borrar'
+'Responsable Indicador Create': 'Responsable de Indicador - Crear'
+'Responsable Indicador Edit': 'Responsable de Indicador - Editar'
 
-'clasificacion_nivel': Clasificación Según Nivel
-'Clasificacion Nivel List': Clasificación Según Nivel - Listado
-'Clasificacion Nivel Delete': Clasificación Según Nivel - Borrar
-'Clasificacion Nivel Create': Clasificación Según Nivel - Crear
-'Clasificacion Nivel Edit': Clasificación Según Nivel - Editar
+'clasificacion_privacidad': 'Clasificación de privacidad'
+'Clasificacion Privacidad List': 'Clasificación de Privacidad - Listado'
+'Clasificacion Privacidad Delete': 'Clasificación de Privacidad - Borrar'
+'Clasificacion Privacidad Create': 'Clasificación de Privacidad - Crear'
+'Clasificacion Privacidad Edit': 'Clasificación de Privacidad - Editar'
 
-'clasificacion_uso': Clasificación Según Uso
-'Clasificacion Uso List': Clasificación Según Uso - Listado
-'Clasificacion Uso Delete': Clasificación Según Uso - Borrar
-'Clasificacion Uso Create': Clasificación Según Uso - Crear
-'Clasificacion Uso Edit': Clasificación Según Uso - Editar
+'clasificacion_nivel': 'Clasificación Según Nivel'
+'Clasificacion Nivel List': 'Clasificación Según Nivel - Listado'
+'Clasificacion Nivel Delete': 'Clasificación Según Nivel - Borrar'
+'Clasificacion Nivel Create': 'Clasificación Según Nivel - Crear'
+'Clasificacion Nivel Edit': 'Clasificación Según Nivel - Editar'
+
+'clasificacion_uso': 'Clasificación Según Uso'
+'Clasificacion Uso List': 'Clasificación Según Uso - Listado'
+'Clasificacion Uso Delete': 'Clasificación Según Uso - Borrar'
+'Clasificacion Uso Create': 'Clasificación Según Uso - Crear'
+'Clasificacion Uso Edit': 'Clasificación Según Uso - Editar'
 
 'sentencia': Sentencia SQL
 
-'Variable Dato List': Variable de Dato - Listado
-'Variable Dato Delete': Variable de Dato - Borrar
-'Variable Dato Create': Variable de Dato - Crear
-'Variable Dato Edit': Variable de Dato - Editar
+'Variable Dato List': 'Variable de Dato - Listado'
+'Variable Dato Delete': 'Variable de Dato - Borrar'
+'Variable Dato Create': 'Variable de Dato - Crear'
+'Variable Dato Edit': 'Variable de Dato - Editar'
 
-'conexion_bd' : Conexión a Base de Datos
-'nombre_conexion' : Nombre de la conexión
-'nombre_base_datos': Nombre de la base de datos
-'motor': Motor de base de datos
-'puerto': Puerto
-'ip': Dirección IP
-'usuario': Usuario
-'Clave': Clave
-'instancia': Instancia
-'Repetir clave': Repetir Clave
-'claves_no_coinciden': Las claves ingresadas no son iguales
-'probar_conexion': Probar Conexión
-'conexion_error': Error en la conexión
-'conexion_success': Conexión exitosa
-'nombre_consulta': Nombre de consulta
-'sentencia_sql': Sentencia SQL
-'conexiones': Conexiones
-'catalogos': Catálogos
-'probar_sentencia': Probar Sentencia SQL
-'sentencia_error': La sentencia SQL contiene errores
-'sentencia_success': Prueba de sentencia SQL exitosa (se muestra la salida para un máximo de 50 registros)
-'nombre_variable': Nombre de la variable
-'nombre': Nombre
-'iniciales': Iniciales
-'confiabilidad': Confiabilidad (%)
-'solo_select': La consulta solo puede contener sentencias SELECT, no puede contener sentencias UPDATE, DELETE, INSERT o CREATE
-'formulas_indicadores': Fórmulas de indicadores
-'variables': Variables
+conexion_bd : 'Conexión a Base de Datos'
+nombre_conexion : 'Nombre de la conexión'
+nombre_base_datos: 'Nombre de la base de datos'
+motor: 'Motor de base de datos'
+puerto: 'Puerto'
+ip: 'Dirección IP'
+usuario: 'Usuario'
+Clave: 'Clave'
+instancia: 'Instancia'
+Repetir clave: 'Repetir Clave'
+claves_no_coinciden: 'Las claves ingresadas no son iguales'
+probar_conexion: 'Probar Conexión'
+conexion_error: 'Error en la conexión'
+conexion_success: 'Conexión exitosa'
+nombre_consulta: 'Nombre de consulta'
+sentencia_sql: 'Sentencia SQL'
+conexiones: 'Conexiones'
+catalogos: 'Catálogos'
+probar_sentencia: 'Probar Sentencia SQL'
+sentencia_error: 'La sentencia SQL contiene errores'
+sentencia_success: 'Prueba de sentencia SQL exitosa (se muestra la salida para un máximo de 50 registros)'
+nombre_variable: 'Nombre de la variable'
+nombre: 'Nombre'
+iniciales: 'Iniciales'
+confiabilidad: 'Confiabilidad (%)'
+solo_select: 'La consulta solo puede contener sentencias SELECT, no puede contener sentencias UPDATE, DELETE, INSERT o CREATE'
+formulas_indicadores: 'Fórmulas de indicadores'
+variables: 'Variables'
 
-'nombre_indicador': Nombre del Indicador
-'tema': Tema
-'concepto': Concepto
-'objetivo': Objetivo
-'uso': Uso
-'definicion_operativa': Definición Operativa
-'ficha_tecnica': Ficha Técnica
-'unidad_medida': Unidad de medida
-'periodicidad': Periodicidad
-'estandar_nacional': Estándar Nacional
-'presentacion': Presentación
-'variables': Variables
-'btn_create_and_config_data_source': Crear y configurar origen de datos
-'action_merge': Fusionar
-'action_load_data': Ejecutar Cargar Datos
-'selecione_2_o_mas_elementos': Seleccione 2 o más elementos
-'archivo_asociado': Archivo asociado
-'subir_nuevo_archivo': Subir nuevo archivo
-'origen_datos': Origen de Datos
-'origen_datos_archivo': 'Cargar datos desde archivo: Hoja de cálculo (Excel y OpenOffice/LibreOffice) o archivo de texto (CSV) '
-'origen_datos_sql': Cargar datos desde sentencia SQL
-'tipo_campo_cambiado_a': Tipo de campo cambiado a
-'significado_campo_cambiado_a': Significado de campo cambiado a
-'flash_batch_load_data_success': Se ha iniciado el proceso de carga de datos para los orígenes especificados
-'mensaje_fusionar': Elija los campos que serán parte del origen fusionado (Solo se pueden fusionar campos de igual tipo y significado)
-'origen_fusionado': Origen fusionado
-'datos_origen_fusionado': Datos del origen fusionado
+nombre_indicador: 'Nombre del Indicador'
+tema: 'Tema'
+concepto: 'Concepto'
+objetivo: 'Objetivo'
+uso: 'Uso'
+definicion_operativa: 'Definición Operativa'
+ficha_tecnica: 'Ficha Técnica'
+unidad_medida: 'Unidad de medida'
+periodicidad: 'Periodicidad'
+estandar_nacional: 'Estándar Nacional'
+presentacion: 'Presentación'
+variables: 'Variables'
+btn_create_and_config_data_source: 'Crear y configurar origen de datos'
+action_merge: 'Fusionar'
+action_load_data: 'Ejecutar Cargar Datos'
+archivo_asociado: 'Archivo asociado'
+subir_nuevo_archivo: 'Subir nuevo archivo'
+origen_datos: 'Origen de Datos'
+origen_datos_archivo: 'Cargar datos desde archivo: Hoja de cálculo (Excel y OpenOffice/LibreOffice) o archivo de texto (CSV) '
+origen_datos_sql: 'Cargar datos desde sentencia SQL'
+tipo_campo_cambiado_a: 'Tipo de campo cambiado a'
+significado_campo_cambiado_a: 'Significado de campo cambiado a'
+flash_batch_load_data_success: 'Se ha iniciado el proceso de carga de datos para los orígenes especificados'
+mensaje_fusionar: 'Elija los campos que serán parte del origen fusionado (Solo se pueden fusionar campos de igual tipo y significado)'
+origen_fusionado: 'Origen fusionado'
+datos_origen_fusionado: 'Datos del origen fusionado'
 
-'sonata_user': Usuarios y grupos
-'catalogos': Catálogos
-'origen_datos': Orígenes de datos
-'indicadores': Indicadores
-'origen_no_configurado': Origen de datos no válido, debe configurar todos sus campos, edite el origen de datos para realizar la configuración.
-'es_fusionado': Es fusionado
-'origen_dato': Origen de datos
-'error': Error
+sonata_user: 'Usuarios y grupos'
+catalogos: 'Catálogos'
+origen_datos: 'Orígenes de datos'
+indicadores: 'Indicadores'
+origen_no_configurado: 'Origen de datos no válido, debe configurar todos sus campos, edite el origen de datos para realizar la configuración.'
+origen_dato: 'Origen de datos'
+error: 'Error'
+es_catalogo: 'Es Catálogo'
+datos_generales: 'Datos Generales'
 
-'elija_tipo_dato': Elija el tipo de dato
-'elija_significado_dato': 'Elija el significado del dato'
-'configure_campos': 'Configure los campos: se muestra solo una parte de los datos'
+fusion:
+  no_catalogos: 'No se permite fusionar catálogos, alternativamente puede crear una hoja de cálculo con los datos requeridos y cargarlos al catálogo'
+  selecione_2_o_mas_elementos: 'Seleccione 2 o más elementos'
+  es_fusionado: 'Es fusionado'
+
+javascript:
+  elija_tipo_dato: 'Elija el tipo de dato'
+  elija_significado_dato: 'Elija el significado del dato'
+  configure_campos: 'Configure los campos: se muestra solo una parte de los datos'
+  nombre_campo: 'Nombre del campo'
+  tipo: 'Tipo'
+  significado: 'Significado'
+  datos_muestra: 'Datos de muestra'
 
 validacion:
   requerido: Este dato es requerido
@@ -132,3 +154,5 @@ validacion:
   sentencia_sql_origen_requeridos: 'Debe especificar la sentencia SQL y la conexión'
   debe_elegir_una_opcion: 'Debe elegir una opción'
   elija_al_menos_un_campo: 'Debe haber al menos un campo seleccionado'
+
+

@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * MINSAL\IndicadoresBundle\Entity\Conexion
  *
  * @ORM\Table(name="conexion")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="MINSAL\IndicadoresBundle\Entity\ConexionRepository")
  */
 class Conexion
 {
@@ -17,8 +17,7 @@ class Conexion
      *
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="conexion_id_seq", allocationSize=1, initialValue=1)
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
@@ -309,5 +308,18 @@ class Conexion
     
     public function __toString() {
         return $this->nombreConexion.' - '.$this->ip .' - ' . $this->nombreBaseDatos;
+    }
+
+    /**
+     * Set id
+     *
+     * @param integer $id
+     * @return Conexion
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    
+        return $this;
     }
 }
