@@ -103,8 +103,10 @@ class FichaTecnicaAdmin extends Admin {
             $formula_valida = false;
             $mensaje = 'sintaxis_invalida_variables_entre_llaves';
         } else {
-            //evaluar la formula            
+            //evaluar la formula, evitar que se muestren los errores por si los lleva
+            ob_start();
             $test = eval('$result=' . $formula_check . ';');
+            ob_end_clean();
             
             if (!is_numeric($result)){
                 $formula_valida = false;
