@@ -129,7 +129,7 @@ class OrigenDatoController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
 
         $origenDato = $em->find("IndicadoresBundle:OrigenDatos", $id);
-        $resultado['es_catalogo'] = $origenDato->getEsCatalogo();
+        $resultado['es_catalogo'] = ($origenDato->getEsCatalogo()) ? true: false;
         
         $sql = "SELECT tp 
                     FROM IndicadoresBundle:TipoCampo tp 
@@ -141,7 +141,7 @@ class OrigenDatoController extends Controller {
                     WHERE sv.usoEnCatalogo = :uso_en_catalogo 
                     ORDER BY sv.descripcion";
         $resultado['significados'] = $em->createQuery($sql)
-                                        ->setParameter('uso_en_catalogo', $origenDato->getEsCatalogo())
+                                        ->setParameter('uso_en_catalogo', $resultado['es_catalogo']?'true':'false')
                                         ->getArrayResult();
 
         //recuperar los campos ya existentes en el origen de datos
@@ -206,7 +206,7 @@ class OrigenDatoController extends Controller {
             $nombres_id = array();
             $campo = array();
             //Por defecto poner tipo texto
-            $tipo_campo = $em->getRepository("IndicadoresBundle:TipoCampo")->findOneByCodigo('texto');
+            $tipo_campo = $em->getRepository("IndicadoresBundle:TipoCampo")->findOneByCodigo('text');
             $util = new \MINSAL\IndicadoresBundle\Util\Util();
             foreach ($resultado['nombre_campos'] as $k => $nombre) {
                 // si existe no guardarlo 

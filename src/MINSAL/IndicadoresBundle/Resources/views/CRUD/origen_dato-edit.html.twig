@@ -7,13 +7,17 @@
 
 {% block form %}
     {{ parent() }}
+    {% if object.getEsFusionado==false %}
     {# Si se está editando el objeto presentar la intefaz para configurar el origen de datos#}
     <input type=button name="btn_probar_sentencia" 
            id='btn_probar_sentencia' class='btn'
            value='{{admin.trans('probar_sentencia')}}'
            >
-    {% if admin.id(object) %}    
-    <div id='configurar' data='{{object.id}}'>
-    </div>
+    {% endif %}
+    {% if admin.id(object) %}
+        {% if object.getEsFusionado==false %}
+        <div id='configurar' data='{{object.id}}'>
+        </div>
+        {% endif %}
     {% endif %}
 {% endblock form %}

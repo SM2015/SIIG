@@ -23,6 +23,8 @@ marque_uso_en_catalogo: 'Ha especificado el nombre de un catálogo, debe marcar 
 'Clasificacion Tecnica Delete': 'Clasificación Técnica - Borrar'
 
 significado_campo: Significado de campos
+nombre_campo: Nombre del campo
+significado: Significado
 
 'responsable_datos': 'Responsable Datos'
 'Responsable Dato List': 'Responsable de Dato - Listado'
@@ -135,8 +137,11 @@ datos_generales: 'Datos Generales'
 
 fusion:
   no_catalogos: 'No se permite fusionar catálogos, alternativamente puede crear una hoja de cálculo con los datos requeridos y cargarlos al catálogo'
+  no_fusionados: 'No se permite utilizar orígenes fusionados en otras fusiones'
   selecione_2_o_mas_elementos: 'Seleccione 2 o más elementos'
   es_fusionado: 'Es fusionado'
+  origen_fusionado_creado: 'Origen fusionado creado correctamente'
+  fusiona_siguientes_origenes: 'Fusiona los siguientes orígenes: '
 
 javascript:
   elija_tipo_dato: 'Elija el tipo de dato'
