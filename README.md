@@ -146,7 +146,8 @@ CREATE TABLE fila_origen_dato(
 
 ### Instalación de [RabbitMQ](http://www.rabbitmq.com/)
 [RabbitMQ](http://www.rabbitmq.com/) es un sistema de mensajería empresarial completo y altamente confiable basado en el estándar AMQP
-[Charla sobre RabbitMQ](http://www.symfony.es/noticias/2011/07/06/desymfony-2011-reduciendo-el-acoplamiento-entre-aplicaciones-con-rabbitmq/)
+[Charla sobre RabbitMQ](http://www.symfony.es/noticias/2011/07/06/desymfony-2011-reduciendo-el-acoplamiento-entre-aplicaciones-con-rabbitmq/).
+En este proyecto será utilizado para la carga masiva de datos y así evitar cuelgues o saturación del servidor.
 
 - Agregar el repositorio
 ~~~
