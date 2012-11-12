@@ -22,16 +22,10 @@ class SignificadoCampoAdmin extends Admin {
                 ->add('codigo', null, array('label' => $this->getTranslator()->trans('codigo')))
                 ->add('descripcion', null, array('label' => $this->getTranslator()->trans('descripcion')))
                 ->add('usoEnCatalogo', null, array('label' => $this->getTranslator()->trans('uso_catalogo')))
-                ->add('catalogo', 'entity', array('label' => $this->getTranslator()->trans('catalogo'),
+                ->add('catalogo', 'choice', array('label' => $this->getTranslator()->trans('catalogo'),
                     'required' => false,
-                    'class' => 'IndicadoresBundle:OrigenDatos',
-                    'property' => 'nombreCatalogo',
-                    'query_builder' => function(EntityRepository $er) {
-                        return $er->createQueryBuilder('od')
-                                ->where('od.esCatalogo = :es_catalogo')
-                                ->orderBy('od.nombreCatalogo', 'ASC')
-                                ->setParameter('es_catalogo', true);
-                    }
+                    'choices' => $this->repository->getCatalogos()
+
                 ))
 
         ;
@@ -61,19 +55,17 @@ class SignificadoCampoAdmin extends Admin {
 
     public function validate(ErrorElement $errorElement, $object) {
         //Marcó la opción que se usará en catálogo pero no ha elegido un catálog
-        if ($object->getUsoEnCatalogo() != '' and $object->getCatalogo() == '') {
+        if ($object->getUsoEnCatalogo() == true and $object->getCatalogo() != '') {
             $errorElement
                     ->with('catalogo')
-                    ->addViolation($this->getTranslator()->trans('elija_catalogo'))
+                    ->addViolation($this->getTranslator()->trans('no_catalogo_y_describir_catalogo'))
                     ->end();
         }
-
-        if ($object->getUsoEnCatalogo() == '' and $object->getCatalogo() != '') {
-            $errorElement
-                    ->with('usoEnCatalogo')
-                    ->addViolation($this->getTranslator()->trans('marque_uso_en_catalogo'))
-                    ->end();
-        }
+    }
+    
+    private $repository;
+    public function setRepository($repository){
+        $this->repository = $repository;
     }
 
 }

@@ -86,7 +86,7 @@
             />
             <argument />
             <argument>MINSAL\IndicadoresBundle\Entity\SignificadoCampo</argument>
-            <argument>SonataAdminBundle:CRUD</argument>
+            <argument>IndicadoresBundle:SignificadoCampoAdmin</argument>
         </service>
         <service id="sonata.admin.conexion" class="MINSAL\IndicadoresBundle\Admin\ConexionAdmin">
             <tag name="sonata.admin" 
