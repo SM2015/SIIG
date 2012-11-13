@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * MINSAL\IndicadoresBundle\Entity\FichaTecnica
  *
  * @ORM\Table(name="ficha_tecnica")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="MINSAL\IndicadoresBundle\Entity\FichaTecnicaRepository")
  */
 class FichaTecnica
 {
@@ -85,6 +85,13 @@ class FichaTecnica
      */
     private $observacion;
 
+    /**
+     * @var string $camposIndicador
+     *
+     * @ORM\Column(name="campos_indicador", type="text", nullable=true)
+     */
+    private $camposIndicador;
+    
     /**
      * @var integer $confiabilidad
      *
@@ -571,6 +578,7 @@ class FichaTecnica
      **/
     private $campos;
     
+    
         
     /**
      * Constructor
@@ -728,4 +736,29 @@ class FichaTecnica
     
         return $this;
     }
+
+    /**
+     * Set camposIndicador
+     *
+     * @param string $camposIndicador
+     * @return FichaTecnica
+     */
+    public function setCamposIndicador($camposIndicador)
+    {
+        $this->camposIndicador = $camposIndicador;
+    
+        return $this;
+    }
+
+    /**
+     * Get camposIndicador
+     *
+     * @return string 
+     */
+    public function getCamposIndicador()
+    {
+        return $this->camposIndicador;
+    }
+    
+    
 }

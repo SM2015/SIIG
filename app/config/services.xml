@@ -128,7 +128,7 @@
             />
             <argument />
             <argument>MINSAL\IndicadoresBundle\Entity\FichaTecnica</argument>
-            <argument>SonataAdminBundle:CRUD</argument>
+            <argument>IndicadoresBundle:FichaTecnicaAdmin</argument>
         </service>        
         <service id="indicadores.cargar_origen_datos_servicio" class="MINSAL\IndicadoresBundle\Consumer\CargarOrigenDatoConsumer">            
             <argument type="service" id="service_container" />            

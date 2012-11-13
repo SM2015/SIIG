@@ -11,6 +11,7 @@ use Doctrine\ORM\EntityRepository;
 
 class SignificadoCampoAdmin extends Admin {
 
+    private $repository;
     protected $datagridValues = array(
         '_page' => 1, // Display the first page (default = 1)
         '_sort_order' => 'ASC', // Descendant ordering (default = 'ASC')
@@ -63,7 +64,7 @@ class SignificadoCampoAdmin extends Admin {
         }
     }
     
-    private $repository;
+    
     public function setRepository($repository){
         $this->repository = $repository;
     }

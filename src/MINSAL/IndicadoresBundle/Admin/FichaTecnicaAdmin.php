@@ -11,6 +11,7 @@ use MINSAL\IndicadoresBundle\Entity\FichaTecnica;
 
 class FichaTecnicaAdmin extends Admin {
 
+    private $repository;
     protected $datagridValues = array(
         '_page' => 1, // Display the first page (default = 1)
         '_sort_order' => 'ASC', // Descendant ordering (default = 'ASC')
@@ -57,6 +58,7 @@ class FichaTecnicaAdmin extends Admin {
                 ->add('objetivo', null, array('label' => $this->getTranslator()->trans('objetivo')))
                 ->add('uso', null, array('label' => $this->getTranslator()->trans('uso')))
                 ->add('definicionOperativa', null, array('label' => $this->getTranslator()->trans('definicion_operativa')))
+                ->add('camposIndicador', null, array('label' => $this->getTranslator()->trans('campos_indicador')))
 
         ;
     }
@@ -68,6 +70,19 @@ class FichaTecnicaAdmin extends Admin {
 
     public function validate(ErrorElement $errorElement, $object) {
 
+        //Verificar que todos los campos esten configurados
+        foreach ($object->getVariables() as $variable) {
+            $campos_no_configurados = $this->getModelManager()
+                    ->findBy('IndicadoresBundle:Campo', array('origenDato' => $variable->getOrigenDatos(),
+                'significado' => null));
+
+            if (count($campos_no_configurados) > 0) {
+                $errorElement
+                        ->with('variables')
+                        ->addViolation($variable->getIniciales().': '. $this->getTranslator()->trans('origen_no_configurado'))
+                        ->end();
+            }
+        }
         //Obtener las variables marcadas
         foreach ($object->getVariables() as $variable) {
             $variables_sel[] = $variable->getIniciales();
@@ -107,33 +122,71 @@ class FichaTecnicaAdmin extends Admin {
             ob_start();
             $test = eval('$result=' . $formula_check . ';');
             ob_end_clean();
-            
-            if (!is_numeric($result)){
+
+            if (!is_numeric($result)) {
                 $formula_valida = false;
                 $mensaje = 'sintaxis_invalida';
             }
         }
 
-        if ($formula_valida==false){
+        if ($formula_valida == false) {
             $errorElement
                     ->with('formula')
                     ->addViolation($this->getTranslator()->trans($mensaje))
                     ->end();
-        }        
+        }
     }
 
     public function postPersist($fichaTecnica) {
         $this->crearCamposIndicador($fichaTecnica);
+        $this->repository->crearTablaIndicador();
     }
 
     public function postUpdate($fichaTecnica) {
+        $this->crearCamposIndicador($fichaTecnica);
+        $this->repository->crearTablaIndicador($fichaTecnica);
+    }
+    
+    public function prePersist($fichaTecnica) {
+        $this->crearCamposIndicador($fichaTecnica);
+    }
+
+    public function preUpdate($fichaTecnica) {
         $this->crearCamposIndicador($fichaTecnica);
     }
 
     public function crearCamposIndicador(FichaTecnica $fichaTecnica) {
         //Recuperar las variables
         $variables = $fichaTecnica->getVariables();
-        //print_r($variables);
+        $origen_campos = array();
+        $origenDato = array();
+        foreach ($variables as $k => $variable) {
+            //Obtener la información de los campos de cada origen                        
+            $origenDato[$k] = $variable->getOrigenDatos();
+            foreach ($origenDato[$k]->getCampos() as $campo) {
+                //La llave para considerar campo comun será el mismo tipo y significado                
+                $llave = $campo->getSignificado()->getId() . '-' . $campo->getTipoCampo()->getId();                
+                $origen_campos[$origenDato[$k]->getId()][$llave]['significado'] = $campo->getSignificado()->getCodigo();
+            }
+
+            //Determinar los campos comunes (con igual significado)
+            $aux = $origen_campos;
+            $campos_comunes = array_shift($aux);
+            foreach ($aux as $a) {
+                $campos_comunes = array_intersect_key($campos_comunes, $a);
+            }
+        };
+        $aux = array();
+        foreach($campos_comunes as $campo)
+            $aux[$campo['significado']]= $campo['significado'];
+        if (isset($aux['calculo']))
+            unset($aux['calculo']);
+        $campos_comunes = implode("','", $aux);
+        $fichaTecnica->setCamposIndicador("'".$campos_comunes."'");
+    }
+
+    public function setRepository($repository) {
+        $this->repository = $repository;
     }
 
 }
