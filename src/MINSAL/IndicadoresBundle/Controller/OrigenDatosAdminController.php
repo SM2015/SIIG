@@ -13,7 +13,7 @@ use MINSAL\IndicadoresBundle\Entity\FusionOrigenesDatos;
 
 //use Symfony\Component\Console\Input\ArrayInput;
 
-class OrigenDatoAdminController extends Controller {
+class OrigenDatosAdminController extends Controller {
 
     public function batchActionMergeIsRelevant(array $normalizedSelectedIds, $allEntitiesSelected) {
         $em = $this->getDoctrine()->getEntityManager();
@@ -25,6 +25,8 @@ class OrigenDatoAdminController extends Controller {
             $origenDato = $em->find('IndicadoresBundle:OrigenDatos', $id_origen);
             if ($origenDato->getEsCatalogo())
                 return $this->get('translator')->trans('fusion.no_catalogos');
+            if ($origenDato->getEsFusionado())
+                return $this->get('translator')->trans('fusion.no_fusionados');
             $campos_no_configurados = $em->getRepository('IndicadoresBundle:Campo')
                     ->findBy(array('origenDato' => $id_origen,
                 'significado' => null));
@@ -46,7 +48,7 @@ class OrigenDatoAdminController extends Controller {
         foreach ($selecciones as $k => $origen) {
             $origenDato[$k] = $em->find('IndicadoresBundle:OrigenDatos', $origen);
             foreach ($origenDato[$k]->getCampos() as $campo) {
-                //La llave para considerar campo comun será el mismo tipo y significado
+                //La llave para considerar campo comun será el mismo tipo y significado                
                 $llave = $campo->getSignificado()->getId() . '-' . $campo->getTipoCampo()->getId();
                 $origen_campos[$origen][$llave]['id'] = $campo->getId();
                 $origen_campos[$origen][$llave]['nombre'] = $campo->getNombre();
@@ -84,7 +86,7 @@ class OrigenDatoAdminController extends Controller {
             $campos_ord[$sig_tipo]['value'] = json_encode($campos_ord[$sig_tipo]['value']);
         }
 
-        return $this->render('IndicadoresBundle:OrigenDatoAdmin:merge_selection.html.twig', array('origen_dato' => $origenDato,
+        return $this->render('IndicadoresBundle:OrigenDatosAdmin:merge_selection.html.twig', array('origen_dato' => $origenDato,
                     'campos' => $campos_ord
                 ));
     }
@@ -153,7 +155,7 @@ class OrigenDatoAdminController extends Controller {
         $em->persist($origenDato);
         $em->flush();
 
-        $this->get('session')->setFlash('sonata_flash_success', $origenDato->getNombre() . ' ' . $this->get('translator')->trans('origen_fusionado_creado'));
+        $this->get('session')->setFlash('sonata_flash_success', $origenDato->getNombre() . ' ' . $this->get('translator')->trans('fusion.origen_fusionado_creado'));
         return new RedirectResponse($this->admin->generateUrl('list', $this->admin->getFilterParameters()));
     }
 

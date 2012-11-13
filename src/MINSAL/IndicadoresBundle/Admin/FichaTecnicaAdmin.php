@@ -133,7 +133,7 @@ class FichaTecnicaAdmin extends Admin {
     public function crearCamposIndicador(FichaTecnica $fichaTecnica) {
         //Recuperar las variables
         $variables = $fichaTecnica->getVariables();
-        print_r($variables);
+        //print_r($variables);
     }
 
 }

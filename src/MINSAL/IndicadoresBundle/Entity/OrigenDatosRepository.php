@@ -118,5 +118,21 @@ class OrigenDatosRepository extends EntityRepository {
         $datos = $this->getDatos($origenDato);
         return $this->crearTablaCatalogo($origenDato, $datos);
     }
-
+    
+    public function getCatalogos() {
+        
+        //Consulta directa sobre el gestor postgresql, no funcionará en otro
+        // Recupero todas las tablas cuyo nombre empieza con ctl_
+        $sql = "SELECT relname AS nombre, relname AS nombre_tabla  
+            FROM pg_stat_user_tables 
+            WHERE relname LIKE 'ctl_%'
+            ORDER BY relname";
+        
+        $datos = $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
+        $result= array();
+        foreach ($datos as $fila){
+            $result[$fila['nombre']] = $fila['nombre'];
+        }
+        return $result;
+    }
 }

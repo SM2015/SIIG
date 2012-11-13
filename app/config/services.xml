@@ -86,7 +86,7 @@
             />
             <argument />
             <argument>MINSAL\IndicadoresBundle\Entity\SignificadoCampo</argument>
-            <argument>SonataAdminBundle:CRUD</argument>
+            <argument>IndicadoresBundle:SignificadoCampoAdmin</argument>
         </service>
         <service id="sonata.admin.conexion" class="MINSAL\IndicadoresBundle\Admin\ConexionAdmin">
             <tag name="sonata.admin" 
@@ -98,7 +98,7 @@
             <argument>MINSAL\IndicadoresBundle\Entity\Conexion</argument>
             <argument>SonataAdminBundle:CRUD</argument>
         </service>
-        <service id="sonata.admin.origen_dato" class="MINSAL\IndicadoresBundle\Admin\OrigenDatoAdmin">
+        <service id="sonata.admin.origen_dato" class="MINSAL\IndicadoresBundle\Admin\OrigenDatosAdmin">
             <tag name="sonata.admin"
                  manager_type="orm" 
                  group="origen_datos" 
@@ -106,7 +106,7 @@
             />    
             <argument />            
             <argument>MINSAL\IndicadoresBundle\Entity\OrigenDatos</argument>
-            <argument>IndicadoresBundle:OrigenDatoAdmin</argument>       
+            <argument>IndicadoresBundle:OrigenDatosAdmin</argument>       
         </service>
         
         <service id="sonata.admin.variable" class="MINSAL\IndicadoresBundle\Admin\VariableDatoAdmin">

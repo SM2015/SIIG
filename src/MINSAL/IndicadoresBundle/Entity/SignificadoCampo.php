@@ -43,9 +43,10 @@ class SignificadoCampo
     private $usoEnCatalogo;
     
      /**
-     * @ORM\OneToOne(targetEntity="OrigenDatos")
-     * @ORM\JoinColumn(name="id_catalogo", referencedColumnName="id", onDelete="SET NULL")
-     **/
+     * @var string $catalogo
+     *
+     * @ORM\Column(name="catalogo", type="string", length=255, nullable=true)
+     */
     private $catalogo;
     
 
@@ -149,10 +150,10 @@ class SignificadoCampo
     /**
      * Set catalogo
      *
-     * @param MINSAL\IndicadoresBundle\Entity\OrigenDatos $catalogo
+     * @param string $catalogo
      * @return SignificadoCampo
      */
-    public function setCatalogo(\MINSAL\IndicadoresBundle\Entity\OrigenDatos $catalogo = null)
+    public function setCatalogo($catalogo)
     {
         $this->catalogo = $catalogo;
     
@@ -162,7 +163,7 @@ class SignificadoCampo
     /**
      * Get catalogo
      *
-     * @return MINSAL\IndicadoresBundle\Entity\OrigenDatos 
+     * @return string 
      */
     public function getCatalogo()
     {

@@ -2,14 +2,14 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('bundles/indicadores/js/OrigenDatoAdmin/merge.js') }}" type="text/javascript"></script>    
+    <script src="{{ asset('bundles/indicadores/js/OrigenDatosAdmin/merge.js') }}" type="text/javascript"></script>    
 {% endblock %}
 {% block content %}
     <form action="{{ admin.generateUrl('merge_save') }}" method="post">
         <fieldset>
-            <legend>{{'datos_origen_fusionado'|trans}}Datos del origen fusionado</legend>
-                <label for="nombre">{{'nombre'|trans}}</label><input type="text" name='nombre' placeholder="{{'nombre_origen_fusionado'|trans}}" required="true"/>
-                <label for="descripcion">{{'descripcion'|trans}}</label><textarea type="text" name='descripcion' placeholder="{{'descripcion_origen_fusionado'|trans}}" ></textarea>                
+            <legend>{{'datos_origen_fusionado'|trans}}</legend>
+                <label for="nombre">{{'nombre'|trans}}</label><input type="text" id='nombre' name='nombre'  required="true"/>
+                <label for="descripcion">{{'descripcion'|trans}}</label><textarea type="text" id='descripcion' name='descripcion'  ></textarea>                
         </fieldset>
     <TABLE border=1 class='table table-hover'>
         <caption><h4>{{'mensaje_fusionar'|trans}}</h4></caption>
@@ -19,7 +19,7 @@
                 <TH>{{'origen_fusionado'|trans}}</TH>
                 {% for origen in origen_dato  %}
                     <TH>
-                        {{origen.nombre}}
+                        {{origen.nombre}}<BR/> ({{'nombre_campo'|trans}} / {{'significado'|trans}})
                         <input type="hidden" value="{{origen.id}}" name='origenes_fusionados[]' />
                     </TH>
                 {% endfor %}

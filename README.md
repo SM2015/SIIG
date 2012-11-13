@@ -111,6 +111,16 @@ $ app/console doctrine:database:create
 $ app/console doctrine:schema:update --force
 ~~~
 
+### Cargar datos iniciales
+~~~
+$ app/console doctrine:fixtures:load
+~~~
+
+### Crear un usuario administrador
+~~~
+$ app/console fos:user:create --super-admin
+~~~
+
 ### Instalación de [HStore](http://www.postgresql.org/docs/9.1/static/hstore.html)
 - Ejecutar desde la terminal
 ~~~
@@ -134,19 +144,10 @@ CREATE TABLE fila_origen_dato(
 );
 ~~~
 
-### Cargar datos iniciales
-~~~
-$ app/console doctrine:fixtures:load
-~~~
-
-### Crear un usuario administrador
-~~~
-$ app/console fos:user:create --super-admin
-~~~
-
 ### Instalación de [RabbitMQ](http://www.rabbitmq.com/)
 [RabbitMQ](http://www.rabbitmq.com/) es un sistema de mensajería empresarial completo y altamente confiable basado en el estándar AMQP
-[Charla sobre RabbitMQ](http://www.symfony.es/noticias/2011/07/06/desymfony-2011-reduciendo-el-acoplamiento-entre-aplicaciones-con-rabbitmq/)
+[Charla sobre RabbitMQ](http://www.symfony.es/noticias/2011/07/06/desymfony-2011-reduciendo-el-acoplamiento-entre-aplicaciones-con-rabbitmq/).
+En este proyecto será utilizado para la carga masiva de datos y así evitar cuelgues o saturación del servidor.
 
 - Agregar el repositorio
 ~~~

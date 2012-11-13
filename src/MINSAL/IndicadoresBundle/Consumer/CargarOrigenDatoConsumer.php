@@ -21,7 +21,7 @@ class CargarOrigenDatoConsumer implements ConsumerInterface {
         $em = $this->container->get('doctrine.orm.entity_manager');
 
         $origenDato = $em->find('IndicadoresBundle:OrigenDatos', $msg['id_origen_dato']);
-        $datos = $em->getRepository('IndicadoresBundle:OrigenDatos')->getDatos();
+        $datos = $em->getRepository('IndicadoresBundle:OrigenDatos')->getDatos($origenDato);
 
         if ($datos != false) {
             //Borrar los datos existentes por el momento así será pero debería haber una forma de ir a traer solo los nuevos
@@ -35,18 +35,38 @@ class CargarOrigenDatoConsumer implements ConsumerInterface {
             //Esta cola la utilizaré solo para leer todos los datos y luego mandar uno por uno
             // a otra cola que se encarará de guardarlo en la base de datos
             // luego se puede probar a mandar por grupos       
+            $datos_a_enviar = array();
+            $i = 0;
+            $ii=0;
             foreach ($datos as $fila) {
                 $nueva_fila = array();
                 foreach ($fila as $k => $v) {
                     $nueva_fila[$campos_sig[$k]] = $v;
                 }
+                $datos_a_enviar[] = $nueva_fila;
+                //Enviaré en grupos de 200
+                if ($i == 200) {                                        
+                    $msg_guardar = array('id_origen_dato' => $msg['id_origen_dato'],
+                        'datos' => $datos_a_enviar,
+                        'num_msj'=>$ii++);
+                    $this->container->get('old_sound_rabbit_mq.guardar_registro_producer')
+                            ->publish(serialize($msg_guardar));
+                    unset($datos_a_enviar);
+                    $datos_a_enviar = array();
+                    $i=0;                    
+                } 
+                $i++;
+            }
+            //Verificar si quedaron pendientes de enviar
+            if (count($datos_a_enviar) > 0) {
                 $msg_guardar = array('id_origen_dato' => $msg['id_origen_dato'],
-                    'datos' => $nueva_fila);
+                    'datos' => $datos_a_enviar,
+                    'num_msj'=>$ii++);
                 $this->container->get('old_sound_rabbit_mq.guardar_registro_producer')
                         ->publish(serialize($msg_guardar));
             }
 
-            return new Response('');
+            return true;
         }
         else
             return false;

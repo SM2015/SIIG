@@ -32,7 +32,7 @@ class TipoCampo
     /**
      * @var string $codigo
      *
-     * @ORM\Column(name="codigo", type="string", length=10, nullable=false)
+     * @ORM\Column(name="codigo", type="string", length=50, nullable=false)
      */
     private $codigo;
     
