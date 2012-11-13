@@ -206,7 +206,7 @@ class OrigenDatoController extends Controller {
             $nombres_id = array();
             $campo = array();
             //Por defecto poner tipo texto
-            $tipo_campo = $em->getRepository("IndicadoresBundle:TipoCampo")->findOneByCodigo('text');
+            $tipo_campo = $em->getRepository("IndicadoresBundle:TipoCampo")->findOneByCodigo('integer');
             $util = new \MINSAL\IndicadoresBundle\Util\Util();
             foreach ($resultado['nombre_campos'] as $k => $nombre) {
                 // si existe no guardarlo 

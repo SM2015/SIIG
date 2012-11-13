@@ -15,4 +15,13 @@ class SignificadoCampoAdminController extends Controller {
         return parent::editAction($id);
 
     }
+    
+    public function createAction()
+    {
+        $repo = $this->getDoctrine()->getEntityManager()->getRepository('IndicadoresBundle:OrigenDatos');        
+        $this->admin->setRepository($repo);
+        
+        return parent::createAction();
+
+    }
 }

@@ -128,18 +128,23 @@ class OrigenDatosAdmin extends Admin {
 
     public function prePersist($origenDato) {
         $this->saveFile($origenDato);
-
-        if ($origenDato->getEsCatalogo()) {
-            // replace all non letters or digits by -
-            $util = new \MINSAL\IndicadoresBundle\Util\Util();
-            $origenDato->setNombreCatalogo('ctl_' . $util->slug($origenDato->getNombre()));
-        }
+        $this->setNombreCatalogo($origenDato);
+        
         $this->guardarDrescripcion($origenDato);
     }
 
     public function preUpdate($origenDato) {
         $this->saveFile($origenDato);
         $this->guardarDrescripcion($origenDato);
+        $this->setNombreCatalogo($origenDato);
+    }
+    
+    public function setNombreCatalogo($origenDato) {
+        if ($origenDato->getEsCatalogo()) {
+            // replace all non letters or digits by -
+            $util = new \MINSAL\IndicadoresBundle\Util\Util();
+            $origenDato->setNombreCatalogo('ctl_' . $util->slug($origenDato->getNombre()));
+        }
     }
 
     public function guardarDrescripcion($origenDato) {
