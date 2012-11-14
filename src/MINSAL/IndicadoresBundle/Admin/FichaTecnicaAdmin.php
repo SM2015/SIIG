@@ -35,6 +35,8 @@ class FichaTecnicaAdmin extends Admin {
                 ->add('idClasificacionTecnica', null, array('label' => $this->getTranslator()->trans('clasificacion_tecnica')))
                 ->add('idClasificacionPrivacidad', null, array('label' => $this->getTranslator()->trans('clasificacion_privacidad')))
                 ->add('idClasificacionUso', null, array('label' => $this->getTranslator()->trans('clasificacion_uso')))
+                ->add('categoriaIndicador', null, array('label' => $this->getTranslator()->trans('categoria'), 
+                                                    'required'=>true))
                 ->add('periodos', null, array('label' => $this->getTranslator()->trans('periodicidad'), 'expanded' => true))
                 ->add('idResponsableIndicador', null, array('label' => $this->getTranslator()->trans('responsable_indicador')))
                 ->add('confiabilidad', null, array('label' => $this->getTranslator()->trans('confiabilidad'), 'required' => false))
@@ -56,7 +58,7 @@ class FichaTecnicaAdmin extends Admin {
                 ->add('tema', null, array('label' => $this->getTranslator()->trans('tema')))
                 ->add('concepto', null, array('label' => $this->getTranslator()->trans('concepto')))
                 ->add('objetivo', null, array('label' => $this->getTranslator()->trans('objetivo')))
-                ->add('uso', null, array('label' => $this->getTranslator()->trans('uso')))
+                ->add('categoriaIndicador', null, array('label' => $this->getTranslator()->trans('categoria')))
                 ->add('definicionOperativa', null, array('label' => $this->getTranslator()->trans('definicion_operativa')))
                 ->add('camposIndicador', null, array('label' => $this->getTranslator()->trans('campos_indicador')))
 
@@ -139,12 +141,12 @@ class FichaTecnicaAdmin extends Admin {
 
     public function postPersist($fichaTecnica) {
         $this->crearCamposIndicador($fichaTecnica);
-        $this->repository->crearTablaIndicador();
+        //$this->repository->crearTablaIndicador();
     }
 
     public function postUpdate($fichaTecnica) {
         $this->crearCamposIndicador($fichaTecnica);
-        $this->repository->crearTablaIndicador($fichaTecnica);
+        //$this->repository->crearTablaIndicador($fichaTecnica);
     }
     
     public function prePersist($fichaTecnica) {

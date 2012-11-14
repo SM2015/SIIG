@@ -18,6 +18,7 @@ comentario: 'Comentario'
 formato_xxxx-xxxx: 'Formato XXXX-XXXX'
 elija_catalogo: 'Debe seleccionar un catálogo'
 marque_uso_en_catalogo: 'Ha especificado el nombre de un catálogo, debe marcar esta opción'
+categoria_indicador: 'Categoría de Indicadores'
 
 'clasificacion_tecnica' : 'Clasificación Técnica'
 'Clasificacion Tecnica List': 'Clasificación Técnica - Listado'

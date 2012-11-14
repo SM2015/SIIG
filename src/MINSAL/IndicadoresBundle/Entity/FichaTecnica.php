@@ -150,6 +150,16 @@ class FichaTecnica
      * })
      */
     private $idClasificacionUso;
+    
+    /**
+     * @var $categoriaIndicador
+     *
+     * @ORM\ManyToOne(targetEntity="CategoriaIndicador")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_categoria_indicador", referencedColumnName="id")
+     * })
+     */
+    private $categoriaIndicador;
 
     /**
      * @var ResponsableIndicador
@@ -761,4 +771,27 @@ class FichaTecnica
     }
     
     
+
+    /**
+     * Set categoriaIndicador
+     *
+     * @param MINSAL\IndicadoresBundle\Entity\CategoriaIndicador $categoriaIndicador
+     * @return FichaTecnica
+     */
+    public function setCategoriaIndicador(\MINSAL\IndicadoresBundle\Entity\CategoriaIndicador $categoriaIndicador = null)
+    {
+        $this->categoriaIndicador = $categoriaIndicador;
+    
+        return $this;
+    }
+
+    /**
+     * Get categoriaIndicador
+     *
+     * @return MINSAL\IndicadoresBundle\Entity\CategoriaIndicador 
+     */
+    public function getCategoriaIndicador()
+    {
+        return $this->categoriaIndicador;
+    }
 }

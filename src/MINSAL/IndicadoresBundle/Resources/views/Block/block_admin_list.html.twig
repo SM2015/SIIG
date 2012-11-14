@@ -17,7 +17,7 @@ file that was distributed with this source code.
     {% for group in groups %}        
         <li> 
             <h2><span>{{ group.label|trans }}</span></h2>
-            <div >
+            <div style='overflow: auto;'>
                 <ul id="gallery" class="gallery ui-helper-reset ui-helper-clearfix">
                 {% for admin in group.items %}
                     {% if admin.hasroute('create') and admin.isGranted('CREATE') or admin.hasroute('list') and admin.isGranted('LIST') %}            
