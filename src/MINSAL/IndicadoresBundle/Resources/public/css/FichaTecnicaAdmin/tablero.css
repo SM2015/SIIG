@@ -1,19 +1,26 @@
 div.tablero{    
-    border: #000000 dotted medium ;
+    bottom: 0px;
+    top: 20%;
+    width: 93%;
+    position: absolute;
+    border: blue dotted medium ;
 }
 
 div.tablero .row-fluid{
     border: yellow dotted medium ;
+    height: 98%;
 }
 #tablero_indicadores{
     width: 24%;
+    height: 98%;
     border: #000000 dotted medium ;
 }
 #tablero_indicadores div{
-    height: 50%;
+    height: 65%;
 }
 #tablero_graficos{
     width: 73%;
     float: right;
+    height: 98%;
     border: red dotted medium ;
 }
