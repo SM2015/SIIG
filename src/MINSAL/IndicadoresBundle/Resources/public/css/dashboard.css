@@ -7,6 +7,7 @@
 */
 .sonata-bc .row-fluid .span6{width:70%;}
 gallery.custom-state-active { background: #eee; }
+div.contenedor-gallery {overflow: auto;}
 .gallery li { float: left; width: 130px; padding: 0.4em; margin: 0 0.4em 0.4em 0; text-align: center; }
 .gallery li h5 { margin: 0 0 0.4em; cursor: move; }
 .gallery li a { float: right; }
