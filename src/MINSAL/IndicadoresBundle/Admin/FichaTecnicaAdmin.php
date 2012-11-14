@@ -8,6 +8,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Validator\ErrorElement;
 use Sonata\AdminBundle\Form\FormMapper;
 use MINSAL\IndicadoresBundle\Entity\FichaTecnica;
+use Sonata\AdminBundle\Route\RouteCollection;
 
 class FichaTecnicaAdmin extends Admin {
 
@@ -190,7 +191,11 @@ class FichaTecnicaAdmin extends Admin {
     public function setRepository($repository) {
         $this->repository = $repository;
     }
-
+    
+    protected function configureRoutes(RouteCollection $collection)
+    {
+        $collection->add('tablero');    
+    }
 }
 
 ?>

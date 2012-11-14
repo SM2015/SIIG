@@ -1,0 +1,19 @@
+div.tablero{    
+    border: #000000 dotted medium ;
+}
+
+div.tablero .row-fluid{
+    border: yellow dotted medium ;
+}
+#tablero_indicadores{
+    width: 24%;
+    border: #000000 dotted medium ;
+}
+#tablero_indicadores div{
+    height: 50%;
+}
+#tablero_graficos{
+    width: 73%;
+    float: right;
+    border: red dotted medium ;
+}

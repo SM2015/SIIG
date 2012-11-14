@@ -24,4 +24,13 @@ class FichaTecnicaAdminController extends Controller {
         return parent::createAction();
 
     }
+    
+    public function tableroAction() {
+        //Recuperar las categorías existentes
+        $em = $this->getDoctrine()->getEntityManager();
+        $categorias = $em->getRepository("IndicadoresBundle:CategoriaIndicador")->findAll();
+        return $this->render('IndicadoresBundle:FichaTecnicaAdmin:tablero.html.twig', array(
+            'categorias' => $categorias
+        ));
+    }
 }

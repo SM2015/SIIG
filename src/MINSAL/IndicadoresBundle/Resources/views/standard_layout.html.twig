@@ -116,6 +116,9 @@ file that was distributed with this source code.
                                                         {% if admin.hasroute('create') and admin.isGranted('CREATE') or admin.hasroute('list') and admin.isGranted('LIST') %}
                                                             <li><a href="{{ admin.generateUrl('list')}}">{{ admin.label|trans }}</a></li>
                                                         {% endif %}
+                                                        {% if admin.hasroute('tablero')%}
+                                                            <li><a href="{{ admin.generateUrl('tablero')}}">{{ 'indicador_tablero'|trans }}</a></li>
+                                                        {% endif %}
                                                     {% endfor %}
                                                 </ul>
                                             </li>
