@@ -1,5 +1,3 @@
-$(document).ready(function(){
-    $('#tablero_indicadores').accordion({
-        heightStyle: "fill"
-    })
+$(document).ready(function(){    
+    $('#tablero_indicadores').accordion()    
 });

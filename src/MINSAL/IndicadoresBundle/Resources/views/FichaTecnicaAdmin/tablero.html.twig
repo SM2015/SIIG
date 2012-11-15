@@ -14,13 +14,33 @@
 
 
 {% block content %}
-    <div class="tablero container-fluid">
+    <div class="tablero container-fluid" id='tablero'>
         <div class="row-fluid">
-            <div class="span2" id='tablero_indicadores'>
+            <div class="span2" id='tablero_indicadores' style='overflow-y: auto'>
                 {% for categoria in categorias%}
-                    <H3>{{categoria.descripcion}}</H3>
-                    <DIV>Indicadores de la categoria {{categoria.descripcion}}</DIV>
+                    <H4>{{categoria.descripcion}}</H4>
+                    <DIV >Indicadores de la categoria
+probando<BR>
+probando<BR>
+probando<BR>
+probando<BR>
+probando<BR>
+probando<BR>
+probando<BR>
+probando<BR>
+probando<BR>
+probando<BR>
+probando<BR>probando<BR>probando<BR>
+probando<BR>
+probando<BR>
+probando<BR>
+probando<BR>
+probando<BR>
+
+ {{categoria.descripcion}}</DIV>
                 {% endfor %}
+                       
+                            
             </div>
             <div class="span10" id='tablero_graficos'>
                 Gráficos
