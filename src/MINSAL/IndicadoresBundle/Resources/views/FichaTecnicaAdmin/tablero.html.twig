@@ -8,8 +8,12 @@
     
 {% block javascripts %}    
     {{ parent() }}
-    <script src="{{ asset('bundles/indicadores/js/FichaTecnicaAdmin/tablero.js') }}" type="text/javascript"></script>    
-        <script src="http://d3js.org/d3.v2.js"></script>
+    <script src="http://d3js.org/d3.v2.js"></script>    
+    <script src="{{ asset('bundles/indicadores/js/FichaTecnicaAdmin/comun.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/indicadores/js/FichaTecnicaAdmin/grafico_pastel.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/indicadores/js/FichaTecnicaAdmin/grafico_columnas.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/indicadores/js/FichaTecnicaAdmin/grafico_lineas.js') }}" type="text/javascript"></script>    
+    <script src="{{ asset('bundles/indicadores/js/FichaTecnicaAdmin/tablero.js') }}" type="text/javascript"></script>
 {% endblock %}
     
 
@@ -23,7 +27,7 @@
                     <DIV >
                         <ul>
                         {% for indicador in categoria.indicadores %}
-                            <li>{{indicador.nombre}}</li>
+                            <li><A href="#" id='{{indicador.id}}'>{{indicador.nombre}}</A></li>
                         {% endfor %}
                         </ul>
                     </DIV>
@@ -31,12 +35,26 @@
             </div>
             <div class="span8" id='tablero_graficos'>
                  <div class="row">
-                    <div id="graficoPrimario" class="span6"></div>
-                    <div id="lineChart" class="span4"></div>
+                    <div class="span6">
+                        <h3 id='titulo_indicador'></h3>
+                        <div id='controles'></div>
+                        <div id="graficoPrimario" ></div>
+                    </div>
+                    </div>
                 </div>
-                <div class="row">
-                    <div id="graficoSecundario" class="span8"></div>                    
-                </div>
+                {# <div class="row">
+                    <div class="span8">
+                        <label for='tipo_grafico_secundario'>{{'tablero.tipo_grafico_secundario'|trans}}: </label>
+                        <select id='tipo_grafico_secundario' name="tipo_grafico_secundario">
+                            <option value='columnas'>{{'tablero.columnas'|trans}}</option>
+                            <option value='pastel'>{{'tablero.pastel'|trans}}</option>
+                            <option value='lineas'>{{'tablero.lineas'|trans}}</option>
+                            <option value='barras'>{{'tablero.barras'|trans}}--pendiente</option>
+                        </select>
+                        <div id="graficoSecundario" >
+                        </div>
+                    </div>                    
+                </div>#}
             </div>
         </div>
     </div>    

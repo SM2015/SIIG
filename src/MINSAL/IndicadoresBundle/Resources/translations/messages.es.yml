@@ -153,6 +153,8 @@ javascript:
   tipo: 'Tipo'
   significado: 'Significado'
   datos_muestra: 'Datos de muestra'
+  dimension: 'Dimensión'
+  tipo_grafico: 'Tipo de gráfico'
 
 validacion:
   requerido: Este dato es requerido
@@ -161,5 +163,11 @@ validacion:
   sentencia_sql_origen_requeridos: 'Debe especificar la sentencia SQL y la conexión'
   debe_elegir_una_opcion: 'Debe elegir una opción'
   elija_al_menos_un_campo: 'Debe haber al menos un campo seleccionado'
-
+tablero:
+  barras: Barras
+  pastel: Pastel
+  lineas: Líneas
+  columnas: Columnas
+  tipo_grafico_principal: Tipo de gráfico principal
+  tipo_grafico_secundario: Tipo de gráfico secundario  
 
