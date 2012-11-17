@@ -1,6 +1,6 @@
 function dibujarGraficoLineas(ubicacion, datos, colorChosen, categoryChoosen) {
 
-    var margin = {top: 20, right: 40, bottom: 10, left: 50},
+    var margin = {top: 20, right: 40, bottom: 20, left: 50},
     width = 500 - margin.left - margin.right,
             height = 160 - margin.top - margin.bottom
             ;
@@ -64,23 +64,26 @@ function dibujarGraficoLineas(ubicacion, datos, colorChosen, categoryChoosen) {
         .data(currentDatasetChart)
         .enter().append("circle")
         .attr("class", "dot")
-        /*.attr("fill", function(d) {
-            return d.measure == d3.min(firstDatasetLineChart, function(d) {
+        .attr("fill", function(d) {
+            return d.measure == d3.min(currentDatasetChart, function(d) {
                 return d.measure;
-            }) ? "red" : (d.measure == d3.max(firstDatasetLineChart, function(d) {
+            }) ? "red" : (d.measure == d3.max(currentDatasetChart, function(d) {
                 return d.measure;
-        }) ? "green" : "white")
-        })*/        
+        }) ? "green" : "orange")
+        })       
         .attr("cx", line.x())
         .attr("cy", line.y())
-        .attr("r", 3.5)
+        .attr("r", 7.5)
         .attr("stroke", colorChosen)
         .append("title")
         .text(function(d) {
             return d.category + ": " + d.measure;
         })
         ;
-
+    if (ubicacion == 'graficoPrimario')
+        plot.selectAll(".dot").on("click", function(d, i) {            
+            descenderNivelDimension(d.category);
+        });
     // Add x labels to chart	
     var xLabels = svg
         .append("g")
@@ -97,7 +100,7 @@ function dibujarGraficoLineas(ubicacion, datos, colorChosen, categoryChoosen) {
         .attr("text-anchor", "middle")
         // Set x position to the left edge of each bar plus half the bar width
         .attr("x", line.x())
-        .attr("y", 7)        
+        .attr("y", 17)        
         ;
             
 

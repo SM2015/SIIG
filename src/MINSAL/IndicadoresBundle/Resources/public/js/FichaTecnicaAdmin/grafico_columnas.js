@@ -49,7 +49,11 @@ var yAxis = d3.svg.axis()
         })
         .attr("height", function(d) {
             return height - yScale(d.measure);
-    });
+        })
+        .append("title")
+        .text(function(d) {
+            return d.category + ": " + d.measure;
+        });
 
     if (ubicacion == 'graficoPrimario')
         plot.selectAll("rect").on("click", function(d, i) {
