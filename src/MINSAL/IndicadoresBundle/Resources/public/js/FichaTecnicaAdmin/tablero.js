@@ -42,10 +42,33 @@ $(document).ready(function() {
                 combo_tipo_grafico +=  "<OPTION VALUE='columnas'>Columnas</OPTION>"+
                     "<OPTION VALUE='pastel'>Pastel</OPTION>"+
                     "<OPTION VALUE='lineas'>Lineas</OPTION>";
-                combo_tipo_grafico += "</SELECT>"
+                combo_tipo_grafico += "</SELECT>";
+                
+                var combo_ordenar_por_dimension = trans.ordenar_dimension+": <SELECT id='ordenar_dimension'>"+
+                        "<OPTION VALUE='-1'></OPTION>"+
+                        "<OPTION VALUE='desc'>"+trans.descendente+"</OPTION>"+
+                        "<OPTION VALUE='asc'>"+trans.ascendente+"</OPTION>"+
+                        "</SELECT>";
+                var combo_ordenar_por_medida = trans.ordenar_medida+": <SELECT id='ordenar_medida'>"+
+                        "<OPTION VALUE='-1'></OPTION>"+
+                        "<OPTION VALUE='desc'>"+trans.descendente+"</OPTION>"+
+                        "<OPTION VALUE='asc'>"+trans.ascendente+"</OPTION>"+
+                        "</SELECT>";
+                
                 $('#controles').append(combo_dimensiones);
                 $('#controles').append(combo_tipo_grafico);
+                $('#controles').append(combo_ordenar_por_dimension);
+                $('#controles').append(combo_ordenar_por_medida);
+                
+                $('#ordenar_dimension').change(function(){
+                    ordenarDatos('dimension', $(this).val());
+                });
+                $('#ordenar_medida').change(function(){
+                    ordenarDatos('medida', $(this).val());
+                });
                 $('#dimensiones').change(function(){
+                    $('#ordenar_dimension').children('option[value="-1"]').attr('selected','selected');
+                    $('#ordenar_medida').children('option[value="-1"]').attr('selected','selected');
                     dibujarGrafico($(this).val());
                 });
                 $('#tipo_grafico_principal').change(function(){

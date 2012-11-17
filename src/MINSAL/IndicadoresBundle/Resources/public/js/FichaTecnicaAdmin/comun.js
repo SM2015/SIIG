@@ -60,6 +60,8 @@ function ascenderNivelDimension(nivel){
     $filtro.attr('data', JSON.stringify(nuevo_filtro));
     
     dibujarGrafico($('#dimensiones').val());
+    $('#ordenar_dimension').children('option[value="-1"]').attr('selected','selected');
+    $('#ordenar_medida').children('option[value="-1"]').attr('selected','selected');
 }
 function descenderNivelDimension(category){
     if ($('#dimensiones option').length <= 1){
@@ -106,6 +108,8 @@ function descenderNivelDimension(category){
     });
     
     dibujarGrafico($('#dimensiones').val());
+    $('#ordenar_dimension').children('option[value="-1"]').attr('selected','selected');
+    $('#ordenar_medida').children('option[value="-1"]').attr('selected','selected');
 }
 
 function dibujarGrafico(dimension){        
@@ -116,6 +120,21 @@ function dibujarGrafico(dimension){
         {id: $('#titulo_indicador').attr('data-id'), dimension: dimension}), 
         {filtro: filtro},
     function(resp){
+        datasetPrincipal = resp.datos;
+        dibujarGraficoPrincipal($('#tipo_grafico_principal').val());
+    });
+}
+
+function ordenarDatos(ordenar_por, modo_orden){
+    if (modo_orden=='-1')
+        return;
+    if (ordenar_por=='dimension')
+        $('#ordenar_medida').children('option[value="-1"]').attr('selected','selected');
+    else
+        $('#ordenar_dimension').children('option[value="-1"]').attr('selected','selected');
+    $.getJSON(Routing.generate('indicador_datos_ordenar'),          
+        {datos: datasetPrincipal, ordenar_por: ordenar_por, modo: modo_orden},
+    function(resp){        
         datasetPrincipal = resp.datos;
         dibujarGraficoPrincipal($('#tipo_grafico_principal').val());
     });

@@ -156,6 +156,10 @@ javascript:
   datos_muestra: 'Datos de muestra'
   dimension: 'Dimensión'
   tipo_grafico: 'Tipo de gráfico'
+  ascendente: 'Ascendente'
+  descendente: 'Descendente'
+  ordenar_dimension: 'Ordenar por dimensión'
+  ordenar_medida: 'Ordenar por valor del indicador'
 
 validacion:
   requerido: Este dato es requerido
