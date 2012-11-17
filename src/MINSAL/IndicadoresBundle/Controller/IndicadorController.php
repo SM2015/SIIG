@@ -32,7 +32,9 @@ class IndicadorController extends Controller {
         }
         else
             $resp['resultado'] = 'error';
-        return new Response(json_encode($resp));
+        $response = new Response(json_encode($resp));
+        $response->setMaxAge(600);
+        return $response;
     }
 
     /**
@@ -64,7 +66,7 @@ class IndicadorController extends Controller {
         $fichaRepository->crearTablaIndicador($fichaTec);        
         $resp['datos'] = $fichaRepository->calcularIndicador($fichaTec, $dimension, $filtros);
         $response = new Response(json_encode($resp));
-        //$response->setMaxAge(600);
+        $response->setMaxAge(600);
         return $response;
         
     }

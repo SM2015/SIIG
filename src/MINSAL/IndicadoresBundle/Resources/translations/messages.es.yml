@@ -136,6 +136,7 @@ origen_dato: 'Origen de datos'
 error: 'Error'
 es_catalogo: 'Es Catálogo'
 datos_generales: 'Datos Generales'
+indicador_tablero: 'Tablero'
 
 fusion:
   no_catalogos: 'No se permite fusionar catálogos, alternativamente puede crear una hoja de cálculo con los datos requeridos y cargarlos al catálogo'
@@ -169,5 +170,7 @@ tablero:
   lineas: Líneas
   columnas: Columnas
   tipo_grafico_principal: Tipo de gráfico principal
-  tipo_grafico_secundario: Tipo de gráfico secundario  
+  tipo_grafico_secundario: Tipo de gráfico secundario
+
+  
 
