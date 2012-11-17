@@ -53,9 +53,7 @@ var yAxis = d3.svg.axis()
 
     if (ubicacion == 'graficoPrimario')
         plot.selectAll("rect").on("click", function(d, i) {
-            categoriaPrincipal = d.category;
-            indicePrincipal = i;
-            actualizarGraficosDependientes();
+            descenderNivelDimension(d.category);
         });
     if (colorChosen == null)
         plot.selectAll("rect").attr("fill", function(d, i) {
@@ -99,13 +97,11 @@ var yAxis = d3.svg.axis()
             return d.category;
         })
         .attr("text-anchor", "middle")
-        // Set x position to the left edge of each bar plus half the bar width
         .attr("x", function(d, i) {
             return (i * (width / currentDatasetBarChart.length)) + ((width / currentDatasetBarChart.length - barPadding) / 2);
         })
         .attr("y", 15)
         .attr("class", "xAxis")
-        //.attr("style", "font-size: 12; font-family: Helvetica, sans-serif")
         ;
 
     if (categoryChoosen != null)

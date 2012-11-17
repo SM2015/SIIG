@@ -17,7 +17,7 @@ var formatAsPercentage = d3.format("%"),
         ;
 
 var datasetPrincipal;
-
+/*
 var datasetSecundario = [
     {group: "All", category: "Oranges", measure: 63850.4963},
     {group: "All", category: "Apples", measure: 78258.0845},
@@ -104,13 +104,13 @@ var datasetLineChart = [
     {group: "Steve", category: 2011, measure: 6717},
     {group: "Steve", category: 2012, measure: 7035}
 ]
-        ;
+      */  ;
 color = d3.scale.category20();    //builtin range of colors
 
-var group = "All";
+/*var group = "All";
 var categoriaPrincipal = 0,
-    indicePrincipal = 0;
-function actualizarGraficosDependientes() {
+    indicePrincipal = 0;*/
+/*function actualizarGraficosDependientes() {
     var datos_secundarios = datasetSecundarioChosen(categoriaPrincipal);
     var tipo_secundario = $('#tipo_grafico_secundario').val();
     
@@ -118,16 +118,16 @@ function actualizarGraficosDependientes() {
 
     //updateLineChart(categoriaPrincipal, color(i));
 
-}
+}*/
 
-function dibujarGraficoSecundario(tipo, datos, colorChoosen, categoryChoosen) {
+/*function dibujarGraficoSecundario(tipo, datos, colorChoosen, categoryChoosen) {
     if (tipo == null || tipo == 'columnas')
         dibujarGraficoColumnas('graficoSecundario', datos, colorChoosen, categoryChoosen);
     else if (tipo == 'pastel')
         dibujarGraficoPastel('graficoSecundario', datos, colorChoosen, categoryChoosen);
     else if (tipo == 'lineas')
         dibujarGraficoLineas('graficoSecundario', datos, colorChoosen, categoryChoosen);
-}
+}*/
 function dibujarGraficoPrincipal(tipo) {
     if (tipo == null || tipo == 'pastel')
         dibujarGraficoPastel('graficoPrimario', datasetPrincipal);
@@ -137,7 +137,7 @@ function dibujarGraficoPrincipal(tipo) {
         dibujarGraficoLineas('graficoPrimario', datasetPrincipal);
 }
 
-function datasetSecundarioChosen(group) {
+/*function datasetSecundarioChosen(group) {
     var ds = [];
     for (x in datasetSecundario) {
         if (datasetSecundario[x].group == group) {
@@ -145,4 +145,60 @@ function datasetSecundarioChosen(group) {
         }
     }
     return ds;
+}*/
+
+function descenderNivelDimension(category){
+    if ($('#dimensiones option').length <= 1){
+        alert('No hay más niveles para descender');
+        return;        
+    }
+    var $dimension = $('#dimensiones option:selected');
+    var $filtro = $('#filtros_dimensiones');
+    var separador1='',
+            separador2='';
+    
+    // Construir la cadena de filtros
+    filtros = $filtro.attr('data');
+    filtro_a_agregar = '{"codigo":"'+$dimension.val()+'", '+
+                        '"etiqueta":"'+$dimension.html()+'", '+
+                        '"valor":"'+category+'"'+
+                        "}";
+    
+    if (filtros != '' && filtros != null)
+        separador1 += ', ';    
+    else
+        filtros='[';
+    
+    filtros = filtros.replace(']','');
+    $filtro.attr('data', filtros+separador1+filtro_a_agregar+']');
+    
+    ruta ='';
+    filtros_obj = jQuery.parseJSON($filtro.attr('data'));    
+    cant_obj = filtros_obj.length;
+    $.each(filtros_obj, function (i, obj){
+        if (i == (cant_obj-1))
+            ruta += obj.etiqueta + ': ' + obj.valor;
+        else
+            ruta += '<A href="#" data="'+i+'">'+obj.etiqueta + ': ' + obj.valor +'</A> / ';
+    });
+    
+    $filtro.html(ruta);
+    
+    //Borrar la opcion del control de dimensiones
+    $dimension.remove();
+    
+    dibujarGrafico($('#dimensiones').val());
+}
+
+function dibujarGrafico(dimension){        
+    if (dimension==null)
+        return;
+    filtro = $('#filtros_dimensiones').attr('data');
+    $.getJSON(Routing.generate('indicador_datos', 
+        {id: $('#titulo_indicador').attr('data-id'), dimension: dimension}), 
+        {filtro: filtro},
+    function(resp){
+        datasetPrincipal = resp.datos;
+        dibujarGraficoPrincipal($('#tipo_grafico_principal').val());
+    });
 }

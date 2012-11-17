@@ -43,9 +43,7 @@ function dibujarGraficoPastel(ubicacion, datos, color_grafico, categoryChoosen) 
             ;
     if (ubicacion == 'graficoPrimario')
         arcs.on("click", function(d, i) {
-            categoriaPrincipal = d.data.category;
-            indicePrincipal = i;
-            actualizarGraficosDependientes();
+            descenderNivelDimension(d.data.category);
         });
 
     if (color_grafico == null)

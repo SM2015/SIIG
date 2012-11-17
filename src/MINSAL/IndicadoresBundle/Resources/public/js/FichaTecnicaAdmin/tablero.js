@@ -10,6 +10,8 @@ $(document).ready(function() {
 
     $('#tablero_indicadores A').click(function() {
         $('#controles').html('');
+        $('#filtros_dimensiones').html('').attr('data','');
+
         recuperarDimensiones($(this).attr('id'));
     });
     var $tit_categoria = $('#tablero_indicadores h4');
@@ -17,13 +19,7 @@ $(document).ready(function() {
     var espacio_tit_categoria = $tit_categoria.height() * 1.8 * $tit_categoria.length;
 
     $('#tablero_indicadores div').css({'max-height': capa.height() - espacio_tit_categoria});
-
-    $('#tipo_grafico_primario').change(function() {
-        dibujarGraficoPrincipal($(this).val());
-    });
-    $('#tipo_grafico_secundario').change(function() {
-        actualizarGraficosDependientes();
-    });
+    
 
     //dibujarGraficoPrincipal($('#tipo_grafico_primario').val());
 
@@ -36,31 +32,30 @@ $(document).ready(function() {
             if (resp.resultado == 'ok') {
                 $('#titulo_indicador').html(resp.nombre_indicador)
                         .attr('data-id',resp.id_indicador);
-                var combo_dimensiones = trans.dimension+"<SELECT ID='dimensiones' name='dimensiones'>";
+                var combo_dimensiones = trans.dimension+": <SELECT ID='dimensiones' name='dimensiones'>";
                 $.each(resp.dimensiones, function(codigo, dimension){
                     combo_dimensiones +=  "<option value='"+codigo+"'>"+dimension+"</option>";
                 });
                 combo_dimensiones += "</SELECT>"
                 
-                var combo_tipo_grafico = trans.tipo_grafico+"<SELECT id='tipo_grafico_principal' name='tipo_grafico_principal' >";
+                var combo_tipo_grafico = trans.tipo_grafico+": <SELECT id='tipo_grafico_principal' name='tipo_grafico_principal' >";
                 combo_tipo_grafico +=  "<OPTION VALUE='columnas'>Columnas</OPTION>"+
                     "<OPTION VALUE='pastel'>Pastel</OPTION>"+
                     "<OPTION VALUE='lineas'>Lineas</OPTION>";
                 combo_tipo_grafico += "</SELECT>"
                 $('#controles').append(combo_dimensiones);
                 $('#controles').append(combo_tipo_grafico);
-                $('#dimensiones').change(dibujarGrafico());
+                $('#dimensiones').change(function(){
+                    dibujarGrafico($(this).val());
+                });
+                $('#tipo_grafico_principal').change(function(){
+                    dibujarGraficoPrincipal($(this).val());
+                });
+                dibujarGrafico($('#dimensiones').val());
             }
 
         });
     }
 
-    function dibujarGrafico(){
-        $.getJSON(Routing.generate('indicador_datos', 
-            {id: $('#titulo_indicador').attr('data-id'), dimension: $('#dimensiones').val()}),
-        function(resp){
-            datasetPrincipal = resp.datos;
-            dibujarGraficoPrincipal($('#tipo_grafico_principal').val());
-        });
-    }
+        
 });

@@ -48,25 +48,22 @@ class FichaTecnicaRepository extends EntityRepository {
         $this->getEntityManager()->getConnection()->exec($sql);
     }
     
-    public function calcularIndicador(FichaTecnica $fichaTecnica, $dimension, $filtro_registros=null, $filtro_grupo=null) {
+    public function calcularIndicador(FichaTecnica $fichaTecnica, $dimension, $filtro_registros=null) {
         $util = new \MINSAL\IndicadoresBundle\Util\Util();
         $formula = str_replace(array('{','}'), array('SUM(',')'), $fichaTecnica->getFormula());
         $nombre_indicador = $util->slug($fichaTecnica->getNombre());
         $tabla_indicador = 'ind_'.$nombre_indicador;
         
-        $sql = "SELECT $dimension as category, ($formula) as measure
+        $sql = "SELECT $dimension as category, round(($formula)::numeric,2) as measure
             FROM $tabla_indicador ";
-        if ($filtro_registros!=null)
-            $sql .= "
-                WHERE $filtro_registros                
-            ";
+        if ($filtro_registros != null){
+            $sql .= ' WHERE 1=1 ';
+            foreach ($filtro_registros as $campo => $valor)
+                $sql .= " AND $campo = '$valor' ";
+        }
         $sql .= "
             GROUP BY $dimension 
-            ORDER BY $dimension";
-        if ($filtro_grupo!=null)
-            $sql .= " HAVING $filtro_grupo
-                ";
-        
+            ORDER BY $dimension";                
         return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
     }
 

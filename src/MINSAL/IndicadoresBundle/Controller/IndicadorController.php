@@ -41,6 +41,20 @@ class IndicadorController extends Controller {
     public function getDatos($id, $dimension) {
 
         $resp = array();
+        $filtro = $this->getRequest()->get('filtro');        
+        if ($filtro == null or $filtro =='')
+            $filtros = null;
+        else {
+            
+            $filtrObj = json_decode($filtro);
+            foreach($filtrObj as $f){
+                $filtros_dimensiones[] = $f->codigo;
+                $filtros_valores[] = $f->valor;
+            }
+            $filtros = array_combine($filtros_dimensiones, $filtros_valores);
+        }
+        
+        
         $em = $this->getDoctrine()->getEntityManager();
         
         $fichaTec = $em->find('IndicadoresBundle:FichaTecnica', $id);
@@ -48,8 +62,10 @@ class IndicadorController extends Controller {
         
         
         $fichaRepository->crearTablaIndicador($fichaTec);        
-        $resp['datos'] = $fichaRepository->calcularIndicador($fichaTec, $dimension);
+        $resp['datos'] = $fichaRepository->calcularIndicador($fichaTec, $dimension, $filtros);
+        $response = new Response(json_encode($resp));
+        //$response->setMaxAge(600);
+        return $response;
         
-        return new Response(json_encode($resp));
     }
 }

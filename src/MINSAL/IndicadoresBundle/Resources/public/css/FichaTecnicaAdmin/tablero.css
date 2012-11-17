@@ -5,9 +5,9 @@ h4.ui-accordion-header{
 .slice {
    font-size: 12pt;
    font-family: Verdana;
-   fill: white; 
+   fill: black; 
    font-weight: bold;	
-  		} 
+}
 
 /*for line chart*/
 .axis path, .axis line {
@@ -49,7 +49,7 @@ h4.ui-accordion-header{
 .yAxis {
     font-family: verdana;
     font-size: 11px;
-    fill: white;
+    fill: black;
 }
 
 #lineChartTitle1 {
