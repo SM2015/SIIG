@@ -35,14 +35,22 @@
             </div>
             <div class="span8" id='tablero_graficos'>
                  <div class="row">
-                    <div class="span10">
+                     <div class="span12" >
                         <h3 id='titulo_indicador'></h3>
                         <h6 id='filtros_dimensiones' data=''></h6>
                         <div id='controles'></div>
-                        <div id="graficoPrimario" ></div>
-                    </div>
+                        <div class="row" >
+                            <div class="span7" >
+                                <div id="graficoPrimario" ></div>
+                            </div>
+                        </div>                        
+                        <div class="row" >
+                            <div id='dimension' class='span4' style="text-align: right"></div>
+                            <div id='controlesDimension' class='span6'></div>
+                        </div>
                     </div>
                 </div>
+            </div>
                 {# <div class="row">
                     <div class="span8">
                         <label for='tipo_grafico_secundario'>{{'tablero.tipo_grafico_secundario'|trans}}: </label>

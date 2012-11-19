@@ -2,6 +2,15 @@ h4.ui-accordion-header{
     margin: 1px 0;
     padding-left: 25px;    
 }
+#capa_dimension_valores{
+    max-height: 150px;
+    width: 50%;    
+    overflow: auto;  
+    display: inline;
+}
+#capa_dimension_valores label{
+    display: inline;
+}
 
 input.valores_filtro{
     width: 40px;

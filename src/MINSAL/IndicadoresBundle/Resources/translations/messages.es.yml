@@ -165,6 +165,11 @@ javascript:
   hasta: 'Hasta'
   filtrar: 'Filtrar'
   quitar_filtro: 'Quitar Filtros'
+  indicador_opciones: 'Opciones del indicador'
+  dimension_opciones: 'Opciones de dimensión'
+  cambiar_dimension: 'Cambiar dimensión'
+  ordenar: 'Orden'
+  filtrar_por_elemento: 'Filtro por elemento'
 
 validacion:
   requerido: Este dato es requerido

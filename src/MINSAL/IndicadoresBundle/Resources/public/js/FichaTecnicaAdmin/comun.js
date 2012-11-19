@@ -22,12 +22,13 @@ var datasetPrincipal_bk;
 color = d3.scale.category20();    //builtin range of colors
 
 function dibujarGraficoPrincipal(tipo) {
+    $('#dimension').html('<h4>'+$('#dimensiones option:selected').html()+'</h4>');
     if (tipo == null || tipo == 'pastel')
         dibujarGraficoPastel('graficoPrimario', datasetPrincipal);
     else if (tipo == 'columnas')
         dibujarGraficoColumnas('graficoPrimario', datasetPrincipal);
     else if (tipo == 'lineas')
-        dibujarGraficoLineas('graficoPrimario', datasetPrincipal);
+        dibujarGraficoLineas('graficoPrimario', datasetPrincipal);    
 }
 
 function ascenderNivelDimension(nivel){
@@ -63,6 +64,7 @@ function ascenderNivelDimension(nivel){
     dibujarGrafico($('#dimensiones').val());
     $('#ordenar_dimension').children('option[value="-1"]').attr('selected','selected');
     $('#ordenar_medida').children('option[value="-1"]').attr('selected','selected');
+    //filtros();
 }
 function descenderNivelDimension(category){
     if ($('#dimensiones option').length <= 1){
@@ -111,6 +113,7 @@ function descenderNivelDimension(category){
     dibujarGrafico($('#dimensiones').val());
     $('#ordenar_dimension').children('option[value="-1"]').attr('selected','selected');
     $('#ordenar_medida').children('option[value="-1"]').attr('selected','selected');
+    //filtros()
 }
 
 function dibujarGrafico(dimension){        
@@ -123,8 +126,10 @@ function dibujarGrafico(dimension){
     function(resp){
         datasetPrincipal = resp.datos;
         datasetPrincipal_bk = datasetPrincipal;
-        dibujarGraficoPrincipal($('#tipo_grafico_principal').val());
+        dibujarGraficoPrincipal($('#tipo_grafico_principal').val());        
+        controles_filtros();
     });
+    
 }
 
 function ordenarDatos(ordenar_por, modo_orden){
@@ -138,16 +143,52 @@ function ordenarDatos(ordenar_por, modo_orden){
         {datos: datasetPrincipal, ordenar_por: ordenar_por, modo: modo_orden},
     function(resp){        
         datasetPrincipal = resp.datos;
-        datasetPrincipal_bk = datasetPrincipal;
+        //datasetPrincipal_bk = datasetPrincipal;
         dibujarGraficoPrincipal($('#tipo_grafico_principal').val());
     },'json');
 }
 
 function aplicarFiltro(){
+    var elementos='';
+    $('#capa_dimension_valores input:checked').each(function(){
+       elementos += $(this).val()+'&';
+    });
     $.post(Routing.generate('indicador_datos_filtrar'),          
-        {datos: datasetPrincipal, desde: $('#filtro_desde').val(), hasta: $('#filtro_hasta').val()},
+        {datos: datasetPrincipal, desde: $('#filtro_desde').val(), hasta: $('#filtro_hasta').val(),
+        elementos: elementos},
     function(resp){        
         datasetPrincipal = resp.datos;
         dibujarGraficoPrincipal($('#tipo_grafico_principal').val());
     },'json');
+}
+
+function controles_filtros(){
+    var lista_datos_dimension = '<DIV class="span2" id="capa_dimension_valores">'+trans.filtrar_por_elemento;
+    
+    $.each(datasetPrincipal, function(i, dato){
+        lista_datos_dimension += '<li><input class="detenerclic" type="checkbox" id="categorias_a_mostrar'+i+'" '+
+                    'name="categorias_a_mostrar[]" value="'+dato.category+'" /><label class="detenerclic" for="categorias_a_mostrar'+i+'" >'+dato.category+'</label></li>';
+    });
+    lista_datos_dimension += '</DIV><DIV class="span2"><input type="button" id="aplicar_filtro" value="'+trans.filtrar+'"/>'+
+                        '<input type="button" id="quitar_filtro" value="'+trans.quitar_filtro+'"/></DIV>';
+    
+    $('#lista_datos_dimension').html('');
+    $('#lista_datos_dimension').append(lista_datos_dimension);
+    
+    $('.detenerclic').click(function(event){
+        event.stopPropagation();
+        //ordenarDatos($(this).attr('data-ordenar-por'), $(this).attr('data-tipo-orden'));                    
+    })
+    $('#aplicar_filtro').click(function(){
+        aplicarFiltro(); 
+     });
+    $('#quitar_filtro').click(function(){
+        $('#filtro_desde').val('');
+        $('#filtro_hasta').val('');
+        $('#capa_dimension_valores input:checked').each(function(){
+            $(this).attr('checked',false);
+        });
+         datasetPrincipal = datasetPrincipal_bk ;
+        dibujarGraficoPrincipal($('#tipo_grafico_principal').val());
+     });
 }

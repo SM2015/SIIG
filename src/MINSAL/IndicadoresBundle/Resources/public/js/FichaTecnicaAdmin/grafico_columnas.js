@@ -18,7 +18,7 @@ function dibujarGraficoColumnas(ubicacion, datos, colorChosen, categoryChoosen) 
             })])
             .range([height, 0])
             ;
-            alert (yScale.domain());
+            
     var yAxis = d3.svg.axis()
         .scale(yScale)
         .orient("left")
