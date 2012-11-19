@@ -2,7 +2,7 @@ function dibujarGraficoLineas(ubicacion, datos, colorChosen, categoryChoosen) {
 
     var margin = {top: 20, right: 40, bottom: 20, left: 50},
     width = 500 - margin.left - margin.right,
-            height = 160 - margin.top - margin.bottom
+            height = 300 - margin.top - margin.bottom
             ;
     var currentDatasetChart = datos;
     
@@ -14,7 +14,7 @@ function dibujarGraficoLineas(ubicacion, datos, colorChosen, categoryChoosen) {
 
     var yScale = d3.scale.linear()
             .domain([0, d3.max(currentDatasetChart, function(d) {
-                return d.measure;
+                return parseFloat(d.measure);
             })])
             .range([height, 0])
             ;
@@ -25,11 +25,11 @@ function dibujarGraficoLineas(ubicacion, datos, colorChosen, categoryChoosen) {
     var line = d3.svg.line()
             //.x(function(d) { return xScale(d.category); })
             .x(function(d, i) {
-        return xScale(i);
-    })
+                return xScale(i);
+            })
             .y(function(d) {
-        return yScale(d.measure);
-    })
+                return yScale(parseFloat(d.measure));
+            })
             ;
 
     $('#' + ubicacion).html('');
@@ -66,9 +66,9 @@ function dibujarGraficoLineas(ubicacion, datos, colorChosen, categoryChoosen) {
         .attr("class", "dot")
         .attr("fill", function(d) {
             return d.measure == d3.min(currentDatasetChart, function(d) {
-                return d.measure;
+                return parseFloat(d.measure);
             }) ? "red" : (d.measure == d3.max(currentDatasetChart, function(d) {
-                return d.measure;
+                return parseFloat(d.measure);
         }) ? "green" : "orange")
         })       
         .attr("cx", line.x())
@@ -184,9 +184,9 @@ function updateLineChart(group, colorChosen) {
             .attr("class", "dot")
             .attr("fill", function(d) {
         return d.measure == d3.min(currentDatasetLineChart, function(d) {
-            return d.measure;
+            return parseFloat(d.measure);
         }) ? "red" : (d.measure == d3.max(currentDatasetLineChart, function(d) {
-            return d.measure;
+            return parseFloat(d.measure);
         }) ? "green" : "white")
     })
             .attr("cx", line.x())

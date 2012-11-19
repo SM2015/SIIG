@@ -95,10 +95,10 @@ class IndicadorController extends Controller {
             else
                 sort($datos_aux);
         }
-        
-        $datos_ordenados = array();        
-        $i=0;
-        foreach($datos_aux as $k=>$medida){
+
+        $datos_ordenados = array();
+        $i = 0;
+        foreach ($datos_aux as $k => $medida) {
             $datos_ordenados[$i]['category'] = $k;
             $datos_ordenados[$i]['measure'] = $medida;
             $i++;
@@ -108,6 +108,7 @@ class IndicadorController extends Controller {
         $response->setMaxAge(600);
         return $response;
     }
+
     /**
      * @Route("/indicador/datos/filtrar", name="indicador_datos_filtrar", options={"expose"=true})
      */
@@ -115,23 +116,31 @@ class IndicadorController extends Controller {
         $desde = $this->getRequest()->get('desde');
         $hasta = $this->getRequest()->get('hasta');
         $datos = $this->getRequest()->get('datos');
+        $elementos = $this->getRequest()->get('elementos');
 
         // Adecuar el arreglo para luego ordenarlo
         $datos_aux = array();
-        foreach ($datos as $fila) {
-            $datos_aux[$fila['category']] = $fila['measure'];
+
+        if ($elementos != '') {
+            $elementos = trim($elementos, '&');
+            $datos_a_mostrar = explode('&', $elementos);
+            foreach ($datos as $k=>$fila) 
+                if (in_array($fila['category'],$datos_a_mostrar)){
+                    $datos_aux[$k]['category'] = $fila['category'];
+                    $datos_aux[$k]['measure'] = $fila['measure'];
+                }
+        } else {
+            $max = count($datos);
+            $hasta = ($hasta == '' or $hasta > $max) ? $max : $hasta;
+            $desde = ($desde == '' or $desde <= 0) ? 0 : $desde - 1;
+
+            $cantidad = $hasta - $desde;
+            $datos_aux = array_slice($datos, $desde, $cantidad, true);
         }
-        $max = count($datos);
         
-        $hasta = ($hasta=='' or $hasta>$max) ? $max : $hasta;
-        $desde = ($desde=='' or $desde<=0) ? 0 : $desde-1;
-        
-        $cantidad = $hasta - $desde;        
-        $datos_aux = array_slice($datos, $desde, $cantidad, true);
-        
-        $datos_filtrados = array();        
-        $i=0;
-        foreach($datos_aux as $k=>$dato){
+        $datos_filtrados = array();
+        $i = 0;
+        foreach ($datos_aux as $k => $dato) {
             $datos_filtrados[$i]['category'] = $dato['category'];
             $datos_filtrados[$i]['measure'] = $dato['measure'];
             $i++;
