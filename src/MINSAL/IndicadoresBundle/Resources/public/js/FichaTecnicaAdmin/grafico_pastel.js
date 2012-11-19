@@ -30,7 +30,7 @@ function dibujarGraficoPastel(ubicacion, datos, color_grafico, categoryChoosen) 
 
     var pie = d3.layout.pie()           //this will create arc data for us given a list of values
             .value(function(d) {
-        return d.measure;
+        return parseFloat(d.measure);
     });    //we must tell it out to access the value of each element in our data array
 
     var arcs = vis.selectAll("g.slice")     //this selects all <g> elements with class slice (there aren't any yet)

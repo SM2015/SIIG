@@ -2,12 +2,11 @@ function dibujarGraficoColumnas(ubicacion, datos, colorChosen, categoryChoosen) 
 
     var margin = {top: 30, right: 5, bottom: 20, left: 50},
     width = 500 - margin.left - margin.right,
-            height = 250 - margin.top - margin.bottom,
+            height = 300 - margin.top - margin.bottom,
             barPadding = 1
             ;
 
-    var currentDatasetBarChart = datos;
-
+    var currentDatasetBarChart = datos;    
     var xScale = d3.scale.linear()
             .domain([0, currentDatasetBarChart.length])
             .range([0, width])
@@ -15,14 +14,15 @@ function dibujarGraficoColumnas(ubicacion, datos, colorChosen, categoryChoosen) 
 
     var yScale = d3.scale.linear()
             .domain([0, d3.max(currentDatasetBarChart, function(d) {
-                return d.measure;
+                return parseFloat(d.measure);
             })])
             .range([height, 0])
             ;
-var yAxis = d3.svg.axis()
-    .scale(yScale)
-    .orient("left")
-    .tickFormat(formatPercent);
+            alert (yScale.domain());
+    var yAxis = d3.svg.axis()
+        .scale(yScale)
+        .orient("left")
+        .tickFormat(formatPercent);
     $('#' + ubicacion).html('');
     var svg = d3.select("#" + ubicacion)
             .append("svg")
@@ -45,10 +45,10 @@ var yAxis = d3.svg.axis()
         })
         .attr("width", width / currentDatasetBarChart.length - barPadding)
         .attr("y", function(d) {
-            return yScale(d.measure);
+            return yScale(parseFloat(d.measure));
         })
         .attr("height", function(d) {
-            return height - yScale(d.measure);
+            return height - yScale(parseFloat(d.measure));
         })
         .append("title")
         .text(function(d) {
@@ -82,7 +82,7 @@ var yAxis = d3.svg.axis()
             return (i * (width / currentDatasetBarChart.length)) + ((width / currentDatasetBarChart.length - barPadding) / 2);
         })
         .attr("y", function(d) {
-            return yScale(d.measure) + 10;
+            return yScale(parseFloat(d.measure)) + 10;
         })
         .attr("class", "yAxis")
         ;    
