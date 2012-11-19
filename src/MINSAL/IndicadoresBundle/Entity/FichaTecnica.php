@@ -154,7 +154,7 @@ class FichaTecnica
     /**
      * @var $categoriaIndicador
      *
-     * @ORM\ManyToOne(targetEntity="CategoriaIndicador")
+     * @ORM\ManyToOne(targetEntity="CategoriaIndicador", inversedBy="indicadores" )
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_categoria_indicador", referencedColumnName="id")
      * })

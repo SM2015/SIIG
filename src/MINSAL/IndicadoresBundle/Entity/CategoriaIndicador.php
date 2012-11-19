@@ -34,6 +34,11 @@ class CategoriaIndicador
      * @ORM\Column(name="descripcion", type="string", length=200, nullable=false)
      */
     private $descripcion;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="FichaTecnica", mappedBy="categoriaIndicador")
+     **/
+    private $indicadores;
 
     /**
      * Get id
@@ -93,5 +98,45 @@ class CategoriaIndicador
     
     public function __toString() {
         return $this->descripcion;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->indicadores = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add indicadores
+     *
+     * @param MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores
+     * @return CategoriaIndicador
+     */
+    public function addIndicadore(\MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores)
+    {
+        $this->indicadores[] = $indicadores;
+    
+        return $this;
+    }
+
+    /**
+     * Remove indicadores
+     *
+     * @param MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores
+     */
+    public function removeIndicadore(\MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores)
+    {
+        $this->indicadores->removeElement($indicadores);
+    }
+
+    /**
+     * Get indicadores
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getIndicadores()
+    {
+        return $this->indicadores;
     }
 }

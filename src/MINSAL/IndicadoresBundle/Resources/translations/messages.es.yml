@@ -136,6 +136,7 @@ origen_dato: 'Origen de datos'
 error: 'Error'
 es_catalogo: 'Es Catálogo'
 datos_generales: 'Datos Generales'
+indicador_tablero: 'Tablero'
 
 fusion:
   no_catalogos: 'No se permite fusionar catálogos, alternativamente puede crear una hoja de cálculo con los datos requeridos y cargarlos al catálogo'
@@ -153,6 +154,17 @@ javascript:
   tipo: 'Tipo'
   significado: 'Significado'
   datos_muestra: 'Datos de muestra'
+  dimension: 'Dimensión'
+  tipo_grafico: 'Tipo de gráfico'
+  ascendente: 'Ascendente'
+  descendente: 'Descendente'
+  ordenar_dimension: 'Ordenar por dimensión'
+  ordenar_medida: 'Ordenar por valor del indicador'
+  filtro_posicion: 'Filtrar por posición'
+  desde: 'Desde'
+  hasta: 'Hasta'
+  filtrar: 'Filtrar'
+  quitar_filtro: 'Quitar Filtros'
 
 validacion:
   requerido: Este dato es requerido
@@ -161,5 +173,13 @@ validacion:
   sentencia_sql_origen_requeridos: 'Debe especificar la sentencia SQL y la conexión'
   debe_elegir_una_opcion: 'Debe elegir una opción'
   elija_al_menos_un_campo: 'Debe haber al menos un campo seleccionado'
+tablero:
+  barras: Barras
+  pastel: Pastel
+  lineas: Líneas
+  columnas: Columnas
+  tipo_grafico_principal: Tipo de gráfico principal
+  tipo_grafico_secundario: Tipo de gráfico secundario
 
+  
 

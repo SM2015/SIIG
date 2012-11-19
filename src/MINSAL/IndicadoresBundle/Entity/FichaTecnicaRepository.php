@@ -17,7 +17,7 @@ class FichaTecnicaRepository extends EntityRepository {
         foreach ($fichaTecnica->getVariables() as $variable) {
             //Recuperar la información de los campos para crear la tabla
             $tabla = strtolower($variable->getIniciales());            
-            $sql .= 'CREATE TEMP TABLE ' . $tabla . '(';
+            $sql .= 'CREATE TEMP TABLE IF NOT EXISTS ' . $tabla . '(';
             foreach ($variable->getOrigenDatos()->getCampos() as $campo) {
                 $sql .= $campo->getSignificado()->getCodigo() . ' ' . $campo->getTipoCampo()->getCodigo() . ', ';
             }
@@ -35,6 +35,7 @@ class FichaTecnicaRepository extends EntityRepository {
                 INTO TEMP  $tabla" . "_var
                 FROM $tabla                 
                 GROUP BY $campos 
+                HAVING  SUM(calculo::numeric) > 0
                     ;";
             $tablas_variables[] = $tabla;
         }        
@@ -44,28 +45,26 @@ class FichaTecnicaRepository extends EntityRepository {
         foreach ($tablas_variables as $tabla){
             $sql .= " INNER JOIN ".$tabla."_var USING ($campos) ";
         }        
-        $this->getEntityManager()->getConnection()->executeQuery($sql);
+        $this->getEntityManager()->getConnection()->exec($sql);
     }
     
-    public function calcularIndicador(FichaTecnica $fichaTecnica, $grupos, $filtro_registros=null, $filtro_grupo=null) {
+    public function calcularIndicador(FichaTecnica $fichaTecnica, $dimension, $filtro_registros=null) {
         $util = new \MINSAL\IndicadoresBundle\Util\Util();
         $formula = str_replace(array('{','}'), array('SUM(',')'), $fichaTecnica->getFormula());
         $nombre_indicador = $util->slug($fichaTecnica->getNombre());
         $tabla_indicador = 'ind_'.$nombre_indicador;
         
-        $sql = "SELECT $grupos, ($formula) as indicador
+        $sql = "SELECT $dimension as category, round(($formula)::numeric,2) as measure
             FROM $tabla_indicador ";
-        if ($filtro_registros!=null)
-            $sql .= "
-                WHERE $filtro_registros                
-            ";
+        if ($filtro_registros != null){
+            $sql .= ' WHERE 1=1 ';
+            foreach ($filtro_registros as $campo => $valor)
+                $sql .= " AND $campo = '$valor' ";
+        }
         $sql .= "
-            GROUP BY $grupos ";
-        if ($filtro_grupo!=null)
-            $sql .= " HAVING $filtro_grupo
-                ";
-        
-        $this->getEntityManager()->getConnection()->executeQuery($sql);
+            GROUP BY $dimension 
+            ORDER BY $dimension";                
+        return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
     }
 
 }

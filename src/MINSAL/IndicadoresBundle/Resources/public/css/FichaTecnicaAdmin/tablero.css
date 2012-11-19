@@ -1,26 +1,75 @@
-div.tablero{    
-    bottom: 0px;
-    top: 20%;
-    width: 93%;
-    position: absolute;
-    border: blue dotted medium ;
+h4.ui-accordion-header{
+    margin: 1px 0;
+    padding-left: 25px;    
 }
 
-div.tablero .row-fluid{
-    border: yellow dotted medium ;
-    height: 98%;
+input.valores_filtro{
+    width: 40px;
 }
-#tablero_indicadores{
-    width: 24%;
-    height: 98%;
-    border: #000000 dotted medium ;
+
+.slice {
+   font-size: 12pt;
+   font-family: Verdana;
+   fill: black; 
+   font-weight: bold;	
 }
-#tablero_indicadores div{
-    height: 65%;
+
+/*for line chart*/
+.axis path, .axis line {
+    fill: none;
+    stroke: black;
+    shape-rendering: crispEdges; 
 }
-#tablero_graficos{
-    width: 73%;
-    float: right;
-    height: 98%;
-    border: red dotted medium ;
+
+.line {
+  fill: none;
+  /*stroke: steelblue;*/
+  stroke-width: 3px;
+}
+
+.dot {
+  /*fill: white;*/
+  /*stroke: steelblue;*/
+  stroke-width: 1.5px;
+  }
+				
+
+.axis text {
+    font-family: Verdana;
+    font-size: 11px;
+}
+
+.title {
+	 font-family: Verdana;
+    font-size: 15px;	
+		
+}
+
+.xAxis {
+    font-family: verdana;
+    font-size: 11px;
+    fill: black;
+}  
+
+.yAxis {
+    font-family: verdana;
+    font-size: 11px;
+    fill: black;
+}
+
+#lineChartTitle1 {
+	font-family: Verdana;
+	font-size  : 14px;
+	fill       : lightgrey;
+	font-weight: bold;
+	text-anchor: middle;
+}
+
+#lineChartTitle2 {
+	font-family: Verdana;
+	font-size  : 72px;
+	fill       : grey;
+	text-anchor: middle;
+	font-weight: bold;
+	/*font-style: italic;*/
 }

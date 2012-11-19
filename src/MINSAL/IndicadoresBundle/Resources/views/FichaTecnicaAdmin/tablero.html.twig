@@ -3,27 +3,59 @@
 {% extends 'IndicadoresBundle::standard_layout.html.twig' %}
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('bundles/indicadores/css/FichaTecnicaAdmin/tablero.css') }}" type="text/css" media="all" />    
+    <link rel="stylesheet" href="{{ asset('bundles/indicadores/css/FichaTecnicaAdmin/tablero.css') }}" type="text/css" media="all" />
 {% endblock %}    
     
-{% block javascripts %}
+{% block javascripts %}    
     {{ parent() }}
-    <script src="{{ asset('bundles/indicadores/js/FichaTecnicaAdmin/tablero.js') }}" type="text/javascript"></script>    
+    <script src="http://d3js.org/d3.v2.js"></script>    
+    <script src="{{ asset('bundles/indicadores/js/FichaTecnicaAdmin/comun.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/indicadores/js/FichaTecnicaAdmin/grafico_pastel.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/indicadores/js/FichaTecnicaAdmin/grafico_columnas.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/indicadores/js/FichaTecnicaAdmin/grafico_lineas.js') }}" type="text/javascript"></script>    
+    <script src="{{ asset('bundles/indicadores/js/FichaTecnicaAdmin/tablero.js') }}" type="text/javascript"></script>
 {% endblock %}
     
 
 
 {% block content %}
-    <div class="tablero container-fluid">
+    <div class="tablero container-fluid" id='tablero'>
         <div class="row-fluid">
-            <div class="span2" id='tablero_indicadores'>
+            <div class="span3" id='tablero_indicadores' style='overflow-y: auto'>
                 {% for categoria in categorias%}
-                    <H3>{{categoria.descripcion}}</H3>
-                    <DIV>Indicadores de la categoria {{categoria.descripcion}}</DIV>
-                {% endfor %}
+                    <H4>{{categoria.descripcion}}</H4>
+                    <DIV >
+                        <ul>
+                        {% for indicador in categoria.indicadores %}
+                            <li><A href="#" id='{{indicador.id}}'>{{indicador.nombre}}</A></li>
+                        {% endfor %}
+                        </ul>
+                    </DIV>
+                {% endfor %}                            
             </div>
-            <div class="span10" id='tablero_graficos'>
-                Gráficos
+            <div class="span8" id='tablero_graficos'>
+                 <div class="row">
+                    <div class="span10">
+                        <h3 id='titulo_indicador'></h3>
+                        <h6 id='filtros_dimensiones' data=''></h6>
+                        <div id='controles'></div>
+                        <div id="graficoPrimario" ></div>
+                    </div>
+                    </div>
+                </div>
+                {# <div class="row">
+                    <div class="span8">
+                        <label for='tipo_grafico_secundario'>{{'tablero.tipo_grafico_secundario'|trans}}: </label>
+                        <select id='tipo_grafico_secundario' name="tipo_grafico_secundario">
+                            <option value='columnas'>{{'tablero.columnas'|trans}}</option>
+                            <option value='pastel'>{{'tablero.pastel'|trans}}</option>
+                            <option value='lineas'>{{'tablero.lineas'|trans}}</option>
+                            <option value='barras'>{{'tablero.barras'|trans}}--pendiente</option>
+                        </select>
+                        <div id="graficoSecundario" >
+                        </div>
+                    </div>                    
+                </div>#}
             </div>
         </div>
     </div>    
