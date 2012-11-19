@@ -2,6 +2,11 @@ h4.ui-accordion-header{
     margin: 1px 0;
     padding-left: 25px;    
 }
+
+input.valores_filtro{
+    width: 40px;
+}
+
 .slice {
    font-size: 12pt;
    font-family: Verdana;

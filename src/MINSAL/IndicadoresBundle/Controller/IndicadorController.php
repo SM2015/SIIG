@@ -91,21 +91,52 @@ class IndicadorController extends Controller {
         }
         else {
             if ($modo == 'desc')
-                arsort($datos_aux);
+                rsort($datos_aux);
             else
-                asort($datos_aux);
+                sort($datos_aux);
         }
         
         $datos_ordenados = array();        
         $i=0;
-        
         foreach($datos_aux as $k=>$medida){
             $datos_ordenados[$i]['category'] = $k;
             $datos_ordenados[$i]['measure'] = $medida;
             $i++;
         }
         $resp['datos'] = $datos_ordenados;
+        $response = new Response(json_encode($resp));
+        $response->setMaxAge(600);
+        return $response;
+    }
+    /**
+     * @Route("/indicador/datos/filtrar", name="indicador_datos_filtrar", options={"expose"=true})
+     */
+    public function getDatosFiltrados() {
+        $desde = $this->getRequest()->get('desde');
+        $hasta = $this->getRequest()->get('hasta');
+        $datos = $this->getRequest()->get('datos');
+
+        // Adecuar el arreglo para luego ordenarlo
+        $datos_aux = array();
+        foreach ($datos as $fila) {
+            $datos_aux[$fila['category']] = $fila['measure'];
+        }
+        $max = count($datos);
         
+        $hasta = ($hasta=='' or $hasta>$max) ? $max : $hasta;
+        $desde = ($desde=='' or $desde<=0) ? 0 : $desde-1;
+        
+        $cantidad = $hasta - $desde;        
+        $datos_aux = array_slice($datos, $desde, $cantidad, true);
+        
+        $datos_filtrados = array();        
+        $i=0;
+        foreach($datos_aux as $k=>$dato){
+            $datos_filtrados[$i]['category'] = $dato['category'];
+            $datos_filtrados[$i]['measure'] = $dato['measure'];
+            $i++;
+        }
+        $resp['datos'] = $datos_filtrados;
         $response = new Response(json_encode($resp));
         //$response->setMaxAge(600);
         return $response;

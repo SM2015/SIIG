@@ -54,11 +54,16 @@ $(document).ready(function() {
                         "<OPTION VALUE='desc'>"+trans.descendente+"</OPTION>"+
                         "<OPTION VALUE='asc'>"+trans.ascendente+"</OPTION>"+
                         "</SELECT>";
-                
+                var filtro_posicion = trans.filtro_posicion +" "+trans.desde+
+                        "<INPUT class='valores_filtro' id='filtro_desde' type='text' length='5' value=''> "+trans.hasta +
+                        "<INPUT class='valores_filtro' id='filtro_hasta' type='text' length='5' value=''> "+
+                        "<input type='button' id='aplicar_filtro' value='"+trans.filtrar+"'/>"+
+                        "<input type='button' id='quitar_filtro' value='"+trans.quitar_filtro+"'/>";
                 $('#controles').append(combo_dimensiones);
                 $('#controles').append(combo_tipo_grafico);
                 $('#controles').append(combo_ordenar_por_dimension);
                 $('#controles').append(combo_ordenar_por_medida);
+                $('#controles').append(filtro_posicion);
                 
                 $('#ordenar_dimension').change(function(){
                     ordenarDatos('dimension', $(this).val());
@@ -73,6 +78,14 @@ $(document).ready(function() {
                 });
                 $('#tipo_grafico_principal').change(function(){
                     dibujarGraficoPrincipal($(this).val());
+                });
+            
+                $('#aplicar_filtro').click(function(){
+                   aplicarFiltro(); 
+                });
+                $('#quitar_filtro').click(function(){
+                   datasetPrincipal = datasetPrincipal_bk ;
+                    dibujarGraficoPrincipal($('#tipo_grafico_principal').val());
                 });
                 dibujarGrafico($('#dimensiones').val());
             }

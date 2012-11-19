@@ -17,6 +17,7 @@ var formatAsPercentage = d3.format("%"),
         ;
 
 var datasetPrincipal;
+var datasetPrincipal_bk;
 
 color = d3.scale.category20();    //builtin range of colors
 
@@ -121,6 +122,7 @@ function dibujarGrafico(dimension){
         {filtro: filtro},
     function(resp){
         datasetPrincipal = resp.datos;
+        datasetPrincipal_bk = datasetPrincipal;
         dibujarGraficoPrincipal($('#tipo_grafico_principal').val());
     });
 }
@@ -132,10 +134,20 @@ function ordenarDatos(ordenar_por, modo_orden){
         $('#ordenar_medida').children('option[value="-1"]').attr('selected','selected');
     else
         $('#ordenar_dimension').children('option[value="-1"]').attr('selected','selected');
-    $.getJSON(Routing.generate('indicador_datos_ordenar'),          
+    $.post(Routing.generate('indicador_datos_ordenar'),          
         {datos: datasetPrincipal, ordenar_por: ordenar_por, modo: modo_orden},
     function(resp){        
         datasetPrincipal = resp.datos;
+        datasetPrincipal_bk = datasetPrincipal;
         dibujarGraficoPrincipal($('#tipo_grafico_principal').val());
-    });
+    },'json');
+}
+
+function aplicarFiltro(){
+    $.post(Routing.generate('indicador_datos_filtrar'),          
+        {datos: datasetPrincipal, desde: $('#filtro_desde').val(), hasta: $('#filtro_hasta').val()},
+    function(resp){        
+        datasetPrincipal = resp.datos;
+        dibujarGraficoPrincipal($('#tipo_grafico_principal').val());
+    },'json');
 }

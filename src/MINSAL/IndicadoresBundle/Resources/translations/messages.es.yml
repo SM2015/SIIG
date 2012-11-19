@@ -160,6 +160,11 @@ javascript:
   descendente: 'Descendente'
   ordenar_dimension: 'Ordenar por dimensión'
   ordenar_medida: 'Ordenar por valor del indicador'
+  filtro_posicion: 'Filtrar por posición'
+  desde: 'Desde'
+  hasta: 'Hasta'
+  filtrar: 'Filtrar'
+  quitar_filtro: 'Quitar Filtros'
 
 validacion:
   requerido: Este dato es requerido
