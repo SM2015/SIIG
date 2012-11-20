@@ -91,9 +91,9 @@ class IndicadorController extends Controller {
         }
         else {
             if ($modo == 'desc')
-                rsort($datos_aux);
+                arsort($datos_aux);
             else
-                sort($datos_aux);
+                asort($datos_aux);
         }
 
         $datos_ordenados = array();
