@@ -115,9 +115,7 @@ class FichaTecnica
      * @var ClasificacionNivel
      *
      * @ORM\ManyToOne(targetEntity="ClasificacionNivel")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_clasificacion_nivel", referencedColumnName="id")
-     * })
+     * @ORM\JoinColumn(name="id_clasificacion_nivel", referencedColumnName="id")
      */
     private $idClasificacionNivel;
 
@@ -125,9 +123,7 @@ class FichaTecnica
      * @var ClasificacionPrivacidad
      *
      * @ORM\ManyToOne(targetEntity="ClasificacionPrivacidad")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_clasificacion_privacidad", referencedColumnName="id")
-     * })
+     * @ORM\JoinColumn(name="id_clasificacion_privacidad", referencedColumnName="id")
      */
     private $idClasificacionPrivacidad;
 
@@ -135,9 +131,7 @@ class FichaTecnica
      * @var ClasificacionTecnica
      *
      * @ORM\ManyToOne(targetEntity="ClasificacionTecnica")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_clasificacion_tecnica", referencedColumnName="id")
-     * })
+     * @ORM\JoinColumn(name="id_clasificacion_tecnica", referencedColumnName="id")
      */
     private $idClasificacionTecnica;
 
@@ -145,9 +139,7 @@ class FichaTecnica
      * @var ClasificacionUso
      *
      * @ORM\ManyToOne(targetEntity="ClasificacionUso")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_clasificacion_uso", referencedColumnName="id")
-     * })
+     * @ORM\JoinColumn(name="id_clasificacion_uso", referencedColumnName="id")
      */
     private $idClasificacionUso;
     
@@ -155,9 +147,7 @@ class FichaTecnica
      * @var $categoriaIndicador
      *
      * @ORM\ManyToOne(targetEntity="CategoriaIndicador", inversedBy="indicadores" )
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_categoria_indicador", referencedColumnName="id")
-     * })
+     * @ORM\JoinColumn(name="id_categoria_indicador", referencedColumnName="id")
      */
     private $categoriaIndicador;
 
@@ -165,13 +155,16 @@ class FichaTecnica
      * @var ResponsableIndicador
      *
      * @ORM\ManyToOne(targetEntity="ResponsableIndicador")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_responsable_indicador", referencedColumnName="id")
-     * })
+     * @ORM\JoinColumn(name="id_responsable_indicador", referencedColumnName="id")
      */
     private $idResponsableIndicador;
 
-
+    /**
+    * @var $alertas
+     * @ORM\OneToMany(targetEntity="IndicadorAlertas", mappedBy="indicador")
+     * 
+     */
+    private $alertas;
 
     /**
      * Get id
@@ -793,5 +786,65 @@ class FichaTecnica
     public function getCategoriaIndicador()
     {
         return $this->categoriaIndicador;
+    }
+
+    /**
+     * Add alertas
+     *
+     * @param MINSAL\IndicadoresBundle\Entity\IndicadorAlertas $alertas
+     * @return FichaTecnica
+     */
+    public function addAlertas(\MINSAL\IndicadoresBundle\Entity\IndicadorAlertas $alertas)
+    {
+        $this->alertas[] = $alertas;
+    
+        return $this;
+    }
+
+    /**
+     * Remove alertas
+     *
+     * @param MINSAL\IndicadoresBundle\Entity\IndicadorAlertas $alertas
+     */
+    public function removeAlertas(\MINSAL\IndicadoresBundle\Entity\IndicadorAlertas $alertas)
+    {
+        $this->alertas->removeElement($alertas);
+    }
+
+    /**
+     * Get alertas
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getAlertas()
+    {
+        return $this->alertas;
+    }
+    
+    public function __toString() {
+        return $this->nombre;
+    }
+
+    /**
+     * Add alertas
+     *
+     * @param MINSAL\IndicadoresBundle\Entity\IndicadorAlertas $alertas
+     * @return FichaTecnica
+     */
+    public function addAlerta(\MINSAL\IndicadoresBundle\Entity\IndicadorAlertas $alertas)
+    {
+        $this->alertas[] = $alertas;
+    
+        return $this;
+    }
+
+    /**
+     * Remove alertas
+     *
+     * @param MINSAL\IndicadoresBundle\Entity\IndicadorAlertas $alertas
+     */
+    public function removeAlerta(\MINSAL\IndicadoresBundle\Entity\IndicadorAlertas $alertas)
+    {
+        $this->alertas->removeElement($alertas);
     }
 }

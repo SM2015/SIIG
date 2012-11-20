@@ -139,7 +139,17 @@
             <argument />
             <argument>MINSAL\IndicadoresBundle\Entity\FichaTecnica</argument>
             <argument>IndicadoresBundle:FichaTecnicaAdmin</argument>
-        </service>        
+        </service>
+        <service id="sonata.admin.indicador_alertas" class="MINSAL\IndicadoresBundle\Admin\IndicadorAlertasAdmin">
+            <tag name="sonata.admin"
+                 manager_type="orm" 
+                 group="indicadores" 
+                 label="indicador_alertas"
+            />
+            <argument />
+            <argument>MINSAL\IndicadoresBundle\Entity\IndicadorAlertas</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+        </service>
         <service id="indicadores.cargar_origen_datos_servicio" class="MINSAL\IndicadoresBundle\Consumer\CargarOrigenDatoConsumer">            
             <argument type="service" id="service_container" />            
         </service>

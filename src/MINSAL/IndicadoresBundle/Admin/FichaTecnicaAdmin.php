@@ -36,11 +36,17 @@ class FichaTecnicaAdmin extends Admin {
                 ->add('idClasificacionTecnica', null, array('label' => $this->getTranslator()->trans('clasificacion_tecnica')))
                 ->add('idClasificacionPrivacidad', null, array('label' => $this->getTranslator()->trans('clasificacion_privacidad')))
                 ->add('idClasificacionUso', null, array('label' => $this->getTranslator()->trans('clasificacion_uso')))
-                ->add('categoriaIndicador', null, array('label' => $this->getTranslator()->trans('categoria'), 
-                                                    'required'=>true))
+                ->add('categoriaIndicador', null, array('label' => $this->getTranslator()->trans('categoria'),
+                    'required' => true))
                 ->add('periodos', null, array('label' => $this->getTranslator()->trans('periodicidad'), 'expanded' => true))
                 ->add('idResponsableIndicador', null, array('label' => $this->getTranslator()->trans('responsable_indicador')))
                 ->add('confiabilidad', null, array('label' => $this->getTranslator()->trans('confiabilidad'), 'required' => false))
+                ->add('alertas', 'sonata_type_collection', array('label' => $this->getTranslator()->trans('alertas'),
+                    'required' => false), array(
+                    'edit' => 'inline',
+                    'inline' => 'table',
+                    'sortable' => 'position'
+                ))
                 ->add('estandar', null, array('label' => $this->getTranslator()->trans('estandar_nacional')))
                 ->add('presentaciones', null, array('label' => $this->getTranslator()->trans('presentacion'), 'expanded' => true))
                 ->add('observacion', 'textarea', array('label' => $this->getTranslator()->trans('comentario'), 'required' => false))
@@ -82,7 +88,7 @@ class FichaTecnicaAdmin extends Admin {
             if (count($campos_no_configurados) > 0) {
                 $errorElement
                         ->with('variables')
-                        ->addViolation($variable->getIniciales().': '. $this->getTranslator()->trans('origen_no_configurado'))
+                        ->addViolation($variable->getIniciales() . ': ' . $this->getTranslator()->trans('origen_no_configurado'))
                         ->end();
             }
         }
@@ -149,7 +155,7 @@ class FichaTecnicaAdmin extends Admin {
         $this->crearCamposIndicador($fichaTecnica);
         //$this->repository->crearTablaIndicador($fichaTecnica);
     }
-    
+
     public function prePersist($fichaTecnica) {
         $this->crearCamposIndicador($fichaTecnica);
     }
@@ -168,7 +174,7 @@ class FichaTecnicaAdmin extends Admin {
             $origenDato[$k] = $variable->getOrigenDatos();
             foreach ($origenDato[$k]->getCampos() as $campo) {
                 //La llave para considerar campo comun será el mismo tipo y significado                
-                $llave = $campo->getSignificado()->getId() . '-' . $campo->getTipoCampo()->getId();                
+                $llave = $campo->getSignificado()->getId() . '-' . $campo->getTipoCampo()->getId();
                 $origen_campos[$origenDato[$k]->getId()][$llave]['significado'] = $campo->getSignificado()->getCodigo();
             }
 
@@ -180,22 +186,33 @@ class FichaTecnicaAdmin extends Admin {
             }
         };
         $aux = array();
-        foreach($campos_comunes as $campo)
-            $aux[$campo['significado']]= $campo['significado'];
+        foreach ($campos_comunes as $campo)
+            $aux[$campo['significado']] = $campo['significado'];
         if (isset($aux['calculo']))
             unset($aux['calculo']);
-        $campos_comunes = implode("','", $aux);
-        $fichaTecnica->setCamposIndicador("'".$campos_comunes."'");
+        $campos_comunes = implode(",", $aux);
+        $fichaTecnica->setCamposIndicador($campos_comunes);
     }
 
     public function setRepository($repository) {
         $this->repository = $repository;
     }
-    
-    protected function configureRoutes(RouteCollection $collection)
-    {
-        $collection->add('tablero');    
+
+    protected function configureRoutes(RouteCollection $collection) {
+        $collection->add('tablero');
     }
+    
+    public function getTemplate($name) {
+        switch ($name) {
+            case 'edit':
+                return 'IndicadoresBundle:CRUD:ficha_tecnica-edit.html.twig';
+                break;
+            default:
+                return parent::getTemplate($name);
+                break;
+        }
+    }
+
 }
 
 ?>
