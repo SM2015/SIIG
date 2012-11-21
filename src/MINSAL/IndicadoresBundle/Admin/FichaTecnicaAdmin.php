@@ -177,10 +177,11 @@ class FichaTecnicaAdmin extends Admin {
     public function setAlertas($fichaTecnica){
         $alertas = $fichaTecnica->getAlertas();
         $fichaTecnica->removeAlertas();
-        foreach((array)$alertas as $alerta){
-            $alerta->setIndicador($fichaTecnica);
-            $fichaTecnica->addAlerta($alerta);
-        }
+        if (count($alertas) > 0)
+            foreach($alertas as $alerta){
+                $alerta->setIndicador($fichaTecnica);
+                $fichaTecnica->addAlerta($alerta);
+            }
     }
     public function preUpdate($fichaTecnica) {
         $this->crearCamposIndicador($fichaTecnica);
