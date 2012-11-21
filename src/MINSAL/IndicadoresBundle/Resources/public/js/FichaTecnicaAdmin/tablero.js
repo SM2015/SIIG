@@ -99,7 +99,30 @@ $(document).ready(function() {
                 $('#tipo_grafico_principal').change(function(){
                     dibujarGraficoPrincipal($(this).val());
                 });                            
+                rangos_alertas = resp.rangos;
                 
+                var alertas='';
+                alertas += '<TABLE class="table"><CAPTION>'+trans.alertas_indicador+'</CAPTION>'+
+                        '<THEAD>'+
+                            '<TR>'+
+                                '<TH>'+trans.color+'</TH>'+
+                                '<TH>'+trans.limite_inf+'</TH>'+
+                                '<TH>'+trans.limite_sup+'</TH>'+
+                                '<TH>'+trans.comentario+'</TH>'+
+                            '</TR>'+
+                        '</THEAD>'+
+                        '<TBODY>';
+                
+                $.each(rangos_alertas, function(i, rango){                    
+                    alertas += '<TR>'+
+                            '<TD bgcolor="'+rango.color+'"></TD>'+
+                            '<TD>'+rango.limite_inf+'</TD>'+
+                            '<TD>'+rango.limite_sup+'</TD>'+
+                            '<TD>'+rango.comentario+'</TD>'+                           
+                            '</TR>';
+                })
+                alertas += '</TBODY><TABLE>';
+                $('#alertas').append(alertas);
                 dibujarGrafico($('#dimensiones').val());
                 //filtros();
             }

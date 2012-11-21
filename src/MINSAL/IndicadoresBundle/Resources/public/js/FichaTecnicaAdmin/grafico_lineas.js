@@ -64,12 +64,8 @@ function dibujarGraficoLineas(ubicacion, datos, colorChosen, categoryChoosen) {
         .data(currentDatasetChart)
         .enter().append("circle")
         .attr("class", "dot")
-        .attr("fill", function(d) {
-            return d.measure == d3.min(currentDatasetChart, function(d) {
-                return parseFloat(d.measure);
-            }) ? "red" : (d.measure == d3.max(currentDatasetChart, function(d) {
-                return parseFloat(d.measure);
-        }) ? "green" : "orange")
+        .attr("fill", function(d,i) {
+            return colores_alertas(d.measure, i)
         })       
         .attr("cx", line.x())
         .attr("cy", line.y())

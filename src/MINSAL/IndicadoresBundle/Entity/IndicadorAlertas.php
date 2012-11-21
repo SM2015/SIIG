@@ -24,14 +24,14 @@ class IndicadorAlertas
     /**
      * @var decimal $limiteInferior
      *
-     * @ORM\Column(name="limite_inferior", type="decimal", precision=2, nullable=true)
+     * @ORM\Column(name="limite_inferior", type="float", nullable=false)
      */
     private $limiteInferior;
     
     /**
      * @var decimal $limiteSuperior
      *
-     * @ORM\Column(name="limite_superior", type="decimal", precision=2, nullable=true)
+     * @ORM\Column(name="limite_superior", type="float",  nullable=false)
      */
     private $limiteSuperior;
     
@@ -47,7 +47,7 @@ class IndicadorAlertas
     /**
      * @var $indicador
      *
-     * @ORM\ManyToOne(targetEntity="FichaTecnica", inversedBy="alertas")
+     * @ORM\ManyToOne(targetEntity="FichaTecnica", inversedBy="alertas", cascade={"persist"})
      * @ORM\JoinColumn(name="id_indicador", referencedColumnName="id", nullable=false)
      * 
      */
@@ -184,5 +184,9 @@ class IndicadorAlertas
     public function getComentario()
     {
         return $this->comentario;
+    }
+    
+    public function __toString() {
+        return 'poroba';
     }
 }

@@ -179,6 +179,11 @@ javascript:
   cambiar_dimension: 'Cambiar dimensión'
   ordenar: 'Orden'
   filtrar_por_elemento: 'Filtro por elemento'
+  alertas_indicador: 'Alertas Indicador'
+  color: 'Color'
+  limite_inf: 'Límite inferior'
+  limite_sup: 'Límite superior'
+  comentario: 'Comentario'
 
 validacion:
   requerido: Este dato es requerido

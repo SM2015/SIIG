@@ -154,7 +154,7 @@ class FichaTecnica
 
     /**
     * @var $alertas
-     * @ORM\OneToMany(targetEntity="IndicadorAlertas", mappedBy="indicador")
+     * @ORM\OneToMany(targetEntity="IndicadorAlertas", mappedBy="indicador", cascade={"persist"})
      * 
      */
     private $alertas;
@@ -769,16 +769,7 @@ class FichaTecnica
     
         return $this;
     }
-
-    /**
-     * Remove alertas
-     *
-     * @param MINSAL\IndicadoresBundle\Entity\IndicadorAlertas $alertas
-     */
-    public function removeAlertas(\MINSAL\IndicadoresBundle\Entity\IndicadorAlertas $alertas)
-    {
-        $this->alertas->removeElement($alertas);
-    }
+    
 
     /**
      * Get alertas

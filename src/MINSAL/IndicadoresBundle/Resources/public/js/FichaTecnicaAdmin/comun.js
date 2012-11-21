@@ -18,8 +18,21 @@ var formatAsPercentage = d3.format("%"),
 
 var datasetPrincipal;
 var datasetPrincipal_bk;
+var rangos_alertas;
 
 color = d3.scale.category20();    //builtin range of colors
+
+function colores_alertas (indice, i){
+    if (rangos_alertas.length == 0)        
+        return color(i);
+    else{
+        for (i=0; i <rangos_alertas.length; i++){            
+            if(indice<=rangos_alertas[i].limite_sup)
+                return rangos_alertas[i].color
+        }
+        return 'lightblue';        
+    }
+}
 
 function dibujarGraficoPrincipal(tipo) {
     $('#dimension').html('<h4>'+$('#dimensiones option:selected').html()+'</h4>');

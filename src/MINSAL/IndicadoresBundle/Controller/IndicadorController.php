@@ -27,13 +27,26 @@ class IndicadorController extends Controller {
                         ->findOneByCodigo($campo);
                 $dimensiones[$significado->getCodigo()] = $significado->getDescripcion();
             }
+            $rangos_alertas_aux = array();
+            foreach ($fichaTec->getAlertas() as $k => $rango){                
+                $rangos_alertas_aux[$rango->getLimiteSuperior()]['limite_sup'] = $rango->getLimiteSuperior();
+                $rangos_alertas_aux[$rango->getLimiteSuperior()]['limite_inf'] = $rango->getLimiteInferior();
+                $rangos_alertas_aux[$rango->getLimiteSuperior()]['color'] = $rango->getColor()->getCodigo();
+                $rangos_alertas_aux[$rango->getLimiteSuperior()]['comentario'] = $rango->getComentario();
+            }
+            ksort($rangos_alertas_aux);
+            $rangos_alertas = array();
+            foreach($rangos_alertas_aux as $rango){
+                $rangos_alertas[] = $rango;
+            }
+            $resp['rangos'] = $rangos_alertas;
             $resp['dimensiones'] = $dimensiones;
             $resp['resultado'] = 'ok';
         }
         else
             $resp['resultado'] = 'error';
         $response = new Response(json_encode($resp));
-        $response->setMaxAge(600);
+        //$response->setMaxAge(600);
         return $response;
     }
 

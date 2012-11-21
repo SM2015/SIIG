@@ -2,8 +2,8 @@ function dibujarGraficoPastel(ubicacion, datos, color_grafico, categoryChoosen) 
     if (ubicacion == '' || ubicacion == null)
         ubicacion = "graficoPrimario";
 
-    var width = 300,
-            height = 300,
+    var width = 350,
+            height = 280,
             outerRadius = Math.min(width, height) / 2,
             innerRadius = outerRadius * .999,
             // for animation
@@ -18,7 +18,7 @@ function dibujarGraficoPastel(ubicacion, datos, color_grafico, categoryChoosen) 
             .attr("width", width)           //set the width and height of our visualization (these will be attributes of the <svg> tag
             .attr("height", height)
             .append("svg:g")                //make a group to hold our pie chart
-            .attr("transform", "translate(" + outerRadius + "," + outerRadius + ")")    //move the center of the pie chart from 0, 0 to radius, radius
+            .attr("transform", "translate(" + parseFloat(outerRadius+30) + "," + outerRadius + ")")    //move the center of the pie chart from 0, 0 to radius, radius
             ;
 
     var arc = d3.svg.arc()              //this will create <path> elements for us using arc data
@@ -49,7 +49,7 @@ function dibujarGraficoPastel(ubicacion, datos, color_grafico, categoryChoosen) 
     if (color_grafico == null)
         arcs.append("svg:path")
                 .attr("fill", function(d, i) {
-            return color(i);
+            return colores_alertas(d.data.measure, i) 
         }); //set the color for each slice to be chosen from the color function defined above
     else
         arcs.append("svg:path")
