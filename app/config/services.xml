@@ -87,17 +87,7 @@
             <argument />
             <argument>MINSAL\IndicadoresBundle\Entity\SignificadoCampo</argument>
             <argument>IndicadoresBundle:SignificadoCampoAdmin</argument>
-        </service>
-        <service id="sonata.admin.categoria_indicador" class="MINSAL\IndicadoresBundle\Admin\CategoriaIndicadorAdmin">
-            <tag name="sonata.admin" 
-                 manager_type="orm" 
-                 group="catalogos" 
-                 label="categoria_indicador"
-            />
-            <argument />
-            <argument>MINSAL\IndicadoresBundle\Entity\CategoriaIndicador</argument>
-            <argument>SonataAdminBundle:CRUD</argument>
-        </service>
+        </service>        
         <service id="sonata.admin.conexion" class="MINSAL\IndicadoresBundle\Admin\ConexionAdmin">
             <tag name="sonata.admin" 
                  manager_type="orm" 

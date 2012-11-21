@@ -130,7 +130,7 @@ class FichaTecnica
     /**
      * @var ClasificacionTecnica
      *
-     * @ORM\ManyToOne(targetEntity="ClasificacionTecnica")
+     * @ORM\ManyToOne(targetEntity="ClasificacionTecnica", inversedBy="indicadores" )
      * @ORM\JoinColumn(name="id_clasificacion_tecnica", referencedColumnName="id")
      */
     private $idClasificacionTecnica;
@@ -142,14 +142,7 @@ class FichaTecnica
      * @ORM\JoinColumn(name="id_clasificacion_uso", referencedColumnName="id")
      */
     private $idClasificacionUso;
-    
-    /**
-     * @var $categoriaIndicador
-     *
-     * @ORM\ManyToOne(targetEntity="CategoriaIndicador", inversedBy="indicadores" )
-     * @ORM\JoinColumn(name="id_categoria_indicador", referencedColumnName="id")
-     */
-    private $categoriaIndicador;
+        
 
     /**
      * @var ResponsableIndicador
@@ -762,31 +755,7 @@ class FichaTecnica
     {
         return $this->camposIndicador;
     }
-    
-    
-
-    /**
-     * Set categoriaIndicador
-     *
-     * @param MINSAL\IndicadoresBundle\Entity\CategoriaIndicador $categoriaIndicador
-     * @return FichaTecnica
-     */
-    public function setCategoriaIndicador(\MINSAL\IndicadoresBundle\Entity\CategoriaIndicador $categoriaIndicador = null)
-    {
-        $this->categoriaIndicador = $categoriaIndicador;
-    
-        return $this;
-    }
-
-    /**
-     * Get categoriaIndicador
-     *
-     * @return MINSAL\IndicadoresBundle\Entity\CategoriaIndicador 
-     */
-    public function getCategoriaIndicador()
-    {
-        return $this->categoriaIndicador;
-    }
+        
 
     /**
      * Add alertas

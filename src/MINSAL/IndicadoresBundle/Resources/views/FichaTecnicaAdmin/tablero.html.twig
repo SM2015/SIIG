@@ -23,7 +23,7 @@
         <div class="row-fluid">
             <div class="span3" id='tablero_indicadores' style='overflow-y: auto'>
                 {% for categoria in categorias%}
-                    <H4>{{categoria.descripcion}}</H4>
+                    <H4>{{categoria.descripcion}} ({{categoria.indicadores|length}})</H4>
                     <DIV >
                         <ul>
                         {% for indicador in categoria.indicadores %}
