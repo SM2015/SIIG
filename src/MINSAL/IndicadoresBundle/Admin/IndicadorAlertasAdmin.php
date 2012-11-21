@@ -21,7 +21,8 @@ class IndicadorAlertasAdmin extends Admin {
     protected function configureFormFields(FormMapper $formMapper) {
         $formMapper
                 ->add('indicador', null, array('label' => $this->getTranslator()->trans('indicador')))
-                ->add('limiteInferior', null, array('label' => $this->getTranslator()->trans('limite_inferior')))
+                ->add('limiteInferior', null, array('label' => $this->getTranslator()->trans('limite_inferior'),
+                    'required'=>true))
                 ->add('limiteSuperior', null, array('label' => $this->getTranslator()->trans('limite_superior')))
                 ->add('color', null, array('label' => $this->getTranslator()->trans('color')))
                 ->add('comentario', null, array('label' => $this->getTranslator()->trans('comentario')))

@@ -153,8 +153,8 @@ class FichaTecnica
     private $idResponsableIndicador;
 
     /**
-    * @var $alertas
-     * @ORM\OneToMany(targetEntity="IndicadorAlertas", mappedBy="indicador", cascade={"persist"})
+    * @var \Doctrine\Common\Collections\ArrayCollection
+     * @ORM\OneToMany(targetEntity="IndicadorAlertas", mappedBy="indicador", cascade={"all"}, orphanRemoval=true)
      * 
      */
     private $alertas;
@@ -765,6 +765,7 @@ class FichaTecnica
      */
     public function addAlertas(\MINSAL\IndicadoresBundle\Entity\IndicadorAlertas $alertas)
     {
+        //$alertas->setIndicador($this);
         $this->alertas[] = $alertas;
     
         return $this;
@@ -806,5 +807,10 @@ class FichaTecnica
     public function removeAlerta(\MINSAL\IndicadoresBundle\Entity\IndicadorAlertas $alertas)
     {
         $this->alertas->removeElement($alertas);
+    }
+    
+    public function removeAlertas()
+    {
+        $this->alertas=array();
     }
 }
