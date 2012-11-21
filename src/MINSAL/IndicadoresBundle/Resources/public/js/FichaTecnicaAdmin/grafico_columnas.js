@@ -58,11 +58,12 @@ function dibujarGraficoColumnas(ubicacion, datos, colorChosen, categoryChoosen) 
     if (ubicacion == 'graficoPrimario')
         plot.selectAll("rect").on("click", function(d, i) {
             descenderNivelDimension(d.category);
-        });
+        });    
     if (colorChosen == null)
-        plot.selectAll("rect").attr("fill", function(d, i) {
-            return color(i);
-        }); //set the color for each slice to be chosen from the color function defined above
+        plot.selectAll("rect").attr("fill", function(d, i) {            
+            //evaluar que color le corresponde
+            return colores_alertas(d.measure, i) 
+        }); 
     else
         plot.selectAll("rect").attr("fill", colorChosen);
 

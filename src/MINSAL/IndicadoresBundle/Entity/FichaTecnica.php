@@ -115,9 +115,7 @@ class FichaTecnica
      * @var ClasificacionNivel
      *
      * @ORM\ManyToOne(targetEntity="ClasificacionNivel")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_clasificacion_nivel", referencedColumnName="id")
-     * })
+     * @ORM\JoinColumn(name="id_clasificacion_nivel", referencedColumnName="id")
      */
     private $idClasificacionNivel;
 
@@ -125,19 +123,15 @@ class FichaTecnica
      * @var ClasificacionPrivacidad
      *
      * @ORM\ManyToOne(targetEntity="ClasificacionPrivacidad")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_clasificacion_privacidad", referencedColumnName="id")
-     * })
+     * @ORM\JoinColumn(name="id_clasificacion_privacidad", referencedColumnName="id")
      */
     private $idClasificacionPrivacidad;
 
     /**
      * @var ClasificacionTecnica
      *
-     * @ORM\ManyToOne(targetEntity="ClasificacionTecnica")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_clasificacion_tecnica", referencedColumnName="id")
-     * })
+     * @ORM\ManyToOne(targetEntity="ClasificacionTecnica", inversedBy="indicadores" )
+     * @ORM\JoinColumn(name="id_clasificacion_tecnica", referencedColumnName="id")
      */
     private $idClasificacionTecnica;
 
@@ -145,33 +139,25 @@ class FichaTecnica
      * @var ClasificacionUso
      *
      * @ORM\ManyToOne(targetEntity="ClasificacionUso")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_clasificacion_uso", referencedColumnName="id")
-     * })
+     * @ORM\JoinColumn(name="id_clasificacion_uso", referencedColumnName="id")
      */
     private $idClasificacionUso;
-    
-    /**
-     * @var $categoriaIndicador
-     *
-     * @ORM\ManyToOne(targetEntity="CategoriaIndicador", inversedBy="indicadores" )
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_categoria_indicador", referencedColumnName="id")
-     * })
-     */
-    private $categoriaIndicador;
+        
 
     /**
      * @var ResponsableIndicador
      *
      * @ORM\ManyToOne(targetEntity="ResponsableIndicador")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_responsable_indicador", referencedColumnName="id")
-     * })
+     * @ORM\JoinColumn(name="id_responsable_indicador", referencedColumnName="id")
      */
     private $idResponsableIndicador;
 
-
+    /**
+    * @var \Doctrine\Common\Collections\ArrayCollection
+     * @ORM\OneToMany(targetEntity="IndicadorAlertas", mappedBy="indicador", cascade={"all"}, orphanRemoval=true)
+     * 
+     */
+    private $alertas;
 
     /**
      * Get id
@@ -769,29 +755,62 @@ class FichaTecnica
     {
         return $this->camposIndicador;
     }
+        
+
+    /**
+     * Add alertas
+     *
+     * @param MINSAL\IndicadoresBundle\Entity\IndicadorAlertas $alertas
+     * @return FichaTecnica
+     */
+    public function addAlertas(\MINSAL\IndicadoresBundle\Entity\IndicadorAlertas $alertas)
+    {
+        //$alertas->setIndicador($this);
+        $this->alertas[] = $alertas;
     
+        return $this;
+    }
     
 
     /**
-     * Set categoriaIndicador
+     * Get alertas
      *
-     * @param MINSAL\IndicadoresBundle\Entity\CategoriaIndicador $categoriaIndicador
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getAlertas()
+    {
+        return $this->alertas;
+    }
+    
+    public function __toString() {
+        return $this->nombre;
+    }
+
+    /**
+     * Add alertas
+     *
+     * @param MINSAL\IndicadoresBundle\Entity\IndicadorAlertas $alertas
      * @return FichaTecnica
      */
-    public function setCategoriaIndicador(\MINSAL\IndicadoresBundle\Entity\CategoriaIndicador $categoriaIndicador = null)
+    public function addAlerta(\MINSAL\IndicadoresBundle\Entity\IndicadorAlertas $alertas)
     {
-        $this->categoriaIndicador = $categoriaIndicador;
+        $this->alertas[] = $alertas;
     
         return $this;
     }
 
     /**
-     * Get categoriaIndicador
+     * Remove alertas
      *
-     * @return MINSAL\IndicadoresBundle\Entity\CategoriaIndicador 
+     * @param MINSAL\IndicadoresBundle\Entity\IndicadorAlertas $alertas
      */
-    public function getCategoriaIndicador()
+    public function removeAlerta(\MINSAL\IndicadoresBundle\Entity\IndicadorAlertas $alertas)
     {
-        return $this->categoriaIndicador;
+        $this->alertas->removeElement($alertas);
+    }
+    
+    public function removeAlertas()
+    {
+        $this->alertas=array();
     }
 }

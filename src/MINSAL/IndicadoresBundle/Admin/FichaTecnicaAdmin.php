@@ -33,14 +33,20 @@ class FichaTecnicaAdmin extends Admin {
                     'help' => $this->getTranslator()->trans('ayuda_ingreso_formula')
                 ))
                 ->add('idClasificacionNivel', null, array('label' => $this->getTranslator()->trans('clasificacion_nivel')))
-                ->add('idClasificacionTecnica', null, array('label' => $this->getTranslator()->trans('clasificacion_tecnica')))
+                ->add('idClasificacionTecnica', null, array('label' => $this->getTranslator()->trans('clasificacion_tecnica'),
+                    'required' => true))
                 ->add('idClasificacionPrivacidad', null, array('label' => $this->getTranslator()->trans('clasificacion_privacidad')))
                 ->add('idClasificacionUso', null, array('label' => $this->getTranslator()->trans('clasificacion_uso')))
-                ->add('categoriaIndicador', null, array('label' => $this->getTranslator()->trans('categoria'), 
-                                                    'required'=>true))
                 ->add('periodos', null, array('label' => $this->getTranslator()->trans('periodicidad'), 'expanded' => true))
                 ->add('idResponsableIndicador', null, array('label' => $this->getTranslator()->trans('responsable_indicador')))
                 ->add('confiabilidad', null, array('label' => $this->getTranslator()->trans('confiabilidad'), 'required' => false))
+                ->add('alertas', 'sonata_type_collection', array(
+                    'label' => $this->getTranslator()->trans('alertas'),
+                    'required' => false), array(
+                    'edit' => 'inline',
+                    'inline' => 'table',
+                    'sortable' => 'position'
+                ))
                 ->add('estandar', null, array('label' => $this->getTranslator()->trans('estandar_nacional')))
                 ->add('presentaciones', null, array('label' => $this->getTranslator()->trans('presentacion'), 'expanded' => true))
                 ->add('observacion', 'textarea', array('label' => $this->getTranslator()->trans('comentario'), 'required' => false))
@@ -50,6 +56,11 @@ class FichaTecnicaAdmin extends Admin {
     protected function configureDatagridFilters(DatagridMapper $datagridMapper) {
         $datagridMapper
                 ->add('nombre', null, array('label' => $this->getTranslator()->trans('nombre')))
+                ->add('idClasificacionNivel', null, array('label' => $this->getTranslator()->trans('clasificacion_nivel')))
+                ->add('idClasificacionTecnica', null, array('label' => $this->getTranslator()->trans('clasificacion_tecnica')))
+                ->add('idClasificacionPrivacidad', null, array('label' => $this->getTranslator()->trans('clasificacion_privacidad')))
+                ->add('idClasificacionUso', null, array('label' => $this->getTranslator()->trans('clasificacion_uso')))
+                ->add('idResponsableIndicador', null, array('label' => $this->getTranslator()->trans('responsable_indicador')))
         ;
     }
 
@@ -59,7 +70,6 @@ class FichaTecnicaAdmin extends Admin {
                 ->add('tema', null, array('label' => $this->getTranslator()->trans('tema')))
                 ->add('concepto', null, array('label' => $this->getTranslator()->trans('concepto')))
                 ->add('objetivo', null, array('label' => $this->getTranslator()->trans('objetivo')))
-                ->add('categoriaIndicador', null, array('label' => $this->getTranslator()->trans('categoria')))
                 ->add('definicionOperativa', null, array('label' => $this->getTranslator()->trans('definicion_operativa')))
                 ->add('camposIndicador', null, array('label' => $this->getTranslator()->trans('campos_indicador')))
 
@@ -82,61 +92,70 @@ class FichaTecnicaAdmin extends Admin {
             if (count($campos_no_configurados) > 0) {
                 $errorElement
                         ->with('variables')
-                        ->addViolation($variable->getIniciales().': '. $this->getTranslator()->trans('origen_no_configurado'))
+                        ->addViolation($variable->getIniciales() . ': ' . $this->getTranslator()->trans('origen_no_configurado'))
                         ->end();
             }
         }
         //Obtener las variables marcadas
+        $variables_sel = array();
         foreach ($object->getVariables() as $variable) {
             $variables_sel[] = $variable->getIniciales();
         }
 
-        //Obtener las variables utilizadas en la fórmula
-        //Quitar todos los espacios en blanco de la fórmula
-        $formula = str_replace(' ', '', $object->getFormula());
-        preg_match_all('/\{([\w]+)\}/', $formula, $vars_formula);
-
-        //Para que la fórmula sea válida la cantidad de variables seleccionadas
-        //debe coincidir con las utilizadas en la fórmula
-        if ((count(array_diff($variables_sel, $vars_formula[1])) > 0) or
-                (count(array_diff($vars_formula[1], $variables_sel)) > 0)) {
+        if (count($variables_sel) == 0)
             $errorElement
-                    ->with('formula')
-                    ->addViolation($this->getTranslator()->trans('vars_sel_diff_vars_formula'))
+                    ->with('variables')
+                    ->addViolation($this->getTranslator()->trans('elija_al_menos_una_variable'))
                     ->end()
             ;
-        }
+        else {
+            //Obtener las variables utilizadas en la fórmula
+            //Quitar todos los espacios en blanco de la fórmula
+            $formula = str_replace(' ', '', $object->getFormula());
+            preg_match_all('/\{([\w]+)\}/', $formula, $vars_formula);
 
-        // ******** Verificar si matematicamente la fórmula es correcta
-        // 1) Sustituir las variables por valores aleatorios entre 1 y 100      
-        $formula_check = $formula;
-        $formula_valida = true;
-        $result = '';
-        foreach ($vars_formula[0] as $var) {
-            $formula_check = str_replace($var, rand(1, 100), $formula_check);
-        }
-
-        //Verificar que no tenga letras, para evitar un ataque de inyección
-        if (preg_match('/[A-Z]+/i', $formula_check) != 0) {
-            $formula_valida = false;
-            $mensaje = 'sintaxis_invalida_variables_entre_llaves';
-        } else {
-            //evaluar la formula, evitar que se muestren los errores por si los lleva
-            ob_start();
-            $test = eval('$result=' . $formula_check . ';');
-            ob_end_clean();
-
-            if (!is_numeric($result)) {
-                $formula_valida = false;
-                $mensaje = 'sintaxis_invalida';
+            //Para que la fórmula sea válida la cantidad de variables seleccionadas
+            //debe coincidir con las utilizadas en la fórmula
+            if ((count(array_diff($variables_sel, $vars_formula[1])) > 0) or
+                    (count(array_diff($vars_formula[1], $variables_sel)) > 0)) {
+                $errorElement
+                        ->with('formula')
+                        ->addViolation($this->getTranslator()->trans('vars_sel_diff_vars_formula'))
+                        ->end()
+                ;
             }
-        }
 
-        if ($formula_valida == false) {
-            $errorElement
-                    ->with('formula')
-                    ->addViolation($this->getTranslator()->trans($mensaje))
-                    ->end();
+            // ******** Verificar si matematicamente la fórmula es correcta
+            // 1) Sustituir las variables por valores aleatorios entre 1 y 100      
+            $formula_check = $formula;
+            $formula_valida = true;
+            $result = '';
+            foreach ($vars_formula[0] as $var) {
+                $formula_check = str_replace($var, rand(1, 100), $formula_check);
+            }
+
+            //Verificar que no tenga letras, para evitar un ataque de inyección
+            if (preg_match('/[A-Z]+/i', $formula_check) != 0) {
+                $formula_valida = false;
+                $mensaje = 'sintaxis_invalida_variables_entre_llaves';
+            } else {
+                //evaluar la formula, evitar que se muestren los errores por si los lleva
+                ob_start();
+                $test = eval('$result=' . $formula_check . ';');
+                ob_end_clean();
+
+                if (!is_numeric($result)) {
+                    $formula_valida = false;
+                    $mensaje = 'sintaxis_invalida';
+                }
+            }
+
+            if ($formula_valida == false) {
+                $errorElement
+                        ->with('formula')
+                        ->addViolation($this->getTranslator()->trans($mensaje))
+                        ->end();
+            }
         }
     }
 
@@ -149,13 +168,24 @@ class FichaTecnicaAdmin extends Admin {
         $this->crearCamposIndicador($fichaTecnica);
         //$this->repository->crearTablaIndicador($fichaTecnica);
     }
-    
+
     public function prePersist($fichaTecnica) {
         $this->crearCamposIndicador($fichaTecnica);
+        $this->setAlertas($fichaTecnica);
     }
-
+    
+    public function setAlertas($fichaTecnica){
+        $alertas = $fichaTecnica->getAlertas();
+        $fichaTecnica->removeAlertas();
+        if (count($alertas) > 0)
+            foreach($alertas as $alerta){
+                $alerta->setIndicador($fichaTecnica);
+                $fichaTecnica->addAlerta($alerta);
+            }
+    }
     public function preUpdate($fichaTecnica) {
         $this->crearCamposIndicador($fichaTecnica);
+        $this->setAlertas($fichaTecnica);
     }
 
     public function crearCamposIndicador(FichaTecnica $fichaTecnica) {
@@ -168,7 +198,7 @@ class FichaTecnicaAdmin extends Admin {
             $origenDato[$k] = $variable->getOrigenDatos();
             foreach ($origenDato[$k]->getCampos() as $campo) {
                 //La llave para considerar campo comun será el mismo tipo y significado                
-                $llave = $campo->getSignificado()->getId() . '-' . $campo->getTipoCampo()->getId();                
+                $llave = $campo->getSignificado()->getId() . '-' . $campo->getTipoCampo()->getId();
                 $origen_campos[$origenDato[$k]->getId()][$llave]['significado'] = $campo->getSignificado()->getCodigo();
             }
 
@@ -180,22 +210,33 @@ class FichaTecnicaAdmin extends Admin {
             }
         };
         $aux = array();
-        foreach($campos_comunes as $campo)
-            $aux[$campo['significado']]= $campo['significado'];
+        foreach ($campos_comunes as $campo)
+            $aux[$campo['significado']] = $campo['significado'];
         if (isset($aux['calculo']))
             unset($aux['calculo']);
-        $campos_comunes = implode("','", $aux);
-        $fichaTecnica->setCamposIndicador("'".$campos_comunes."'");
+        $campos_comunes = implode(",", $aux);
+        $fichaTecnica->setCamposIndicador($campos_comunes);
     }
 
     public function setRepository($repository) {
         $this->repository = $repository;
     }
-    
-    protected function configureRoutes(RouteCollection $collection)
-    {
-        $collection->add('tablero');    
+
+    protected function configureRoutes(RouteCollection $collection) {
+        $collection->add('tablero');
     }
+
+    public function getTemplate($name) {
+        switch ($name) {
+            case 'edit':
+                return 'IndicadoresBundle:CRUD:ficha_tecnica-edit.html.twig';
+                break;
+            default:
+                return parent::getTemplate($name);
+                break;
+        }
+    }
+
 }
 
 ?>
