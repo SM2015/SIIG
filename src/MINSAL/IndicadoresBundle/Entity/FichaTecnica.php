@@ -110,7 +110,15 @@ class FichaTecnica
      * @ORM\Column(name="estandar", type="decimal", nullable=true)
      */
     private $estandar;
-
+    
+    /**
+     * @var float $updatedAt
+     *
+     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
+     */
+    private $updatedAt;
+    
+    
     /**
      * @var ClasificacionNivel
      *
@@ -812,5 +820,28 @@ class FichaTecnica
     public function removeAlertas()
     {
         $this->alertas=array();
+    }
+
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt
+     * @return FichaTecnica
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+    
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime 
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
     }
 }

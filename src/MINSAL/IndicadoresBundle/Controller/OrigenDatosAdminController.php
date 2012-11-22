@@ -29,10 +29,10 @@ class OrigenDatosAdminController extends Controller {
                 return $this->get('translator')->trans('fusion.no_fusionados');
             $campos_no_configurados = $em->getRepository('IndicadoresBundle:Campo')
                     ->findBy(array('origenDato' => $id_origen,
-                'significado' => null));
+                'significado' => null));            
             if (count($campos_no_configurados) > 0)
                 return $origenDato->getNombre() . ': ' . $this->get('translator')->trans('origen_no_configurado');
-        }
+        }        
         if (count($selecciones) > 1)
             return true;
         else

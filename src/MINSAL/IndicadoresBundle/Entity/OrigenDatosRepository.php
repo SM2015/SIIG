@@ -9,6 +9,17 @@ use Doctrine\DBAL as DBAL;
 
 class OrigenDatosRepository extends EntityRepository {
 
+    public function getTotalRegistros(OrigenDatos $origenDato) {
+        if ($origenDato->getSentenciaSql() != '') {
+            $conexion = $origenDato->getConexion();
+            $conn = $this->getEntityManager()
+                    ->getRepository('IndicadoresBundle:Conexion')
+                    ->getConexionGenerica($conexion);
+            return $conn->query($origenDato->getSentenciaSql())->rowCount();
+        }
+        else return 1;
+        
+    }
     public function getDatos(OrigenDatos $origenDato) {
         $datos = array();
         $nombre_campos = array();

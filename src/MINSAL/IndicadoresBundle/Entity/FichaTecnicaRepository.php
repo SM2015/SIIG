@@ -8,6 +8,15 @@ use MINSAL\IndicadoresBundle\Entity\FichaTecnica;
 class FichaTecnicaRepository extends EntityRepository {
 
     public function crearTablaIndicador(FichaTecnica $fichaTecnica) {
+        $ahora = new \DateTime("now");
+        if ($fichaTecnica->getUpdatedAt() != ''){            
+            $ultimo_calculo = $fichaTecnica->getUpdatedAt();
+            $intervalo = $ahora->diff($ultimo_calculo);
+            $diff_minutos = $intervalo->format('%i');
+            if ($diff_minutos <= 30)
+                return;
+        }
+        $em = $this->getEntityManager();
         $util = new \MINSAL\IndicadoresBundle\Util\Util();
         $campos = str_replace("'", '', $fichaTecnica->getCamposIndicador());
         $nombre_indicador = $util->slug($fichaTecnica->getNombre());
@@ -17,6 +26,7 @@ class FichaTecnicaRepository extends EntityRepository {
         foreach ($fichaTecnica->getVariables() as $variable) {
             //Recuperar la información de los campos para crear la tabla
             $tabla = strtolower($variable->getIniciales());            
+            $sql .= 'DROP TABLE IF EXISTS tmp_ind_' . $nombre_indicador . '; ';
             $sql .= 'CREATE TEMP TABLE IF NOT EXISTS ' . $tabla . '(';
             foreach ($variable->getOrigenDatos()->getCampos() as $campo) {
                 $sql .= $campo->getSignificado()->getCodigo() . ' ' . $campo->getTipoCampo()->getCodigo() . ', ';
@@ -41,18 +51,21 @@ class FichaTecnicaRepository extends EntityRepository {
         }        
         
         $sql .= 'SELECT  '.$campos.','.  implode(',', $tablas_variables).
-                " INTO TEMP ind_".$nombre_indicador." FROM  ".array_shift($tablas_variables).'_var ';
+                " INTO tmp_ind_".$nombre_indicador." FROM  ".array_shift($tablas_variables).'_var ';
         foreach ($tablas_variables as $tabla){
             $sql .= " INNER JOIN ".$tabla."_var USING ($campos) ";
         }        
-        $this->getEntityManager()->getConnection()->exec($sql);
+        $fichaTecnica->setUpdatedAt($ahora);
+        $em->persist($fichaTecnica);
+        $em->flush();
+        $em->getConnection()->exec($sql);
     }
     
     public function calcularIndicador(FichaTecnica $fichaTecnica, $dimension, $filtro_registros=null) {
         $util = new \MINSAL\IndicadoresBundle\Util\Util();
         $formula = str_replace(array('{','}'), array('SUM(',')'), $fichaTecnica->getFormula());
         $nombre_indicador = $util->slug($fichaTecnica->getNombre());
-        $tabla_indicador = 'ind_'.$nombre_indicador;
+        $tabla_indicador = 'tmp_ind_'.$nombre_indicador;
         
         $sql = "SELECT $dimension as category, round(($formula)::numeric,2) as measure
             FROM $tabla_indicador ";
