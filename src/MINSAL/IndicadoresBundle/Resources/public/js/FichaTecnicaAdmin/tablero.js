@@ -123,6 +123,7 @@ $(document).ready(function() {
                 })
                 alertas += '</TBODY><TABLE>';
                 $('#alertas').html('');
+                $('#graficoPrimario').html('');
                 $('#alertas').append(alertas);
                 dibujarGrafico($('#dimensiones').val());
                 //filtros();

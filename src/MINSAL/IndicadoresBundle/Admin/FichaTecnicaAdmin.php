@@ -50,6 +50,7 @@ class FichaTecnicaAdmin extends Admin {
                 ->add('estandar', null, array('label' => $this->getTranslator()->trans('estandar_nacional')))
                 ->add('presentaciones', null, array('label' => $this->getTranslator()->trans('presentacion'), 'expanded' => true))
                 ->add('observacion', 'textarea', array('label' => $this->getTranslator()->trans('comentario'), 'required' => false))
+                ->add('camposIndicador', null, array('label' => $this->getTranslator()->trans('campos_indicador')))
         ;
     }
 
@@ -213,8 +214,17 @@ class FichaTecnicaAdmin extends Admin {
         foreach ($campos_comunes as $campo)
             $aux[$campo['significado']] = $campo['significado'];
         if (isset($aux['calculo']))
-            unset($aux['calculo']);
+            unset($aux['calculo']);        
         $campos_comunes = implode(",", $aux);
+        if ($fichaTecnica->getCamposIndicador()!=''){
+            //Si ya existen los campos sacar el orden que ya ha especificado el usuario
+            $act = explode(',', $fichaTecnica->getCamposIndicador());
+            $campos_comunes = array_intersect($act, $aux);
+            //agregar los posibles campos nuevos
+            $campos_comunes = array_merge($campos_comunes, array_diff($aux, $act));
+            $campos_comunes = implode(",", $campos_comunes);
+        }
+        
         $fichaTecnica->setCamposIndicador($campos_comunes);
     }
 
