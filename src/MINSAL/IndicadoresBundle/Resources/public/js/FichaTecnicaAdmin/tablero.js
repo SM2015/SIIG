@@ -122,6 +122,7 @@ $(document).ready(function() {
                             '</TR>';
                 })
                 alertas += '</TBODY><TABLE>';
+                $('#alertas').html('');
                 $('#alertas').append(alertas);
                 dibujarGrafico($('#dimensiones').val());
                 //filtros();

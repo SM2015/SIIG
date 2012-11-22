@@ -1,3 +1,5 @@
+parameters:
+  indicador_duracion_tabla_tmp: 60 # minutos
 imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
