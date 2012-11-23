@@ -3,9 +3,7 @@ $(document).ready(function() {
         $('#div_carga').show();
     }).ajaxStop(function() {
         $('#div_carga').hide();
-    });
-
-    
+    });    
             
     capa = $("div.tablero .row-fluid");
     var posicion = capa.position();
@@ -132,7 +130,8 @@ $(document).ready(function() {
                 alertas += '</TBODY><TABLE>';
                 $('#alertas').html('');
                 $('#graficoPrimario').html('');
-                $('#alertas').append(alertas);
+                if (rangos_alertas.length > 0)
+                    $('#alertas').append(alertas);
                 dibujarGrafico($('#dimensiones').val());
                 //filtros();
             }
