@@ -19,6 +19,9 @@
 
 
 {% block content %}
+    <div id="div_carga">
+        <img id="cargador" src="{{ asset('bundles/indicadores/images/ajax-loader.gif') }}"/>
+    </div>
     <div class="tablero container-fluid" id='tablero'>
         <div class="row-fluid">
             <div class="span3" id='tablero_indicadores' style='overflow-y: auto'>

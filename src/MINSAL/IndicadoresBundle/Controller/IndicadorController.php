@@ -46,7 +46,7 @@ class IndicadorController extends Controller {
         else
             $resp['resultado'] = 'error';
         $response = new Response(json_encode($resp));
-        //$response->setMaxAge(600);
+        $response->setMaxAge($this->container->getParameter('indicador_cache_consulta'));
         return $response;
     }
 
@@ -79,7 +79,7 @@ class IndicadorController extends Controller {
         $fichaRepository->crearTablaIndicador($fichaTec, $this->container->getParameter('indicador_duracion_tabla_tmp'));
         $resp['datos'] = $fichaRepository->calcularIndicador($fichaTec, $dimension, $filtros);
         $response = new Response(json_encode($resp));
-        //$response->setMaxAge(600);
+        $response->setMaxAge($this->container->getParameter('indicador_cache_consulta'));
         return $response;
     }
 
@@ -118,7 +118,7 @@ class IndicadorController extends Controller {
         }
         $resp['datos'] = $datos_ordenados;
         $response = new Response(json_encode($resp));
-        $response->setMaxAge(600);
+        $response->setMaxAge($this->container->getParameter('indicador_cache_consulta'));
         return $response;
     }
 
@@ -160,7 +160,7 @@ class IndicadorController extends Controller {
         }
         $resp['datos'] = $datos_filtrados;
         $response = new Response(json_encode($resp));
-        //$response->setMaxAge(600);
+        $response->setMaxAge($this->container->getParameter('indicador_cache_consulta'));
         return $response;
     }
 
