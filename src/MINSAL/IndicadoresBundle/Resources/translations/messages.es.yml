@@ -28,6 +28,7 @@ color: 'Color'
 indicador_alertas: 'Alertas de indicador'
 comentario: 'Comentario'
 elija_al_menos_una_variable: 'Debe elegir al menos una variable'
+campos_indicador: Dimensiones del indicador
 
 
 'clasificacion_tecnica' : 'Clasificación Técnica'

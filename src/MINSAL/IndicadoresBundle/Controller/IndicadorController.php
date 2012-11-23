@@ -13,7 +13,7 @@ class IndicadorController extends Controller {
      */
     public function getDimensiones($id) {
 
-        $resp = array();
+        $resp = array();        
         $em = $this->getDoctrine()->getEntityManager();
 
         $fichaTec = $em->find('IndicadoresBundle:FichaTecnica', $id);
@@ -46,7 +46,7 @@ class IndicadorController extends Controller {
         else
             $resp['resultado'] = 'error';
         $response = new Response(json_encode($resp));
-        //$response->setMaxAge(600);
+        $response->setMaxAge($this->container->getParameter('indicador_cache_consulta'));
         return $response;
     }
 
@@ -54,7 +54,7 @@ class IndicadorController extends Controller {
      * @Route("/indicador/datos/{id}/{dimension}", name="indicador_datos", options={"expose"=true})
      */
     public function getDatos($id, $dimension) {
-
+        
         $resp = array();
         $filtro = $this->getRequest()->get('filtro');
         if ($filtro == null or $filtro == '')
@@ -76,10 +76,10 @@ class IndicadorController extends Controller {
         $fichaRepository = $em->getRepository('IndicadoresBundle:FichaTecnica');
 
 
-        $fichaRepository->crearTablaIndicador($fichaTec);
+        $fichaRepository->crearTablaIndicador($fichaTec, $this->container->getParameter('indicador_duracion_tabla_tmp'));
         $resp['datos'] = $fichaRepository->calcularIndicador($fichaTec, $dimension, $filtros);
         $response = new Response(json_encode($resp));
-        $response->setMaxAge(600);
+        $response->setMaxAge($this->container->getParameter('indicador_cache_consulta'));
         return $response;
     }
 
@@ -118,7 +118,7 @@ class IndicadorController extends Controller {
         }
         $resp['datos'] = $datos_ordenados;
         $response = new Response(json_encode($resp));
-        $response->setMaxAge(600);
+        $response->setMaxAge($this->container->getParameter('indicador_cache_consulta'));
         return $response;
     }
 
@@ -160,7 +160,7 @@ class IndicadorController extends Controller {
         }
         $resp['datos'] = $datos_filtrados;
         $response = new Response(json_encode($resp));
-        //$response->setMaxAge(600);
+        $response->setMaxAge($this->container->getParameter('indicador_cache_consulta'));
         return $response;
     }
 

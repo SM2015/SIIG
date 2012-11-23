@@ -7,13 +7,12 @@ use MINSAL\IndicadoresBundle\Entity\FichaTecnica;
 
 class FichaTecnicaRepository extends EntityRepository {
 
-    public function crearTablaIndicador(FichaTecnica $fichaTecnica) {
+    public function crearTablaIndicador(FichaTecnica $fichaTecnica, $duracion=10) {
         $ahora = new \DateTime("now");
         if ($fichaTecnica->getUpdatedAt() != ''){            
-            $ultimo_calculo = $fichaTecnica->getUpdatedAt();
-            $intervalo = $ahora->diff($ultimo_calculo);
-            $diff_minutos = $intervalo->format('%i');
-            if ($diff_minutos <= 30)
+            $ultimo_calculo = $fichaTecnica->getUpdatedAt()->getTimestamp();
+            $diff_minutos = ($ahora->getTimestamp() - $ultimo_calculo) / 60;
+            if ($diff_minutos <= $duracion)
                 return;
         }
         $em = $this->getEntityManager();
