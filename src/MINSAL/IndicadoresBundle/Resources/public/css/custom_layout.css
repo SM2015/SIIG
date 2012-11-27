@@ -13,3 +13,15 @@
     top: 35%;
     width: 460px;
 }
+
+.editable{
+    max-height: 350px;
+    overflow-y: auto;
+    border: 1px solid #CCCCCC;
+}
+
+.unstyled {
+    max-height: 280px;
+    overflow-y: auto;
+    border: 1px solid #CCCCCC;        
+}

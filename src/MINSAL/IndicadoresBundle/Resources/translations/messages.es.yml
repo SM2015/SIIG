@@ -148,6 +148,8 @@ error: 'Error'
 es_catalogo: 'Es Catálogo'
 datos_generales: 'Datos Generales'
 indicador_tablero: 'Tablero'
+users: Usuarios
+groups: Grupos
 
 fusion:
   no_catalogos: 'No se permite fusionar catálogos, alternativamente puede crear una hoja de cálculo con los datos requeridos y cargarlos al catálogo'

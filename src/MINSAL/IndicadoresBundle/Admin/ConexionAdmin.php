@@ -14,7 +14,7 @@ class ConexionAdmin extends Admin {
         '_page' => 1, // Display the first page (default = 1)
         '_sort_order' => 'ASC', // Descendant ordering (default = 'ASC')
         '_sort_by' => 'nombreBaseDatos' // name of the ordered field (default = the model id field, if any)
-    );
+    );        
 
     protected function configureFormFields(FormMapper $formMapper) {
         $formMapper
@@ -37,7 +37,7 @@ class ConexionAdmin extends Admin {
                 ->setHelps(array(
                     'telefono' => $this->getTranslator()->trans('Formato XXXX-XXXX')
                 ))
-        ;
+        ;        
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper) {
@@ -73,7 +73,7 @@ class ConexionAdmin extends Admin {
                 break;
         }
     }
-
+        
 }
 
 ?>
