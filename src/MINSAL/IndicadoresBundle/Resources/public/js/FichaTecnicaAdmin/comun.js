@@ -74,6 +74,10 @@ function ascenderNivelDimension(nivel){
     $filtro.html(ruta);
     $filtro.attr('data', JSON.stringify(nuevo_filtro));
     
+    $('#filtros_dimensiones A').click(function(){
+        ascenderNivelDimension($(this).attr('data'));
+    });
+    
     dibujarGrafico($('#dimensiones').val());
     $('#ordenar_dimension').children('option[value="-1"]').attr('selected','selected');
     $('#ordenar_medida').children('option[value="-1"]').attr('selected','selected');
