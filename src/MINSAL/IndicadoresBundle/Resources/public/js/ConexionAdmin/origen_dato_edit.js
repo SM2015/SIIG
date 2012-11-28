@@ -49,8 +49,9 @@ $(document).ready(function(){
     }
     //************************** CÓDIGO PARA MOSTRAR EL RESULTADO PARA CONFIGURACIÓN DE CAMPOS
     
-    //Borrar el botón para agregar
+    //Quitar los otros botones, solo debe estar agregar y editar
     $('input[name$="btn_create_and_create"]').remove();
+    $('input[name$="btn_create_and_list"]').remove();    
      
     //Si existe la capa configurar, cargar los datos    
     if ($('#configurar').length){
