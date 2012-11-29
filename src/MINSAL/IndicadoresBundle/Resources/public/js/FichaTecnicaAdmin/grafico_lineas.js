@@ -24,8 +24,7 @@ graficoLineas = function(ubicacion, datos, colorChosen, categoryChoosen) {
         .orient("left")    
         .ticks(5);
         
-    var line = d3.svg.line()
-            //.x(function(d) { return xScale(d.category); })
+    var line = d3.svg.line()            
             .x(function(d, i) {
                 return xScale(i);
             })
@@ -51,19 +50,12 @@ graficoLineas = function(ubicacion, datos, colorChosen, categoryChoosen) {
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
         .call(yAxis);            
       
-    if (colorChosen == null)
-        plot.append("path")
-            .attr("class", "line")
-            .attr("d", line)
+    plot.append("path")
+            .attr("class", "line")            
+            .attr("d", line)            
             // add color
             .attr("stroke", 'black')
-            ;
-    else
-        plot.append("path")
-            .attr("class", "line")
-            .attr("d", line)
-            // add color
-            .attr("stroke", colorChosen)
+            .transition().duration(1000).delay(20)
             ;
 
     plot.selectAll(".dot")

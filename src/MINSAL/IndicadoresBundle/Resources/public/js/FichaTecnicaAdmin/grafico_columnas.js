@@ -53,9 +53,10 @@ graficoColumnas = function (ubicacion, datos, colorChosen, categoryChoosen) {
       .call(xAxis);
     
     plot.selectAll("rect")
-        .data(currentDatasetChart)
+        .data(currentDatasetChart)        
         .enter()
         .append("rect")
+        .transition().duration(1000).delay(20)
         .attr("x", function(d, i) {
             return xScale(i);
         })
@@ -65,8 +66,8 @@ graficoColumnas = function (ubicacion, datos, colorChosen, categoryChoosen) {
         })
         .attr("height", function(d) {
             return height - yScale(parseFloat(d.measure));
-        })    
-        .append("title")
+        });    
+    plot.selectAll("rect").append("title")
         .text(function(d) {
             return d.category + ": " + d.measure;
         });
@@ -148,13 +149,13 @@ this.ordenar = function(modo_orden, ordenar_por) {
         .copy();
     else
         var x0 = xScale.domain(currentDatasetChart.sort(
-            (modo_orden=='asc') ? function(a, b) { return d3.ascending(a.measure, b.measure); }:
-            function(a, b) { return d3.descending(a.measure, b.measure); }
+            (modo_orden=='asc') ? function(a, b) { return d3.ascending(parseFloat(a.measure), parseFloat(b.measure)); }:
+            function(a, b) { return d3.descending(parseFloat(a.measure), parseFloat(b.measure)); }
             )
         .map(function(d) { return d.category; }))
         .copy();
     var transition = svg.transition().duration(750),
-        delay = function(d, i) { return i * 90; };
+        delay = function(d, i) { return i * 70; };
 
     transition.selectAll("rect")
         .delay(delay)
@@ -164,5 +165,5 @@ this.ordenar = function(modo_orden, ordenar_por) {
         .call(xAxis)
       .selectAll("g")
         .delay(delay);
-  }
+  }  
 }
