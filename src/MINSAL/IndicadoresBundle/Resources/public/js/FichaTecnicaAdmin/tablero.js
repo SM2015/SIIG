@@ -127,7 +127,9 @@ $(document).ready(function() {
                             '<TD>' + rango.comentario + '</TD>' +
                             '</TR>';
                 })
-                alertas += '</TBODY><TABLE>';
+                alertas += '<TR><TD bgcolor="lightblue"></TD>'+
+                            '<TD colspan="3">'+trans.rango_no_especificado+'</TD>'
+                            '</TR></TBODY><TABLE>';
                 $('#alertas').html('');
                 $('#graficoPrimario').html('');
                 if (rangos_alertas.length > 0)

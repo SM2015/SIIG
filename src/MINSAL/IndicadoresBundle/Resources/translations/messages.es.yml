@@ -190,6 +190,7 @@ javascript:
   limite_inf: 'Límite inferior'
   limite_sup: 'Límite superior'
   comentario: 'Comentario'
+  rango_no_especificado: Rango no especificado
 
 validacion:
   requerido: Este dato es requerido

@@ -57,52 +57,10 @@ input.valores_filtro{
 .line {
     fill: none;
     /*stroke: steelblue;*/
-    stroke-width: 3px;
+    stroke-width: 2px;
 }
-
-.dot {
-    /*fill: white;*/
-    /*stroke: steelblue;*/
-    stroke-width: 1.5px;
-}
-
 
 .axis text {
-    font-family: Verdana;
+    font-family: sans-serif;
     font-size: 11px;
-}
-
-.title {
-    font-family: Verdana;
-    font-size: 15px;	
-
-}
-
-.xAxis {
-    font-family: verdana;
-    font-size: 11px;
-    fill: black;
-}  
-
-.yAxis {
-    font-family: verdana;
-    font-size: 11px;
-    fill: black;
-}
-
-#lineChartTitle1 {
-    font-family: Verdana;
-    font-size  : 14px;
-    fill       : lightgrey;
-    font-weight: bold;
-    text-anchor: middle;
-}
-
-#lineChartTitle2 {
-    font-family: Verdana;
-    font-size  : 72px;
-    fill       : grey;
-    text-anchor: middle;
-    font-weight: bold;
-    /*font-style: italic;*/
 }
