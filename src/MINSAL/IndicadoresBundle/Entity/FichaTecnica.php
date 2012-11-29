@@ -658,42 +658,8 @@ class FichaTecnica
     public function getPresentaciones()
     {
         return $this->presentaciones;
-    }
+    }    
 
-    
-
-    /**
-     * Add variables
-     *
-     * @param MINSAL\IndicadoresBundle\Entity\FichaTecnicaVariableDato $variables
-     * @return FichaTecnica
-     */
-    public function addVariable(\MINSAL\IndicadoresBundle\Entity\FichaTecnicaVariableDato $variables)
-    {
-        $this->variables[] = $variables;
-    
-        return $this;
-    }
-
-    /**
-     * Remove variables
-     *
-     * @param MINSAL\IndicadoresBundle\Entity\FichaTecnicaVariableDato $variables
-     */
-    public function removeVariable(\MINSAL\IndicadoresBundle\Entity\FichaTecnicaVariableDato $variables)
-    {
-        $this->variables->removeElement($variables);
-    }
-
-    /**
-     * Get variables
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getVariables()
-    {
-        return $this->variables;
-    }
 
     /**
      * Add campos
@@ -843,5 +809,38 @@ class FichaTecnica
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+
+    /**
+     * Add variables
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\VariableDato $variables
+     * @return FichaTecnica
+     */
+    public function addVariable(\MINSAL\IndicadoresBundle\Entity\VariableDato $variables)
+    {
+        $this->variables[] = $variables;
+    
+        return $this;
+    }
+
+    /**
+     * Remove variables
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\VariableDato $variables
+     */
+    public function removeVariable(\MINSAL\IndicadoresBundle\Entity\VariableDato $variables)
+    {
+        $this->variables->removeElement($variables);
+    }
+
+    /**
+     * Get variables
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getVariables()
+    {
+        return $this->variables;
     }
 }

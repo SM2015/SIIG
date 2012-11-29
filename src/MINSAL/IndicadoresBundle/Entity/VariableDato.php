@@ -262,52 +262,6 @@ class VariableDato
     {
         return $this->idResponsableDato;
     }
-
-    /**
-     * Set idSentencia
-     *
-     * @param MINSAL\IndicadoresBundle\Entity\Sentencia $idSentencia
-     * @return VariableDato
-     */
-    public function setIdSentencia(\MINSAL\IndicadoresBundle\Entity\Sentencia $idSentencia = null)
-    {
-        $this->idSentencia = $idSentencia;
-    
-        return $this;
-    }
-
-    /**
-     * Get idSentencia
-     *
-     * @return MINSAL\IndicadoresBundle\Entity\Sentencia 
-     */
-    public function getIdSentencia()
-    {
-        return $this->idSentencia;
-    }
-
-    /**
-     * Set idWebService
-     *
-     * @param MINSAL\IndicadoresBundle\Entity\WebService $idWebService
-     * @return VariableDato
-     */
-    public function setIdWebService(\MINSAL\IndicadoresBundle\Entity\WebService $idWebService = null)
-    {
-        $this->idWebService = $idWebService;
-    
-        return $this;
-    }
-
-    /**
-     * Get idWebService
-     *
-     * @return MINSAL\IndicadoresBundle\Entity\WebService 
-     */
-    public function getIdWebService()
-    {
-        return $this->idWebService;
-    }
     
     public function __toString() {
         return $this->nombre. ' (' . $this->iniciales . ')';
