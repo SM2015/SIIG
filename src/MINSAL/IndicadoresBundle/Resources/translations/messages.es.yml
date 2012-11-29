@@ -39,6 +39,8 @@ significado_campo: Significado de campos
 nombre_campo: Nombre del campo
 significado: Significado
 
+'Origen Datos List': 'Orígenes de datos - Listado'
+
 'responsable_datos': 'Responsable Datos'
 'Responsable Dato List': 'Responsable de Dato - Listado'
 'Responsable Dato Delete': 'Responsable de Dato - Borrar'
@@ -148,6 +150,8 @@ error: 'Error'
 es_catalogo: 'Es Catálogo'
 datos_generales: 'Datos Generales'
 indicador_tablero: 'Tablero'
+users: Usuarios
+groups: Grupos
 
 fusion:
   no_catalogos: 'No se permite fusionar catálogos, alternativamente puede crear una hoja de cálculo con los datos requeridos y cargarlos al catálogo'
@@ -186,6 +190,7 @@ javascript:
   limite_inf: 'Límite inferior'
   limite_sup: 'Límite superior'
   comentario: 'Comentario'
+  rango_no_especificado: Rango no especificado
 
 validacion:
   requerido: Este dato es requerido

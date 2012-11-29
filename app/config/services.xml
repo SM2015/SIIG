@@ -102,7 +102,7 @@
             <tag name="sonata.admin"
                  manager_type="orm" 
                  group="origen_datos" 
-                 label="origen_datos"
+                 label="origen_dato"
             />    
             <argument />            
             <argument>MINSAL\IndicadoresBundle\Entity\OrigenDatos</argument>

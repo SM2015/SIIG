@@ -1,5 +1,5 @@
 book:
-    title:            "Análisis y requerimientos"
+    title:            "Manual de Usuario"
     author:           "eTAB"
     edition:          "First edition"
     language:         es
@@ -14,13 +14,9 @@ book:
         # tables), part, preface, prologue, title, toc (table of contents)
         - { element: cover }
         - { element: toc   }
-        - { element: introduction, content: introduccion.md }
-        - { element: chapter, number: 1, content: antecedentes.md }      
-        - { element: chapter, number: 2, content: vision.md }
-        - { element: chapter, number: 3, content: descripcion.md }        
-        - { element: chapter, number: 4, content: requerimientos.md }        
-        - { element: chapter, number: 5, content: programacion.md }
-        - { element: lof}
+        - { element: preface, content: prefacio.md }
+        - { element: chapter, number: 1, content: etl.md }
+        - { element: chapter, number: 3, content: ficha_tecnica.md }
 
     editions:
         ebook:

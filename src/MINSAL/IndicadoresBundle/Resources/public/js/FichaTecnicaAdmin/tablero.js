@@ -114,12 +114,13 @@ $(document).ready(function() {
                         '<TH>' + trans.color + '</TH>' +
                         '<TH>' + trans.limite_inf + '</TH>' +
                         '<TH>' + trans.limite_sup + '</TH>' +
-                        '<TH>' + trans.comentario + '</TH>' +
+                        '<TH>' + trans.comentario+ '</TH>' +
                         '</TR>' +
                         '</THEAD>' +
                         '<TBODY>';
 
                 $.each(rangos_alertas, function(i, rango) {
+                    
                     alertas += '<TR>' +
                             '<TD bgcolor="' + rango.color + '"></TD>' +
                             '<TD>' + rango.limite_inf + '</TD>' +
@@ -127,7 +128,9 @@ $(document).ready(function() {
                             '<TD>' + rango.comentario + '</TD>' +
                             '</TR>';
                 })
-                alertas += '</TBODY><TABLE>';
+                alertas += '<TR><TD bgcolor="lightblue"></TD>'+
+                            '<TD colspan="3">'+trans.rango_no_especificado+'</TD>'
+                            '</TR></TBODY><TABLE>';
                 $('#alertas').html('');
                 $('#graficoPrimario').html('');
                 if (rangos_alertas.length > 0)

@@ -1,4 +1,5 @@
-function dibujarGraficoPastel(ubicacion, datos, color_grafico, categoryChoosen) {
+graficoPastel = function (ubicacion, datos, color_grafico, categoryChoosen) {
+    this.tipo = 'pastel';
     if (ubicacion == '' || ubicacion == null)
         ubicacion = "graficoPrimario";
 
@@ -20,7 +21,7 @@ function dibujarGraficoPastel(ubicacion, datos, color_grafico, categoryChoosen) 
             .append("svg:g")                //make a group to hold our pie chart
             .attr("transform", "translate(" + parseFloat(outerRadius+30) + "," + outerRadius + ")")    //move the center of the pie chart from 0, 0 to radius, radius
             ;
-
+    
     var arc = d3.svg.arc()              //this will create <path> elements for us using arc data
             .outerRadius(outerRadius).innerRadius(innerRadius);
 
