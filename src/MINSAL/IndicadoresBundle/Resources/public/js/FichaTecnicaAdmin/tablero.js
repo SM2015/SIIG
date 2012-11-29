@@ -114,12 +114,13 @@ $(document).ready(function() {
                         '<TH>' + trans.color + '</TH>' +
                         '<TH>' + trans.limite_inf + '</TH>' +
                         '<TH>' + trans.limite_sup + '</TH>' +
-                        '<TH>' + trans.comentario + '</TH>' +
+                        '<TH>' + trans.comentario+ '</TH>' +
                         '</TR>' +
                         '</THEAD>' +
                         '<TBODY>';
 
                 $.each(rangos_alertas, function(i, rango) {
+                    
                     alertas += '<TR>' +
                             '<TD bgcolor="' + rango.color + '"></TD>' +
                             '<TD>' + rango.limite_inf + '</TD>' +

@@ -1,5 +1,6 @@
-function dibujarGraficoColumnas(ubicacion, datos, colorChosen, categoryChoosen) {
+graficoColumnas = function (ubicacion, datos, colorChosen, categoryChoosen) {
 
+    this.tipo = 'columnas';
     var margin = {top: 0, right: 5, bottom: 20, left: 50},
     width = 500 - margin.left - margin.right,
             height = 300 - margin.top - margin.bottom,
@@ -34,7 +35,6 @@ function dibujarGraficoColumnas(ubicacion, datos, colorChosen, categoryChoosen) 
             .append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
-            .attr("id", "barChartPlot")
             ;
 
     var plot = svg
@@ -65,7 +65,7 @@ function dibujarGraficoColumnas(ubicacion, datos, colorChosen, categoryChoosen) 
         })
         .attr("height", function(d) {
             return height - yScale(parseFloat(d.measure));
-        })
+        })    
         .append("title")
         .text(function(d) {
             return d.category + ": " + d.measure;
@@ -84,7 +84,7 @@ function dibujarGraficoColumnas(ubicacion, datos, colorChosen, categoryChoosen) 
         plot.selectAll("rect").attr("fill", colorChosen);
 
 
-    // Add y labels to plot	
+    /*/ Add y labels to plot	
     plot.selectAll("text")
         .data(currentDatasetChart)
         .enter()
@@ -103,7 +103,7 @@ function dibujarGraficoColumnas(ubicacion, datos, colorChosen, categoryChoosen) 
         })
         .attr("class", "yAxis")
         ;    
-    
+    */
     // Add x labels to chart	
     /*var xLabels = svg
         .append("g")
@@ -135,5 +135,34 @@ function dibujarGraficoColumnas(ubicacion, datos, colorChosen, categoryChoosen) 
                 .text("Datos de " + categoryChoosen)
                 ;
 */
-}
+this.ordenar = function(modo_orden, ordenar_por) {
+    //clearTimeout(sortTimeout);
 
+    // Copy-on-write since tweens are evaluated after a delay.
+    if (ordenar_por=='dimension')
+        var x0 = xScale.domain(currentDatasetChart.sort(
+            (modo_orden=='asc') ? function(a, b) { return d3.ascending(a.category, b.category); }:
+            function(a, b) { return d3.descending(a.category, b.category); }
+            )
+        .map(function(d) { return d.category; }))
+        .copy();
+    else
+        var x0 = xScale.domain(currentDatasetChart.sort(
+            (modo_orden=='asc') ? function(a, b) { return d3.ascending(a.measure, b.measure); }:
+            function(a, b) { return d3.descending(a.measure, b.measure); }
+            )
+        .map(function(d) { return d.category; }))
+        .copy();
+    var transition = svg.transition().duration(750),
+        delay = function(d, i) { return i * 90; };
+
+    transition.selectAll("rect")
+        .delay(delay)
+        .attr("x", function(d) { return x0(d.category); });
+
+    transition.select(".x.axis")
+        .call(xAxis)
+      .selectAll("g")
+        .delay(delay);
+  }
+}
