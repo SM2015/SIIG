@@ -46,21 +46,21 @@ graficoLineas = function(ubicacion, datos, colorChosen, categoryChoosen) {
             ;
     
     svg.append("g")
-        .attr("class", "axis")
+        .transition().duration(1000).delay(20)
+        .attr("class", "axis")        
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
         .call(yAxis);            
       
     plot.append("path")
             .attr("class", "line")            
             .attr("d", line)            
-            // add color
-            .attr("stroke", 'black')
-            .transition().duration(1000).delay(20)
+            .attr("stroke", 'black')            
             ;
 
     plot.selectAll(".dot")
         .data(currentDatasetChart)
         .enter().append("circle")
+        .transition().duration(1000).delay(20)
         .attr("class", "dot")
         .attr("fill", function(d,i) {
             return colores_alertas(d.measure, i)
@@ -68,8 +68,9 @@ graficoLineas = function(ubicacion, datos, colorChosen, categoryChoosen) {
         .attr("cx", line.x())
         .attr("cy", line.y())
         .attr("r", 7.5)
-        .attr("stroke", colorChosen)
-        .append("title")
+        .attr("stroke", colorChosen);
+    plot.selectAll(".dot")
+         .append("title")
         .text(function(d) {
             return d.category + ": " + d.measure;
         })        
