@@ -63,7 +63,7 @@ graficoColumnas = function (ubicacion, datos, colorChosen, categoryChoosen) {
         .attr("width", xScale.rangeBand())
         .attr("y", function(d) {
             return yScale(parseFloat(d.measure));
-        })
+        })        
         .attr("height", function(d) {
             return height - yScale(parseFloat(d.measure));
         });    
