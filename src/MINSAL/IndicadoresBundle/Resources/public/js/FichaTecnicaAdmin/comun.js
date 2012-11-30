@@ -39,7 +39,7 @@ function dibujarGraficoPrincipal(tipo) {
     $('#dimension').html('<h4>' + $('#dimensiones option:selected').html() + '</h4>');
     cerrarMenus();    
     if (tipo == null || tipo == 'pastel')
-        grafico = graficoPastel('graficoPrimario', datasetPrincipal);
+        grafico = new graficoPastel('graficoPrimario', datasetPrincipal);
     else if (tipo == 'columnas')
         grafico = new graficoColumnas('graficoPrimario', datasetPrincipal);
     else if (tipo == 'lineas')
@@ -144,8 +144,8 @@ function dibujarGrafico(dimension) {
     {filtro: filtro},
     function(resp) {
         datasetPrincipal = resp.datos;
-        datasetPrincipal_bk = datasetPrincipal;
-        dibujarGraficoPrincipal($('#tipo_grafico_principal').val());        
+        datasetPrincipal_bk = datasetPrincipal;                
+        dibujarGraficoPrincipal($('#tipo_grafico_principal').val());
         controles_filtros();
     });
 
@@ -161,7 +161,9 @@ function ordenarDatos(ordenar_por, modo_orden) {
     
     cerrarMenus();
     
-    if (grafico.tipo == 'columnas'){
+    grafico.ordenar(modo_orden, ordenar_por);
+    return;
+    /*if (grafico.tipo == 'columnas' || grafico.tipo == 'lineas'){
         grafico.ordenar(modo_orden, ordenar_por);
         return;
     }
@@ -173,6 +175,7 @@ function ordenarDatos(ordenar_por, modo_orden) {
         //datasetPrincipal_bk = datasetPrincipal;
         dibujarGraficoPrincipal($('#tipo_grafico_principal').val());
     }, 'json');
+    */
 }
 
 function aplicarFiltro() {

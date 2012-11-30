@@ -120,12 +120,16 @@ $(document).ready(function() {
                         '<TBODY>';
 
                 $.each(rangos_alertas, function(i, rango) {
-                    
+                    var comentario_rango = '';
+                    if (rango.comentario == null)
+                        comentario_rango='';
+                    else
+                        comentario_rango = rango.comentario
                     alertas += '<TR>' +
                             '<TD bgcolor="' + rango.color + '"></TD>' +
                             '<TD>' + rango.limite_inf + '</TD>' +
                             '<TD>' + rango.limite_sup + '</TD>' +
-                            '<TD>' + rango.comentario + '</TD>' +
+                            '<TD>' + comentario_rango + '</TD>' +
                             '</TR>';
                 })
                 alertas += '<TR><TD bgcolor="lightblue"></TD>'+
