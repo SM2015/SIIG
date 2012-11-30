@@ -30,9 +30,9 @@ graficoPastel = function (ubicacion, datos, color_grafico, categoryChoosen) {
     var arcFinal3 = d3.svg.arc().innerRadius(innerRadiusFinal3).outerRadius(outerRadius);
 
     var pie = d3.layout.pie()           //this will create arc data for us given a list of values
-            .value(function(d) {
-        return parseFloat(d.measure);
-    });    //we must tell it out to access the value of each element in our data array
+        .value(function(d) {
+            return parseFloat(d.measure);
+        });    //we must tell it out to access the value of each element in our data array
 
     var arcs = vis.selectAll("g.slice")     //this selects all <g> elements with class slice (there aren't any yet)
             .data(pie)                          //associate the generated pie data (an array of arcs, each having startAngle, endAngle and value properties) 
@@ -48,10 +48,10 @@ graficoPastel = function (ubicacion, datos, color_grafico, categoryChoosen) {
         });
 
     if (color_grafico == null)
-        arcs.append("svg:path")
+        arcs.append("svg:path")                
                 .attr("fill", function(d, i) {
             return colores_alertas(d.data.measure, i) 
-        }); //set the color for each slice to be chosen from the color function defined above
+        }); 
     else
         arcs.append("svg:path")
                 .attr("fill", function(d, i) {
@@ -64,9 +64,12 @@ graficoPastel = function (ubicacion, datos, color_grafico, categoryChoosen) {
         return d.data.category + ": " + d.data.measure;
     });
 
-    d3.selectAll("g.slice").selectAll("path").transition()
+    d3.selectAll("g.slice").selectAll("path")            
+            .transition()
             .duration(750)
             .delay(10)
+            .attr("stroke","white")
+            .attr("stroke-width", 1.5)
             .attr("d", arcFinal)
             ;
 
@@ -106,8 +109,8 @@ graficoPastel = function (ubicacion, datos, color_grafico, categoryChoosen) {
     function mouseover() {
         d3.select(this).select("path").transition()
                 .duration(750)
-                //.attr("stroke","red")
-                //.attr("stroke-width", 1.5)
+                .attr("stroke","red")
+                .attr("stroke-width", 2.5)
                 .attr("d", arcFinal3)
                 ;
     }
@@ -115,11 +118,12 @@ graficoPastel = function (ubicacion, datos, color_grafico, categoryChoosen) {
     function mouseout() {
         d3.select(this).select("path").transition()
                 .duration(750)
-                //.attr("stroke","blue")
-                //.attr("stroke-width", 1.5)
+                .attr("stroke","white")
+                .attr("stroke-width", 1.5)
                 .attr("d", arcFinal)
                 ;
     }
+    this.ordenar = function(modo_orden, ordenar_por) { return }
 
 
 }

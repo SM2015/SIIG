@@ -7,11 +7,10 @@ graficoLineas = function(ubicacion, datos, colorChosen, categoryChoosen) {
             ;
     var currentDatasetChart = datos;
 
-    var xScale = d3.scale.linear()
-            .domain([0, currentDatasetChart.length - 1])
-            //.domain(d3.extent(currentDatasetChart, function(d) { return d.category; }))
-            .range([0, width])
-            ;
+    var xScale = d3.scale.ordinal()
+        .domain(currentDatasetChart.map(function(d) { return d.category; }))
+        .rangeRoundBands([0, width], .9);
+    ;
 
     var yScale = d3.scale.linear()
             .domain([0, d3.max(currentDatasetChart, function(d) {
@@ -23,6 +22,9 @@ graficoLineas = function(ubicacion, datos, colorChosen, categoryChoosen) {
             .scale(yScale)
             .orient("left")
             .ticks(5);
+    var xAxis = d3.svg.axis()
+        .scale(xScale)
+        .orient("bottom");
 
     var line = d3.svg.line()
             .x(function(d, i) {
@@ -50,7 +52,12 @@ graficoLineas = function(ubicacion, datos, colorChosen, categoryChoosen) {
             .attr("class", "axis")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
             .call(yAxis);
-
+    svg.append("g")
+      .transition().duration(1000).delay(20)
+        .attr("class", "x axis")      
+      .attr("transform", "translate(" + margin.left + "," + (margin.top + height) + ")")
+      .call(xAxis);
+      
     plot.append("path")
             .attr("class", "line")
             .attr("d", line)
@@ -80,80 +87,29 @@ graficoLineas = function(ubicacion, datos, colorChosen, categoryChoosen) {
         descenderNivelDimension(d.category);
     })
 
-    // Add x labels to chart	
-    var xLabels = svg
-            .append("g")
-            .attr("transform", "translate(" + margin.left + "," + (margin.top + height) + ")")
-            ;
-
-    xLabels.selectAll("text.xAxis")
-            .data(currentDatasetChart)
-            .enter()
-            .append("text")
-            .text(function(d) {
-        return d.category;
-    })
-            .attr("text-anchor", "middle")
-            // Set x position to the left edge of each bar plus half the bar width
-            .attr("x", line.x())
-            .attr("y", 17)
-            ;
-
-
-    /*if (categoryChoosen != null)
-     // Title
-     svg.append("text")
-     .attr("x", (width + margin.left + margin.right) / 2)
-     .attr("y", 15)
-     .attr("class", "title")
-     .attr("text-anchor", "middle")
-     .text("Datos de " + categoryChoosen)
-     ;
-     */
+    
     this.ordenar = function(modo_orden, ordenar_por) {
-        //clearTimeout(sortTimeout);
-        return;
+        
         // Copy-on-write since tweens are evaluated after a delay.
         if (ordenar_por == 'dimension')
             var x0 = xScale.domain(currentDatasetChart.sort(
-                    (modo_orden == 'asc') ? function(a, b) {
-                return d3.ascending(a.category, b.category);
-            } :
-                    function(a, b) {
-                        return d3.descending(a.category, b.category);
-                    }
-            )
-                    .map(function(d) {
-                return d.category;
-            }))
-                    .copy();
+                    (modo_orden == 'asc') ? 
+                        function(a, b) { return d3.ascending(a.category, b.category); } :
+                        function(a, b) { return d3.descending(a.category, b.category);}
+            ).map(function(d) { return d.category; })).copy();
         else
             var x0 = xScale.domain(currentDatasetChart.sort(
-                    (modo_orden == 'asc') ? function(a, b) {
-                return d3.ascending(a.measure, b.measure);
-            } :
-                    function(a, b) {
-                        return d3.descending(a.measure, b.measure);
-                    }
-            )
-                    .map(function(d) {
-                return d.category;
-            }))
-                    .copy();
+                    (modo_orden == 'asc') ? 
+                        function(a, b) {return d3.ascending(a.measure, b.measure);} :
+                        function(a, b) {return d3.descending(a.measure, b.measure);}
+            ).map(function(d) { return d.category; })).copy();
+    
         var transition = svg.transition().duration(750),
-                delay = function(d, i) {
-            return i * 90;
-        };
+            delay = function(d, i) {return i * 90;};
 
-        transition.selectAll("rect")
-                .delay(delay)
-                .attr("x", function(d) {
-            return x0(d.category);
-        });
-
-        transition.select(".x.axis")
-                .call(xAxis)
-                .selectAll("g")
-                .delay(delay);
+        transition.selectAll(".line").delay(delay).attr("d", line).attr("stroke", 'blue');        
+        transition.selectAll(".dot").delay(delay).attr("cx", function(d) { return x0(d.category); });
+        transition.select(".x.axis").call(xAxis).selectAll("g").delay(delay);  
+    
     }
 }
