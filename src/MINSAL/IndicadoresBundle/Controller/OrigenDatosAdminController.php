@@ -114,7 +114,10 @@ class OrigenDatosAdminController extends Controller {
         foreach ($selecciones as $origen) {
             $msg = array('id_origen_dato' => $origen);
             $em = $this->getDoctrine()->getEntityManager();
+            
             $origenDato = $em->find('IndicadoresBundle:OrigenDatos', $origen);
+            $msg['sql'] = $origenDato->getSentenciaSql();
+            $msg['total_registros'] = $em->getRepository('IndicadoresBundle:OrigenDatos')->getTotalRegistros($origenDato);
 
             $carga_directa = $origenDato->getEsCatalogo();
             // No mandar a la cola de carga los que son catálogos, Se cargarán directamente            
