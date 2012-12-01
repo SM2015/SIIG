@@ -24,7 +24,7 @@ $(document).ready(function() {
 
     var espacio_tit_categoria = $tit_categoria.height() * 1.8 * $tit_categoria.length;
 
-    $('#tablero_indicadores div').css({'max-height': capa.height() - espacio_tit_categoria});
+    $('#tablero_indicadores div').css({'max-height': capa.height() - espacio_tit_categoria, 'height':'150px'});
 
 
     //dibujarGraficoPrincipal($('#tipo_grafico_primario').val());
