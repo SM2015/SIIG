@@ -28,7 +28,7 @@ class FichaTecnicaRepository extends EntityRepository {
             $sql .= 'DROP TABLE IF EXISTS tmp_ind_' . $nombre_indicador . '; ';
             $sql .= 'CREATE TEMP TABLE IF NOT EXISTS ' . $tabla . '(';
             foreach ($variable->getOrigenDatos()->getCampos() as $campo) {
-                $sql .= $campo->getSignificado()->getCodigo() . ' ' . $campo->getTipoCampo()->getCodigo() . ', ';
+                $sql .= $campo->getSignificado()->getCodigo() . ' ' . 'varchar(200)' . ', ';
             }
             $sql = trim($sql, ', ') . ');';
 
