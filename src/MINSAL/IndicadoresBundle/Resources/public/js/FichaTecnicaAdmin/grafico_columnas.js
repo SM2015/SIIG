@@ -48,11 +48,11 @@ graficoColumnas = function (ubicacion, datos, colorChosen, categoryChoosen) {
     plot.selectAll("rect")
         .data(currentDatasetChart)        
         .enter()
-        .append("rect")
-        .transition().duration(1000).delay(20)
+        .append("rect")        
         .attr("x", function(d, i) {
             return xScale(i);
         })
+        .transition().duration(1000).delay(20)
         .attr("width", xScale.rangeBand())
         .attr("y", function(d) {
             return yScale(parseFloat(d.measure));

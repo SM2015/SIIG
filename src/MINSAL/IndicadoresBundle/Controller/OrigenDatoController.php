@@ -205,7 +205,7 @@ class OrigenDatoController extends Controller {
         if ($resultado['estado'] == 'ok') {
             $nombres_id = array();
             $campo = array();
-            //Por defecto poner tipo texto
+            //Por defecto poner tipo entero
             $tipo_campo = $em->getRepository("IndicadoresBundle:TipoCampo")->findOneByCodigo('integer');
             $util = new \MINSAL\IndicadoresBundle\Util\Util();
             foreach ($resultado['nombre_campos'] as $k => $nombre) {
@@ -221,6 +221,11 @@ class OrigenDatoController extends Controller {
                 }
                 else
                     $nombres_id[$campos[$nombre_campo]['id']] = $nombre_campo;
+            }
+            //Borrar algún campo que ya no se use
+            foreach($campos_existentes as $campo){
+                if(!in_array($campo->getNombre(), $nombres_id))
+                        $em->remove ($campo);
             }
             try {
                 $em->flush();

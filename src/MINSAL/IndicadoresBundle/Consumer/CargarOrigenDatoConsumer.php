@@ -24,7 +24,7 @@ class CargarOrigenDatoConsumer implements ConsumerInterface {
         $origenDato = $em->find('IndicadoresBundle:OrigenDatos', $idOrigen);
         
         $origenDato_aux = $origenDato;
-        $total_registros = $em->getRepository('IndicadoresBundle:OrigenDatos')->getTotalRegistros($origenDato_aux);
+        $total_registros = $msg['total_registros'];
 
         // Recuperar el nombre y significado de los campos del origen de datos
         $campos_sig = array();
@@ -41,7 +41,7 @@ class CargarOrigenDatoConsumer implements ConsumerInterface {
             $tamanio = 100000;            
             if ($total_registros > $tamanio) {
                 $partes = ceil($total_registros / $tamanio);
-                $sql = $origenDato_aux->getSentenciaSql();
+                $sql = $msg['sql'];
                 for ($i = 0; $i < $partes; $i++) {
                     $sql_aux = $sql . ' LIMIT ' . $tamanio . ' OFFSET ' . $i * $tamanio;
                     $origenDato_aux->setSentenciaSql($sql_aux);
@@ -71,7 +71,7 @@ class CargarOrigenDatoConsumer implements ConsumerInterface {
                 $nueva_fila[$campos_sig[$k]] = $v;
             }
             $datos_a_enviar[] = $nueva_fila;
-            //Enviaré en grupos de 400
+            //Enviaré en grupos de 200
             if ($i == 200) {
                 $msg_guardar = array('id_origen_dato' => $idOrigen,
                     'datos' => $datos_a_enviar,

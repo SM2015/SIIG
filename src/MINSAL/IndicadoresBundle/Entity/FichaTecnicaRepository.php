@@ -28,7 +28,7 @@ class FichaTecnicaRepository extends EntityRepository {
             $sql .= 'DROP TABLE IF EXISTS tmp_ind_' . $nombre_indicador . '; ';
             $sql .= 'CREATE TEMP TABLE IF NOT EXISTS ' . $tabla . '(';
             foreach ($variable->getOrigenDatos()->getCampos() as $campo) {
-                $sql .= $campo->getSignificado()->getCodigo() . ' ' . $campo->getTipoCampo()->getCodigo() . ', ';
+                $sql .= $campo->getSignificado()->getCodigo() . ' ' . 'varchar(200)' . ', ';
             }
             $sql = trim($sql, ', ') . ');';
 
@@ -52,7 +52,7 @@ class FichaTecnicaRepository extends EntityRepository {
         $sql .= 'SELECT  '.$campos.','.  implode(',', $tablas_variables).
                 " INTO tmp_ind_".$nombre_indicador." FROM  ".array_shift($tablas_variables).'_var ';
         foreach ($tablas_variables as $tabla){
-            $sql .= " INNER JOIN ".$tabla."_var USING ($campos) ";
+            $sql .= " FULL OUTER JOIN ".$tabla."_var USING ($campos) ";
         }        
         $fichaTecnica->setUpdatedAt($ahora);
         $em->persist($fichaTecnica);
@@ -74,7 +74,8 @@ class FichaTecnicaRepository extends EntityRepository {
                 $sql .= " AND $campo = '$valor' ";
         }
         $sql .= "
-            GROUP BY $dimension 
+            GROUP BY $dimension             
+            HAVING (($formula)::numeric) > 0
             ORDER BY $dimension";                
         return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
     }
