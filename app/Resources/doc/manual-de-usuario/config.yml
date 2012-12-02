@@ -14,9 +14,11 @@ book:
         # tables), part, preface, prologue, title, toc (table of contents)
         - { element: cover }
         - { element: toc   }
-        - { element: preface, content: prefacio.md }
-        - { element: chapter, number: 1, content: etl.md }
+        - { element: introduction, content: introduccion.md }
+        - { element: chapter, number: 1, content: premilinares.md }
+        - { element: chapter, number: 2, content: etl.md }
         - { element: chapter, number: 3, content: ficha_tecnica.md }
+        - { element: chapter, number: 4, content: tablero.md }
 
     editions:
         ebook:
