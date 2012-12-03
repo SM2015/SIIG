@@ -76,8 +76,7 @@ graficoMapa = function(ubicacion, datos, colorChosen, categoryChoosen) {
             .attr("width", width)
             .attr("height", height)
             .on("contextmenu", right_click)
-            .on("click", function(d, i) {
-        alert('hola')
+            .on("click", function(d, i) {        
         if (dimension == 'departamento')
             descenderNivelDimension(elemento_id_codigo[d.properties.ID_1]);
         else if (dimension == 'municipio')
@@ -111,13 +110,16 @@ graficoMapa = function(ubicacion, datos, colorChosen, categoryChoosen) {
         });
         seccion.attr('fill', function(d, i) {
             if (dimension == 'departamento')
-                return colores_alertas(arreglo_datos[elemento_id_codigo[d.properties.ID_1]], i)
-            else if (dimension == 'municipio')
-                return colores_alertas(arreglo_datos[elemento_id_codigo[d.properties.ID_2]], i)
+                return colores_alertas(arreglo_datos[elemento_id_codigo[d.properties.ID_1]], i);
+            else if (dimension == 'municipio'){
+                if (arreglo_datos[elemento_id_codigo[d.properties.ID_2]] == null)
+                    return '#E5DBDB';
+                else
+                    return colores_alertas(arreglo_datos[elemento_id_codigo[d.properties.ID_2]], i);
+            }
         });
         seccion.on("contextmenu", right_click)
                 .on("click", function(d, i) {
-            alert('hola')
             if (dimension == 'departamento')
                 descenderNivelDimension(elemento_id_codigo[d.properties.ID_1]);
             else if (dimension == 'municipio')

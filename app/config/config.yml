@@ -1,6 +1,6 @@
 parameters:
-  indicador_duracion_tabla_tmp: 60 # minutos
-  indicador_cache_consulta: 600 # segundos
+  indicador_duracion_tabla_tmp: 300 # minutos
+  indicador_cache_consulta: 3600 # segundos
 imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
