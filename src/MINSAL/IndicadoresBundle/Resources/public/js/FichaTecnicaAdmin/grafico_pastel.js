@@ -123,7 +123,7 @@ graficoPastel = function (ubicacion, datos, color_grafico, categoryChoosen) {
                 .attr("d", arcFinal)
                 ;
     }
-    this.ordenar = function(modo_orden, ordenar_por) { return }
+    this.ordenar = function(modo_orden, ordenar_por) { /*No hacer nada, el gráfico circular no se puede ordenar*/ return }
 
 
 }

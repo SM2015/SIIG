@@ -27,9 +27,9 @@ function colores_alertas(indice, i) {
     if (rangos_alertas.length == 0)
         return color(i);
     else {
-        for (i = 0; i < rangos_alertas.length; i++) {
-            if (indice <= rangos_alertas[i].limite_sup)
-                return rangos_alertas[i].color
+        for (ii = 0; ii < rangos_alertas.length; ii++) {
+            if (indice <= rangos_alertas[ii].limite_sup)
+                return rangos_alertas[ii].color
         }
         return 'lightblue';
     }
@@ -44,6 +44,8 @@ function dibujarGraficoPrincipal(tipo) {
         grafico = new graficoColumnas('graficoPrimario', datasetPrincipal);
     else if (tipo == 'lineas')
         grafico = new graficoLineas('graficoPrimario', datasetPrincipal);
+    else if (tipo == 'mapa')
+        grafico = new graficoMapa('graficoPrimario', datasetPrincipal);
 }
 
 function ascenderNivelDimension(nivel) {

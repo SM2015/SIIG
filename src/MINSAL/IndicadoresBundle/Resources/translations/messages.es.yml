@@ -191,6 +191,7 @@ javascript:
   limite_sup: 'Límite superior'
   comentario: 'Comentario'
   rango_no_especificado: Rango no especificado
+  no_mapa: 'La variable seleccionada no tiene un mapa asociado'
 
 validacion:
   requerido: Este dato es requerido
