@@ -47,6 +47,7 @@ $(document).ready(function() {
                 var combo_tipo_grafico = trans.tipo_grafico + ": <SELECT id='tipo_grafico_principal' name='tipo_grafico_principal' >";
                 combo_tipo_grafico += "<OPTION VALUE='columnas'>Columnas</OPTION>" +
                         "<OPTION VALUE='pastel'>Pastel</OPTION>" +
+                        "<OPTION VALUE='mapa'>Mapa</OPTION>" +
                         "<OPTION VALUE='lineas'>Lineas</OPTION>";
                 combo_tipo_grafico += "</SELECT>";
 
