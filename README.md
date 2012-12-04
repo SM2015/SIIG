@@ -8,7 +8,7 @@ partir de la información administrativa producida por el sistema estatal y
 nacional de información de salud.
 
 
-# Documentación
-* [Documento de análisis y requerimientos](https://github.com/rigosv/SIIG/blob/master/app/Resources/doc/analisis-y-requerimientos/Output/print/book.pdf?raw=true)
-* [Manual técnico](https://github.com/rigosv/SIIG/blob/master/app/Resources/doc/manual-tecnico/Output/print/book.pdf?raw=true)
-* [Manual de usuario](https://github.com/rigosv/SIIG/blob/master/app/Resources/doc/manual-de-usuario/Output/print/book.pdf?raw=true)
+# [Documentación](./app/Resources/doc/)
+* [Documento de análisis y requerimientos](./app/Resources/doc/analisis-y-requerimientos/Output/print/book.pdf?raw=true)
+* [Manual técnico](./app/Resources/doc/manual-tecnico/Output/print/book.pdf?raw=true)
+* [Manual de usuario](./app/Resources/doc/manual-de-usuario/Output/print/book.pdf?raw=true)
