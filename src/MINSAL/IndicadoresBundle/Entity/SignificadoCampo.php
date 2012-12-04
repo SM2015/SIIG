@@ -49,6 +49,12 @@ class SignificadoCampo
      */
     private $catalogo;
     
+    /**
+     * @var string $nombre_mapa
+     *
+     * @ORM\Column(name="nombre_mapa", type="string", length=200, nullable=true)
+     */
+    private $nombreMapa;           
 
     public function __construct() {
         $this->usoEnCatalogo = false;
@@ -168,5 +174,28 @@ class SignificadoCampo
     public function getCatalogo()
     {
         return $this->catalogo;
+    }   
+
+    /**
+     * Set nombreMapa
+     *
+     * @param string $nombreMapa
+     * @return SignificadoCampo
+     */
+    public function setNombreMapa($nombreMapa)
+    {
+        $this->nombreMapa = $nombreMapa;
+    
+        return $this;
     }
+
+    /**
+     * Get nombreMapa
+     *
+     * @return string 
+     */
+    public function getNombreMapa()
+    {
+        return $this->nombreMapa;
+    }   
 }
