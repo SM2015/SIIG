@@ -199,7 +199,8 @@ class Conexion
      */
     public function setClave($clave)
     {
-        $this->clave = $clave;
+        $Util = new \MINSAL\IndicadoresBundle\Util\Util();
+        $this->clave = $Util->encriptar_clave($clave);
     
         return $this;
     }
@@ -211,7 +212,8 @@ class Conexion
      */
     public function getClave()
     {
-        return $this->clave;
+        $Util = new \MINSAL\IndicadoresBundle\Util\Util();
+        return $Util->desencriptar_clave($this->clave);
     }
 
     /**
