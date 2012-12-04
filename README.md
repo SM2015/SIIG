@@ -9,6 +9,6 @@ nacional de información de salud.
 
 
 # [Documentación](https://github.com/rigosv/SIIG/tree/master/app/Resources/doc)
-* [Documento de análisis y requerimientos](https://github.com/rigosv/SIIG/tree/master/app/Resources/doc/analisis-y-requerimientos/Output/print/book.pdf?raw=true)
+* [Documento de análisis y requerimientos](https://github.com/rigosv/SIIG/blob/master/app/Resources/doc/analisis-y-requerimientos/Output/print/book.pdf?raw=true)
 * [Manual técnico](https://github.com/rigosv/SIIG/tree/master/app/Resources/doc/manual-tecnico/Output/print/book.pdf?raw=true)
 * [Manual de usuario](https://github.com/rigosv/SIIG/tree/master/app/Resources/doc/manual-de-usuario/Output/print/book.pdf?raw=true)
