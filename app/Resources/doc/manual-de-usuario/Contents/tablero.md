@@ -15,7 +15,7 @@ El tablero se divide en las siguientes áreas:
 Los grupos mostrados son de acuerdo a las clasificaciones técnicas existentes, para abrir un grupo se debe dar clic en el nombre y se mostrarán todos los indicadores pertenecientes. Para seleccionar un indicador se debe dar clic sobre este y se cargará la información de este.
 
 ## Área de gráfico
-El gráfico puede ser de tres tipos: líneas, circular o de columnas, el gráfico es interactivo y dinámico, al dar clic en algún elemento de este se creará un filtro con el valor seleccionado y se mostrará un gráfico con la siguiente dimensión disponible. Ej.: Si se tiene el gráfico con los valores para los años 2010 y 2011, podemos dar clic en el elemento del gráfico que representa 2011 para poder ver los datos filtrados por el año 2011 y se mostrará otro gráfico por ejemplo por género.
+El gráfico puede ser de cuatro tipos: líneas, circular, mapa o de columnas, el gráfico es interactivo y dinámico, al dar clic en algún elemento de este se creará un filtro con el valor seleccionado y se mostrará un gráfico con la siguiente dimensión disponible. Ej.: Si se tiene el gráfico con los valores para los años 2010 y 2011, podemos dar clic en el elemento del gráfico que representa 2011 para poder ver los datos filtrados por el año 2011 y se mostrará otro gráfico por ejemplo por género.
 
 ## Filtros aplicados
 Cada vez que se dé clic sobre un elemento del gráfico se creará un filtro con el valor seleccionado, podemos aplicar filtros de acuerdo a la cantidad de variables disponibles para el indicador, además se puede regresar y quitar un filtro dando clic en el nivel deseado
@@ -28,11 +28,15 @@ Cada elemento del gráfico se mostrará con el color del rango al cual pertenece
 
 ![Opciones del indicador](opciones_indicador.png)
 
-Podemos elegir el tipo de gráfico: Columnas, líneas y circular. El usuario podrá elegir el gráfico que represente mejor los datos, cada uno de estos gráficos es interactivo.
+Podemos elegir el tipo de gráfico: Columnas, líneas, mapa y circular. El usuario podrá elegir el gráfico que represente mejor los datos, cada uno de estos gráficos es interactivo.
+En el caso de que la variable sea de tipo geográfica y exista un mapa asociado a ella, se dispondrá de este tipo
+de gráfico, para acercar el mapa se usará clic derecho de igual manera clic derecho sobre el mismo elemento
+para alejar, si se da clic sobre otro elemento cuando el mapa tiene un acercamiento se pasará ese elemento al centro.
 
 ![Gráfico circular](region_pastel.png)
 ![Gráfico de columnas](region_columnas.png)
 ![Gráfico de líneas](region_lineas.png)
+![Gráfico de mapa](grafico_mapa.png)
 
 Ordenar por valor del indicador, con esta opciones podemos ordenar los elementos del gráfico tomando el valor del indicador como parámetro de ordenamiento.
 
