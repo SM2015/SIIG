@@ -102,8 +102,15 @@ Entra a la siguiente dirección desde el navegador http://siig.localhost/config.
 Si aparece algún error debe ser corregido antes de continuar
 
 ### Configuración de la conexión
-Después de haber solventado todos los inconvenientes, dentro de la misma página hay un enlace para pasar a la configuración, 
-y seguir los pasos del asistente
+editar el archivo app/config/parameters.yml y colocar los valores correctos para las variables siguientes 
+~~~~
+    database_driver: pdo_pgsql
+    database_host: localhost
+    database_port: null
+    database_name: nombre_base_datos
+    database_user: nombre_usuario_base_datos
+    database_password: clave_usuario
+~~~
 
 ### Crear la base de datos
 ~~~
@@ -175,12 +182,12 @@ $ sudo apt-get install rabbitmq-server
 $ sudo /etc/init.d/rabbitmq-server start
 ~~~
 
-- Programar en el cron, los dos procesos para la ejecución de las colas que cargarán los datos
-(Falta verificar su funcionamiento desde el cron)
+- Iniciar las colas
 ~~~
-php /ruta_hacia_proyecto/app/console rabbitmq:consumer cargar_origen_datos
-php /ruta_hacia_proyecto/app/console rabbitmq:consumer guardar_registro
+src/MINSAL/IndicadoresBundle/Util/iniciar_colas.sh
 ~~~
+Pueden aparecer mensajes de aviso como "/usr/bin/nohup: redirecting stderr to stdout" solo debemos presionar ENTER
+
 
 - Habilitar la interfaz web de administración
 ~~~
