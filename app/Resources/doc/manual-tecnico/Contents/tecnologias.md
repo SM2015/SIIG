@@ -26,3 +26,6 @@ El lenguaje que se ha utilizado es PHP con Symfony versión 2.4
 
 ## Mensajería
 La carga de datos se hace con la librería [RabbitMQ](http://www.rabbitmq.com/)
+
+## Documentación
+La mayoría de la documentación ha sido escrita en formato markdown y se ha utilizado [easybook](http://easybook-project.org/) para la generación de esta.

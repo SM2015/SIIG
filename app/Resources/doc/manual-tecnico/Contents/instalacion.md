@@ -133,6 +133,7 @@ $ app/console fos:user:create --super-admin
 
 ### Instalación de HStore
 [HStore](http://www.postgresql.org/docs/9.1/static/hstore.html) es un tipo especial de campo de PostgreSQL
+
 - Ejecutar desde la terminal
 ~~~
  # apt-get install postgresql-contrib
