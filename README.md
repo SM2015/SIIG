@@ -5,15 +5,16 @@
 * Gestor de base de datos
 * PHP 5.3.8+
 
-### Instalación de los requerimientos desde ubuntu (con postgresql como gestor de base de datos)
+### Instalación de los requerimientos desde un servidor Debian (Es muy importante poner atención al indicador 
+"#" significa que el comando debe ser ejecutado como usuario root y "$" que debe ser ejecutado como un usuario normal)
 ~~~
-$ sudo apt-get update
-$ sudo apt-get install php5 php5-pgsql php5-sqlite sqlite php5-xdebug  php-apc php5-cli php5-xsl php5-intl apache2 postgresql acl git-core curl
+# apt-get update
+# apt-get install php5 php5-pgsql php5-sqlite sqlite php5-xdebug  php-apc php5-cli php5-xsl php5-intl apache2 postgresql acl git-core curl
 ~~~
 
 ##Instalación
 ### Obtener el código fuente
-Puedes descargarlo desde: https://github.com/erodriguez-minsal/SIIG/tarball/master o puedes clonar el repositorio
+Puedes descargarlo desde: https://github.com/erodriguez-minsal/SIIG/tarball/master o clonar el repositorio
 
 ~~~
 $ git clone https://github.com/erodriguez-minsal/SIIG.git siig
@@ -37,13 +38,14 @@ $ php composer.phar install
 
 ## Configuración
 
-### Servidor web
-Se puede crear un enlace en /var/www y hacia la carpeta web de nuestro proyecto y utilizarlo 
-como http://localhost/siig o se puede configurar un VirtualHost
+### Servidor web 
+Esto es para una instalación de prueba en una máquina local, la instalación real en un servidor el administrador de servicios deberá realizar esta configuración
+con los parámetros más adecuados: ip, dominio, configuración en el DNS, etc.
+
 ####Configurar un VirtualHost
 Creamos el archivo para la definición del VirtualHost
 ~~~
-$ sudo nano /etc/apache2/sites-available/siig.localhost
+# nano /etc/apache2/sites-available/siig.localhost
 ~~~
 El contenido será similar a esto:
 ~~~
@@ -75,17 +77,17 @@ En el archivo /etc/hosts agregamos la línea
 
 Habilitamos el VirtualHost
 ~~~
-$ sudo a2ensite siig.localhost
+# a2ensite siig.localhost
 ~~~
 
 También es recomendable activar el módulo mod_rewrite
 ~~~
-$ sudo a2enmod rewrite
+# a2enmod rewrite
 ~~~
 
 Reiniciar apache
 ~~~
-$ sudo /etc/init.d/apache2 restart
+# /etc/init.d/apache2 restart
 ~~~
 
 ### Permisos sobre carpetas
@@ -93,8 +95,8 @@ Es necesario tener [soporte para ACL](https://help.ubuntu.com/community/FilePerm
 está el proyecto y luego ejecutar
 
 ~~~
-$ sudo setfacl -R -m u:www-data:rwx -m u:`whoami`:rwx app/cache app/logs web/uploads
-$ sudo setfacl -dR -m u:www-data:rwx -m u:`whoami`:rwx app/cache app/logs web/uploads
+# setfacl -R -m u:www-data:rwx -m u:`whoami`:rwx app/cache app/logs web/uploads
+# setfacl -dR -m u:www-data:rwx -m u:`whoami`:rwx app/cache app/logs web/uploads
 ~~~
 
 ### Verificar la configuración
@@ -102,8 +104,15 @@ Entra a la siguiente dirección desde el navegador http://siig.localhost/config.
 Si aparece algún error debe ser corregido antes de continuar
 
 ### Configuración de la conexión
-Después de haber solventado todos los inconvenientes, dentro de la misma página hay un enlace para pasar a la configuración, 
-y seguir los pasos del asistente
+editar el archivo app/config/parameters.yml y colocar los valores correctos para las variables siguientes 
+~~~~
+    database_driver: pdo_pgsql
+    database_host: localhost
+    database_port: null
+    database_name: nombre_base_datos
+    database_user: nombre_usuario_base_datos
+    database_password: clave_usuario
+~~~
 
 ### Crear la base de datos
 ~~~
@@ -124,7 +133,7 @@ $ app/console fos:user:create --super-admin
 ### Instalación de [HStore](http://www.postgresql.org/docs/9.1/static/hstore.html)
 - Ejecutar desde la terminal
 ~~~
-$ sudo apt-get install postgresql-contrib
+# apt-get install postgresql-contrib
 ~~~
 
 - Ejecutar dentro de la base de datos, con el usuario postgres 
@@ -132,7 +141,8 @@ $ sudo apt-get install postgresql-contrib
 create extension hstore;
 ~~~
 
-- Crear la tabla especial que no se manejará con el ORM, hacerlo con el usuario dueño de la base de datos
+- Crear la tabla especial que no se manejará con el ORM, hacerlo con el usuario dueño de la base de datos 
+- (no con el usuario postrgres, a menos que este mismo sea el dueño de la base de datos)
 ~~~
 CREATE TABLE fila_origen_dato(
     id serial,
@@ -151,41 +161,41 @@ En este proyecto será utilizado para la carga masiva de datos y así evitar cue
 
 - Agregar el repositorio
 ~~~
-sudo sh -c 'echo "deb http://www.rabbitmq.com/debian/ testing main" >> /etc/apt/sources.list'
+# sh -c 'echo "deb http://www.rabbitmq.com/debian/ testing main" >> /etc/apt/sources.list'
 ~~~
 
 - Agregar la clave pública
 ~~~
-$ wget http://www.rabbitmq.com/rabbitmq-signing-key-public.asc
-$ sudo apt-key add rabbitmq-signing-key-public.asc
+# wget http://www.rabbitmq.com/rabbitmq-signing-key-public.asc
+# apt-key add rabbitmq-signing-key-public.asc
 ~~~
 
 - Ejecutar 
 ~~~
-$ sudo apt-get update
+# apt-get update
 ~~~
 
 - Instalar el paquete
 ~~~
-$ sudo apt-get install rabbitmq-server
+# apt-get install rabbitmq-server
 ~~~
 
 - Verificar que el servicio de rabbitmq esté corriendo
 ~~~
-$ sudo /etc/init.d/rabbitmq-server start
+# /etc/init.d/rabbitmq-server start
 ~~~
 
-- Programar en el cron, los dos procesos para la ejecución de las colas que cargarán los datos
-(Falta verificar su funcionamiento desde el cron)
+- Iniciar las colas
 ~~~
-php /ruta_hacia_proyecto/app/console rabbitmq:consumer cargar_origen_datos
-php /ruta_hacia_proyecto/app/console rabbitmq:consumer guardar_registro
+$ src/MINSAL/IndicadoresBundle/Util/iniciar_colas.sh
 ~~~
+Pueden aparecer mensajes de aviso como "/usr/bin/nohup: redirecting stderr to stdout" solo debemos presionar ENTER
+
 
 - Habilitar la interfaz web de administración
 ~~~
-$ sudo rabbitmq-plugins enable rabbitmq_management
-$ sudo /etc/init.d/rabbitmq-server restart
+# rabbitmq-plugins enable rabbitmq_management
+# /etc/init.d/rabbitmq-server restart
 ~~~
 
 - Cargar la interfaz web: entrar a la dirección http://server_name:55672/mgmt/
