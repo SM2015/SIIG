@@ -11,7 +11,7 @@ PATH="../../../.."
 
 #for CONSUMER in $CONSUMERS
 #    do
-/usr/bin/nohup $PHP $PATH/app/console rabbitmq:consumer cargar_origen_datos > $PATH"/app/logs/rabbitmq_cargar_origen_datos.log" &2>1 &
-/usr/bin/nohup $PHP $PATH/app/console rabbitmq:consumer guardar_registro > $PATH"/app/logs/rabbitmq_guardar_registro.log" &2>1 &
+/usr/bin/nohup $PHP $PATH/app/console rabbitmq:consumer cargar_origen_datos > $PATH"/app/logs/rabbitmq_cargar_origen_datos.log" &
+/usr/bin/nohup $PHP $PATH/app/console rabbitmq:consumer guardar_registro > $PATH"/app/logs/rabbitmq_guardar_registro.log" &
 #done
 

@@ -5,8 +5,9 @@
 * Gestor de base de datos
 * PHP 5.3.8+
 
-### Instalación de los requerimientos desde un servidor Debian (Es muy importante poner atención al indicador 
-"#" significa que el comando debe ser ejecutado como usuario root y "$" que debe ser ejecutado como un usuario normal)
+### Instalación de los requerimientos desde un servidor Debian 
+Es muy importante poner atención al indicador "#" significa que el comando 
+debe ser ejecutado como usuario root y "$" que debe ser ejecutado como un usuario normal
 ~~~
 # apt-get update
 # apt-get install php5 php5-pgsql php5-sqlite sqlite php5-xdebug  php-apc php5-cli php5-xsl php5-intl php5-mcrypt apache2 postgresql acl git-core curl
@@ -157,7 +158,7 @@ CREATE TABLE fila_origen_dato(
 );
 ~~~
 
-### Instalación de [RabbitMQ](http://www.rabbitmq.com/)
+### Instalación de RabbitMQ
 [RabbitMQ](http://www.rabbitmq.com/) es un sistema de mensajería empresarial completo y altamente confiable basado en el estándar AMQP
 [Charla sobre RabbitMQ](http://www.symfony.es/noticias/2011/07/06/desymfony-2011-reduciendo-el-acoplamiento-entre-aplicaciones-con-rabbitmq/).
 En este proyecto será utilizado para la carga masiva de datos y así evitar cuelgues o saturación del servidor.
