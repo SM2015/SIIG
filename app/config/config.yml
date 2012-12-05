@@ -109,9 +109,9 @@ sonata_admin:
         ajax:    SonataAdminBundle::ajax_layout.html.twig
 
         # default actions templates, should extend a global templates
-        list:    SonataAdminBundle:CRUD:list.html.twig
+        list:    IndicadoresBundle:CRUD:list.html.twig
         show:    SonataAdminBundle:CRUD:show.html.twig
-        edit:    SonataAdminBundle:CRUD:edit.html.twig
+        edit:    IndicadoresBundle:CRUD:edit.html.twig
         # se personalizó la plantilla de borrar
         delete:  IndicadoresBundle:CRUD:delete.html.twig
         dashboard: IndicadoresBundle:Core:dashboard.html.twig
@@ -154,7 +154,8 @@ sonata_user:
             
 sonata_doctrine_orm_admin:
     templates:
-        form: [ IndicadoresBundle:Form:form_admin_fields.html.twig ]        
+        form: [ IndicadoresBundle:Form:form_admin_fields.html.twig ]   
+        filter: [ SonataDoctrineORMAdminBundle:Form:filter_admin_fields.html.twig ]
 
 old_sound_rabbit_mq:
     connections:
