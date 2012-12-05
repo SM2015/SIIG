@@ -3,42 +3,23 @@ graficoMapa = function(ubicacion, datos, colorChosen, categoryChoosen) {
     // Esta variable me permite asociar el elmento del gráfico con los códigos utilizados
     // por los departamentos
     var dimension = $('#dimensiones').val();
-    var elemento_id_codigo = new Object();
-    var depto_id_codigo = new Object();
-
-    depto_id_codigo['2660'] = 'CA';
-    depto_id_codigo['2661'] = 'CH';
-    depto_id_codigo['2662'] = 'CH';
-    depto_id_codigo['2663'] = 'LL';
-    depto_id_codigo['2664'] = 'LP';
-    depto_id_codigo['2665'] = 'LU';
-    depto_id_codigo['2666'] = 'MO';
-    depto_id_codigo['2667'] = 'SM';
-    depto_id_codigo['2668'] = 'SS';
-    depto_id_codigo['2669'] = 'SV';
-    depto_id_codigo['2670'] = 'SA';
-    depto_id_codigo['2671'] = 'SO';
-    depto_id_codigo['2672'] = 'US';
-
-    if (dimension == 'departamento')
-        elemento_id_codigo = depto_id_codigo;
-    else if (dimension == 'municipio') {
-        d3.json(Routing.generate('indicador_datos_municipios'),
-                function(json) {
-                    var datos_munis = json.municipios;
-                    var id_muni = datos_munis.map(function(d) {
-                        return d.id;
-                    });
-                    var abrev_muni = datos_munis.map(function(d) {
-                        return d.abrev;
-                    })
-                    var arreglo_muni = new Object();
-                    $.each(id_muni, function(i, nodo) {
-                        arreglo_muni[nodo] = abrev_muni[i];
-                    });
-                    elemento_id_codigo = arreglo_muni;
-                });
-    }
+    var elemento_id_codigo = new Object();     
+    
+    d3.json(Routing.generate('indicador_datos_mapa',{dimension: dimension, tipo_peticion: 'equivalencias'}),
+        function(json) {
+            var datos_equivalencias = json.equivalencias;
+            var id_equivalencia = datos_equivalencias.map(function(d) {
+                return d.id;
+            });
+            var abrev_equivalencia = datos_equivalencias.map(function(d) {
+                return d.abrev;
+            });
+            var arreglo_equivalencia = new Object();
+            $.each(id_equivalencia, function(i, nodo) {
+                arreglo_equivalencia[nodo] = abrev_equivalencia[i];
+            });
+            elemento_id_codigo = arreglo_equivalencia;
+        });    
 
     var width = 560,
             height = 300,
@@ -51,10 +32,10 @@ graficoMapa = function(ubicacion, datos, colorChosen, categoryChoosen) {
     });
     var medidas = currentDatasetChart.map(function(d) {
         return d.measure;
-    })
+    });
     $.each(categorias, function(i, nodo) {
         arreglo_datos[nodo] = medidas[i];
-    })
+    });
 
     var projection = d3.geo.albers()
             .scale(10000)
@@ -76,12 +57,9 @@ graficoMapa = function(ubicacion, datos, colorChosen, categoryChoosen) {
             .attr("width", width)
             .attr("height", height)
             .on("contextmenu", right_click)
-            .on("click", function(d, i) {        
-        if (dimension == 'departamento')
-            descenderNivelDimension(elemento_id_codigo[d.properties.ID_1]);
-        else if (dimension == 'municipio')
-            descenderNivelDimension(elemento_id_codigo[d.properties.ID_2]);
-    });
+            .on("click", function(d, i) {                
+                descenderNivelDimension(elemento_id_codigo[d.properties.ID]);        
+            });
 
     var g = svg.append("g")
             .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
@@ -91,7 +69,8 @@ graficoMapa = function(ubicacion, datos, colorChosen, categoryChoosen) {
     var filtro = $('#filtros_dimensiones').attr('data');
 
     d3.json(Routing.generate('indicador_datos_mapa',
-            {id: $('#titulo_indicador').attr('data-id'), dimension: dimension, filtro: filtro}),
+            {id: $('#titulo_indicador').attr('data-id'), dimension: dimension, 
+                filtro: filtro, tipo_peticion: 'mapa'}),
     function(json) {
         if (json.features == '') {
             alert(trans.no_mapa);
@@ -103,29 +82,24 @@ graficoMapa = function(ubicacion, datos, colorChosen, categoryChoosen) {
 
         seccion.append("title").
                 text(function(d) {
-            if (dimension == 'departamento')
-                return d.properties.NAME_1 + ': ' + arreglo_datos[elemento_id_codigo[d.properties.ID_1]];
-            else if (dimension == 'municipio')
-                return d.properties.NAME_2 + ': ' + arreglo_datos[elemento_id_codigo[d.properties.ID_2]];
-        });
+                    if (arreglo_datos[elemento_id_codigo[d.properties.ID]] == null)
+                        return d.properties.NAME;
+                    else
+                        return d.properties.NAME + ': ' + arreglo_datos[elemento_id_codigo[d.properties.ID]];
+            });
+        
         seccion.attr('fill', function(d, i) {
-            if (dimension == 'departamento')
-                return colores_alertas(arreglo_datos[elemento_id_codigo[d.properties.ID_1]], i);
-            else if (dimension == 'municipio'){
-                if (arreglo_datos[elemento_id_codigo[d.properties.ID_2]] == null)
+                if (arreglo_datos[elemento_id_codigo[d.properties.ID]] == null)
                     return '#E5DBDB';
                 else
-                    return colores_alertas(arreglo_datos[elemento_id_codigo[d.properties.ID_2]], i);
-            }
-        });
+                    return colores_alertas(arreglo_datos[elemento_id_codigo[d.properties.ID]], i);            
+            });
         seccion.on("contextmenu", right_click)
-                .on("click", function(d, i) {
-            if (dimension == 'departamento')
-                descenderNivelDimension(elemento_id_codigo[d.properties.ID_1]);
-            else if (dimension == 'municipio')
-                descenderNivelDimension(elemento_id_codigo[d.properties.ID_2]);
+                .on("click", function(d, i) {            
+                    if (arreglo_datos[elemento_id_codigo[d.properties.ID]] != null)
+                        descenderNivelDimension(elemento_id_codigo[d.properties.ID]);            
+                });
         });
-    });
 
     function right_click(d) {
         var x = 0,

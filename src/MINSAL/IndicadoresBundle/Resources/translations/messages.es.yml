@@ -84,6 +84,26 @@ significado: Significado
 'Variable Dato Create': 'Variable de Dato - Crear'
 'Variable Dato Edit': 'Variable de Dato - Editar'
 
+'Significado Campo List': 'Significado Campo - Listado'
+'Significado Campo Delete': 'Significado Campo - Borrar'
+'Significado Campo Create': 'Significado Campo - Crear'
+'Significado Campo Edit': 'Significado Campo - Editar'
+
+'Conexion List': 'Conexión - Listado'
+'Conexion Delete': 'Conexión - Borrar'
+'Conexion Create': 'Conexión - Crear'
+'Conexion Edit': 'Conexión - Editar'
+
+'Ficha Tecnica List': 'Ficha Técnica - Listado'
+'Ficha Tecnica Delete': 'Ficha Técnica - Borrar'
+'Ficha Tecnica Create': 'Ficha Técnica - Crear'
+'Ficha Tecnica Edit': 'Ficha Técnica - Editar'
+
+'Indicador Alertas List': 'Alertas Indicador - Listado'
+'Indicador Alertas Delete': 'Alertas Indicador - Borrar'
+'Indicador Alertas Create': 'Alertas Indicador - Crear'
+'Indicador Alertas Edit': 'Alertas Indicador - Editar'
+
 conexion_bd : 'Conexión a Base de Datos'
 nombre_conexion : 'Nombre de la conexión'
 nombre_base_datos: 'Nombre de la base de datos'
@@ -191,7 +211,7 @@ javascript:
   limite_sup: 'Límite superior'
   comentario: 'Comentario'
   rango_no_especificado: Rango no especificado
-  no_mapa: 'La variable seleccionada no tiene un mapa asociado'
+  no_mapa: 'La variable seleccionada no tiene un mapa asociado o no se encontró el archivo'
 
 validacion:
   requerido: Este dato es requerido

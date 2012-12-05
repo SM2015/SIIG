@@ -168,29 +168,32 @@ class IndicadorController extends Controller {
      * @Route("/indicador/datos/mapa", name="indicador_datos_mapa", options={"expose"=true})
      */
     public function getMapaAction() {
-        $filtro = $this->getRequest()->get('filtro');
+        $em = $this->getDoctrine()->getEntityManager();        
+        $dimension = $this->getRequest()->get('dimension');
+        $tipo_peticion = $this->getRequest()->get('tipo_peticion');
         
-        if ($this->getRequest()->get('dimension')=='departamento')
-            $mapa = $this->renderView('IndicadoresBundle:Indicador:mapa_departamentos.json.twig');
-        elseif ($this->getRequest()->get('dimension')=='municipio')
-            $mapa = $this->renderView('IndicadoresBundle:Indicador:mapa_municipios.json.twig');
+        if ($tipo_peticion =='mapa')
+            $tipo = '';
+        elseif($tipo_peticion =='equivalencias')
+            $tipo = '-equiv';
+        
+        //Obtener el nombre del mapa asociado a la dimension
+        $significado = $em->getRepository("IndicadoresBundle:SignificadoCampo")
+                ->findOneBy(array('codigo'=>$dimension));
+        
+        $mapa = $significado->getNombreMapa();
+        if ($mapa != ''){
+            try{
+                $mapa = $this->renderView('IndicadoresBundle:Indicador:'.$mapa.$tipo.'.json.twig');            
+            }catch (\Exception $e){
+                $mapa = json_encode (array('features'=>''));
+            }
+        }
         else
             $mapa = json_encode (array('features'=>''));
         $headers = array('Content-Type' => 'application/json');
         $response = new Response($mapa, 200, $headers);        
-        //$response->setMaxAge($this->container->getParameter('indicador_cache_consulta'));
-        return $response;
-    }
-
-    /**
-     * @Route("/indicador/datos/municipios", name="indicador_datos_municipios", options={"expose"=true})
-     */
-    public function getMunicipiosAction() {
-        $municipios = $this->renderView('IndicadoresBundle:Indicador:municipios.json.twig');
-        
-        $headers = array('Content-Type' => 'application/json');
-        $response = new Response($municipios, 200, $headers);        
         $response->setMaxAge($this->container->getParameter('indicador_cache_consulta'));
         return $response;
-    }    
+    }       
 }
