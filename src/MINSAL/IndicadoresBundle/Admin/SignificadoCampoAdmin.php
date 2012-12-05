@@ -7,7 +7,6 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Validator\ErrorElement;
-use Doctrine\ORM\EntityRepository;
 
 class SignificadoCampoAdmin extends Admin {
 
@@ -28,6 +27,7 @@ class SignificadoCampoAdmin extends Admin {
                     'choices' => $this->repository->getCatalogos()
 
                 ))
+                ->add('nombreMapa', null, array('label' => $this->getTranslator()->trans('nombre_archivo_mapa')))
 
         ;
     }
