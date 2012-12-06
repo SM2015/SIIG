@@ -1,7 +1,7 @@
 graficoLineas = function(ubicacion, datos, colorChosen, categoryChoosen) {
 
     this.tipo = 'lineas';
-    var margin = {top: 20, right: 40, bottom: 20, left: 50},
+    var margin = {top: 20, right: 40, bottom: 20, left: 60},
     width = 500 - margin.left - margin.right,
             height = 300 - margin.top - margin.bottom
             ;
@@ -11,29 +11,25 @@ graficoLineas = function(ubicacion, datos, colorChosen, categoryChoosen) {
         .domain(currentDatasetChart.map(function(d) { return d.category; }))
         .rangeRoundBands([0, width], .9);
     ;
-
+    var max_y;
+    max_y = d3.max(currentDatasetChart, function(d) { return parseFloat(d.measure); });
+    if ($('#max_y') != null && $('#max_y').val()=='rango_alertas')
+        max_y = $('#titulo_indicador').attr('data-max_rango');
+    
     var yScale = d3.scale.linear()
-            .domain([0, d3.max(currentDatasetChart, function(d) {
-            return parseFloat(d.measure);
-        })])
-            .range([height, 0])
-            ;
-    var yAxis = d3.svg.axis()
-            .scale(yScale)
-            .orient("left")
-            .ticks(5);
-    var xAxis = d3.svg.axis()
-        .scale(xScale)
-        .orient("bottom");
+            .domain([0, max_y])
+            .range([height, 0]);
+    
+    var yAxis = d3.svg.axis().scale(yScale).orient("left").ticks(5);
+    var xAxis = d3.svg.axis().scale(xScale).orient("bottom");
 
     var line = d3.svg.line()
             .x(function(d, i) {
-        return xScale(i);
-    })
+                return xScale(i);
+            })
             .y(function(d) {
-        return yScale(parseFloat(d.measure));
-    })
-            ;
+                return yScale(parseFloat(d.measure));
+            });
 
     $('#' + ubicacion).html('');
     var svg = d3.select("#" + ubicacion).append("svg")
@@ -48,10 +44,14 @@ graficoLineas = function(ubicacion, datos, colorChosen, categoryChoosen) {
             ;
 
     svg.append("g")
-            .transition().duration(1000).delay(20)
             .attr("class", "axis")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-            .call(yAxis);
+            .call(yAxis).append("text")            
+            .attr("y", 6)        
+            .attr("x", -40)
+            .text($('#titulo_indicador').attr('data-unidad-medida'));
+
+            
     svg.append("g")
       .transition().duration(1000).delay(20)
         .attr("class", "x axis")      

@@ -25,31 +25,33 @@
         <img id="cargador" src="{{ asset('bundles/indicadores/images/ajax-loader.gif') }}"/>
     </div>
     <div class="tablero container-fluid" id='tablero'>
+        <i id='ocultar_panel_izq' class="icon-arrow-left"></i>
         <div class="row-fluid">
-            <div class="span3" id='tablero_indicadores' style='overflow-y: auto'>
+            <div class='span3' id='listado_indicadores' style='overflow-y: auto'>
                 {% for categoria in categorias%}
                     <H4>{{categoria.descripcion}} ({{categoria.indicadores|length}})</H4>
                     <DIV >
                         <ul>
                         {% for indicador in categoria.indicadores %}
-                            <li><A href="#" id='{{indicador.id}}'>{{indicador.nombre}}</A></li>
+                            <li><A href="#" id='{{indicador.id}}' data-unidad-medida='{{indicador.unidadMedida}}'>
+                                    {{indicador.nombre}}
+                                </A>
+                            </li>
                         {% endfor %}
                         </ul>
                     </DIV>
                 {% endfor %}                            
-            </div>
+            </div>            
             <div class="span9" id='tablero_graficos'>
                  <div class="span9" >
                      <div class="span14" >
                         <h3 id='titulo_indicador'></h3>
                         <h6 id='filtros_dimensiones' data=''></h6>
-                        <div id='controles'></div>
+                        <div id='controles' class='btn-toolbar'></div>
                         <div class="row" >
                             <div class="span8" >
                                 <div id="graficoPrimario" ></div>
-                            </div>
-                            <div class="span3" id='alertas'>
-                            </div>
+                            </div>                            
                         </div>                        
                         <div class="row" >
                             <div id='dimension' class='span3' style="text-align: right"></div>
@@ -58,20 +60,7 @@
                     </div>
                 </div>
             </div>
-                {# <div class="row">
-                    <div class="span8">
-                        <label for='tipo_grafico_secundario'>{{'tablero.tipo_grafico_secundario'|trans}}: </label>
-                        <select id='tipo_grafico_secundario' name="tipo_grafico_secundario">
-                            <option value='columnas'>{{'tablero.columnas'|trans}}</option>
-                            <option value='pastel'>{{'tablero.pastel'|trans}}</option>
-                            <option value='lineas'>{{'tablero.lineas'|trans}}</option>
-                            <option value='barras'>{{'tablero.barras'|trans}}--pendiente</option>
-                        </select>
-                        <div id="graficoSecundario" >
-                        </div>
-                    </div>                    
-                </div>#}
-            </div>
+        </div>
         </div>
     </div>    
 {% endblock %}
