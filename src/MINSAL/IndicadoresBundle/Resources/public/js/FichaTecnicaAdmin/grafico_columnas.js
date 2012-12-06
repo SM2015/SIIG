@@ -1,7 +1,7 @@
 graficoColumnas = function (ubicacion, datos, colorChosen, categoryChoosen) {
 
     this.tipo = 'columnas';    
-    var margin = {top: 0, right: 5, bottom: 20, left: 50},
+    var margin = {top: 0, right: 5, bottom: 25, left: 50},
     width = 500 - margin.left - margin.right,
             height = 300 - margin.top - margin.bottom,
             barPadding = 1
@@ -13,10 +13,13 @@ graficoColumnas = function (ubicacion, datos, colorChosen, categoryChoosen) {
             .rangeRoundBands([0, width], .1)
             ;
 
+    var max_y;
+    max_y = d3.max(currentDatasetChart, function(d) { return parseFloat(d.measure); });
+    if ($('#max_y') != null && $('#max_y').val()=='rango_alertas')
+        max_y = $('#titulo_indicador').attr('data-max_rango');
+    
     var yScale = d3.scale.linear()
-            .domain([0, d3.max(currentDatasetChart, function(d) {
-                return parseFloat(d.measure);
-            })])
+            .domain([0, max_y])
             .range([height, 0])
             ;
        
@@ -27,28 +30,34 @@ graficoColumnas = function (ubicacion, datos, colorChosen, categoryChoosen) {
     var svg = d3.select("#" + ubicacion)
             .append("svg")
             .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
+            .attr("height", height + margin.top + margin.bottom)    
             .attr("id","barChartPlot")
             ;
 
     var plot = svg
             .append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+            .attr("transform", "translate(" + margin.left + "," + margin.top +5 + ")")
             ;
     svg.append("g")
         .attr("class", "axis")
-        .attr("transform", "translate(" + margin.left + ",0)")
-        .call(yAxis);
+        .attr("transform", "translate(" + margin.left + ",5)")
+        .call(yAxis)
+        .append("text")
+        .attr("y", 6)        
+        .attr("x", -30)
+        .text($('#titulo_indicador').attr('data-unidad-medida'));
 
     svg.append("g")
       .attr("class", "x axis")
-      .attr("transform", "translate(" + margin.left + "," + (margin.top + height) + ")")
+      .attr("transform", "translate(" + margin.left + "," + (margin.top + height+5) + ")")
       .call(xAxis);
     
     plot.selectAll("rect")
         .data(currentDatasetChart)        
         .enter()
-        .append("rect")        
+        .append("rect")
+        .attr("stroke", 'black')
+        .attr("stroke-width", '3px')
         .attr("x", function(d, i) {
             return xScale(i);
         })

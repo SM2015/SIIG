@@ -21,6 +21,7 @@ class IndicadorController extends Controller {
         if ($fichaTec) {
             $resp['nombre_indicador'] = $fichaTec->getNombre();
             $resp['id_indicador'] = $id;
+            $resp['unidad_medida'] = $fichaTec->getUnidadMedida();
             $campos = explode(',', str_replace("'", '', $fichaTec->getCamposIndicador()));
 
             foreach ($campos as $campo) {
