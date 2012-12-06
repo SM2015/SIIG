@@ -39,7 +39,8 @@ class IndicadorAlertasAdmin extends Admin {
 
     protected function configureListFields(ListMapper $listMapper) {
         $listMapper
-                ->addIdentifier('indicador', null, array('label' => $this->getTranslator()->trans('indicador')))
+                ->addIdentifier('id', null, array('label' => $this->getTranslator()->trans('Id')))
+                ->add('indicador', null, array('label' => $this->getTranslator()->trans('indicador')))
                 ->add('limiteInferior', null, array('label' => $this->getTranslator()->trans('limite_inferior')))
                 ->add('limiteSuperior', null, array('label' => $this->getTranslator()->trans('limite_superior')))
                 ->add('color', null, array('label' => $this->getTranslator()->trans('color')))
