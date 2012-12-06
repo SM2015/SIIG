@@ -1,7 +1,7 @@
 graficoLineas = function(ubicacion, datos, colorChosen, categoryChoosen) {
 
     this.tipo = 'lineas';
-    var margin = {top: 20, right: 40, bottom: 20, left: 50},
+    var margin = {top: 20, right: 40, bottom: 20, left: 60},
     width = 500 - margin.left - margin.right,
             height = 300 - margin.top - margin.bottom
             ;
@@ -48,7 +48,7 @@ graficoLineas = function(ubicacion, datos, colorChosen, categoryChoosen) {
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
             .call(yAxis).append("text")            
             .attr("y", 6)        
-            .attr("x", -30)
+            .attr("x", -40)
             .text($('#titulo_indicador').attr('data-unidad-medida'));
 
             

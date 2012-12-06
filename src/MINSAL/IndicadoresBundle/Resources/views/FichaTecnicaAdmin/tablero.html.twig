@@ -25,8 +25,9 @@
         <img id="cargador" src="{{ asset('bundles/indicadores/images/ajax-loader.gif') }}"/>
     </div>
     <div class="tablero container-fluid" id='tablero'>
+        <i id='ocultar_panel_izq' class="icon-arrow-left"></i>
         <div class="row-fluid">
-            <div class="span3" id='tablero_indicadores' style='overflow-y: auto'>
+            <div class='span3' id='listado_indicadores' style='overflow-y: auto'>
                 {% for categoria in categorias%}
                     <H4>{{categoria.descripcion}} ({{categoria.indicadores|length}})</H4>
                     <DIV >
@@ -40,7 +41,7 @@
                         </ul>
                     </DIV>
                 {% endfor %}                            
-            </div>
+            </div>            
             <div class="span9" id='tablero_graficos'>
                  <div class="span9" >
                      <div class="span14" >
@@ -59,7 +60,7 @@
                     </div>
                 </div>
             </div>
-            </div>
+        </div>
         </div>
     </div>    
 {% endblock %}

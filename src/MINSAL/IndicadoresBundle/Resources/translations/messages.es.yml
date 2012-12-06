@@ -217,6 +217,8 @@ javascript:
   max_escala_y: 'Max. Eje Y'
   max_indicador: 'Máximo valor del indicador'
   max_rango_alertas: 'Máximo valor de alertas'
+  ocultar_listado_indicadores: 'Ocultar listado de indicadores'
+  mostrar_listado_indicadores: 'Mostrar listado de indicadores'
 
 validacion:
   requerido: Este dato es requerido

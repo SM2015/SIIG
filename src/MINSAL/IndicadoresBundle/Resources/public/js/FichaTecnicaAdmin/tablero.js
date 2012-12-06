@@ -10,22 +10,30 @@ $(document).ready(function() {
     capa.css({'position': 'absolute',
         'bottom': '15px',
         'top': posicion.top});
-    $('#tablero_indicadores').accordion({
+    $('#listado_indicadores').accordion({
         heightStyle: "fill"
     });
 
-    $('#tablero_indicadores A').click(function() {
+    $('#listado_indicadores A').click(function() {
         $('#controles').html('');
         $('#filtros_dimensiones').html('').attr('data', '');
 
         recuperarDimensiones($(this).attr('id'));
     });
-    var $tit_categoria = $('#tablero_indicadores h4');
+    var $tit_categoria = $('#listado_indicadores h4');
 
     var espacio_tit_categoria = $tit_categoria.height() * 1.8 * $tit_categoria.length;
 
-    $('#tablero_indicadores div').css({'max-height': capa.height() - espacio_tit_categoria, 'height':'150px'});
-
+    $('#listado_indicadores div').css({'max-height': capa.height() - espacio_tit_categoria, 'height':'150px'});
+    
+    $('#ocultar_panel_izq').attr('title', trans.ocultar_listado_indicadores);
+    $('#ocultar_panel_izq').click(function(){
+       $('#listado_indicadores').toggle('explode',{},500);
+       if ($(this).attr('class')=='icon-arrow-left')
+            $(this).attr('class','icon-arrow-right').attr('title', trans.mostrar_listado_indicadores);        
+        else
+            $(this).attr('class','icon-arrow-left').attr('title', trans.ocultar_listado_indicadores);
+    });
 
     //dibujarGraficoPrincipal($('#tipo_grafico_primario').val());
 

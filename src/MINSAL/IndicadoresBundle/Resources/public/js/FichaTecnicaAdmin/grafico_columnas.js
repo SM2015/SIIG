@@ -1,7 +1,7 @@
 graficoColumnas = function (ubicacion, datos, colorChosen, categoryChoosen) {
 
     this.tipo = 'columnas';    
-    var margin = {top: 0, right: 5, bottom: 25, left: 50},
+    var margin = {top: 0, right: 5, bottom: 25, left: 60},
     width = 500 - margin.left - margin.right,
             height = 300 - margin.top - margin.bottom,
             barPadding = 1
@@ -44,7 +44,7 @@ graficoColumnas = function (ubicacion, datos, colorChosen, categoryChoosen) {
         .call(yAxis)
         .append("text")
         .attr("y", 6)        
-        .attr("x", -30)
+        .attr("x", -40)
         .text($('#titulo_indicador').attr('data-unidad-medida'));
 
     svg.append("g")
@@ -57,7 +57,7 @@ graficoColumnas = function (ubicacion, datos, colorChosen, categoryChoosen) {
         .enter()
         .append("rect")
         .attr("stroke", 'black')
-        .attr("stroke-width", '3px')
+        .attr("stroke-width", '2px')
         .attr("x", function(d, i) {
             return xScale(i);
         })
