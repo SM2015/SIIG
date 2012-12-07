@@ -196,5 +196,14 @@ class IndicadorController extends Controller {
         $response = new Response($mapa, 200, $headers);        
         $response->setMaxAge($this->container->getParameter('indicador_cache_consulta'));
         return $response;
-    }       
+    } 
+    
+    /**
+     * @Route("/indicador/locale/change/{locale}", name="change_locale", options={"expose"=true})
+     */
+    public function changeLocaleAction($locale) {
+        $request = $this->getRequest();
+        $this->get('session')->set('_locale', $locale);
+        return $this->redirect($request->headers->get('referer'));
+    }
 }

@@ -183,3 +183,10 @@ old_sound_rabbit_mq:
             exchange_options: {name: 'guardar_registro', type: direct}
             queue_options:    {name: 'guardar_registro'}
             callback:         indicadores.guardar_registro_origen_dato
+            
+services:
+    my_listener:
+        class: MINSAL\IndicadoresBundle\Listener\LocaleListener
+        arguments: [%locale%]
+        tags:
+            -  { name: kernel.event_subscriber }

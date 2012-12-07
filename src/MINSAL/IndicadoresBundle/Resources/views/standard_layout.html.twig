@@ -91,8 +91,28 @@ file that was distributed with this source code.
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </a>
-
-                    <div class="navbar-text pull-right">{% include admin_pool.getTemplate('user_block') %}</div>
+                        
+                        <div class="navbar-text pull-right">                            
+                            {% if app.user != '' %}
+                            <div class='btn-group'> 
+                                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="icon-user"></i> {{app.user}}
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu pull-right">
+                                    <li><A href='{{url('sonata_user_admin_security_logout')}}'>{{"cerrar_sesion"|trans}}</A></li>
+                                    <li class="divider"></li>                                
+                                    {% for locale, lenguaje in {'es_SV':'Español', 'en_US':'English'} %}
+                                        {% if locale == app.request.locale %}
+                                            <li class='active'><A href='#'>{{lenguaje}}</a></li>
+                                        {% else %}
+                                            <li ><a href='{{url('change_locale',{locale:locale})}}'>{{lenguaje}}</a></li>
+                                        {% endif %}
+                                    {% endfor %}
+                                </ul>                               
+                            </div>
+                            {% endif %}
+                        </div>
 
                     {% if admin_pool is defined %}
                         {% block logo %}
