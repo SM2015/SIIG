@@ -18,7 +18,7 @@ $(document).ready(function() {
         $('#controles').html('');
         $('#filtros_dimensiones').html('').attr('data', '');
 
-        recuperarDimensiones($(this).attr('id'));
+        recuperarDimensiones($(this).attr('data-id'));
     });
     var $tit_categoria = $('#listado_indicadores h4');
 
@@ -90,7 +90,12 @@ $(document).ready(function() {
                         '</button>' +
                         '<ul class="dropdown-menu" role="menu" >' +
                         '<li><A class="detenerclic">' + combo_tipo_grafico + '</A></li>' +
-                        '<li><A class="detenerclic">' + combo_ordenar_por_medida + '</A></li>';
+                        '<li><A class="detenerclic">' + combo_ordenar_por_medida + '</A></li>'+
+                        '<li><A id="agregar_como_favorito" data-indicador="'+resp.id_indicador+'" href="#">';
+                if ($('#fav-'+id_indicador).length==0)                
+                    opciones_indicador += '<i class="icon-star"></i> '+trans.agregar_favorito+'</A></li>';
+                else
+                    opciones_indicador += '<i class="icon-star-empty"></i> '+trans.quitar_favoritos+'</A></li>';
 
                 $('#controlesDimension').html('');
                 $('#controlesDimension').append(opciones_dimension);
@@ -174,11 +179,46 @@ $(document).ready(function() {
                 $('#tipo_grafico_principal').change(function() {
                     dibujarGraficoPrincipal($(this).val());
                 });
+                $('#agregar_como_favorito').click(function() {
+                    alternar_favorito($(this).attr('data-indicador'));                    
+                });
+            
                 dibujarGrafico($('#dimensiones').val());
                 //filtros();
             }
 
         });
+    }
+
+    function alternar_favorito(id_indicador){        
+        //Revisar si ya es favorito
+        var es_favorito;                    
+        ($('#fav-'+id_indicador).length==0)? es_favorito=false:es_favorito=true;
+        var cant_favoritos = parseInt($('#cantidad_favoritos').html());
+        cant_favoritos = (es_favorito)? cant_favoritos - 1: cant_favoritos + 1;
+        $('#cantidad_favoritos').html(cant_favoritos);
+
+        if (es_favorito){
+            $('#agregar_como_favorito').html('<i class="icon-star"></i>'+trans.agregar_favorito);
+            $('#li_fav-'+id_indicador).remove();
+        } else{
+            $('#agregar_como_favorito').html('<i class=" icon-star-empty"></i>'+trans.quitar_favoritos);
+            $('#listado-favoritos').append("<li id='li_fav-"+id_indicador+"'><A href='#' data-id='"+id_indicador+"' "+
+                    "id='fav-"+id_indicador+"' "+
+                    "data-unidad-medida='"+$('#titulo_indicador').attr('data-unidad-medida')+"'>"+
+                    $('#titulo_indicador').html()+
+                "</A></li>");
+
+            $('#fav-'+id_indicador).click(function() {
+                $('#controles').html('');
+                $('#filtros_dimensiones').html('').attr('data', '');
+
+                recuperarDimensiones(id_indicador);
+            });
+        }
+        $.get(Routing.generate('indicador_favorito'),
+            {id: $('#titulo_indicador').attr('data-id'), es_favorito: es_favorito}
+            );
     }
 
 

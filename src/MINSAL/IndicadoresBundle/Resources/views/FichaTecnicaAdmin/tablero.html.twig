@@ -28,19 +28,34 @@
         <i id='ocultar_panel_izq' class="icon-arrow-left"></i>
         <div class="row-fluid">
             <div class='span3' id='listado_indicadores' style='overflow-y: auto'>
+                <H4>{{"favoritos"|trans}} (<span id='cantidad_favoritos'>{{app.user.favoritos|length}}</span>)</H4>
+                <DIV >
+                    <ul id='listado-favoritos'>
+                    {% for indicador in app.user.favoritos %}
+                        <li id='li_fav-{{indicador.id}}'><A href="#" id='fav-{{indicador.id}}' 
+                                data-id='{{indicador.id}}'
+                                data-unidad-medida='{{indicador.unidadMedida}}'>
+                                {{indicador.nombre}}
+                            </A>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                </DIV>
                 {% for categoria in categorias%}
                     <H4>{{categoria.descripcion}} ({{categoria.indicadores|length}})</H4>
                     <DIV >
                         <ul>
                         {% for indicador in categoria.indicadores %}
-                            <li><A href="#" id='{{indicador.id}}' data-unidad-medida='{{indicador.unidadMedida}}'>
+                            <li><A href="#" id='{{indicador.id}}' 
+                                   data-id='{{indicador.id}}'
+                                   data-unidad-medida='{{indicador.unidadMedida}}'>
                                     {{indicador.nombre}}
                                 </A>
                             </li>
                         {% endfor %}
                         </ul>
                     </DIV>
-                {% endfor %}                            
+                {% endfor %}
             </div>            
             <div class="span9" id='tablero_graficos'>
                  <div class="span9" >

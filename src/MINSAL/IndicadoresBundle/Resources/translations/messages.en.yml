@@ -31,6 +31,7 @@ elija_al_menos_una_variable: 'Debe elegir al menos una variable'
 campos_indicador: Dimensiones del indicador
 nombre_archivo_mapa: Nombre del archivo del mapa
 cerrar_sesion: 'Logout'
+favoritos: 'Favoritos'
 
 
 
@@ -220,6 +221,8 @@ javascript:
   max_rango_alertas: 'Máximo valor de alertas'
   ocultar_listado_indicadores: 'Ocultar listado de indicadores'
   mostrar_listado_indicadores: 'Mostrar listado de indicadores'
+  agregar_favorito: 'Marcar como favorito'
+  quitar_favoritos: 'Quitar de favoritos'
 
 validacion:
   requerido: Este dato es requerido

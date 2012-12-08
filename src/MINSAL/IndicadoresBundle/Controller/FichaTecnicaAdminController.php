@@ -27,7 +27,7 @@ class FichaTecnicaAdminController extends Controller {
     
     public function tableroAction() {
         //Recuperar las categorías existentes
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getEntityManager();        
         $categorias = $em->getRepository("IndicadoresBundle:ClasificacionTecnica")->findAll();
         return $this->render('IndicadoresBundle:FichaTecnicaAdmin:tablero.html.twig', array(
             'categorias' => $categorias
