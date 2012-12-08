@@ -142,7 +142,7 @@ fos_user:
 sonata_user:
     security_acl:     false
     class:
-        user:         Application\Sonata\UserBundle\Entity\User
+        user:         MINSAL\IndicadoresBundle\Entity\User
         group:        Application\Sonata\UserBundle\Entity\Group
 
     profile:  # Profile Form (firstname, lastname, etc ...)
