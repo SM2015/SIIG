@@ -1,4 +1,4 @@
-{% extends 'SonataAdminBundle:CRUD:edit.html.twig' %}
+{% extends 'IndicadoresBundle:CRUD:edit.html.twig' %}
 
 {% block javascripts %}
     {{ parent() }}
@@ -7,8 +7,8 @@
 
 {% block content%}
     {{ parent() }}    
-    <input type=button name="btn_probar_conexion" 
-           id='btn_probar_conexion' class='btn'
-           value='{{admin.trans('probar_conexion')}}'           
-           >
+    <button type='button' name="btn_probar_conexion" id='btn_probar_conexion' class='btn' >
+        <i class='icon-random'></i>
+        {{admin.trans('probar_conexion')}}
+    </button>
 {% endblock %}    

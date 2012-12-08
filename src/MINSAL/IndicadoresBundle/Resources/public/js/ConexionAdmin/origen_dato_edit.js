@@ -6,7 +6,7 @@ $(document).ready(function(){
         var $id = $('select[id$="_conexion"]').attr('id').split('_')[0];
     
         // La barra con los botones de acción
-        // Agregaré el de probar conexión     
+        // Agregaré el de probar sentencia     
         $('#sonata-ba-field-container-'+$id+'_sentenciaSql').append($('#btn_probar_sentencia'));
         $('div .form-actions').after('<div ><table border=1 align=center id="datos" ></table></div>')
         $('#btn_probar_sentencia').after("<span id='resultado_probar_consulta'></span>");
@@ -17,7 +17,7 @@ $(document).ready(function(){
         */       
             if ($('#'+$id+'_sentenciaSql').val() == '' || $('#'+$id+'_conexion').val() == ''){
                 alert(trans.sentencia_sql_origen_requeridos);
-                return
+                return;
             }
             
             var patron = new RegExp($id+"%5B","ig");
