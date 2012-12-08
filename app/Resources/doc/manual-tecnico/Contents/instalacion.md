@@ -107,7 +107,6 @@ Si aparece algún error debe ser corregido antes de continuar
 ### Configuración de la conexión
 editar el archivo app/config/parameters.yml y colocar los valores correctos para las variables siguientes:
 
-* database_driver: pdo_pgsql
 * database_host: localhost
 * database_port: null
 * database_name: nombre_base_datos
