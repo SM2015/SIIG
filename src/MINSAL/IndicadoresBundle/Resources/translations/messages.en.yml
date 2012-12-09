@@ -30,7 +30,7 @@ comentario: 'Comentario'
 elija_al_menos_una_variable: 'Debe elegir al menos una variable'
 campos_indicador: Dimensiones del indicador
 nombre_archivo_mapa: Nombre del archivo del mapa
-cerrar_sesion: 'Cerrar Sesión'
+cerrar_sesion: 'Logout'
 favoritos: 'Favoritos'
 
 
@@ -51,7 +51,7 @@ significado: Significado
 'Responsable Dato Create': 'Responsable de Dato - Crear'
 'Responsable Dato Edit': 'Responsable de Dato - Editar'
 
-'fuente_datos' : 'Fuente Datos'
+'fuente_datos' : 'Fuente Datos en'
 'Fuente Dato List': 'Fuente de Dato - Listado'
 'Fuente Dato Delete': 'Fuente de Dato - Borrar'
 'Fuente Dato Create': 'Fuente de Dato - Crear'
@@ -125,7 +125,7 @@ conexion_success: 'Conexión exitosa'
 nombre_consulta: 'Nombre de consulta'
 sentencia_sql: 'Sentencia SQL'
 conexiones: 'Conexiones'
-catalogos: 'Catálogos'
+catalogos: 'Catálogos-ingles'
 probar_sentencia: 'Probar Sentencia SQL'
 sentencia_error: 'La sentencia SQL contiene errores'
 sentencia_success: 'Prueba de sentencia SQL exitosa (se muestra la salida para un máximo de 50 registros)'
@@ -220,7 +220,7 @@ javascript:
   max_indicador: 'Máximo valor del indicador'
   max_rango_alertas: 'Máximo valor de alertas'
   ocultar_listado_indicadores: 'Ocultar listado de indicadores'
-  mostrar_listado_indicadores: 'Mostrar listado de indicadores'  
+  mostrar_listado_indicadores: 'Mostrar listado de indicadores'
   agregar_favorito: 'Marcar como favorito'
   quitar_favoritos: 'Quitar de favoritos'
 

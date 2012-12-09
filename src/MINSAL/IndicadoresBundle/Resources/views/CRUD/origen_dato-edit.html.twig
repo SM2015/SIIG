@@ -1,4 +1,4 @@
-{% extends 'SonataAdminBundle:CRUD:edit.html.twig' %}
+{% extends 'IndicadoresBundle:CRUD:edit.html.twig' %}
 
 {% block javascripts %}
     {{ parent() }}
@@ -9,10 +9,10 @@
     {{ parent() }}
     {% if object.getEsFusionado==false %}
     {# Si se está editando el objeto presentar la intefaz para configurar el origen de datos#}
-    <input type=button name="btn_probar_sentencia" 
-           id='btn_probar_sentencia' class='btn'
-           value='{{admin.trans('probar_sentencia')}}'
-           >
+    <button type='button' name="btn_probar_sentencia" id='btn_probar_sentencia' class='btn'>
+        <i class='icon-ok-circle'></i>
+        {{admin.trans('probar_sentencia')}}
+    </button>
     {% endif %}
     {% if admin.id(object) %}
         {% if object.getEsFusionado==false %}

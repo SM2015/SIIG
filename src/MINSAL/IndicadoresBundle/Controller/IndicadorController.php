@@ -169,7 +169,7 @@ class IndicadorController extends Controller {
      * @Route("/indicador/datos/mapa", name="indicador_datos_mapa", options={"expose"=true})
      */
     public function getMapaAction() {
-        $em = $this->getDoctrine()->getEntityManager();        
+        $em = $this->getDoctrine()->getEntityManager();
         $dimension = $this->getRequest()->get('dimension');
         $tipo_peticion = $this->getRequest()->get('tipo_peticion');
         
@@ -196,5 +196,35 @@ class IndicadorController extends Controller {
         $response = new Response($mapa, 200, $headers);        
         $response->setMaxAge($this->container->getParameter('indicador_cache_consulta'));
         return $response;
-    }       
+    } 
+    
+    /**
+     * @Route("/indicador/locale/change/{locale}", name="change_locale", options={"expose"=true})
+     */
+    public function changeLocaleAction($locale) {
+        $request = $this->getRequest();
+        $this->get('session')->set('_locale', $locale);
+        return $this->redirect($request->headers->get('referer'));
+    }
+    
+    /**
+     * @Route("/indicador/favorito", name="indicador_favorito", options={"expose"=true})
+     */
+    public function indicadorFavorito() {
+        $em = $this->getDoctrine()->getEntityManager();
+        $req = $this->getRequest();
+        
+        $indicador = $em->find('IndicadoresBundle:FichaTecnica', $req->get('id'));
+        $usuario = $this->getUser();
+        if ($req->get('es_favorito')=='true'){
+            //Es favorito, entonces quitar
+            $usuario->removeFavorito($indicador);
+        }
+        else{
+            $usuario->addFavorito($indicador);
+        }
+        
+        $em->flush();
+        return new Response();
+    }
 }

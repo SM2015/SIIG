@@ -127,7 +127,7 @@ sonata_admin:
 fos_user:
     db_driver:        orm # can be orm or odm
     firewall_name:    main
-    user_class:       Application\Sonata\UserBundle\Entity\User
+    user_class:       MINSAL\IndicadoresBundle\Entity\User
 
     group:
         group_class:  Application\Sonata\UserBundle\Entity\Group
@@ -142,7 +142,7 @@ fos_user:
 sonata_user:
     security_acl:     false
     class:
-        user:         Application\Sonata\UserBundle\Entity\User
+        user:         MINSAL\IndicadoresBundle\Entity\User
         group:        Application\Sonata\UserBundle\Entity\Group
 
     profile:  # Profile Form (firstname, lastname, etc ...)
@@ -183,3 +183,10 @@ old_sound_rabbit_mq:
             exchange_options: {name: 'guardar_registro', type: direct}
             queue_options:    {name: 'guardar_registro'}
             callback:         indicadores.guardar_registro_origen_dato
+            
+services:
+    my_listener:
+        class: MINSAL\IndicadoresBundle\Listener\LocaleListener
+        arguments: [%locale%]
+        tags:
+            -  { name: kernel.event_subscriber }

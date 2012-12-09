@@ -54,10 +54,14 @@ class FichaTecnicaRepository extends EntityRepository {
         foreach ($tablas_variables as $tabla){
             $sql .= " FULL OUTER JOIN ".$tabla."_var USING ($campos) ";
         }        
-        $fichaTecnica->setUpdatedAt($ahora);
-        $em->persist($fichaTecnica);
-        $em->flush();
-        $em->getConnection()->exec($sql);
+        try{
+            $em->getConnection()->exec($sql);
+            $fichaTecnica->setUpdatedAt($ahora);
+            $em->persist($fichaTecnica);
+            $em->flush();
+        }  catch (\PDOException $e){
+            return $e->getMessage();
+        }        
     }
     
     public function calcularIndicador(FichaTecnica $fichaTecnica, $dimension, $filtro_registros=null) {
