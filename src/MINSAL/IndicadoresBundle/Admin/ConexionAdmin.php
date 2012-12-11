@@ -19,7 +19,8 @@ class ConexionAdmin extends Admin {
     protected function configureFormFields(FormMapper $formMapper) {
         $formMapper
                 ->add('nombreConexion', null, array('label' => $this->getTranslator()->trans('nombre_conexion')))
-                ->add('idMotor', null, array('label' => $this->getTranslator()->trans('motor')))
+                ->add('idMotor', null, array('label' => $this->getTranslator()->trans('motor'),
+                    'required'=>true))
                 ->add('puerto', null, array('label' => $this->getTranslator()->trans('puerto'), 'required' => false))
                 ->add('instancia', null, array('label' => $this->getTranslator()->trans('instancia'), 'required' => false))
                 ->add('ip', null, array('label' => $this->getTranslator()->trans('ip')))

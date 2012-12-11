@@ -33,7 +33,10 @@ class OrigenDatosAdmin extends Admin {
                 ->end()
                 ->with($this->getTranslator()->trans('origen_datos_sql'), array('collapsed' => true))
                         ->add('conexion', null, array('label' => $this->getTranslator()->trans('nombre_conexion'), 'required' => false))
-                        ->add('sentenciaSql', null, array('label' => $this->getTranslator()->trans('sentencia_sql'), 'required' => false))
+                        ->add('sentenciaSql', null, array('label' => $this->getTranslator()->trans('sentencia_sql'), 
+                            'required' => false,
+                            'attr' => array('rows'=>7, 'cols'=>50)
+                        ))
                     ->end()
                     ->with($this->getTranslator()->trans('origen_datos_archivo'), array('collapsed' => true))
                         ->add('archivoNombre', null, array('label' => $this->getTranslator()->trans('archivo_asociado'), 'required' => false, 'read_only' => true))
