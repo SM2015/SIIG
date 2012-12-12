@@ -8,17 +8,29 @@ use MINSAL\IndicadoresBundle\Entity\FichaTecnica;
 class FichaTecnicaRepository extends EntityRepository {
 
     public function crearTablaIndicador(FichaTecnica $fichaTecnica, $duracion=10) {
-        $ahora = new \DateTime("now");
-        if ($fichaTecnica->getUpdatedAt() != ''){            
+        
+        $em = $this->getEntityManager();
+        $ahora = new \DateTime("now");        
+        $util = new \MINSAL\IndicadoresBundle\Util\Util();
+        $nombre_indicador = $util->slug($fichaTecnica->getNombre());
+        
+        //Verificar si existe la tabla
+        $existe = true;
+        try{
+            $em->getConnection()->query("select count(*) from tmp_ind_$nombre_indicador");
+        }  catch (\Doctrine\DBAL\DBALException $e){
+            $existe = false;
+        }
+        if ($fichaTecnica->getUpdatedAt() != '' and $existe==true){            
             $ultimo_calculo = $fichaTecnica->getUpdatedAt()->getTimestamp();
             $diff_minutos = ($ahora->getTimestamp() - $ultimo_calculo) / 60;
             if ($diff_minutos <= $duracion)
                 return;
         }
-        $em = $this->getEntityManager();
-        $util = new \MINSAL\IndicadoresBundle\Util\Util();
+        
+        
         $campos = str_replace("'", '', $fichaTecnica->getCamposIndicador());
-        $nombre_indicador = $util->slug($fichaTecnica->getNombre());
+        
         $tablas_variables = array();
         $sql='';
         // Crear las tablas para cada variable

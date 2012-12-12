@@ -9,7 +9,7 @@ graficoColumnas = function (ubicacion, datos, colorChosen, categoryChoosen) {
 
     var currentDatasetChart = datos;    
     var xScale = d3.scale.ordinal()
-            .domain(currentDatasetChart.map(function(d) { return d.category; }))
+            .domain(currentDatasetChart.map(function(d) { return d.category; }))            
             .rangeRoundBands([0, width], .1)
             ;
 
@@ -59,7 +59,7 @@ graficoColumnas = function (ubicacion, datos, colorChosen, categoryChoosen) {
         .attr("stroke", 'black')
         .attr("stroke-width", '2px')
         .attr("x", function(d, i) {
-            return xScale(i);
+            return xScale(d.category);
         })
         .transition().duration(1000).delay(20)
         .attr("width", xScale.rangeBand())
@@ -84,7 +84,7 @@ graficoColumnas = function (ubicacion, datos, colorChosen, categoryChoosen) {
             return colores_alertas(d.measure, i) 
         }); 
     else
-        plot.selectAll("rect").attr("fill", colorChosen);
+        plot.selectAll("rect").attr("fill", colorChosen);    
 
 this.ordenar = function(modo_orden, ordenar_por) {
     //clearTimeout(sortTimeout);
