@@ -25,7 +25,7 @@ graficoLineas = function(ubicacion, datos, colorChosen, categoryChoosen) {
 
     var line = d3.svg.line()
             .x(function(d, i) {
-                return xScale(i);
+                return xScale(d.category);
             })
             .y(function(d) {
                 return yScale(parseFloat(d.measure));
