@@ -94,8 +94,8 @@ graficoLineas = function(ubicacion, datos, colorChosen, categoryChoosen) {
         if (ordenar_por == 'dimension')
             var x0 = xScale.domain(currentDatasetChart.sort(
                     (modo_orden == 'asc') ? 
-                        function(a, b) { return d3.ascending(a.category, b.category); } :
-                        function(a, b) { return d3.descending(a.category, b.category);}
+                        function(a, b) { return d3.ascending((isNaN(a.category))?a.category:parseFloat(a.category), (isNaN(b.category))?b.category:parseFloat(b.category)); }:
+                        function(a, b) { return d3.descending((isNaN(a.category))?a.category:parseFloat(a.category), (isNaN(b.category))?b.category:parseFloat(b.category)); }
             ).map(function(d) { return d.category; })).copy();
         else
             var x0 = xScale.domain(currentDatasetChart.sort(
