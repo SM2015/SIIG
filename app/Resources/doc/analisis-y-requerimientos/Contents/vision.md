@@ -3,16 +3,18 @@
 
 El sistema integrado de Información Gerencial ofrecerá análisis gráfico de datos 
 recogidos desde fuentes remotas en base a indicadores predefinidos. 
-La estructura de la aplicación permitira crecer y a agregar nuevos indicadores y 
+La estructura de la aplicación permitirá crecer y a agregar nuevos indicadores y 
 nuevas fuentes de datos según se requiera.
 
-El sistema cuenta con dos componentes:
+El sistema cuenta con tres componentes:
 
-- Un módulo de recolección de datos, transformación y carga de datos
+- Un módulo de recolección de datos, transformación y carga de datos (ETL por sus siglas en inglés)
 
-- Un módulo de reporte y análisis de datos 
+- Un módulo de creación de ficha técnica la cuál describe un indicador
 
-Una primera versión del sistema sistema estará disponible a finales de Diciembre 2012 usando datos de El Salvador. Una vez se reciba una evaluación satisfactoria de esta primera version, se implementará en el resto de sistemas de salud del programa Mesoamerica 2015 
+- Un tablero para análisis de datos
+
+Una primera versión del sistema sistema estará disponible a finales de Diciembre 2012 usando datos de El Salvador. Una vez se reciba una evaluación satisfactoria de esta primera versión, se implementará en el resto de sistemas de salud del programa Mesoamerica 2015 
 
 ## Alcances
 

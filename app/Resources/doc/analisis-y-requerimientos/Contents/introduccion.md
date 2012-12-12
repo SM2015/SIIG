@@ -6,8 +6,7 @@ como Information Dashboard, cuyo objetivo es facilitar y fortalecer la
 vigilancia de la salud, agilizando la toma de decisiones en todos los niveles, 
 por medio de los cuales se logran alcanzar las metas propuestas por el sector salud.
 
-EI Tablero en línea eTAB, también conocido localmente como Sistema Integral de 
-Indicadores de Salud (SIIS), será construido para monitorear en tiempo casi real 
+EI Tablero en línea eTAB, será construido para monitorear en tiempo casi real 
 el progreso de los indicadores disponibles e integrará de manera sistematizada 
 los datos e información generada por las diferentes instancias encargadas de la 
 atención a la salud de la población. Este sistema de seguimiento y control, 
