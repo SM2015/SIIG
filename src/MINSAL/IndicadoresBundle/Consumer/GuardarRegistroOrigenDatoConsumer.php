@@ -25,13 +25,15 @@ class GuardarRegistroOrigenDatoConsumer implements ConsumerInterface {
         $sth = $this->em->getConnection()->prepare("INSERT INTO fila_origen_dato(id_origen_dato, datos) 
                     VALUES (:id_origen_dato, hstore(ARRAY[:llaves], ARRAY[:valores]))");
                 
+        $this->em->getConnection()->beginTransaction();
         foreach($msg['datos'] as $fila) {
             $llaves = "'".implode("','",array_keys($fila))."'";
             $valores = "'".implode("','",array_values($fila))."'";            
             $result = $sth->execute(array(':id_origen_dato'=>$msg['id_origen_dato'],':llaves'=>$llaves, ':valores'=>$valores));
             if (!$result)
                 return false;
-        }    
+        }
+        $this->em->getConnection()->commit();
         return true;        
     }
 
