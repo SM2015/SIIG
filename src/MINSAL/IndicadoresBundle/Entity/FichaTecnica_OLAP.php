@@ -5,9 +5,9 @@ namespace MINSAL\IndicadoresBundle\Entity;
 use Doctrine\ORM\EntityRepository;
 use MINSAL\IndicadoresBundle\Entity\FichaTecnica;
 
-class FichaTecnicaRepository extends EntityRepository {
+class FichaTecnica_OLAP extends EntityRepository {
 
-    public function crearTablaIndicador(FichaTecnica $fichaTecnica, $duracion=10) {
+    public function cargarCubos(FichaTecnica $fichaTecnica, $duracion=10) {
 
    //Actualizar  solo despues de 10 o mas minutos
         $ahora = new \DateTime("now");
@@ -29,7 +29,7 @@ class FichaTecnicaRepository extends EntityRepository {
         $em->getConnection()->exec($sql);
     }
     	//SIN USO : se remplaza con llamadas AJAX al servidor OLAP
-    public function calcularIndicador(FichaTecnica $fichaTecnica, $dimension, $filtro_registros=null) {
+    public function calcularIndicador_OLD(FichaTecnica $fichaTecnica, $dimension, $filtro_registros=null) {
         $util = new \MINSAL\IndicadoresBundle\Util\Util();
         $formula = str_replace(array('{','}'), array('SUM(',')'), $fichaTecnica->getFormula());
         $nombre_indicador = $util->slug($fichaTecnica->getNombre());
