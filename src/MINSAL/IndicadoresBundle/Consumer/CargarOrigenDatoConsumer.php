@@ -69,7 +69,7 @@ class CargarOrigenDatoConsumer implements ConsumerInterface {
             $nueva_fila = array();
             foreach ($fila as $k => $v) {
                 // pasar el nombre del campo a minúsculas y quitar comillas dobles que pueda tener en su valor
-                $nueva_fila[$campos_sig[strtolower($k)]] = $v;
+                $nueva_fila[$campos_sig[strtolower($k)]] = utf8_encode($v);
             }
             $datos_a_enviar[] = $nueva_fila;
             //Enviaré en grupos de 200
