@@ -43,7 +43,10 @@ significado_campo: Significado de campos
 nombre_campo: Nombre del campo
 significado: Significado
 
-'Origen Datos List': 'Orígenes de datos - Listado'
+'Origen Datos List': 'Origen de datos - Listado'
+'Origen Datos Delete': 'Origen de datos - Borrar'
+'Origen Datos Create': 'Origen de datos- Crear'
+'Origen Datos Edit': 'Origen de datos - Editar'
 
 'responsable_datos': 'Responsable Datos'
 'Responsable Dato List': 'Responsable de Dato - Listado'
@@ -148,7 +151,6 @@ unidad_medida: 'Unidad de medida'
 periodicidad: 'Periodicidad'
 estandar_nacional: 'Estándar Nacional'
 presentacion: 'Presentación'
-variables: 'Variables'
 btn_create_and_config_data_source: 'Crear y configurar origen de datos'
 action_merge: 'Fusionar'
 action_load_data: 'Ejecutar Cargar Datos'
