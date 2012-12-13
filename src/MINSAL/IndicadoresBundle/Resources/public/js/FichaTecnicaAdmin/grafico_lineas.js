@@ -12,7 +12,7 @@ graficoLineas = function(ubicacion, datos, colorChosen, categoryChoosen) {
         .rangeRoundBands([0, width], .9);
     ;
     var max_y;
-    max_y = d3.max(currentDatasetChart, function(d) { return parseFloat(d.measure); });
+    max_y = d3.max(datasetPrincipal_bk, function(d) { return parseFloat(d.measure); });
     if ($('#max_y') != null && $('#max_y').val()=='rango_alertas')
         max_y = $('#titulo_indicador').attr('data-max_rango');
     
@@ -94,8 +94,8 @@ graficoLineas = function(ubicacion, datos, colorChosen, categoryChoosen) {
         if (ordenar_por == 'dimension')
             var x0 = xScale.domain(currentDatasetChart.sort(
                     (modo_orden == 'asc') ? 
-                        function(a, b) { return d3.ascending(a.category, b.category); } :
-                        function(a, b) { return d3.descending(a.category, b.category);}
+                        function(a, b) { return d3.ascending((isNaN(a.category))?a.category:parseFloat(a.category), (isNaN(b.category))?b.category:parseFloat(b.category)); }:
+                        function(a, b) { return d3.descending((isNaN(a.category))?a.category:parseFloat(a.category), (isNaN(b.category))?b.category:parseFloat(b.category)); }
             ).map(function(d) { return d.category; })).copy();
         else
             var x0 = xScale.domain(currentDatasetChart.sort(
