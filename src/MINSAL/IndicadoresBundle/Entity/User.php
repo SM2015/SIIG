@@ -20,10 +20,10 @@ class User extends BaseUser{
     protected $id;
     
     /**
-     * @ORM\ManyToMany(targetEntity="FichaTecnica")
+     * @ORM\ManyToMany(targetEntity="FichaTecnica", inversedBy="usuariosFavoritos")
      * @ORM\JoinTable(name="usuario_indicadores_favoritos",
-     *      joinColumns={@ORM\JoinColumn(name="id_usuario", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="id_indicador", referencedColumnName="id")}
+     *      joinColumns={@ORM\JoinColumn(name="id_usuario", referencedColumnName="id", onDelete="CASCADE")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="id_indicador", referencedColumnName="id", onDelete="CASCADE")}
      *      )
      **/
     private $favoritos;
