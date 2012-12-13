@@ -14,7 +14,12 @@ graficoColumnas = function (ubicacion, datos, colorChosen, categoryChoosen) {
             ;
 
     var max_y;
-    max_y = d3.max(currentDatasetChart, function(d) { return parseFloat(d.measure); });
+    
+    //El nivel máximo de la escala puede ser el mayor valor de la serie
+    // o el mayor valor del rango, el usuario elige
+    // se utiliza datasetPrincipal_bk por si se han aplicado filtros
+    // Así no usará el máximo valor del filtro
+    max_y = d3.max(datasetPrincipal_bk, function(d) { return parseFloat(d.measure); });
     if ($('#max_y') != null && $('#max_y').val()=='rango_alertas')
         max_y = $('#titulo_indicador').attr('data-max_rango');
     

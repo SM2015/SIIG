@@ -12,7 +12,7 @@ graficoLineas = function(ubicacion, datos, colorChosen, categoryChoosen) {
         .rangeRoundBands([0, width], .9);
     ;
     var max_y;
-    max_y = d3.max(currentDatasetChart, function(d) { return parseFloat(d.measure); });
+    max_y = d3.max(datasetPrincipal_bk, function(d) { return parseFloat(d.measure); });
     if ($('#max_y') != null && $('#max_y').val()=='rango_alertas')
         max_y = $('#titulo_indicador').attr('data-max_rango');
     
