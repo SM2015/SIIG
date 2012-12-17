@@ -37,12 +37,10 @@ class FichaTecnicaAdmin extends Admin {
                     'required' => true))
                 ->add('idClasificacionPrivacidad', null, array('label' => $this->getTranslator()->trans('clasificacion_privacidad')))
                 ->add('idClasificacionUso', null, array('label' => $this->getTranslator()->trans('clasificacion_uso')))
-                ->add('periodos', null, array('label' => $this->getTranslator()->trans('periodicidad'), 'expanded' => true))
+                ->add('periodo', null, array('label' => $this->getTranslator()->trans('periodicidad')))
                 ->add('idResponsableIndicador', null, array('label' => $this->getTranslator()->trans('responsable_indicador')))                
-                ->add('confiabilidad', null, array('label' => $this->getTranslator()->trans('confiabilidad'), 'required' => false))                
-                ->add('presentaciones', null, array('label' => $this->getTranslator()->trans('presentacion'), 'expanded' => true))
-                ->add('observacion', 'textarea', array('label' => $this->getTranslator()->trans('comentario'), 'required' => false))                                
-                ->add('estandar', null, array('label' => $this->getTranslator()->trans('estandar_nacional')))
+                ->add('confiabilidad', null, array('label' => $this->getTranslator()->trans('confiabilidad'), 'required' => false))
+                ->add('observacion', 'textarea', array('label' => $this->getTranslator()->trans('comentario'), 'required' => false))
                 ->add('alertas', 'sonata_type_collection', array(
                     'label' => $this->getTranslator()->trans('alertas'),
                     'required' => false), array(

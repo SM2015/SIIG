@@ -10,7 +10,7 @@ class FichaTecnicaRepository extends EntityRepository {
     public function crearTablaIndicador(FichaTecnica $fichaTecnica, $duracion=10) {
         
         $em = $this->getEntityManager();
-        $ahora = new \DateTime("now");        
+        $ahora = new \DateTime("now");
         $util = new \MINSAL\IndicadoresBundle\Util\Util();
         $nombre_indicador = $util->slug($fichaTecnica->getNombre());
         

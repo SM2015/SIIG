@@ -103,20 +103,20 @@ class FichaTecnica
      * )
      */
     private $confiabilidad;
-
+        
     /**
-     * @var float $estandar
-     *
-     * @ORM\Column(name="estandar", type="decimal", nullable=true)
-     */
-    private $estandar;
-    
-    /**
-     * @var float $updatedAt
+     * @var datetime $updatedAt
      *
      * @ORM\Column(name="updated_at", type="datetime", nullable=true)
      */
     private $updatedAt;
+    
+    /**
+     * @var datetime ultimaLectura
+     *
+     * @ORM\Column(name="ultima_lectura", type="datetime", nullable=true)
+     */
+    private $ultimaLectura;
     
     
     /**
@@ -159,6 +159,16 @@ class FichaTecnica
      * @ORM\JoinColumn(name="id_responsable_indicador", referencedColumnName="id")
      */
     private $idResponsableIndicador;
+    
+    /**
+     * 
+     * @var periodo
+     *
+     * @ORM\ManyToOne(targetEntity="Periodos")
+     * @ORM\JoinColumn(name="id_periodo", referencedColumnName="id")
+     * @ORM\OrderBy({"descripcion" = "ASC"})
+     **/
+    private $periodo;
 
     /**
     * @var \Doctrine\Common\Collections\ArrayCollection
@@ -166,6 +176,30 @@ class FichaTecnica
      * 
      */
     private $alertas;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="VariableDato")
+     * @ORM\JoinTable(name="ficha_tecnica_variable_dato",
+     *      joinColumns={@ORM\JoinColumn(name="id_ficha_tecnica", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="id_variable_dato", referencedColumnName="id")}
+     *      )
+     * @ORM\OrderBy({"nombre" = "ASC"})
+     **/
+    private $variables;             
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="Campo")
+     * @ORM\JoinTable(name="ficha_tecnica_campo",
+     *      joinColumns={@ORM\JoinColumn(name="id_ficha_tecnica", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="id_campo", referencedColumnName="id")}
+     *      )
+     **/
+    private $campos;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="favoritos")
+     **/
+    private $usuariosFavoritos;
 
     /**
      * Get id
@@ -408,29 +442,6 @@ class FichaTecnica
     }
 
     /**
-     * Set estandar
-     *
-     * @param float $estandar
-     * @return FichaTecnica
-     */
-    public function setEstandar($estandar)
-    {
-        $this->estandar = $estandar;
-    
-        return $this;
-    }
-
-    /**
-     * Get estandar
-     *
-     * @return float 
-     */
-    public function getEstandar()
-    {
-        return $this->estandar;
-    }
-
-    /**
      * Set idClasificacionNivel
      *
      * @param MINSAL\IndicadoresBundle\Entity\ClasificacionNivel $idClasificacionNivel
@@ -544,46 +555,7 @@ class FichaTecnica
     {
         return $this->idResponsableIndicador;
     }
-    
-    /**
-     * @ORM\ManyToMany(targetEntity="VariableDato")
-     * @ORM\JoinTable(name="ficha_tecnica_variable_dato",
-     *      joinColumns={@ORM\JoinColumn(name="id_ficha_tecnica", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="id_variable_dato", referencedColumnName="id")}
-     *      )
-     **/
-    private $variables;
-    
-    /**
-     * @ORM\ManyToMany(targetEntity="Periodos")
-     * @ORM\JoinTable(name="ficha_tecnica_periodicidad",
-     *      joinColumns={@ORM\JoinColumn(name="id_ficha_tecnica", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="id_periodicidad", referencedColumnName="id")}
-     *      )
-     * @ORM\OrderBy({"descripcion" = "ASC"})
-     **/
-    private $periodos;
-    
-    /**
-     * @ORM\ManyToMany(targetEntity="Presentacion")
-     * @ORM\JoinTable(name="ficha_tecnica_presentacion",
-     *      joinColumns={@ORM\JoinColumn(name="id_ficha_tecnica", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="id_presentacion", referencedColumnName="id")}
-     *      )
-     **/
-    private $presentaciones;
-    
-    /**
-     * @ORM\ManyToMany(targetEntity="Campo")
-     * @ORM\JoinTable(name="ficha_tecnica_campo",
-     *      joinColumns={@ORM\JoinColumn(name="id_ficha_tecnica", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="id_campo", referencedColumnName="id")}
-     *      )
-     **/
-    private $campos;
-    
-    
-        
+           
     /**
      * Constructor
      */
@@ -592,74 +564,7 @@ class FichaTecnica
         $this->periodos = new \Doctrine\Common\Collections\ArrayCollection();
         $this->presentaciones = new \Doctrine\Common\Collections\ArrayCollection();
         $this->variables = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-    
-    /**
-     * Add periodos
-     *
-     * @param MINSAL\IndicadoresBundle\Entity\Periodos $periodos
-     * @return FichaTecnica
-     */
-    public function addPeriodo(\MINSAL\IndicadoresBundle\Entity\Periodos $periodos)
-    {
-        $this->periodos[] = $periodos;
-    
-        return $this;
-    }
-
-    /**
-     * Remove periodos
-     *
-     * @param MINSAL\IndicadoresBundle\Entity\Periodos $periodos
-     */
-    public function removePeriodo(\MINSAL\IndicadoresBundle\Entity\Periodos $periodos)
-    {
-        $this->periodos->removeElement($periodos);
-    }
-
-    /**
-     * Get periodos
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getPeriodos()
-    {
-        return $this->periodos;
-    }
-
-    /**
-     * Add presentaciones
-     *
-     * @param MINSAL\IndicadoresBundle\Entity\Presentacion $presentaciones
-     * @return FichaTecnica
-     */
-    public function addPresentacione(\MINSAL\IndicadoresBundle\Entity\Presentacion $presentaciones)
-    {
-        $this->presentaciones[] = $presentaciones;
-    
-        return $this;
-    }
-
-    /**
-     * Remove presentaciones
-     *
-     * @param MINSAL\IndicadoresBundle\Entity\Presentacion $presentaciones
-     */
-    public function removePresentacione(\MINSAL\IndicadoresBundle\Entity\Presentacion $presentaciones)
-    {
-        $this->presentaciones->removeElement($presentaciones);
-    }
-
-    /**
-     * Get presentaciones
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getPresentaciones()
-    {
-        return $this->presentaciones;
-    }    
-
+    }        
 
     /**
      * Add campos
@@ -842,5 +747,84 @@ class FichaTecnica
     public function getVariables()
     {
         return $this->variables;
+    }
+
+    /**
+     * Set ultimaLectura
+     *
+     * @param \DateTime $ultimaLectura
+     * @return FichaTecnica
+     */
+    public function setUltimaLectura($ultimaLectura)
+    {
+        $this->ultimaLectura = $ultimaLectura;
+    
+        return $this;
+    }
+
+    /**
+     * Get ultimaLectura
+     *
+     * @return \DateTime 
+     */
+    public function getUltimaLectura()
+    {
+        return $this->ultimaLectura;
+    }
+
+    /**
+     * Set periodo
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\Periodos $periodo
+     * @return FichaTecnica
+     */
+    public function setPeriodo(\MINSAL\IndicadoresBundle\Entity\Periodos $periodo = null)
+    {
+        $this->periodo = $periodo;
+    
+        return $this;
+    }
+
+    /**
+     * Get periodo
+     *
+     * @return \MINSAL\IndicadoresBundle\Entity\Periodos 
+     */
+    public function getPeriodo()
+    {
+        return $this->periodo;
+    }
+
+    /**
+     * Add usuariosFavoritos
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\User $usuariosFavoritos
+     * @return FichaTecnica
+     */
+    public function addUsuariosFavorito(\MINSAL\IndicadoresBundle\Entity\User $usuariosFavoritos)
+    {
+        $this->usuariosFavoritos[] = $usuariosFavoritos;
+    
+        return $this;
+    }
+
+    /**
+     * Remove usuariosFavoritos
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\User $usuariosFavoritos
+     */
+    public function removeUsuariosFavorito(\MINSAL\IndicadoresBundle\Entity\User $usuariosFavoritos)
+    {
+        $this->usuariosFavoritos->removeElement($usuariosFavoritos);
+    }
+
+    /**
+     * Get usuariosFavoritos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getUsuariosFavoritos()
+    {
+        return $this->usuariosFavoritos;
     }
 }
