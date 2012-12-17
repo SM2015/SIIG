@@ -43,13 +43,14 @@ graficoLineas = function(ubicacion, datos, colorChosen, categoryChoosen) {
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
             ;
 
+    var long = $('#titulo_indicador').attr('data-unidad-medida').length;
     svg.append("g")
             .attr("class", "axis")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
             .call(yAxis).append("text")
             .attr("transform", "rotate(-90)")
             .attr("y", -50)        
-            .attr("x", -100)            
+            .attr("x", -((height/2) + (long / 2)*6.5))          
             .text($('#titulo_indicador').attr('data-unidad-medida'));
 
             
