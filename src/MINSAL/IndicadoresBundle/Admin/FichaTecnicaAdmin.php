@@ -220,7 +220,7 @@ class FichaTecnicaAdmin extends Admin {
             $campos_comunes = array_intersect($act, $aux);
             //agregar los posibles campos nuevos
             $campos_comunes = array_merge($campos_comunes, array_diff($aux, $act));
-            $campos_comunes = implode(",", $campos_comunes);
+            $campos_comunes = implode(", ", $campos_comunes);
         }
         
         $fichaTecnica->setCamposIndicador($campos_comunes);
