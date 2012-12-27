@@ -1,4 +1,5 @@
 ## 1. Tabla Alerta
+
 <table border="1">
   <tr>
     <th align="center">tabla</th>
@@ -31,6 +32,7 @@
   </table>
 
 ## 2. Tabla Campo
+
 <table>
     <tr>
     <th align="center">tabla</th>
@@ -124,7 +126,8 @@
     <td align="left">p</td>
   </tr></table>
   
-  ## 3. Tabla Clasificacion_Nivel
+## 3. Tabla Clasificacion_Nivel
+
     <table><tr>
     <th align="center">tabla</th>
     <th align="center">columna</th>
@@ -162,7 +165,7 @@
   </tr>
   </table>
   
-  ## 4. Tabla Clasificacion Privacidad
+## 4. Tabla Clasificacion Privacidad
 
 <table>
     <tr>
@@ -202,7 +205,7 @@
   </tr>
   </table>
   
-  ## 5. Tabla Clasificacion_Tecnica
+## 5. Tabla Clasificacion_Tecnica
   <table>
     <tr>
     <th align="center">tabla</th>
@@ -240,7 +243,7 @@
     <td align="left">p</td>
   </tr>  </table>
   
-  ## 6. Tabla Clasificacion_Uso
+## 6. Tabla Clasificacion_Uso
   
   <table>
     <tr>
@@ -279,7 +282,7 @@
     <td align="left">p</td>
   </tr> </table>
   
-  ## 7. Tabla Conexion
+## 7. Tabla Conexion
   
   <table>
     <tr>
@@ -429,6 +432,18 @@
     <td align="left">t</td>
     <td align="left">p</td>
   </tr>
+   </table>
+  
+## 8. Tabla Ficha_Tenica
+  
+  <table>
+    <tr>
+    <th align="center">tabla</th>
+    <th align="center">columna</th>
+    <th align="center">tipo</th>
+    <th align="center">esnulo</th>
+    <th align="center">tipollave</th>
+  </tr>
   <tr valign="top">
     <td align="left">ficha_tecnica</td>
     <td align="left">campos_indicador</td>
@@ -708,6 +723,17 @@
     <td align="left">text</td>
     <td align="left">f</td>
     <td align="left">p</td>
+  </tr></table>
+  
+## 9. Tabla Ficha_Tecnica_Campo
+  
+  <table>
+    <tr>
+    <th align="center">tabla</th>
+    <th align="center">columna</th>
+    <th align="center">tipo</th>
+    <th align="center">esnulo</th>
+    <th align="center">tipollave</th>
   </tr>
   <tr valign="top">
     <td align="left">ficha_tecnica_campo</td>
@@ -736,6 +762,16 @@
     <td align="left">int4</td>
     <td align="left">t</td>
     <td align="left">p</td>
+  </tr></table>
+  
+## 10. Tabla Ficha_Tecnica_Periodicidad  
+  <table>
+    <tr>
+    <th align="center">tabla</th>
+    <th align="center">columna</th>
+    <th align="center">tipo</th>
+    <th align="center">esnulo</th>
+    <th align="center">tipollave</th>
   </tr>
   <tr valign="top">
     <td align="left">ficha_tecnica_periodicidad</td>
@@ -764,6 +800,17 @@
     <td align="left">int4</td>
     <td align="left">t</td>
     <td align="left">p</td>
+  </tr></table>
+  
+## 11. Tabla Ficha_Tecnica_Presentacion
+  
+  <table>
+    <tr>
+    <th align="center">tabla</th>
+    <th align="center">columna</th>
+    <th align="center">tipo</th>
+    <th align="center">esnulo</th>
+    <th align="center">tipollave</th>
   </tr>
   <tr valign="top">
     <td align="left">ficha_tecnica_presentacion</td>
@@ -792,6 +839,17 @@
     <td align="left">int4</td>
     <td align="left">t</td>
     <td align="left">p</td>
+  </tr></table>
+  
+## 12. Tabla Ficha_Tecnica_Variable_dato
+  
+  <table>
+    <tr>
+    <th align="center">tabla</th>
+    <th align="center">columna</th>
+    <th align="center">tipo</th>
+    <th align="center">esnulo</th>
+    <th align="center">tipollave</th>
   </tr>
   <tr valign="top">
     <td align="left">ficha_tecnica_variable_dato</td>
@@ -820,6 +878,17 @@
     <td align="left">int4</td>
     <td align="left">t</td>
     <td align="left">p</td>
+  </tr></table>
+  
+## 13. Tabla Fila_Origen_Dato
+  
+  <table>
+    <tr>
+    <th align="center">tabla</th>
+    <th align="center">columna</th>
+    <th align="center">tipo</th>
+    <th align="center">esnulo</th>
+    <th align="center">tipollave</th>
   </tr>
   <tr valign="top">
     <td align="left">fila_origen_dato</td>
@@ -862,6 +931,18 @@
     <td align="left">int4</td>
     <td align="left">f</td>
     <td align="left">p</td>
+  </tr>
+  </table>
+  
+## 14. Tabla Fos_User_Group
+  
+  <table>
+    <tr>
+    <th align="center">tabla</th>
+    <th align="center">columna</th>
+    <th align="center">tipo</th>
+    <th align="center">esnulo</th>
+    <th align="center">tipollave</th>
   </tr>
   <tr valign="top">
     <td align="left">fos_user_group</td>
@@ -883,7 +964,19 @@
     <td align="left">text</td>
     <td align="left">t</td>
     <td align="left">p</td>
+  </tr></table>
+  
+## 15. Tabla Fos_User_User
+  
+  <table>
+    <tr>
+    <th align="center">tabla</th>
+    <th align="center">columna</th>
+    <th align="center">tipo</th>
+    <th align="center">esnulo</th>
+    <th align="center">tipollave</th>
   </tr>
+  
   <tr valign="top">
     <td align="left">fos_user_user</td>
     <td align="left">biography</td>
@@ -1156,6 +1249,17 @@
     <td align="left">varchar</td>
     <td align="left">f</td>
     <td align="left">p</td>
+  </tr></table>
+  
+## 15. Tabla Fos_User_User_Group
+  
+  <table>
+    <tr>
+    <th align="center">tabla</th>
+    <th align="center">columna</th>
+    <th align="center">tipo</th>
+    <th align="center">esnulo</th>
+    <th align="center">tipollave</th>
   </tr>
   <tr valign="top">
     <td align="left">fos_user_user_group</td>
@@ -1184,6 +1288,17 @@
     <td align="left">int4</td>
     <td align="left">t</td>
     <td align="left">p</td>
+  </tr></table>
+  
+## 16. Tabla Fuente_Dato
+  
+  <table>
+    <tr>
+    <th align="center">tabla</th>
+    <th align="center">columna</th>
+    <th align="center">tipo</th>
+    <th align="center">esnulo</th>
+    <th align="center">tipollave</th>
   </tr>
   <tr valign="top">
     <td align="left">fuente_dato</td>
@@ -1226,6 +1341,17 @@
     <td align="left">varchar</td>
     <td align="left">t</td>
     <td align="left">p</td>
+  </tr></table>
+  
+## 17. Tabla Fusion_Origenes_Datos
+  
+  <table>
+    <tr>
+    <th align="center">tabla</th>
+    <th align="center">columna</th>
+    <th align="center">tipo</th>
+    <th align="center">esnulo</th>
+    <th align="center">tipollave</th>
   </tr>
   <tr valign="top">
     <td align="left">fusion_origenes_datos</td>
