@@ -85,12 +85,17 @@ class VariableDato
     /**
      * @var OrigenDatos
      *
-     * @ORM\ManyToOne(targetEntity="OrigenDatos")
+     * @ORM\ManyToOne(targetEntity="OrigenDatos", inversedBy="variables")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_origen_datos", referencedColumnName="id")
      * })
      */
     private $origenDatos;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="FichaTecnica", mappedBy="variables")
+     **/
+    private $indicadores;
 
     /**
      * Get id
@@ -302,5 +307,68 @@ class VariableDato
         $this->id = $id;
     
         return $this;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->indicadores = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add indicadores
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores
+     * @return VariableDato
+     */
+    public function addIndicador(\MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores)
+    {
+        $this->indicadores[] = $indicadores;
+    
+        return $this;
+    }
+
+    /**
+     * Remove indicadores
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores
+     */
+    public function removeIndicador(\MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores)
+    {
+        $this->indicadores->removeElement($indicadores);
+    }
+
+    /**
+     * Get indicadores
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getIndicadores()
+    {
+        return $this->indicadores;
+    }
+
+    /**
+     * Add indicadores
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores
+     * @return VariableDato
+     */
+    public function addIndicadore(\MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores)
+    {
+        $this->indicadores[] = $indicadores;
+    
+        return $this;
+    }
+
+    /**
+     * Remove indicadores
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores
+     */
+    public function removeIndicadore(\MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores)
+    {
+        $this->indicadores->removeElement($indicadores);
     }
 }
