@@ -25,7 +25,9 @@ La aplicación debe proveer la capacidad de analizar datos para cualquier indica
 La base de datos necesita guardar datos sin conocer de antemano sus características.  Esto se logra usando un esquema de datos generico EAV (entidad-atributo-valor). El manejo de esquemas EAV es implementado de diferentes formas para diferentes gestores de bases de datos. El Tablero eTAB usa la implementación de Postgres la cual crea un tipo especial de dato llamado HSTORE. Además, el modulo de cubos OLAP utiliza la función CROSSTAB de Postgres para transponer grupos de datos.   El tipo de campo HSTORE y la función CROSSTAB no existen en otros gestores de bases de datos por lo cual no seria posible instalar esta aplicación usando un gestor de base de datos que no sea PostgreSQL. 
 
 Para utilizar el tipo de datos HSTORE y la función CROSSTAB es necesario instalar el paquete contrib de postgresql y luego crear las extensiones correspondientes usando:
+
 ~#postgres> CREATE EXTENSION hstore ;
+
 ~#postgres> CREATE EXTENSION tablefunc ;
 
 ## Servidor Web
