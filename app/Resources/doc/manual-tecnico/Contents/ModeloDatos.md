@@ -1,124 +1,2258 @@
-             tabla             |           columna           |   tipo    | esnulo | tipollave 
--------------------------------+-----------------------------+-----------+--------+-----------
- alerta                        | codigo                      | varchar   | t      | p
- alerta                        | color                       | varchar   | t      | p
- alerta                        | id                          | int4      | t      | p
- campo                         | descripcion                 | text      | f      | f
- campo                         | descripcion                 | text      | f      | p
- campo                         | id                          | int4      | t      | f
- campo                         | id                          | int4      | t      | p
- campo                         | id_origen_datos             | int8      | f      | f
- campo                         | id_origen_datos             | int8      | f      | p
- campo                         | id_significado_campo        | int4      | f      | f
- campo                         | id_significado_campo        | int4      | f      | p
- campo                         | id_tipo_campo               | int4      | f      | f
- campo                         | id_tipo_campo               | int4      | f      | p
- campo                         | nombre                      | varchar   | t      | f
- campo                         | nombre                      | varchar   | t      | p
- clasificacion_nivel           | codigo                      | varchar   | t      | p
- clasificacion_nivel           | comentario                  | text      | f      | p
- clasificacion_nivel           | descripcion                 | varchar   | t      | p
- clasificacion_nivel           | id                          | int4      | t      | p
- clasificacion_privacidad      | codigo                      | varchar   | t      | p
- clasificacion_privacidad      | comentario                  | text      | f      | p
- clasificacion_privacidad      | descripcion                 | varchar   | t      | p
- clasificacion_privacidad      | id                          | int4      | t      | p
- clasificacion_tecnica         | codigo                      | varchar   | t      | p
- clasificacion_tecnica         | comentario                  | text      | f      | p
- clasificacion_tecnica         | descripcion                 | varchar   | t      | p
- clasificacion_tecnica         | id                          | int4      | t      | p
- clasificacion_uso             | codigo                      | varchar   | t      | p
- clasificacion_uso             | comentario                  | text      | f      | p
- clasificacion_uso             | descripcion                 | varchar   | t      | p
- clasificacion_uso             | id                          | int4      | t      | p
- conexion                      | clave                       | varchar   | t      | f
- conexion                      | clave                       | varchar   | t      | p
- conexion                      | comentario                  | text      | f      | f
- conexion                      | comentario                  | text      | f      | p
- conexion                      | id                          | int4      | t      | f
- conexion                      | id                          | int4      | t      | p
- conexion                      | id_motor                    | int4      | f      | f
- conexion                      | id_motor                    | int4      | f      | p
- conexion                      | instancia                   | varchar   | f      | f
- conexion                      | instancia                   | varchar   | f      | p
- conexion                      | ip                          | varchar   | t      | f
- conexion                      | ip                          | varchar   | t      | p
- conexion                      | nombre_base_datos           | varchar   | t      | f
- conexion                      | nombre_base_datos           | varchar   | t      | p
- conexion                      | nombre_conexion             | varchar   | t      | f
- conexion                      | nombre_conexion             | varchar   | t      | p
- conexion                      | puerto                      | varchar   | f      | f
- conexion                      | puerto                      | varchar   | f      | p
- conexion                      | usuario                     | varchar   | t      | f
- conexion                      | usuario                     | varchar   | t      | p
- ficha_tecnica                 | campos_indicador            | text      | f      | f
- ficha_tecnica                 | campos_indicador            | text      | f      | p
- ficha_tecnica                 | concepto                    | text      | f      | f
- ficha_tecnica                 | concepto                    | text      | f      | p
- ficha_tecnica                 | confiabilidad               | int4      | f      | f
- ficha_tecnica                 | confiabilidad               | int4      | f      | p
- ficha_tecnica                 | definicion_operativa        | text      | f      | f
- ficha_tecnica                 | definicion_operativa        | text      | f      | p
- ficha_tecnica                 | formula                     | varchar   | t      | f
- ficha_tecnica                 | formula                     | varchar   | t      | p
- ficha_tecnica                 | id                          | int4      | t      | f
- ficha_tecnica                 | id                          | int4      | t      | p
- ficha_tecnica                 | id_clasificacion_nivel      | int4      | f      | f
- ficha_tecnica                 | id_clasificacion_nivel      | int4      | f      | p
- ficha_tecnica                 | id_clasificacion_privacidad | int4      | f      | f
- ficha_tecnica                 | id_clasificacion_privacidad | int4      | f      | p
- ficha_tecnica                 | id_clasificacion_tecnica    | int4      | f      | f
- ficha_tecnica                 | id_clasificacion_tecnica    | int4      | f      | p
- ficha_tecnica                 | id_clasificacion_uso        | int4      | f      | f
- ficha_tecnica                 | id_clasificacion_uso        | int4      | f      | p
- ficha_tecnica                 | id_periodo                  | int4      | f      | f
- ficha_tecnica                 | id_periodo                  | int4      | f      | p
- ficha_tecnica                 | id_responsable_indicador    | int4      | f      | f
- ficha_tecnica                 | id_responsable_indicador    | int4      | f      | p
- ficha_tecnica                 | nombre                      | varchar   | t      | f
- ficha_tecnica                 | nombre                      | varchar   | t      | p
- ficha_tecnica                 | objetivo                    | text      | f      | f
- ficha_tecnica                 | objetivo                    | text      | f      | p
- ficha_tecnica                 | observacion                 | text      | f      | f
- ficha_tecnica                 | observacion                 | text      | f      | p
- ficha_tecnica                 | tema                        | text      | t      | f
- ficha_tecnica                 | tema                        | text      | t      | p
- ficha_tecnica                 | ultima_lectura              | timestamp | f      | f
- ficha_tecnica                 | ultima_lectura              | timestamp | f      | p
- ficha_tecnica                 | unidad_medida               | varchar   | t      | f
- ficha_tecnica                 | unidad_medida               | varchar   | t      | p
- ficha_tecnica                 | updated_at                  | timestamp | f      | f
- ficha_tecnica                 | updated_at                  | timestamp | f      | p
- ficha_tecnica                 | uso                         | text      | f      | f
- ficha_tecnica                 | uso                         | text      | f      | p
- ficha_tecnica_campo           | id_campo                    | int4      | t      | f
- ficha_tecnica_campo           | id_campo                    | int4      | t      | p
- ficha_tecnica_campo           | id_ficha_tecnica            | int4      | t      | f
- ficha_tecnica_campo           | id_ficha_tecnica            | int4      | t      | p
- ficha_tecnica_periodicidad    | id_ficha_tecnica            | int4      | t      | f
- ficha_tecnica_periodicidad    | id_ficha_tecnica            | int4      | t      | p
- ficha_tecnica_periodicidad    | id_periodicidad             | int4      | t      | f
- ficha_tecnica_periodicidad    | id_periodicidad             | int4      | t      | p
- ficha_tecnica_presentacion    | id_ficha_tecnica            | int4      | t      | f
- ficha_tecnica_presentacion    | id_ficha_tecnica            | int4      | t      | p
- ficha_tecnica_presentacion    | id_presentacion             | int4      | t      | f
- ficha_tecnica_presentacion    | id_presentacion             | int4      | t      | p
- ficha_tecnica_variable_dato   | id_ficha_tecnica            | int4      | t      | f
- ficha_tecnica_variable_dato   | id_ficha_tecnica            | int4      | t      | p
- ficha_tecnica_variable_dato   | id_variable_dato            | int4      | t      | f
- ficha_tecnica_variable_dato   | id_variable_dato            | int4      | t      | p
- fila_origen_dato              | datos                       | hstore    | f      | f
- fila_origen_dato              | datos                       | hstore    | f      | p
- fila_origen_dato              | id                          | int4      | t      | f
- fila_origen_dato              | id                          | int4      | t      | p
- fila_origen_dato              | id_origen_dato              | int4      | f      | f
- fila_origen_dato              | id_origen_dato              | int4      | f      | p
- fos_user_group                | id                          | int4      | t      | p
- fos_user_group                | name                        | varchar   | t      | p
- fos_user_group                | roles                       | text      | t      | p
- fos_user_user                 | biography                   | varchar   | f      | p
- fos_user_user                 | confirmation_token          | varchar   | f      | p
- fos_user_user                 | created_at                  | timestamp | t      | p
- fos_user_user                 | credentials_expire_at       | timestamp | f      | p
- fos_user_user                 | credentials_expired         | bool      | t      | p
 
+<table border="1">
+  <tr>
+    <th align="center">tabla</th>
+    <th align="center">columna</th>
+    <th align="center">tipo</th>
+    <th align="center">esnulo</th>
+    <th align="center">tipollave</th>
+  </tr>
+  <tr valign="top">
+    <td align="left">alerta</td>
+    <td align="left">codigo</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">alerta</td>
+    <td align="left">color</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">alerta</td>
+    <td align="left">id</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  </table><table>
+    <tr>
+    <th align="center">tabla</th>
+    <th align="center">columna</th>
+    <th align="center">tipo</th>
+    <th align="center">esnulo</th>
+    <th align="center">tipollave</th>
+  </tr>
+  <tr valign="top">
+    <td align="left">campo</td>
+    <td align="left">descripcion</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">campo</td>
+    <td align="left">descripcion</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">campo</td>
+    <td align="left">id</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">campo</td>
+    <td align="left">id</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">campo</td>
+    <td align="left">id_origen_datos</td>
+    <td align="left">int8</td>
+    <td align="left">f</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">campo</td>
+    <td align="left">id_origen_datos</td>
+    <td align="left">int8</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">campo</td>
+    <td align="left">id_significado_campo</td>
+    <td align="left">int4</td>
+    <td align="left">f</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">campo</td>
+    <td align="left">id_significado_campo</td>
+    <td align="left">int4</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">campo</td>
+    <td align="left">id_tipo_campo</td>
+    <td align="left">int4</td>
+    <td align="left">f</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">campo</td>
+    <td align="left">id_tipo_campo</td>
+    <td align="left">int4</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">campo</td>
+    <td align="left">nombre</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">campo</td>
+    <td align="left">nombre</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr></table>
+    <table><tr>
+    <th align="center">tabla</th>
+    <th align="center">columna</th>
+    <th align="center">tipo</th>
+    <th align="center">esnulo</th>
+    <th align="center">tipollave</th>
+  </tr>
+  <tr valign="top">
+    <td align="left">clasificacion_nivel</td>
+    <td align="left">codigo</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">clasificacion_nivel</td>
+    <td align="left">comentario</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">clasificacion_nivel</td>
+    <td align="left">descripcion</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">clasificacion_nivel</td>
+    <td align="left">id</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">clasificacion_privacidad</td>
+    <td align="left">codigo</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">clasificacion_privacidad</td>
+    <td align="left">comentario</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">clasificacion_privacidad</td>
+    <td align="left">descripcion</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">clasificacion_privacidad</td>
+    <td align="left">id</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">clasificacion_tecnica</td>
+    <td align="left">codigo</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">clasificacion_tecnica</td>
+    <td align="left">comentario</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">clasificacion_tecnica</td>
+    <td align="left">descripcion</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">clasificacion_tecnica</td>
+    <td align="left">id</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">clasificacion_uso</td>
+    <td align="left">codigo</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">clasificacion_uso</td>
+    <td align="left">comentario</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">clasificacion_uso</td>
+    <td align="left">descripcion</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">clasificacion_uso</td>
+    <td align="left">id</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">conexion</td>
+    <td align="left">clave</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">conexion</td>
+    <td align="left">clave</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">conexion</td>
+    <td align="left">comentario</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">conexion</td>
+    <td align="left">comentario</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">conexion</td>
+    <td align="left">id</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">conexion</td>
+    <td align="left">id</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">conexion</td>
+    <td align="left">id_motor</td>
+    <td align="left">int4</td>
+    <td align="left">f</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">conexion</td>
+    <td align="left">id_motor</td>
+    <td align="left">int4</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">conexion</td>
+    <td align="left">instancia</td>
+    <td align="left">varchar</td>
+    <td align="left">f</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">conexion</td>
+    <td align="left">instancia</td>
+    <td align="left">varchar</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">conexion</td>
+    <td align="left">ip</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">conexion</td>
+    <td align="left">ip</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">conexion</td>
+    <td align="left">nombre_base_datos</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">conexion</td>
+    <td align="left">nombre_base_datos</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">conexion</td>
+    <td align="left">nombre_conexion</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">conexion</td>
+    <td align="left">nombre_conexion</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">conexion</td>
+    <td align="left">puerto</td>
+    <td align="left">varchar</td>
+    <td align="left">f</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">conexion</td>
+    <td align="left">puerto</td>
+    <td align="left">varchar</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">conexion</td>
+    <td align="left">usuario</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">conexion</td>
+    <td align="left">usuario</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica</td>
+    <td align="left">campos_indicador</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica</td>
+    <td align="left">campos_indicador</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica</td>
+    <td align="left">concepto</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica</td>
+    <td align="left">concepto</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica</td>
+    <td align="left">confiabilidad</td>
+    <td align="left">int4</td>
+    <td align="left">f</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica</td>
+    <td align="left">confiabilidad</td>
+    <td align="left">int4</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica</td>
+    <td align="left">definicion_operativa</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica</td>
+    <td align="left">definicion_operativa</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica</td>
+    <td align="left">formula</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica</td>
+    <td align="left">formula</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica</td>
+    <td align="left">id</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica</td>
+    <td align="left">id</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica</td>
+    <td align="left">id_clasificacion_nivel</td>
+    <td align="left">int4</td>
+    <td align="left">f</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica</td>
+    <td align="left">id_clasificacion_nivel</td>
+    <td align="left">int4</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica</td>
+    <td align="left">id_clasificacion_privacidad</td>
+    <td align="left">int4</td>
+    <td align="left">f</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica</td>
+    <td align="left">id_clasificacion_privacidad</td>
+    <td align="left">int4</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica</td>
+    <td align="left">id_clasificacion_tecnica</td>
+    <td align="left">int4</td>
+    <td align="left">f</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica</td>
+    <td align="left">id_clasificacion_tecnica</td>
+    <td align="left">int4</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica</td>
+    <td align="left">id_clasificacion_uso</td>
+    <td align="left">int4</td>
+    <td align="left">f</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica</td>
+    <td align="left">id_clasificacion_uso</td>
+    <td align="left">int4</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica</td>
+    <td align="left">id_periodo</td>
+    <td align="left">int4</td>
+    <td align="left">f</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica</td>
+    <td align="left">id_periodo</td>
+    <td align="left">int4</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica</td>
+    <td align="left">id_responsable_indicador</td>
+    <td align="left">int4</td>
+    <td align="left">f</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica</td>
+    <td align="left">id_responsable_indicador</td>
+    <td align="left">int4</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica</td>
+    <td align="left">nombre</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica</td>
+    <td align="left">nombre</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica</td>
+    <td align="left">objetivo</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica</td>
+    <td align="left">objetivo</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica</td>
+    <td align="left">observacion</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica</td>
+    <td align="left">observacion</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica</td>
+    <td align="left">tema</td>
+    <td align="left">text</td>
+    <td align="left">t</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica</td>
+    <td align="left">tema</td>
+    <td align="left">text</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica</td>
+    <td align="left">ultima_lectura</td>
+    <td align="left">timestamp</td>
+    <td align="left">f</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica</td>
+    <td align="left">ultima_lectura</td>
+    <td align="left">timestamp</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica</td>
+    <td align="left">unidad_medida</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica</td>
+    <td align="left">unidad_medida</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica</td>
+    <td align="left">updated_at</td>
+    <td align="left">timestamp</td>
+    <td align="left">f</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica</td>
+    <td align="left">updated_at</td>
+    <td align="left">timestamp</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica</td>
+    <td align="left">uso</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica</td>
+    <td align="left">uso</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica_campo</td>
+    <td align="left">id_campo</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica_campo</td>
+    <td align="left">id_campo</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica_campo</td>
+    <td align="left">id_ficha_tecnica</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica_campo</td>
+    <td align="left">id_ficha_tecnica</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica_periodicidad</td>
+    <td align="left">id_ficha_tecnica</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica_periodicidad</td>
+    <td align="left">id_ficha_tecnica</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica_periodicidad</td>
+    <td align="left">id_periodicidad</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica_periodicidad</td>
+    <td align="left">id_periodicidad</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica_presentacion</td>
+    <td align="left">id_ficha_tecnica</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica_presentacion</td>
+    <td align="left">id_ficha_tecnica</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica_presentacion</td>
+    <td align="left">id_presentacion</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica_presentacion</td>
+    <td align="left">id_presentacion</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica_variable_dato</td>
+    <td align="left">id_ficha_tecnica</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica_variable_dato</td>
+    <td align="left">id_ficha_tecnica</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica_variable_dato</td>
+    <td align="left">id_variable_dato</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">ficha_tecnica_variable_dato</td>
+    <td align="left">id_variable_dato</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fila_origen_dato</td>
+    <td align="left">datos</td>
+    <td align="left">hstore</td>
+    <td align="left">f</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fila_origen_dato</td>
+    <td align="left">datos</td>
+    <td align="left">hstore</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fila_origen_dato</td>
+    <td align="left">id</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fila_origen_dato</td>
+    <td align="left">id</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fila_origen_dato</td>
+    <td align="left">id_origen_dato</td>
+    <td align="left">int4</td>
+    <td align="left">f</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fila_origen_dato</td>
+    <td align="left">id_origen_dato</td>
+    <td align="left">int4</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fos_user_group</td>
+    <td align="left">id</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fos_user_group</td>
+    <td align="left">name</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fos_user_group</td>
+    <td align="left">roles</td>
+    <td align="left">text</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fos_user_user</td>
+    <td align="left">biography</td>
+    <td align="left">varchar</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fos_user_user</td>
+    <td align="left">confirmation_token</td>
+    <td align="left">varchar</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fos_user_user</td>
+    <td align="left">created_at</td>
+    <td align="left">timestamp</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fos_user_user</td>
+    <td align="left">credentials_expire_at</td>
+    <td align="left">timestamp</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fos_user_user</td>
+    <td align="left">credentials_expired</td>
+    <td align="left">bool</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fos_user_user</td>
+    <td align="left">date_of_birth</td>
+    <td align="left">timestamp</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fos_user_user</td>
+    <td align="left">email</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fos_user_user</td>
+    <td align="left">email_canonical</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fos_user_user</td>
+    <td align="left">enabled</td>
+    <td align="left">bool</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fos_user_user</td>
+    <td align="left">expired</td>
+    <td align="left">bool</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fos_user_user</td>
+    <td align="left">expires_at</td>
+    <td align="left">timestamp</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fos_user_user</td>
+    <td align="left">facebook_data</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fos_user_user</td>
+    <td align="left">facebook_name</td>
+    <td align="left">varchar</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fos_user_user</td>
+    <td align="left">facebook_uid</td>
+    <td align="left">varchar</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fos_user_user</td>
+    <td align="left">firstname</td>
+    <td align="left">varchar</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fos_user_user</td>
+    <td align="left">gender</td>
+    <td align="left">varchar</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fos_user_user</td>
+    <td align="left">gplus_data</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fos_user_user</td>
+    <td align="left">gplus_name</td>
+    <td align="left">varchar</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fos_user_user</td>
+    <td align="left">gplus_uid</td>
+    <td align="left">varchar</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fos_user_user</td>
+    <td align="left">id</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fos_user_user</td>
+    <td align="left">last_login</td>
+    <td align="left">timestamp</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fos_user_user</td>
+    <td align="left">lastname</td>
+    <td align="left">varchar</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fos_user_user</td>
+    <td align="left">locale</td>
+    <td align="left">varchar</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fos_user_user</td>
+    <td align="left">locked</td>
+    <td align="left">bool</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fos_user_user</td>
+    <td align="left">password</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fos_user_user</td>
+    <td align="left">password_requested_at</td>
+    <td align="left">timestamp</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fos_user_user</td>
+    <td align="left">phone</td>
+    <td align="left">varchar</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fos_user_user</td>
+    <td align="left">roles</td>
+    <td align="left">text</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fos_user_user</td>
+    <td align="left">salt</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fos_user_user</td>
+    <td align="left">timezone</td>
+    <td align="left">varchar</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fos_user_user</td>
+    <td align="left">token</td>
+    <td align="left">varchar</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fos_user_user</td>
+    <td align="left">twitter_data</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fos_user_user</td>
+    <td align="left">twitter_name</td>
+    <td align="left">varchar</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fos_user_user</td>
+    <td align="left">twitter_uid</td>
+    <td align="left">varchar</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fos_user_user</td>
+    <td align="left">two_step_code</td>
+    <td align="left">varchar</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fos_user_user</td>
+    <td align="left">updated_at</td>
+    <td align="left">timestamp</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fos_user_user</td>
+    <td align="left">username</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fos_user_user</td>
+    <td align="left">username_canonical</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fos_user_user</td>
+    <td align="left">website</td>
+    <td align="left">varchar</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fos_user_user_group</td>
+    <td align="left">group_id</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fos_user_user_group</td>
+    <td align="left">group_id</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fos_user_user_group</td>
+    <td align="left">user_id</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fos_user_user_group</td>
+    <td align="left">user_id</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fuente_dato</td>
+    <td align="left">cargo</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fuente_dato</td>
+    <td align="left">contacto</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fuente_dato</td>
+    <td align="left">correo</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fuente_dato</td>
+    <td align="left">establecimiento</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fuente_dato</td>
+    <td align="left">id</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fuente_dato</td>
+    <td align="left">telefono</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fusion_origenes_datos</td>
+    <td align="left">campos</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fusion_origenes_datos</td>
+    <td align="left">campos</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fusion_origenes_datos</td>
+    <td align="left">id</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fusion_origenes_datos</td>
+    <td align="left">id</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fusion_origenes_datos</td>
+    <td align="left">id_origen_datos</td>
+    <td align="left">int8</td>
+    <td align="left">f</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fusion_origenes_datos</td>
+    <td align="left">id_origen_datos</td>
+    <td align="left">int8</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fusion_origenes_datos</td>
+    <td align="left">id_origen_datos_fusionado</td>
+    <td align="left">int8</td>
+    <td align="left">f</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">fusion_origenes_datos</td>
+    <td align="left">id_origen_datos_fusionado</td>
+    <td align="left">int8</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador1</td>
+    <td align="left">anio</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador1</td>
+    <td align="left">area</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador1</td>
+    <td align="left">calculo</td>
+    <td align="left">numeric</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador1</td>
+    <td align="left">departamento</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador1</td>
+    <td align="left">edad</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador1</td>
+    <td align="left">genero</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador1</td>
+    <td align="left">id_fila</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador1</td>
+    <td align="left">mes</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador1</td>
+    <td align="left">municipio</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador1</td>
+    <td align="left">region</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador3</td>
+    <td align="left">anio</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador3</td>
+    <td align="left">area</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador3</td>
+    <td align="left">calculo</td>
+    <td align="left">numeric</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador3</td>
+    <td align="left">departamento</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador3</td>
+    <td align="left">edad</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador3</td>
+    <td align="left">establecimiento</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador3</td>
+    <td align="left">id_fila</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador3</td>
+    <td align="left">mes</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador3</td>
+    <td align="left">municipio</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador3</td>
+    <td align="left">region</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador3</td>
+    <td align="left">sibasis</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador4</td>
+    <td align="left">anio</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador4</td>
+    <td align="left">area</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador4</td>
+    <td align="left">calculo</td>
+    <td align="left">numeric</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador4</td>
+    <td align="left">departamento</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador4</td>
+    <td align="left">edad</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador4</td>
+    <td align="left">establecimiento</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador4</td>
+    <td align="left">id_fila</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador4</td>
+    <td align="left">mes</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador4</td>
+    <td align="left">municipio</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador4</td>
+    <td align="left">region</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador4</td>
+    <td align="left">sibasis</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador5</td>
+    <td align="left">anio</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador5</td>
+    <td align="left">calculo</td>
+    <td align="left">numeric</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador5</td>
+    <td align="left">establecimiento</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador5</td>
+    <td align="left">id_fila</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador5</td>
+    <td align="left">mes</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador5</td>
+    <td align="left">region</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador5</td>
+    <td align="left">sibasis</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador6</td>
+    <td align="left">anio</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador6</td>
+    <td align="left">calculo</td>
+    <td align="left">numeric</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador6</td>
+    <td align="left">establecimiento</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador6</td>
+    <td align="left">id_fila</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador6</td>
+    <td align="left">mes</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador6</td>
+    <td align="left">region</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador6</td>
+    <td align="left">sibasis</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador7</td>
+    <td align="left">anio</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador7</td>
+    <td align="left">area</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador7</td>
+    <td align="left">calculo</td>
+    <td align="left">numeric</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador7</td>
+    <td align="left">departamento</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador7</td>
+    <td align="left">edad</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador7</td>
+    <td align="left">establecimiento</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador7</td>
+    <td align="left">id_fila</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador7</td>
+    <td align="left">mes</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador7</td>
+    <td align="left">municipio</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador7</td>
+    <td align="left">region</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador7</td>
+    <td align="left">sibasis</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador_alertas</td>
+    <td align="left">comentario</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador_alertas</td>
+    <td align="left">comentario</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador_alertas</td>
+    <td align="left">id</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador_alertas</td>
+    <td align="left">id</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador_alertas</td>
+    <td align="left">id_color_alerta</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador_alertas</td>
+    <td align="left">id_color_alerta</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador_alertas</td>
+    <td align="left">id_indicador</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador_alertas</td>
+    <td align="left">id_indicador</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador_alertas</td>
+    <td align="left">limite_inferior</td>
+    <td align="left">float8</td>
+    <td align="left">t</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador_alertas</td>
+    <td align="left">limite_inferior</td>
+    <td align="left">float8</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador_alertas</td>
+    <td align="left">limite_superior</td>
+    <td align="left">float8</td>
+    <td align="left">t</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">indicador_alertas</td>
+    <td align="left">limite_superior</td>
+    <td align="left">float8</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">motor_bd</td>
+    <td align="left">codigo</td>
+    <td align="left">varchar</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">motor_bd</td>
+    <td align="left">id</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">motor_bd</td>
+    <td align="left">nombre</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">origen_datos</td>
+    <td align="left">archivo_nombre</td>
+    <td align="left">varchar</td>
+    <td align="left">f</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">origen_datos</td>
+    <td align="left">archivo_nombre</td>
+    <td align="left">varchar</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">origen_datos</td>
+    <td align="left">campos_fusionados</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">origen_datos</td>
+    <td align="left">campos_fusionados</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">origen_datos</td>
+    <td align="left">descripcion</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">origen_datos</td>
+    <td align="left">descripcion</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">origen_datos</td>
+    <td align="left">es_catalogo</td>
+    <td align="left">bool</td>
+    <td align="left">f</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">origen_datos</td>
+    <td align="left">es_catalogo</td>
+    <td align="left">bool</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">origen_datos</td>
+    <td align="left">es_fusionado</td>
+    <td align="left">bool</td>
+    <td align="left">f</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">origen_datos</td>
+    <td align="left">es_fusionado</td>
+    <td align="left">bool</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">origen_datos</td>
+    <td align="left">id</td>
+    <td align="left">int8</td>
+    <td align="left">t</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">origen_datos</td>
+    <td align="left">id</td>
+    <td align="left">int8</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">origen_datos</td>
+    <td align="left">id_conexion</td>
+    <td align="left">int4</td>
+    <td align="left">f</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">origen_datos</td>
+    <td align="left">id_conexion</td>
+    <td align="left">int4</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">origen_datos</td>
+    <td align="left">nombre</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">origen_datos</td>
+    <td align="left">nombre</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">origen_datos</td>
+    <td align="left">nombre_catalogo</td>
+    <td align="left">varchar</td>
+    <td align="left">f</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">origen_datos</td>
+    <td align="left">nombre_catalogo</td>
+    <td align="left">varchar</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">origen_datos</td>
+    <td align="left">sentencia_sql</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">origen_datos</td>
+    <td align="left">sentencia_sql</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">origen_datos_fusiones</td>
+    <td align="left">id_origen_dato</td>
+    <td align="left">int8</td>
+    <td align="left">t</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">origen_datos_fusiones</td>
+    <td align="left">id_origen_dato</td>
+    <td align="left">int8</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">origen_datos_fusiones</td>
+    <td align="left">id_origen_dato_fusionado</td>
+    <td align="left">int8</td>
+    <td align="left">t</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">origen_datos_fusiones</td>
+    <td align="left">id_origen_dato_fusionado</td>
+    <td align="left">int8</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">periodos</td>
+    <td align="left">codigo</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">periodos</td>
+    <td align="left">descripcion</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">periodos</td>
+    <td align="left">id</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">periodos</td>
+    <td align="left">sentencia</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">presentacion</td>
+    <td align="left">codigo</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">presentacion</td>
+    <td align="left">descripcion</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">presentacion</td>
+    <td align="left">id</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">responsable_dato</td>
+    <td align="left">cargo</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">responsable_dato</td>
+    <td align="left">contacto</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">responsable_dato</td>
+    <td align="left">correo</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">responsable_dato</td>
+    <td align="left">establecimiento</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">responsable_dato</td>
+    <td align="left">id</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">responsable_dato</td>
+    <td align="left">telefono</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">responsable_indicador</td>
+    <td align="left">cargo</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">responsable_indicador</td>
+    <td align="left">contacto</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">responsable_indicador</td>
+    <td align="left">correo</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">responsable_indicador</td>
+    <td align="left">establecimiento</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">responsable_indicador</td>
+    <td align="left">id</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">responsable_indicador</td>
+    <td align="left">telefono</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">significado_campo</td>
+    <td align="left">catalogo</td>
+    <td align="left">varchar</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">significado_campo</td>
+    <td align="left">codigo</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">significado_campo</td>
+    <td align="left">descripcion</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">significado_campo</td>
+    <td align="left">id</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">significado_campo</td>
+    <td align="left">nombre_mapa</td>
+    <td align="left">varchar</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">significado_campo</td>
+    <td align="left">uso_en_catalogo</td>
+    <td align="left">bool</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">tipo_campo</td>
+    <td align="left">codigo</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">tipo_campo</td>
+    <td align="left">descripcion</td>
+    <td align="left">varchar</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">tipo_campo</td>
+    <td align="left">id</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">usuario_indicadores_favoritos</td>
+    <td align="left">id_indicador</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">usuario_indicadores_favoritos</td>
+    <td align="left">id_indicador</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">usuario_indicadores_favoritos</td>
+    <td align="left">id_usuario</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">usuario_indicadores_favoritos</td>
+    <td align="left">id_usuario</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">variable_dato</td>
+    <td align="left">comentario</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">variable_dato</td>
+    <td align="left">comentario</td>
+    <td align="left">text</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">variable_dato</td>
+    <td align="left">confiabilidad</td>
+    <td align="left">int4</td>
+    <td align="left">f</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">variable_dato</td>
+    <td align="left">confiabilidad</td>
+    <td align="left">int4</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">variable_dato</td>
+    <td align="left">es_poblacion</td>
+    <td align="left">bool</td>
+    <td align="left">f</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">variable_dato</td>
+    <td align="left">es_poblacion</td>
+    <td align="left">bool</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">variable_dato</td>
+    <td align="left">id</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">variable_dato</td>
+    <td align="left">id</td>
+    <td align="left">int4</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">variable_dato</td>
+    <td align="left">id_fuente_dato</td>
+    <td align="left">int4</td>
+    <td align="left">f</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">variable_dato</td>
+    <td align="left">id_fuente_dato</td>
+    <td align="left">int4</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">variable_dato</td>
+    <td align="left">id_origen_datos</td>
+    <td align="left">int8</td>
+    <td align="left">f</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">variable_dato</td>
+    <td align="left">id_origen_datos</td>
+    <td align="left">int8</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">variable_dato</td>
+    <td align="left">id_responsable_dato</td>
+    <td align="left">int4</td>
+    <td align="left">f</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">variable_dato</td>
+    <td align="left">id_responsable_dato</td>
+    <td align="left">int4</td>
+    <td align="left">f</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">variable_dato</td>
+    <td align="left">iniciales</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">variable_dato</td>
+    <td align="left">iniciales</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">variable_dato</td>
+    <td align="left">nombre</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">f</td>
+  </tr>
+  <tr valign="top">
+    <td align="left">variable_dato</td>
+    <td align="left">nombre</td>
+    <td align="left">varchar</td>
+    <td align="left">t</td>
+    <td align="left">p</td>
+  </tr>
+</table>
