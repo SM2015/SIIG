@@ -43,6 +43,8 @@ graficoColumnas = function (ubicacion, datos, colorChosen, categoryChoosen) {
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top +5 + ")")
             ;
+    var long = $('#titulo_indicador').attr('data-unidad-medida').length;
+    
     svg.append("g")
         .attr("class", "axis")
         .attr("transform", "translate(" + margin.left + ",5)")
@@ -50,7 +52,7 @@ graficoColumnas = function (ubicacion, datos, colorChosen, categoryChoosen) {
         .append("text")
         .attr("transform", "rotate(-90)")
         .attr("y", -50)        
-        .attr("x", -100)
+        .attr("x", -((height/2) + (long / 2)*6.5))
         .text($('#titulo_indicador').attr('data-unidad-medida'));
 
     svg.append("g")

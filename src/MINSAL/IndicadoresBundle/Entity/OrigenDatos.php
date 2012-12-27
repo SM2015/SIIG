@@ -70,13 +70,13 @@ class OrigenDatos {
      */    
     private $esFusionado;
     
-        /**
+     /**
      * @var string $esCatalogo
      *
      * @ORM\Column(name="es_catalogo", type="boolean", nullable=true)
      */    
     private $esCatalogo;
-    
+        
     /**
      * @var string $nombreCatalogo
      *
@@ -104,6 +104,11 @@ class OrigenDatos {
     * @ORM\OneToMany(targetEntity="Campo", mappedBy="origenDato")
     */
     private $campos;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="VariableDato", mappedBy="origenDatos")
+     **/
+    private $variables;
     
     public function __construct() {
         $this->fusiones = new \Doctrine\Common\Collections\ArrayCollection();
@@ -445,5 +450,38 @@ class OrigenDatos {
     public function getNombreCatalogo()
     {
         return $this->nombreCatalogo;
+    }
+
+    /**
+     * Add variables
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\VariableDato $variables
+     * @return OrigenDatos
+     */
+    public function addVariable(\MINSAL\IndicadoresBundle\Entity\VariableDato $variables)
+    {
+        $this->variables[] = $variables;
+    
+        return $this;
+    }
+
+    /**
+     * Remove variables
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\VariableDato $variables
+     */
+    public function removeVariable(\MINSAL\IndicadoresBundle\Entity\VariableDato $variables)
+    {
+        $this->variables->removeElement($variables);
+    }
+
+    /**
+     * Get variables
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getVariables()
+    {
+        return $this->variables;
     }
 }
