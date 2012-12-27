@@ -1,4 +1,6 @@
-## 1. Tabla Alerta
+<h1>Diccionario de Datos</h1>
+<h3> 1. Tabla Alerta</h3>
+<hr/>
 
 <table border="1">
   <tr>
@@ -31,7 +33,8 @@
   </tr>
   </table>
 
-<h3>2. Tabla Campo</h3><hr/>
+<h3>2. Tabla Campo</h3>
+<hr/>
 
 <table>
     <tr>
@@ -126,7 +129,8 @@
     <td align="left">p</td>
   </tr></table>
   
-## 3. Tabla Clasificacion_Nivel
+<h3>3. Tabla Clasificacion_Nivel</h3>
+<hr/>
 
     <table><tr>
     <th align="center">tabla</th>
@@ -165,7 +169,8 @@
   </tr>
   </table>
   
-## 4. Tabla Clasificacion Privacidad
+<h3> 4. Tabla Clasificacion Privacidad</h3>
+<hr/>
 
 <table>
     <tr>
@@ -204,8 +209,8 @@
     <td align="left">p</td>
   </tr>
   </table>
-  
-## 5. Tabla Clasificacion_Tecnica
+  <h3>5. Tabla Clasificacion_Tecnica</h3>
+<hr/>
   <table>
     <tr>
     <th align="center">tabla</th>
@@ -243,7 +248,8 @@
     <td align="left">p</td>
   </tr>  </table>
   
-## 6. Tabla Clasificacion_Uso
+<h3> 6. Tabla Clasificacion_Uso</h3>
+<hr/>
   
   <table>
     <tr>
@@ -282,7 +288,8 @@
     <td align="left">p</td>
   </tr> </table>
   
-## 7. Tabla Conexion
+<h3> 7. Tabla Conexion</h3>
+<hr/>
   
   <table>
     <tr>
@@ -434,7 +441,8 @@
   </tr>
    </table>
   
-## 8. Tabla Ficha_Tenica
+<h3> 8. Tabla Ficha_Tenica</h3>
+<hr/>
   
   <table>
     <tr>
@@ -725,7 +733,8 @@
     <td align="left">p</td>
   </tr></table>
   
-## 9. Tabla Ficha_Tecnica_Campo
+<h3>9. Tabla Ficha_Tecnica_Campo</h3>
+<hr/>
   
   <table>
     <tr>
@@ -764,7 +773,8 @@
     <td align="left">p</td>
   </tr></table>
   
-## 10. Tabla Ficha_Tecnica_Periodicidad  
+<h3> 10. Tabla Ficha_Tecnica_Periodicidad </h3>
+<hr/> 
   <table>
     <tr>
     <th align="center">tabla</th>
@@ -802,7 +812,8 @@
     <td align="left">p</td>
   </tr></table>
   
-## 11. Tabla Ficha_Tecnica_Presentacion
+<h3> 11. Tabla Ficha_Tecnica_Presentacion </h3>
+<hr/>
   
   <table>
     <tr>
@@ -841,7 +852,8 @@
     <td align="left">p</td>
   </tr></table>
   
-## 12. Tabla Ficha_Tecnica_Variable_dato
+<h3> 12. Tabla Ficha_Tecnica_Variable_dato</h3>
+<hr/>
   
   <table>
     <tr>
@@ -880,7 +892,8 @@
     <td align="left">p</td>
   </tr></table>
   
-## 13. Tabla Fila_Origen_Dato
+<h3> 13. Tabla Fila_Origen_Dato</h3>
+<hr/>
   
   <table>
     <tr>
@@ -934,7 +947,8 @@
   </tr>
   </table>
   
-## 14. Tabla Fos_User_Group
+<h3> 14. Tabla Fos_User_Group</h3>
+<hr/>
   
   <table>
     <tr>
@@ -966,7 +980,8 @@
     <td align="left">p</td>
   </tr></table>
   
-## 15. Tabla Fos_User_User
+<h3> 15. Tabla Fos_User_User</h3>
+<hr/>
   
   <table>
     <tr>
@@ -1251,7 +1266,8 @@
     <td align="left">p</td>
   </tr></table>
   
-## 15. Tabla Fos_User_User_Group
+<h3> 16. Tabla Fos_User_User_Group</h3>
+<hr/>
   
   <table>
     <tr>
@@ -1290,7 +1306,8 @@
     <td align="left">p</td>
   </tr></table>
   
-## 16. Tabla Fuente_Dato
+<h3> 17. Tabla Fuente_Dato</h3>
+<hr/>
   
   <table>
     <tr>
@@ -1343,7 +1360,8 @@
     <td align="left">p</td>
   </tr></table>
   
-## 17. Tabla Fusion_Origenes_Datos
+<h3> 18. Tabla Fusion_Origenes_Datos</h3>
+<hr/>
   
   <table>
     <tr>
