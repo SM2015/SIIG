@@ -31,7 +31,7 @@
   </tr>
   </table>
 
-## 2. Tabla Campo
+<h3>2. Tabla Campo</h3><hr/>
 
 <table>
     <tr>
