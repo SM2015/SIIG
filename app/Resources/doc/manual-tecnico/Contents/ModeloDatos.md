@@ -1427,405 +1427,12 @@
     <td align="left">f</td>
     <td align="left">p</td>
   </tr>
-  <tr valign="top">
-    <td align="left">indicador1</td>
-    <td align="left">anio</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador1</td>
-    <td align="left">area</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador1</td>
-    <td align="left">calculo</td>
-    <td align="left">numeric</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador1</td>
-    <td align="left">departamento</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador1</td>
-    <td align="left">edad</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador1</td>
-    <td align="left">genero</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador1</td>
-    <td align="left">id_fila</td>
-    <td align="left">int4</td>
-    <td align="left">t</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador1</td>
-    <td align="left">mes</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador1</td>
-    <td align="left">municipio</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador1</td>
-    <td align="left">region</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador3</td>
-    <td align="left">anio</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador3</td>
-    <td align="left">area</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador3</td>
-    <td align="left">calculo</td>
-    <td align="left">numeric</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador3</td>
-    <td align="left">departamento</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador3</td>
-    <td align="left">edad</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador3</td>
-    <td align="left">establecimiento</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador3</td>
-    <td align="left">id_fila</td>
-    <td align="left">int4</td>
-    <td align="left">t</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador3</td>
-    <td align="left">mes</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador3</td>
-    <td align="left">municipio</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador3</td>
-    <td align="left">region</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador3</td>
-    <td align="left">sibasis</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador4</td>
-    <td align="left">anio</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador4</td>
-    <td align="left">area</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador4</td>
-    <td align="left">calculo</td>
-    <td align="left">numeric</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador4</td>
-    <td align="left">departamento</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador4</td>
-    <td align="left">edad</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador4</td>
-    <td align="left">establecimiento</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador4</td>
-    <td align="left">id_fila</td>
-    <td align="left">int4</td>
-    <td align="left">t</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador4</td>
-    <td align="left">mes</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador4</td>
-    <td align="left">municipio</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador4</td>
-    <td align="left">region</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador4</td>
-    <td align="left">sibasis</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador5</td>
-    <td align="left">anio</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador5</td>
-    <td align="left">calculo</td>
-    <td align="left">numeric</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador5</td>
-    <td align="left">establecimiento</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador5</td>
-    <td align="left">id_fila</td>
-    <td align="left">int4</td>
-    <td align="left">t</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador5</td>
-    <td align="left">mes</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador5</td>
-    <td align="left">region</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador5</td>
-    <td align="left">sibasis</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador6</td>
-    <td align="left">anio</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador6</td>
-    <td align="left">calculo</td>
-    <td align="left">numeric</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador6</td>
-    <td align="left">establecimiento</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador6</td>
-    <td align="left">id_fila</td>
-    <td align="left">int4</td>
-    <td align="left">t</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador6</td>
-    <td align="left">mes</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador6</td>
-    <td align="left">region</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador6</td>
-    <td align="left">sibasis</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador7</td>
-    <td align="left">anio</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador7</td>
-    <td align="left">area</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador7</td>
-    <td align="left">calculo</td>
-    <td align="left">numeric</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador7</td>
-    <td align="left">departamento</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador7</td>
-    <td align="left">edad</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador7</td>
-    <td align="left">establecimiento</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador7</td>
-    <td align="left">id_fila</td>
-    <td align="left">int4</td>
-    <td align="left">t</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador7</td>
-    <td align="left">mes</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador7</td>
-    <td align="left">municipio</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador7</td>
-    <td align="left">region</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador7</td>
-    <td align="left">sibasis</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">p</td>
-  </tr>
+  </table>
+  
+<h3> 19. Tabla Indicador_Alertas</h3>
+<hr/>
+  <table>
+
   <tr valign="top">
     <td align="left">indicador_alertas</td>
     <td align="left">comentario</td>
@@ -1909,7 +1516,12 @@
     <td align="left">float8</td>
     <td align="left">t</td>
     <td align="left">p</td>
-  </tr>
+  </tr>  </table>
+  
+<h3> 20. Tabla Motor_db</h3>
+<hr/>
+  
+  <table>
   <tr valign="top">
     <td align="left">motor_bd</td>
     <td align="left">codigo</td>
@@ -1930,7 +1542,12 @@
     <td align="left">varchar</td>
     <td align="left">t</td>
     <td align="left">p</td>
-  </tr>
+  </tr>  </table>
+  
+<h3>21. Tabla Origen_datos </h3>
+<hr/>
+  
+  <table>
   <tr valign="top">
     <td align="left">origen_datos</td>
     <td align="left">archivo_nombre</td>
@@ -2071,6 +1688,12 @@
     <td align="left">f</td>
     <td align="left">p</td>
   </tr>
+    </table>
+  
+<h3> 22. Tabla Origen_Datos_fusiones</h3>
+<hr/>
+  
+  <table>
   <tr valign="top">
     <td align="left">origen_datos_fusiones</td>
     <td align="left">id_origen_dato</td>
@@ -2098,7 +1721,12 @@
     <td align="left">int8</td>
     <td align="left">t</td>
     <td align="left">p</td>
-  </tr>
+  </tr>  </table>
+  
+<h3> 23. Tabla Periodos</h3>
+<hr/>
+  
+  <table>
   <tr valign="top">
     <td align="left">periodos</td>
     <td align="left">codigo</td>
@@ -2126,7 +1754,12 @@
     <td align="left">text</td>
     <td align="left">f</td>
     <td align="left">p</td>
-  </tr>
+  </tr>  </table>
+  
+<h3>24. Tabla Presentacion </h3>
+<hr/>
+  
+  <table>
   <tr valign="top">
     <td align="left">presentacion</td>
     <td align="left">codigo</td>
@@ -2147,7 +1780,12 @@
     <td align="left">int4</td>
     <td align="left">t</td>
     <td align="left">p</td>
-  </tr>
+  </tr>  </table>
+  
+<h3> 24. Tabla Responsable_Dato</h3>
+<hr/>
+  
+  <table>
   <tr valign="top">
     <td align="left">responsable_dato</td>
     <td align="left">cargo</td>
@@ -2189,7 +1827,12 @@
     <td align="left">varchar</td>
     <td align="left">t</td>
     <td align="left">p</td>
-  </tr>
+  </tr>  </table>
+  
+<h3>25. Tabla Responsable_ Indicador </h3>
+<hr/>
+  
+  <table>
   <tr valign="top">
     <td align="left">responsable_indicador</td>
     <td align="left">cargo</td>
@@ -2231,7 +1874,12 @@
     <td align="left">varchar</td>
     <td align="left">t</td>
     <td align="left">p</td>
-  </tr>
+  </tr>  </table>
+  
+<h3> 26. Tabla Significado_Campo</h3>
+<hr/>
+  
+  <table>
   <tr valign="top">
     <td align="left">significado_campo</td>
     <td align="left">catalogo</td>
@@ -2294,7 +1942,12 @@
     <td align="left">int4</td>
     <td align="left">t</td>
     <td align="left">p</td>
-  </tr>
+  </tr>  </table>
+  
+<h3> 27. Tabla Usuario_Indcadores_Favoritos</h3>
+<hr/>
+  
+  <table>
   <tr valign="top">
     <td align="left">usuario_indicadores_favoritos</td>
     <td align="left">id_indicador</td>
@@ -2322,7 +1975,12 @@
     <td align="left">int4</td>
     <td align="left">t</td>
     <td align="left">p</td>
-  </tr>
+  </tr>  </table>
+  
+<h3> 28. Tabla Variable_Dato</h3>
+<hr/>
+  
+  <table>
   <tr valign="top">
     <td align="left">variable_dato</td>
     <td align="left">comentario</td>
