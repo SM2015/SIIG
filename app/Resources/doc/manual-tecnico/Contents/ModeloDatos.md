@@ -1,4 +1,4 @@
-
+## 1. Tabla Alerta
 <table border="1">
   <tr>
     <th align="center">tabla</th>
@@ -28,7 +28,10 @@
     <td align="left">t</td>
     <td align="left">p</td>
   </tr>
-  </table><table>
+  </table>
+
+## 2. Tabla Campo
+<table>
     <tr>
     <th align="center">tabla</th>
     <th align="center">columna</th>
@@ -120,6 +123,8 @@
     <td align="left">t</td>
     <td align="left">p</td>
   </tr></table>
+  
+  ## 3. Tabla Clasificacion_Nivel
     <table><tr>
     <th align="center">tabla</th>
     <th align="center">columna</th>
@@ -155,6 +160,18 @@
     <td align="left">t</td>
     <td align="left">p</td>
   </tr>
+  </table>
+  
+  ## 4. Tabla Clasificacion Privacidad
+
+<table>
+    <tr>
+    <th align="center">tabla</th>
+    <th align="center">columna</th>
+    <th align="center">tipo</th>
+    <th align="center">esnulo</th>
+    <th align="center">tipollave</th>
+  </tr>
   <tr valign="top">
     <td align="left">clasificacion_privacidad</td>
     <td align="left">codigo</td>
@@ -183,6 +200,17 @@
     <td align="left">t</td>
     <td align="left">p</td>
   </tr>
+  </table>
+  
+  ## 5. Tabla Clasificacion_Tecnica
+  <table>
+    <tr>
+    <th align="center">tabla</th>
+    <th align="center">columna</th>
+    <th align="center">tipo</th>
+    <th align="center">esnulo</th>
+    <th align="center">tipollave</th>
+  </tr>
   <tr valign="top">
     <td align="left">clasificacion_tecnica</td>
     <td align="left">codigo</td>
@@ -210,6 +238,17 @@
     <td align="left">int4</td>
     <td align="left">t</td>
     <td align="left">p</td>
+  </tr>  </table>
+  
+  ## 6. Tabla Clasificacion_Uso
+  
+  <table>
+    <tr>
+    <th align="center">tabla</th>
+    <th align="center">columna</th>
+    <th align="center">tipo</th>
+    <th align="center">esnulo</th>
+    <th align="center">tipollave</th>
   </tr>
   <tr valign="top">
     <td align="left">clasificacion_uso</td>
@@ -238,6 +277,17 @@
     <td align="left">int4</td>
     <td align="left">t</td>
     <td align="left">p</td>
+  </tr> </table>
+  
+  ## 7. Tabla Conexion
+  
+  <table>
+    <tr>
+    <th align="center">tabla</th>
+    <th align="center">columna</th>
+    <th align="center">tipo</th>
+    <th align="center">esnulo</th>
+    <th align="center">tipollave</th>
   </tr>
   <tr valign="top">
     <td align="left">conexion</td>
