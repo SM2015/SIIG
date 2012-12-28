@@ -36,7 +36,8 @@ NOTICE:  Terminado.
 (1 row)
 </pre> 
 
-### Servidor de Gestión de Cubos OLAP 
+ ### Servidor de Gestión de Cubos OLAP 
+ 
 Actualmente el sistema utiliza un servidor experimental de cubos escrito en Python. Este servidor contiene tres elementos:
 
 1- Un gestor de persistencia (SQLAlchemy).  Este se conecta a nuestra base de datos y la descripción de los datos o modelo están contenidos en un arreglo JSON (fichero_modelo.json).
