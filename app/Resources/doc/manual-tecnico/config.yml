@@ -17,6 +17,8 @@ book:
         - { element: introduction, content: introduccion.md }
         - { element: chapter, number: 1, content: tecnologias.md }
         - { element: chapter, number: 2, content: instalacion.md }
+        - { element: chapter, number: 3, content: ModeloDatos.md }
+        - { element: chapter, number: 4, content: Gestion_OLAP.md }
 
     editions:
         ebook:
