@@ -1,3 +1,13 @@
+<h1>Esquema general de la Aplicacion</h1>
+
+Los datos que maneja el sistema son de una naturaleza tal que es necesario utilizar el modelo de
+base datos sin esquema/genérico EAV. Las tabla EAV (Fila_origen_dato) y demás tablas auxiliares son parte del
+almacenamiento de datos transaccional (OLTP) de la aplicación. Esto facilita el manejo de datos
+de cualquier indicador sin importar sus propiedades. Los cubos de análisis multidimensional
+(OLAP) deben ser generados usando estos valores genéricos y estan descritos en la seccion de Gesition de Cubos OLAP.
+El Siguiente Diccionario de Datos describe la estructura del almacenamiento transaccional de la Aplicacion.
+
+
 <h1>Diccionario de Datos</h1>
 <h3>Lista de tablas</h3>
 <ul>
