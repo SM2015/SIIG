@@ -12,8 +12,11 @@ El Siguiente Diccionario de Datos y Diagrama ER describen la estructura del alma
 
 ## Diagrama Entidad Relacion
 
+
 ![Diagrama ER1](ER1.png)
+
 ![Diagrama ER2](ER2.png)
+
 
 ## Diccionario de Datos
 
