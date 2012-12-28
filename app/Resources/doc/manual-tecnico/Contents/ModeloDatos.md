@@ -8,8 +8,12 @@ almacenamiento de datos transaccional (OLTP) de la aplicación. Esto facilita el
 de cualquier indicador sin importar sus propiedades. Los cubos de análisis multidimensional
 (OLAP) son generados usando estos valores genéricos y estan descritos en la seccion de Gesition de Cubos OLAP.
 Las tablas de los cubos OLAP usan un esquema de estrella mientras que las tablas del almacenamiento OLTP usan un modelo relacional.
-El Siguiente Diccionario de Datos describe la estructura del almacenamiento transaccional (OLTP) de la Aplicacion.
+El Siguiente Diccionario de Datos y Diagrama ER describen la estructura del almacenamiento transaccional (OLTP) de la Aplicacion.
 
+## Diagrama Entidad Relacion
+
+![Diagrama ER1](ER1.png)
+![Diagrama ER2](ER2.png)
 
 ## Diccionario de Datos
 
