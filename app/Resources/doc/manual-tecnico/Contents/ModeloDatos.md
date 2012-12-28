@@ -1,1639 +1,1994 @@
 
-<h1>Diccionario de Datos</h1>
-<h3> 1. Tabla Alerta</h3>
-<hr/>
-
-<table border="1">
-  <tr>
-    <th align="center">tabla</th>
-    <th align="center">columna</th>
-    <th align="center">tipo</th>
-    <th align="center">esnulo</th>
-    <th align="center">tipollave</th>
-  </tr>
-  <tr valign="top">
-    <td align="left">alerta</td>
-    <td align="left">codigo</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">alerta</td>
-    <td align="left">color</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">alerta</td>
-    <td align="left">id</td>
-    <td align="left">int4</td>
-    <td align="left">t</td>
-    <td align="left">P</td>
-  </tr>
-</table>
-
-<h3>2. Tabla Campo</h3>
-<hr/>
-
-<table>
+<h3>Lista de tablas</h3>
+<ul>
+  <li> <a href="#alerta">alerta</a> </li>
+  <li> <a href="#campo">campo</a> </li>
+  <li> <a href="#clasificacion_nivel">clasificacion_nivel</a> </li>
+  <li> <a href="#clasificacion_privacidad">clasificacion_privacidad</a> </li>
+  <li> <a href="#clasificacion_tecnica">clasificacion_tecnica</a> </li>
+  <li> <a href="#clasificacion_uso">clasificacion_uso</a> </li>
+  <li> <a href="#conexion">conexion</a> </li>
+  <li> <a href="#ficha_tecnica">ficha_tecnica</a> </li>
+  <li> <a href="#ficha_tecnica_campo">ficha_tecnica_campo</a> </li>
+  <li> <a href="#ficha_tecnica_periodicidad">ficha_tecnica_periodicidad</a> </li>
+  <li> <a href="#ficha_tecnica_presentacion">ficha_tecnica_presentacion</a> </li>
+  <li> <a href="#ficha_tecnica_variable_dato">ficha_tecnica_variable_dato</a> </li>
+  <li> <a href="#fila_origen_dato">fila_origen_dato</a> </li>
+  <li> <a href="#fos_user_group">fos_user_group</a> </li>
+  <li> <a href="#fos_user_user">fos_user_user</a> </li>
+  <li> <a href="#fos_user_user_group">fos_user_user_group</a> </li>
+  <li> <a href="#fuente_dato">fuente_dato</a> </li>
+  <li> <a href="#fusion_origenes_datos">fusion_origenes_datos</a> </li>
+  <li> <a href="#indicador_alertas">indicador_alertas</a> </li>
+  <li> <a href="#motor_bd">motor_bd</a> </li>
+  <li> <a href="#origen_datos">origen_datos</a> </li>
+  <li> <a href="#origen_datos_fusiones">origen_datos_fusiones</a> </li>
+  <li> <a href="#periodos">periodos</a> </li>
+  <li> <a href="#presentacion">presentacion</a> </li>
+  <li> <a href="#responsable_dato">responsable_dato</a> </li>
+  <li> <a href="#responsable_indicador">responsable_indicador</a> </li>
+  <li> <a href="#significado_campo">significado_campo</a> </li>
+  <li> <a href="#tipo_campo">tipo_campo</a> </li>
+  <li> <a href="#usuario_indicadores_favoritos">usuario_indicadores_favoritos</a> </li>
+  <li> <a href="#variable_dato">variable_dato</a> </li>
+</ul>
+<div class="tableNameHeading">
+  <h1>1. alerta<a name="alerta"></a> </h1>
+  <h2>&nbsp;</h2>
+</div>
+<div class="table">
+  <table class="tableDefinition" width="100%">
     <tr>
-    <th align="center">tabla</th>
-    <th align="center">columna</th>
-    <th align="center">tipo</th>
-    <th align="center">esnulo</th>
-    <th align="center">tipollave</th>
-  </tr>
-  <tr valign="top">
-    <td align="left">campo</td>
-    <td align="left">descripcion</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">campo</td>
-    <td align="left">id</td>
-    <td align="left">int4</td>
-    <td align="left">t</td>
-    <td align="left">P</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">campo</td>
-    <td align="left">id_origen_datos</td>
-    <td align="left">int8</td>
-    <td align="left">f</td>
-    <td align="left">F</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">campo</td>
-    <td align="left">id_significado_campo</td>
-    <td align="left">int4</td>
-    <td align="left">f</td>
-    <td align="left">F</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">campo</td>
-    <td align="left">id_tipo_campo</td>
-    <td align="left">int4</td>
-    <td align="left">f</td>
-    <td align="left">F</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">campo</td>
-    <td align="left">nombre</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr></table>
-  
-<h3>3. Tabla Clasificacion_Nivel</h3>
-<hr/>
-
-    <table><tr>
-    <th align="center">tabla</th>
-    <th align="center">columna</th>
-    <th align="center">tipo</th>
-    <th align="center">esnulo</th>
-    <th align="center">tipollave</th>
-  </tr>
-  <tr valign="top">
-    <td align="left">clasificacion_nivel</td>
-    <td align="left">codigo</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">clasificacion_nivel</td>
-    <td align="left">comentario</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">clasificacion_nivel</td>
-    <td align="left">descripcion</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">clasificacion_nivel</td>
-    <td align="left">id</td>
-    <td align="left">int4</td>
-    <td align="left">t</td>
-    <td align="left">P</td>
-  </tr>
+      <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
+      <td class="tdTableHeading tdPhysicalColName">Nombre Fisico de Columna</td>
+      <td class="tdTableHeading tdDataType">Tipo</td>
+      <td class="tdTableHeading tdPkFlag">PK</td>
+      <td class="tdTableHeading tdNullFlag">Nullable</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id (PK)</td>
+      <td class="tdTableDefinition">id</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap>PK</td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">codigo</td>
+      <td class="tdTableDefinition">codigo</td>
+      <td class="tdTableDefinition">VARCHAR(30)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">color</td>
+      <td class="tdTableDefinition">color</td>
+      <td class="tdTableDefinition">VARCHAR(50)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
   </table>
-  
-<h3> 4. Tabla Clasificacion Privacidad</h3>
-<hr/>
-
-<table>
+  <div class="references">
+    <p class="subTitle">Esta tabla es usada por: </p>
+    <ul>
+      <li> <a href="#indicador_alertas">indicador_alertas</a>  hace referencia la campo (id)</li>
+    </ul>
+  </div>
+</div>
+<div class="tableNameHeading">
+  <h1>2. campo<a name="campo"></a></h1>
+</div>
+<div class="table">
+  <table class="tableDefinition" width="100%">
     <tr>
-    <th align="center">tabla</th>
-    <th align="center">columna</th>
-    <th align="center">tipo</th>
-    <th align="center">esnulo</th>
-    <th align="center">tipollave</th>
-  </tr>
-  <tr valign="top">
-    <td align="left">clasificacion_privacidad</td>
-    <td align="left">codigo</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">clasificacion_privacidad</td>
-    <td align="left">comentario</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">clasificacion_privacidad</td>
-    <td align="left">descripcion</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">clasificacion_privacidad</td>
-    <td align="left">id</td>
-    <td align="left">int4</td>
-    <td align="left">t</td>
-    <td align="left">P</td>
-  </tr>
-</table>
-  <h3>5. Tabla Clasificacion_Tecnica</h3>
-<hr/>
-  <table>
-    <tr>
-    <th align="center">tabla</th>
-    <th align="center">columna</th>
-    <th align="center">tipo</th>
-    <th align="center">esnulo</th>
-    <th align="center">tipollave</th>
-  </tr>
-  <tr valign="top">
-    <td align="left">clasificacion_tecnica</td>
-    <td align="left">codigo</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">clasificacion_tecnica</td>
-    <td align="left">comentario</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">clasificacion_tecnica</td>
-    <td align="left">descripcion</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">clasificacion_tecnica</td>
-    <td align="left">id</td>
-    <td align="left">int4</td>
-    <td align="left">t</td>
-    <td align="left">P</td>
-  </tr>  </table>
-  
-<h3> 6. Tabla Clasificacion_Uso</h3>
-<hr/>
-  
-  <table>
-    <tr>
-    <th align="center">tabla</th>
-    <th align="center">columna</th>
-    <th align="center">tipo</th>
-    <th align="center">esnulo</th>
-    <th align="center">tipollave</th>
-  </tr>
-  <tr valign="top">
-    <td align="left">clasificacion_uso</td>
-    <td align="left">codigo</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">clasificacion_uso</td>
-    <td align="left">comentario</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">clasificacion_uso</td>
-    <td align="left">descripcion</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">clasificacion_uso</td>
-    <td align="left">id</td>
-    <td align="left">int4</td>
-    <td align="left">t</td>
-    <td align="left">P</td>
-  </tr> </table>
-  
-<h3> 7. Tabla Conexion</h3>
-<hr/>
-  
-  <table>
-    <tr>
-    <th align="center">tabla</th>
-    <th align="center">columna</th>
-    <th align="center">tipo</th>
-    <th align="center">esnulo</th>
-    <th align="center">tipollave</th>
-  </tr>
-  <tr valign="top">
-    <td align="left">conexion</td>
-    <td align="left">clave</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">conexion</td>
-    <td align="left">comentario</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">conexion</td>
-    <td align="left">id</td>
-    <td align="left">int4</td>
-    <td align="left">t</td>
-    <td align="left">P</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">conexion</td>
-    <td align="left">id_motor</td>
-    <td align="left">int4</td>
-    <td align="left">f</td>
-    <td align="left">F</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">conexion</td>
-    <td align="left">instancia</td>
-    <td align="left">varchar</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">conexion</td>
-    <td align="left">ip</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">conexion</td>
-    <td align="left">nombre_base_datos</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">conexion</td>
-    <td align="left">nombre_conexion</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">conexion</td>
-    <td align="left">puerto</td>
-    <td align="left">varchar</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">conexion</td>
-    <td align="left">usuario</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-</table>
-  
-<h3> 8. Tabla Ficha_Tenica</h3>
-<hr/>
-  
-  <table>
-    <tr>
-    <th align="center">tabla</th>
-    <th align="center">columna</th>
-    <th align="center">tipo</th>
-    <th align="center">esnulo</th>
-    <th align="center">tipollave</th>
-  </tr>
-  <tr valign="top">
-    <td align="left">ficha_tecnica</td>
-    <td align="left">campos_indicador</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">ficha_tecnica</td>
-    <td align="left">concepto</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">ficha_tecnica</td>
-    <td align="left">confiabilidad</td>
-    <td align="left">int4</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">ficha_tecnica</td>
-    <td align="left">definicion_operativa</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">ficha_tecnica</td>
-    <td align="left">formula</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">ficha_tecnica</td>
-    <td align="left">id</td>
-    <td align="left">int4</td>
-    <td align="left">t</td>
-    <td align="left">P</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">ficha_tecnica</td>
-    <td align="left">id_clasificacion_nivel</td>
-    <td align="left">int4</td>
-    <td align="left">f</td>
-    <td align="left">F</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">ficha_tecnica</td>
-    <td align="left">id_clasificacion_privacidad</td>
-    <td align="left">int4</td>
-    <td align="left">f</td>
-    <td align="left">F</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">ficha_tecnica</td>
-    <td align="left">id_clasificacion_tecnica</td>
-    <td align="left">int4</td>
-    <td align="left">f</td>
-    <td align="left">F</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">ficha_tecnica</td>
-    <td align="left">id_clasificacion_uso</td>
-    <td align="left">int4</td>
-    <td align="left">f</td>
-    <td align="left">F</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">ficha_tecnica</td>
-    <td align="left">id_periodo</td>
-    <td align="left">int4</td>
-    <td align="left">f</td>
-    <td align="left">F</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">ficha_tecnica</td>
-    <td align="left">id_responsable_indicador</td>
-    <td align="left">int4</td>
-    <td align="left">f</td>
-    <td align="left">F</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">ficha_tecnica</td>
-    <td align="left">nombre</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">ficha_tecnica</td>
-    <td align="left">objetivo</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">ficha_tecnica</td>
-    <td align="left">observacion</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">ficha_tecnica</td>
-    <td align="left">tema</td>
-    <td align="left">text</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">ficha_tecnica</td>
-    <td align="left">ultima_lectura</td>
-    <td align="left">timestamp</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">ficha_tecnica</td>
-    <td align="left">unidad_medida</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">ficha_tecnica</td>
-    <td align="left">updated_at</td>
-    <td align="left">timestamp</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">ficha_tecnica</td>
-    <td align="left">uso</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr></table>
-  
-<h3>9. Tabla Ficha_Tecnica_Campo</h3>
-<hr/>
-  
-  <table>
-    <tr>
-    <th align="center">tabla</th>
-    <th align="center">columna</th>
-    <th align="center">tipo</th>
-    <th align="center">esnulo</th>
-    <th align="center">tipollave</th>
-  </tr>
-  <tr valign="top">
-    <td align="left">ficha_tecnica_campo</td>
-    <td align="left">id_campo</td>
-    <td align="left">int4</td>
-    <td align="left">t</td>
-    <td align="left">F</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">ficha_tecnica_campo</td>
-    <td align="left">id_ficha_tecnica</td>
-    <td align="left">int4</td>
-    <td align="left">t</td>
-    <td align="left">F</td>
-  </tr></table>
-  
-<h3> 10. Tabla Ficha_Tecnica_Periodicidad </h3>
-<hr/> 
-  <table>
-    <tr>
-    <th align="center">tabla</th>
-    <th align="center">columna</th>
-    <th align="center">tipo</th>
-    <th align="center">esnulo</th>
-    <th align="center">tipollave</th>
-  </tr>
-  <tr valign="top">
-    <td align="left">ficha_tecnica_periodicidad</td>
-    <td align="left">id_ficha_tecnica</td>
-    <td align="left">int4</td>
-    <td align="left">t</td>
-    <td align="left">F</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">ficha_tecnica_periodicidad</td>
-    <td align="left">id_periodicidad</td>
-    <td align="left">int4</td>
-    <td align="left">t</td>
-    <td align="left">F</td>
-  </tr></table>
-  
-<h3> 11. Tabla Ficha_Tecnica_Presentacion </h3>
-<hr/>
-  
-  <table>
-    <tr>
-    <th align="center">tabla</th>
-    <th align="center">columna</th>
-    <th align="center">tipo</th>
-    <th align="center">esnulo</th>
-    <th align="center">tipollave</th>
-  </tr>
-  <tr valign="top">
-    <td align="left">ficha_tecnica_presentacion</td>
-    <td align="left">id_ficha_tecnica</td>
-    <td align="left">int4</td>
-    <td align="left">t</td>
-    <td align="left">F</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">ficha_tecnica_presentacion</td>
-    <td align="left">id_ficha_tecnica</td>
-    <td align="left">int4</td>
-    <td align="left">t</td>
-    <td align="left">F</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">ficha_tecnica_presentacion</td>
-    <td align="left">id_presentacion</td>
-    <td align="left">int4</td>
-    <td align="left">t</td>
-    <td align="left">F</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">ficha_tecnica_presentacion</td>
-    <td align="left">id_presentacion</td>
-    <td align="left">int4</td>
-    <td align="left">t</td>
-    <td align="left">F</td>
-  </tr></table>
-  
-<h3> 12. Tabla Ficha_Tecnica_Variable_dato</h3>
-<hr/>
-  
-  <table>
-    <tr>
-    <th align="center">tabla</th>
-    <th align="center">columna</th>
-    <th align="center">tipo</th>
-    <th align="center">esnulo</th>
-    <th align="center">tipollave</th>
-  </tr>
-  <tr valign="top">
-    <td align="left">ficha_tecnica_variable_dato</td>
-    <td align="left">id_ficha_tecnica</td>
-    <td align="left">int4</td>
-    <td align="left">t</td>
-    <td align="left">F</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">ficha_tecnica_variable_dato</td>
-    <td align="left">id_variable_dato</td>
-    <td align="left">int4</td>
-    <td align="left">t</td>
-    <td align="left">F</td>
-  </tr></table>
-  
-<h3> 13. Tabla Fila_Origen_Dato</h3>
-<hr/>
-  
-  <table>
-    <tr>
-    <th align="center">tabla</th>
-    <th align="center">columna</th>
-    <th align="center">tipo</th>
-    <th align="center">esnulo</th>
-    <th align="center">tipollave</th>
-  </tr>
-  <tr valign="top">
-    <td align="left">fila_origen_dato</td>
-    <td align="left">datos</td>
-    <td align="left">hstore</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fila_origen_dato</td>
-    <td align="left">id</td>
-    <td align="left">int4</td>
-    <td align="left">t</td>
-    <td align="left">P</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fila_origen_dato</td>
-    <td align="left">id_origen_dato</td>
-    <td align="left">int4</td>
-    <td align="left">f</td>
-    <td align="left">F</td>
-  </tr>
+      <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
+      <td class="tdTableHeading tdPhysicalColName">Nombre Fisico de Columna</td>
+      <td class="tdTableHeading tdDataType">Tipo</td>
+      <td class="tdTableHeading tdPkFlag">PK</td>
+      <td class="tdTableHeading tdNullFlag">Nullable</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id (PK)</td>
+      <td class="tdTableDefinition">id</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap>PK</td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id_origen_datos
+        &nbsp;(<a href="#origen_datos">FK</a>) </td>
+      <td class="tdTableDefinition">id_origen_datos</td>
+      <td class="tdTableDefinition">BIGINT</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id_tipo_campo
+        &nbsp;(<a href="#tipo_campo">FK</a>) </td>
+      <td class="tdTableDefinition">id_tipo_campo</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id_significado_campo
+        &nbsp;(<a href="#significado_campo">FK</a>) </td>
+      <td class="tdTableDefinition">id_significado_campo</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">nombre</td>
+      <td class="tdTableDefinition">nombre</td>
+      <td class="tdTableDefinition">VARCHAR(100)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">descripcion</td>
+      <td class="tdTableDefinition">descripcion</td>
+      <td class="tdTableDefinition">CLOB</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
   </table>
-  
-<h3> 14. Tabla Fos_User_Group</h3>
-<hr/>
-  
-  <table>
+  <div class="references">
+    <p class="subTitle">Esta tabla depende de:</p>
+    <ul>
+      <li> <a href="#origen_datos">origen_datos</a> por medio de  (id_origen_datos)</li>
+      <li> <a href="#tipo_campo">tipo_campo</a> por medio de  (id_tipo_campo)</li>
+      <li> <a href="#significado_campo">significado_campo</a> por medio de  (id_significado_campo)</li>
+    </ul>
+    <p class="subTitle">Esta tabla es usada por: </p>
+    <ul>
+      <li> <a href="#ficha_tecnica_campo">ficha_tecnica_campo</a>  hace referencia la campo (id)</li>
+    </ul>
+  </div>
+</div>
+<div class="tableNameHeading">
+  <h1>3. clasificacion_nivel<a name="clasificacion_nivel"></a></h1>
+</div>
+<div class="table">
+  <table class="tableDefinition" width="100%">
     <tr>
-    <th align="center">tabla</th>
-    <th align="center">columna</th>
-    <th align="center">tipo</th>
-    <th align="center">esnulo</th>
-    <th align="center">tipollave</th>
-  </tr>
-  <tr valign="top">
-    <td align="left">fos_user_group</td>
-    <td align="left">id</td>
-    <td align="left">int4</td>
-    <td align="left">t</td>
-    <td align="left">P</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fos_user_group</td>
-    <td align="left">name</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fos_user_group</td>
-    <td align="left">roles</td>
-    <td align="left">text</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr></table>
-  
-<h3> 15. Tabla Fos_User_User</h3>
-<hr/>
-  
-  <table>
-    <tr>
-    <th align="center">tabla</th>
-    <th align="center">columna</th>
-    <th align="center">tipo</th>
-    <th align="center">esnulo</th>
-    <th align="center">tipollave</th>
-  </tr>
-  
-  <tr valign="top">
-    <td align="left">fos_user_user</td>
-    <td align="left">biography</td>
-    <td align="left">varchar</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fos_user_user</td>
-    <td align="left">confirmation_token</td>
-    <td align="left">varchar</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fos_user_user</td>
-    <td align="left">created_at</td>
-    <td align="left">timestamp</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fos_user_user</td>
-    <td align="left">credentials_expire_at</td>
-    <td align="left">timestamp</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fos_user_user</td>
-    <td align="left">credentials_expired</td>
-    <td align="left">bool</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fos_user_user</td>
-    <td align="left">date_of_birth</td>
-    <td align="left">timestamp</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fos_user_user</td>
-    <td align="left">email</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fos_user_user</td>
-    <td align="left">email_canonical</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fos_user_user</td>
-    <td align="left">enabled</td>
-    <td align="left">bool</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fos_user_user</td>
-    <td align="left">expired</td>
-    <td align="left">bool</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fos_user_user</td>
-    <td align="left">expires_at</td>
-    <td align="left">timestamp</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fos_user_user</td>
-    <td align="left">facebook_data</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fos_user_user</td>
-    <td align="left">facebook_name</td>
-    <td align="left">varchar</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fos_user_user</td>
-    <td align="left">facebook_uid</td>
-    <td align="left">varchar</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fos_user_user</td>
-    <td align="left">firstname</td>
-    <td align="left">varchar</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fos_user_user</td>
-    <td align="left">gender</td>
-    <td align="left">varchar</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fos_user_user</td>
-    <td align="left">gplus_data</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fos_user_user</td>
-    <td align="left">gplus_name</td>
-    <td align="left">varchar</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fos_user_user</td>
-    <td align="left">gplus_uid</td>
-    <td align="left">varchar</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fos_user_user</td>
-    <td align="left">id</td>
-    <td align="left">int4</td>
-    <td align="left">t</td>
-    <td align="left">P</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fos_user_user</td>
-    <td align="left">last_login</td>
-    <td align="left">timestamp</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fos_user_user</td>
-    <td align="left">lastname</td>
-    <td align="left">varchar</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fos_user_user</td>
-    <td align="left">locale</td>
-    <td align="left">varchar</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fos_user_user</td>
-    <td align="left">locked</td>
-    <td align="left">bool</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fos_user_user</td>
-    <td align="left">password</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fos_user_user</td>
-    <td align="left">password_requested_at</td>
-    <td align="left">timestamp</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fos_user_user</td>
-    <td align="left">phone</td>
-    <td align="left">varchar</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fos_user_user</td>
-    <td align="left">roles</td>
-    <td align="left">text</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fos_user_user</td>
-    <td align="left">salt</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fos_user_user</td>
-    <td align="left">timezone</td>
-    <td align="left">varchar</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fos_user_user</td>
-    <td align="left">token</td>
-    <td align="left">varchar</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fos_user_user</td>
-    <td align="left">twitter_data</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fos_user_user</td>
-    <td align="left">twitter_name</td>
-    <td align="left">varchar</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fos_user_user</td>
-    <td align="left">twitter_uid</td>
-    <td align="left">varchar</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fos_user_user</td>
-    <td align="left">two_step_code</td>
-    <td align="left">varchar</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fos_user_user</td>
-    <td align="left">updated_at</td>
-    <td align="left">timestamp</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fos_user_user</td>
-    <td align="left">username</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fos_user_user</td>
-    <td align="left">username_canonical</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fos_user_user</td>
-    <td align="left">website</td>
-    <td align="left">varchar</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr></table>
-  
-<h3> 16. Tabla Fos_User_User_Group</h3>
-<hr/>
-  
-  <table>
-    <tr>
-    <th align="center">tabla</th>
-    <th align="center">columna</th>
-    <th align="center">tipo</th>
-    <th align="center">esnulo</th>
-    <th align="center">tipollave</th>
-  </tr>
-  <tr valign="top">
-    <td align="left">fos_user_user_group</td>
-    <td align="left">group_id</td>
-    <td align="left">int4</td>
-    <td align="left">t</td>
-    <td align="left">f</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fos_user_user_group</td>
-    <td align="left">user_id</td>
-    <td align="left">int4</td>
-    <td align="left">t</td>
-    <td align="left">f</td>
-  </tr></table>
-  
-<h3> 17. Tabla Fuente_Dato</h3>
-<hr/>
-  
-  <table>
-    <tr>
-    <th align="center">tabla</th>
-    <th align="center">columna</th>
-    <th align="center">tipo</th>
-    <th align="center">esnulo</th>
-    <th align="center">tipollave</th>
-  </tr>
-  <tr valign="top">
-    <td align="left">fuente_dato</td>
-    <td align="left">cargo</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fuente_dato</td>
-    <td align="left">contacto</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fuente_dato</td>
-    <td align="left">correo</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fuente_dato</td>
-    <td align="left">establecimiento</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fuente_dato</td>
-    <td align="left">id</td>
-    <td align="left">int4</td>
-    <td align="left">t</td>
-    <td align="left">P</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fuente_dato</td>
-    <td align="left">telefono</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr></table>
-  
-<h3> 18. Tabla Fusion_Origenes_Datos</h3>
-<hr/>
-  
-  <table>
-    <tr>
-    <th align="center">tabla</th>
-    <th align="center">columna</th>
-    <th align="center">tipo</th>
-    <th align="center">esnulo</th>
-    <th align="center">tipollave</th>
-  </tr>
-  <tr valign="top">
-    <td align="left">fusion_origenes_datos</td>
-    <td align="left">campos</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fusion_origenes_datos</td>
-    <td align="left">id</td>
-    <td align="left">int4</td>
-    <td align="left">t</td>
-    <td align="left">P</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fusion_origenes_datos</td>
-    <td align="left">id_origen_datos</td>
-    <td align="left">int8</td>
-    <td align="left">f</td>
-    <td align="left">F</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">fusion_origenes_datos</td>
-    <td align="left">id_origen_datos_fusionado</td>
-    <td align="left">int8</td>
-    <td align="left">f</td>
-    <td align="left">F</td>
-  </tr>
+      <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
+      <td class="tdTableHeading tdPhysicalColName">Nombre Fisico de Columna</td>
+      <td class="tdTableHeading tdDataType">Tipo</td>
+      <td class="tdTableHeading tdPkFlag">PK</td>
+      <td class="tdTableHeading tdNullFlag">Nullable</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id (PK)</td>
+      <td class="tdTableDefinition">id</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap>PK</td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">codigo</td>
+      <td class="tdTableDefinition">codigo</td>
+      <td class="tdTableDefinition">VARCHAR(15)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">descripcion</td>
+      <td class="tdTableDefinition">descripcion</td>
+      <td class="tdTableDefinition">VARCHAR(50)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">comentario</td>
+      <td class="tdTableDefinition">comentario</td>
+      <td class="tdTableDefinition">CLOB</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
   </table>
-  
-<h3> 19. Tabla Indicador_Alertas</h3>
-<hr/>
-  <table>
-      <tr>
-    <th align="center">tabla</th>
-    <th align="center">columna</th>
-    <th align="center">tipo</th>
-    <th align="center">esnulo</th>
-    <th align="center">tipollave</th>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador_alertas</td>
-    <td align="left">comentario</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador_alertas</td>
-    <td align="left">id</td>
-    <td align="left">int4</td>
-    <td align="left">t</td>
-    <td align="left">P</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador_alertas</td>
-    <td align="left">id_color_alerta</td>
-    <td align="left">int4</td>
-    <td align="left">t</td>
-    <td align="left">F</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador_alertas</td>
-    <td align="left">id_indicador</td>
-    <td align="left">int4</td>
-    <td align="left">t</td>
-    <td align="left">F</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador_alertas</td>
-    <td align="left">limite_inferior</td>
-    <td align="left">float8</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">indicador_alertas</td>
-    <td align="left">limite_superior</td>
-    <td align="left">float8</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>  </table>
-  
-<h3> 20. Tabla Motor_db</h3>
-<hr/>
-  
-  <table>
-      <tr>
-    <th align="center">tabla</th>
-    <th align="center">columna</th>
-    <th align="center">tipo</th>
-    <th align="center">esnulo</th>
-    <th align="center">tipollave</th>
-  </tr>
-  <tr valign="top">
-    <td align="left">motor_bd</td>
-    <td align="left">codigo</td>
-    <td align="left">varchar</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">motor_bd</td>
-    <td align="left">id</td>
-    <td align="left">int4</td>
-    <td align="left">t</td>
-    <td align="left">P</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">motor_bd</td>
-    <td align="left">nombre</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>  </table>
-  
-<h3>21. Tabla Origen_datos </h3>
-<hr/>
-  
-  <table>
-      <tr>
-    <th align="center">tabla</th>
-    <th align="center">columna</th>
-    <th align="center">tipo</th>
-    <th align="center">esnulo</th>
-    <th align="center">tipollave</th>
-  </tr>
-  <tr valign="top">
-    <td align="left">origen_datos</td>
-    <td align="left">archivo_nombre</td>
-    <td align="left">varchar</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">origen_datos</td>
-    <td align="left">campos_fusionados</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">origen_datos</td>
-    <td align="left">descripcion</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">origen_datos</td>
-    <td align="left">es_catalogo</td>
-    <td align="left">bool</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">origen_datos</td>
-    <td align="left">es_fusionado</td>
-    <td align="left">bool</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">origen_datos</td>
-    <td align="left">id</td>
-    <td align="left">int8</td>
-    <td align="left">t</td>
-    <td align="left">P</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">origen_datos</td>
-    <td align="left">id_conexion</td>
-    <td align="left">int4</td>
-    <td align="left">f</td>
-    <td align="left">F</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">origen_datos</td>
-    <td align="left">nombre</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">origen_datos</td>
-    <td align="left">nombre_catalogo</td>
-    <td align="left">varchar</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">origen_datos</td>
-    <td align="left">sentencia_sql</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-</table>
-  
-<h3> 22. Tabla Origen_Datos_fusiones</h3>
-<hr/>
-  
-  <table>
-      <tr>
-    <th align="center">tabla</th>
-    <th align="center">columna</th>
-    <th align="center">tipo</th>
-    <th align="center">esnulo</th>
-    <th align="center">tipollave</th>
-  </tr>
-  <tr valign="top">
-    <td align="left">origen_datos_fusiones</td>
-    <td align="left">id_origen_dato</td>
-    <td align="left">int8</td>
-    <td align="left">t</td>
-    <td align="left">F</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">origen_datos_fusiones</td>
-    <td align="left">id_origen_dato_fusionado</td>
-    <td align="left">int8</td>
-    <td align="left">t</td>
-    <td align="left">F</td>
-  </tr>  </table>
-  
-<h3> 23. Tabla Periodos</h3>
-<hr/>
-  
-  <table>
-      <tr>
-    <th align="center">tabla</th>
-    <th align="center">columna</th>
-    <th align="center">tipo</th>
-    <th align="center">esnulo</th>
-    <th align="center">tipollave</th>
-  </tr>
-  <tr valign="top">
-    <td align="left">periodos</td>
-    <td align="left">codigo</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">periodos</td>
-    <td align="left">descripcion</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">periodos</td>
-    <td align="left">id</td>
-    <td align="left">int4</td>
-    <td align="left">t</td>
-    <td align="left">P</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">periodos</td>
-    <td align="left">sentencia</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>  </table>
-  
-<h3>24. Tabla Presentacion </h3>
-<hr/>
-  
-  <table>
-      <tr>
-    <th align="center">tabla</th>
-    <th align="center">columna</th>
-    <th align="center">tipo</th>
-    <th align="center">esnulo</th>
-    <th align="center">tipollave</th>
-  </tr>
-  <tr valign="top">
-    <td align="left">presentacion</td>
-    <td align="left">codigo</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">presentacion</td>
-    <td align="left">descripcion</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">presentacion</td>
-    <td align="left">id</td>
-    <td align="left">int4</td>
-    <td align="left">t</td>
-    <td align="left">P</td>
-  </tr>  </table>
-  
-<h3> 24. Tabla Responsable_Dato</h3>
-<hr/>
-  
-  <table>
-      <tr>
-    <th align="center">tabla</th>
-    <th align="center">columna</th>
-    <th align="center">tipo</th>
-    <th align="center">esnulo</th>
-    <th align="center">tipollave</th>
-  </tr>
-  <tr valign="top">
-    <td align="left">responsable_dato</td>
-    <td align="left">cargo</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">responsable_dato</td>
-    <td align="left">contacto</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">responsable_dato</td>
-    <td align="left">correo</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">responsable_dato</td>
-    <td align="left">establecimiento</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">responsable_dato</td>
-    <td align="left">id</td>
-    <td align="left">int4</td>
-    <td align="left">t</td>
-    <td align="left">P</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">responsable_dato</td>
-    <td align="left">telefono</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>  </table>
-  
-<h3>25. Tabla Responsable_ Indicador </h3>
-<hr/>
-  
-  <table>
-      <tr>
-    <th align="center">tabla</th>
-    <th align="center">columna</th>
-    <th align="center">tipo</th>
-    <th align="center">esnulo</th>
-    <th align="center">tipollave</th>
-  </tr>
-  <tr valign="top">
-    <td align="left">responsable_indicador</td>
-    <td align="left">cargo</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">responsable_indicador</td>
-    <td align="left">contacto</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">responsable_indicador</td>
-    <td align="left">correo</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">responsable_indicador</td>
-    <td align="left">establecimiento</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">responsable_indicador</td>
-    <td align="left">id</td>
-    <td align="left">int4</td>
-    <td align="left">t</td>
-    <td align="left">P</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">responsable_indicador</td>
-    <td align="left">telefono</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>  </table>
-  
-<h3> 26. Tabla Significado_Campo</h3>
-<hr/>
-  
-  <table>
-      <tr>
-    <th align="center">tabla</th>
-    <th align="center">columna</th>
-    <th align="center">tipo</th>
-    <th align="center">esnulo</th>
-    <th align="center">tipollave</th>
-  </tr>
-  <tr valign="top">
-    <td align="left">significado_campo</td>
-    <td align="left">catalogo</td>
-    <td align="left">varchar</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">significado_campo</td>
-    <td align="left">codigo</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">significado_campo</td>
-    <td align="left">descripcion</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">significado_campo</td>
-    <td align="left">id</td>
-    <td align="left">int4</td>
-    <td align="left">t</td>
-    <td align="left">P</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">significado_campo</td>
-    <td align="left">nombre_mapa</td>
-    <td align="left">varchar</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">significado_campo</td>
-    <td align="left">uso_en_catalogo</td>
-    <td align="left">bool</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr></table>
-  
-<h3> 27. Tabla Tipo_Campo</h3>
-<hr/>
-  
-  <table>
-      <tr>
-    <th align="center">tabla</th>
-    <th align="center">columna</th>
-    <th align="center">tipo</th>
-    <th align="center">esnulo</th>
-    <th align="center">tipollave</th>
-  </tr>
-  <tr valign="top">
-    <td align="left">tipo_campo</td>
-    <td align="left">codigo</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">tipo_campo</td>
-    <td align="left">descripcion</td>
-    <td align="left">varchar</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">tipo_campo</td>
-    <td align="left">id</td>
-    <td align="left">int4</td>
-    <td align="left">t</td>
-    <td align="left">P</td>
-  </tr>  </table>
-  
-<h3> 28. Tabla Usuario_Indcadores_Favoritos</h3>
-<hr/>
-  
-  <table>
-        <tr>
-    <th align="center">tabla</th>
-    <th align="center">columna</th>
-    <th align="center">tipo</th>
-    <th align="center">esnulo</th>
-    <th align="center">tipollave</th>
-  </tr>
-  <tr valign="top">
-    <td align="left">usuario_indicadores_favoritos</td>
-    <td align="left">id_indicador</td>
-    <td align="left">int4</td>
-    <td align="left">t</td>
-    <td align="left">F</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">usuario_indicadores_favoritos</td>
-    <td align="left">id_usuario</td>
-    <td align="left">int4</td>
-    <td align="left">t</td>
-    <td align="left">F</td>
-  </tr>  </table>
-  
-<h3> 29. Tabla Variable_Dato</h3>
-<hr/>
-  
-  <table>
-      <tr>
-    <th align="center">tabla</th>
-    <th align="center">columna</th>
-    <th align="center">tipo</th>
-    <th align="center">esnulo</th>
-    <th align="center">tipollave</th>
-  </tr>
-  <tr valign="top">
-    <td align="left">variable_dato</td>
-    <td align="left">comentario</td>
-    <td align="left">text</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">variable_dato</td>
-    <td align="left">confiabilidad</td>
-    <td align="left">int4</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">variable_dato</td>
-    <td align="left">es_poblacion</td>
-    <td align="left">bool</td>
-    <td align="left">f</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">variable_dato</td>
-    <td align="left">id</td>
-    <td align="left">int4</td>
-    <td align="left">t</td>
-    <td align="left">P</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">variable_dato</td>
-    <td align="left">id_fuente_dato</td>
-    <td align="left">int4</td>
-    <td align="left">f</td>
-    <td align="left">F</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">variable_dato</td>
-    <td align="left">id_origen_datos</td>
-    <td align="left">int8</td>
-    <td align="left">f</td>
-    <td align="left">F</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">variable_dato</td>
-    <td align="left">id_responsable_dato</td>
-    <td align="left">int4</td>
-    <td align="left">f</td>
-    <td align="left">F</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">variable_dato</td>
-    <td align="left">iniciales</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-  <tr valign="top">
-    <td align="left">variable_dato</td>
-    <td align="left">nombre</td>
-    <td align="left">varchar</td>
-    <td align="left">t</td>
-    <td align="left">0</td>
-  </tr>
-</table>
+  <div class="references">
+    <p class="subTitle">Esta tabla es usada por: </p>
+    <ul>
+      <li> <a href="#ficha_tecnica">ficha_tecnica</a>  hace referencia la campo (id)</li>
+    </ul>
+  </div>
+</div>
+<div class="tableNameHeading">
+  <h1>4. clasificacion_privacidad<a name="clasificacion_privacidad"></a></h1>
+</div>
+<div class="table">
+  <table class="tableDefinition" width="100%">
+    <tr>
+      <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
+      <td class="tdTableHeading tdPhysicalColName">Nombre Fisico de Columna</td>
+      <td class="tdTableHeading tdDataType">Tipo</td>
+      <td class="tdTableHeading tdPkFlag">PK</td>
+      <td class="tdTableHeading tdNullFlag">Nullable</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id (PK)</td>
+      <td class="tdTableDefinition">id</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap>PK</td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">codigo</td>
+      <td class="tdTableDefinition">codigo</td>
+      <td class="tdTableDefinition">VARCHAR(15)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">descripcion</td>
+      <td class="tdTableDefinition">descripcion</td>
+      <td class="tdTableDefinition">VARCHAR(50)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">comentario</td>
+      <td class="tdTableDefinition">comentario</td>
+      <td class="tdTableDefinition">CLOB</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+  </table>
+  <div class="references">
+    <p class="subTitle">Esta tabla es usada por: </p>
+    <ul>
+      <li> <a href="#ficha_tecnica">ficha_tecnica</a>  hace referencia la campo (id)</li>
+    </ul>
+  </div>
+</div>
+<div class="tableNameHeading">
+  <h1>5. clasificacion_tecnica<a name="clasificacion_tecnica"></a></h1>
+</div>
+<div class="table">
+  <table class="tableDefinition" width="100%">
+    <tr>
+      <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
+      <td class="tdTableHeading tdPhysicalColName">Nombre Fisico de Columna</td>
+      <td class="tdTableHeading tdDataType">Tipo</td>
+      <td class="tdTableHeading tdPkFlag">PK</td>
+      <td class="tdTableHeading tdNullFlag">Nullable</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id (PK)</td>
+      <td class="tdTableDefinition">id</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap>PK</td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">codigo</td>
+      <td class="tdTableDefinition">codigo</td>
+      <td class="tdTableDefinition">VARCHAR(15)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">descripcion</td>
+      <td class="tdTableDefinition">descripcion</td>
+      <td class="tdTableDefinition">VARCHAR(50)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">comentario</td>
+      <td class="tdTableDefinition">comentario</td>
+      <td class="tdTableDefinition">CLOB</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+  </table>
+  <div class="references">
+    <p class="subTitle">Esta tabla es usada por: </p>
+    <ul>
+      <li> <a href="#ficha_tecnica">ficha_tecnica</a>  hace referencia la campo (id)</li>
+    </ul>
+  </div>
+</div>
+<div class="tableNameHeading">
+  <h1>6. clasificacion_uso<a name="clasificacion_uso"></a></h1>
+</div>
+<div class="table">
+  <table class="tableDefinition" width="100%">
+    <tr>
+      <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
+      <td class="tdTableHeading tdPhysicalColName">Nombre Fisico de Columna</td>
+      <td class="tdTableHeading tdDataType">Tipo</td>
+      <td class="tdTableHeading tdPkFlag">PK</td>
+      <td class="tdTableHeading tdNullFlag">Nullable</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id (PK)</td>
+      <td class="tdTableDefinition">id</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap>PK</td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">codigo</td>
+      <td class="tdTableDefinition">codigo</td>
+      <td class="tdTableDefinition">VARCHAR(15)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">descripcion</td>
+      <td class="tdTableDefinition">descripcion</td>
+      <td class="tdTableDefinition">VARCHAR(50)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">comentario</td>
+      <td class="tdTableDefinition">comentario</td>
+      <td class="tdTableDefinition">CLOB</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+  </table>
+  <div class="references">
+    <p class="subTitle">Esta tabla es usada por: </p>
+    <ul>
+      <li> <a href="#ficha_tecnica">ficha_tecnica</a>  hace referencia la campo (id)</li>
+    </ul>
+  </div>
+</div>
+<div class="tableNameHeading">
+  <h1>7. conexion<a name="conexion"></a></h1>
+</div>
+<div class="table">
+  <table class="tableDefinition" width="100%">
+    <tr>
+      <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
+      <td class="tdTableHeading tdPhysicalColName">Nombre Fisico de Columna</td>
+      <td class="tdTableHeading tdDataType">Tipo</td>
+      <td class="tdTableHeading tdPkFlag">PK</td>
+      <td class="tdTableHeading tdNullFlag">Nullable</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id (PK)</td>
+      <td class="tdTableDefinition">id</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap>PK</td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id_motor
+        &nbsp;(<a href="#motor_bd">FK</a>) </td>
+      <td class="tdTableDefinition">id_motor</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">nombre_conexion</td>
+      <td class="tdTableDefinition">nombre_conexion</td>
+      <td class="tdTableDefinition">VARCHAR(100)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">comentario</td>
+      <td class="tdTableDefinition">comentario</td>
+      <td class="tdTableDefinition">CLOB</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">ip</td>
+      <td class="tdTableDefinition">ip</td>
+      <td class="tdTableDefinition">VARCHAR(15)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">usuario</td>
+      <td class="tdTableDefinition">usuario</td>
+      <td class="tdTableDefinition">VARCHAR(25)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">clave</td>
+      <td class="tdTableDefinition">clave</td>
+      <td class="tdTableDefinition">VARCHAR(150)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">nombre_base_datos</td>
+      <td class="tdTableDefinition">nombre_base_datos</td>
+      <td class="tdTableDefinition">VARCHAR(50)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">puerto</td>
+      <td class="tdTableDefinition">puerto</td>
+      <td class="tdTableDefinition">VARCHAR(5)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">instancia</td>
+      <td class="tdTableDefinition">instancia</td>
+      <td class="tdTableDefinition">VARCHAR(50)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+  </table>
+  <div class="references">
+    <p class="subTitle">Esta tabla depende de:</p>
+    <ul>
+      <li> <a href="#motor_bd">motor_bd</a> por medio de  (id_motor)</li>
+    </ul>
+    <p class="subTitle">Esta tabla es usada por: </p>
+    <ul>
+      <li> <a href="#origen_datos">origen_datos</a>  hace referencia la campo (id)</li>
+    </ul>
+  </div>
+</div>
+<div class="tableNameHeading">
+  <h1>8. ficha_tecnica<a name="ficha_tecnica"></a></h1>
+</div>
+<div class="table">
+  <table class="tableDefinition" width="100%">
+    <tr>
+      <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
+      <td class="tdTableHeading tdPhysicalColName">Nombre Fisico de Columna</td>
+      <td class="tdTableHeading tdDataType">Tipo</td>
+      <td class="tdTableHeading tdPkFlag">PK</td>
+      <td class="tdTableHeading tdNullFlag">Nullable</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id (PK)</td>
+      <td class="tdTableDefinition">id</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap>PK</td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id_clasificacion_nivel
+        &nbsp;(<a href="#clasificacion_nivel">FK</a>) </td>
+      <td class="tdTableDefinition">id_clasificacion_nivel</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id_clasificacion_privacidad
+        &nbsp;(<a href="#clasificacion_privacidad">FK</a>) </td>
+      <td class="tdTableDefinition">id_clasificacion_privacidad</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id_clasificacion_tecnica
+        &nbsp;(<a href="#clasificacion_tecnica">FK</a>) </td>
+      <td class="tdTableDefinition">id_clasificacion_tecnica</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id_clasificacion_uso
+        &nbsp;(<a href="#clasificacion_uso">FK</a>) </td>
+      <td class="tdTableDefinition">id_clasificacion_uso</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id_responsable_indicador
+        &nbsp;(<a href="#responsable_indicador">FK</a>) </td>
+      <td class="tdTableDefinition">id_responsable_indicador</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">nombre</td>
+      <td class="tdTableDefinition">nombre</td>
+      <td class="tdTableDefinition">VARCHAR(150)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">tema</td>
+      <td class="tdTableDefinition">tema</td>
+      <td class="tdTableDefinition">CLOB</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">concepto</td>
+      <td class="tdTableDefinition">concepto</td>
+      <td class="tdTableDefinition">CLOB</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">objetivo</td>
+      <td class="tdTableDefinition">objetivo</td>
+      <td class="tdTableDefinition">CLOB</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">uso</td>
+      <td class="tdTableDefinition">uso</td>
+      <td class="tdTableDefinition">CLOB</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">definicion_operativa</td>
+      <td class="tdTableDefinition">definicion_operativa</td>
+      <td class="tdTableDefinition">CLOB</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">unidad_medida</td>
+      <td class="tdTableDefinition">unidad_medida</td>
+      <td class="tdTableDefinition">VARCHAR(50)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">formula</td>
+      <td class="tdTableDefinition">formula</td>
+      <td class="tdTableDefinition">VARCHAR(300)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">observacion</td>
+      <td class="tdTableDefinition">observacion</td>
+      <td class="tdTableDefinition">CLOB</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">campos_indicador</td>
+      <td class="tdTableDefinition">campos_indicador</td>
+      <td class="tdTableDefinition">CLOB</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">confiabilidad</td>
+      <td class="tdTableDefinition">confiabilidad</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">updated_at</td>
+      <td class="tdTableDefinition">updated_at</td>
+      <td class="tdTableDefinition">TIMESTAMP</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id_periodo
+        &nbsp;(<a href="#periodos">FK</a>) </td>
+      <td class="tdTableDefinition">id_periodo</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">ultima_lectura</td>
+      <td class="tdTableDefinition">ultima_lectura</td>
+      <td class="tdTableDefinition">TIMESTAMP</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+  </table>
+  <div class="references">
+    <p class="subTitle">Esta tabla depende de:</p>
+    <ul>
+      <li> <a href="#periodos">periodos</a> por medio de  (id_periodo)</li>
+      <li> <a href="#clasificacion_privacidad">clasificacion_privacidad</a> por medio de  (id_clasificacion_privacidad)</li>
+      <li> <a href="#clasificacion_tecnica">clasificacion_tecnica</a> por medio de  (id_clasificacion_tecnica)</li>
+      <li> <a href="#clasificacion_uso">clasificacion_uso</a> por medio de  (id_clasificacion_uso)</li>
+      <li> <a href="#clasificacion_nivel">clasificacion_nivel</a> por medio de  (id_clasificacion_nivel)</li>
+      <li> <a href="#responsable_indicador">responsable_indicador</a> por medio de  (id_responsable_indicador)</li>
+    </ul>
+    <p class="subTitle">Esta tabla es usada por: </p>
+    <ul>
+      <li> <a href="#ficha_tecnica_periodicidad">ficha_tecnica_periodicidad</a>  hace referencia la campo (id)</li>
+      <li> <a href="#ficha_tecnica_campo">ficha_tecnica_campo</a>  hace referencia la campo (id)</li>
+      <li> <a href="#ficha_tecnica_presentacion">ficha_tecnica_presentacion</a>  hace referencia la campo (id)</li>
+      <li> <a href="#indicador_alertas">indicador_alertas</a>  hace referencia la campo (id)</li>
+      <li> <a href="#ficha_tecnica_variable_dato">ficha_tecnica_variable_dato</a>  hace referencia la campo (id)</li>
+      <li> <a href="#usuario_indicadores_favoritos">usuario_indicadores_favoritos</a>  hace referencia la campo (id)</li>
+    </ul>
+  </div>
+</div>
+<div class="tableNameHeading">
+  <h1>9. ficha_tecnica_campo<a name="ficha_tecnica_campo"></a></h1>
+</div>
+<div class="table">
+  <table class="tableDefinition" width="100%">
+    <tr>
+      <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
+      <td class="tdTableHeading tdPhysicalColName">Nombre Fisico de Columna</td>
+      <td class="tdTableHeading tdDataType">Tipo</td>
+      <td class="tdTableHeading tdPkFlag">PK</td>
+      <td class="tdTableHeading tdNullFlag">Nullable</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id_ficha_tecnica (PK)
+        &nbsp;(<a href="#ficha_tecnica">FK</a>) </td>
+      <td class="tdTableDefinition">id_ficha_tecnica</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap>PK</td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id_campo (PK)
+        &nbsp;(<a href="#campo">FK</a>) </td>
+      <td class="tdTableDefinition">id_campo</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap>PK</td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+  </table>
+  <div class="references">
+    <p class="subTitle">Esta tabla depende de:</p>
+    <ul>
+      <li> <a href="#campo">campo</a> por medio de  (id_campo)</li>
+      <li> <a href="#ficha_tecnica">ficha_tecnica</a> por medio de  (id_ficha_tecnica)</li>
+    </ul>
+  </div>
+</div>
+<div class="tableNameHeading">
+  <h1>10. ficha_tecnica_periodicidad<a name="ficha_tecnica_periodicidad"></a></h1>
+</div>
+<div class="table">
+  <table class="tableDefinition" width="100%">
+    <tr>
+      <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
+      <td class="tdTableHeading tdPhysicalColName">Nombre Fisico de Columna</td>
+      <td class="tdTableHeading tdDataType">Tipo</td>
+      <td class="tdTableHeading tdPkFlag">PK</td>
+      <td class="tdTableHeading tdNullFlag">Nullable</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id_ficha_tecnica (PK)
+        &nbsp;(<a href="#ficha_tecnica">FK</a>) </td>
+      <td class="tdTableDefinition">id_ficha_tecnica</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap>PK</td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id_periodicidad (PK)
+        &nbsp;(<a href="#periodos">FK</a>) </td>
+      <td class="tdTableDefinition">id_periodicidad</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap>PK</td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+  </table>
+  <div class="references">
+    <p class="subTitle">Esta tabla depende de:</p>
+    <ul>
+      <li> <a href="#periodos">periodos</a> por medio de  (id_periodicidad)</li>
+      <li> <a href="#ficha_tecnica">ficha_tecnica</a> por medio de  (id_ficha_tecnica)</li>
+    </ul>
+  </div>
+</div>
+<div class="tableNameHeading">
+  <h1>11. ficha_tecnica_presentacion<a name="ficha_tecnica_presentacion"></a></h1>
+</div>
+<div class="table">
+  <table class="tableDefinition" width="100%">
+    <tr>
+      <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
+      <td class="tdTableHeading tdPhysicalColName">Nombre Fisico de Columna</td>
+      <td class="tdTableHeading tdDataType">Tipo</td>
+      <td class="tdTableHeading tdPkFlag">PK</td>
+      <td class="tdTableHeading tdNullFlag">Nullable</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id_ficha_tecnica (PK)
+        &nbsp;(<a href="#ficha_tecnica">FK</a>) </td>
+      <td class="tdTableDefinition">id_ficha_tecnica</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap>PK</td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id_presentacion (PK)
+        &nbsp;(<a href="#presentacion">FK</a>) </td>
+      <td class="tdTableDefinition">id_presentacion</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap>PK</td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+  </table>
+  <div class="references">
+    <p class="subTitle">Esta tabla depende de:</p>
+    <ul>
+      <li> <a href="#ficha_tecnica">ficha_tecnica</a> por medio de  (id_ficha_tecnica)</li>
+      <li> <a href="#presentacion">presentacion</a> por medio de  (id_presentacion)</li>
+    </ul>
+  </div>
+</div>
+<div class="tableNameHeading">
+  <h1>12. ficha_tecnica_variable_dato<a name="ficha_tecnica_variable_dato"></a></h1>
+</div>
+<div class="table">
+  <table class="tableDefinition" width="100%">
+    <tr>
+      <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
+      <td class="tdTableHeading tdPhysicalColName">Nombre Fisico de Columna</td>
+      <td class="tdTableHeading tdDataType">Tipo</td>
+      <td class="tdTableHeading tdPkFlag">PK</td>
+      <td class="tdTableHeading tdNullFlag">Nullable</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id_ficha_tecnica (PK)
+        &nbsp;(<a href="#ficha_tecnica">FK</a>) </td>
+      <td class="tdTableDefinition">id_ficha_tecnica</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap>PK</td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id_variable_dato (PK)
+        &nbsp;(<a href="#variable_dato">FK</a>) </td>
+      <td class="tdTableDefinition">id_variable_dato</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap>PK</td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+  </table>
+  <div class="references">
+    <p class="subTitle">Esta tabla depende de:</p>
+    <ul>
+      <li> <a href="#ficha_tecnica">ficha_tecnica</a> por medio de  (id_ficha_tecnica)</li>
+      <li> <a href="#variable_dato">variable_dato</a> por medio de  (id_variable_dato)</li>
+    </ul>
+  </div>
+</div>
+<div class="tableNameHeading">
+  <h1>13. fila_origen_dato<a name="fila_origen_dato"></a></h1>
+</div>
+<div class="table">
+  <table class="tableDefinition" width="100%">
+    <tr>
+      <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
+      <td class="tdTableHeading tdPhysicalColName">Nombre Fisico de Columna</td>
+      <td class="tdTableHeading tdDataType">Tipo</td>
+      <td class="tdTableHeading tdPkFlag">PK</td>
+      <td class="tdTableHeading tdNullFlag">Nullable</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id (PK)</td>
+      <td class="tdTableDefinition">id</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap>PK</td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id_origen_dato
+        &nbsp;(<a href="#origen_datos">FK</a>) </td>
+      <td class="tdTableDefinition">id_origen_dato</td>
+      <td class="tdTableDefinition">BIGINT</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">datos</td>
+      <td class="tdTableDefinition">datos</td>
+      <td class="tdTableDefinition">[1111]</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+  </table>
+  <div class="references">
+    <p class="subTitle">Esta tabla depende de:</p>
+    <ul>
+      <li> <a href="#origen_datos">origen_datos</a> por medio de  (id_origen_dato)</li>
+    </ul>
+  </div>
+</div>
+<div class="tableNameHeading">
+  <h1>14. fos_user_group<a name="fos_user_group"></a></h1>
+</div>
+<div class="table">
+  <table class="tableDefinition" width="100%">
+    <tr>
+      <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
+      <td class="tdTableHeading tdPhysicalColName">Nombre Fisico de Columna</td>
+      <td class="tdTableHeading tdDataType">Tipo</td>
+      <td class="tdTableHeading tdPkFlag">PK</td>
+      <td class="tdTableHeading tdNullFlag">Nullable</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id (PK)</td>
+      <td class="tdTableDefinition">id</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap>PK</td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">name</td>
+      <td class="tdTableDefinition">name</td>
+      <td class="tdTableDefinition">VARCHAR(255)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">roles</td>
+      <td class="tdTableDefinition">roles</td>
+      <td class="tdTableDefinition">CLOB</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr>
+      <td colspan="4"><div class="comment">(DC2Tipo:array)</div></td>
+    </tr>
+  </table>
+  <div class="references">
+    <p class="subTitle">Esta tabla es usada por: </p>
+    <ul>
+      <li> <a href="#fos_user_user_group">fos_user_user_group</a>  hace referencia la campo (id)</li>
+    </ul>
+  </div>
+</div>
+<div class="tableNameHeading">
+  <h1>15. fos_user_user<a name="fos_user_user"></a></h1>
+</div>
+<div class="table">
+  <table class="tableDefinition" width="100%">
+    <tr>
+      <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
+      <td class="tdTableHeading tdPhysicalColName">Nombre Fisico de Columna</td>
+      <td class="tdTableHeading tdDataType">Tipo</td>
+      <td class="tdTableHeading tdPkFlag">PK</td>
+      <td class="tdTableHeading tdNullFlag">Nullable</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id (PK)</td>
+      <td class="tdTableDefinition">id</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap>PK</td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">username</td>
+      <td class="tdTableDefinition">username</td>
+      <td class="tdTableDefinition">VARCHAR(255)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">username_canonical</td>
+      <td class="tdTableDefinition">username_canonical</td>
+      <td class="tdTableDefinition">VARCHAR(255)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">email</td>
+      <td class="tdTableDefinition">email</td>
+      <td class="tdTableDefinition">VARCHAR(255)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">email_canonical</td>
+      <td class="tdTableDefinition">email_canonical</td>
+      <td class="tdTableDefinition">VARCHAR(255)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">enabled</td>
+      <td class="tdTableDefinition">enabled</td>
+      <td class="tdTableDefinition">BOOLEAN</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">salt</td>
+      <td class="tdTableDefinition">salt</td>
+      <td class="tdTableDefinition">VARCHAR(255)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">password</td>
+      <td class="tdTableDefinition">password</td>
+      <td class="tdTableDefinition">VARCHAR(255)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">last_login</td>
+      <td class="tdTableDefinition">last_login</td>
+      <td class="tdTableDefinition">TIMESTAMP</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">locked</td>
+      <td class="tdTableDefinition">locked</td>
+      <td class="tdTableDefinition">BOOLEAN</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">expired</td>
+      <td class="tdTableDefinition">expired</td>
+      <td class="tdTableDefinition">BOOLEAN</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">expires_at</td>
+      <td class="tdTableDefinition">expires_at</td>
+      <td class="tdTableDefinition">TIMESTAMP</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">confirmation_token</td>
+      <td class="tdTableDefinition">confirmation_token</td>
+      <td class="tdTableDefinition">VARCHAR(255)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">password_requested_at</td>
+      <td class="tdTableDefinition">password_requested_at</td>
+      <td class="tdTableDefinition">TIMESTAMP</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">roles</td>
+      <td class="tdTableDefinition">roles</td>
+      <td class="tdTableDefinition">CLOB</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr>
+      <td colspan="4"><div class="comment">(DC2Tipo:array)</div></td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">credentials_expired</td>
+      <td class="tdTableDefinition">credentials_expired</td>
+      <td class="tdTableDefinition">BOOLEAN</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">credentials_expire_at</td>
+      <td class="tdTableDefinition">credentials_expire_at</td>
+      <td class="tdTableDefinition">TIMESTAMP</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">created_at</td>
+      <td class="tdTableDefinition">created_at</td>
+      <td class="tdTableDefinition">TIMESTAMP</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">updated_at</td>
+      <td class="tdTableDefinition">updated_at</td>
+      <td class="tdTableDefinition">TIMESTAMP</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">date_of_birth</td>
+      <td class="tdTableDefinition">date_of_birth</td>
+      <td class="tdTableDefinition">TIMESTAMP</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">firstname</td>
+      <td class="tdTableDefinition">firstname</td>
+      <td class="tdTableDefinition">VARCHAR(64)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">lastname</td>
+      <td class="tdTableDefinition">lastname</td>
+      <td class="tdTableDefinition">VARCHAR(64)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">website</td>
+      <td class="tdTableDefinition">website</td>
+      <td class="tdTableDefinition">VARCHAR(64)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">biography</td>
+      <td class="tdTableDefinition">biography</td>
+      <td class="tdTableDefinition">VARCHAR(255)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">gender</td>
+      <td class="tdTableDefinition">gender</td>
+      <td class="tdTableDefinition">VARCHAR(1)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">locale</td>
+      <td class="tdTableDefinition">locale</td>
+      <td class="tdTableDefinition">VARCHAR(8)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">timezone</td>
+      <td class="tdTableDefinition">timezone</td>
+      <td class="tdTableDefinition">VARCHAR(64)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">phone</td>
+      <td class="tdTableDefinition">phone</td>
+      <td class="tdTableDefinition">VARCHAR(64)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">facebook_uid</td>
+      <td class="tdTableDefinition">facebook_uid</td>
+      <td class="tdTableDefinition">VARCHAR(255)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">facebook_name</td>
+      <td class="tdTableDefinition">facebook_name</td>
+      <td class="tdTableDefinition">VARCHAR(255)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">facebook_data</td>
+      <td class="tdTableDefinition">facebook_data</td>
+      <td class="tdTableDefinition">CLOB</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+    <tr>
+      <td colspan="4"><div class="comment">(DC2Tipo:json)</div></td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">twitter_uid</td>
+      <td class="tdTableDefinition">twitter_uid</td>
+      <td class="tdTableDefinition">VARCHAR(255)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">twitter_name</td>
+      <td class="tdTableDefinition">twitter_name</td>
+      <td class="tdTableDefinition">VARCHAR(255)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">twitter_data</td>
+      <td class="tdTableDefinition">twitter_data</td>
+      <td class="tdTableDefinition">CLOB</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+    <tr>
+      <td colspan="4"><div class="comment">(DC2Tipo:json)</div></td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">gplus_uid</td>
+      <td class="tdTableDefinition">gplus_uid</td>
+      <td class="tdTableDefinition">VARCHAR(255)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">gplus_name</td>
+      <td class="tdTableDefinition">gplus_name</td>
+      <td class="tdTableDefinition">VARCHAR(255)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">gplus_data</td>
+      <td class="tdTableDefinition">gplus_data</td>
+      <td class="tdTableDefinition">CLOB</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+    <tr>
+      <td colspan="4"><div class="comment">(DC2Tipo:json)</div></td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">token</td>
+      <td class="tdTableDefinition">token</td>
+      <td class="tdTableDefinition">VARCHAR(255)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">two_step_code</td>
+      <td class="tdTableDefinition">two_step_code</td>
+      <td class="tdTableDefinition">VARCHAR(255)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+  </table>
+  <div class="references">
+    <p class="subTitle">Esta tabla es usada por: </p>
+    <ul>
+      <li> <a href="#fos_user_user_group">fos_user_user_group</a>  hace referencia la campo (id)</li>
+      <li> <a href="#usuario_indicadores_favoritos">usuario_indicadores_favoritos</a>  hace referencia la campo (id)</li>
+    </ul>
+  </div>
+</div>
+<div class="tableNameHeading">
+  <h1>16. fos_user_user_group<a name="fos_user_user_group"></a></h1>
+</div>
+<div class="table">
+  <table class="tableDefinition" width="100%">
+    <tr>
+      <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
+      <td class="tdTableHeading tdPhysicalColName">Nombre Fisico de Columna</td>
+      <td class="tdTableHeading tdDataType">Tipo</td>
+      <td class="tdTableHeading tdPkFlag">PK</td>
+      <td class="tdTableHeading tdNullFlag">Nullable</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">user_id (PK)
+        &nbsp;(<a href="#fos_user_user">FK</a>) </td>
+      <td class="tdTableDefinition">user_id</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap>PK</td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">group_id (PK)
+        &nbsp;(<a href="#fos_user_group">FK</a>) </td>
+      <td class="tdTableDefinition">group_id</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap>PK</td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+  </table>
+  <div class="references">
+    <p class="subTitle">Esta tabla depende de:</p>
+    <ul>
+      <li> <a href="#fos_user_group">fos_user_group</a> por medio de  (group_id)</li>
+      <li> <a href="#fos_user_user">fos_user_user</a> por medio de  (user_id)</li>
+    </ul>
+  </div>
+</div>
+<div class="tableNameHeading">
+  <h1>17. fuente_dato<a name="fuente_dato"></a></h1>
+</div>
+<div class="table">
+  <table class="tableDefinition" width="100%">
+    <tr>
+      <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
+      <td class="tdTableHeading tdPhysicalColName">Nombre Fisico de Columna</td>
+      <td class="tdTableHeading tdDataType">Tipo</td>
+      <td class="tdTableHeading tdPkFlag">PK</td>
+      <td class="tdTableHeading tdNullFlag">Nullable</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id (PK)</td>
+      <td class="tdTableDefinition">id</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap>PK</td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">establecimiento</td>
+      <td class="tdTableDefinition">establecimiento</td>
+      <td class="tdTableDefinition">VARCHAR(100)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">contacto</td>
+      <td class="tdTableDefinition">contacto</td>
+      <td class="tdTableDefinition">VARCHAR(100)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">correo</td>
+      <td class="tdTableDefinition">correo</td>
+      <td class="tdTableDefinition">VARCHAR(50)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">telefono</td>
+      <td class="tdTableDefinition">telefono</td>
+      <td class="tdTableDefinition">VARCHAR(15)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">cargo</td>
+      <td class="tdTableDefinition">cargo</td>
+      <td class="tdTableDefinition">VARCHAR(50)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+  </table>
+  <div class="references">
+    <p class="subTitle">Esta tabla es usada por: </p>
+    <ul>
+      <li> <a href="#variable_dato">variable_dato</a>  hace referencia la campo (id)</li>
+    </ul>
+  </div>
+</div>
+<div class="tableNameHeading">
+  <h1>18. fusion_origenes_datos<a name="fusion_origenes_datos"></a></h1>
+</div>
+<div class="table">
+  <table class="tableDefinition" width="100%">
+    <tr>
+      <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
+      <td class="tdTableHeading tdPhysicalColName">Nombre Fisico de Columna</td>
+      <td class="tdTableHeading tdDataType">Tipo</td>
+      <td class="tdTableHeading tdPkFlag">PK</td>
+      <td class="tdTableHeading tdNullFlag">Nullable</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id (PK)</td>
+      <td class="tdTableDefinition">id</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap>PK</td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id_origen_datos
+        &nbsp;(<a href="#origen_datos">FK</a>) </td>
+      <td class="tdTableDefinition">id_origen_datos</td>
+      <td class="tdTableDefinition">BIGINT</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id_origen_datos_fusionado
+        &nbsp;(<a href="#origen_datos">FK</a>) </td>
+      <td class="tdTableDefinition">id_origen_datos_fusionado</td>
+      <td class="tdTableDefinition">BIGINT</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">campos</td>
+      <td class="tdTableDefinition">campos</td>
+      <td class="tdTableDefinition">CLOB</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+  </table>
+  <div class="references">
+    <p class="subTitle">Esta tabla depende de:</p>
+    <ul>
+      <li> <a href="#origen_datos">origen_datos</a> por medio de  (id_origen_datos)</li>
+      <li> <a href="#origen_datos">origen_datos</a> por medio de  (id_origen_datos_fusionado)</li>
+    </ul>
+  </div>
+</div>
+<div class="tableNameHeading">
+  <h1>19. indicador_alertas<a name="indicador_alertas"></a></h1>
+</div>
+<div class="table">
+  <table class="tableDefinition" width="100%">
+    <tr>
+      <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
+      <td class="tdTableHeading tdPhysicalColName">Nombre Fisico de Columna</td>
+      <td class="tdTableHeading tdDataType">Tipo</td>
+      <td class="tdTableHeading tdPkFlag">PK</td>
+      <td class="tdTableHeading tdNullFlag">Nullable</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id (PK)</td>
+      <td class="tdTableDefinition">id</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap>PK</td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id_color_alerta
+        &nbsp;(<a href="#alerta">FK</a>) </td>
+      <td class="tdTableDefinition">id_color_alerta</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id_indicador
+        &nbsp;(<a href="#ficha_tecnica">FK</a>) </td>
+      <td class="tdTableDefinition">id_indicador</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">limite_inferior</td>
+      <td class="tdTableDefinition">limite_inferior</td>
+      <td class="tdTableDefinition">DOUBLE</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">limite_superior</td>
+      <td class="tdTableDefinition">limite_superior</td>
+      <td class="tdTableDefinition">DOUBLE</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">comentario</td>
+      <td class="tdTableDefinition">comentario</td>
+      <td class="tdTableDefinition">CLOB</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+  </table>
+  <div class="references">
+    <p class="subTitle">Esta tabla depende de:</p>
+    <ul>
+      <li> <a href="#alerta">alerta</a> por medio de  (id_color_alerta)</li>
+      <li> <a href="#ficha_tecnica">ficha_tecnica</a> por medio de  (id_indicador)</li>
+    </ul>
+  </div>
+</div>
+<div class="tableNameHeading">
+  <h1>20. motor_bd<a name="motor_bd"></a></h1>
+</div>
+<div class="table">
+  <table class="tableDefinition" width="100%">
+    <tr>
+      <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
+      <td class="tdTableHeading tdPhysicalColName">Nombre Fisico de Columna</td>
+      <td class="tdTableHeading tdDataType">Tipo</td>
+      <td class="tdTableHeading tdPkFlag">PK</td>
+      <td class="tdTableHeading tdNullFlag">Nullable</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id (PK)</td>
+      <td class="tdTableDefinition">id</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap>PK</td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">nombre</td>
+      <td class="tdTableDefinition">nombre</td>
+      <td class="tdTableDefinition">VARCHAR(50)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">codigo</td>
+      <td class="tdTableDefinition">codigo</td>
+      <td class="tdTableDefinition">VARCHAR(20)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+  </table>
+  <div class="references">
+    <p class="subTitle">Esta tabla es usada por: </p>
+    <ul>
+      <li> <a href="#conexion">conexion</a>  hace referencia la campo (id)</li>
+    </ul>
+  </div>
+</div>
+<div class="tableNameHeading">
+  <h1>21. origen_datos<a name="origen_datos"></a></h1>
+</div>
+<div class="table">
+  <table class="tableDefinition" width="100%">
+    <tr>
+      <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
+      <td class="tdTableHeading tdPhysicalColName">Nombre Fisico de Columna</td>
+      <td class="tdTableHeading tdDataType">Tipo</td>
+      <td class="tdTableHeading tdPkFlag">PK</td>
+      <td class="tdTableHeading tdNullFlag">Nullable</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id (PK)</td>
+      <td class="tdTableDefinition">id</td>
+      <td class="tdTableDefinition">BIGINT</td>
+      <td class="tdTableDefinition" nowrap>PK</td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id_conexion
+        &nbsp;(<a href="#conexion">FK</a>) </td>
+      <td class="tdTableDefinition">id_conexion</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">nombre</td>
+      <td class="tdTableDefinition">nombre</td>
+      <td class="tdTableDefinition">VARCHAR(100)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">descripcion</td>
+      <td class="tdTableDefinition">descripcion</td>
+      <td class="tdTableDefinition">CLOB</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">sentencia_sql</td>
+      <td class="tdTableDefinition">sentencia_sql</td>
+      <td class="tdTableDefinition">CLOB</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">archivo_nombre</td>
+      <td class="tdTableDefinition">archivo_nombre</td>
+      <td class="tdTableDefinition">VARCHAR(100)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">es_fusionado</td>
+      <td class="tdTableDefinition">es_fusionado</td>
+      <td class="tdTableDefinition">BOOLEAN</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">es_catalogo</td>
+      <td class="tdTableDefinition">es_catalogo</td>
+      <td class="tdTableDefinition">BOOLEAN</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">nombre_catalogo</td>
+      <td class="tdTableDefinition">nombre_catalogo</td>
+      <td class="tdTableDefinition">VARCHAR(100)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">campos_fusionados</td>
+      <td class="tdTableDefinition">campos_fusionados</td>
+      <td class="tdTableDefinition">CLOB</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+  </table>
+  <div class="references">
+    <p class="subTitle">Esta tabla depende de:</p>
+    <ul>
+      <li> <a href="#conexion">conexion</a> por medio de  (id_conexion)</li>
+    </ul>
+    <p class="subTitle">Esta tabla es usada por: </p>
+    <ul>
+      <li> <a href="#campo">campo</a>  hace referencia la campo (id)</li>
+      <li> <a href="#origen_datos_fusiones">origen_datos_fusiones</a>  hace referencia la campo (id)</li>
+      <li> <a href="#origen_datos_fusiones">origen_datos_fusiones</a>  hace referencia la campo (id)</li>
+      <li> <a href="#variable_dato">variable_dato</a>  hace referencia la campo (id)</li>
+      <li> <a href="#fila_origen_dato">fila_origen_dato</a>  hace referencia la campo (id)</li>
+      <li> <a href="#fusion_origenes_datos">fusion_origenes_datos</a>  hace referencia la campo (id)</li>
+      <li> <a href="#fusion_origenes_datos">fusion_origenes_datos</a>  hace referencia la campo (id)  </li>
+    </ul>
+  </div>
+</div>
+<div class="tableNameHeading">
+  <h1>22. origen_datos_fusiones<a name="origen_datos_fusiones"></a></h1>
+</div>
+<div class="table">
+  <table class="tableDefinition" width="100%">
+    <tr>
+      <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
+      <td class="tdTableHeading tdPhysicalColName">Nombre Fisico de Columna</td>
+      <td class="tdTableHeading tdDataType">Tipo</td>
+      <td class="tdTableHeading tdPkFlag">PK</td>
+      <td class="tdTableHeading tdNullFlag">Nullable</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id_origen_dato (PK)
+        &nbsp;(<a href="#origen_datos">FK</a>) </td>
+      <td class="tdTableDefinition">id_origen_dato</td>
+      <td class="tdTableDefinition">BIGINT</td>
+      <td class="tdTableDefinition" nowrap>PK</td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id_origen_dato_fusionado (PK)
+        &nbsp;(<a href="#origen_datos">FK</a>) </td>
+      <td class="tdTableDefinition">id_origen_dato_fusionado</td>
+      <td class="tdTableDefinition">BIGINT</td>
+      <td class="tdTableDefinition" nowrap>PK</td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+  </table>
+  <div class="references">
+    <p class="subTitle">Esta tabla depende de:</p>
+    <ul>
+      <li> <a href="#origen_datos">origen_datos</a> por medio de  (id_origen_dato_fusionado)</li>
+      <li> <a href="#origen_datos">origen_datos</a> por medio de  (id_origen_dato)</li>
+    </ul>
+  </div>
+</div>
+<div class="tableNameHeading">
+  <h1>23. periodos<a name="periodos"></a></h1>
+</div>
+<div class="table">
+  <table class="tableDefinition" width="100%">
+    <tr>
+      <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
+      <td class="tdTableHeading tdPhysicalColName">Nombre Fisico de Columna</td>
+      <td class="tdTableHeading tdDataType">Tipo</td>
+      <td class="tdTableHeading tdPkFlag">PK</td>
+      <td class="tdTableHeading tdNullFlag">Nullable</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id (PK)</td>
+      <td class="tdTableDefinition">id</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap>PK</td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">descripcion</td>
+      <td class="tdTableDefinition">descripcion</td>
+      <td class="tdTableDefinition">VARCHAR(25)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">codigo</td>
+      <td class="tdTableDefinition">codigo</td>
+      <td class="tdTableDefinition">VARCHAR(7)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">sentencia</td>
+      <td class="tdTableDefinition">sentencia</td>
+      <td class="tdTableDefinition">CLOB</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+  </table>
+  <div class="references">
+    <p class="subTitle">Esta tabla es usada por: </p>
+    <ul>
+      <li> <a href="#ficha_tecnica_periodicidad">ficha_tecnica_periodicidad</a>  hace referencia la campo (id)</li>
+      <li> <a href="#ficha_tecnica">ficha_tecnica</a>  hace referencia la campo (id)</li>
+    </ul>
+  </div>
+</div>
+<div class="tableNameHeading">
+  <h1>24. presentacion<a name="presentacion"></a></h1>
+</div>
+<div class="table">
+  <table class="tableDefinition" width="100%">
+    <tr>
+      <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
+      <td class="tdTableHeading tdPhysicalColName">Nombre Fisico de Columna</td>
+      <td class="tdTableHeading tdDataType">Tipo</td>
+      <td class="tdTableHeading tdPkFlag">PK</td>
+      <td class="tdTableHeading tdNullFlag">Nullable</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id (PK)</td>
+      <td class="tdTableDefinition">id</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap>PK</td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">codigo</td>
+      <td class="tdTableDefinition">codigo</td>
+      <td class="tdTableDefinition">VARCHAR(20)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">descripcion</td>
+      <td class="tdTableDefinition">descripcion</td>
+      <td class="tdTableDefinition">VARCHAR(40)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+  </table>
+  <div class="references">
+    <p class="subTitle">Esta tabla es usada por: </p>
+    <ul>
+      <li> <a href="#ficha_tecnica_presentacion">ficha_tecnica_presentacion</a>  hace referencia la campo (id)</li>
+    </ul>
+  </div>
+</div>
+<div class="tableNameHeading">
+  <h1>25. responsable_dato<a name="responsable_dato"></a></h1>
+</div>
+<div class="table">
+  <table class="tableDefinition" width="100%">
+    <tr>
+      <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
+      <td class="tdTableHeading tdPhysicalColName">Nombre Fisico de Columna</td>
+      <td class="tdTableHeading tdDataType">Tipo</td>
+      <td class="tdTableHeading tdPkFlag">PK</td>
+      <td class="tdTableHeading tdNullFlag">Nullable</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id (PK)</td>
+      <td class="tdTableDefinition">id</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap>PK</td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">establecimiento</td>
+      <td class="tdTableDefinition">establecimiento</td>
+      <td class="tdTableDefinition">VARCHAR(100)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">contacto</td>
+      <td class="tdTableDefinition">contacto</td>
+      <td class="tdTableDefinition">VARCHAR(100)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">correo</td>
+      <td class="tdTableDefinition">correo</td>
+      <td class="tdTableDefinition">VARCHAR(50)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">telefono</td>
+      <td class="tdTableDefinition">telefono</td>
+      <td class="tdTableDefinition">VARCHAR(15)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">cargo</td>
+      <td class="tdTableDefinition">cargo</td>
+      <td class="tdTableDefinition">VARCHAR(50)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+  </table>
+  <div class="references">
+    <p class="subTitle">Esta tabla es usada por: </p>
+    <ul>
+      <li> <a href="#variable_dato">variable_dato</a>  hace referencia la campo (id)</li>
+    </ul>
+  </div>
+</div>
+<div class="tableNameHeading">
+  <h1>26. responsable_indicador<a name="responsable_indicador"></a></h1>
+</div>
+<div class="table">
+  <table class="tableDefinition" width="100%">
+    <tr>
+      <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
+      <td class="tdTableHeading tdPhysicalColName">Nombre Fisico de Columna</td>
+      <td class="tdTableHeading tdDataType">Tipo</td>
+      <td class="tdTableHeading tdPkFlag">PK</td>
+      <td class="tdTableHeading tdNullFlag">Nullable</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id (PK)</td>
+      <td class="tdTableDefinition">id</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap>PK</td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">establecimiento</td>
+      <td class="tdTableDefinition">establecimiento</td>
+      <td class="tdTableDefinition">VARCHAR(100)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">contacto</td>
+      <td class="tdTableDefinition">contacto</td>
+      <td class="tdTableDefinition">VARCHAR(100)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">correo</td>
+      <td class="tdTableDefinition">correo</td>
+      <td class="tdTableDefinition">VARCHAR(50)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">telefono</td>
+      <td class="tdTableDefinition">telefono</td>
+      <td class="tdTableDefinition">VARCHAR(15)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">cargo</td>
+      <td class="tdTableDefinition">cargo</td>
+      <td class="tdTableDefinition">VARCHAR(50)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+  </table>
+  <div class="references">
+    <p class="subTitle">Esta tabla es usada por: </p>
+    <ul>
+      <li> <a href="#ficha_tecnica">ficha_tecnica</a>  hace referencia la campo (id)</li>
+    </ul>
+  </div>
+</div>
+<div class="tableNameHeading">
+  <h1>27. significado_campo<a name="significado_campo"></a></h1>
+</div>
+<div class="table">
+  <table class="tableDefinition" width="100%">
+    <tr>
+      <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
+      <td class="tdTableHeading tdPhysicalColName">Nombre Fisico de Columna</td>
+      <td class="tdTableHeading tdDataType">Tipo</td>
+      <td class="tdTableHeading tdPkFlag">PK</td>
+      <td class="tdTableHeading tdNullFlag">Nullable</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id (PK)</td>
+      <td class="tdTableDefinition">id</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap>PK</td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">descripcion</td>
+      <td class="tdTableDefinition">descripcion</td>
+      <td class="tdTableDefinition">VARCHAR(200)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">codigo</td>
+      <td class="tdTableDefinition">codigo</td>
+      <td class="tdTableDefinition">VARCHAR(40)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">uso_en_catalogo</td>
+      <td class="tdTableDefinition">uso_en_catalogo</td>
+      <td class="tdTableDefinition">BOOLEAN</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">catalogo</td>
+      <td class="tdTableDefinition">catalogo</td>
+      <td class="tdTableDefinition">VARCHAR(255)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">nombre_mapa</td>
+      <td class="tdTableDefinition">nombre_mapa</td>
+      <td class="tdTableDefinition">VARCHAR(200)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+  </table>
+  <div class="references">
+    <p class="subTitle">Esta tabla es usada por: </p>
+    <ul>
+      <li> <a href="#campo">campo</a>  hace referencia la campo (id)</li>
+    </ul>
+  </div>
+</div>
+<div class="tableNameHeading">
+  <h1>28. tipo_campo<a name="tipo_campo"></a></h1>
+</div>
+<div class="table">
+  <table class="tableDefinition" width="100%">
+    <tr>
+      <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
+      <td class="tdTableHeading tdPhysicalColName">Nombre Fisico de Columna</td>
+      <td class="tdTableHeading tdDataType">Tipo</td>
+      <td class="tdTableHeading tdPkFlag">PK</td>
+      <td class="tdTableHeading tdNullFlag">Nullable</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id (PK)</td>
+      <td class="tdTableDefinition">id</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap>PK</td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">descripcion</td>
+      <td class="tdTableDefinition">descripcion</td>
+      <td class="tdTableDefinition">VARCHAR(50)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">codigo</td>
+      <td class="tdTableDefinition">codigo</td>
+      <td class="tdTableDefinition">VARCHAR(50)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+  </table>
+  <div class="references">
+    <p class="subTitle">Esta tabla es usada por: </p>
+    <ul>
+      <li> <a href="#campo">campo</a>  hace referencia la campo (id)</li>
+    </ul>
+  </div>
+</div>
+<div class="tableNameHeading">
+  <h1>29. usuario_indicadores_favoritos<a name="usuario_indicadores_favoritos"></a></h1>
+</div>
+<div class="table">
+  <table class="tableDefinition" width="100%">
+    <tr>
+      <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
+      <td class="tdTableHeading tdPhysicalColName">Nombre Fisico de Columna</td>
+      <td class="tdTableHeading tdDataType">Tipo</td>
+      <td class="tdTableHeading tdPkFlag">PK</td>
+      <td class="tdTableHeading tdNullFlag">Nullable</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id_usuario (PK)
+        &nbsp;(<a href="#fos_user_user">FK</a>) </td>
+      <td class="tdTableDefinition">id_usuario</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap>PK</td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id_indicador (PK)
+        &nbsp;(<a href="#ficha_tecnica">FK</a>) </td>
+      <td class="tdTableDefinition">id_indicador</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap>PK</td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+  </table>
+  <div class="references">
+    <p class="subTitle">Esta tabla depende de:</p>
+    <ul>
+      <li> <a href="#ficha_tecnica">ficha_tecnica</a> por medio de  (id_indicador)</li>
+      <li> <a href="#fos_user_user">fos_user_user</a> por medio de  (id_usuario)</li>
+    </ul>
+  </div>
+</div>
+<div class="tableNameHeading">
+  <h1>29. variable_dato<a name="variable_dato"></a></h1>
+</div>
+<div class="table">
+  <table class="tableDefinition" width="100%">
+    <tr>
+      <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
+      <td class="tdTableHeading tdPhysicalColName">Nombre Fisico de Columna</td>
+      <td class="tdTableHeading tdDataType">Tipo</td>
+      <td class="tdTableHeading tdPkFlag">PK</td>
+      <td class="tdTableHeading tdNullFlag">Nullable</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id (PK)</td>
+      <td class="tdTableDefinition">id</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap>PK</td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id_fuente_dato
+        &nbsp;(<a href="#fuente_dato">FK</a>) </td>
+      <td class="tdTableDefinition">id_fuente_dato</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id_responsable_dato
+        &nbsp;(<a href="#responsable_dato">FK</a>) </td>
+      <td class="tdTableDefinition">id_responsable_dato</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">id_origen_datos
+        &nbsp;(<a href="#origen_datos">FK</a>) </td>
+      <td class="tdTableDefinition">id_origen_datos</td>
+      <td class="tdTableDefinition">BIGINT</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">nombre</td>
+      <td class="tdTableDefinition">nombre</td>
+      <td class="tdTableDefinition">VARCHAR(200)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">confiabilidad</td>
+      <td class="tdTableDefinition">confiabilidad</td>
+      <td class="tdTableDefinition">INTEGER</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">iniciales</td>
+      <td class="tdTableDefinition">iniciales</td>
+      <td class="tdTableDefinition">VARCHAR(255)</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap>NOT NULL</td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">comentario</td>
+      <td class="tdTableDefinition">comentario</td>
+      <td class="tdTableDefinition">CLOB</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+    <tr valign="top">
+      <td class="tdTableDefinition">es_poblacion</td>
+      <td class="tdTableDefinition">es_poblacion</td>
+      <td class="tdTableDefinition">BOOLEAN</td>
+      <td class="tdTableDefinition" nowrap></td>
+      <td class="tdTableDefinition" nowrap></td>
+    </tr>
+  </table>
+  <div class="references">
+    <p class="subTitle">Esta tabla depende de:</p>
+    <ul>
+      <li> <a href="#origen_datos">origen_datos</a> por medio de  (id_origen_datos)</li>
+      <li> <a href="#fuente_dato">fuente_dato</a> por medio de  (id_fuente_dato)</li>
+      <li> <a href="#responsable_dato">responsable_dato</a> por medio de  (id_responsable_dato)</li>
+    </ul>
+    <p class="subTitle">Esta tabla es usada por: </p>
+    <ul>
+      <li> <a href="#ficha_tecnica_variable_dato">ficha_tecnica_variable_dato</a>  hace referencia la campo (id)</li>
+    </ul>
+  </div>
+</div>
