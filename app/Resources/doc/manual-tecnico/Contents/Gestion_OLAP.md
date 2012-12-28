@@ -36,7 +36,9 @@ NOTICE:  Terminado.
 (1 row)
 </pre> 
 
- ### Servidor de Gestión de Cubos OLAP 
+
+
+### Servidor de Gestión de Cubos OLAP 
  
 Actualmente el sistema utiliza un servidor experimental de cubos escrito en Python. Este servidor contiene tres elementos:
 
@@ -200,7 +202,7 @@ debug: true
 
 </pre>
 
-## Consultando el Servidor OLAP
+### Consultando el Servidor OLAP
 
 El servidor OLAP procesa consultas REST usando su API http, y responde con datos en formato JSON. El formato general a utilizar es el siguiente:
 
@@ -231,18 +233,22 @@ Un listado completo de las posibles consultas que se pueden hacer usando el serv
 
 http://packages.python.org/cubes/server.html#http-api 
  
- ## Funciones Auxiliares de PsotgreSQL
+
+## Funciones Auxiliares de PostgreSQL
+
  
-
-### Crear/Actualizar Cubos
-
-Primero deben estar instaladas las funciones para manejar hstore y tablas pivot:
+Estas son funciones que utiliza el sistema, para poder crearlas es necesario instalar primero las funciones para manejar hstore y tablas pivot:
 
 postgres=# create extension hstore;
 
 postgres=# create extension tablefunc;
 
-Luego para ejecutar la funcion:
+
+### Crear/Actualizar Cubos
+
+
+
+Para crear los cubos OLAP se debe llamar la funcion correspondiente:
 
 postgres=# select * from cargar_cubos();
 
@@ -250,6 +256,7 @@ postgres=# select * from cargar_cubos();
 
 NOTICE:  Terminado.
 
+Es posible verificar las tablas/cubos generados en el paso anterior por medio de la siguiente consulta.
 
 postgres=# SELECT table_name FROM information_schema.tables WHERE table_schema = 'cubos';
 
@@ -385,7 +392,8 @@ $BODY$
   COST 100;
 ```
 
- ### Crear/Actualizar Catalogo Tiempo
+
+### Crear/Actualizar Catalogo Tiempo
 
 
 postgres=# select * from crear_ctl_tiempo(2008,5);
