@@ -11,7 +11,10 @@ El Siguiente Diccionario de Datos describe la estructura del almacenamiento tran
 
 
 ## Diccionario de Datos
-<h3>Lista de tablas</h3>
+
+### Lista de tablas
+
+
 <ul>
   <li> <a href="#alerta">alerta</a> </li>
   <li> <a href="#campo">campo</a> </li>
@@ -44,11 +47,11 @@ El Siguiente Diccionario de Datos describe la estructura del almacenamiento tran
   <li> <a href="#usuario_indicadores_favoritos">usuario_indicadores_favoritos</a> </li>
   <li> <a href="#variable_dato">variable_dato</a> </li>
 </ul>
-<div class="tableNameHeading">
+
+
   <h1>1. alerta<a name="alerta"></a> </h1>
-  <h2>&nbsp;</h2>
-</div>
-<div class="table">
+
+
   <table class="tableDefinition" width="100%">
     <tr>
       <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
@@ -79,17 +82,20 @@ El Siguiente Diccionario de Datos describe la estructura del almacenamiento tran
       <td class="tdTableDefinition" nowrap>NOT NULL</td>
     </tr>
   </table>
-  <div class="references">
-    <p class="subTitle">Esta tabla es usada por: </p>
-    <ul>
-      <li> <a href="#indicador_alertas">indicador_alertas</a>  hace referencia la campo (id)</li>
-    </ul>
-  </div>
-</div>
-<div class="tableNameHeading">
+  
+  
+  Esta tabla es usada por: 
+  
+  
+  
+  <ul>
+      <li><a href="#indicador_alertas">indicador_alertas</a>  hace referencia la campo (id)</li>
+    </UL>
+  
+
   <h1>2. campo<a name="campo"></a></h1>
-</div>
-<div class="table">
+
+
   <table class="tableDefinition" width="100%">
     <tr>
       <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
@@ -144,23 +150,26 @@ El Siguiente Diccionario de Datos describe la estructura del almacenamiento tran
       <td class="tdTableDefinition" nowrap></td>
     </tr>
   </table>
-  <div class="references">
-    <p class="subTitle">Esta tabla depende de:</p>
-    <ul>
+  
+  
+  Esta tabla depende de:
+  <ul>
       <li> <a href="#origen_datos">origen_datos</a> por medio de  (id_origen_datos)</li>
       <li> <a href="#tipo_campo">tipo_campo</a> por medio de  (id_tipo_campo)</li>
       <li> <a href="#significado_campo">significado_campo</a> por medio de  (id_significado_campo)</li>
-    </ul>
-    <p class="subTitle">Esta tabla es usada por: </p>
-    <ul>
+    </ul>  
+  
+  Esta tabla es usada por: 
+    
+   <ul>
       <li> <a href="#ficha_tecnica_campo">ficha_tecnica_campo</a>  hace referencia la campo (id)</li>
     </ul>
-  </div>
-</div>
-<div class="tableNameHeading">
+  
+
+
   <h1>3. clasificacion_nivel<a name="clasificacion_nivel"></a></h1>
-</div>
-<div class="table">
+
+
   <table class="tableDefinition" width="100%">
     <tr>
       <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
@@ -198,17 +207,18 @@ El Siguiente Diccionario de Datos describe la estructura del almacenamiento tran
       <td class="tdTableDefinition" nowrap></td>
     </tr>
   </table>
-  <div class="references">
-    <p class="subTitle">Esta tabla es usada por: </p>
-    <ul>
+  
+    
+  Esta tabla es usada por: 
+  
+  <ul>
       <li> <a href="#ficha_tecnica">ficha_tecnica</a>  hace referencia la campo (id)</li>
     </ul>
-  </div>
-</div>
-<div class="tableNameHeading">
+  
+
   <h1>4. clasificacion_privacidad<a name="clasificacion_privacidad"></a></h1>
-</div>
-<div class="table">
+
+
   <table class="tableDefinition" width="100%">
     <tr>
       <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
@@ -246,17 +256,18 @@ El Siguiente Diccionario de Datos describe la estructura del almacenamiento tran
       <td class="tdTableDefinition" nowrap></td>
     </tr>
   </table>
-  <div class="references">
-    <p class="subTitle">Esta tabla es usada por: </p>
-    <ul>
+  
+    
+  Esta tabla es usada por: 
+  
+  <ul>
       <li> <a href="#ficha_tecnica">ficha_tecnica</a>  hace referencia la campo (id)</li>
     </ul>
-  </div>
-</div>
-<div class="tableNameHeading">
+  
+
   <h1>5. clasificacion_tecnica<a name="clasificacion_tecnica"></a></h1>
-</div>
-<div class="table">
+
+
   <table class="tableDefinition" width="100%">
     <tr>
       <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
@@ -294,17 +305,17 @@ El Siguiente Diccionario de Datos describe la estructura del almacenamiento tran
       <td class="tdTableDefinition" nowrap></td>
     </tr>
   </table>
-  <div class="references">
-    <p class="subTitle">Esta tabla es usada por: </p>
-    <ul>
+  
+  Esta tabla es usada por: 
+    
+  <ul>
       <li> <a href="#ficha_tecnica">ficha_tecnica</a>  hace referencia la campo (id)</li>
     </ul>
-  </div>
-</div>
-<div class="tableNameHeading">
+  
+
   <h1>6. clasificacion_uso<a name="clasificacion_uso"></a></h1>
-</div>
-<div class="table">
+
+
   <table class="tableDefinition" width="100%">
     <tr>
       <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
@@ -342,17 +353,17 @@ El Siguiente Diccionario de Datos describe la estructura del almacenamiento tran
       <td class="tdTableDefinition" nowrap></td>
     </tr>
   </table>
-  <div class="references">
-    <p class="subTitle">Esta tabla es usada por: </p>
-    <ul>
+  
+  Esta tabla es usada por: 
+  
+  <ul>
       <li> <a href="#ficha_tecnica">ficha_tecnica</a>  hace referencia la campo (id)</li>
     </ul>
-  </div>
-</div>
-<div class="tableNameHeading">
+  
+
   <h1>7. conexion<a name="conexion"></a></h1>
-</div>
-<div class="table">
+
+
   <table class="tableDefinition" width="100%">
     <tr>
       <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
@@ -433,21 +444,22 @@ El Siguiente Diccionario de Datos describe la estructura del almacenamiento tran
       <td class="tdTableDefinition" nowrap></td>
     </tr>
   </table>
-  <div class="references">
-    <p class="subTitle">Esta tabla depende de:</p>
-    <ul>
+  
+  Esta tabla depende de:
+    
+  <ul>
       <li> <a href="#motor_bd">motor_bd</a> por medio de  (id_motor)</li>
     </ul>
-    <p class="subTitle">Esta tabla es usada por: </p>
-    <ul>
+  
+  Esta tabla es usada por: 
+  <ul>
       <li> <a href="#origen_datos">origen_datos</a>  hace referencia la campo (id)</li>
     </ul>
-  </div>
-</div>
-<div class="tableNameHeading">
+  
+
   <h1>8. ficha_tecnica<a name="ficha_tecnica"></a></h1>
-</div>
-<div class="table">
+
+
   <table class="tableDefinition" width="100%">
     <tr>
       <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
@@ -603,9 +615,9 @@ El Siguiente Diccionario de Datos describe la estructura del almacenamiento tran
       <td class="tdTableDefinition" nowrap></td>
     </tr>
   </table>
-  <div class="references">
-    <p class="subTitle">Esta tabla depende de:</p>
-    <ul>
+  
+  Esta tabla depende de:
+  <ul>
       <li> <a href="#periodos">periodos</a> por medio de  (id_periodo)</li>
       <li> <a href="#clasificacion_privacidad">clasificacion_privacidad</a> por medio de  (id_clasificacion_privacidad)</li>
       <li> <a href="#clasificacion_tecnica">clasificacion_tecnica</a> por medio de  (id_clasificacion_tecnica)</li>
@@ -613,8 +625,9 @@ El Siguiente Diccionario de Datos describe la estructura del almacenamiento tran
       <li> <a href="#clasificacion_nivel">clasificacion_nivel</a> por medio de  (id_clasificacion_nivel)</li>
       <li> <a href="#responsable_indicador">responsable_indicador</a> por medio de  (id_responsable_indicador)</li>
     </ul>
-    <p class="subTitle">Esta tabla es usada por: </p>
-    <ul>
+    
+  Esta tabla es usada por: 
+  <ul>
       <li> <a href="#ficha_tecnica_periodicidad">ficha_tecnica_periodicidad</a>  hace referencia la campo (id)</li>
       <li> <a href="#ficha_tecnica_campo">ficha_tecnica_campo</a>  hace referencia la campo (id)</li>
       <li> <a href="#ficha_tecnica_presentacion">ficha_tecnica_presentacion</a>  hace referencia la campo (id)</li>
@@ -622,12 +635,12 @@ El Siguiente Diccionario de Datos describe la estructura del almacenamiento tran
       <li> <a href="#ficha_tecnica_variable_dato">ficha_tecnica_variable_dato</a>  hace referencia la campo (id)</li>
       <li> <a href="#usuario_indicadores_favoritos">usuario_indicadores_favoritos</a>  hace referencia la campo (id)</li>
     </ul>
-  </div>
-</div>
-<div class="tableNameHeading">
+  
+
+
   <h1>9. ficha_tecnica_campo<a name="ficha_tecnica_campo"></a></h1>
-</div>
-<div class="table">
+
+
   <table class="tableDefinition" width="100%">
     <tr>
       <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
@@ -653,18 +666,18 @@ El Siguiente Diccionario de Datos describe la estructura del almacenamiento tran
       <td class="tdTableDefinition" nowrap>NOT NULL</td>
     </tr>
   </table>
-  <div class="references">
-    <p class="subTitle">Esta tabla depende de:</p>
-    <ul>
+  
+  Esta tabla depende de:
+  <ul>
       <li> <a href="#campo">campo</a> por medio de  (id_campo)</li>
       <li> <a href="#ficha_tecnica">ficha_tecnica</a> por medio de  (id_ficha_tecnica)</li>
     </ul>
-  </div>
-</div>
-<div class="tableNameHeading">
+  
+
+
   <h1>10. ficha_tecnica_periodicidad<a name="ficha_tecnica_periodicidad"></a></h1>
-</div>
-<div class="table">
+
+
   <table class="tableDefinition" width="100%">
     <tr>
       <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
@@ -690,18 +703,18 @@ El Siguiente Diccionario de Datos describe la estructura del almacenamiento tran
       <td class="tdTableDefinition" nowrap>NOT NULL</td>
     </tr>
   </table>
-  <div class="references">
-    <p class="subTitle">Esta tabla depende de:</p>
-    <ul>
+  
+  Esta tabla depende de:
+  <ul>
       <li> <a href="#periodos">periodos</a> por medio de  (id_periodicidad)</li>
       <li> <a href="#ficha_tecnica">ficha_tecnica</a> por medio de  (id_ficha_tecnica)</li>
     </ul>
-  </div>
-</div>
-<div class="tableNameHeading">
+  
+
+
   <h1>11. ficha_tecnica_presentacion<a name="ficha_tecnica_presentacion"></a></h1>
-</div>
-<div class="table">
+
+
   <table class="tableDefinition" width="100%">
     <tr>
       <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
@@ -727,18 +740,18 @@ El Siguiente Diccionario de Datos describe la estructura del almacenamiento tran
       <td class="tdTableDefinition" nowrap>NOT NULL</td>
     </tr>
   </table>
-  <div class="references">
-    <p class="subTitle">Esta tabla depende de:</p>
-    <ul>
+  
+  Esta tabla depende de:
+  <ul>
       <li> <a href="#ficha_tecnica">ficha_tecnica</a> por medio de  (id_ficha_tecnica)</li>
       <li> <a href="#presentacion">presentacion</a> por medio de  (id_presentacion)</li>
     </ul>
-  </div>
-</div>
-<div class="tableNameHeading">
+  
+
+
   <h1>12. ficha_tecnica_variable_dato<a name="ficha_tecnica_variable_dato"></a></h1>
-</div>
-<div class="table">
+
+
   <table class="tableDefinition" width="100%">
     <tr>
       <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
@@ -764,18 +777,18 @@ El Siguiente Diccionario de Datos describe la estructura del almacenamiento tran
       <td class="tdTableDefinition" nowrap>NOT NULL</td>
     </tr>
   </table>
-  <div class="references">
-    <p class="subTitle">Esta tabla depende de:</p>
-    <ul>
+  
+  Esta tabla depende de:
+  <ul>
       <li> <a href="#ficha_tecnica">ficha_tecnica</a> por medio de  (id_ficha_tecnica)</li>
       <li> <a href="#variable_dato">variable_dato</a> por medio de  (id_variable_dato)</li>
     </ul>
-  </div>
-</div>
-<div class="tableNameHeading">
+  
+
+
   <h1>13. fila_origen_dato<a name="fila_origen_dato"></a></h1>
-</div>
-<div class="table">
+
+
   <table class="tableDefinition" width="100%">
     <tr>
       <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
@@ -807,17 +820,16 @@ El Siguiente Diccionario de Datos describe la estructura del almacenamiento tran
       <td class="tdTableDefinition" nowrap></td>
     </tr>
   </table>
-  <div class="references">
-    <p class="subTitle">Esta tabla depende de:</p>
-    <ul>
+  
+  Esta tabla depende de:
+  <ul>
       <li> <a href="#origen_datos">origen_datos</a> por medio de  (id_origen_dato)</li>
     </ul>
-  </div>
-</div>
-<div class="tableNameHeading">
+  
+
   <h1>14. fos_user_group<a name="fos_user_group"></a></h1>
-</div>
-<div class="table">
+
+
   <table class="tableDefinition" width="100%">
     <tr>
       <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
@@ -848,20 +860,20 @@ El Siguiente Diccionario de Datos describe la estructura del almacenamiento tran
       <td class="tdTableDefinition" nowrap>NOT NULL</td>
     </tr>
     <tr>
-      <td colspan="4"><div class="comment">(DC2Tipo:array)</div></td>
+      <td colspan="4">(DC2Tipo:array)</td>
     </tr>
   </table>
-  <div class="references">
-    <p class="subTitle">Esta tabla es usada por: </p>
-    <ul>
+  
+  Esta tabla es usada por: 
+  <ul>
       <li> <a href="#fos_user_user_group">fos_user_user_group</a>  hace referencia la campo (id)</li>
     </ul>
-  </div>
-</div>
-<div class="tableNameHeading">
+  
+
+
   <h1>15. fos_user_user<a name="fos_user_user"></a></h1>
-</div>
-<div class="table">
+
+
   <table class="tableDefinition" width="100%">
     <tr>
       <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
@@ -976,7 +988,7 @@ El Siguiente Diccionario de Datos describe la estructura del almacenamiento tran
       <td class="tdTableDefinition" nowrap>NOT NULL</td>
     </tr>
     <tr>
-      <td colspan="4"><div class="comment">(DC2Tipo:array)</div></td>
+      <td colspan="4">(DC2Tipo:array)</td>
     </tr>
     <tr valign="top">
       <td class="tdTableDefinition">credentials_expired</td>
@@ -1091,7 +1103,7 @@ El Siguiente Diccionario de Datos describe la estructura del almacenamiento tran
       <td class="tdTableDefinition" nowrap></td>
     </tr>
     <tr>
-      <td colspan="4"><div class="comment">(DC2Tipo:json)</div></td>
+      <td colspan="4">(DC2Tipo:json)</td>
     </tr>
     <tr valign="top">
       <td class="tdTableDefinition">twitter_uid</td>
@@ -1115,7 +1127,7 @@ El Siguiente Diccionario de Datos describe la estructura del almacenamiento tran
       <td class="tdTableDefinition" nowrap></td>
     </tr>
     <tr>
-      <td colspan="4"><div class="comment">(DC2Tipo:json)</div></td>
+      <td colspan="4">(DC2Tipo:json)</td>
     </tr>
     <tr valign="top">
       <td class="tdTableDefinition">gplus_uid</td>
@@ -1139,7 +1151,7 @@ El Siguiente Diccionario de Datos describe la estructura del almacenamiento tran
       <td class="tdTableDefinition" nowrap></td>
     </tr>
     <tr>
-      <td colspan="4"><div class="comment">(DC2Tipo:json)</div></td>
+      <td colspan="4">(DC2Tipo:json)</td>
     </tr>
     <tr valign="top">
       <td class="tdTableDefinition">token</td>
@@ -1156,18 +1168,17 @@ El Siguiente Diccionario de Datos describe la estructura del almacenamiento tran
       <td class="tdTableDefinition" nowrap></td>
     </tr>
   </table>
-  <div class="references">
-    <p class="subTitle">Esta tabla es usada por: </p>
-    <ul>
+  
+  Esta tabla es usada por: 
+  <ul>
       <li> <a href="#fos_user_user_group">fos_user_user_group</a>  hace referencia la campo (id)</li>
       <li> <a href="#usuario_indicadores_favoritos">usuario_indicadores_favoritos</a>  hace referencia la campo (id)</li>
     </ul>
-  </div>
-</div>
-<div class="tableNameHeading">
+  
+
   <h1>16. fos_user_user_group<a name="fos_user_user_group"></a></h1>
-</div>
-<div class="table">
+
+
   <table class="tableDefinition" width="100%">
     <tr>
       <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
@@ -1193,18 +1204,17 @@ El Siguiente Diccionario de Datos describe la estructura del almacenamiento tran
       <td class="tdTableDefinition" nowrap>NOT NULL</td>
     </tr>
   </table>
-  <div class="references">
-    <p class="subTitle">Esta tabla depende de:</p>
-    <ul>
+  
+  Esta tabla depende de:
+  <ul>
       <li> <a href="#fos_user_group">fos_user_group</a> por medio de  (group_id)</li>
       <li> <a href="#fos_user_user">fos_user_user</a> por medio de  (user_id)</li>
     </ul>
-  </div>
-</div>
-<div class="tableNameHeading">
+  
+
   <h1>17. fuente_dato<a name="fuente_dato"></a></h1>
-</div>
-<div class="table">
+
+
   <table class="tableDefinition" width="100%">
     <tr>
       <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
@@ -1256,17 +1266,16 @@ El Siguiente Diccionario de Datos describe la estructura del almacenamiento tran
       <td class="tdTableDefinition" nowrap>NOT NULL</td>
     </tr>
   </table>
-  <div class="references">
-    <p class="subTitle">Esta tabla es usada por: </p>
-    <ul>
+  
+  Esta tabla es usada por: 
+  <ul>
       <li> <a href="#variable_dato">variable_dato</a>  hace referencia la campo (id)</li>
     </ul>
-  </div>
-</div>
-<div class="tableNameHeading">
+  
+
   <h1>18. fusion_origenes_datos<a name="fusion_origenes_datos"></a></h1>
-</div>
-<div class="table">
+
+
   <table class="tableDefinition" width="100%">
     <tr>
       <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
@@ -1306,18 +1315,18 @@ El Siguiente Diccionario de Datos describe la estructura del almacenamiento tran
       <td class="tdTableDefinition" nowrap></td>
     </tr>
   </table>
-  <div class="references">
-    <p class="subTitle">Esta tabla depende de:</p>
-    <ul>
+  
+  Esta tabla depende de:
+  <ul>
       <li> <a href="#origen_datos">origen_datos</a> por medio de  (id_origen_datos)</li>
       <li> <a href="#origen_datos">origen_datos</a> por medio de  (id_origen_datos_fusionado)</li>
     </ul>
-  </div>
-</div>
-<div class="tableNameHeading">
+  
+
+
   <h1>19. indicador_alertas<a name="indicador_alertas"></a></h1>
-</div>
-<div class="table">
+
+
   <table class="tableDefinition" width="100%">
     <tr>
       <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
@@ -1371,18 +1380,18 @@ El Siguiente Diccionario de Datos describe la estructura del almacenamiento tran
       <td class="tdTableDefinition" nowrap></td>
     </tr>
   </table>
-  <div class="references">
-    <p class="subTitle">Esta tabla depende de:</p>
-    <ul>
+  
+  Esta tabla depende de:
+  <ul>
       <li> <a href="#alerta">alerta</a> por medio de  (id_color_alerta)</li>
       <li> <a href="#ficha_tecnica">ficha_tecnica</a> por medio de  (id_indicador)</li>
     </ul>
-  </div>
-</div>
-<div class="tableNameHeading">
+  
+
+
   <h1>20. motor_bd<a name="motor_bd"></a></h1>
-</div>
-<div class="table">
+
+
   <table class="tableDefinition" width="100%">
     <tr>
       <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
@@ -1413,17 +1422,17 @@ El Siguiente Diccionario de Datos describe la estructura del almacenamiento tran
       <td class="tdTableDefinition" nowrap></td>
     </tr>
   </table>
-  <div class="references">
-    <p class="subTitle">Esta tabla es usada por: </p>
-    <ul>
+  
+  Esta tabla es usada por: 
+  <ul>
       <li> <a href="#conexion">conexion</a>  hace referencia la campo (id)</li>
     </ul>
-  </div>
-</div>
-<div class="tableNameHeading">
+  
+
+
   <h1>21. origen_datos<a name="origen_datos"></a></h1>
-</div>
-<div class="table">
+
+
   <table class="tableDefinition" width="100%">
     <tr>
       <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
@@ -1504,13 +1513,13 @@ El Siguiente Diccionario de Datos describe la estructura del almacenamiento tran
       <td class="tdTableDefinition" nowrap></td>
     </tr>
   </table>
-  <div class="references">
-    <p class="subTitle">Esta tabla depende de:</p>
-    <ul>
+  
+  Esta tabla depende de:
+  <ul>
       <li> <a href="#conexion">conexion</a> por medio de  (id_conexion)</li>
     </ul>
-    <p class="subTitle">Esta tabla es usada por: </p>
-    <ul>
+  Esta tabla es usada por: 
+  <ul>
       <li> <a href="#campo">campo</a>  hace referencia la campo (id)</li>
       <li> <a href="#origen_datos_fusiones">origen_datos_fusiones</a>  hace referencia la campo (id)</li>
       <li> <a href="#origen_datos_fusiones">origen_datos_fusiones</a>  hace referencia la campo (id)</li>
@@ -1519,12 +1528,12 @@ El Siguiente Diccionario de Datos describe la estructura del almacenamiento tran
       <li> <a href="#fusion_origenes_datos">fusion_origenes_datos</a>  hace referencia la campo (id)</li>
       <li> <a href="#fusion_origenes_datos">fusion_origenes_datos</a>  hace referencia la campo (id)  </li>
     </ul>
-  </div>
-</div>
-<div class="tableNameHeading">
+  
+
+
   <h1>22. origen_datos_fusiones<a name="origen_datos_fusiones"></a></h1>
-</div>
-<div class="table">
+
+
   <table class="tableDefinition" width="100%">
     <tr>
       <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
@@ -1550,18 +1559,18 @@ El Siguiente Diccionario de Datos describe la estructura del almacenamiento tran
       <td class="tdTableDefinition" nowrap>NOT NULL</td>
     </tr>
   </table>
-  <div class="references">
-    <p class="subTitle">Esta tabla depende de:</p>
-    <ul>
+  
+  Esta tabla depende de:
+  <ul>
       <li> <a href="#origen_datos">origen_datos</a> por medio de  (id_origen_dato_fusionado)</li>
       <li> <a href="#origen_datos">origen_datos</a> por medio de  (id_origen_dato)</li>
     </ul>
-  </div>
-</div>
-<div class="tableNameHeading">
+  
+
+
   <h1>23. periodos<a name="periodos"></a></h1>
-</div>
-<div class="table">
+
+
   <table class="tableDefinition" width="100%">
     <tr>
       <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
@@ -1599,18 +1608,18 @@ El Siguiente Diccionario de Datos describe la estructura del almacenamiento tran
       <td class="tdTableDefinition" nowrap></td>
     </tr>
   </table>
-  <div class="references">
-    <p class="subTitle">Esta tabla es usada por: </p>
-    <ul>
+  
+  Esta tabla es usada por: 
+  <ul>
       <li> <a href="#ficha_tecnica_periodicidad">ficha_tecnica_periodicidad</a>  hace referencia la campo (id)</li>
       <li> <a href="#ficha_tecnica">ficha_tecnica</a>  hace referencia la campo (id)</li>
     </ul>
-  </div>
-</div>
-<div class="tableNameHeading">
+  
+
+
   <h1>24. presentacion<a name="presentacion"></a></h1>
-</div>
-<div class="table">
+
+
   <table class="tableDefinition" width="100%">
     <tr>
       <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
@@ -1641,17 +1650,17 @@ El Siguiente Diccionario de Datos describe la estructura del almacenamiento tran
       <td class="tdTableDefinition" nowrap>NOT NULL</td>
     </tr>
   </table>
-  <div class="references">
-    <p class="subTitle">Esta tabla es usada por: </p>
-    <ul>
+  
+  Esta tabla es usada por: 
+  <ul>
       <li> <a href="#ficha_tecnica_presentacion">ficha_tecnica_presentacion</a>  hace referencia la campo (id)</li>
     </ul>
-  </div>
-</div>
-<div class="tableNameHeading">
+  
+
+
   <h1>25. responsable_dato<a name="responsable_dato"></a></h1>
-</div>
-<div class="table">
+
+
   <table class="tableDefinition" width="100%">
     <tr>
       <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
@@ -1703,17 +1712,17 @@ El Siguiente Diccionario de Datos describe la estructura del almacenamiento tran
       <td class="tdTableDefinition" nowrap>NOT NULL</td>
     </tr>
   </table>
-  <div class="references">
-    <p class="subTitle">Esta tabla es usada por: </p>
-    <ul>
+  
+  Esta tabla es usada por: 
+  <ul>
       <li> <a href="#variable_dato">variable_dato</a>  hace referencia la campo (id)</li>
     </ul>
-  </div>
-</div>
-<div class="tableNameHeading">
+  
+
+
   <h1>26. responsable_indicador<a name="responsable_indicador"></a></h1>
-</div>
-<div class="table">
+
+
   <table class="tableDefinition" width="100%">
     <tr>
       <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
@@ -1765,17 +1774,17 @@ El Siguiente Diccionario de Datos describe la estructura del almacenamiento tran
       <td class="tdTableDefinition" nowrap>NOT NULL</td>
     </tr>
   </table>
-  <div class="references">
-    <p class="subTitle">Esta tabla es usada por: </p>
-    <ul>
+  
+  Esta tabla es usada por: 
+  <ul>
       <li> <a href="#ficha_tecnica">ficha_tecnica</a>  hace referencia la campo (id)</li>
     </ul>
-  </div>
-</div>
-<div class="tableNameHeading">
+  
+
+
   <h1>27. significado_campo<a name="significado_campo"></a></h1>
-</div>
-<div class="table">
+
+
   <table class="tableDefinition" width="100%">
     <tr>
       <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
@@ -1827,17 +1836,17 @@ El Siguiente Diccionario de Datos describe la estructura del almacenamiento tran
       <td class="tdTableDefinition" nowrap></td>
     </tr>
   </table>
-  <div class="references">
-    <p class="subTitle">Esta tabla es usada por: </p>
-    <ul>
+  
+  Esta tabla es usada por: 
+  <ul>
       <li> <a href="#campo">campo</a>  hace referencia la campo (id)</li>
     </ul>
-  </div>
-</div>
-<div class="tableNameHeading">
+  
+
+
   <h1>28. tipo_campo<a name="tipo_campo"></a></h1>
-</div>
-<div class="table">
+
+
   <table class="tableDefinition" width="100%">
     <tr>
       <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
@@ -1868,17 +1877,17 @@ El Siguiente Diccionario de Datos describe la estructura del almacenamiento tran
       <td class="tdTableDefinition" nowrap>NOT NULL</td>
     </tr>
   </table>
-  <div class="references">
-    <p class="subTitle">Esta tabla es usada por: </p>
-    <ul>
+  
+  Esta tabla es usada por: 
+  <ul>
       <li> <a href="#campo">campo</a>  hace referencia la campo (id)</li>
     </ul>
-  </div>
-</div>
-<div class="tableNameHeading">
+  
+
+
   <h1>29. usuario_indicadores_favoritos<a name="usuario_indicadores_favoritos"></a></h1>
-</div>
-<div class="table">
+
+
   <table class="tableDefinition" width="100%">
     <tr>
       <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
@@ -1904,18 +1913,19 @@ El Siguiente Diccionario de Datos describe la estructura del almacenamiento tran
       <td class="tdTableDefinition" nowrap>NOT NULL</td>
     </tr>
   </table>
-  <div class="references">
-    <p class="subTitle">Esta tabla depende de:</p>
+  
+    Esta tabla depende de:
+    
     <ul>
       <li> <a href="#ficha_tecnica">ficha_tecnica</a> por medio de  (id_indicador)</li>
       <li> <a href="#fos_user_user">fos_user_user</a> por medio de  (id_usuario)</li>
     </ul>
-  </div>
-</div>
-<div class="tableNameHeading">
+  
+
+
   <h1>29. variable_dato<a name="variable_dato"></a></h1>
-</div>
-<div class="table">
+
+
   <table class="tableDefinition" width="100%">
     <tr>
       <td class="tdTableHeading tdLogicalColName">Nomre Logico de Columna</td>
@@ -1991,16 +2001,15 @@ El Siguiente Diccionario de Datos describe la estructura del almacenamiento tran
       <td class="tdTableDefinition" nowrap></td>
     </tr>
   </table>
-  <div class="references">
-    <p class="subTitle">Esta tabla depende de:</p>
-    <ul>
+  
+  Esta tabla depende de:
+  <ul>
       <li> <a href="#origen_datos">origen_datos</a> por medio de  (id_origen_datos)</li>
       <li> <a href="#fuente_dato">fuente_dato</a> por medio de  (id_fuente_dato)</li>
       <li> <a href="#responsable_dato">responsable_dato</a> por medio de  (id_responsable_dato)</li>
     </ul>
-    <p class="subTitle">Esta tabla es usada por: </p>
-    <ul>
+  Esta tabla es usada por: 
+  <ul>
       <li> <a href="#ficha_tecnica_variable_dato">ficha_tecnica_variable_dato</a>  hace referencia la campo (id)</li>
     </ul>
-  </div>
-</div>
+  
