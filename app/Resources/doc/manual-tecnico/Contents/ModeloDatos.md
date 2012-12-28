@@ -6,8 +6,9 @@ Los datos que maneja el sistema provienen de distintas fuentes y son de una natu
 base datos sin esquema/genérico EAV. Las tabla EAV (Fila_origen_dato) y demás tablas auxiliares son parte del
 almacenamiento de datos transaccional (OLTP) de la aplicación. Esto facilita el manejo de datos
 de cualquier indicador sin importar sus propiedades. Los cubos de análisis multidimensional
-(OLAP) deben ser generados usando estos valores genéricos y estan descritos en la seccion de Gesition de Cubos OLAP.
-El Siguiente Diccionario de Datos describe la estructura del almacenamiento transaccional de la Aplicacion.
+(OLAP) son generados usando estos valores genéricos y estan descritos en la seccion de Gesition de Cubos OLAP.
+Las tablas de los cubos OLAP usan un esquema de estrella mientras que las tablas del almacenamiento OLTP usan un modelo relacional.
+El Siguiente Diccionario de Datos describe la estructura del almacenamiento transaccional (OLTP) de la Aplicacion.
 
 
 ## Diccionario de Datos
