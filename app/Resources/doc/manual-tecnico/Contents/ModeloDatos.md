@@ -1,5 +1,7 @@
 <h1>Esquema general de la Aplicacion</h1>
 
+<img src="esquema_app.png"/>
+
 Los datos que maneja el sistema son de una naturaleza tal que es necesario utilizar el modelo de
 base datos sin esquema/genérico EAV. Las tabla EAV (Fila_origen_dato) y demás tablas auxiliares son parte del
 almacenamiento de datos transaccional (OLTP) de la aplicación. Esto facilita el manejo de datos
