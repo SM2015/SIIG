@@ -1,4 +1,4 @@
-<h1>Gestion de Cubos OLAP</h1>
+<h1>Gestión de Cubos OLAP</h1>
 
 ### Introducción
 La ventaja principal de usar un gestor de cubos OLAP es aislar la lógica de las búsquedas para analizar los datos. De esta forma el sistema se enfoca en presentar al usuario la mayor cantidad de información de forma flexible sin preocuparse de la lógica para obtener los datos.
