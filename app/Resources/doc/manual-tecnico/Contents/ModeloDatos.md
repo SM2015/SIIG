@@ -987,9 +987,6 @@ El Siguiente Diccionario de Datos describe la estructura del almacenamiento tran
       <td class="tdTableDefinition" nowrap></td>
       <td class="tdTableDefinition" nowrap>NOT NULL</td>
     </tr>
-    <tr>
-      <td colspan="4">(DC2Tipo:array)</td>
-    </tr>
     <tr valign="top">
       <td class="tdTableDefinition">credentials_expired</td>
       <td class="tdTableDefinition">credentials_expired</td>
@@ -1102,9 +1099,6 @@ El Siguiente Diccionario de Datos describe la estructura del almacenamiento tran
       <td class="tdTableDefinition" nowrap></td>
       <td class="tdTableDefinition" nowrap></td>
     </tr>
-    <tr>
-      <td colspan="4">(DC2Tipo:json)</td>
-    </tr>
     <tr valign="top">
       <td class="tdTableDefinition">twitter_uid</td>
       <td class="tdTableDefinition">twitter_uid</td>
@@ -1126,9 +1120,6 @@ El Siguiente Diccionario de Datos describe la estructura del almacenamiento tran
       <td class="tdTableDefinition" nowrap></td>
       <td class="tdTableDefinition" nowrap></td>
     </tr>
-    <tr>
-      <td colspan="4">(DC2Tipo:json)</td>
-    </tr>
     <tr valign="top">
       <td class="tdTableDefinition">gplus_uid</td>
       <td class="tdTableDefinition">gplus_uid</td>
@@ -1149,9 +1140,6 @@ El Siguiente Diccionario de Datos describe la estructura del almacenamiento tran
       <td class="tdTableDefinition">CLOB</td>
       <td class="tdTableDefinition" nowrap></td>
       <td class="tdTableDefinition" nowrap></td>
-    </tr>
-    <tr>
-      <td colspan="4">(DC2Tipo:json)</td>
     </tr>
     <tr valign="top">
       <td class="tdTableDefinition">token</td>
