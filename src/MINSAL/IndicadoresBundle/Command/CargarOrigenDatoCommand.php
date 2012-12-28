@@ -32,7 +32,7 @@ class CargarOrigenDatoCommand extends ContainerAwareCommand {
             else {
                 $ultima_lectura = $ind->getUltimaLectura();
                 if ($ind->getPeriodo() != null)
-                        $periocidad = $ind->getPeriodo()->getCodigo();
+                    $periocidad = $ind->getPeriodo()->getCodigo();
                 else $periocidad='d';                
 
                 $intervalo = $ahora->diff($ultima_lectura);
