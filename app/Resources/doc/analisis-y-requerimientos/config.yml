@@ -19,7 +19,6 @@ book:
         - { element: chapter, number: 2, content: vision.md }
         - { element: chapter, number: 3, content: descripcion.md }        
         - { element: chapter, number: 4, content: requerimientos.md }        
-        - { element: chapter, number: 5, content: programacion.md }
         - { element: lof}
 
     editions:

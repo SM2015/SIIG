@@ -24,6 +24,6 @@ Las siguiente figura muestra la visión general del DashBoard (eTAB) a nivel pa�
 (izquierda) y su integración con el DashBoard a nivel regional (derecha), 
 dentro del marco de la Iniciativa SM2015.
 
-![Representación del eTAB](images/dashboard.png)
+![Representación del eTAB](dashboard.png)
 
 [^1]: Aprobada por la Free Softwale Foundation y la Open Source Initiative.

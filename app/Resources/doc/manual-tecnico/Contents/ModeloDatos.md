@@ -2008,4 +2008,3 @@ El Siguiente Diccionario de Datos y Diagrama ER describen la estructura del alma
   <ul>
       <li> <a href="#ficha_tecnica_variable_dato">ficha_tecnica_variable_dato</a>  hace referencia la campo (id)</li>
     </ul>
-  
