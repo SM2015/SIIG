@@ -5,7 +5,7 @@ En la actualidad hay muchos sistemas (transaccionales) que registran los datos d
 La siguiente figura representa la situación actual de los sistema en la cual tenemos dos actores principales, por un lado los sistemas y las bases de datos y por otro los usuario que registran datos de las
 actividades y recursos utilizados en los servicios de salud, todo esto utilizando en la gran mayoría la red de Internet.
 
-![ Sistemas actuales ](images/sistemas_actuales.png)
+![ Sistemas actuales ](sistemas_actuales.png)
 
 ## Componentes
 El sistema contará con tres módulos:
@@ -20,10 +20,10 @@ El sistema contará con tres módulos:
 Además de los módulos antes indicados contarán con sus respectivas interfaces de identificación, registro y auditoría.
 Como podemos observar la siguiente figura representa las nuevos elementos a incorporar a los sistemas de información como son los datos de otras fuentes (Bases de datos de otras instituciones, archivos de hojas de cálculo y archivos de texto CSV), también otro elemento de gran importancia es el acceso de la población a toda esta información. Así como poder brindar información a otros sistemas de nivel regional.
 
-![ Sistemas propuesto ](images/sistema_indicadores.png)
+![ Sistemas propuesto ](sistema_indicadores.png)
 
 En el siguiente esquema se representan los diferentes módulos propuestos.
-![ Estructura de módulos ](images/esquema_sistema_indicadores.png)
+![ Estructura de módulos ](esquema_sistema_indicadores.png)
 
 
 

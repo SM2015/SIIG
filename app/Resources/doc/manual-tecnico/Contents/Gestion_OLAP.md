@@ -91,7 +91,7 @@ El siguiente modelo es un ejemplo simplificado del cubo/indicador2 con los sigui
 
  Este  fichero es utilizado por SQLAlchemy para manipular el cubo y describe sus campos y llaves foráneas.  
 
-```json
+~~~
 {   "name" : "cubos",
     "locale":"en",
     "cubes": [
@@ -167,7 +167,7 @@ El siguiente modelo es un ejemplo simplificado del cubo/indicador2 con los sigui
          
     }    
 }
-```
+~~~
 
 ### Configuración de la utilidad 'Slicer'
 
