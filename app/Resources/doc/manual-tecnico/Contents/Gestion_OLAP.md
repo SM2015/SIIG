@@ -1,6 +1,11 @@
 # Gestión de Cubos OLAP
 
 ### Introducción
+La cantidad de reportes que pueden generarse depende de los catálogos que se usen en cada  indicador. 
+Al interior de una estructura para reportes (cubo OLAP), cada catalogo se  convierte en dimensión. 
+Así por ejemplo el catalogo municipio se convierte en una dimensión dentro de la estructura de reportes y posibilita hacer búsquedas usando cualquier campo que  exista dentro de este catálogo.
+Por ejemplo: Si el catalogo municipio tiene los campos  municipio, departamento y región esto nos permitiría hacer las siguientes consultas: numero de casos por municipio, número de casos por departamento, número de casos por región.
+
 La ventaja principal de usar un gestor de cubos OLAP es aislar la lógica de las búsquedas para analizar los datos. De esta forma el sistema se enfoca en presentar al usuario la mayor cantidad de información de forma flexible sin preocuparse de la lógica para obtener los datos.
 
 ### Indicadores y Cubos OLAP
