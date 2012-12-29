@@ -1,6 +1,6 @@
 #  Tecnologías utilizadas
 
-El Tablero eTAB es un sistema que cauta como un servicio Web disponible para que dependencias del sistema de salud suban sus datos para poder analizarlos, generar gráficas y reportes. 
+El Tablero eTAB es un servicio Web disponible para que dependencias del sistema de salud suban sus datos para poder analizarlos, generar gráficas y reportes. 
 
 La aplicación cuenta con un módulo para efectuar la extracción,transformación y carga de datos (ETL) desde diferentes fuentes. Estos datos son agregados y almacenados en una base de datos relacional (OLTP). Los datos están organizados por catálogos de referencia e Indicadores medibles. Los usuarios del sistema pueden administrar estos indicadores y catálogos y todos sus tributos usando el las herramientas que brinda el sistema.
 Para efectuar consultas en línea los datos son agregados dentro de tablas optimizadas para el análisis en linea (OLAP). 
