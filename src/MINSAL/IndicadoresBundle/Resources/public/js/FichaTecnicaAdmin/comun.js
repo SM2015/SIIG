@@ -141,15 +141,30 @@ function dibujarGrafico(dimension) {
     if (dimension == null)
         return;
     filtro = $('#filtros_dimensiones').attr('data');
-    $.getJSON(Routing.generate('indicador_datos',
-            {id: $('#titulo_indicador').attr('data-id'), dimension: dimension}),
-    {filtro: filtro},
-    function(resp) {
-        datasetPrincipal = resp.datos;
-        datasetPrincipal_bk = datasetPrincipal;                
-        dibujarGraficoPrincipal($('#tipo_grafico_principal').val());
-        controles_filtros();
-    });
+    
+ var dimension=$('#dimensiones').val();
+    var id=$('#titulo_indicador').attr('data-id');
+    var mydim=dimension+id;
+    var lista=new Object();
+    lista.datos=[];
+    $.getJSON('http://etab.salud.gob.sv:5000/cube/indicador'+id+'/aggregate?drilldown='+mydim,
+        function(resp) {
+
+            for(k=0;k<=resp.cells.length-1;k++){
+                myvar={
+                    "category": eval('resp.cells[k].'+mydim),
+                    "measure":resp.cells[k].calculo_sum,
+                    "conteo":resp.cells[k].record_count
+                    };
+                lista.datos.push(myvar);
+            }
+
+            datasetPrincipal = lista.datos;
+            datasetPrincipal_bk = datasetPrincipal;                
+            dibujarGraficoPrincipal($('#tipo_grafico_principal').val());
+            controles_filtros();
+        });
+
 
 }
 
