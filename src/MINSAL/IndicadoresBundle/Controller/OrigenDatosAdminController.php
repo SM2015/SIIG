@@ -117,8 +117,14 @@ class OrigenDatosAdminController extends Controller {
             
             $origenDato = $em->find('IndicadoresBundle:OrigenDatos', $origen);
             $msg['sql'] = $origenDato->getSentenciaSql();
-            $msg['total_registros'] = $em->getRepository('IndicadoresBundle:OrigenDatos')->getTotalRegistros($origenDato);
-
+            $msg['total_registros'] = $em->getRepository('IndicadoresBundle:OrigenDatos')->getTotalRegistros($origenDato);            
+            
+            foreach ($origenDato->getVariables() as $var){
+                foreach($var->getIndicadores() as $ind){
+                    $ind->setUpdatedAt(null);
+                }
+            }
+            $em->flush();
             $carga_directa = $origenDato->getEsCatalogo();
             // No mandar a la cola de carga los que son catálogos, Se cargarán directamente            
             if ($carga_directa)

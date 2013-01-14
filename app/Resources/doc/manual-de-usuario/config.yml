@@ -19,6 +19,7 @@ book:
         - { element: chapter, number: 2, content: etl.md }
         - { element: chapter, number: 3, content: ficha_tecnica.md }
         - { element: chapter, number: 4, content: tablero.md }
+        - { element: lof}
 
     editions:
         ebook:

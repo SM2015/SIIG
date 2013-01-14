@@ -27,11 +27,13 @@ class CargarOrigenDatoCommand extends ContainerAwareCommand {
 
             $ahora = new \DateTime("now");
 
-            if ($ind->getUltimaLectura() == '')
+            if ($ind->getUltimaLectura() == null)
                 $dif = 1; // No se ha realizado carga de datos antes, mandar a cargarlos
             else {
-                $ultima_lectura = $ind->getUltimaLectura()->getTimestamp();
-                $periocidad = $ind->getPeriodo()->getCodigo();
+                $ultima_lectura = $ind->getUltimaLectura();
+                if ($ind->getPeriodo() != null)
+                    $periocidad = $ind->getPeriodo()->getCodigo();
+                else $periocidad='d';                
 
                 $intervalo = $ahora->diff($ultima_lectura);
                 $dif_dias = $intervalo->format('%a');

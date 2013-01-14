@@ -1,10 +1,20 @@
-# Sistema Integrado de Información Gerencial
+#Tablero eTAB
+## Instalacion del Sistema Integrado de Información Gerencial
 
 ## Requerimientos
 * Servidor Web
 * Gestor de base de datos
 * PHP 5.3.8+
 
+## Pasos
+
+1. Instalación de Symfony2
+2. Instalación de Postgres
+3. Instalación RabbitMQ
+4. Instalación Servidor OLAP
+
+
+## 1. Instalación de Symfony2
 ### Instalación de los requerimientos desde un servidor Debian 
 Es muy importante poner atención al indicador "#" significa que el comando 
 debe ser ejecutado como usuario root y "$" que debe ser ejecutado como un usuario normal
@@ -13,7 +23,6 @@ debe ser ejecutado como usuario root y "$" que debe ser ejecutado como un usuari
 # apt-get install php5 php5-pgsql php5-sqlite sqlite php5-xdebug  php-apc php5-cli php5-xsl php5-intl php5-mcrypt apache2 postgresql acl git-core curl
 ~~~
 
-##Instalación
 ### Obtener el código fuente
 Puedes descargarlo desde: https://github.com/erodriguez-minsal/SIIG/tarball/master o clonar el repositorio
 
@@ -114,6 +123,8 @@ editar el archivo app/config/parameters.yml y colocar los valores correctos para
 * database_password: clave_usuario
 
 
+## 2. Instalación de Postgres
+
 ### Crear la base de datos
 ~~~
 $ app/console doctrine:database:create
@@ -156,6 +167,8 @@ CREATE TABLE fila_origen_dato(
     FOREIGN KEY (id_origen_dato) REFERENCES origen_datos(id) on update CASCADE on delete RESTRICT
 );
 ~~~
+
+## 3. Instalación de RabbitMQ
 
 ### Instalación de RabbitMQ
 [RabbitMQ](http://www.rabbitmq.com/) es un sistema de mensajería empresarial completo y altamente confiable basado en el estándar AMQP
@@ -204,5 +217,21 @@ Pueden aparecer mensajes de aviso como "/usr/bin/nohup: redirecting stderr to st
 - Cargar la interfaz web: entrar a la dirección http://server_name:55672/mgmt/
 El usuario por defecto es **guest** y la clave **guest**
 
+## 4. Instalación de Servidor OLAP
+
+En Debian squeeze con repositorio 'testing':
+
+~#apt-get install python2.7 python-sqlalchemy python-werkzeug python-sqlite python-psycopg2 python-pip
+
+Finalmente se debe usar un gestor de paquetes de Python para instalar el paquete del servidor OLAP 'Cubes'. La siguiente linea utiliza el gestor 'pip'.
+
+~# pip install cubes
+Desde la Carpeta siig/src/MINSAL/cubos, ejecutar:
+
+~# slicer serve slicer.ini 
+
+Este comando ejecuta el servidor OLAP y muestra la salida en pantalla.
+La documentacion completa de este servidor dentor de la aplicacion esta disponible en la seccion "estion y Análisis de Cubos OLAP"
 ### Cargar la aplicación
+En este punto estamos listos para crgar la aplicacion desde: 
 http://siig.localhost/app_dev.php

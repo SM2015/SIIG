@@ -32,7 +32,7 @@ Es de suma importancia realizar esta configuración correctamente. Debemos espec
 El significado del campo determinará qué es lo que almacenará y por medio de éste se permitirá luego relacionar campos de diferentes orígenes de datos, un tipo de campo solo se puede aparecer una vez en cada origen de datos. Un campo con especial importancia es el **Campo para cálculos** el cual identificará el campo que se utilizará para realizar los cálculos dentro de la fórmula del indicador. Si algún campo contiene llaves foráneas se deberá seleccionar los tipos que comienzan con **Identificador** indicando que este dato tendrá asociado una tabla catálogo que ya debe estar cargada o que será cargada posteriormente en la base de datos. Por ejemplo para el caso de Departamento si está cargando el nombre del departamento el significado será *Departamento*. 
 Por otro lado, si en lugar del nombre tiene la llave foránea deberá colocar como significado *Identificador departamento* y su valor debe coincidir con una llave id_departamento en la tabla catalogo ctl_departamento.  Recuerde que necesitará una tabla de catálogo de departamento, la asociación de la tabla se realiza cuando se crea un significado de campos.
 
-![Origen de datos configurado](images/origen_dato_configurar2.png)
+![Origen de datos configurado](origen_dato_configurar2.png)
 
 ### Carga de tablas catálogos 
 El formulario de origen de datos además permite crear tablas catálogos (cuyas llaves se utilizarán como llaves foráneas en los orígenes de datos normales). Alternativamente las tablas catálogo pueden ser gestionadas con algún programa especializado para el manejo de bases de datos, esto es así puesto que cada implementación del Sistema de Indicadores puede tener diferentes catálogos. 
