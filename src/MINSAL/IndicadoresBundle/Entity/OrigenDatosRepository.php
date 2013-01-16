@@ -9,6 +9,30 @@ use Doctrine\DBAL as DBAL;
 
 class OrigenDatosRepository extends EntityRepository {
 
+    /**
+     * Verifica que el origen de datos esté totalmente configurado
+     * 1) Que no tenga ningún campo sin significado
+     * 2) Que tenga un campo con significado "calculo"
+     */
+    public function estaConfigurado(OrigenDatos $origen) {
+        $tiene_campo_calculo = false;
+        $tiene_null = false;
+        $campos = $origen->getCampos();
+        foreach ($campos as $campo){
+            $sig = $campo->getSignificado();
+            if ($sig != null){
+                $significado = $sig->getCodigo();            
+                if ($significado=='calculo')
+                    $tiene_campo_calculo = true;
+            } else
+                $tiene_null = true;
+            
+        }
+        if (!$tiene_campo_calculo or $tiene_null)
+            return false;
+        else
+            return true;
+    }
     public function getTotalRegistros(OrigenDatos $origenDato) {
         if ($origenDato->getSentenciaSql() != '') {
             $conexion = $origenDato->getConexion();

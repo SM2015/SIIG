@@ -27,10 +27,8 @@ class OrigenDatosAdminController extends Controller {
                 return $this->get('translator')->trans('fusion.no_catalogos');
             if ($origenDato->getEsFusionado())
                 return $this->get('translator')->trans('fusion.no_fusionados');
-            $campos_no_configurados = $em->getRepository('IndicadoresBundle:Campo')
-                    ->findBy(array('origenDato' => $id_origen,
-                'significado' => null));            
-            if (count($campos_no_configurados) > 0)
+            $configurado=$em->getRepository('IndicadoresBundle:OrigenDatos')->estaConfigurado($origenDato);            
+            if (!$configurado)
                 return $origenDato->getNombre() . ': ' . $this->get('translator')->trans('origen_no_configurado');
         }        
         if (count($selecciones) > 1)
@@ -98,11 +96,9 @@ class OrigenDatosAdminController extends Controller {
         $selecciones = $parameterBag->get('idx');
         // Verificar que los orígenes esten configurados
         foreach ($selecciones as $id_origen) {
-            $origenDato = $em->find('IndicadoresBundle:OrigenDatos', $id_origen);
-            $campos_no_configurados = $em->getRepository('IndicadoresBundle:Campo')
-                    ->findBy(array('origenDato' => $id_origen,
-                'significado' => null));
-            if (count($campos_no_configurados) > 0)
+            $origenDato = $em->find('IndicadoresBundle:OrigenDatos', $id_origen);            
+            $configurado=$em->getRepository('IndicadoresBundle:OrigenDatos')->estaConfigurado($origenDato);            
+            if (!$configurado)
                 return $origenDato->getNombre() . ': ' . $this->get('translator')->trans('origen_no_configurado');
         }
         return true;
