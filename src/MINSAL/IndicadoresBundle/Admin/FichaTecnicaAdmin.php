@@ -197,7 +197,8 @@ class FichaTecnicaAdmin extends Admin {
             $origenDato[$k] = $variable->getOrigenDatos();
             foreach ($origenDato[$k]->getCampos() as $campo) {
                 //La llave para considerar campo comun será el mismo tipo y significado                
-                $llave = $campo->getSignificado()->getId() . '-' . $campo->getTipoCampo()->getId();
+                //$llave = $campo->getSignificado()->getId() . '-' . $campo->getTipoCampo()->getId();
+                $llave = $campo->getSignificado()->getId();
                 $origen_campos[$origenDato[$k]->getId()][$llave]['significado'] = $campo->getSignificado()->getCodigo();
             }
 
