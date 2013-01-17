@@ -216,7 +216,7 @@ class FichaTecnicaAdmin extends Admin {
         $campos_comunes = implode(",", $aux);
         if ($fichaTecnica->getCamposIndicador()!=''){
             //Si ya existen los campos sacar el orden que ya ha especificado el usuario
-            $act = explode(',', $fichaTecnica->getCamposIndicador());
+            $act = explode(', ', $fichaTecnica->getCamposIndicador());
             $campos_comunes = array_intersect($act, $aux);
             //agregar los posibles campos nuevos
             $campos_comunes = array_merge($campos_comunes, array_diff($aux, $act));

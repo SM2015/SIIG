@@ -45,10 +45,8 @@ class GuardarRegistroOrigenDatoConsumer implements ConsumerInterface {
 
         $this->em->getConnection()->beginTransaction();
         $i=0;
-        foreach ($msg['datos'] as $fila) {
-            //$llaves = "'".implode("','",array_keys($fila))."'";
-            //$valores = "'".implode("','",array_values($fila))."'";            
-            foreach ($fila as $k => $value) { $llave = ':'.$k.'_'.$i; $sth->bindValue("$llave", $value); echo "$llave => $value"; }
+        foreach ($msg['datos'] as $fila) {                      
+            foreach ($fila as $k => $value) { $llave = ':'.$k.'_'.$i; $sth->bindValue("$llave", trim($value)); }
             $i++;
         }
         $result = $sth->execute();

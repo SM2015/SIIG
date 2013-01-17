@@ -63,13 +63,14 @@ class CargarOrigenDatoConsumer implements ConsumerInterface {
         // a otra cola que se encarará de guardarlo en la base de datos
         // luego se puede probar a mandar por grupos       
         $datos_a_enviar = array();
+        $util = new \MINSAL\IndicadoresBundle\Util\Util();
         $i = 0;
         $ii = 0;
         foreach ($datos as $fila) {
             $nueva_fila = array();
             foreach ($fila as $k => $v) {
-                // pasar el nombre del campo a minúsculas y quitar comillas dobles que pueda tener en su valor
-                $nueva_fila[$campos_sig[strtolower($k)]] = utf8_encode($v);
+                // Quitar caracteres no permitidos que podrian existir en el nombre de campo (tildes, eñes, etc)
+                $nueva_fila[$campos_sig[$util->slug($k)]] = utf8_encode(trim($v));
             }
             $datos_a_enviar[] = $nueva_fila;
             //Enviaré en grupos de 200
