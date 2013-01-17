@@ -68,6 +68,16 @@ class SignificadoCampoAdmin extends Admin {
     public function setRepository($repository){
         $this->repository = $repository;
     }
+    
+    public function prePersist($Significado) {
+        $util = new \MINSAL\IndicadoresBundle\Util\Util();
+        $Significado->setCodigo($util->slug($Significado->getCodigo()));        
+    }
+
+    public function preUpdate($Significado) {
+        $util = new \MINSAL\IndicadoresBundle\Util\Util();
+        $Significado->setCodigo($util->slug($Significado->getCodigo()));
+    }
 
 }
 
