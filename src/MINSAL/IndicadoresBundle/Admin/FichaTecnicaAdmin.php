@@ -214,10 +214,10 @@ class FichaTecnicaAdmin extends Admin {
             $aux[$campo['significado']] = $campo['significado'];
         if (isset($aux['calculo']))
             unset($aux['calculo']);        
-        $campos_comunes = implode(",", $aux);
+        $campos_comunes = implode(", ", $aux);
         if ($fichaTecnica->getCamposIndicador()!=''){
             //Si ya existen los campos sacar el orden que ya ha especificado el usuario
-            $act = explode(', ', $fichaTecnica->getCamposIndicador());
+            $act = explode(',', str_replace(' ', '', $fichaTecnica->getCamposIndicador()));
             $campos_comunes = array_intersect($act, $aux);
             //agregar los posibles campos nuevos
             $campos_comunes = array_merge($campos_comunes, array_diff($aux, $act));
