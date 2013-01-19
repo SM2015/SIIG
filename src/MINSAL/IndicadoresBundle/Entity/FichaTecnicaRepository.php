@@ -89,12 +89,14 @@ class FichaTecnicaRepository extends EntityRepository {
         $tablas_variables = array();                
         
         //Cambiar el orden de los campos, los filtros y la dimensión que se esté usando debe estar primero
+        // y serán los campos para realizar la
         $campos_aux = array();
         if ($filtros != null){
             foreach ($filtros as $campo => $valor)
                  $campos_aux[] = $campo;
         }
         $campos_aux[] = $dimension;
+        $campos_condicion= $campos_aux;
         foreach (explode(', ',$campos) as $c){            
             if (!in_array($c, $campos_aux))
                 $campos_aux[] = $c;
@@ -110,26 +112,24 @@ class FichaTecnicaRepository extends EntityRepository {
             $fila = $em->getConnection()->executeQuery($sql2)->fetch();
 
             // De acuerdo al tipo de dato será el signo de la relación 
-            $signo='';
+            $condiciones=array();
             foreach ($fila as $k=>$v){
-                if ($k==$dimension)
-                    $signo= (is_numeric($v))?'<=':'=';                
-            }
-            //$campos3 = str_replace('T.', '', $campos2);
+                if (in_array($k, $campos_condicion)){
+                    $signo= (is_numeric($v))?'<=':'=';
+                    $condiciones[$k] = 'TT.'.$k.' '.$signo.' T.'.$k;
+                }
+            }            
             //Crear la tabla acumulada
             $sql .= "
                     SELECT $campos2, 
                         (SELECT SUM(TT.$tabla) 
-                            FROM (SELECT row_number() OVER (ORDER BY $campos2) corr, $campos2, $tabla 
-                                    FROM $tabla"."_var) AS TT 
-                                    WHERE TT.corr <= T.corr AND TT.".$dimension.' '. $signo.' '." T.".$dimension."
-                                  ) AS $tabla
+                            FROM $tabla"."_var TT 
+                            WHERE ".implode(' AND ', $condiciones)."
+                        ) AS $tabla
                     INTO TEMP $tabla"."_var_acum
-                    FROM (SELECT row_number() OVER (ORDER BY $campos2) corr, $campos2, $tabla 
-                            FROM $tabla"."_var
-                         ) AS T  
+                    FROM $tabla"."_var T  
                     ORDER BY $campos2 ;
-                    ";
+                    ";            
         }
         
         $sql .= 'SELECT  '.str_replace('T.', '', $campos2).','.  implode(',', $tablas_variables).
