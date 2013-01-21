@@ -28,6 +28,7 @@ class FichaTecnicaAdmin extends Admin {
                 ->add('uso', null, array('label' => $this->getTranslator()->trans('uso')))
                 ->add('definicionOperativa', null, array('label' => $this->getTranslator()->trans('definicion_operativa')))
                 ->add('unidadMedida', null, array('label' => $this->getTranslator()->trans('unidad_medida')))
+                ->add('esAcumulado', null, array('label' => $this->getTranslator()->trans('es_acumulado')))
                 ->add('variables', null, array('label' => $this->getTranslator()->trans('variables'), 'expanded' => true))
                 ->add('formula', null, array('label' => $this->getTranslator()->trans('formula'),
                     'help' => $this->getTranslator()->trans('ayuda_ingreso_formula')
@@ -197,7 +198,8 @@ class FichaTecnicaAdmin extends Admin {
             $origenDato[$k] = $variable->getOrigenDatos();
             foreach ($origenDato[$k]->getCampos() as $campo) {
                 //La llave para considerar campo comun será el mismo tipo y significado                
-                $llave = $campo->getSignificado()->getId() . '-' . $campo->getTipoCampo()->getId();
+                //$llave = $campo->getSignificado()->getId() . '-' . $campo->getTipoCampo()->getId();
+                $llave = $campo->getSignificado()->getId();
                 $origen_campos[$origenDato[$k]->getId()][$llave]['significado'] = $campo->getSignificado()->getCodigo();
             }
 
@@ -213,10 +215,10 @@ class FichaTecnicaAdmin extends Admin {
             $aux[$campo['significado']] = $campo['significado'];
         if (isset($aux['calculo']))
             unset($aux['calculo']);        
-        $campos_comunes = implode(",", $aux);
+        $campos_comunes = implode(", ", $aux);
         if ($fichaTecnica->getCamposIndicador()!=''){
             //Si ya existen los campos sacar el orden que ya ha especificado el usuario
-            $act = explode(', ', $fichaTecnica->getCamposIndicador());
+            $act = explode(',', str_replace(' ', '', $fichaTecnica->getCamposIndicador()));
             $campos_comunes = array_intersect($act, $aux);
             //agregar los posibles campos nuevos
             $campos_comunes = array_merge($campos_comunes, array_diff($aux, $act));

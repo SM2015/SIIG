@@ -7,7 +7,7 @@ use MINSAL\IndicadoresBundle\Entity\FichaTecnica;
 
 class FichaTecnicaRepository extends EntityRepository {
 
-    public function crearTablaIndicador(FichaTecnica $fichaTecnica, $duracion=10) {
+    public function crearTablaIndicador(FichaTecnica $fichaTecnica, $duracion=10, $dimension, $filtros=null) {
         
         $em = $this->getEntityManager();
         $ahora = new \DateTime("now");
@@ -16,12 +16,13 @@ class FichaTecnicaRepository extends EntityRepository {
         
         //Verificar si existe la tabla
         $existe = true;
+        $acumulado = $fichaTecnica->getEsAcumulado();
         try{
             $em->getConnection()->query("select count(*) from tmp_ind_$nombre_indicador");
         }  catch (\Doctrine\DBAL\DBALException $e){
             $existe = false;
         }
-        if ($fichaTecnica->getUpdatedAt() != '' and $existe==true){            
+        if ($fichaTecnica->getUpdatedAt() != '' and $existe==true and $acumulado==false){
             $ultimo_calculo = $fichaTecnica->getUpdatedAt()->getTimestamp();
             $diff_minutos = ($ahora->getTimestamp() - $ultimo_calculo) / 60;
             if ($diff_minutos <= $duracion)
@@ -32,12 +33,11 @@ class FichaTecnicaRepository extends EntityRepository {
         $campos = str_replace("'", '', $fichaTecnica->getCamposIndicador());
         
         $tablas_variables = array();
-        $sql='';
+        $sql = 'DROP TABLE IF EXISTS tmp_ind_' . $nombre_indicador . '; ';
         // Crear las tablas para cada variable
         foreach ($fichaTecnica->getVariables() as $variable) {
             //Recuperar la información de los campos para crear la tabla
-            $tabla = strtolower($variable->getIniciales());            
-            $sql .= 'DROP TABLE IF EXISTS tmp_ind_' . $nombre_indicador . '; ';
+            $tabla = strtolower($variable->getIniciales());                        
             $sql .= 'CREATE TEMP TABLE IF NOT EXISTS ' . $tabla . '(';
             foreach ($variable->getOrigenDatos()->getCampos() as $campo) {
                 $sql .= $campo->getSignificado()->getCodigo() . ' ' . 'varchar(200)' . ', ';
@@ -61,13 +61,18 @@ class FichaTecnicaRepository extends EntityRepository {
             $tablas_variables[] = $tabla;
         }        
         
-        $sql .= 'SELECT  '.$campos.','.  implode(',', $tablas_variables).
+        
+        if ($acumulado != true){                   
+            $sql .= 'SELECT  '.$campos.','.  implode(',', $tablas_variables).
                 " INTO tmp_ind_".$nombre_indicador." FROM  ".array_shift($tablas_variables).'_var ';
-        foreach ($tablas_variables as $tabla){
-            $sql .= " FULL OUTER JOIN ".$tabla."_var USING ($campos) ";
-        }        
+            foreach ($tablas_variables as $tabla){
+                $sql .= " FULL OUTER JOIN ".$tabla."_var USING ($campos) ";
+            }
+        }
         try{
-            $em->getConnection()->exec($sql);
+            $em->getConnection()->exec($sql);                        
+            if ($acumulado==true)
+                $this->crearTablaIndicadorAcumulado($fichaTecnica, $dimension, $filtros);            
             $fichaTecnica->setUpdatedAt($ahora);
             $em->persist($fichaTecnica);
             $em->flush();
@@ -76,9 +81,75 @@ class FichaTecnicaRepository extends EntityRepository {
         }        
     }
     
+    public function crearTablaIndicadorAcumulado(FichaTecnica $fichaTecnica, $dimension, $filtros= null){
+        $em = $this->getEntityManager();
+        $util = new \MINSAL\IndicadoresBundle\Util\Util();
+        $nombre_indicador = $util->slug($fichaTecnica->getNombre());
+        $campos = str_replace("'", '', $fichaTecnica->getCamposIndicador());
+        $tablas_variables = array();                
+        
+        //Cambiar el orden de los campos, los filtros y la dimensión que se esté usando debe estar primero
+        // y serán los campos para realizar la
+        $campos_aux = array();
+        if ($filtros != null){
+            foreach ($filtros as $campo => $valor)
+                 $campos_aux[] = $campo;
+        }
+        $campos_aux[] = $dimension;
+        $campos_condicion= $campos_aux;
+        foreach (explode(', ',$campos) as $c){            
+            if (!in_array($c, $campos_aux))
+                $campos_aux[] = $c;
+        }
+        
+        $campos2= implode(', ', $campos_aux);
+        $sql='';
+        foreach ($fichaTecnica->getVariables() as $variable){
+            $tabla = strtolower($variable->getIniciales());
+            $tablas_variables[] = $tabla;
+            //leer la primera fila para determinar el tipo de dato de cada campo
+            $sql2 = "SELECT * FROM $tabla".'_var';
+            $fila = $em->getConnection()->executeQuery($sql2)->fetch();
+
+            // De acuerdo al tipo de dato será el signo de la relación 
+            $condiciones=array();
+            foreach ($fila as $k=>$v){
+                if (in_array($k, $campos_condicion)){
+                    $signo= (is_numeric($v))?'<=':'=';
+                    $condiciones[$k] = 'TT.'.$k.' '.$signo.' T.'.$k;
+                }
+            }            
+            //Crear la tabla acumulada
+            $sql .= "
+                    SELECT $campos2, 
+                        (SELECT SUM(TT.$tabla) 
+                            FROM $tabla"."_var TT 
+                            WHERE ".implode(' AND ', $condiciones)."
+                        ) AS $tabla
+                    INTO TEMP $tabla"."_var_acum
+                    FROM $tabla"."_var T  
+                    ORDER BY $campos2 ;
+                    ";            
+        }
+        
+        $sql .= 'SELECT  '.str_replace('T.', '', $campos2).','.  implode(',', $tablas_variables).
+                " INTO tmp_ind_".$nombre_indicador." FROM  ".array_shift($tablas_variables).'_var_acum ';
+        foreach ($tablas_variables as $tabla){
+            $sql .= " FULL OUTER JOIN ".$tabla."_var_acum USING ($campos) ";
+        }
+        
+        $em->getConnection()->exec($sql);
+        
+    }
+    
     public function calcularIndicador(FichaTecnica $fichaTecnica, $dimension, $filtro_registros=null) {
         $util = new \MINSAL\IndicadoresBundle\Util\Util();
-        $formula = str_replace(array('{','}'), array('SUM(',')'), $fichaTecnica->getFormula());
+        $acumulado = $fichaTecnica->getEsAcumulado();
+        if ($acumulado){
+            $formula = str_replace(array('{','}'), array('MAX(',')'), $fichaTecnica->getFormula());
+        }
+        else
+            $formula = str_replace(array('{','}'), array('SUM(',')'), $fichaTecnica->getFormula());
         $nombre_indicador = $util->slug($fichaTecnica->getNombre());
         $tabla_indicador = 'tmp_ind_'.$nombre_indicador;
         
@@ -93,7 +164,13 @@ class FichaTecnicaRepository extends EntityRepository {
             GROUP BY $dimension             
             HAVING (($formula)::numeric) > 0
             ORDER BY $dimension";                
-        return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
+        try{
+            return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
+        }  catch (\PDOException $e){
+            return $e->getMessage();        
+        }  catch (\Doctrine\DBAL\DBALException $e){
+            return $e->getMessage();
+        }
     }
 
 }

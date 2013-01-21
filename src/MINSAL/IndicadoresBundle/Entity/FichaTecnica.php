@@ -112,6 +112,13 @@ class FichaTecnica
     private $updatedAt;
     
     /**
+     * @var string $esAcumulado
+     *
+     * @ORM\Column(name="es_acumulado", type="boolean", nullable=true)
+     */    
+    private $esAcumulado;
+    
+    /**
      * @var datetime ultimaLectura
      *
      * @ORM\Column(name="ultima_lectura", type="datetime", nullable=true)
@@ -826,5 +833,28 @@ class FichaTecnica
     public function getUsuariosFavoritos()
     {
         return $this->usuariosFavoritos;
+    }
+
+    /**
+     * Set esAcumulado
+     *
+     * @param boolean $esAcumulado
+     * @return FichaTecnica
+     */
+    public function setEsAcumulado($esAcumulado)
+    {
+        $this->esAcumulado = $esAcumulado;
+    
+        return $this;
+    }
+
+    /**
+     * Get esAcumulado
+     *
+     * @return boolean 
+     */
+    public function getEsAcumulado()
+    {
+        return $this->esAcumulado;
     }
 }

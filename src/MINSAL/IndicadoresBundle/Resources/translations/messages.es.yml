@@ -110,6 +110,7 @@ significado: Significado
 'Indicador Alertas Delete': 'Alertas Indicador - Borrar'
 'Indicador Alertas Create': 'Alertas Indicador - Crear'
 'Indicador Alertas Edit': 'Alertas Indicador - Editar'
+'es_acumulado': 'Es un indicador acumulado'
 
 conexion_bd : 'Conexión a Base de Datos'
 nombre_conexion : 'Nombre de la conexión'
