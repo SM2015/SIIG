@@ -110,6 +110,7 @@ significado: Meaning
 'Indicador Alertas Delete': 'Indicator Warnings - Delete'
 'Indicador Alertas Create': 'Indicator Warnings - Create'
 'Indicador Alertas Edit': 'Indicator Warnings - Edit'
+'es_acumulado': 'It is a cumulative indicator'
 
 conexion_bd : 'Database connection'
 nombre_conexion : 'Connection name'

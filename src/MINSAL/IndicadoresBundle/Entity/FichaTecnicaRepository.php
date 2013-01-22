@@ -16,7 +16,7 @@ class FichaTecnicaRepository extends EntityRepository {
         
         //Verificar si existe la tabla
         $existe = true;
-        $acumulado = true;
+        $acumulado = $fichaTecnica->getEsAcumulado();
         try{
             $em->getConnection()->query("select count(*) from tmp_ind_$nombre_indicador");
         }  catch (\Doctrine\DBAL\DBALException $e){
@@ -144,7 +144,7 @@ class FichaTecnicaRepository extends EntityRepository {
     
     public function calcularIndicador(FichaTecnica $fichaTecnica, $dimension, $filtro_registros=null) {
         $util = new \MINSAL\IndicadoresBundle\Util\Util();
-        $acumulado = true;
+        $acumulado = $fichaTecnica->getEsAcumulado();
         if ($acumulado){
             $formula = str_replace(array('{','}'), array('MAX(',')'), $fichaTecnica->getFormula());
         }

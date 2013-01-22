@@ -28,6 +28,7 @@ class FichaTecnicaAdmin extends Admin {
                 ->add('uso', null, array('label' => $this->getTranslator()->trans('uso')))
                 ->add('definicionOperativa', null, array('label' => $this->getTranslator()->trans('definicion_operativa')))
                 ->add('unidadMedida', null, array('label' => $this->getTranslator()->trans('unidad_medida')))
+                ->add('esAcumulado', null, array('label' => $this->getTranslator()->trans('es_acumulado')))
                 ->add('variables', null, array('label' => $this->getTranslator()->trans('variables'), 'expanded' => true))
                 ->add('formula', null, array('label' => $this->getTranslator()->trans('formula'),
                     'help' => $this->getTranslator()->trans('ayuda_ingreso_formula')
