@@ -251,7 +251,7 @@ class OrigenDatoController extends Controller {
             $aux[$n]='';
         foreach (array_slice($resultado['datos'],0,10) as $fila)
             foreach ($fila as $k=>$v)
-                $aux[$k] .= $v . ', ';
+                $aux[$util->slug($k)] .= $v . ', ';
         $resultado['datos'] = $aux;
         return new Response(json_encode($resultado));
     }
