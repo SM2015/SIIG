@@ -46,7 +46,7 @@ class FichaTecnica_OLAP extends EntityRepository {
             GROUP BY $dimension             
             HAVING (($formula)::numeric) > 0
             ORDER BY $dimension";                
-        return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
+        return $this->getManager()->getConnection()->executeQuery($sql)->fetchAll();
     }
 
 }

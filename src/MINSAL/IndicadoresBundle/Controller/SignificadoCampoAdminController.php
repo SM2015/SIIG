@@ -9,7 +9,7 @@ use Sonata\AdminBundle\Controller\CRUDController as Controller;
 class SignificadoCampoAdminController extends Controller {    
     public function editAction($id = null)
     {
-        $repo = $this->getDoctrine()->getEntityManager()->getRepository('IndicadoresBundle:OrigenDatos');        
+        $repo = $this->getDoctrine()->getManager()->getRepository('IndicadoresBundle:OrigenDatos');        
         $this->admin->setRepository($repo);
         
         return parent::editAction($id);
@@ -18,7 +18,7 @@ class SignificadoCampoAdminController extends Controller {
     
     public function createAction()
     {
-        $repo = $this->getDoctrine()->getEntityManager()->getRepository('IndicadoresBundle:OrigenDatos');        
+        $repo = $this->getDoctrine()->getManager()->getRepository('IndicadoresBundle:OrigenDatos');        
         $this->admin->setRepository($repo);
         
         return parent::createAction();

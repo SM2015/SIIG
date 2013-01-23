@@ -163,7 +163,7 @@ class OrigenDatosRepository extends EntityRepository {
             WHERE relname LIKE 'ctl_%'
             ORDER BY relname";
         
-        $datos = $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
+        $datos = $this->getManager()->getConnection()->executeQuery($sql)->fetchAll();
         $result= array();
         foreach ($datos as $fila){
             $result[$fila['nombre']] = $fila['nombre'];

@@ -15,7 +15,7 @@ class IndicadorController extends Controller {
     public function getDimensiones($id) {
 
         $resp = array();        
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $fichaTec = $em->find('IndicadoresBundle:FichaTecnica', $id);
         if ($fichaTec) {
@@ -73,7 +73,7 @@ class IndicadorController extends Controller {
         }
 
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $fichaTec = $em->find('IndicadoresBundle:FichaTecnica', $id);
         $fichaRepository = $em->getRepository('IndicadoresBundle:FichaTecnica');
@@ -173,7 +173,7 @@ class IndicadorController extends Controller {
      * @Route("/indicador/datos/mapa", name="indicador_datos_mapa", options={"expose"=true})
      */
     public function getMapaAction() {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $dimension = $this->getRequest()->get('dimension');
         $tipo_peticion = $this->getRequest()->get('tipo_peticion');
         
@@ -216,7 +216,7 @@ class IndicadorController extends Controller {
      * @Route("/indicador/favorito", name="indicador_favorito", options={"expose"=true})
      */
     public function indicadorFavorito() {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $req = $this->getRequest();
         
         $indicador = $em->find('IndicadoresBundle:FichaTecnica', $req->get('id'));
