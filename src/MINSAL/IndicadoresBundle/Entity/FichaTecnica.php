@@ -204,9 +204,16 @@ class FichaTecnica
     private $campos;
     
     /**
-     * @ORM\ManyToMany(targetEntity="User", mappedBy="favoritos")
-     **/
-    private $usuariosFavoritos;
+    * @var \Doctrine\Common\Collections\ArrayCollection
+     * @ORM\OneToMany(targetEntity="UsuarioIndicador", mappedBy="usuario", cascade={"all"}, orphanRemoval=true)
+     */
+    private $usuarios;
+    
+    /**
+    * @var \Doctrine\Common\Collections\ArrayCollection
+    * @ORM\OneToMany(targetEntity="GrupoIndicadoresIndicador", mappedBy="grupo", cascade={"all"}, orphanRemoval=true)
+    */
+    private $grupos;
 
     /**
      * Get id
@@ -856,5 +863,71 @@ class FichaTecnica
     public function getEsAcumulado()
     {
         return $this->esAcumulado;
+    }
+
+    /**
+     * Add usuarios
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\UsuarioIndicador $usuarios
+     * @return FichaTecnica
+     */
+    public function addUsuario(\MINSAL\IndicadoresBundle\Entity\UsuarioIndicador $usuarios)
+    {
+        $this->usuarios[] = $usuarios;
+    
+        return $this;
+    }
+
+    /**
+     * Remove usuarios
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\UsuarioIndicador $usuarios
+     */
+    public function removeUsuario(\MINSAL\IndicadoresBundle\Entity\UsuarioIndicador $usuarios)
+    {
+        $this->usuarios->removeElement($usuarios);
+    }
+
+    /**
+     * Get usuarios
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getUsuarios()
+    {
+        return $this->usuarios;
+    }
+
+    /**
+     * Add grupos
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\GrupoIndicadoresIndicador $grupos
+     * @return FichaTecnica
+     */
+    public function addGrupo(\MINSAL\IndicadoresBundle\Entity\GrupoIndicadoresIndicador $grupos)
+    {
+        $this->grupos[] = $grupos;
+    
+        return $this;
+    }
+
+    /**
+     * Remove grupos
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\GrupoIndicadoresIndicador $grupos
+     */
+    public function removeGrupo(\MINSAL\IndicadoresBundle\Entity\GrupoIndicadoresIndicador $grupos)
+    {
+        $this->grupos->removeElement($grupos);
+    }
+
+    /**
+     * Get grupos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getGrupos()
+    {
+        return $this->grupos;
     }
 }
