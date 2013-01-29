@@ -7,7 +7,7 @@ use MINSAL\IndicadoresBundle\Entity\FichaTecnica;
 
 class FichaTecnicaRepository extends EntityRepository {
 
-    public function crearTablaIndicador(FichaTecnica $fichaTecnica, $duracion=10, $dimension, $filtros=null) {
+    public function crearTablaIndicador(FichaTecnica $fichaTecnica, $dimension, $duracion = 10, $filtros = null) {
         
         $em = $this->getEntityManager();
         $ahora = new \DateTime("now");
@@ -145,7 +145,7 @@ class FichaTecnicaRepository extends EntityRepository {
                     INTO TEMP $tabla"."_var_acum
                     FROM $tabla"."_var T  
                     ORDER BY $campos2 ;
-                    ";            
+                    ";
         }
         
         $sql .= 'SELECT  '.str_replace('T.', '', $campos2).','.  implode(',', $tablas_variables).

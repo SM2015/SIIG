@@ -79,7 +79,7 @@ class IndicadorController extends Controller {
         $fichaRepository = $em->getRepository('IndicadoresBundle:FichaTecnica');
 
 
-        $fichaRepository->crearTablaIndicador($fichaTec, $this->container->getParameter('indicador_duracion_tabla_tmp'), $dimension, $filtros);
+        $fichaRepository->crearTablaIndicador($fichaTec, $dimension, $this->container->getParameter('indicador_duracion_tabla_tmp'), $filtros);
         $resp['datos'] = $fichaRepository->calcularIndicador($fichaTec, $dimension, $filtros);
         $response = new Response(json_encode($resp));
         if ($this->get('kernel')->getEnvironment() != 'dev')
