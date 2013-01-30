@@ -65,7 +65,7 @@ class OrigenDatoController extends Controller {
      */
     public function getConexionGenerica($objeto_prueba, $idConexion = null) {
         $req = $this->getRequest();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         try {
             if ($objeto_prueba == 'base_datos') {
@@ -126,7 +126,7 @@ class OrigenDatoController extends Controller {
             'nombre_campos' => array(),
             'datos' => array());
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $origenDato = $em->find("IndicadoresBundle:OrigenDatos", $id);
         $resultado['es_catalogo'] = ($origenDato->getEsCatalogo()) ? true: false;
@@ -251,7 +251,7 @@ class OrigenDatoController extends Controller {
             $aux[$n]='';
         foreach (array_slice($resultado['datos'],0,10) as $fila)
             foreach ($fila as $k=>$v)
-                $aux[$k] .= $v . ', ';
+                $aux[$util->slug($k)] .= $v . ', ';
         $resultado['datos'] = $aux;
         return new Response(json_encode($resultado));
     }
@@ -262,7 +262,7 @@ class OrigenDatoController extends Controller {
     public function configurarCampoAction() {
         $resultado = array('estado' => 'ok', 'mensaje' => '');
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $req = $this->getRequest();
         list($tipo_cambio, $id) = explode('__', $req->get('control'));
         $valor = $req->get('valor');

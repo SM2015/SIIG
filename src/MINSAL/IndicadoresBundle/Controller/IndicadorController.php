@@ -15,7 +15,7 @@ class IndicadorController extends Controller {
     public function getDimensiones($id) {
 
         $resp = array();        
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $fichaTec = $em->find('IndicadoresBundle:FichaTecnica', $id);
         if ($fichaTec) {
@@ -73,13 +73,13 @@ class IndicadorController extends Controller {
         }
 
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $fichaTec = $em->find('IndicadoresBundle:FichaTecnica', $id);
         $fichaRepository = $em->getRepository('IndicadoresBundle:FichaTecnica');
 
 
-        $fichaRepository->crearTablaIndicador($fichaTec, $this->container->getParameter('indicador_duracion_tabla_tmp'), $dimension, $filtros);
+        $fichaRepository->crearTablaIndicador($fichaTec, $dimension, $this->container->getParameter('indicador_duracion_tabla_tmp'), $filtros);
         $resp['datos'] = $fichaRepository->calcularIndicador($fichaTec, $dimension, $filtros);
         $response = new Response(json_encode($resp));
         if ($this->get('kernel')->getEnvironment() != 'dev')
@@ -173,7 +173,7 @@ class IndicadorController extends Controller {
      * @Route("/indicador/datos/mapa", name="indicador_datos_mapa", options={"expose"=true})
      */
     public function getMapaAction() {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $dimension = $this->getRequest()->get('dimension');
         $tipo_peticion = $this->getRequest()->get('tipo_peticion');
         
@@ -216,19 +216,29 @@ class IndicadorController extends Controller {
      * @Route("/indicador/favorito", name="indicador_favorito", options={"expose"=true})
      */
     public function indicadorFavorito() {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $req = $this->getRequest();
         
         $indicador = $em->find('IndicadoresBundle:FichaTecnica', $req->get('id'));
         $usuario = $this->getUser();
+        $indicadorUsuario = $em->getRepository('IndicadoresBundle:UsuarioIndicador');
+        $usuarioIndicadores = $indicadorUsuario->findBy(array('indicador'=>$indicador, 'usuario'=>$usuario));
+        // Si no existe, agrarlo
+        if (!$usuarioIndicadores){
+            $usuarioIndicadores = new \MINSAL\IndicadoresBundle\Entity\UsuarioIndicador();
+            $usuarioIndicadores->setUsuario($usuario);
+            $usuarioIndicadores->setIndicador($indicador);            
+        }
         if ($req->get('es_favorito')=='true'){
             //Es favorito, entonces quitar
-            $usuario->removeFavorito($indicador);
+            $usuarioIndicadores->setEsFavorito(false);
+            //$usuario->removeFavorito($indicador);
         }
         else{
-            $usuario->addFavorito($indicador);
+            //$usuario->addFavorito($indicador);
+            $usuarioIndicadores->setEsFavorito(true);
         }
-        
+        $em->persist($usuarioIndicadores);
         $em->flush();
         return new Response();
     }

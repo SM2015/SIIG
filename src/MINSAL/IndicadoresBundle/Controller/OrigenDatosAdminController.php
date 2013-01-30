@@ -16,7 +16,7 @@ use MINSAL\IndicadoresBundle\Entity\FusionOrigenesDatos;
 class OrigenDatosAdminController extends Controller {
 
     public function batchActionMergeIsRelevant(array $normalizedSelectedIds, $allEntitiesSelected) {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $parameterBag = $this->get('request')->request;
 
         $selecciones = $parameterBag->get('idx');
@@ -39,7 +39,7 @@ class OrigenDatosAdminController extends Controller {
 
     public function batchActionMerge(ProxyQueryInterface $selectedModelQuery) {
         $selecciones = $this->getRequest()->get('idx');
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         //Obtener la información de los campos de cada origen
         $origen_campos = array();
@@ -90,7 +90,7 @@ class OrigenDatosAdminController extends Controller {
     }
 
     public function batchActionLoadDataIsRelevant(array $normalizedSelectedIds, $allEntitiesSelected) {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $parameterBag = $this->get('request')->request;
 
         $selecciones = $parameterBag->get('idx');
@@ -109,7 +109,7 @@ class OrigenDatosAdminController extends Controller {
         $selecciones = $this->getRequest()->get('idx');
         foreach ($selecciones as $origen) {
             $msg = array('id_origen_dato' => $origen);
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             
             $origenDato = $em->find('IndicadoresBundle:OrigenDatos', $origen);
             $msg['sql'] = $origenDato->getSentenciaSql();
@@ -136,7 +136,7 @@ class OrigenDatosAdminController extends Controller {
     public function mergeSaveAction() {
         $req = $this->getRequest();
         $opciones = $req->get('fusionar');
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         //Crear el origen
         $origenDato = new OrigenDatos();

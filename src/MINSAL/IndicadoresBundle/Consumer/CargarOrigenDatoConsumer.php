@@ -22,6 +22,13 @@ class CargarOrigenDatoConsumer implements ConsumerInterface {
 
         $idOrigen = $msg['id_origen_dato'];
         $origenDato = $em->find('IndicadoresBundle:OrigenDatos', $idOrigen);
+        $codificacion = $origenDato->getCodificacionCaracteres();
+        
+        //UTF-8 por defecto
+        if ($codificacion != null)
+            $codificacion = $codificacion->getCodigo();
+        else
+            $codificacion = 'UTF-8';
         
         $origenDato_aux = $origenDato;
         $total_registros = $msg['total_registros'];
@@ -46,11 +53,11 @@ class CargarOrigenDatoConsumer implements ConsumerInterface {
                     $sql_aux = $sql . ' LIMIT ' . $tamanio . ' OFFSET ' . $i * $tamanio;
                     $origenDato_aux->setSentenciaSql($sql_aux);
                     $datos = $em->getRepository('IndicadoresBundle:OrigenDatos')->getDatos($origenDato_aux);
-                    $this->enviarDatos($idOrigen, $datos, $campos_sig);
+                    $this->enviarDatos($idOrigen, $datos, $campos_sig, $codificacion);
                 }
             } else {
                 $datos = $em->getRepository('IndicadoresBundle:OrigenDatos')->getDatos($origenDato);                
-                $this->enviarDatos($idOrigen, $datos, $campos_sig);
+                $this->enviarDatos($idOrigen, $datos, $campos_sig, $codificacion);
             }
             return true;
         }
@@ -58,7 +65,7 @@ class CargarOrigenDatoConsumer implements ConsumerInterface {
             return false;
     }
 
-    public function enviarDatos($idOrigen, $datos, $campos_sig) {
+    public function enviarDatos($idOrigen, $datos, $campos_sig, $codificacion='UTF-8') {
         //Esta cola la utilizaré solo para leer todos los datos y luego mandar uno por uno
         // a otra cola que se encarará de guardarlo en la base de datos
         // luego se puede probar a mandar por grupos       
@@ -70,7 +77,10 @@ class CargarOrigenDatoConsumer implements ConsumerInterface {
             $nueva_fila = array();
             foreach ($fila as $k => $v) {
                 // Quitar caracteres no permitidos que podrian existir en el nombre de campo (tildes, eñes, etc)
-                $nueva_fila[$campos_sig[$util->slug($k)]] = utf8_encode(trim($v));
+                if ($codificacion != 'UTF-8')
+                    $nueva_fila[$campos_sig[$util->slug($k)]] = iconv($codificacion, 'UTF-8//TRANSLIT',trim($v));
+                else
+                    $nueva_fila[$campos_sig[$util->slug($k)]] = trim($v);
             }
             $datos_a_enviar[] = $nueva_fila;
             //Enviaré en grupos de 200

@@ -7,7 +7,7 @@ use MINSAL\IndicadoresBundle\Entity\FichaTecnica;
 
 class FichaTecnicaRepository extends EntityRepository {
 
-    public function crearTablaIndicador(FichaTecnica $fichaTecnica, $duracion=10, $dimension, $filtros=null) {
+    public function crearTablaIndicador(FichaTecnica $fichaTecnica, $dimension, $duracion = 10, $filtros = null) {
         
         $em = $this->getEntityManager();
         $ahora = new \DateTime("now");
@@ -104,6 +104,22 @@ class FichaTecnicaRepository extends EntityRepository {
         
         $campos2= implode(', ', $campos_aux);
         $sql='';
+        // Hacer coincidir las tablas en las filas que tenga una y la otra no, agregarla 
+        // y ponerle 0 para que se acumule
+        foreach ($fichaTecnica->getVariables() as $v){
+            $tablas = $fichaTecnica->getVariables();            
+            $campo_calculo = strtolower($v->getIniciales());
+            $t1 = $campo_calculo.'_var';
+            foreach ($tablas as $t){
+                if ($v==$t)
+                    continue;
+                $sql .= "
+                    INSERT INTO $t1 ($campos, $campo_calculo)
+                        SELECT $campos, 0 FROM ".strtolower($t->getIniciales())."_var
+                            WHERE ($campos) NOT IN (SELECT $campos FROM $t1);
+                                ";
+            }
+        }
         foreach ($fichaTecnica->getVariables() as $variable){
             $tabla = strtolower($variable->getIniciales());
             $tablas_variables[] = $tabla;
@@ -129,7 +145,7 @@ class FichaTecnicaRepository extends EntityRepository {
                     INTO TEMP $tabla"."_var_acum
                     FROM $tabla"."_var T  
                     ORDER BY $campos2 ;
-                    ";            
+                    ";
         }
         
         $sql .= 'SELECT  '.str_replace('T.', '', $campos2).','.  implode(',', $tablas_variables).
@@ -145,22 +161,29 @@ class FichaTecnicaRepository extends EntityRepository {
     public function calcularIndicador(FichaTecnica $fichaTecnica, $dimension, $filtro_registros=null) {
         $util = new \MINSAL\IndicadoresBundle\Util\Util();
         $acumulado = $fichaTecnica->getEsAcumulado();
+        $formula = $fichaTecnica->getFormula();
+        $denominador = explode('/', $formula);
+        if (count($denominador)>1)
+            $evitar_div_0 = ' AND '.str_replace(array('{','}'), array(''), $denominador[1]) .'> 0';
+        else
+            $evitar_div_0 = '';
         if ($acumulado){
-            $formula = str_replace(array('{','}'), array('MAX(',')'), $fichaTecnica->getFormula());
+            $formula = str_replace(array('{','}'), array('MAX(',')'), $formula);
         }
         else
-            $formula = str_replace(array('{','}'), array('SUM(',')'), $fichaTecnica->getFormula());
+            $formula = str_replace(array('{','}'), array('SUM(',')'), $formula);
         $nombre_indicador = $util->slug($fichaTecnica->getNombre());
         $tabla_indicador = 'tmp_ind_'.$nombre_indicador;
         
         $sql = "SELECT $dimension as category, round(($formula)::numeric,2) as measure
             FROM $tabla_indicador ";
-        if ($filtro_registros != null){
-            $sql .= ' WHERE 1=1 ';
+        $sql .= ' WHERE 1=1 ';
+        if ($filtro_registros != null){            
             foreach ($filtro_registros as $campo => $valor)
                 $sql .= " AND $campo = '$valor' ";
         }
         $sql .= "
+            $evitar_div_0
             GROUP BY $dimension             
             HAVING (($formula)::numeric) > 0
             ORDER BY $dimension";                

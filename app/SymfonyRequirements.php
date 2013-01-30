@@ -468,11 +468,19 @@ class SymfonyRequirements extends RequirementCollection
         );
 
         if (function_exists('apc_store') && ini_get('apc.enabled')) {
-            $this->addRequirement(
-                version_compare(phpversion('apc'), '3.0.17', '>='),
-                'APC version must be at least 3.0.17',
-                'Upgrade your <strong>APC</strong> extension (3.0.17+).'
-            );
+            if (version_compare($installedPhpVersion, '5.4.0', '>=')) {
+                $this->addRequirement(
+                    version_compare(phpversion('apc'), '3.1.13', '>='),
+                    'APC version must be at least 3.1.13 when using PHP 5.4',
+                    'Upgrade your <strong>APC</strong> extension (3.1.13+).'
+                );
+            } else {
+                $this->addRequirement(
+                    version_compare(phpversion('apc'), '3.0.17', '>='),
+                    'APC version must be at least 3.0.17',
+                    'Upgrade your <strong>APC</strong> extension (3.0.17+).'
+                );
+            }
         }
 
         $this->addPhpIniRequirement('detect_unicode', false);
@@ -518,7 +526,7 @@ class SymfonyRequirements extends RequirementCollection
             'You should use at least PHP 5.3.4 due to PHP bug #52083 in earlier versions',
             'Your project might malfunction randomly due to PHP bug #52083 ("Notice: Trying to get property of non-object"). Install PHP 5.3.4 or newer.'
         );
-        
+
         $this->addRecommendation(
             version_compare($installedPhpVersion, '5.3.8', '>='),
             'When using annotations you should have at least PHP 5.3.8 due to PHP bug #55156',

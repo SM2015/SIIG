@@ -18,7 +18,7 @@ class CargarOrigenDatoCommand extends ContainerAwareCommand {
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) {
-        $em = $this->getContainer()->get('doctrine')->getEntityManager();
+        $em = $this->getContainer()->get('doctrine')->getManager();
 
         //Recuperar todos las fichas técnicas de indicadores
         $indicadores = $em->getRepository('IndicadoresBundle:FichaTecnica')->findAll();
