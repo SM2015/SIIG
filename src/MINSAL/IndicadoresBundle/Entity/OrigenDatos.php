@@ -89,13 +89,7 @@ class OrigenDatos {
      *
      * @ORM\Column(name="campos_fusionados", type="text", nullable=true)
      */
-    private $camposFusionados;
-    
-    /**
-     * @ORM\ManyToOne(targetEntity="CodificacionCaracteres")
-     * @ORM\JoinColumn(name="id_codificacion_caracteres", referencedColumnName="id")
-     **/    
-    private $codificacionCaracteres;
+    private $camposFusionados;      
     
     /**
      * @ORM\ManyToMany(targetEntity="OrigenDatos")
