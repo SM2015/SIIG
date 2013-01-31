@@ -484,27 +484,4 @@ class OrigenDatos {
     {
         return $this->variables;
     }
-
-    /**
-     * Set codificacionCaracteres
-     *
-     * @param \MINSAL\IndicadoresBundle\Entity\CodificacionCaracteres $codificacionCaracteres
-     * @return OrigenDatos
-     */
-    public function setCodificacionCaracteres(\MINSAL\IndicadoresBundle\Entity\CodificacionCaracteres $codificacionCaracteres = null)
-    {
-        $this->codificacionCaracteres = $codificacionCaracteres;
-    
-        return $this;
-    }
-
-    /**
-     * Get codificacionCaracteres
-     *
-     * @return \MINSAL\IndicadoresBundle\Entity\CodificacionCaracteres 
-     */
-    public function getCodificacionCaracteres()
-    {
-        return $this->codificacionCaracteres;
-    }
 }
