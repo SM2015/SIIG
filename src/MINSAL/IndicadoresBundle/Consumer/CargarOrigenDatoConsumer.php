@@ -21,14 +21,7 @@ class CargarOrigenDatoConsumer implements ConsumerInterface {
         $em = $this->container->get('doctrine.orm.entity_manager');
 
         $idOrigen = $msg['id_origen_dato'];
-        $origenDato = $em->find('IndicadoresBundle:OrigenDatos', $idOrigen);
-        $codificacion = $origenDato->getCodificacionCaracteres();
-        
-        //UTF-8 por defecto
-        if ($codificacion != null)
-            $codificacion = $codificacion->getCodigo();
-        else
-            $codificacion = 'UTF-8';
+        $origenDato = $em->find('IndicadoresBundle:OrigenDatos', $idOrigen);        
         
         $origenDato_aux = $origenDato;
         $total_registros = $msg['total_registros'];
@@ -53,11 +46,11 @@ class CargarOrigenDatoConsumer implements ConsumerInterface {
                     $sql_aux = $sql . ' LIMIT ' . $tamanio . ' OFFSET ' . $i * $tamanio;
                     $origenDato_aux->setSentenciaSql($sql_aux);
                     $datos = $em->getRepository('IndicadoresBundle:OrigenDatos')->getDatos($origenDato_aux);
-                    $this->enviarDatos($idOrigen, $datos, $campos_sig, $codificacion);
+                    $this->enviarDatos($idOrigen, $datos, $campos_sig);
                 }
             } else {
                 $datos = $em->getRepository('IndicadoresBundle:OrigenDatos')->getDatos($origenDato);                
-                $this->enviarDatos($idOrigen, $datos, $campos_sig, $codificacion);
+                $this->enviarDatos($idOrigen, $datos, $campos_sig);
             }
             return true;
         }
@@ -65,7 +58,7 @@ class CargarOrigenDatoConsumer implements ConsumerInterface {
             return false;
     }
 
-    public function enviarDatos($idOrigen, $datos, $campos_sig, $codificacion='UTF-8') {
+    public function enviarDatos($idOrigen, $datos, $campos_sig) {
         //Esta cola la utilizaré solo para leer todos los datos y luego mandar uno por uno
         // a otra cola que se encarará de guardarlo en la base de datos
         // luego se puede probar a mandar por grupos       
@@ -73,25 +66,27 @@ class CargarOrigenDatoConsumer implements ConsumerInterface {
         $util = new \MINSAL\IndicadoresBundle\Util\Util();
         $i = 0;
         $ii = 0;
-        foreach ($datos as $fila) {
-            $nueva_fila = array();
-            foreach ($fila as $k => $v) {
-                // Quitar caracteres no permitidos que podrian existir en el nombre de campo (tildes, eñes, etc)
-                $nueva_fila[$campos_sig[$util->slug($k)]] = utf8_encode(trim($v));
+        if ($datos){
+            foreach ($datos as $fila) {
+                $nueva_fila = array();
+                foreach ($fila as $k => $v) {
+                    // Quitar caracteres no permitidos que podrian existir en el nombre de campo (tildes, eñes, etc)
+                    $nueva_fila[$campos_sig[$util->slug($k)]] = utf8_encode(trim($v));
+                }
+                $datos_a_enviar[] = $nueva_fila;
+                //Enviaré en grupos de 200
+                if ($i == 200) {
+                    $msg_guardar = array('id_origen_dato' => $idOrigen,
+                        'datos' => $datos_a_enviar,
+                        'num_msj' => $ii++);
+                    $this->container->get('old_sound_rabbit_mq.guardar_registro_producer')
+                            ->publish(serialize($msg_guardar));
+                    unset($datos_a_enviar);
+                    $datos_a_enviar = array();
+                    $i = 0;
+                }
+                $i++;
             }
-            $datos_a_enviar[] = $nueva_fila;
-            //Enviaré en grupos de 200
-            if ($i == 200) {
-                $msg_guardar = array('id_origen_dato' => $idOrigen,
-                    'datos' => $datos_a_enviar,
-                    'num_msj' => $ii++);
-                $this->container->get('old_sound_rabbit_mq.guardar_registro_producer')
-                        ->publish(serialize($msg_guardar));
-                unset($datos_a_enviar);
-                $datos_a_enviar = array();
-                $i = 0;
-            }
-            $i++;
         }
         //Verificar si quedaron pendientes de enviar
         if (count($datos_a_enviar) > 0) {
