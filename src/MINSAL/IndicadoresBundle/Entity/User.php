@@ -23,14 +23,27 @@ class User extends BaseUser{
      * @var \Doctrine\Common\Collections\ArrayCollection
      * @ORM\OneToMany(targetEntity="UsuarioGrupoIndicadores", mappedBy="grupoIndicadores", cascade={"all"}, orphanRemoval=true)
      **/
-    private $gruposIndicadores;    
+    protected $gruposIndicadores;    
    
-     
+     /**
+      * @ORM\ManyToMany(targetEntity="FichaTecnica", inversedBy="usuariosFavoritos")
+      * @ORM\JoinTable(name="usuario_indicadores_favoritos",
+      *      joinColumns={@ORM\JoinColumn(name="id_usuario", referencedColumnName="id", onDelete="CASCADE")},
+      *      inverseJoinColumns={@ORM\JoinColumn(name="id_indicador", referencedColumnName="id", onDelete="CASCADE")}
+      *      )
+      **/
+    private $favoritos;
+    
+    
     /**
-     * @var \Doctrine\Common\Collections\ArrayCollection
-     * @ORM\OneToMany(targetEntity="UsuarioIndicador", mappedBy="indicadores" , cascade={"all"}, orphanRemoval=true)
+     * @ORM\ManyToMany(targetEntity="FichaTecnica", inversedBy="usuarios")
+     * @ORM\JoinTable(name="indicador_usuario",
+     *      joinColumns={@ORM\JoinColumn(name="id_usuario", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="id_indicador", referencedColumnName="id")}
+     *      )
+     * @ORM\OrderBy({"nombre" = "ASC"})
      **/
-    private $indicadores;
+    protected $indicadores;
     
     /**
      * Get id
@@ -153,5 +166,38 @@ class User extends BaseUser{
     public function getIndicadores()
     {
         return $this->indicadores;
+    }
+
+    /**
+     * Add favoritos
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\FichaTecnica $favoritos
+     * @return User
+     */
+    public function addFavorito(\MINSAL\IndicadoresBundle\Entity\FichaTecnica $favoritos)
+    {
+        $this->favoritos[] = $favoritos;
+    
+        return $this;
+    }
+
+    /**
+     * Remove favoritos
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\FichaTecnica $favoritos
+     */
+    public function removeFavorito(\MINSAL\IndicadoresBundle\Entity\FichaTecnica $favoritos)
+    {
+        $this->favoritos->removeElement($favoritos);
+    }
+
+    /**
+     * Get favoritos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFavoritos()
+    {
+        return $this->favoritos;
     }
 }
