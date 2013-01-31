@@ -192,7 +192,17 @@ class FichaTecnica
      *      )
      * @ORM\OrderBy({"nombre" = "ASC"})
      **/
-    private $variables;             
+    private $variables;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="indicadores")
+     **/
+    private $usuarios;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="favoritos")
+     **/
+    private $usuariosFavoritos;
     
     /**
      * @ORM\ManyToMany(targetEntity="Campo")
@@ -203,12 +213,7 @@ class FichaTecnica
      **/
     private $campos;
     
-    /**
-    * @var \Doctrine\Common\Collections\ArrayCollection
-     * @ORM\OneToMany(targetEntity="UsuarioIndicador", mappedBy="usuario", cascade={"all"}, orphanRemoval=true)
-     */
-    private $usuarios;
-    
+       
     /**
     * @var \Doctrine\Common\Collections\ArrayCollection
     * @ORM\OneToMany(targetEntity="GrupoIndicadoresIndicador", mappedBy="grupo", cascade={"all"}, orphanRemoval=true)

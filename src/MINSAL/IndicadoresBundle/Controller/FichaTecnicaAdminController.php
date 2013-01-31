@@ -26,13 +26,12 @@ class FichaTecnicaAdminController extends Controller {
         //Recuperar las categorías existentes
         $em = $this->getDoctrine()->getManager();
         $categorias = $em->getRepository("IndicadoresBundle:ClasificacionTecnica")->findAll();
-        $indicadorUsuario = $em->getRepository('IndicadoresBundle:UsuarioIndicador');
-        $usuario = $this->getUser();
-        $usuarioIndicadoresFavoritos = $indicadorUsuario->findBy(array('usuario' => $usuario, 'esFavorito' => true));
+        
+        $usuario = $this->getUser();        
 
         $usuarioIndicadores = ($usuario->hasRole('ROLE_SUPER_ADMIN')) ?
                 $em->getRepository("IndicadoresBundle:FichaTecnica")->findAll() :
-                $indicadorUsuario->findBy(array('usuario' => $usuario));
+                $usuario->getIndicadores();
 
 
         $categorias_indicador = array();
@@ -40,17 +39,14 @@ class FichaTecnicaAdminController extends Controller {
             $categorias_indicador[$cat->getId()]['cat'] = $cat;
             $categorias_indicador[$cat->getId()]['indicadores'] = array();
             foreach ($usuarioIndicadores as $ind) {
-                $id_categoria = ($usuario->hasRole('ROLE_SUPER_ADMIN')) ?
-                        $ind->getIdClasificacionTecnica()->getId() :
-                        $ind->getIndicador()->getIdClasificacionTecnica()->getId();
+                $id_categoria = $ind->getIdClasificacionTecnica()->getId();
                 if ($id_categoria == $cat->getId())
                     $categorias_indicador[$cat->getId()]['indicadores'][] = $ind;
             }
         }
 
         return $this->render('IndicadoresBundle:FichaTecnicaAdmin:tablero.html.twig', array(
-                    'categorias' => $categorias_indicador,
-                    'favoritos' => $usuarioIndicadoresFavoritos
+                    'categorias' => $categorias_indicador
                 ));
     }
 

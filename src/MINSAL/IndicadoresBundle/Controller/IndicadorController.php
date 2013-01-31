@@ -220,25 +220,15 @@ class IndicadorController extends Controller {
         $req = $this->getRequest();
         
         $indicador = $em->find('IndicadoresBundle:FichaTecnica', $req->get('id'));
-        $usuario = $this->getUser();
-        $indicadorUsuario = $em->getRepository('IndicadoresBundle:UsuarioIndicador');
-        $usuarioIndicadores = $indicadorUsuario->findBy(array('indicador'=>$indicador, 'usuario'=>$usuario));
-        // Si no existe, agrarlo
-        if (!$usuarioIndicadores){
-            $usuarioIndicadores = new \MINSAL\IndicadoresBundle\Entity\UsuarioIndicador();
-            $usuarioIndicadores->setUsuario($usuario);
-            $usuarioIndicadores->setIndicador($indicador);            
-        }
+        $usuario = $this->getUser();        
         if ($req->get('es_favorito')=='true'){
-            //Es favorito, entonces quitar
-            $usuarioIndicadores->setEsFavorito(false);
-            //$usuario->removeFavorito($indicador);
+            //Es favorito, entonces quitar            
+            $usuario->removeFavorito($indicador);
         }
         else{
-            //$usuario->addFavorito($indicador);
-            $usuarioIndicadores->setEsFavorito(true);
+            $usuario->addFavorito($indicador);            
         }
-        $em->persist($usuarioIndicadores);
+        
         $em->flush();
         return new Response();
     }
