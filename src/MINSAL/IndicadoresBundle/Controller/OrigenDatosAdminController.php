@@ -109,7 +109,6 @@ class OrigenDatosAdminController extends Controller {
                     return $origen->getNombre() . ': ' . $this->get('translator')->trans('origen_no_configurado');
             }
         }
-        exit;
 
         return true;
     }
