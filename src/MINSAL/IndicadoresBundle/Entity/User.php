@@ -100,6 +100,7 @@ class User extends BaseUser{
         $this->gruposIndicadores = new \Doctrine\Common\Collections\ArrayCollection();
         $this->indicadores = new \Doctrine\Common\Collections\ArrayCollection();
         $this->groups = new \Doctrine\Common\Collections\ArrayCollection();
+        parent::__construct();
     }
     
     /**

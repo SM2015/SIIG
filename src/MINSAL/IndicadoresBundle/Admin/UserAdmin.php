@@ -13,7 +13,12 @@ class UserAdmin extends Admin {
 
     protected $baseRouteName = 'admin_vendor_bundlename_adminclassname';
     protected $baseRoutePattern = 'usuario-indicadores';
-   
+
+    public function configureRoutes(RouteCollection $collection) {
+        $collection->remove('create');
+        $collection->remove('delete');
+    }
+
     protected $datagridValues = array(
         '_page' => 1, // Display the first page (default = 1)
         '_sort_order' => 'ASC', // Descendant ordering (default = 'ASC')
@@ -21,7 +26,7 @@ class UserAdmin extends Admin {
     );
 
     protected function configureFormFields(FormMapper $formMapper) {
-        $formMapper                
+        $formMapper
                 ->add('indicadores', null, array('label' => $this->getTranslator()->trans('indicadores'), 'expanded' => true))
         ;
     }
