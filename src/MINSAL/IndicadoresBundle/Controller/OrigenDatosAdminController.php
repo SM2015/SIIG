@@ -27,10 +27,10 @@ class OrigenDatosAdminController extends Controller {
                 return $this->get('translator')->trans('fusion.no_catalogos');
             if ($origenDato->getEsFusionado())
                 return $this->get('translator')->trans('fusion.no_fusionados');
-            $configurado=$em->getRepository('IndicadoresBundle:OrigenDatos')->estaConfigurado($origenDato);            
+            $configurado = $em->getRepository('IndicadoresBundle:OrigenDatos')->estaConfigurado($origenDato);
             if (!$configurado)
                 return $origenDato->getNombre() . ': ' . $this->get('translator')->trans('origen_no_configurado');
-        }        
+        }
         if (count($selecciones) > 1)
             return true;
         else
@@ -92,31 +92,49 @@ class OrigenDatosAdminController extends Controller {
     public function batchActionLoadDataIsRelevant(array $normalizedSelectedIds, $allEntitiesSelected) {
         $em = $this->getDoctrine()->getManager();
         $parameterBag = $this->get('request')->request;
-
-        $selecciones = $parameterBag->get('idx');
-        // Verificar que los orígenes esten configurados
-        foreach ($selecciones as $id_origen) {
-            $origenDato = $em->find('IndicadoresBundle:OrigenDatos', $id_origen);            
-            $configurado=$em->getRepository('IndicadoresBundle:OrigenDatos')->estaConfigurado($origenDato);            
-            if (!$configurado)
-                return $origenDato->getNombre() . ': ' . $this->get('translator')->trans('origen_no_configurado');
+        if (!$parameterBag->get('all_elements')) {
+            $selecciones = $parameterBag->get('idx');
+            // Verificar que los orígenes esten configurados
+            foreach ($selecciones as $id_origen) {
+                $origenDato = $em->find('IndicadoresBundle:OrigenDatos', $id_origen);
+                $configurado = $em->getRepository('IndicadoresBundle:OrigenDatos')->estaConfigurado($origenDato);
+                if (!$configurado)
+                    return $origenDato->getNombre() . ': ' . $this->get('translator')->trans('origen_no_configurado');
+            }
         }
+        else{
+            $origenes = $em->getRepository('IndicadoresBundle:OrigenDatos')->findAll ();
+            foreach($origenes as $origen){
+                if (!$origen->estaConfigurado($origenDato))
+                    return $origen->getNombre() . ': ' . $this->get('translator')->trans('origen_no_configurado');
+            }
+        }
+
         return true;
     }
 
     public function batchActionLoadData(ProxyQueryInterface $selectedModelQuery) {
         //Mardar a la cola de carga de datos cada origen seleccionado        
-        $selecciones = $this->getRequest()->get('idx');
+        $parameterBag = $this->get('request')->request;
+        $em = $this->getDoctrine()->getManager();
+        
+        if (!$parameterBag->get('all_elements')) 
+            $selecciones = $this->getRequest()->get('idx');
+        else
+            $selecciones = $em->getRepository('IndicadoresBundle:OrigenDatos')->findAll ();
         foreach ($selecciones as $origen) {
             $msg = array('id_origen_dato' => $origen);
             $em = $this->getDoctrine()->getManager();
+            if (!$parameterBag->get('all_elements')) 
+                $origenDato = $em->find('IndicadoresBundle:OrigenDatos', $origen);
+            else
+                $origenDato = $origen;
             
-            $origenDato = $em->find('IndicadoresBundle:OrigenDatos', $origen);
             $msg['sql'] = $origenDato->getSentenciaSql();
-            $msg['total_registros'] = $em->getRepository('IndicadoresBundle:OrigenDatos')->getTotalRegistros($origenDato);            
-            
-            foreach ($origenDato->getVariables() as $var){
-                foreach($var->getIndicadores() as $ind){
+            $msg['total_registros'] = $em->getRepository('IndicadoresBundle:OrigenDatos')->getTotalRegistros($origenDato);
+
+            foreach ($origenDato->getVariables() as $var) {
+                foreach ($var->getIndicadores() as $ind) {
                     $ind->setUpdatedAt(null);
                 }
             }

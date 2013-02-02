@@ -90,13 +90,7 @@ class OrigenDatos {
      * @ORM\Column(name="campos_fusionados", type="text", nullable=true)
      */
     private $camposFusionados;
-    
-    /**
-     * @ORM\ManyToOne(targetEntity="CodificacionCaracteres")
-     * @ORM\JoinColumn(name="id_codificacion_caracteres", referencedColumnName="id")
-     **/    
-    private $codificacionCaracteres;
-    
+            
     /**
      * @ORM\ManyToMany(targetEntity="OrigenDatos")
      * @ORM\JoinTable(name="origen_datos_fusiones",
@@ -490,27 +484,5 @@ class OrigenDatos {
     {
         return $this->variables;
     }
-
-    /**
-     * Set codificacionCaracteres
-     *
-     * @param \MINSAL\IndicadoresBundle\Entity\CodificacionCaracteres $codificacionCaracteres
-     * @return OrigenDatos
-     */
-    public function setCodificacionCaracteres(\MINSAL\IndicadoresBundle\Entity\CodificacionCaracteres $codificacionCaracteres = null)
-    {
-        $this->codificacionCaracteres = $codificacionCaracteres;
     
-        return $this;
-    }
-
-    /**
-     * Get codificacionCaracteres
-     *
-     * @return \MINSAL\IndicadoresBundle\Entity\CodificacionCaracteres 
-     */
-    public function getCodificacionCaracteres()
-    {
-        return $this->codificacionCaracteres;
-    }
 }

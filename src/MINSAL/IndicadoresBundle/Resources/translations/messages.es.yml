@@ -47,7 +47,12 @@ significado: Significado
 'Origen Datos Delete': 'Origen de datos - Borrar'
 'Origen Datos Create': 'Origen de datos- Crear'
 'Origen Datos Edit': 'Origen de datos - Editar'
-'codificacion_caracteres': 'Codificación de Caracteres'
+
+'User List': 'Usuarios'
+'User Delete': 'Borrar usuario'
+'User Edit': 'Editar usuario'
+'usuario_indicadores': 'Usuarios de indicadores'
+'nombre_usuario': Usuario
 
 'responsable_datos': 'Responsable Datos'
 'Responsable Dato List': 'Responsable de Dato - Listado'
