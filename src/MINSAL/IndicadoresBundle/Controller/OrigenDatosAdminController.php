@@ -18,7 +18,6 @@ class OrigenDatosAdminController extends Controller {
     public function batchActionMergeIsRelevant(array $normalizedSelectedIds, $allEntitiesSelected) {
         $em = $this->getDoctrine()->getManager();
         $parameterBag = $this->get('request')->request;
-
         $selecciones = $parameterBag->get('idx');
         // Verificar que los orígenes esten configurados
         foreach ($selecciones as $id_origen) {
@@ -92,6 +91,7 @@ class OrigenDatosAdminController extends Controller {
     public function batchActionLoadDataIsRelevant(array $normalizedSelectedIds, $allEntitiesSelected) {
         $em = $this->getDoctrine()->getManager();
         $parameterBag = $this->get('request')->request;
+        
         if (!$parameterBag->get('all_elements')) {
             $selecciones = $parameterBag->get('idx');
             // Verificar que los orígenes esten configurados
@@ -103,13 +103,13 @@ class OrigenDatosAdminController extends Controller {
             }
         }
         else{
-            $origenes = $em->getRepository('IndicadoresBundle:OrigenDatos')->findAll ();
+            $origenes = $em->getRepository('IndicadoresBundle:OrigenDatos')->findAll();
             foreach($origenes as $origen){
-                if (!$origen->estaConfigurado($origenDato))
+                $configurado = $em->getRepository('IndicadoresBundle:OrigenDatos')->estaConfigurado($origen);
+                if (!$configurado)
                     return $origen->getNombre() . ': ' . $this->get('translator')->trans('origen_no_configurado');
             }
         }
-
         return true;
     }
 
@@ -130,7 +130,7 @@ class OrigenDatosAdminController extends Controller {
             else
                 $origenDato = $origen;
             
-            $msg['sql'] = $origenDato->getSentenciaSql();
+            $msg['sql'] = $origenDato->getSentenciaSql(); 
             $msg['total_registros'] = $em->getRepository('IndicadoresBundle:OrigenDatos')->getTotalRegistros($origenDato);
 
             foreach ($origenDato->getVariables() as $var) {
