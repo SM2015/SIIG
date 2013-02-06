@@ -21,6 +21,7 @@ class ClasificacionTecnicaAdmin extends Admin
         $formMapper            
             ->add('descripcion', null, array('label'=> $this->getTranslator()->trans('descripcion')))
             ->add('comentario', 'textarea', array('required'=>false, 'label'=> $this->getTranslator()->trans('comentario')))
+            ->add('clasificacionUso', null, array('required'=>true, 'label'=> $this->getTranslator()->trans('clasificacion_uso')))
 
         ;
     }

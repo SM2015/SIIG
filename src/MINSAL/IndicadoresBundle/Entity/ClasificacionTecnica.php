@@ -48,6 +48,15 @@ class ClasificacionTecnica
      **/
     private $indicadores;
 
+  /**
+     * 
+     * @var clasificacionUso
+     *
+     * @ORM\ManyToOne(targetEntity="ClasificacionUso")
+     * @ORM\OrderBy({"codigo" = "ASC"})
+     **/
+    private $clasificacionUso;
+
 
     /**
      * Get id
@@ -106,7 +115,7 @@ class ClasificacionTecnica
     }
     
     public function __toString() {
-        return $this->descripcion;
+        return $this->clasificacionUso->getDescripcion().' -- '.$this->descripcion;
     }
 
     /**
@@ -183,5 +192,28 @@ class ClasificacionTecnica
     public function getIndicadores()
     {
         return $this->indicadores;
+    }
+
+    /**
+     * Set clasificacionUso
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\ClasificacionUso $clasificacionUso
+     * @return ClasificacionTecnica
+     */
+    public function setClasificacionUso(\MINSAL\IndicadoresBundle\Entity\ClasificacionUso $clasificacionUso = null)
+    {
+        $this->clasificacionUso = $clasificacionUso;
+    
+        return $this;
+    }
+
+    /**
+     * Get clasificacionUso
+     *
+     * @return \MINSAL\IndicadoresBundle\Entity\ClasificacionUso 
+     */
+    public function getClasificacionUso()
+    {
+        return $this->clasificacionUso;
     }
 }

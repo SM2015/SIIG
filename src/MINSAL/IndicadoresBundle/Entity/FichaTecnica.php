@@ -44,27 +44,6 @@ class FichaTecnica
     private $concepto;
 
     /**
-     * @var string $objetivo
-     *
-     * @ORM\Column(name="objetivo", type="text", nullable=true)
-     */
-    private $objetivo;
-
-    /**
-     * @var string $uso
-     *
-     * @ORM\Column(name="uso", type="text", nullable=true)
-     */
-    private $uso;
-
-    /**
-     * @var string $definicionOperativa
-     *
-     * @ORM\Column(name="definicion_operativa", type="text", nullable=true)
-     */
-    private $definicionOperativa;
-
-    /**
      * @var string $unidadMedida
      *
      * @ORM\Column(name="unidad_medida", type="string", length=50, nullable=false)
@@ -124,16 +103,7 @@ class FichaTecnica
      * @ORM\Column(name="ultima_lectura", type="datetime", nullable=true)
      */
     private $ultimaLectura;
-    
-    
-    /**
-     * @var ClasificacionNivel
-     *
-     * @ORM\ManyToOne(targetEntity="ClasificacionNivel")
-     * @ORM\JoinColumn(name="id_clasificacion_nivel", referencedColumnName="id")
-     */
-    private $idClasificacionNivel;
-
+            
     /**
      * @var ClasificacionPrivacidad
      *
@@ -142,30 +112,11 @@ class FichaTecnica
      */
     private $idClasificacionPrivacidad;
 
-    /**
-     * @var ClasificacionTecnica
-     *
-     * @ORM\ManyToOne(targetEntity="ClasificacionTecnica", inversedBy="indicadores" )
-     * @ORM\JoinColumn(name="id_clasificacion_tecnica", referencedColumnName="id")
-     */
-    private $idClasificacionTecnica;
-
-    /**
-     * @var ClasificacionUso
-     *
-     * @ORM\ManyToOne(targetEntity="ClasificacionUso")
-     * @ORM\JoinColumn(name="id_clasificacion_uso", referencedColumnName="id")
-     */
-    private $idClasificacionUso;
+    /**     
+     * @ORM\ManyToMany(targetEntity="ClasificacionTecnica")
+     **/
+    private $clasificacionTecnica;    
         
-
-    /**
-     * @var ResponsableIndicador
-     *
-     * @ORM\ManyToOne(targetEntity="ResponsableIndicador")
-     * @ORM\JoinColumn(name="id_responsable_indicador", referencedColumnName="id")
-     */
-    private $idResponsableIndicador;
     
     /**
      * 
@@ -300,75 +251,6 @@ class FichaTecnica
     }
 
     /**
-     * Set objetivo
-     *
-     * @param string $objetivo
-     * @return FichaTecnica
-     */
-    public function setObjetivo($objetivo)
-    {
-        $this->objetivo = $objetivo;
-    
-        return $this;
-    }
-
-    /**
-     * Get objetivo
-     *
-     * @return string 
-     */
-    public function getObjetivo()
-    {
-        return $this->objetivo;
-    }
-
-    /**
-     * Set uso
-     *
-     * @param string $uso
-     * @return FichaTecnica
-     */
-    public function setUso($uso)
-    {
-        $this->uso = $uso;
-    
-        return $this;
-    }
-
-    /**
-     * Get uso
-     *
-     * @return string 
-     */
-    public function getUso()
-    {
-        return $this->uso;
-    }
-
-    /**
-     * Set definicionOperativa
-     *
-     * @param string $definicionOperativa
-     * @return FichaTecnica
-     */
-    public function setDefinicionOperativa($definicionOperativa)
-    {
-        $this->definicionOperativa = $definicionOperativa;
-    
-        return $this;
-    }
-
-    /**
-     * Get definicionOperativa
-     *
-     * @return string 
-     */
-    public function getDefinicionOperativa()
-    {
-        return $this->definicionOperativa;
-    }
-
-    /**
      * Set unidadMedida
      *
      * @param string $unidadMedida
@@ -461,29 +343,6 @@ class FichaTecnica
     }
 
     /**
-     * Set idClasificacionNivel
-     *
-     * @param MINSAL\IndicadoresBundle\Entity\ClasificacionNivel $idClasificacionNivel
-     * @return FichaTecnica
-     */
-    public function setIdClasificacionNivel(\MINSAL\IndicadoresBundle\Entity\ClasificacionNivel $idClasificacionNivel = null)
-    {
-        $this->idClasificacionNivel = $idClasificacionNivel;
-    
-        return $this;
-    }
-
-    /**
-     * Get idClasificacionNivel
-     *
-     * @return MINSAL\IndicadoresBundle\Entity\ClasificacionNivel 
-     */
-    public function getIdClasificacionNivel()
-    {
-        return $this->idClasificacionNivel;
-    }
-
-    /**
      * Set idClasificacionPrivacidad
      *
      * @param MINSAL\IndicadoresBundle\Entity\ClasificacionPrivacidad $idClasificacionPrivacidad
@@ -504,76 +363,7 @@ class FichaTecnica
     public function getIdClasificacionPrivacidad()
     {
         return $this->idClasificacionPrivacidad;
-    }
-
-    /**
-     * Set idClasificacionTecnica
-     *
-     * @param MINSAL\IndicadoresBundle\Entity\ClasificacionTecnica $idClasificacionTecnica
-     * @return FichaTecnica
-     */
-    public function setIdClasificacionTecnica(\MINSAL\IndicadoresBundle\Entity\ClasificacionTecnica $idClasificacionTecnica = null)
-    {
-        $this->idClasificacionTecnica = $idClasificacionTecnica;
-    
-        return $this;
-    }
-
-    /**
-     * Get idClasificacionTecnica
-     *
-     * @return MINSAL\IndicadoresBundle\Entity\ClasificacionTecnica 
-     */
-    public function getIdClasificacionTecnica()
-    {
-        return $this->idClasificacionTecnica;
-    }
-
-    /**
-     * Set idClasificacionUso
-     *
-     * @param MINSAL\IndicadoresBundle\Entity\ClasificacionUso $idClasificacionUso
-     * @return FichaTecnica
-     */
-    public function setIdClasificacionUso(\MINSAL\IndicadoresBundle\Entity\ClasificacionUso $idClasificacionUso = null)
-    {
-        $this->idClasificacionUso = $idClasificacionUso;
-    
-        return $this;
-    }
-
-    /**
-     * Get idClasificacionUso
-     *
-     * @return MINSAL\IndicadoresBundle\Entity\ClasificacionUso 
-     */
-    public function getIdClasificacionUso()
-    {
-        return $this->idClasificacionUso;
-    }
-
-    /**
-     * Set idResponsableIndicador
-     *
-     * @param MINSAL\IndicadoresBundle\Entity\ResponsableIndicador $idResponsableIndicador
-     * @return FichaTecnica
-     */
-    public function setIdResponsableIndicador(\MINSAL\IndicadoresBundle\Entity\ResponsableIndicador $idResponsableIndicador = null)
-    {
-        $this->idResponsableIndicador = $idResponsableIndicador;
-    
-        return $this;
-    }
-
-    /**
-     * Get idResponsableIndicador
-     *
-     * @return MINSAL\IndicadoresBundle\Entity\ResponsableIndicador 
-     */
-    public function getIdResponsableIndicador()
-    {
-        return $this->idResponsableIndicador;
-    }
+    }        
            
     /**
      * Constructor
@@ -934,5 +724,38 @@ class FichaTecnica
     public function getGrupos()
     {
         return $this->grupos;
+    }
+
+    /**
+     * Add clasificacionTecnica
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\ClasificacionTecnica $clasificacionTecnica
+     * @return FichaTecnica
+     */
+    public function addClasificacionTecnica(\MINSAL\IndicadoresBundle\Entity\ClasificacionTecnica $clasificacionTecnica)
+    {
+        $this->clasificacionTecnica[] = $clasificacionTecnica;
+    
+        return $this;
+    }
+
+    /**
+     * Remove clasificacionTecnica
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\ClasificacionTecnica $clasificacionTecnica
+     */
+    public function removeClasificacionTecnica(\MINSAL\IndicadoresBundle\Entity\ClasificacionTecnica $clasificacionTecnica)
+    {
+        $this->clasificacionTecnica->removeElement($clasificacionTecnica);
+    }
+
+    /**
+     * Get clasificacionTecnica
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getClasificacionTecnica()
+    {
+        return $this->clasificacionTecnica;
     }
 }
