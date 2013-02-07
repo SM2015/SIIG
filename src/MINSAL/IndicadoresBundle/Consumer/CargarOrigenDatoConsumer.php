@@ -39,7 +39,7 @@ class CargarOrigenDatoConsumer implements ConsumerInterface {
 
             //Leeré los datos en grupos de 100,000
             $tamanio = 100000;            
-            if ($total_registros > $tamanio) {
+            if ($total_registros > $tamanio and $origenDato->getConexion()->getIdMotor()->getCodigo() != 'pdo_dblib') {
                 $partes = ceil($total_registros / $tamanio);
                 $sql = $msg['sql'];
                 for ($i = 0; $i < $partes; $i++) {

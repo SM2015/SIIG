@@ -12,6 +12,8 @@ use MINSAL\IndicadoresBundle\Entity\Campo;
 
 class OrigenDatoController extends Controller {
 
+    private $driver;
+
     /**
      * @Route("/conexion/probar", name="origen_dato_conexion_probar", options={"expose"=true})
      */
@@ -19,7 +21,8 @@ class OrigenDatoController extends Controller {
 
         try {
             $conn = $this->getConexionGenerica('base_datos');
-            $conn->connect();
+            if ($this->driver != 'pdo_dblib')
+                $conn->connect();
             $mensaje = '<span style="color: green">' . $this->get('translator')->trans('conexion_success') . '</span>';
         } catch (\PDOException $e) {
             $mensaje = '<span style="color: red">' . $this->get('translator')->trans('conexion_error') . ': ' . $e->getMessage() . '</span>';
@@ -40,15 +43,25 @@ class OrigenDatoController extends Controller {
         //
         if (preg_match($patron, $sql) == FALSE) {
             try {
-                $conn = $this->getConexionGenerica('consulta_sql');            
-                $query = $conn->query($sql . ' LIMIT 50');
-                if ($query->rowCount() > 0)
-                    $resultado['datos'] = $query->fetchAll();
+                $conn = $this->getConexionGenerica('consulta_sql');
+                if ($this->driver == 'pdo_dblib') {
+                    $sql = str_ireplace('SELECT', 'SELECT TOP 50 ', $sql);
+                    $query = mssql_query($sql, $conn);
+                    if (mssql_num_rows($query) > 0)
+                        while ($row = mssql_fetch_assoc($query))
+                            $resultado['datos'][] = $row;
+                } else {
+                    $query = $conn->query($sql . ' LIMIT 50');
+                    if ($query->rowCount() > 0)
+                        $resultado['datos'] = $query->fetchAll();
+                }
                 $resultado['estado'] = 'ok';
                 $resultado['mensaje'] = '<span style="color: green">' . $this->get('translator')->trans('sentencia_success') . '</span>';
             } catch (\PDOException $e) {
                 $resultado['mensaje'] = '<span style="color: red">' . $this->get('translator')->trans('sentencia_error') . ': ' . $e->getMessage() . '</span>';
             } catch (DBAL\DBALException $e) {
+                $resultado['mensaje'] = '<span style="color: red">' . $this->get('translator')->trans('sentencia_error') . ': ' . $e->getMessage() . '</span>';
+            } catch (\Exception $e) {
                 $resultado['mensaje'] = '<span style="color: red">' . $this->get('translator')->trans('sentencia_error') . ': ' . $e->getMessage() . '</span>';
             }
         } else {
@@ -66,6 +79,7 @@ class OrigenDatoController extends Controller {
     public function getConexionGenerica($objeto_prueba, $idConexion = null) {
         $req = $this->getRequest();
         $em = $this->getDoctrine()->getManager();
+
 
         try {
             if ($objeto_prueba == 'base_datos') {
@@ -95,21 +109,31 @@ class OrigenDatoController extends Controller {
             throw new \PDOException($e->getMessage());
         }
 
+        //Debido a un bug en el controlador para mssqlserver usaré las funciones antiguas para conectarme
+        // Estar pendiente de la resolución del bug para que se vuelva a utilizar PDO
+        $this->driver = $datos['driver'];
+        if ($datos['driver'] == 'pdo_dblib') {
+            $servername = $datos['host'];
+            if ($datos['port'] != '')
+                $servername .= ',' . $datos['port'];
+            $conn = mssql_connect($servername, $datos['user'], $datos['password']);
+            mssql_select_db($datos['dbname'], $conn);
+        } else {
+            // Construir el Conector genérico
+            $config = new DBAL\Configuration();
 
-        // Construir el Conector genérico
-        $config = new DBAL\Configuration();
+            $connectionParams = array(
+                'dbname' => $datos['dbname'],
+                'user' => $datos['user'],
+                'password' => $datos['password'],
+                'host' => $datos['host'],
+                'driver' => $datos['driver']
+            );
+            if ($datos['port'] != '' and $datos['driver'] != 'pdo_sqlite')
+                $connectionParams['port'] = $datos['port'];
 
-        $connectionParams = array(
-            'dbname' => $datos['dbname'],
-            'user' => $datos['user'],
-            'password' => $datos['password'],
-            'host' => $datos['host'],
-            'driver' => $datos['driver']
-        );
-        if ($datos['port'] != '' and $datos['driver'] != 'pdo_sqlite')
-            $connectionParams['port'] = $datos['port'];
-
-        $conn = DBAL\DriverManager::getConnection($connectionParams, $config);
+            $conn = DBAL\DriverManager::getConnection($connectionParams, $config);
+        }
         return $conn;
     }
 
@@ -129,28 +153,28 @@ class OrigenDatoController extends Controller {
         $em = $this->getDoctrine()->getManager();
 
         $origenDato = $em->find("IndicadoresBundle:OrigenDatos", $id);
-        $resultado['es_catalogo'] = ($origenDato->getEsCatalogo()) ? true: false;
-        
+        $resultado['es_catalogo'] = ($origenDato->getEsCatalogo()) ? true : false;
+
         $sql = "SELECT tp 
                     FROM IndicadoresBundle:TipoCampo tp 
                     ORDER BY tp.descripcion";
         $resultado['tipos_datos'] = $em->createQuery($sql)->getArrayResult();
-        
-        $sql ="SELECT sv 
+
+        $sql = "SELECT sv 
                     FROM IndicadoresBundle:SignificadoCampo sv                      
                     WHERE sv.usoEnCatalogo = :uso_en_catalogo 
                     ORDER BY sv.descripcion";
         $resultado['significados'] = $em->createQuery($sql)
-                                        ->setParameter('uso_en_catalogo', $resultado['es_catalogo']?'true':'false')
-                                        ->getArrayResult();
+                ->setParameter('uso_en_catalogo', $resultado['es_catalogo'] ? 'true' : 'false')
+                ->getArrayResult();
 
         //recuperar los campos ya existentes en el origen de datos
         $campos_existentes = $em->getRepository('IndicadoresBundle:Campo')->findBy(array('origenDato' => $origenDato));
 
         $campos = array();
-        foreach ($campos_existentes as $campo) 
+        foreach ($campos_existentes as $campo)
             $campos[$campo->getNombre()]['id'] = $campo->getId();
-        
+
         $resultado['campos'] = $campos;
         if ($origenDato->getSentenciaSql() != '') {
             $resultado['tipo_origen'] = 'sql';
@@ -159,16 +183,29 @@ class OrigenDatoController extends Controller {
 
             $conn = $this->getConexionGenerica('consulta_sql', $idConexion);
             try {
-                $query = $conn->query($sentenciaSQL . ' LIMIT 20');
-                if ($query->rowCount() > 0) {
-                    $resultado['datos'] = $query->fetchAll();
-                    $resultado['nombre_campos'] = array_keys($resultado['datos'][0]);
+                if ($this->driver == 'pdo_dblib') {
+                    $sentenciaSQL = str_ireplace('SELECT', 'SELECT TOP 20 ', $sentenciaSQL);
+                    $query = mssql_query($sentenciaSQL, $conn);
+                    if (mssql_num_rows($query) > 0){
+                        while ($row = mssql_fetch_assoc($query))
+                            $resultado['datos'][] = $row;
+                        $resultado['nombre_campos'] = array_keys($resultado['datos'][0]);
+                    }
+                } else {
+                    $query = $conn->query($sentenciaSQL . ' LIMIT 20');
+                    if ($query->rowCount() > 0) {
+                        $resultado['datos'] = $query->fetchAll();
+                        $resultado['nombre_campos'] = array_keys($resultado['datos'][0]);
+                    }
                 }
+
                 $resultado['estado'] = 'ok';
                 $resultado['mensaje'] = '<span style="color: green">' . $this->get('translator')->trans('sentencia_success') . '</span>';
             } catch (\PDOException $e) {
                 $resultado['mensaje'] = '<span style="color: red">' . $this->get('translator')->trans('sentencia_error') . ': ' . $e->getMessage() . '</span>';
             } catch (DBAL\DBALException $e) {
+                $resultado['mensaje'] = '<span style="color: red">' . $this->get('translator')->trans('sentencia_error') . ': ' . $e->getMessage() . '</span>';
+            } catch (\Exception $e) {
                 $resultado['mensaje'] = '<span style="color: red">' . $this->get('translator')->trans('sentencia_error') . ': ' . $e->getMessage() . '</span>';
             }
         } else {
@@ -191,9 +228,9 @@ class OrigenDatoController extends Controller {
                         $resultado['datos'][] = array_slice($fila, 0, $primer_null, true);
                 }
                 $resultado['estado'] = 'ok';
-                
+
                 // Poner el nombre de la columna como indice del arreglo
-                $aux= array();
+                $aux = array();
                 foreach ($resultado['datos'] as $fila)
                     $aux[] = array_combine($resultado['nombre_campos'], $fila);
                 $resultado['datos'] = $aux;
@@ -223,9 +260,9 @@ class OrigenDatoController extends Controller {
                     $nombres_id[$campos[$nombre_campo]['id']] = $nombre_campo;
             }
             //Borrar algún campo que ya no se use
-            foreach($campos_existentes as $campo){
-                if(!in_array($campo->getNombre(), $nombres_id))
-                        $em->remove ($campo);
+            foreach ($campos_existentes as $campo) {
+                if (!in_array($campo->getNombre(), $nombres_id))
+                    $em->remove($campo);
             }
             try {
                 $em->flush();
@@ -234,7 +271,7 @@ class OrigenDatoController extends Controller {
             }
             $resultado['nombre_campos'] = $nombres_id;
         }
-        
+
         $campos_existentes = $em->getRepository('IndicadoresBundle:Campo')->findBy(array('origenDato' => $origenDato));
         $campos = array();
         foreach ($campos_existentes as $campo) {
@@ -244,13 +281,13 @@ class OrigenDatoController extends Controller {
             $campos[$campo->getNombre()]['tipo'] = ($campo->getTipoCampo()) ? $campo->getTipoCampo()->getId() : null;
         }
         $resultado['campos'] = $campos;
-        
+
         //Cambiar la estructura        
         $aux = array();
         foreach ($resultado['nombre_campos'] as $n)
-            $aux[$n]='';
-        foreach (array_slice($resultado['datos'],0,10) as $fila)
-            foreach ($fila as $k=>$v)
+            $aux[$n] = '';
+        foreach (array_slice($resultado['datos'], 0, 10) as $fila)
+            foreach ($fila as $k => $v)
                 $aux[$util->slug($k)] .= $v . ', ';
         $resultado['datos'] = $aux;
         return new Response(json_encode($resultado));

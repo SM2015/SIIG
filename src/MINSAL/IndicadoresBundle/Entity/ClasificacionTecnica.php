@@ -44,9 +44,18 @@ class ClasificacionTecnica
     private $comentario;
 
     /**
-     * @ORM\OneToMany(targetEntity="FichaTecnica", mappedBy="idClasificacionTecnica")
+     * @ORM\ManyToMany(targetEntity="FichaTecnica", mappedBy="clasificacionTecnica")
      **/
     private $indicadores;
+
+  /**
+     * 
+     * @var clasificacionUso
+     *
+     * @ORM\ManyToOne(targetEntity="ClasificacionUso")
+     * @ORM\OrderBy({"codigo" = "ASC"})
+     **/
+    private $clasificacionUso;
 
 
     /**
@@ -106,7 +115,7 @@ class ClasificacionTecnica
     }
     
     public function __toString() {
-        return $this->descripcion;
+        return $this->clasificacionUso->getDescripcion().' -- '.$this->descripcion;
     }
 
     /**
@@ -144,6 +153,29 @@ class ClasificacionTecnica
     
         return $this;
     }
+
+    /**
+     * Set clasificacionUso
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\ClasificacionUso $clasificacionUso
+     * @return ClasificacionTecnica
+     */
+    public function setClasificacionUso(\MINSAL\IndicadoresBundle\Entity\ClasificacionUso $clasificacionUso = null)
+    {
+        $this->clasificacionUso = $clasificacionUso;
+    
+        return $this;
+    }
+
+    /**
+     * Get clasificacionUso
+     *
+     * @return \MINSAL\IndicadoresBundle\Entity\ClasificacionUso 
+     */
+    public function getClasificacionUso()
+    {
+        return $this->clasificacionUso;
+    }
     /**
      * Constructor
      */
@@ -155,7 +187,7 @@ class ClasificacionTecnica
     /**
      * Add indicadores
      *
-     * @param MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores
+     * @param \MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores
      * @return ClasificacionTecnica
      */
     public function addIndicadore(\MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores)
@@ -168,7 +200,7 @@ class ClasificacionTecnica
     /**
      * Remove indicadores
      *
-     * @param MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores
+     * @param \MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores
      */
     public function removeIndicadore(\MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores)
     {
@@ -178,7 +210,7 @@ class ClasificacionTecnica
     /**
      * Get indicadores
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection 
      */
     public function getIndicadores()
     {

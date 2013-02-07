@@ -22,26 +22,25 @@ class FichaTecnicaAdmin extends Admin {
     protected function configureFormFields(FormMapper $formMapper) {
         $formMapper
                 ->add('nombre', null, array('label' => $this->getTranslator()->trans('nombre_indicador')))
-                ->add('tema', null, array('label' => $this->getTranslator()->trans('tema')))
+                ->add('tema', null, array('label' => $this->getTranslator()->trans('_interpretacion_')))
                 ->add('concepto', null, array('label' => $this->getTranslator()->trans('concepto')))
-                ->add('objetivo', null, array('label' => $this->getTranslator()->trans('objetivo')))
-                ->add('uso', null, array('label' => $this->getTranslator()->trans('uso')))
-                ->add('definicionOperativa', null, array('label' => $this->getTranslator()->trans('definicion_operativa')))
                 ->add('unidadMedida', null, array('label' => $this->getTranslator()->trans('unidad_medida')))
                 ->add('esAcumulado', null, array('label' => $this->getTranslator()->trans('es_acumulado')))
                 ->add('variables', null, array('label' => $this->getTranslator()->trans('variables'), 'expanded' => true))
                 ->add('formula', null, array('label' => $this->getTranslator()->trans('formula'),
                     'help' => $this->getTranslator()->trans('ayuda_ingreso_formula')
                 ))
-                ->add('idClasificacionNivel', null, array('label' => $this->getTranslator()->trans('clasificacion_nivel')))
-                ->add('idClasificacionTecnica', null, array('label' => $this->getTranslator()->trans('clasificacion_tecnica'),
-                    'required' => true))
-                ->add('idClasificacionPrivacidad', null, array('label' => $this->getTranslator()->trans('clasificacion_privacidad')))
-                ->add('idClasificacionUso', null, array('label' => $this->getTranslator()->trans('clasificacion_uso')))
+                ->add('clasificacionTecnica', null, array('label' => $this->getTranslator()->trans('clasificacion_tecnica'),
+                    'required' => true, 'expanded' => true,
+                    'class' => 'IndicadoresBundle:ClasificacionTecnica',
+                        'query_builder' => function ($repository){
+                            return $repository->createQueryBuilder('ct')
+                                    ->orderBy('ct.clasificacionUso');
+                        }))
+                ->add('idClasificacionPrivacidad', null, array('label' => $this->getTranslator()->trans('_nivel_de_usuario_')))
                 ->add('periodo', null, array('label' => $this->getTranslator()->trans('periodicidad')))
-                ->add('idResponsableIndicador', null, array('label' => $this->getTranslator()->trans('responsable_indicador')))                
                 ->add('confiabilidad', null, array('label' => $this->getTranslator()->trans('confiabilidad'), 'required' => false))
-                ->add('observacion', 'textarea', array('label' => $this->getTranslator()->trans('comentario'), 'required' => false))
+                ->add('observacion', 'textarea', array('label' => $this->getTranslator()->trans('_observacion_'), 'required' => false))
                 ->add('alertas', 'sonata_type_collection', array(
                     'label' => $this->getTranslator()->trans('alertas'),
                     'required' => false), array(
@@ -56,21 +55,16 @@ class FichaTecnicaAdmin extends Admin {
     protected function configureDatagridFilters(DatagridMapper $datagridMapper) {
         $datagridMapper
                 ->add('nombre', null, array('label' => $this->getTranslator()->trans('nombre')))
-                ->add('idClasificacionNivel', null, array('label' => $this->getTranslator()->trans('clasificacion_nivel')))
-                ->add('idClasificacionTecnica', null, array('label' => $this->getTranslator()->trans('clasificacion_tecnica')))
-                ->add('idClasificacionPrivacidad', null, array('label' => $this->getTranslator()->trans('clasificacion_privacidad')))
-                ->add('idClasificacionUso', null, array('label' => $this->getTranslator()->trans('clasificacion_uso')))
-                ->add('idResponsableIndicador', null, array('label' => $this->getTranslator()->trans('responsable_indicador')))
+                ->add('clasificacionTecnica', null, array('label' => $this->getTranslator()->trans('clasificacion_tecnica')))
+                ->add('idClasificacionPrivacidad', null, array('label' => $this->getTranslator()->trans('_nivel_de_usuario_')))                
         ;
     }
 
     protected function configureListFields(ListMapper $listMapper) {
         $listMapper
                 ->addIdentifier('nombre', null, array('label' => $this->getTranslator()->trans('nombre_indicador')))
-                ->add('tema', null, array('label' => $this->getTranslator()->trans('tema')))
+                ->add('tema', null, array('label' => $this->getTranslator()->trans('_interpretacion_')))
                 ->add('concepto', null, array('label' => $this->getTranslator()->trans('concepto')))
-                ->add('objetivo', null, array('label' => $this->getTranslator()->trans('objetivo')))
-                ->add('definicionOperativa', null, array('label' => $this->getTranslator()->trans('definicion_operativa')))
                 ->add('camposIndicador', null, array('label' => $this->getTranslator()->trans('campos_indicador')))
 
         ;

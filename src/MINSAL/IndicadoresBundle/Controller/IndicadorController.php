@@ -213,6 +213,22 @@ class IndicadorController extends Controller {
     }
     
     /**
+     * @Route("/tablero/usuario/change/{codigo_clasificacion}", name="change_clasificacion_uso", options={"expose"=true})
+     */
+    public function changeClasificacionUsoAction($codigo_clasificacion) {
+        $request = $this->getRequest();
+        $em = $this->getDoctrine()->getManager();
+        $usuario = $this->getUser();
+        $clasificacion = $em->getRepository('IndicadoresBundle:ClasificacionUso')
+                ->findOneBy(array('codigo'=>$codigo_clasificacion));
+        $usuario->setClasificacionUso($clasificacion);
+        $em->persist($usuario);
+        $em->flush();
+        
+        return $this->redirect($request->headers->get('referer'));
+    }
+    
+    /**
      * @Route("/indicador/favorito", name="indicador_favorito", options={"expose"=true})
      */
     public function indicadorFavorito() {
