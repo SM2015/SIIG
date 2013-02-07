@@ -44,7 +44,7 @@ class ClasificacionTecnica
     private $comentario;
 
     /**
-     * @ORM\OneToMany(targetEntity="FichaTecnica", mappedBy="idClasificacionTecnica")
+     * @ORM\ManyToMany(targetEntity="FichaTecnica", mappedBy="clasificacionTecnica")
      **/
     private $indicadores;
 
@@ -153,46 +153,6 @@ class ClasificacionTecnica
     
         return $this;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->indicadores = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-    
-    /**
-     * Add indicadores
-     *
-     * @param MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores
-     * @return ClasificacionTecnica
-     */
-    public function addIndicadore(\MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores)
-    {
-        $this->indicadores[] = $indicadores;
-    
-        return $this;
-    }
-
-    /**
-     * Remove indicadores
-     *
-     * @param MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores
-     */
-    public function removeIndicadore(\MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores)
-    {
-        $this->indicadores->removeElement($indicadores);
-    }
-
-    /**
-     * Get indicadores
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getIndicadores()
-    {
-        return $this->indicadores;
-    }
 
     /**
      * Set clasificacionUso
@@ -215,5 +175,45 @@ class ClasificacionTecnica
     public function getClasificacionUso()
     {
         return $this->clasificacionUso;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->indicadores = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add indicadores
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores
+     * @return ClasificacionTecnica
+     */
+    public function addIndicadore(\MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores)
+    {
+        $this->indicadores[] = $indicadores;
+    
+        return $this;
+    }
+
+    /**
+     * Remove indicadores
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores
+     */
+    public function removeIndicadore(\MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores)
+    {
+        $this->indicadores->removeElement($indicadores);
+    }
+
+    /**
+     * Get indicadores
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getIndicadores()
+    {
+        return $this->indicadores;
     }
 }

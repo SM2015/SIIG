@@ -46,6 +46,15 @@ class User extends BaseUser{
     protected $indicadores;
     
     /**
+     * 
+     * @var clasificacionUso
+     *
+     * @ORM\ManyToOne(targetEntity="ClasificacionUso")
+     * @ORM\OrderBy({"codigo" = "ASC"})
+     **/
+    private $clasificacionUso;
+    
+    /**
      * Get id
      *
      * @return integer 
@@ -200,5 +209,28 @@ class User extends BaseUser{
     public function getFavoritos()
     {
         return $this->favoritos;
+    }
+
+    /**
+     * Set clasificacionUso
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\ClasificacionUso $clasificacionUso
+     * @return User
+     */
+    public function setClasificacionUso(\MINSAL\IndicadoresBundle\Entity\ClasificacionUso $clasificacionUso = null)
+    {
+        $this->clasificacionUso = $clasificacionUso;
+    
+        return $this;
+    }
+
+    /**
+     * Get clasificacionUso
+     *
+     * @return \MINSAL\IndicadoresBundle\Entity\ClasificacionUso 
+     */
+    public function getClasificacionUso()
+    {
+        return $this->clasificacionUso;
     }
 }

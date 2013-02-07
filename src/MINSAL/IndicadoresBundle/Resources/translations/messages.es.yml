@@ -249,4 +249,7 @@ tablero:
   tipo_grafico_secundario: Tipo de gráfico secundario
 
   
-
+_no_clasificados_ : 'Sin clasificacion'
+_interpretacion_ : 'Interpretación'
+_nivel_de_usuario_ : 'Nivel de usuario'
+_observacion_ : 'Observación'

@@ -25,6 +25,21 @@
     </div>
     <div class="tablero container-fluid" id='tablero'>
         <i id='ocultar_panel_izq' class="icon-arrow-left"></i>
+        <div class='btn-group'> 
+            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                <i class="icon-filter"></i>{{app.user.clasificacionUso}}
+                <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">                
+                {% for clasificacion in clasificacionUso %}
+                    {% if clasificacion.codigo == app.user.clasificacionUso.codigo %}
+                        <li class='active'><A href='#'>{{clasificacion.descripcion}}</a></li>
+                    {% else %}
+                        <li ><a href='{{url('change_clasificacion_uso',{codigo_clasificacion:clasificacion.codigo})}}'>{{clasificacion.descripcion}}</a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>                               
+        </div>
         <div class="row-fluid">
             <div class='span3' id='listado_indicadores' style='overflow-y: auto'>
                 <H4>{{"favoritos"|trans}} (<span id='cantidad_favoritos'>{{app.user.favoritos|length}}</span>)</H4>
@@ -55,6 +70,19 @@
                         </ul>
                     </DIV>
                 {% endfor %}
+                <H4>{{"_no_clasificados_"|trans}} (<span id='cantidad_no_clasificados'>{{indicadores_no_clasificados|length}}</span>)</H4>
+                <DIV >
+                    <ul id='listado-no_clasificados'>
+                    {% for indicador in indicadores_no_clasificados %}
+                        <li id='li_fav-{{indicador.id}}'><A href="#" id='fav-{{indicador.id}}' 
+                                data-id='{{indicador.id}}'
+                                data-unidad-medida='{{indicador.unidadMedida}}'>
+                                {{indicador.nombre}}
+                            </A>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                </DIV>        
             </div>            
             <div class="span9" id='tablero_graficos'>
                  <div class="span9" >

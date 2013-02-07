@@ -113,7 +113,7 @@ class FichaTecnica
     private $idClasificacionPrivacidad;
 
     /**     
-     * @ORM\ManyToMany(targetEntity="ClasificacionTecnica")
+     * @ORM\ManyToMany(targetEntity="ClasificacionTecnica", inversedBy="indicadores")
      **/
     private $clasificacionTecnica;    
         
