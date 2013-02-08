@@ -37,7 +37,7 @@ class FichaTecnicaAdmin extends Admin {
                             return $repository->createQueryBuilder('ct')
                                     ->orderBy('ct.clasificacionUso');
                         }))
-                ->add('idClasificacionPrivacidad', null, array('label' => $this->getTranslator()->trans('_nivel_de_usuario_')))
+                ->add('clasificacionPrivacidad', null, array('label' => $this->getTranslator()->trans('_nivel_de_usuario_'), 'expanded' => true))
                 ->add('periodo', null, array('label' => $this->getTranslator()->trans('periodicidad')))
                 ->add('confiabilidad', null, array('label' => $this->getTranslator()->trans('confiabilidad'), 'required' => false))
                 ->add('observacion', 'textarea', array('label' => $this->getTranslator()->trans('_observacion_'), 'required' => false))

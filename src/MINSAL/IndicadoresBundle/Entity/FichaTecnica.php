@@ -105,12 +105,12 @@ class FichaTecnica
     private $ultimaLectura;
             
     /**
-     * @var ClasificacionPrivacidad
+     * @var clasificacionPrivacidad
      *
-     * @ORM\ManyToOne(targetEntity="ClasificacionPrivacidad")
-     * @ORM\JoinColumn(name="id_clasificacion_privacidad", referencedColumnName="id")
+     * @ORM\ManyToMany(targetEntity="ClasificacionPrivacidad", inversedBy="indicadores")
+     * @ORM\OrderBy({"descripcion" = "ASC"})
      */
-    private $idClasificacionPrivacidad;
+    private $clasificacionPrivacidad;
 
     /**     
      * @ORM\ManyToMany(targetEntity="ClasificacionTecnica", inversedBy="indicadores")
@@ -340,29 +340,6 @@ class FichaTecnica
     public function getConfiabilidad()
     {
         return $this->confiabilidad;
-    }
-
-    /**
-     * Set idClasificacionPrivacidad
-     *
-     * @param MINSAL\IndicadoresBundle\Entity\ClasificacionPrivacidad $idClasificacionPrivacidad
-     * @return FichaTecnica
-     */
-    public function setIdClasificacionPrivacidad(\MINSAL\IndicadoresBundle\Entity\ClasificacionPrivacidad $idClasificacionPrivacidad = null)
-    {
-        $this->idClasificacionPrivacidad = $idClasificacionPrivacidad;
-    
-        return $this;
-    }
-
-    /**
-     * Get idClasificacionPrivacidad
-     *
-     * @return MINSAL\IndicadoresBundle\Entity\ClasificacionPrivacidad 
-     */
-    public function getIdClasificacionPrivacidad()
-    {
-        return $this->idClasificacionPrivacidad;
     }        
            
     /**
@@ -757,5 +734,38 @@ class FichaTecnica
     public function getClasificacionTecnica()
     {
         return $this->clasificacionTecnica;
+    }
+
+    /**
+     * Add clasificacionPrivacidad
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\ClasificacionPrivacidad $clasificacionPrivacidad
+     * @return FichaTecnica
+     */
+    public function addClasificacionPrivacidad(\MINSAL\IndicadoresBundle\Entity\ClasificacionPrivacidad $clasificacionPrivacidad)
+    {
+        $this->clasificacionPrivacidad[] = $clasificacionPrivacidad;
+    
+        return $this;
+    }
+
+    /**
+     * Remove clasificacionPrivacidad
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\ClasificacionPrivacidad $clasificacionPrivacidad
+     */
+    public function removeClasificacionPrivacidad(\MINSAL\IndicadoresBundle\Entity\ClasificacionPrivacidad $clasificacionPrivacidad)
+    {
+        $this->clasificacionPrivacidad->removeElement($clasificacionPrivacidad);
+    }
+
+    /**
+     * Get clasificacionPrivacidad
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getClasificacionPrivacidad()
+    {
+        return $this->clasificacionPrivacidad;
     }
 }
