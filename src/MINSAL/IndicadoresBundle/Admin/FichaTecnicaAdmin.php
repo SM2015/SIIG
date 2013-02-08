@@ -43,7 +43,7 @@ class FichaTecnicaAdmin extends Admin {
                 ->add('observacion', 'textarea', array('label' => $this->getTranslator()->trans('_observacion_'), 'required' => false))
                 ->add('alertas', 'sonata_type_collection', array(
                     'label' => $this->getTranslator()->trans('alertas'),
-                    'required' => false), array(
+                    'required' => true), array(
                     'edit' => 'inline',
                     'inline' => 'table',
                     'sortable' => 'position'
@@ -56,7 +56,7 @@ class FichaTecnicaAdmin extends Admin {
         $datagridMapper
                 ->add('nombre', null, array('label' => $this->getTranslator()->trans('nombre')))
                 ->add('clasificacionTecnica', null, array('label' => $this->getTranslator()->trans('clasificacion_tecnica')))
-                ->add('idClasificacionPrivacidad', null, array('label' => $this->getTranslator()->trans('_nivel_de_usuario_')))                
+                ->add('clasificacionPrivacidad', null, array('label' => $this->getTranslator()->trans('_nivel_de_usuario_')))                
         ;
     }
 

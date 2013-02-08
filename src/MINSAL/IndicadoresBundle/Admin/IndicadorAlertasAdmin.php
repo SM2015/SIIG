@@ -23,8 +23,10 @@ class IndicadorAlertasAdmin extends Admin {
                 ->add('indicador', null, array('label' => $this->getTranslator()->trans('indicador')))
                 ->add('limiteInferior', null, array('label' => $this->getTranslator()->trans('limite_inferior'),
                     'required'=>true))
-                ->add('limiteSuperior', null, array('label' => $this->getTranslator()->trans('limite_superior')))
-                ->add('color', null, array('label' => $this->getTranslator()->trans('color')))
+                ->add('limiteSuperior', null, array('label' => $this->getTranslator()->trans('limite_superior'),
+                    'required'=>true))
+                ->add('color', null, array('label' => $this->getTranslator()->trans('color'),
+                    'required'=>true))
                 ->add('comentario', null, array('label' => $this->getTranslator()->trans('comentario')))
 
         ;
