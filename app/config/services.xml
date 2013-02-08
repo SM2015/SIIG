@@ -98,7 +98,18 @@
             <argument>MINSAL\IndicadoresBundle\Entity\SignificadoCampo</argument>
             <argument>IndicadoresBundle:SignificadoCampoAdmin</argument>
             <call method="setMaxPerPage"><argument>%admin_max_per_page_number%</argument></call>
-        </service>        
+        </service> 
+        <service id="sonata.admin.colores_alertas" class="MINSAL\IndicadoresBundle\Admin\AlertaAdmin">
+            <tag name="sonata.admin" 
+                 manager_type="orm" 
+                 group="catalogos" 
+                 label="_colores_alertas_"
+            />
+            <argument />
+            <argument>MINSAL\IndicadoresBundle\Entity\Alerta</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+            <call method="setMaxPerPage"><argument>%admin_max_per_page_number%</argument></call>
+        </service>       
         <service id="sonata.admin.conexion" class="MINSAL\IndicadoresBundle\Admin\ConexionAdmin">
             <tag name="sonata.admin" 
                  manager_type="orm" 

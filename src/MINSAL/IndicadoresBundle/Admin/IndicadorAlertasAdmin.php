@@ -55,16 +55,7 @@ class IndicadorAlertasAdmin extends Admin {
         $actions = parent::getBatchActions();
         $actions['delete'] = null;
     }
-
-    /*public function validate(ErrorElement $errorElement, $object) {
-        //Marcó la opción que se usará en catálogo pero no ha elegido un catálog
-        if ($object->getUsoEnCatalogo() == true and $object->getCatalogo() != '') {
-            $errorElement
-                    ->with('catalogo')
-                    ->addViolation($this->getTranslator()->trans('no_catalogo_y_describir_catalogo'))
-                    ->end();
-        }
-    }*/
+    
 }
 
 ?>
