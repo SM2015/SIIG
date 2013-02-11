@@ -9,6 +9,7 @@ use Sonata\AdminBundle\Validator\ErrorElement;
 use Sonata\AdminBundle\Form\FormMapper;
 use MINSAL\IndicadoresBundle\Entity\FichaTecnica;
 use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Show\ShowMapper;
 
 class FichaTecnicaAdmin extends Admin {
 
@@ -49,6 +50,38 @@ class FichaTecnicaAdmin extends Admin {
                     'sortable' => 'position'
                 ))
                 ->add('camposIndicador', null, array('label' => $this->getTranslator()->trans('campos_indicador')))
+        ;
+    }
+    
+    protected function configureShowFields(ShowMapper $showMapper)
+    {
+        $showMapper
+            ->add('nombre')
+            ->add('tema')
+            ->add('concepto')
+            ->add('unidadMedida')
+            ->add('esAcumulado')
+            ->add('variables')
+            ->add('formula')
+            ->add('clasificacionTecnica', null, array('label' => $this->getTranslator()->trans('clasificacion_tecnica'),
+                'required' => true, 'expanded' => true,
+                'class' => 'IndicadoresBundle:ClasificacionTecnica',
+                    'query_builder' => function ($repository){
+                        return $repository->createQueryBuilder('ct')
+                                ->orderBy('ct.clasificacionUso');
+                    }))
+            ->add('clasificacionPrivacidad')
+            ->add('periodo')
+            ->add('confiabilidad')
+            ->add('observacion')
+            ->add('alertas', 'sonata_type_collection', array(
+                'label' => $this->getTranslator()->trans('alertas'),
+                'required' => true), array(
+                'edit' => 'inline',
+                'inline' => 'table',
+                'sortable' => 'position'
+            ))
+            ->add('camposIndicador')
         ;
     }
 

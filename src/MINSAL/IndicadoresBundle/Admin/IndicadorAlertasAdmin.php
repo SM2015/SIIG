@@ -11,7 +11,6 @@ use Doctrine\ORM\EntityRepository;
 
 class IndicadorAlertasAdmin extends Admin {
 
-    private $repository;
     protected $datagridValues = array(
         '_page' => 1, // Display the first page (default = 1)
         '_sort_order' => 'ASC', // Descendant ordering (default = 'ASC')
