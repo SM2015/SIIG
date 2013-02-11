@@ -636,39 +636,7 @@ class FichaTecnica
     {
         return $this->esAcumulado;
     }
-
-    /**
-     * Add usuarios
-     *
-     * @param \MINSAL\IndicadoresBundle\Entity\UsuarioIndicador $usuarios
-     * @return FichaTecnica
-     */
-    public function addUsuario(\MINSAL\IndicadoresBundle\Entity\UsuarioIndicador $usuarios)
-    {
-        $this->usuarios[] = $usuarios;
     
-        return $this;
-    }
-
-    /**
-     * Remove usuarios
-     *
-     * @param \MINSAL\IndicadoresBundle\Entity\UsuarioIndicador $usuarios
-     */
-    public function removeUsuario(\MINSAL\IndicadoresBundle\Entity\UsuarioIndicador $usuarios)
-    {
-        $this->usuarios->removeElement($usuarios);
-    }
-
-    /**
-     * Get usuarios
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getUsuarios()
-    {
-        return $this->usuarios;
-    }
 
     /**
      * Add grupos

@@ -33,8 +33,8 @@ class IndicadorAlertasAdmin extends Admin {
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper) {
         $datagridMapper
-                ->add('indicador', null, array('label' => $this->getTranslator()->trans('descripcion')))
-                ->add('color', null, array('label' => $this->getTranslator()->trans('catalogo')))
+                ->add('indicador', null, array('label' => $this->getTranslator()->trans('indicador')))
+                ->add('color', null, array('label' => $this->getTranslator()->trans('color')))
         ;
     }
 
