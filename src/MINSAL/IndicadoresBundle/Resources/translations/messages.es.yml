@@ -232,6 +232,7 @@ javascript:
   mostrar_listado_indicadores: 'Mostrar listado de indicadores'  
   agregar_favorito: 'Marcar como favorito'
   quitar_favoritos: 'Quitar de favoritos'
+  ver_ficha_tecnica: 'Ver ficha Técnica'
 
 validacion:
   requerido: Este dato es requerido

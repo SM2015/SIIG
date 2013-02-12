@@ -96,6 +96,10 @@ $(document).ready(function() {
                     opciones_indicador += '<i class="icon-star"></i> '+trans.agregar_favorito+'</A></li>';
                 else
                     opciones_indicador += '<i class="icon-star-empty"></i> '+trans.quitar_favoritos+'</A></li>';
+                
+                opciones_indicador += '<li><A id="ver_ficha_tecnica" '
+                        +' href="'+Routing.generate('get_indicador_ficha',{id: resp.id_indicador})+'"><i class="icon-briefcase"></i> '+trans.ver_ficha_tecnica+'</A></li>';
+                
 
                 $('#controlesDimension').html('');
                 $('#controlesDimension').append(opciones_dimension);
@@ -182,6 +186,9 @@ $(document).ready(function() {
                 $('#agregar_como_favorito').click(function() {
                     alternar_favorito($(this).attr('data-indicador'));                    
                 });
+                $('#ver_ficha_tecnica').click(function() {
+                    //ver_ficha_tecnica($(this).attr('data-indicador'));                    
+                });
             
                 dibujarGrafico($('#dimensiones').val());
                 //filtros();
@@ -219,6 +226,10 @@ $(document).ready(function() {
         $.get(Routing.generate('indicador_favorito'),
             {id: $('#titulo_indicador').attr('data-id'), es_favorito: es_favorito}
             );
+    }
+    
+    function ver_ficha_tecnica(id_indicador){ 
+        $.get(Routing.generate('get_indicador_ficha',{id: id_indicador}));
     }
 
 

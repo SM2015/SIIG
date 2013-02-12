@@ -35,7 +35,8 @@ class AppKernel extends Kernel
             new FOS\UserBundle\FOSUserBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             
-            new OldSound\RabbitMqBundle\OldSoundRabbitMqBundle(),            
+            new OldSound\RabbitMqBundle\OldSoundRabbitMqBundle(),
+            new Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
             
             new MINSAL\IndicadoresBundle\IndicadoresBundle(),
         );

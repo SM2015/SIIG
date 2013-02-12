@@ -226,6 +226,7 @@ javascript:
   mostrar_listado_indicadores: 'Show indicator listing'
   agregar_favorito: 'Add to favourites'
   quitar_favoritos: 'Remove from favourites'
+  ver_ficha_tecnica: 'Show technical profile'
 
 validacion:
   requerido: This field is required
