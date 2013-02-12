@@ -255,19 +255,33 @@ class IndicadorController extends Controller {
      */
     public function getFichaAction($id) {
         
-        $url = $this->generateUrl('admin_minsal_indicadores_fichatecnica_show', array('id'=>$id));
-        //$html=$this->get('router')->match('admin_minsal_indicadores_fichatecnica_show');
-        $h = get_class_methods($this->get('sonata.admin.ficha'));
+        $admin = $this->get('sonata.admin.ficha');
+        $object = $admin->getObject($id);
+
+        if (!$object) {
+            throw new NotFoundHttpException(sprintf('unable to find the object with id : %s', $id));
+        }
+
+        if (false === $admin->isGranted('VIEW', $object)) {
+            throw new AccessDeniedException();
+        }
+
+        $admin->setSubject($object);
         
-        //$html = new RedirectResponse($url);
-        
-        return new Response(var_dump($h));
+       $html = $this->render($admin->getTemplate('show'), array(
+            'action'   => 'show',
+            'object'   => $object,
+            'elements' => $admin->getShow(),
+           'admin' => $admin,
+           'base_template' => 'IndicadoresBundle::pdf_layout.html.twig'
+        ));        
         return new Response(
-                $this->get('knp_snappy.pdf')->getOutputFromHtml($html), 200, array(
+                $this->get('knp_snappy.pdf')->getOutputFromHtml($html->getContent()), 200, array(
             'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'attachment; filename="file.pdf"'
+            'Content-Disposition' => 'attachment; filename="ficha_tecnica.pdf"'
                 )
         );
     }
 
 }
+
