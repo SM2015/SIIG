@@ -115,7 +115,10 @@ class ClasificacionTecnica
     }
     
     public function __toString() {
-        return $this->clasificacionUso->getDescripcion().' -- '.$this->descripcion;
+        if ($this->clasificacionUso)
+            return $this->clasificacionUso->getDescripcion().' -- '.$this->descripcion;
+        else
+            return ' -- '.$this->descripcion;
     }
 
     /**
