@@ -32,7 +32,7 @@
             </a>
             <ul class="dropdown-menu">                
                 {% for clasificacion in clasificacionUso %}
-                    {% if clasificacion.codigo == app.user.clasificacionUso.codigo %}
+                    {% if clasificacion.codigo == app.user.clasificacionUso.codigo|default('') %}
                         <li class='active'><A href='#'>{{clasificacion.descripcion}}</a></li>
                     {% else %}
                         <li ><a href='{{url('change_clasificacion_uso',{codigo_clasificacion:clasificacion.codigo})}}'>{{clasificacion.descripcion}}</a></li>
