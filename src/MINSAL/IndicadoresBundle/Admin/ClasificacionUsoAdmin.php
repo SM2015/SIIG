@@ -19,6 +19,7 @@ class ClasificacionUsoAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper            
+            ->add('codigo', null, array('label'=> $this->getTranslator()->trans('codigo')))
             ->add('descripcion', null, array('label'=> $this->getTranslator()->trans('descripcion')))
             ->add('comentario', 'textarea', array('required'=>false, 'label'=> $this->getTranslator()->trans('comentario')))
 
