@@ -23,11 +23,11 @@ class IndicadorController extends Controller {
             $resp['nombre_indicador'] = $fichaTec->getNombre();
             $resp['id_indicador'] = $id;
             $resp['unidad_medida'] = $fichaTec->getUnidadMedida();
-            $campos = explode(', ', str_replace("'", '', $fichaTec->getCamposIndicador()));
+            $campos = explode(',', str_replace(array("'",' '), array('',''), $fichaTec->getCamposIndicador()));
 
             foreach ($campos as $campo) {
                 $significado = $em->getRepository('IndicadoresBundle:SignificadoCampo')
-                        ->findOneByCodigo($campo);
+                        ->findOneByCodigo($campo);                
                 $dimensiones[$significado->getCodigo()] = $significado->getDescripcion();
             }
             $rangos_alertas_aux = array();
