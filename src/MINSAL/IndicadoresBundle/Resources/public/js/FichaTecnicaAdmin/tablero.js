@@ -85,7 +85,7 @@ $(document).ready(function() {
                         '</ul>' +
                         '</div>';
                 var opciones_indicador = '<div class="btn-group">' +
-                        '<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">' + trans.indicador_opciones +                             
+                        '<button class="btn btn-info dropdown-toggle" data-toggle="dropdown" >' + trans.indicador_opciones+
                             '<span class="caret"></span>' +
                         '</button>' +
                         '<ul class="dropdown-menu" role="menu" >' +
@@ -99,7 +99,8 @@ $(document).ready(function() {
                 
                 opciones_indicador += '<li><A id="ver_ficha_tecnica" '
                         +' href="'+Routing.generate('get_indicador_ficha',{id: resp.id_indicador})+'"><i class="icon-briefcase"></i> '+trans.ver_ficha_tecnica+'</A></li>';
-                
+                opciones_indicador += '<li><A id="ver_tabla_datos"><i class="icon-list-alt"></i> '+trans.tabla_datos+' </A></li>';
+                                
 
                 $('#controlesDimension').html('');
                 $('#controlesDimension').append(opciones_dimension);
@@ -161,9 +162,9 @@ $(document).ready(function() {
                     $('#controles').append(opciones_indicador);
                 
                     $('#controles').append('<div class="btn-group">'+
-                                        '<a class="btn btn-info dropdown-toggle" data-toggle="dropdown" href="#">'+
-                                            trans.alertas_indicador+
-                                            '<span class="caret"></span>'+
+                                        '<a class="btn btn-warning dropdown-toggle" data-toggle="dropdown" href="#" title="'+trans.alertas_indicador+'">'+                                            
+                                             '<i class="icon-exclamation-sign"></i>'+
+                                             '<span class="caret"></span>'+
                                         '</a>'+
                                         '<ul class="dropdown-menu">'+
                                             alertas+
@@ -186,6 +187,11 @@ $(document).ready(function() {
                 $('#agregar_como_favorito').click(function() {
                     alternar_favorito($(this).attr('data-indicador'));                    
                 });
+                $('#info').toggle();
+                $('#ver_tabla_datos').click(function() {
+                    $('#info').toggle();
+                });
+                
                 $('#ver_ficha_tecnica').click(function() {
                     //ver_ficha_tecnica($(this).attr('data-indicador'));                    
                 });

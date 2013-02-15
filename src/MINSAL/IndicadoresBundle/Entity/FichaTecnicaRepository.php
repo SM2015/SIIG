@@ -176,15 +176,31 @@ class FichaTecnicaRepository extends EntityRepository {
         $util = new \MINSAL\IndicadoresBundle\Util\Util();
         $acumulado = $fichaTecnica->getEsAcumulado();
         $formula = $fichaTecnica->getFormula();
+        
+        //Recuperar las variables
+        $variables = array();
+        preg_match_all('/\{[a-z0-9\_]{1,}\}/', strtolower($formula), $variables, PREG_SET_ORDER);
+        
+        $oper = 'SUM';
         if ($acumulado){
             $formula = str_replace(array('{','}'), array('MAX(',')'), $formula);
+            $oper = 'MAX';
         }
         else
-            $formula = str_replace(array('{','}'), array('SUM(',')'), $formula);
+            $formula = str_replace(array('{','}'), array('SUM(',')'), $formula);                
+        
+        // Formar la cadena con las variables para ponerlas en la consulta
+        $variables_query = '';
+        foreach($variables as $var){
+            $v = str_replace(array('{','}'),array('',''),$var[0]);
+            $variables_query .= " $oper($v) as $v, ";
+        }
+        $variables_query = trim($variables_query, ', ');
+        
         $nombre_indicador = $util->slug($fichaTecnica->getNombre());
         $tabla_indicador = 'tmp_ind_'.$nombre_indicador;
         
-        $sql = "SELECT $dimension as category, round(($formula)::numeric,2) as measure
+        $sql = "SELECT $dimension as category, $variables_query, round(($formula)::numeric,2) as measure
             FROM $tabla_indicador ";
         $sql .= ' WHERE 1=1 ';
         if ($filtro_registros != null){            

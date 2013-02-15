@@ -227,6 +227,8 @@ javascript:
   agregar_favorito: 'Add to favourites'
   quitar_favoritos: 'Remove from favourites'
   ver_ficha_tecnica: 'Show technical profile'
+  tabla_datos: 'Data table'
+  indicador: 'Indicator'
 
 validacion:
   requerido: This field is required
