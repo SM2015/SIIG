@@ -22,11 +22,9 @@ class FichaTecnicaRepository extends EntityRepository {
         }  catch (\Doctrine\DBAL\DBALException $e){
             $existe = false;
         }
-        if ($fichaTecnica->getUpdatedAt() != '' and $existe==true and $acumulado==false){
-            $ultimo_calculo = $fichaTecnica->getUpdatedAt()->getTimestamp();
-            $diff_minutos = ($ahora->getTimestamp() - $ultimo_calculo) / 60;
-            if ($diff_minutos <= $duracion)
-                return;
+        if ($fichaTecnica->getUpdatedAt() != '' and $fichaTecnica->getUltimaLectura() !='' and $existe==true and $acumulado==false){
+            if ($fichaTecnica->getUltimaLectura() < $fichaTecnica->getUpdatedAt())
+                return true;
         }
         
         
@@ -60,13 +58,21 @@ class FichaTecnicaRepository extends EntityRepository {
                     ;";
             $tablas_variables[] = $tabla;
         }        
-        
-        
+        $formula = $fichaTecnica->getFormula();
+        $denominador = explode('/', $formula);
+        $evitar_div_0 = '';
+        if (count($denominador) > 1){
+            preg_match('/\{.{1,}\}/', $denominador[1], $variables_d);
+            if (count($variables_d) > 0)
+                $var_d = strtolower(str_replace(array('{','}'),array('',''),array_shift($variables_d)));
+            $evitar_div_0 = ' WHERE '.$var_d. ' is not null';
+        }        
+                
         if ($acumulado != true){                   
             $sql .= 'SELECT  '.$campos.','.  implode(',', $tablas_variables).
                 " INTO tmp_ind_".$nombre_indicador." FROM  ".array_shift($tablas_variables).'_var ';
             foreach ($tablas_variables as $tabla){
-                $sql .= " FULL OUTER JOIN ".$tabla."_var USING ($campos) ";
+                $sql .= " FULL OUTER JOIN ".$tabla."_var USING ($campos) " . $evitar_div_0;
             }
         }
         try{
@@ -147,11 +153,19 @@ class FichaTecnicaRepository extends EntityRepository {
                     ORDER BY $campos2 ;
                     ";
         }
-        
+        $formula = $fichaTecnica->getFormula();
+        $denominador = explode('/', $formula);
+        $evitar_div_0 = '';
+        if (count($denominador) > 1){
+            preg_match('/\{.{1,}\}/', $denominador[1], $variables_d);
+            if (count($variables_d) > 0)
+                $var_d = strtolower(str_replace(array('{','}'),array('',''),array_shift($variables_d)));
+            $evitar_div_0 = ' WHERE '.$var_d. ' is not null';
+        }
         $sql .= 'SELECT  '.str_replace('T.', '', $campos2).','.  implode(',', $tablas_variables).
                 " INTO tmp_ind_".$nombre_indicador." FROM  ".array_shift($tablas_variables).'_var_acum ';
         foreach ($tablas_variables as $tabla){
-            $sql .= " FULL OUTER JOIN ".$tabla."_var_acum USING ($campos) ";
+            $sql .= " FULL OUTER JOIN ".$tabla."_var_acum USING ($campos) " . $evitar_div_0;
         }
         
         $em->getConnection()->exec($sql);
@@ -162,11 +176,6 @@ class FichaTecnicaRepository extends EntityRepository {
         $util = new \MINSAL\IndicadoresBundle\Util\Util();
         $acumulado = $fichaTecnica->getEsAcumulado();
         $formula = $fichaTecnica->getFormula();
-        $denominador = explode('/', $formula);
-        if (count($denominador)>1)
-            $evitar_div_0 = ' AND '.str_replace(array('{','}'), array(''), $denominador[1]) .'> 0';
-        else
-            $evitar_div_0 = '';
         if ($acumulado){
             $formula = str_replace(array('{','}'), array('MAX(',')'), $formula);
         }
@@ -182,8 +191,7 @@ class FichaTecnicaRepository extends EntityRepository {
             foreach ($filtro_registros as $campo => $valor)
                 $sql .= " AND $campo = '$valor' ";
         }
-        $sql .= "
-            $evitar_div_0
+        $sql .= "            
             GROUP BY $dimension             
             HAVING (($formula)::numeric) > 0
             ORDER BY $dimension";                
