@@ -234,6 +234,8 @@ javascript:
   agregar_favorito: 'Marcar como favorito'
   quitar_favoritos: 'Quitar de favoritos'
   ver_ficha_tecnica: 'Ver ficha Técnica'
+  tabla_datos: 'Tabla de datos'
+  indicador: 'Indicador'
 
 validacion:
   requerido: Este dato es requerido
