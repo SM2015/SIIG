@@ -226,6 +226,9 @@ javascript:
   mostrar_listado_indicadores: 'Show indicator listing'
   agregar_favorito: 'Add to favourites'
   quitar_favoritos: 'Remove from favourites'
+  ver_ficha_tecnica: 'Show technical profile'
+  tabla_datos: 'Data table'
+  indicador: 'Indicator'
 
 validacion:
   requerido: This field is required
@@ -246,3 +249,10 @@ _no_clasificados_ : 'Not rated'
 _interpretacion_ : 'Interpretation'
 _nivel_de_usuario_ : 'User Level'
 _observacion_ : 'Observation'
+
+_colores_alertas_ : 'Warnings - Colors'
+'Alerta List': 'Colors - List'
+'Alerta Delete': 'Colors - Delete'
+'Alerta Create': 'Colors - Create'
+'Alerta Edit': 'Colors - Edit'
+_ayuda_codigo_color_: 'It can be any HTML color code. Eg blue or #0000FF'

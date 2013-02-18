@@ -187,6 +187,6 @@ class IndicadorAlertas
     }
     
     public function __toString() {
-        return 'poroba';
+        return $this->limiteInferior.' - '.$this->limiteSuperior.' '.$this->color.' '.$this->comentario;
     }
 }

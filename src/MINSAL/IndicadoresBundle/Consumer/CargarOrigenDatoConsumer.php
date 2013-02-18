@@ -71,7 +71,8 @@ class CargarOrigenDatoConsumer implements ConsumerInterface {
                 $nueva_fila = array();
                 foreach ($fila as $k => $v) {
                     // Quitar caracteres no permitidos que podrian existir en el nombre de campo (tildes, eñes, etc)
-                    $nueva_fila[$campos_sig[$util->slug($k)]] = utf8_encode(trim($v));
+                    //Verificar si ya está en UTF-8, si no, codificarlo
+                    $nueva_fila[$campos_sig[$util->slug($k)]] =  trim(mb_check_encoding($v, 'UTF-8') ? $v : utf8_encode($v));
                 }
                 $datos_a_enviar[] = $nueva_fila;
                 //Enviaré en grupos de 200

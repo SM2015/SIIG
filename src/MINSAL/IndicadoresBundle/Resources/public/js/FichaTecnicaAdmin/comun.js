@@ -46,6 +46,8 @@ function dibujarGraficoPrincipal(tipo) {
         grafico = new graficoLineas('graficoPrimario', datasetPrincipal);
     else if (tipo == 'mapa')
         grafico = new graficoMapa('graficoPrimario', datasetPrincipal);
+    
+    construir_tabla_datos(datasetPrincipal);
 }
 
 function ascenderNivelDimension(nivel) {
@@ -150,7 +152,7 @@ function dibujarGrafico(dimension) {
         dibujarGraficoPrincipal($('#tipo_grafico_principal').val());
         controles_filtros();
     });
-
+    
 }
 
 function ordenarDatos(ordenar_por, modo_orden) {
@@ -164,20 +166,8 @@ function ordenarDatos(ordenar_por, modo_orden) {
     cerrarMenus();
     
     grafico.ordenar(modo_orden, ordenar_por);
+    construir_tabla_datos(datasetPrincipal);
     return;
-    /*if (grafico.tipo == 'columnas' || grafico.tipo == 'lineas'){
-        grafico.ordenar(modo_orden, ordenar_por);
-        return;
-    }
-    
-    $.post(Routing.generate('indicador_datos_ordenar'),
-            {datos: datasetPrincipal, ordenar_por: ordenar_por, modo: modo_orden},    
-    function(resp) {
-        datasetPrincipal = resp.datos;
-        //datasetPrincipal_bk = datasetPrincipal;
-        dibujarGraficoPrincipal($('#tipo_grafico_principal').val());
-    }, 'json');
-    */
 }
 
 function aplicarFiltro() {
@@ -228,4 +218,31 @@ function cerrarMenus() {
     $('.open').each(function(i, nodo) {
         $(nodo).removeClass('open');
     })
+}
+
+function construir_tabla_datos(datos){
+    var tabla_datos = '<TABLE class="table" >';    
+    $.each(datos, function(i, fila){        
+        if (i==0){
+            // Los nombres de los campos
+            tabla_datos += '<THEAD><TR>';        
+            for(var campo in fila)  {
+                if (campo=='category')
+                    campo = $('#dimension h4').html();
+                else if (campo=='measure')
+                    campo = trans.indicador;
+                tabla_datos +=  '<TH>'+campo+'</TH>';
+            }        
+            tabla_datos += '</TR></THEAD>';
+        }
+        
+        //los datos
+        tabla_datos += '<TBODY><TR>';
+        for(var i in fila)  tabla_datos +=  '<TD>'+fila[i]+'</TD>';
+        tabla_datos += '</TR></TBODY>';
+        
+    });
+    tabla_datos += '</TABLE>';
+    
+    $('#info').html(tabla_datos);
 }

@@ -41,6 +41,11 @@ class ClasificacionPrivacidad
      * @ORM\Column(name="comentario", type="text", nullable=true)
      */
     private $comentario;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="FichaTecnica", mappedBy="clasificacionPrivacidad")
+     **/
+    private $indicadores;
 
 
 
@@ -138,5 +143,45 @@ class ClasificacionPrivacidad
         $this->id = $id;
     
         return $this;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->indicadores = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add indicadores
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores
+     * @return ClasificacionPrivacidad
+     */
+    public function addIndicadore(\MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores)
+    {
+        $this->indicadores[] = $indicadores;
+    
+        return $this;
+    }
+
+    /**
+     * Remove indicadores
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores
+     */
+    public function removeIndicadore(\MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores)
+    {
+        $this->indicadores->removeElement($indicadores);
+    }
+
+    /**
+     * Get indicadores
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getIndicadores()
+    {
+        return $this->indicadores;
     }
 }

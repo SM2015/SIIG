@@ -11,7 +11,6 @@ use Doctrine\ORM\EntityRepository;
 
 class IndicadorAlertasAdmin extends Admin {
 
-    private $repository;
     protected $datagridValues = array(
         '_page' => 1, // Display the first page (default = 1)
         '_sort_order' => 'ASC', // Descendant ordering (default = 'ASC')
@@ -23,8 +22,10 @@ class IndicadorAlertasAdmin extends Admin {
                 ->add('indicador', null, array('label' => $this->getTranslator()->trans('indicador')))
                 ->add('limiteInferior', null, array('label' => $this->getTranslator()->trans('limite_inferior'),
                     'required'=>true))
-                ->add('limiteSuperior', null, array('label' => $this->getTranslator()->trans('limite_superior')))
-                ->add('color', null, array('label' => $this->getTranslator()->trans('color')))
+                ->add('limiteSuperior', null, array('label' => $this->getTranslator()->trans('limite_superior'),
+                    'required'=>true))
+                ->add('color', null, array('label' => $this->getTranslator()->trans('color'),
+                    'required'=>true))
                 ->add('comentario', null, array('label' => $this->getTranslator()->trans('comentario')))
 
         ;
@@ -32,8 +33,8 @@ class IndicadorAlertasAdmin extends Admin {
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper) {
         $datagridMapper
-                ->add('indicador', null, array('label' => $this->getTranslator()->trans('descripcion')))
-                ->add('color', null, array('label' => $this->getTranslator()->trans('catalogo')))
+                ->add('indicador', null, array('label' => $this->getTranslator()->trans('indicador')))
+                ->add('color', null, array('label' => $this->getTranslator()->trans('color')))
         ;
     }
 
@@ -53,16 +54,7 @@ class IndicadorAlertasAdmin extends Admin {
         $actions = parent::getBatchActions();
         $actions['delete'] = null;
     }
-
-    /*public function validate(ErrorElement $errorElement, $object) {
-        //Marcó la opción que se usará en catálogo pero no ha elegido un catálog
-        if ($object->getUsoEnCatalogo() == true and $object->getCatalogo() != '') {
-            $errorElement
-                    ->with('catalogo')
-                    ->addViolation($this->getTranslator()->trans('no_catalogo_y_describir_catalogo'))
-                    ->end();
-        }
-    }*/
+    
 }
 
 ?>

@@ -9,6 +9,7 @@ use Sonata\AdminBundle\Validator\ErrorElement;
 use Sonata\AdminBundle\Form\FormMapper;
 use MINSAL\IndicadoresBundle\Entity\FichaTecnica;
 use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Show\ShowMapper;
 
 class FichaTecnicaAdmin extends Admin {
 
@@ -37,13 +38,13 @@ class FichaTecnicaAdmin extends Admin {
                             return $repository->createQueryBuilder('ct')
                                     ->orderBy('ct.clasificacionUso');
                         }))
-                ->add('idClasificacionPrivacidad', null, array('label' => $this->getTranslator()->trans('_nivel_de_usuario_')))
+                ->add('clasificacionPrivacidad', null, array('label' => $this->getTranslator()->trans('_nivel_de_usuario_'), 'expanded' => true))
                 ->add('periodo', null, array('label' => $this->getTranslator()->trans('periodicidad')))
                 ->add('confiabilidad', null, array('label' => $this->getTranslator()->trans('confiabilidad'), 'required' => false))
                 ->add('observacion', 'textarea', array('label' => $this->getTranslator()->trans('_observacion_'), 'required' => false))
                 ->add('alertas', 'sonata_type_collection', array(
                     'label' => $this->getTranslator()->trans('alertas'),
-                    'required' => false), array(
+                    'required' => true), array(
                     'edit' => 'inline',
                     'inline' => 'table',
                     'sortable' => 'position'
@@ -51,12 +52,44 @@ class FichaTecnicaAdmin extends Admin {
                 ->add('camposIndicador', null, array('label' => $this->getTranslator()->trans('campos_indicador')))
         ;
     }
+    
+    protected function configureShowFields(ShowMapper $showMapper)
+    {
+        $showMapper
+            ->add('nombre')
+            ->add('tema')
+            ->add('concepto')
+            ->add('unidadMedida')
+            ->add('esAcumulado')
+            ->add('variables')
+            ->add('formula')
+            ->add('clasificacionTecnica', null, array('label' => $this->getTranslator()->trans('clasificacion_tecnica'),
+                'required' => true, 'expanded' => true,
+                'class' => 'IndicadoresBundle:ClasificacionTecnica',
+                    'query_builder' => function ($repository){
+                        return $repository->createQueryBuilder('ct')
+                                ->orderBy('ct.clasificacionUso');
+                    }))
+            ->add('clasificacionPrivacidad')
+            ->add('periodo')
+            ->add('confiabilidad')
+            ->add('observacion')
+            ->add('alertas', 'sonata_type_collection', array(
+                'label' => $this->getTranslator()->trans('alertas'),
+                'required' => true), array(
+                'edit' => 'inline',
+                'inline' => 'table',
+                'sortable' => 'position'
+            ))
+            ->add('camposIndicador')
+        ;
+    }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper) {
         $datagridMapper
                 ->add('nombre', null, array('label' => $this->getTranslator()->trans('nombre')))
                 ->add('clasificacionTecnica', null, array('label' => $this->getTranslator()->trans('clasificacion_tecnica')))
-                ->add('idClasificacionPrivacidad', null, array('label' => $this->getTranslator()->trans('_nivel_de_usuario_')))                
+                ->add('clasificacionPrivacidad', null, array('label' => $this->getTranslator()->trans('_nivel_de_usuario_')))                
         ;
     }
 

@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class IndicadorController extends Controller {
 
@@ -14,7 +15,7 @@ class IndicadorController extends Controller {
      */
     public function getDimensiones($id) {
 
-        $resp = array();        
+        $resp = array();
         $em = $this->getDoctrine()->getManager();
 
         $fichaTec = $em->find('IndicadoresBundle:FichaTecnica', $id);
@@ -22,15 +23,15 @@ class IndicadorController extends Controller {
             $resp['nombre_indicador'] = $fichaTec->getNombre();
             $resp['id_indicador'] = $id;
             $resp['unidad_medida'] = $fichaTec->getUnidadMedida();
-            $campos = explode(', ', str_replace("'", '', $fichaTec->getCamposIndicador()));
+            $campos = explode(',', str_replace(array("'",' '), array('',''), $fichaTec->getCamposIndicador()));
 
             foreach ($campos as $campo) {
                 $significado = $em->getRepository('IndicadoresBundle:SignificadoCampo')
-                        ->findOneByCodigo($campo);
+                        ->findOneByCodigo($campo);                
                 $dimensiones[$significado->getCodigo()] = $significado->getDescripcion();
             }
             $rangos_alertas_aux = array();
-            foreach ($fichaTec->getAlertas() as $k => $rango){                
+            foreach ($fichaTec->getAlertas() as $k => $rango) {
                 $rangos_alertas_aux[$rango->getLimiteSuperior()]['limite_sup'] = $rango->getLimiteSuperior();
                 $rangos_alertas_aux[$rango->getLimiteSuperior()]['limite_inf'] = $rango->getLimiteInferior();
                 $rangos_alertas_aux[$rango->getLimiteSuperior()]['color'] = $rango->getColor()->getCodigo();
@@ -38,7 +39,7 @@ class IndicadorController extends Controller {
             }
             ksort($rangos_alertas_aux);
             $rangos_alertas = array();
-            foreach($rangos_alertas_aux as $rango){
+            foreach ($rangos_alertas_aux as $rango) {
                 $rangos_alertas[] = $rango;
             }
             $resp['rangos'] = $rangos_alertas;
@@ -57,7 +58,7 @@ class IndicadorController extends Controller {
      * @Route("/indicador/datos/{id}/{dimension}", name="indicador_datos", options={"expose"=true})
      */
     public function getDatos($id, $dimension) {
-        
+
         $resp = array();
         $filtro = $this->getRequest()->get('filtro');
         if ($filtro == null or $filtro == '')
@@ -142,8 +143,8 @@ class IndicadorController extends Controller {
         if ($elementos != '') {
             $elementos = trim($elementos, '&');
             $datos_a_mostrar = explode('&', $elementos);
-            foreach ($datos as $k=>$fila) 
-                if (in_array($fila['category'],$datos_a_mostrar)){
+            foreach ($datos as $k => $fila)
+                if (in_array($fila['category'], $datos_a_mostrar)) {
                     $datos_aux[$k]['category'] = $fila['category'];
                     $datos_aux[$k]['measure'] = $fila['measure'];
                 }
@@ -155,7 +156,7 @@ class IndicadorController extends Controller {
             $cantidad = $hasta - $desde;
             $datos_aux = array_slice($datos, $desde, $cantidad, true);
         }
-        
+
         $datos_filtrados = array();
         $i = 0;
         foreach ($datos_aux as $k => $dato) {
@@ -169,40 +170,41 @@ class IndicadorController extends Controller {
             $response->setMaxAge($this->container->getParameter('indicador_cache_consulta'));
         return $response;
     }
-     /**
+
+    /**
      * @Route("/indicador/datos/mapa", name="indicador_datos_mapa", options={"expose"=true})
      */
     public function getMapaAction() {
         $em = $this->getDoctrine()->getManager();
         $dimension = $this->getRequest()->get('dimension');
         $tipo_peticion = $this->getRequest()->get('tipo_peticion');
-        
-        if ($tipo_peticion =='mapa')
+
+        if ($tipo_peticion == 'mapa')
             $tipo = '';
-        elseif($tipo_peticion =='equivalencias')
+        elseif ($tipo_peticion == 'equivalencias')
             $tipo = '-equiv';
-        
+
         //Obtener el nombre del mapa asociado a la dimension
         $significado = $em->getRepository("IndicadoresBundle:SignificadoCampo")
-                ->findOneBy(array('codigo'=>$dimension));
-        
+                ->findOneBy(array('codigo' => $dimension));
+
         $mapa = $significado->getNombreMapa();
-        if ($mapa != ''){
-            try{
-                $mapa = $this->renderView('IndicadoresBundle:Indicador:'.$mapa.$tipo.'.json.twig');            
-            }catch (\Exception $e){
-                $mapa = json_encode (array('features'=>''));
+        if ($mapa != '') {
+            try {
+                $mapa = $this->renderView('IndicadoresBundle:Indicador:' . $mapa . $tipo . '.json.twig');
+            } catch (\Exception $e) {
+                $mapa = json_encode(array('features' => ''));
             }
         }
         else
-            $mapa = json_encode (array('features'=>''));
+            $mapa = json_encode(array('features' => ''));
         $headers = array('Content-Type' => 'application/json');
-        $response = new Response($mapa, 200, $headers);        
+        $response = new Response($mapa, 200, $headers);
         if ($this->get('kernel')->getEnvironment() != 'dev')
             $response->setMaxAge($this->container->getParameter('indicador_cache_consulta'));
         return $response;
-    } 
-    
+    }
+
     /**
      * @Route("/indicador/locale/change/{locale}", name="change_locale", options={"expose"=true})
      */
@@ -211,7 +213,7 @@ class IndicadorController extends Controller {
         $this->get('session')->set('_locale', $locale);
         return $this->redirect($request->headers->get('referer'));
     }
-    
+
     /**
      * @Route("/tablero/usuario/change/{codigo_clasificacion}", name="change_clasificacion_uso", options={"expose"=true})
      */
@@ -220,32 +222,66 @@ class IndicadorController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $usuario = $this->getUser();
         $clasificacion = $em->getRepository('IndicadoresBundle:ClasificacionUso')
-                ->findOneBy(array('codigo'=>$codigo_clasificacion));
+                ->findOneBy(array('codigo' => $codigo_clasificacion));
         $usuario->setClasificacionUso($clasificacion);
         $em->persist($usuario);
         $em->flush();
-        
+
         return $this->redirect($request->headers->get('referer'));
     }
-    
+
     /**
      * @Route("/indicador/favorito", name="indicador_favorito", options={"expose"=true})
      */
     public function indicadorFavorito() {
         $em = $this->getDoctrine()->getManager();
         $req = $this->getRequest();
-        
+
         $indicador = $em->find('IndicadoresBundle:FichaTecnica', $req->get('id'));
-        $usuario = $this->getUser();        
-        if ($req->get('es_favorito')=='true'){
+        $usuario = $this->getUser();
+        if ($req->get('es_favorito') == 'true') {
             //Es favorito, entonces quitar            
             $usuario->removeFavorito($indicador);
+        } else {
+            $usuario->addFavorito($indicador);
         }
-        else{
-            $usuario->addFavorito($indicador);            
-        }
-        
+
         $em->flush();
         return new Response();
     }
+
+    /**
+     * @Route("/indicador/{id}/ficha", name="get_indicador_ficha", options={"expose"=true})
+     */
+    public function getFichaAction($id) {
+        
+        $admin = $this->get('sonata.admin.ficha');
+        $object = $admin->getObject($id);
+
+        if (!$object) {
+            throw new NotFoundHttpException(sprintf('unable to find the object with id : %s', $id));
+        }
+
+        if (false === $admin->isGranted('VIEW', $object)) {
+            throw new AccessDeniedException();
+        }
+
+        $admin->setSubject($object);
+        
+       $html = $this->render($admin->getTemplate('show'), array(
+            'action'   => 'show',
+            'object'   => $object,
+            'elements' => $admin->getShow(),
+           'admin' => $admin,
+           'base_template' => 'IndicadoresBundle::pdf_layout.html.twig'
+        ));        
+        return new Response(
+                $this->get('knp_snappy.pdf')->getOutputFromHtml($html->getContent()), 200, array(
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="ficha_tecnica.pdf"'
+                )
+        );
+    }
+
 }
+

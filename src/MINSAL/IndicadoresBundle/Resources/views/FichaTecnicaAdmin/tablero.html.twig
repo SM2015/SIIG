@@ -32,7 +32,7 @@
             </a>
             <ul class="dropdown-menu">                
                 {% for clasificacion in clasificacionUso %}
-                    {% if clasificacion.codigo == app.user.clasificacionUso.codigo %}
+                    {% if clasificacion.codigo == app.user.clasificacionUso.codigo|default('') %}
                         <li class='active'><A href='#'>{{clasificacion.descripcion}}</a></li>
                     {% else %}
                         <li ><a href='{{url('change_clasificacion_uso',{codigo_clasificacion:clasificacion.codigo})}}'>{{clasificacion.descripcion}}</a></li>
@@ -90,6 +90,7 @@
                         <h3 id='titulo_indicador'></h3>
                         <h6 id='filtros_dimensiones' data=''></h6>
                         <div id='controles' class='btn-toolbar'></div>
+                        <div class="row" id='info' ></div>
                         <div class="row" >
                             <div class="span8" >
                                 <div id="graficoPrimario" ></div>

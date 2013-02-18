@@ -9,6 +9,7 @@ codigo: 'Código'
 uso_catalogo: 'Describirá campos de catálogos'
 no_catalogo_y_describir_catalogo: 'Si se utilizará para describir catálogos no puede tener uno asociado'
 formula: 'Fórmula'
+Formula: 'Fórmula'
 ayuda_ingreso_formula: 'Para utilizar variables escriba las iniciales de la variable entre llaves. Ej.: {NAI} / {PTDA} * 100 '
 vars_sel_diff_vars_formula: 'Las variables utilizadas en la fórmula deben coincidir con las variables seleccionadas'
 sintaxis_invalida: 'La fórmula contiene errores de sintaxis'
@@ -232,6 +233,9 @@ javascript:
   mostrar_listado_indicadores: 'Mostrar listado de indicadores'  
   agregar_favorito: 'Marcar como favorito'
   quitar_favoritos: 'Quitar de favoritos'
+  ver_ficha_tecnica: 'Ver ficha Técnica'
+  tabla_datos: 'Tabla de datos'
+  indicador: 'Indicador'
 
 validacion:
   requerido: Este dato es requerido
@@ -253,3 +257,10 @@ _no_clasificados_ : 'Sin clasificacion'
 _interpretacion_ : 'Interpretación'
 _nivel_de_usuario_ : 'Nivel de usuario'
 _observacion_ : 'Observación'
+
+_colores_alertas_ : 'Colores - Alertas'
+'Alerta List': 'Colores - Listado'
+'Alerta Delete': 'Colores - Borrar'
+'Alerta Create': 'Colores - Crear'
+'Alerta Edit': 'Colores - Editar'
+_ayuda_codigo_color_: 'Puede ser cualquier código de color HTML. Ej.: para azul puede usar blue o #0000FF'
