@@ -7,7 +7,7 @@ use MINSAL\IndicadoresBundle\Entity\FichaTecnica;
 
 class FichaTecnicaRepository extends EntityRepository {
 
-    public function crearTablaIndicador(FichaTecnica $fichaTecnica, $dimension, $duracion = 10, $filtros = null) {
+    public function crearIndicador(FichaTecnica $fichaTecnica, $dimension, $duracion = 10, $filtros = null) {
         
         $em = $this->getEntityManager();
         $ahora = new \DateTime("now");
@@ -58,7 +58,7 @@ class FichaTecnicaRepository extends EntityRepository {
                     ;";
             $tablas_variables[] = $tabla;
         }        
-        $formula = $fichaTecnica->getFormula();
+        /*$formula = $fichaTecnica->getFormula();
         $denominador = explode('/', $formula);
         $evitar_div_0 = '';
         if (count($denominador) > 1){
@@ -66,19 +66,20 @@ class FichaTecnicaRepository extends EntityRepository {
             if (count($variables_d) > 0)
                 $var_d = strtolower(str_replace(array('{','}'),array('',''),array_shift($variables_d)));
             $evitar_div_0 = ' WHERE '.$var_d. ' is not null';
-        }        
+        }  */      
                 
         if ($acumulado != true){                   
-            $sql .= 'SELECT  '.$campos.','.  implode(',', $tablas_variables).
+            /*$sql .= 'SELECT  '.$campos.','.  implode(',', $tablas_variables).
                 " INTO tmp_ind_".$nombre_indicador." FROM  ".array_shift($tablas_variables).'_var ';
             foreach ($tablas_variables as $tabla){
                 $sql .= " FULL OUTER JOIN ".$tabla."_var USING ($campos) " . $evitar_div_0;
-            }
+            }*/
+            $sql .= $this->crearTablaIndicador($fichaTecnica);
         }
         try{
             $em->getConnection()->exec($sql);                        
             if ($acumulado==true)
-                $this->crearTablaIndicadorAcumulado($fichaTecnica, $dimension, $filtros);            
+                $this->crearIndicadorAcumulado($fichaTecnica, $dimension, $filtros);            
             $fichaTecnica->setUpdatedAt($ahora);
             $em->persist($fichaTecnica);
             $em->flush();
@@ -87,10 +88,8 @@ class FichaTecnicaRepository extends EntityRepository {
         }        
     }
     
-    public function crearTablaIndicadorAcumulado(FichaTecnica $fichaTecnica, $dimension, $filtros= null){
+    public function crearIndicadorAcumulado(FichaTecnica $fichaTecnica, $dimension, $filtros= null){
         $em = $this->getEntityManager();
-        $util = new \MINSAL\IndicadoresBundle\Util\Util();
-        $nombre_indicador = $util->slug($fichaTecnica->getNombre());
         $campos = str_replace("'", '', $fichaTecnica->getCamposIndicador());
         $tablas_variables = array();                
         
@@ -153,7 +152,8 @@ class FichaTecnicaRepository extends EntityRepository {
                     ORDER BY $campos2 ;
                     ";
         }
-        $formula = $fichaTecnica->getFormula();
+        $sql .= $this->crearTablaIndicador($fichaTecnica, $tablas_variables);
+        /*$formula = $fichaTecnica->getFormula();
         $denominador = explode('/', $formula);
         $evitar_div_0 = '';
         if (count($denominador) > 1){
@@ -166,12 +166,41 @@ class FichaTecnicaRepository extends EntityRepository {
                 " INTO tmp_ind_".$nombre_indicador." FROM  ".array_shift($tablas_variables).'_var_acum ';
         foreach ($tablas_variables as $tabla){
             $sql .= " FULL OUTER JOIN ".$tabla."_var_acum USING ($campos) " . $evitar_div_0;
-        }
+        }*/
         
         $em->getConnection()->exec($sql);
         
     }
     
+    public function crearTablaIndicador(FichaTecnica $fichaTecnica, $tablas_variables) {
+        $sql = '';
+        $util = new \MINSAL\IndicadoresBundle\Util\Util();
+        $nombre_indicador = $util->slug($fichaTecnica->getNombre());
+        $campos = str_replace("'", '', $fichaTecnica->getCamposIndicador());
+        $formula = $fichaTecnica->getFormula();
+        
+        $denominador = explode('/', $formula);
+        $evitar_div_0 = '';
+        if (count($denominador) > 1){
+            preg_match('/\{.{1,}\}/', $denominador[1], $variables_d);
+            if (count($variables_d) > 0)
+                $var_d = strtolower(str_replace(array('{','}'),array('',''),array_shift($variables_d)));
+            $evitar_div_0 = ' WHERE '.$var_d. ' is not null';
+        }        
+                
+        $sufijoTablas = 'var';
+        if ($fichaTecnica->getEsAcumulado() == true)                   
+            $sufijoTablas = 'var_acum';
+        $sql .= 'SELECT  '.$campos.','.  implode(',', $tablas_variables).
+            " INTO tmp_ind_".$nombre_indicador." FROM  ".array_shift($tablas_variables).'_'.$sufijoTablas.' ';
+        foreach ($tablas_variables as $tabla){
+            $sql .= " FULL OUTER JOIN ".$tabla."_".$sufijoTablas. " USING ($campos) " . $evitar_div_0;
+        }
+        
+        return $sql;
+    }
+
+
     public function calcularIndicador(FichaTecnica $fichaTecnica, $dimension, $filtro_registros=null) {
         $util = new \MINSAL\IndicadoresBundle\Util\Util();
         $acumulado = $fichaTecnica->getEsAcumulado();
