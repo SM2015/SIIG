@@ -288,7 +288,7 @@ class OrigenDatoController extends Controller {
             $aux[$n] = '';
         foreach (array_slice($resultado['datos'], 0, 10) as $fila)
             foreach ($fila as $k => $v)
-                $aux[$util->slug($k)] .= $v . ', ';
+                $aux[$util->slug($k)] .=  trim(mb_check_encoding($v, 'UTF-8') ? $v : utf8_encode($v)) . ', ';
         $resultado['datos'] = $aux;
         return new Response(json_encode($resultado));
     }
