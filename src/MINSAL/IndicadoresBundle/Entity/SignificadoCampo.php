@@ -198,4 +198,8 @@ class SignificadoCampo
     {
         return $this->nombreMapa;
     }   
+    
+    public function __toString() {
+        return $this->descripcion;
+    }
 }
