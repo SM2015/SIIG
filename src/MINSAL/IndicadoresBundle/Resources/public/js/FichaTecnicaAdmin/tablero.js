@@ -47,6 +47,7 @@ $(document).ready(function() {
                 $('#titulo_indicador').html(resp.nombre_indicador)
                         .attr('data-unidad-medida', resp.unidad_medida)
                         .attr('data-id', resp.id_indicador);
+                formula = resp.formula;                
                 var combo_dimensiones = trans.cambiar_dimension + ": <SELECT ID='dimensiones' name='dimensiones'>";
                 $.each(resp.dimensiones, function(codigo, dimension) {
                     combo_dimensiones += "<option value='" + codigo + "'>" + dimension + "</option>";
@@ -187,7 +188,7 @@ $(document).ready(function() {
                 $('#agregar_como_favorito').click(function() {
                     alternar_favorito($(this).attr('data-indicador'));                    
                 });
-                $('#info').toggle();
+                $('#info').hide();
                 $('#ver_tabla_datos').click(function() {
                     $('#info').toggle();
                 });

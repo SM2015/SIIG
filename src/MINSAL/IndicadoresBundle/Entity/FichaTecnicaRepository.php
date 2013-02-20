@@ -57,24 +57,10 @@ class FichaTecnicaRepository extends EntityRepository {
                 HAVING  SUM(calculo::numeric) > 0
                     ;";
             $tablas_variables[] = $tabla;
-        }        
-        /*$formula = $fichaTecnica->getFormula();
-        $denominador = explode('/', $formula);
-        $evitar_div_0 = '';
-        if (count($denominador) > 1){
-            preg_match('/\{.{1,}\}/', $denominador[1], $variables_d);
-            if (count($variables_d) > 0)
-                $var_d = strtolower(str_replace(array('{','}'),array('',''),array_shift($variables_d)));
-            $evitar_div_0 = ' WHERE '.$var_d. ' is not null';
-        }  */      
+        }                   
                 
-        if ($acumulado != true){                   
-            /*$sql .= 'SELECT  '.$campos.','.  implode(',', $tablas_variables).
-                " INTO tmp_ind_".$nombre_indicador." FROM  ".array_shift($tablas_variables).'_var ';
-            foreach ($tablas_variables as $tabla){
-                $sql .= " FULL OUTER JOIN ".$tabla."_var USING ($campos) " . $evitar_div_0;
-            }*/
-            $sql .= $this->crearTablaIndicador($fichaTecnica);
+        if ($acumulado != true){                              
+            $sql .= $this->crearTablaIndicador($fichaTecnica, $tablas_variables);
         }
         try{
             $em->getConnection()->exec($sql);                        
@@ -152,21 +138,7 @@ class FichaTecnicaRepository extends EntityRepository {
                     ORDER BY $campos2 ;
                     ";
         }
-        $sql .= $this->crearTablaIndicador($fichaTecnica, $tablas_variables);
-        /*$formula = $fichaTecnica->getFormula();
-        $denominador = explode('/', $formula);
-        $evitar_div_0 = '';
-        if (count($denominador) > 1){
-            preg_match('/\{.{1,}\}/', $denominador[1], $variables_d);
-            if (count($variables_d) > 0)
-                $var_d = strtolower(str_replace(array('{','}'),array('',''),array_shift($variables_d)));
-            $evitar_div_0 = ' WHERE '.$var_d. ' is not null';
-        }
-        $sql .= 'SELECT  '.str_replace('T.', '', $campos2).','.  implode(',', $tablas_variables).
-                " INTO tmp_ind_".$nombre_indicador." FROM  ".array_shift($tablas_variables).'_var_acum ';
-        foreach ($tablas_variables as $tabla){
-            $sql .= " FULL OUTER JOIN ".$tabla."_var_acum USING ($campos) " . $evitar_div_0;
-        }*/
+        $sql .= $this->crearTablaIndicador($fichaTecnica, $tablas_variables);        
         
         $em->getConnection()->exec($sql);
         
@@ -229,8 +201,21 @@ class FichaTecnicaRepository extends EntityRepository {
         $nombre_indicador = $util->slug($fichaTecnica->getNombre());
         $tabla_indicador = 'tmp_ind_'.$nombre_indicador;
         
+        //Verificar si es un catálogo
+        $rel_catalogo = '';        
+        if (preg_match('/^id_/i', $dimension)){
+            $significado = $this->getEntityManager()->getRepository('IndicadoresBundle:SignificadoCampo')
+                ->findOneBy(array('codigo'=>$dimension));            
+            $catalogo = $significado->getCatalogo();
+            if ($catalogo != ''){
+                $rel_catalogo = " INNER JOIN  $catalogo  B ON ($tabla_indicador.$dimension::text = B.id::text) ";
+                $dimension = 'B.descripcion';
+                
+            }
+        }
+                
         $sql = "SELECT $dimension as category, $variables_query, round(($formula)::numeric,2) as measure
-            FROM $tabla_indicador ";
+            FROM $tabla_indicador " . $rel_catalogo;
         $sql .= ' WHERE 1=1 ';
         if ($filtro_registros != null){            
             foreach ($filtro_registros as $campo => $valor)
