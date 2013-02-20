@@ -141,8 +141,13 @@ class OrigenDatosAdminController extends Controller {
             $em->flush();
             $carga_directa = $origenDato->getEsCatalogo();
             // No mandar a la cola de carga los que son catálogos, Se cargarán directamente            
-            if ($carga_directa)
-                $em->getRepository('IndicadoresBundle:OrigenDatos')->cargarCatalogo($origenDato);
+            if ($carga_directa){
+                $mess = $em->getRepository('IndicadoresBundle:OrigenDatos')->cargarCatalogo($origenDato);            
+                if ($mess !== true){
+                    $this->get('session')->setFlash('sonata_flash_error', $mess);
+                    return new RedirectResponse($this->admin->generateUrl('list', $this->admin->getFilterParameters()));
+                }                
+            }
             else
                 $this->get('old_sound_rabbit_mq.cargar_origen_datos_producer')
                         ->publish(serialize($msg));

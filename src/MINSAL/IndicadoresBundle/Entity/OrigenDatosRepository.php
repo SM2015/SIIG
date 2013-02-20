@@ -16,22 +16,37 @@ class OrigenDatosRepository extends EntityRepository {
      */
     public function estaConfigurado(OrigenDatos $origen) {
         $tiene_campo_calculo = false;
+        $tiene_descripcion = false;
+        $tiene_pk = false;
         $tiene_null = false;
         $campos = $origen->getCampos();
         foreach ($campos as $campo) {
             $sig = $campo->getSignificado();
             if ($sig != null) {
                 $significado = $sig->getCodigo();
-                if ($significado == 'calculo')
-                    $tiene_campo_calculo = true;
+                if ($origen->getEsCatalogo()){
+                    if ($significado == 'pk')
+                        $tiene_pk = true;
+                    elseif ($significado == 'descripcion')
+                        $tiene_descripcion = true;
+                }
+                else 
+                    if ($significado == 'calculo')
+                        $tiene_campo_calculo = true;
             }
             else
                 $tiene_null = true;
         }
-        if (!$tiene_campo_calculo or $tiene_null)
-            return false;
+        if ($origen->getEsCatalogo())
+            if (!$tiene_pk or $tiene_null or !$tiene_descripcion)
+                return false;
+            else
+                return true;
         else
-            return true;
+            if (!$tiene_campo_calculo or $tiene_null)
+                return false;
+            else
+                return true;
     }
 
     public function getTotalRegistros(OrigenDatos $origenDato) {
@@ -164,7 +179,9 @@ class OrigenDatosRepository extends EntityRepository {
         try {
             $em->getConnection()->exec($sql);
         } catch (\PDOException $e) {
-            return $e->getMessages();
+            return $e->getMessage();
+        } catch (DBAL\DBALException $e) {
+            return $e->getMessage();
         }
         return true;
     }
