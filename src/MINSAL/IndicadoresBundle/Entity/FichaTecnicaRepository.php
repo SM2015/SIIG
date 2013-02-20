@@ -7,7 +7,7 @@ use MINSAL\IndicadoresBundle\Entity\FichaTecnica;
 
 class FichaTecnicaRepository extends EntityRepository {
 
-    public function crearIndicador(FichaTecnica $fichaTecnica, $dimension, $duracion = 10, $filtros = null) {
+    public function crearIndicador(FichaTecnica $fichaTecnica, $dimension, $filtros = null) {
         
         $em = $this->getEntityManager();
         $ahora = new \DateTime("now");
