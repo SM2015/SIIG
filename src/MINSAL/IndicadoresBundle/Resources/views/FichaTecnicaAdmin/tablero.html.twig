@@ -79,7 +79,7 @@
                 <DIV >
                     <ul id='listado-no_clasificados'>
                     {% for indicador in indicadores_no_clasificados %}
-                        <li id='li_fav-{{indicador.id}}'><A href="#" id='fav-{{indicador.id}}' 
+                        <li ><A href="#" id='{{indicador.id}}' 
                                 data-id='{{indicador.id}}'
                                 data-unidad-medida='{{indicador.unidadMedida}}'>
                                 {{indicador.nombre}}
