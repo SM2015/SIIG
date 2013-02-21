@@ -736,4 +736,37 @@ class FichaTecnica
     {
         return $this->clasificacionPrivacidad;
     }
+
+    /**
+     * Add usuarios
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\User $usuarios
+     * @return FichaTecnica
+     */
+    public function addUsuario(\MINSAL\IndicadoresBundle\Entity\User $usuarios)
+    {
+        $this->usuarios[] = $usuarios;
+    
+        return $this;
+    }
+
+    /**
+     * Remove usuarios
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\User $usuarios
+     */
+    public function removeUsuario(\MINSAL\IndicadoresBundle\Entity\User $usuarios)
+    {
+        $this->usuarios->removeElement($usuarios);
+    }
+
+    /**
+     * Get usuarios
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getUsuarios()
+    {
+        return $this->usuarios;
+    }
 }

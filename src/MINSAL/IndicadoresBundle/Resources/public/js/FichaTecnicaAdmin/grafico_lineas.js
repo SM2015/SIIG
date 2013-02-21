@@ -36,6 +36,7 @@ graficoLineas = function(ubicacion, datos, colorChosen, categoryChoosen) {
             .datum(currentDatasetChart)
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
+            .attr("id","ChartPlot")
     // create group and move it so that margins are respected (space for axis and title)
 
     var plot = svg

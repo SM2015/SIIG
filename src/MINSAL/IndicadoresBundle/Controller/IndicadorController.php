@@ -28,7 +28,7 @@ class IndicadorController extends Controller {
             foreach ($campos as $campo) {
                 $significado = $em->getRepository('IndicadoresBundle:SignificadoCampo')
                         ->findOneByCodigo($campo);                
-                $dimensiones[$significado->getCodigo()] = $significado->getDescripcion();
+                $dimensiones[$significado->getCodigo()] = ucfirst(preg_replace('/^Identificador /i', '', $significado->getDescripcion()));
             }
             $rangos_alertas_aux = array();
             foreach ($fichaTec->getAlertas() as $k => $rango) {
@@ -43,6 +43,7 @@ class IndicadorController extends Controller {
                 $rangos_alertas[] = $rango;
             }
             $resp['rangos'] = $rangos_alertas;
+            $resp['formula'] = $fichaTec->getFormula();
             $resp['dimensiones'] = $dimensiones;
             $resp['resultado'] = 'ok';
         }
@@ -80,7 +81,7 @@ class IndicadorController extends Controller {
         $fichaRepository = $em->getRepository('IndicadoresBundle:FichaTecnica');
 
 
-        $fichaRepository->crearTablaIndicador($fichaTec, $dimension, $this->container->getParameter('indicador_duracion_tabla_tmp'), $filtros);
+        $fichaRepository->crearIndicador($fichaTec, $dimension, $filtros);
         $resp['datos'] = $fichaRepository->calcularIndicador($fichaTec, $dimension, $filtros);
         $response = new Response(json_encode($resp));
         if ($this->get('kernel')->getEnvironment() != 'dev')
@@ -282,6 +283,6 @@ class IndicadorController extends Controller {
                 )
         );
     }
-
+        
 }
 

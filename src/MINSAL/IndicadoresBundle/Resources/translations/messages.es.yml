@@ -236,6 +236,8 @@ javascript:
   ver_ficha_tecnica: 'Ver ficha Técnica'
   tabla_datos: 'Tabla de datos'
   indicador: 'Indicador'
+  descargar_grafico: 'Descargar Gráfico'
+  opciones: 'Opciones'
 
 validacion:
   requerido: Este dato es requerido

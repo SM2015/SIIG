@@ -15,7 +15,7 @@ var formatAsPercentage = d3.format("%"),
         fdat = d3.time.format("%d d"),
         fmon = d3.time.format("%b")
         ;
-
+var formula;
 var datasetPrincipal;
 var datasetPrincipal_bk;
 var rangos_alertas;
@@ -230,8 +230,8 @@ function construir_tabla_datos(datos){
                 if (campo=='category')
                     campo = $('#dimension h4').html();
                 else if (campo=='measure')
-                    campo = trans.indicador;
-                tabla_datos +=  '<TH>'+campo+'</TH>';
+                    campo = trans.indicador +' ('+formula+')';
+                tabla_datos +=  '<TH>'+campo.toUpperCase()+'</TH>';
             }        
             tabla_datos += '</TR></THEAD>';
         }

@@ -36,7 +36,7 @@ graficoColumnas = function (ubicacion, datos, colorChosen, categoryChoosen) {
             .append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)    
-            .attr("id","barChartPlot")
+            .attr("id","ChartPlot")
             ;
 
     var plot = svg

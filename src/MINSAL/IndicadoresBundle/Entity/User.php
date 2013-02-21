@@ -143,40 +143,7 @@ class User extends BaseUser{
     public function getGruposIndicadores()
     {
         return $this->gruposIndicadores;
-    }
-
-    /**
-     * Add indicadores
-     *
-     * @param \MINSAL\IndicadoresBundle\Entity\UsuarioIndicador $indicadores
-     * @return User
-     */
-    public function addIndicadore(\MINSAL\IndicadoresBundle\Entity\UsuarioIndicador $indicadores)
-    {
-        $this->indicadores[] = $indicadores;
-    
-        return $this;
-    }
-
-    /**
-     * Remove indicadores
-     *
-     * @param \MINSAL\IndicadoresBundle\Entity\UsuarioIndicador $indicadores
-     */
-    public function removeIndicadore(\MINSAL\IndicadoresBundle\Entity\UsuarioIndicador $indicadores)
-    {
-        $this->indicadores->removeElement($indicadores);
-    }
-
-    /**
-     * Get indicadores
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getIndicadores()
-    {
-        return $this->indicadores;
-    }
+    }    
 
     /**
      * Add favoritos
@@ -232,5 +199,38 @@ class User extends BaseUser{
     public function getClasificacionUso()
     {
         return $this->clasificacionUso;
+    }
+
+    /**
+     * Add indicadores
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores
+     * @return User
+     */
+    public function addIndicadore(\MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores)
+    {
+        $this->indicadores[] = $indicadores;
+    
+        return $this;
+    }
+
+    /**
+     * Remove indicadores
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores
+     */
+    public function removeIndicadore(\MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores)
+    {
+        $this->indicadores->removeElement($indicadores);
+    }
+
+    /**
+     * Get indicadores
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getIndicadores()
+    {
+        return $this->indicadores;
     }
 }
