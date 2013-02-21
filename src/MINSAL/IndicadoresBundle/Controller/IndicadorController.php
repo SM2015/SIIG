@@ -283,6 +283,6 @@ class IndicadorController extends Controller {
                 )
         );
     }
-
+        
 }
 

@@ -85,26 +85,36 @@ $(document).ready(function() {
                         '<li id="lista_datos_dimension"></li>' +
                         '</ul>' +
                         '</div>';
+
+                var opciones = '<div class="btn-group dropdown">' +
+                        '<button class="btn btn-info dropdown-toggle" data-toggle="dropdown" title="'+trans.opciones+'">' +
+                            '<i class="icon-cog"></i>'+
+                            '<span class="caret"></span>' +
+                        '</button>' +
+                        '<ul id="opciones" class="dropdown-menu" role="menu" >' +
+                        '<li><A id="ver_ficha_tecnica" '
+                        +' href="'+Routing.generate('get_indicador_ficha',{id: resp.id_indicador})+'"><i class="icon-briefcase"></i> '+trans.ver_ficha_tecnica+'</A></li>'+
+                        '<li><A id="ver_tabla_datos"><i class="icon-list-alt"></i> '+trans.tabla_datos+' </A></li>'+
+                        '<li><A id="ver_imagen"><i class="icon-picture"></i> '+trans.descargar_grafico+'</A></li>'+
+                        '<li><A id="agregar_como_favorito" data-indicador="'+resp.id_indicador+'" href="#">';
+                if ($('#fav-'+id_indicador).length==0)                
+                    opciones += '<i class="icon-star"></i> '+trans.agregar_favorito+'</A></li>';
+                else
+                    opciones += '<i class="icon-star-empty"></i> '+trans.quitar_favoritos+'</A></li>';
+                opciones +='</ul>' +
+                        '</div>';
                 var opciones_indicador = '<div class="btn-group">' +
                         '<button class="btn btn-info dropdown-toggle" data-toggle="dropdown" >' + trans.indicador_opciones+
                             '<span class="caret"></span>' +
                         '</button>' +
                         '<ul class="dropdown-menu" role="menu" >' +
                         '<li><A class="detenerclic">' + combo_tipo_grafico + '</A></li>' +
-                        '<li><A class="detenerclic">' + combo_ordenar_por_medida + '</A></li>'+
-                        '<li><A id="agregar_como_favorito" data-indicador="'+resp.id_indicador+'" href="#">';
-                if ($('#fav-'+id_indicador).length==0)                
-                    opciones_indicador += '<i class="icon-star"></i> '+trans.agregar_favorito+'</A></li>';
-                else
-                    opciones_indicador += '<i class="icon-star-empty"></i> '+trans.quitar_favoritos+'</A></li>';
+                        '<li><A class="detenerclic">' + combo_ordenar_por_medida + '</A></li>';                        
                 
-                opciones_indicador += '<li><A id="ver_ficha_tecnica" '
-                        +' href="'+Routing.generate('get_indicador_ficha',{id: resp.id_indicador})+'"><i class="icon-briefcase"></i> '+trans.ver_ficha_tecnica+'</A></li>';
-                opciones_indicador += '<li><A id="ver_tabla_datos"><i class="icon-list-alt"></i> '+trans.tabla_datos+' </A></li>';
-                                
 
-                $('#controlesDimension').html('');
+                $('#controlesDimension').html('');                
                 $('#controlesDimension').append(opciones_dimension);
+                
 
                 $('#ordenar_dimension').change(function() {
                     ordenarDatos('dimension', $(this).val());
@@ -175,7 +185,7 @@ $(document).ready(function() {
                     opciones_indicador +=  '</ul></div>';
                     $('#controles').append(opciones_indicador);
                 }
-                
+                $('#controles').append(opciones);
                 $('#max_y').change(function() {
                     dibujarGraficoPrincipal($('#tipo_grafico_principal').val());
                 });
@@ -191,6 +201,12 @@ $(document).ready(function() {
                 $('#info').hide();
                 $('#ver_tabla_datos').click(function() {
                     $('#info').toggle();
+                });
+                
+                $('#canvas').hide();
+                $('#ver_imagen').click(function() {                    
+                    canvg('canvas', $("#graficoPrimario").html().trim());
+                    Canvas2Image.saveAsPNG(document.getElementById('canvas'))
                 });
                 
                 $('#ver_ficha_tecnica').click(function() {

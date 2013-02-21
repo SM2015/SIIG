@@ -50,7 +50,8 @@ graficoMapa = function(ubicacion, datos, colorChosen, categoryChoosen) {
     var svg = d3.select("#" + ubicacion)
             .append("svg")
             .attr("width", width)
-            .attr("height", height);
+            .attr("height", height)
+            .attr("id","ChartPlot");
 
     svg.append("rect")
             .attr("class", "background")

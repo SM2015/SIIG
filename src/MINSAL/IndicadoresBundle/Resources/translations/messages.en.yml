@@ -229,6 +229,8 @@ javascript:
   ver_ficha_tecnica: 'Show technical profile'
   tabla_datos: 'Data table'
   indicador: 'Indicator'
+  descargar_grafico: 'Download Chart'
+  opciones: 'Options'
 
 validacion:
   requerido: This field is required

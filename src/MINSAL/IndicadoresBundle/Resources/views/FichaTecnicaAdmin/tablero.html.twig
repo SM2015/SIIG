@@ -15,6 +15,11 @@
     <script src="{{ asset('bundles/indicadores/js/FichaTecnicaAdmin/grafico_lineas.js') }}" type="text/javascript"></script>
     <script src="{{ asset('bundles/indicadores/js/FichaTecnicaAdmin/grafico_mapa.js') }}" type="text/javascript"></script>
     <script src="{{ asset('bundles/indicadores/js/FichaTecnicaAdmin/tablero.js') }}" type="text/javascript"></script>
+    
+    <script src="{{ asset('bundles/indicadores/js/canvg/rgbcolor.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/indicadores/js/canvg/canvg.js') }}" type="text/javascript"></script>
+    
+    <script src="{{ asset('bundles/indicadores/js/canvg/canvas2image.js') }}" type="text/javascript"></script>
 {% endblock %}
     
 
@@ -92,7 +97,7 @@
                         <div id='controles' class='btn-toolbar'></div>
                         <div class="row" id='info' ></div>
                         <div class="row" >
-                            <div class="span8" >
+                            <div class="span8" >                                
                                 <div id="graficoPrimario" ></div>
                             </div>                            
                         </div>                        
@@ -105,5 +110,6 @@
             </div>
         </div>
         </div>
-    </div>    
+    </div>
+    <canvas id="canvas" STYLE='visibility: hidden;'></canvas> 
 {% endblock %}
