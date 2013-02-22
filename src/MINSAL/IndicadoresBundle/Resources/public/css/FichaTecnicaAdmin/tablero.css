@@ -39,10 +39,6 @@
     margin-top: -25px;
     margin-left: -25px;
 }
-h4.ui-accordion-header{
-    margin: 1px 0;
-    padding-left: 25px;    
-}
 #capa_dimension_valores{
     max-height: 150px;
     width: 50%;    

@@ -28,11 +28,10 @@
     <div id="div_carga">
         <img id="cargador" src="{{ asset('bundles/indicadores/images/ajax-loader.gif') }}"/>
     </div>
-    <div class="tablero container-fluid" id='tablero'>
-        <i id='ocultar_panel_izq' class="icon-arrow-left"></i>
+    <div class='btn-toolbar' style='border: 1px solid yellow'>
         <div class='btn-group'> 
-            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-                <i class="icon-filter"></i>{{app.user.clasificacionUso}}
+            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#" title="clasificación a utilizar">
+                <i class="icon-filter"></i>{{'_clasificacion_indicadores_'|trans}}
                 <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">                
@@ -44,72 +43,82 @@
                     {% endif %}
                 {% endfor %}
             </ul>                               
+        </div>        
+        <div class='btn-group'>
+            <a class="btn dropdown-toggle btn-success" data-toggle="dropdown" href="#">
+                <i class="icon-star"></i>{{"favoritos"|trans}} (<span id='cantidad_favoritos'>{{app.user.favoritos|length}}</span>)
+                <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu" id='listado-favoritos'>
+                {% for indicador in app.user.favoritos %}
+                    <li ><A href="#" id='fav-{{indicador.id}}' class='indicador'
+                            data-id='{{indicador.id}}'
+                            data-unidad-medida='{{indicador.unidadMedida}}'>
+                            {{indicador.nombre}}
+                        </A>
+                    </li>
+                {% endfor %}
+            </ul>
         </div>
-        <div class="row-fluid">
-            <div class='span3' id='listado_indicadores' style='overflow-y: auto'>
-                <H4>{{"favoritos"|trans}} (<span id='cantidad_favoritos'>{{app.user.favoritos|length}}</span>)</H4>
-                <DIV >
-                    <ul id='listado-favoritos'>
-                    {% for indicador in app.user.favoritos %}
-                        <li id='li_fav-{{indicador.id}}'><A href="#" id='fav-{{indicador.id}}' 
-                                data-id='{{indicador.id}}'
-                                data-unidad-medida='{{indicador.unidadMedida}}'>
-                                {{indicador.nombre}}
-                            </A>
-                        </li>
-                    {% endfor %}
-                    </ul>
-                </DIV>
-                {% for categoria in categorias%}
-                    <H4>{{categoria.cat.descripcion}} ({{categoria.indicadores|length}})</H4>
-                    <DIV >
-                        <ul>
+        {% for categoria in categorias%}
+            {% if categoria.indicadores|length > 0 %}
+                <div class='btn-group'>
+                    <a class="btn dropdown-toggle btn-info" data-toggle="dropdown" href="#">
+                        {{categoria.cat.descripcion}} ({{categoria.indicadores|length}})
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" >
                         {% for indicador in categoria.indicadores %}
-                            <li><A href="#" id='{{indicador.id}}' 
+                            <li ><A href="#" id='{{indicador.id}}' class='indicador'
                                    data-id='{{indicador.id}}'
                                    data-unidad-medida='{{indicador.unidadMedida}}'>
                                     {{indicador.nombre}}
                                 </A>
                             </li>
                         {% endfor %}
-                        </ul>
-                    </DIV>
-                {% endfor %}
-                <H4>{{"_no_clasificados_"|trans}} (<span id='cantidad_no_clasificados'>{{indicadores_no_clasificados|length}}</span>)</H4>
-                <DIV >
-                    <ul id='listado-no_clasificados'>
+                    </ul>
+                </div>
+            {% endif %}
+        {% endfor %}
+        {% if indicadores_no_clasificados|length > 0 %}
+            <div class='btn-group'>
+                <a class="btn dropdown-toggle btn-danger" data-toggle="dropdown" href="#">
+                     <i class="icon-tags"></i>{{"_no_clasificados_"|trans}} (<span id='cantidad_no_clasificados'>{{indicadores_no_clasificados|length}}</span>)
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu" >
                     {% for indicador in indicadores_no_clasificados %}
-                        <li ><A href="#" id='{{indicador.id}}' 
-                                data-id='{{indicador.id}}'
-                                data-unidad-medida='{{indicador.unidadMedida}}'>
+                        <li ><A href="#" id='{{indicador.id}}' class='indicador'
+                               data-id='{{indicador.id}}'
+                               data-unidad-medida='{{indicador.unidadMedida}}'>
                                 {{indicador.nombre}}
                             </A>
                         </li>
                     {% endfor %}
-                    </ul>
-                </DIV>        
-            </div>            
-            <div class="span9" id='tablero_graficos'>
-                 <div class="span9" >
-                     <div class="span14" >
-                        <h3 id='titulo_indicador'></h3>
-                        <h6 id='filtros_dimensiones' data=''></h6>
-                        <div id='controles' class='btn-toolbar'></div>
-                        <div class="row" id='info' ></div>
-                        <div class="row" >
-                            <div class="span8" >                                
-                                <div id="graficoPrimario" ></div>
-                            </div>                            
-                        </div>                        
-                        <div class="row" >
-                            <div id='dimension' class='span3' style="text-align: right"></div>
-                            <div id='controlesDimension' class='span6'></div>
-                        </div>
-                    </div>
-                </div>
+                </ul>
             </div>
-        </div>
+        {% endif %}               
+    </div>
+    </div>
+    <div class="row-fluid" >
+        <div class="span12" id='tablero_graficos' style='border: 1px solid red;'>                 
+            <div class="span4" >
+               <h3 id='titulo_indicador'></h3>
+               <h6 id='filtros_dimensiones' data=''></h6>
+               <div id='controles' class='btn-toolbar'></div>
+               <div class="row-fluid" id='info' ></div>
+               <div class="row-fluid" >
+                   <div class="span8" >                                
+                       <div id="graficoPrimario" ></div>
+                   </div>                            
+               </div>                        
+               <div class="row-fluid" >
+                   <div id='dimension' class='span6' style="text-align: right"></div>
+                   <div id='controlesDimension' class='span6'></div>
+               </div>
+           </div>
         </div>
     </div>
+    
     <canvas id="canvas" STYLE='visibility: hidden;'></canvas> 
 {% endblock %}

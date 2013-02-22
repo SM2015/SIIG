@@ -37,7 +37,7 @@ function colores_alertas(indice, i) {
 
 function dibujarGraficoPrincipal(tipo) {
     $('#dimension').html('<h4>' + $('#dimensiones option:selected').html() + '</h4>');
-    cerrarMenus();    
+    cerrarMenus();
     if (tipo == null || tipo == 'pastel')
         grafico = new graficoPastel('graficoPrimario', datasetPrincipal);
     else if (tipo == 'columnas')

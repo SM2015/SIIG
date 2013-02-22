@@ -5,37 +5,35 @@ $(document).ready(function() {
         $('#div_carga').hide();
     });    
             
-    capa = $("div.tablero .row-fluid");
+    /*capa = $("div.tablero .row-fluid");
     var posicion = capa.position();
     capa.css({'position': 'absolute',
         'bottom': '15px',
         'top': posicion.top});
     $('#listado_indicadores').accordion({
         heightStyle: "fill"
-    });
+    });*/
 
-    $('#listado_indicadores A').click(function() {
+    $('A.indicador').click(function() {
         $('#controles').html('');
         $('#filtros_dimensiones').html('').attr('data', '');
 
         recuperarDimensiones($(this).attr('data-id'));
     });
-    var $tit_categoria = $('#listado_indicadores h4');
+    /*var $tit_categoria = $('#listado_indicadores h4');
 
     var espacio_tit_categoria = $tit_categoria.height() * 1.8 * $tit_categoria.length;
 
-    $('#listado_indicadores div').css({'max-height': capa.height() - espacio_tit_categoria, 'height':'150px'});
+    $('#listado_indicadores div').css({'max-height': capa.height() - espacio_tit_categoria, 'height':'150px'});*/
     
-    $('#ocultar_panel_izq').attr('title', trans.ocultar_listado_indicadores);
+    /*$('#ocultar_panel_izq').attr('title', trans.ocultar_listado_indicadores);
     $('#ocultar_panel_izq').click(function(){
        $('#listado_indicadores').toggle('explode',{},500);
        if ($(this).attr('class')=='icon-arrow-left')
             $(this).attr('class','icon-arrow-right').attr('title', trans.mostrar_listado_indicadores);        
         else
             $(this).attr('class','icon-arrow-left').attr('title', trans.ocultar_listado_indicadores);
-    });
-
-    //dibujarGraficoPrincipal($('#tipo_grafico_primario').val());
+    });*/
 
     function recuperarDimensiones(id_indicador) {
 
@@ -94,10 +92,10 @@ $(document).ready(function() {
                         '<ul id="opciones" class="dropdown-menu" role="menu" >' +
                         '<li><A id="ver_ficha_tecnica" '
                         +' href="'+Routing.generate('get_indicador_ficha',{id: resp.id_indicador})+'"><i class="icon-briefcase"></i> '+trans.ver_ficha_tecnica+'</A></li>'+
-                        '<li><A id="ver_tabla_datos"><i class="icon-list-alt"></i> '+trans.tabla_datos+' </A></li>'+
-                        '<li><A id="ver_imagen"><i class="icon-picture"></i> '+trans.descargar_grafico+'</A></li>'+
+                        '<li><A id="ver_tabla_datos" href="#"><i class="icon-list-alt" ></i> '+trans.tabla_datos+' </A></li>'+
+                        '<li><A id="ver_imagen" href="#"><i class="icon-picture"></i> '+trans.descargar_grafico+'</A></li>'+
                         '<li><A id="agregar_como_favorito" data-indicador="'+resp.id_indicador+'" href="#">';
-                if ($('#fav-'+id_indicador).length==0)                
+                if ($('#fav-'+id_indicador).length===0)                
                     opciones += '<i class="icon-star"></i> '+trans.agregar_favorito+'</A></li>';
                 else
                     opciones += '<i class="icon-star-empty"></i> '+trans.quitar_favoritos+'</A></li>';
@@ -196,21 +194,25 @@ $(document).ready(function() {
                     dibujarGraficoPrincipal($(this).val());
                 });
                 $('#agregar_como_favorito').click(function() {
-                    alternar_favorito($(this).attr('data-indicador'));                    
+                    alternar_favorito($(this).attr('data-indicador'));
+                    cerrarMenus();
                 });
                 $('#info').hide();
                 $('#ver_tabla_datos').click(function() {
                     $('#info').toggle();
+                    cerrarMenus();
                 });
                 
                 $('#canvas').hide();
                 $('#ver_imagen').click(function() {                    
                     canvg('canvas', $("#graficoPrimario").html().trim());
-                    Canvas2Image.saveAsPNG(document.getElementById('canvas'))
+                    Canvas2Image.saveAsPNG(document.getElementById('canvas'));
+                    cerrarMenus();
                 });
                 
                 $('#ver_ficha_tecnica').click(function() {
-                    //ver_ficha_tecnica($(this).attr('data-indicador'));                    
+                    //ver_ficha_tecnica($(this).attr('data-indicador'));
+                    cerrarMenus();
                 });
             
                 dibujarGrafico($('#dimensiones').val());

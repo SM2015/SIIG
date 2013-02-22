@@ -2,7 +2,7 @@ graficoLineas = function(ubicacion, datos, colorChosen, categoryChoosen) {
 
     this.tipo = 'lineas';
     var margin = {top: 20, right: 40, bottom: 20, left: 70},
-    width = 500 - margin.left - margin.right,
+    width = 450 - margin.left - margin.right,
             height = 300 - margin.top - margin.bottom
             ;
     var currentDatasetChart = datos;

@@ -2,7 +2,7 @@ graficoColumnas = function (ubicacion, datos, colorChosen, categoryChoosen) {
 
     this.tipo = 'columnas';    
     var margin = {top: 0, right: 5, bottom: 25, left: 70},
-    width = 500 - margin.left - margin.right,
+        width = 450 - margin.left - margin.right,
             height = 300 - margin.top - margin.bottom,
             barPadding = 1
             ;
