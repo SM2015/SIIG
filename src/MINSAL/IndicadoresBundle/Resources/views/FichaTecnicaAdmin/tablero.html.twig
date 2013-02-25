@@ -28,7 +28,7 @@
     <div id="div_carga">
         <img id="cargador" src="{{ asset('bundles/indicadores/images/ajax-loader.gif') }}"/>
     </div>
-    <div class='btn-toolbar' style='border: 1px solid yellow'>
+    <div class='btn-toolbar' >
         <div class='btn-group'> 
             <a class="btn dropdown-toggle" data-toggle="dropdown" href="#" title="clasificación a utilizar">
                 <i class="icon-filter"></i>{{'_clasificacion_indicadores_'|trans}}
@@ -99,22 +99,19 @@
             </div>
         {% endif %}               
     </div>
-    </div>
     <div class="row-fluid" >
         <div class="span12" id='tablero_graficos' style='border: 1px solid red;'>                 
-            <div class="span4" >
-               <h3 id='titulo_indicador'></h3>
-               <h6 id='filtros_dimensiones' data=''></h6>
-               <div id='controles' class='btn-toolbar'></div>
-               <div class="row-fluid" id='info' ></div>
-               <div class="row-fluid" >
-                   <div class="span8" >                                
-                       <div id="graficoPrimario" ></div>
-                   </div>                            
+            <div class="span4" id='graficoPrimario'>
+               <h3 class='titulo_indicador'></h3>
+               <h6 class='filtros_dimensiones'></h6>
+               <div class='controles btn-toolbar'></div>
+               <div class="row-fluid info" ></div>
+               <div class="row-fluid" >                   
+                    <div class="grafico" ></div>             
                </div>                        
-               <div class="row-fluid" >
-                   <div id='dimension' class='span6' style="text-align: right"></div>
-                   <div id='controlesDimension' class='span6'></div>
+               <div class="row-fluid" >                   
+                   <div class='span4 dimension' style='text-align: right'></div>
+                   <div class='controlesDimension span4'></div>
                </div>
            </div>
         </div>
