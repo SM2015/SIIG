@@ -146,8 +146,7 @@ class IndicadorController extends Controller {
             $datos_a_mostrar = explode('&', $elementos);
             foreach ($datos as $k => $fila)
                 if (in_array($fila['category'], $datos_a_mostrar)) {
-                    $datos_aux[$k]['category'] = $fila['category'];
-                    $datos_aux[$k]['measure'] = $fila['measure'];
+                    $datos_aux[$k] = $fila;                    
                 }
         } else {
             $max = count($datos);
@@ -158,14 +157,7 @@ class IndicadorController extends Controller {
             $datos_aux = array_slice($datos, $desde, $cantidad, true);
         }
 
-        $datos_filtrados = array();
-        $i = 0;
-        foreach ($datos_aux as $k => $dato) {
-            $datos_filtrados[$i]['category'] = $dato['category'];
-            $datos_filtrados[$i]['measure'] = $dato['measure'];
-            $i++;
-        }
-        $resp['datos'] = $datos_filtrados;
+        $resp['datos'] = $datos_aux;
         $response = new Response(json_encode($resp));
         if ($this->get('kernel')->getEnvironment() != 'dev')
             $response->setMaxAge($this->container->getParameter('indicador_cache_consulta'));
