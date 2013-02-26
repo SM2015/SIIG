@@ -194,14 +194,14 @@ function aplicarFiltro(zona) {
 }
 
 function controles_filtros(zona) {
-    var lista_datos_dimension = '<DIV class="capa_dimension_valores span6">' + trans.filtrar_por_elemento;
-
+    var lista_datos_dimension = '<DIV><input type="button" class="aplicar_filtro" value="' + trans.filtrar + '"/>' +
+            '<input type="button" class="quitar_filtro" value="' + trans.quitar_filtro + '"/></DIV>';
+    lista_datos_dimension += '<DIV class="capa_dimension_valores span12">' + trans.filtrar_por_elemento;
     $.each(datasetPrincipal, function(i, dato) {
         lista_datos_dimension += '<li><input class="detenerclic" type="checkbox" id="categorias_a_mostrar' + zona+i + '" ' +
                 'name="categorias_a_mostrar[]" value="' + dato.category + '" /><label class="detenerclic" for="categorias_a_mostrar' + zona+i + '" >' + dato.category + '</label></li>';
     });    
-    lista_datos_dimension += '</DIV><DIV class="span2"><input type="button" class="aplicar_filtro" value="' + trans.filtrar + '"/>' +
-            '<input type="button" class="quitar_filtro" value="' + trans.quitar_filtro + '"/></DIV>';
+    lista_datos_dimension += '</DIV>';
     
     $('#'+zona+' .lista_datos_dimension').html(lista_datos_dimension);
 
@@ -476,6 +476,7 @@ function recuperarDimensiones(id_indicador) {
         if (resp.resultado === 'ok') {
             var zona = 'graficoPrimario';
             $('#canvas').hide();
+            $('#' + zona + ' .controles').html('');
             dibujarControles(zona, resp);
             dibujarGrafico(zona, $('#' + zona + ' .dimensiones').val());
             //filtros();

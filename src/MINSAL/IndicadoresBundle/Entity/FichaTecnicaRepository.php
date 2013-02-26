@@ -39,7 +39,7 @@ class FichaTecnicaRepository extends EntityRepository {
             $tabla = strtolower($variable->getIniciales());
             $sql .= 'CREATE TEMP TABLE IF NOT EXISTS ' . $tabla . '(';
             foreach ($origen->getCampos() as $campo) {
-                $sql .= $campo->getSignificado()->getCodigo() . ' ' . 'varchar(200)' . ', ';
+                $sql .= $campo->getSignificado()->getCodigo() . ' ' . $campo->getTipoCampo()->getCodigo() . ', ';
             }
             $sql = trim($sql, ', ') . ');';
 
