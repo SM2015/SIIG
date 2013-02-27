@@ -54,7 +54,7 @@ class FichaTecnicaAdminController extends Controller {
             foreach ($indicares_por_categoria as $ind) {
                 if (in_array($ind->getId(), $indicadores_por_usuario)){
                     $categorias_indicador[$cat->getId()]['indicadores'][] = $ind;
-                    $indicadores_clasificados[] = $cat->getId();
+                    $indicadores_clasificados[] = $ind->getId();
                 }
             }
         }
