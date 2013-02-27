@@ -186,7 +186,7 @@ class OrigenDatoController extends Controller {
                 if ($this->driver == 'pdo_dblib') {
                     $sentenciaSQL = str_ireplace('SELECT', 'SELECT TOP 20 ', $sentenciaSQL);
                     $query = mssql_query($sentenciaSQL, $conn);
-                    if (mssql_num_rows($query) > 0){
+                    if (mssql_num_rows($query) > 0) {
                         while ($row = mssql_fetch_assoc($query))
                             $resultado['datos'][] = $row;
                         $resultado['nombre_campos'] = array_keys($resultado['datos'][0]);
@@ -288,7 +288,7 @@ class OrigenDatoController extends Controller {
             $aux[$n] = '';
         foreach (array_slice($resultado['datos'], 0, 10) as $fila)
             foreach ($fila as $k => $v)
-                $aux[$util->slug($k)] .=  trim(mb_check_encoding($v, 'UTF-8') ? $v : utf8_encode($v)) . ', ';
+                $aux[$util->slug($k)] .= trim(mb_check_encoding($v, 'UTF-8') ? $v : utf8_encode($v)) . ', ';
         $resultado['datos'] = $aux;
         return new Response(json_encode($resultado));
     }
@@ -297,7 +297,7 @@ class OrigenDatoController extends Controller {
      * @Route("/configurar/campo", name="configurar_campo", options={"expose"=true})
      */
     public function configurarCampoAction() {
-        $resultado = array('estado' => 'ok', 'mensaje' => '');
+        $resultado = array('estado' => 'success', 'mensaje' => '');
 
         $em = $this->getDoctrine()->getManager();
         $req = $this->getRequest();
@@ -307,6 +307,14 @@ class OrigenDatoController extends Controller {
 
         if ($tipo_cambio == 'tipo_campo') {
             $tipo_campo = $em->find("IndicadoresBundle:TipoCampo", $valor);
+            $datos_prueba = explode(', ', $req->get('datos_prueba'));
+            $valido = true;
+            $util = new \MINSAL\IndicadoresBundle\Util\Util();
+            foreach ($datos_prueba as $dato) {
+                $valido = $util->validar($dato, $tipo_campo->getCodigo());
+                if (!$valido)
+                    break;
+            }
             $mensaje = $campo->getNombre() . ': ' . $this->get('translator')->trans('tipo_campo_cambiado_a') . ' ' . $tipo_campo->getDescripcion();
             $campo->setTipoCampo($tipo_campo);
         } else {
@@ -314,11 +322,14 @@ class OrigenDatoController extends Controller {
             $mensaje = $campo->getNombre() . ': ' . $this->get('translator')->trans('significado_campo_cambiado_a') . ' ' . $significado_variable->getDescripcion();
             $campo->setSignificado($significado_variable);
         }
-        $resultado['mensaje'] = '<div class="alert alert-success">' . $mensaje . '</div>';
+        if ($valido)
+            $resultado['mensaje'] = $mensaje;
+        else
+            $resultado = array('estado' => 'error', 'mensaje' => $this->get('translator')->trans('_tipo_no_corresponde_con_datos_') );
         try {
             $em->flush();
         } catch (\Exception $e) {
-            $resultado = array('estado' => 'error', 'mensaje' => '<div class="alert alert-error"> ' . $this->get('translator')->trans('camio_no_realizado') . '</div>');
+            $resultado = array('estado' => 'error', 'mensaje' => $this->get('translator')->trans('camio_no_realizado'));
         }
         return new Response(json_encode($resultado));
     }
