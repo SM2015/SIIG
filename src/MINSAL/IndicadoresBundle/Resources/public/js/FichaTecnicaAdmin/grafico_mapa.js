@@ -60,7 +60,7 @@ graficoMapa = function(ubicacion, datos, colorChosen, categoryChoosen) {
                 .attr("height", height)
                 .on("contextmenu", right_click)
                 .on("click", function(d, i) {
-            descenderNivelDimension(elemento_id_codigo[d.properties.ID]);
+            descenderNivelDimension(ubicacion, elemento_id_codigo[d.properties.ID]);
         });
 
         var g = svg.append("g")
@@ -99,7 +99,7 @@ graficoMapa = function(ubicacion, datos, colorChosen, categoryChoosen) {
             seccion.on("contextmenu", right_click)
                     .on("click", function(d, i) {
                 if (arreglo_datos[elemento_id_codigo[d.properties.ID]] != null)
-                    descenderNivelDimension(zona, elemento_id_codigo[d.properties.ID]);
+                    descenderNivelDimension(ubicacion, elemento_id_codigo[d.properties.ID]);
             });
         });
 

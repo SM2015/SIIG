@@ -217,17 +217,30 @@ class FichaTecnicaRepository extends EntityRepository {
                     ->findOneBy(array('codigo' => $dimension));
             $catalogo = $significado->getCatalogo();
             if ($catalogo != '') {
-                $rel_catalogo = " INNER JOIN  $catalogo  B ON ($tabla_indicador.$dimension::text = B.id::text) ";
+                $rel_catalogo = " INNER JOIN  $catalogo  B ON (A.$dimension::text = B.id::text) ";
                 $dimension = 'B.descripcion';
             }
         }
 
         $sql = "SELECT $dimension as category, $variables_query, round(($formula)::numeric,2) as measure
-            FROM $tabla_indicador " . $rel_catalogo;
+            FROM $tabla_indicador A" . $rel_catalogo;
         $sql .= ' WHERE 1=1 ';
         if ($filtro_registros != null) {
-            foreach ($filtro_registros as $campo => $valor)
-                $sql .= " AND $campo = '$valor' ";
+            foreach ($filtro_registros as $campo => $valor){
+                //Si el filtro es un catálogo, buscar su id correspondiente
+                if (preg_match('/^id_/i', $campo)){
+                    $significado = $this->getEntityManager()->getRepository('IndicadoresBundle:SignificadoCampo')
+                                    ->findOneBy(array('codigo' => $campo));
+                    $catalogo = $significado->getCatalogo();
+                    $sql_ctl = '';
+                    if ( $catalogo != ''){
+                        $sql_ctl = "SELECT id FROM $catalogo WHERE descripcion ='$valor'";
+                        $reg = $this->getEntityManager()->getConnection()->executeQuery($sql_ctl)->fetch();
+                        $valor = $reg['id'];
+                    }
+                }                
+                $sql .= " AND A.".$campo." = '$valor' ";
+            }
         }
         $sql .= "            
             GROUP BY $dimension             
