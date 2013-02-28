@@ -21,39 +21,56 @@ class GuardarRegistroOrigenDatoConsumer implements ConsumerInterface {
 
         // Si se retorna falso se enviará un mensaje que le indicará al producer que no se pudo procesar
         // correctamente el mensaje y será enviado nuevamente
+        if ($msg['method'] == 'PUT') {
+            $fila1 = $msg['datos'][0];
 
-        $fila1 = $msg['datos'][0];
+            $llaves_aux1 = '';
+            foreach ($fila1 as $k => $campo)
+                $llaves_aux1 .= "'$k', ";
+            $llaves_aux1 = trim($llaves_aux1, ', ');
 
-        $llaves_aux1 = '';
-        foreach ($fila1 as $k=>$campo) $llaves_aux1 .= "'$k', ";
-        $llaves_aux1 = trim($llaves_aux1, ', ');
-
-        $sql = "INSERT INTO fila_origen_dato(id_origen_dato, datos) 
+            $sql = "INSERT INTO fila_origen_dato_aux(id_origen_dato, datos, ultima_lectura) 
                     VALUES ";
-        $i=0;
-        foreach ($msg['datos'] as $fila) {            
-            $llaves_aux2 = '';
-            foreach ($fila as $k=>$campo) $llaves_aux2 .= ":$k"."_$i, ";
-            $llaves_aux2 = trim($llaves_aux2, ', ');
-            
-            $sql .= "(:id_origen_dato, hstore(ARRAY[$llaves_aux1], ARRAY[$llaves_aux2])), ";
-            $i++;
-        }
-        $sql = trim($sql,', ');
-        $sth = $this->em->getConnection()->prepare($sql);        
-        $sth->bindParam(':id_origen_dato', $msg['id_origen_dato']);
+            $i = 0;
+            foreach ($msg['datos'] as $fila) {
+                $llaves_aux2 = '';
+                foreach ($fila as $k => $campo)
+                    $llaves_aux2 .= ":$k" . "_$i, ";
+                $llaves_aux2 = trim($llaves_aux2, ', ');
 
-        $this->em->getConnection()->beginTransaction();
-        $i=0;
-        foreach ($msg['datos'] as $fila) {                      
-            foreach ($fila as $k => $value) { $llave = ':'.$k.'_'.$i; $sth->bindValue("$llave", trim($value)); }
-            $i++;
+                $sql .= "(:id_origen_dato, hstore(ARRAY[$llaves_aux1], ARRAY[$llaves_aux2]), :ultima_lectura), ";
+                $i++;
+            }
+            $sql = trim($sql, ', ');
+            $sth = $this->em->getConnection()->prepare($sql);
+            $sth->bindParam(':id_origen_dato', $msg['id_origen_dato']);
+            $sth->bindParam(':ultima_lectura', $msg['ultima_lectura']);
+
+            $this->em->getConnection()->beginTransaction();
+            $i = 0;
+            foreach ($msg['datos'] as $fila) {
+                foreach ($fila as $k => $value) {
+                    $llave = ':' . $k . '_' . $i;
+                    $sth->bindValue("$llave", trim($value));
+                }
+                $i++;
+            }
+            $result = $sth->execute();
+            if (!$result)
+                return false;
+            $this->em->getConnection()->commit();
+            return true;
+        } elseif ($msg['method'] == 'DELETE'){
+            $this->em->getConnection()->beginTransaction();
+            //Borrar los datos existentes por el momento así será pero debería haber una forma de ir a traer solo los nuevos
+            $sql = "INSERT INTO fila_origen_dato SELECT * FROM fila_origen_dato_aux WHERE id_origen_dato='$msg[id_origen_dato]' AND ultima_lectura = '$msg[ultima_lectura]';
+                    DELETE FROM fila_origen_dato WHERE id_origen_dato='$msg[id_origen_dato]' AND ultima_lectura < '$msg[ultima_lectura]' ;
+                    DELETE FROM fila_origen_dato_aux WHERE id_origen_dato='$msg[id_origen_dato]' AND ultima_lectura = '$msg[ultima_lectura]';
+                    ";
+            $this->em->getConnection()->exec($sql);
+            $this->em->getConnection()->commit();
+            return true;
         }
-        $result = $sth->execute();
-        if (!$result)
-            return false;
-        $this->em->getConnection()->commit();
-        return true;
     }
 
 }
