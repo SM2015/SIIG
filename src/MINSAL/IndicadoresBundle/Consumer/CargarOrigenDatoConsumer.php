@@ -5,8 +5,6 @@ namespace MINSAL\IndicadoresBundle\Consumer;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-//use Symfony\Component\HttpFoundation\Response;
-//use MINSAL\IndicadoresBundle\Entity\Conexion;
 
 class CargarOrigenDatoConsumer implements ConsumerInterface {
 

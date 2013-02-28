@@ -5,8 +5,6 @@ namespace MINSAL\IndicadoresBundle\Consumer;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
 use Doctrine\ORM\EntityManager;
-use Symfony\Component\HttpFoundation\Response;
-use Doctrine\DBAL\DBALException;
 
 class GuardarRegistroOrigenDatoConsumer implements ConsumerInterface {
 
