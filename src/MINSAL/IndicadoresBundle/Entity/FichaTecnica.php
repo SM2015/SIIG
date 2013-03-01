@@ -167,7 +167,7 @@ class FichaTecnica
        
     /**
     * @var \Doctrine\Common\Collections\ArrayCollection
-    * @ORM\OneToMany(targetEntity="GrupoIndicadoresIndicador", mappedBy="grupo", cascade={"all"}, orphanRemoval=true)
+    * @ORM\OneToMany(targetEntity="GrupoIndicadoresIndicador", mappedBy="indicador", cascade={"all"}, orphanRemoval=true)
     */
     private $grupos;
 
@@ -348,7 +348,6 @@ class FichaTecnica
     public function __construct()
     {
         $this->periodos = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->presentaciones = new \Doctrine\Common\Collections\ArrayCollection();
         $this->variables = new \Doctrine\Common\Collections\ArrayCollection();
     }        
 
