@@ -16,7 +16,7 @@ class LoadMotorBdData extends AbstractFixture implements OrderedFixtureInterface
         $datos[1]['campos'] = array('Nombre'=>'MySQL', 'Codigo'=>'pdo_mysql');
         $datos[2]['campos'] = array('Nombre'=>'PostgreSQL', 'Codigo'=>'pdo_pgsql');
         $datos[3]['campos'] = array('Nombre'=>'SQLite', 'Codigo'=>'pdo_sqlite');
-        $datos[4]['campos'] = array('Nombre'=>'SQL Server', 'Codigo'=>'pdo_sqlsrv');
+        $datos[4]['campos'] = array('Nombre'=>'SQL Server', 'Codigo'=>'pdo_dblib');
         $datos[5]['campos'] = array('Nombre'=>'Oracle', 'Codigo'=>'oci8');        
         
         $master = new LoadMaster();
