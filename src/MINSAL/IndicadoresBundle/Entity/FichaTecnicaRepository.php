@@ -7,8 +7,7 @@ use MINSAL\IndicadoresBundle\Entity\FichaTecnica;
 
 class FichaTecnicaRepository extends EntityRepository {
 
-    public function crearIndicador(FichaTecnica $fichaTecnica, $dimension, $filtros = null) {
-
+    public function crearIndicador(FichaTecnica $fichaTecnica, $filtros = null) {
         $em = $this->getEntityManager();
         $ahora = new \DateTime("now");
         $util = new \MINSAL\IndicadoresBundle\Util\Util();
@@ -27,7 +26,6 @@ class FichaTecnicaRepository extends EntityRepository {
                 return true;
         }
 
-
         $campos = str_replace("'", '', $fichaTecnica->getCamposIndicador());
 
         $tablas_variables = array();
@@ -42,7 +40,6 @@ class FichaTecnicaRepository extends EntityRepository {
                 $sql .= $campo->getSignificado()->getCodigo() . ' ' . $campo->getTipoCampo()->getCodigo() . ', ';
             }
             $sql = trim($sql, ', ') . ');';
-
 
             // Si es fusionado recuperar los orígenes que están contenidos
             $origenes = array();
@@ -76,7 +73,7 @@ class FichaTecnicaRepository extends EntityRepository {
         try {
             $em->getConnection()->exec($sql);
             if ($acumulado == true)
-                $this->crearIndicadorAcumulado($fichaTecnica, $dimension, $filtros);
+                $this->crearIndicadorAcumulado($fichaTecnica,  $filtros);
             $fichaTecnica->setUpdatedAt($ahora);
             $em->persist($fichaTecnica);
             $em->flush();
@@ -85,7 +82,7 @@ class FichaTecnicaRepository extends EntityRepository {
         }
     }
 
-    public function crearIndicadorAcumulado(FichaTecnica $fichaTecnica, $dimension, $filtros = null) {
+    public function crearIndicadorAcumulado(FichaTecnica $fichaTecnica,  $filtros = null) {
         $em = $this->getEntityManager();
         $campos = str_replace("'", '', $fichaTecnica->getCamposIndicador());
         $tablas_variables = array();

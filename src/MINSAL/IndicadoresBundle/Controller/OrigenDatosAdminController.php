@@ -132,10 +132,10 @@ class OrigenDatosAdminController extends Controller {
             
             $msg['sql'] = $origenDato->getSentenciaSql(); 
             $msg['total_registros'] = $em->getRepository('IndicadoresBundle:OrigenDatos')->getTotalRegistros($origenDato);
-
+            $ahora = new \DateTime("now");
             foreach ($origenDato->getVariables() as $var) {
                 foreach ($var->getIndicadores() as $ind) {
-                    $ind->setUpdatedAt(null);
+                    $ind->setUltimaLectura($ahora);
                 }
             }
             $em->flush();

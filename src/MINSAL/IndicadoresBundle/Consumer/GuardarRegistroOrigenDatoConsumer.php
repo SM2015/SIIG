@@ -67,6 +67,18 @@ class GuardarRegistroOrigenDatoConsumer implements ConsumerInterface {
                     ";
             $this->em->getConnection()->exec($sql);
             $this->em->getConnection()->commit();
+            echo 'alkdfjla';
+            
+            //Recalcular la tabla del indicador
+            //Recuperar las variables en las que está presente el origen de datos
+            $origenDatos = $this->em->find('IndicadoresBundle:OrigenDatos', $msg['id_origen_dato']);                        
+            foreach ($origenDatos->getVariables() as $var){
+                foreach ($var->getIndicadores() as $ind){
+                    $fichaTec = $this->em->find('IndicadoresBundle:FichaTecnica', $ind->getId());
+                    $fichaRepository = $this->em->getRepository('IndicadoresBundle:FichaTecnica');
+                    $fichaRepository->crearIndicador($fichaTec);
+                }
+            }            
             return true;
         }
     }
