@@ -45,7 +45,7 @@ class Util {
                 return false;
                 break;
             case 'integer':
-                return is_integer($dato);
+                return ( preg_match( '/^\d*$/'  , $dato) == 1 );
                 break;
             case 'float':
                 return is_numeric($dato);
