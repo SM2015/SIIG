@@ -702,6 +702,18 @@ class FichaTecnica
     {
         return $this->clasificacionTecnica;
     }
+    
+    /**
+     * Get clasificacionTecnica
+     *
+     * @return \MINSAL\IndicadoresBundle\Entity\ClasificacionTecnica $clasificacionTecnica
+     */
+    public function setClasificacionTecnica(\Doctrine\Common\Collections\Collection $clasificacionTecnica)
+    {
+        foreach ($clasificacionTecnica as $c){
+            $this->addClasificacionTecnica($c);
+        }
+    }
 
     /**
      * Add clasificacionPrivacidad
