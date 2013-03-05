@@ -12,6 +12,7 @@
 2. Instalación de Postgres
 3. Instalación RabbitMQ
 4. Instalación Servidor OLAP
+5. Librería wkhtmltopdf
 
 
 ## 1. Instalación de Symfony2
@@ -228,6 +229,16 @@ Desde la Carpeta siig/src/MINSAL/cubos, ejecutar:
 
 Este comando ejecuta el servidor OLAP y muestra la salida en pantalla.
 La documentacion completa de este servidor dentor de la aplicacion esta disponible en la seccion "estion y Análisis de Cubos OLAP"
+
+## Instalación de librería wkhtmltopdf
+[wkhtmltopdf](http://code.google.com/p/wkhtmltopdf/) Es una utilidad de línea de comando para convertir html a pdf
+
+1. Descargar wkhtmltopdf desde http://code.google.com/p/wkhtmltopdf/downloads/list elegir la versión adecuada al sistema operativo
+2. Descomprimir. Ej.: tar xjf wkhtmltopdf-0.11.0_rc1-static-amd64.tar.bz2
+3. Mover y renombrar el archivo: mv wkhtmltopdf-amd64 /usr/bin/wkhtmltopdf
+4. Dar permisos de ejecución: chmod +x /usr/bin/wkhtmltopdf
+
+
 ### Cargar la aplicación
 En este punto estamos listos para crgar la aplicacion desde: 
 http://siig.localhost/app_dev.php
