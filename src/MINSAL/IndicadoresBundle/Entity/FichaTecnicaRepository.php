@@ -58,6 +58,7 @@ class FichaTecnicaRepository extends EntityRepository {
                         WHERE id_origen_dato IN (". implode(',', $origenes).") 
                     ;";
             //Obtener solo los datos que se pueden procesar en el indicador
+            $sql .= "DROP TABLE IF EXISTS $tabla"."_var; ";
             $sql .= "SELECT  $campos, SUM(calculo::numeric) AS " . $tabla . "
                 INTO TEMP  $tabla" . "_var
                 FROM $tabla                 
