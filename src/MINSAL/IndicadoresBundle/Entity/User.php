@@ -21,7 +21,7 @@ class User extends BaseUser{
             
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
-     * @ORM\OneToMany(targetEntity="UsuarioGrupoIndicadores", mappedBy="grupoIndicadores", cascade={"all"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="UsuarioGrupoIndicadores", mappedBy="usuario", cascade={"all"}, orphanRemoval=true)
      **/
     protected $gruposIndicadores;    
    

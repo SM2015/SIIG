@@ -97,7 +97,7 @@ $(document).ready(function(){
                 "<TD>"+
                 "<SELECT class='significado' data-significado_codigo='"+resp.campos[valor]['significado_codigo']+"' id='significado_variable__"+id+"' title='"+trans.elija_significado_dato+"' >"+significado_datos+"</SELECT>"+
                 "</TD>"+
-                "<TD>"+
+                "<TD id='datos_ejemplo_campo__"+id+"'>"+
                 resp.datos[valor]+
                 "</TD>"+
                 "</TR>";
@@ -164,17 +164,23 @@ $(document).ready(function(){
         var valor = obj.attr('value');
         
         var id_control = obj.attr('id');
-        var id_origen_dato = $('#configurar').attr('data')
-                
+        var id_campo = id_control.split('__');        
+        var id_origen_dato = $('#configurar').attr('data');
+        
+        var datos_ejemplo = $('#datos_ejemplo_campo__'+id_campo.pop()).html();
         datos = {
             origen_dato: id_origen_dato,
             control: id_control,
-            valor: valor
+            valor: valor,
+            datos_prueba: datos_ejemplo
         };
         $.getJSON(Routing.generate('configurar_campo'), datos,
             function(resp){ 
-                $('#mensajito_cambio').html(resp.mensaje);
-            })
+                var estado = resp.estado;
+                if (estado === 'error')
+                    alert(resp.mensaje);
+                $('#mensajito_cambio').html('<DIV class="alert alert-'+estado+'">'+resp.mensaje+'</DIV>');
+            });
     }
      
 });

@@ -7,8 +7,7 @@ use MINSAL\IndicadoresBundle\Entity\FichaTecnica;
 
 class FichaTecnicaRepository extends EntityRepository {
 
-    public function crearIndicador(FichaTecnica $fichaTecnica, $dimension, $filtros = null) {
-
+    public function crearIndicador(FichaTecnica $fichaTecnica, $filtros = null) {
         $em = $this->getEntityManager();
         $ahora = new \DateTime("now");
         $util = new \MINSAL\IndicadoresBundle\Util\Util();
@@ -27,7 +26,6 @@ class FichaTecnicaRepository extends EntityRepository {
                 return true;
         }
 
-
         $campos = str_replace("'", '', $fichaTecnica->getCamposIndicador());
 
         $tablas_variables = array();
@@ -42,7 +40,6 @@ class FichaTecnicaRepository extends EntityRepository {
                 $sql .= $campo->getSignificado()->getCodigo() . ' ' . $campo->getTipoCampo()->getCodigo() . ', ';
             }
             $sql = trim($sql, ', ') . ');';
-
 
             // Si es fusionado recuperar los orígenes que están contenidos
             $origenes = array();
@@ -61,6 +58,7 @@ class FichaTecnicaRepository extends EntityRepository {
                         WHERE id_origen_dato IN (". implode(',', $origenes).") 
                     ;";
             //Obtener solo los datos que se pueden procesar en el indicador
+            $sql .= "DROP TABLE IF EXISTS $tabla"."_var; ";
             $sql .= "SELECT  $campos, SUM(calculo::numeric) AS " . $tabla . "
                 INTO TEMP  $tabla" . "_var
                 FROM $tabla                 
@@ -76,7 +74,7 @@ class FichaTecnicaRepository extends EntityRepository {
         try {
             $em->getConnection()->exec($sql);
             if ($acumulado == true)
-                $this->crearIndicadorAcumulado($fichaTecnica, $dimension, $filtros);
+                $this->crearIndicadorAcumulado($fichaTecnica,  $filtros);
             $fichaTecnica->setUpdatedAt($ahora);
             $em->persist($fichaTecnica);
             $em->flush();
@@ -85,7 +83,7 @@ class FichaTecnicaRepository extends EntityRepository {
         }
     }
 
-    public function crearIndicadorAcumulado(FichaTecnica $fichaTecnica, $dimension, $filtros = null) {
+    public function crearIndicadorAcumulado(FichaTecnica $fichaTecnica,  $filtros = null) {
         $em = $this->getEntityManager();
         $campos = str_replace("'", '', $fichaTecnica->getCamposIndicador());
         $tablas_variables = array();
@@ -217,17 +215,30 @@ class FichaTecnicaRepository extends EntityRepository {
                     ->findOneBy(array('codigo' => $dimension));
             $catalogo = $significado->getCatalogo();
             if ($catalogo != '') {
-                $rel_catalogo = " INNER JOIN  $catalogo  B ON ($tabla_indicador.$dimension::text = B.id::text) ";
+                $rel_catalogo = " INNER JOIN  $catalogo  B ON (A.$dimension::text = B.id::text) ";
                 $dimension = 'B.descripcion';
             }
         }
 
         $sql = "SELECT $dimension as category, $variables_query, round(($formula)::numeric,2) as measure
-            FROM $tabla_indicador " . $rel_catalogo;
+            FROM $tabla_indicador A" . $rel_catalogo;
         $sql .= ' WHERE 1=1 ';
         if ($filtro_registros != null) {
-            foreach ($filtro_registros as $campo => $valor)
-                $sql .= " AND $campo = '$valor' ";
+            foreach ($filtro_registros as $campo => $valor){
+                //Si el filtro es un catálogo, buscar su id correspondiente
+                if (preg_match('/^id_/i', $campo)){
+                    $significado = $this->getEntityManager()->getRepository('IndicadoresBundle:SignificadoCampo')
+                                    ->findOneBy(array('codigo' => $campo));
+                    $catalogo = $significado->getCatalogo();
+                    $sql_ctl = '';
+                    if ( $catalogo != ''){
+                        $sql_ctl = "SELECT id FROM $catalogo WHERE descripcion ='$valor'";
+                        $reg = $this->getEntityManager()->getConnection()->executeQuery($sql_ctl)->fetch();
+                        $valor = $reg['id'];
+                    }
+                }                
+                $sql .= " AND A.".$campo." = '$valor' ";
+            }
         }
         $sql .= "            
             GROUP BY $dimension             

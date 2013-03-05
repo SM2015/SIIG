@@ -14,7 +14,7 @@ class GrupoIndicadoresIndicador
 {
     /**
      *
-     * @ORM\ManyToOne(targetEntity="FichaTecnica", inversedBy="usuarios")
+     * @ORM\ManyToOne(targetEntity="FichaTecnica", inversedBy="grupos")
      * @ORM\JoinColumn(name="indicador_id", referencedColumnName="id")
      * @ORM\Id
      */

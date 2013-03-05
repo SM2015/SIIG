@@ -30,13 +30,13 @@ class GrupoIndicadores
     
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
-     * @ORM\OneToMany(targetEntity="UsuarioGrupoIndicadores", mappedBy="usuario" , cascade={"all"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="UsuarioGrupoIndicadores", mappedBy="grupoIndicadores" , cascade={"all"}, orphanRemoval=true)
      **/
     private $usuarios;
     
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
-     * @ORM\OneToMany(targetEntity="GrupoIndicadores", mappedBy="indicador" , cascade={"all"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="GrupoIndicadoresIndicador", mappedBy="grupo" , cascade={"all"}, orphanRemoval=true)
      **/
     private $indicadores;
     
