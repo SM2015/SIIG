@@ -161,7 +161,7 @@ CREATE TABLE fila_origen_dato(
     datos hstore,
 
     PRIMARY KEY (id),
-    FOREIGN KEY (id_origen_dato) REFERENCES origen_datos(id) on update CASCADE on delete RESTRICT
+    FOREIGN KEY (id_origen_dato) REFERENCES origen_datos(id) on update CASCADE on delete CASCADE
 );
 ~~~
 
