@@ -66,8 +66,7 @@ class GuardarRegistroOrigenDatoConsumer implements ConsumerInterface {
                     DELETE FROM fila_origen_dato_aux WHERE id_origen_dato='$msg[id_origen_dato]' AND ultima_lectura = '$msg[ultima_lectura]';
                     ";
             $this->em->getConnection()->exec($sql);
-            $this->em->getConnection()->commit();
-            echo 'alkdfjla';
+            $this->em->getConnection()->commit();            
             
             //Recalcular la tabla del indicador
             //Recuperar las variables en las que está presente el origen de datos
