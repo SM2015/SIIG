@@ -304,11 +304,10 @@ class OrigenDatoController extends Controller {
         list($tipo_cambio, $id) = explode('__', $req->get('control'));
         $valor = $req->get('valor');
         $campo = $em->find("IndicadoresBundle:Campo", $id);
-
+        $valido = true;
         if ($tipo_cambio == 'tipo_campo') {
             $tipo_campo = $em->find("IndicadoresBundle:TipoCampo", $valor);
-            $datos_prueba = explode(', ', $req->get('datos_prueba'));
-            $valido = true;
+            $datos_prueba = explode(', ', $req->get('datos_prueba'));            
             $util = new \MINSAL\IndicadoresBundle\Util\Util();
             foreach ($datos_prueba as $dato) {
                 $valido = $util->validar($dato, $tipo_campo->getCodigo());
