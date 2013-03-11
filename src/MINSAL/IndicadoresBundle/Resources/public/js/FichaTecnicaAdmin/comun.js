@@ -16,7 +16,7 @@ var formatAsPercentage = d3.format("%"),
         fmon = d3.time.format("%b")
         ;
 
-var datasetPrincipal;
+//var datasetPrincipal;
 var datasetPrincipal_bk;
 //var rangos_alertas;
 //var grafico;
@@ -24,7 +24,7 @@ var color = d3.scale.category20();    //builtin range of colors
 
 function colores_alertas(zona, indice, i) {
 
-    var rangos_alertas = JSON.parse($('#' + zona + ' .titulo_indicador').attr('rangos_alertas'));
+    var rangos_alertas = JSON.parse($('#' + zona + ' .titulo_indicador').attr('rangos_alertas'));    
     if (rangos_alertas.length === 0)
         return color(i);
     else {
@@ -42,11 +42,14 @@ function dibujarGraficoPrincipal(zona, tipo) {
     var grafico = crearGraficoObj(zona, tipo);
 
     grafico.dibujar();
+    var datasetPrincipal = JSON.parse($('#' + zona).attr('datasetPrincipal'))    
     construir_tabla_datos(zona, datasetPrincipal);
 }
 
 
 function crearGraficoObj(zona, tipo) {
+    var grafico;
+    var datasetPrincipal = JSON.parse($('#' + zona).attr('datasetPrincipal'));    
     if (tipo == null || tipo == 'pastel')
         grafico = new graficoPastel(zona, datasetPrincipal);
     else if (tipo == 'columnas')
@@ -55,7 +58,7 @@ function crearGraficoObj(zona, tipo) {
         grafico = new graficoLineas(zona, datasetPrincipal);
     else if (tipo == 'mapa')
         grafico = new graficoMapa(zona, datasetPrincipal);
-
+    
     return grafico;
 }
 function ascenderNivelDimension(zona, nivel) {
@@ -155,8 +158,10 @@ function dibujarGrafico(zona, dimension) {
             {id: $('#' + zona + ' .titulo_indicador').attr('data-id'), dimension: dimension}),
     {filtro: filtro},
     function(resp) {
-        datasetPrincipal = resp.datos;
-        datasetPrincipal_bk = datasetPrincipal;
+        $('#' + zona).attr('datasetPrincipal', JSON.stringify(resp.datos));
+        $('#' + zona).attr('datasetPrincipal_bk', JSON.stringify(resp.datos));
+        //datasetPrincipal = resp.datos;
+        //datasetPrincipal_bk = datasetPrincipal;
 
         dibujarGraficoPrincipal(zona, $('#' + zona + ' .tipo_grafico_principal').val());
         controles_filtros(zona);
@@ -165,6 +170,7 @@ function dibujarGrafico(zona, dimension) {
 }
 
 function ordenarDatos(zona, ordenar_por, modo_orden) {
+    var datasetPrincipal = JSON.parse($('#' + zona).attr('datasetPrincipal'));
     if (modo_orden === '-1')
         return;
     if (ordenar_por === 'dimension')
@@ -173,14 +179,15 @@ function ordenarDatos(zona, ordenar_por, modo_orden) {
         $('#'+zona+' .ordenar_dimension').children('option[value="-1"]').attr('selected', 'selected');
 
     cerrarMenus();
-    var grafico = crearGraficoObj(zona, $('#' + zona + ' .tipo_grafico_principal'));
+    var grafico = crearGraficoObj(zona, $('#' + zona + ' .tipo_grafico_principal').val());
     grafico.ordenar(modo_orden, ordenar_por);
     construir_tabla_datos(datasetPrincipal);
-    return;
 }
 
 function aplicarFiltro(zona) {
     var elementos = '';
+    var datasetPrincipal = JSON.parse($('#' + zona).attr('datasetPrincipal'));
+    
     $('#'+zona+' .capa_dimension_valores input:checked').each(function() {
         elementos += $(this).val() + '&';
     });    
@@ -188,12 +195,15 @@ function aplicarFiltro(zona) {
             {datos: datasetPrincipal, desde: $('#'+zona+' .filtro_desde').val(), hasta: $('#'+zona+' .filtro_hasta').val(),
                 elementos: elementos},
     function(resp) {
-        datasetPrincipal = resp.datos;
+        //datasetPrincipal = resp.datos;
+        $('#' + zona).attr('datasetPrincipal', JSON.stringify(resp.datos));
         dibujarGraficoPrincipal(zona, $('#'+zona+' .tipo_grafico_principal').val());
     }, 'json');
 }
 
 function controles_filtros(zona) {
+    var datasetPrincipal = JSON.parse($('#' + zona).attr('datasetPrincipal'));    
+    
     var lista_datos_dimension = '<DIV><input type="button" class="aplicar_filtro" value="' + trans.filtrar + '"/>' +
             '<input type="button" class="quitar_filtro" value="' + trans.quitar_filtro + '"/></DIV>';
     lista_datos_dimension += '<DIV class="capa_dimension_valores span12">' + trans.filtrar_por_elemento;
@@ -217,7 +227,8 @@ function controles_filtros(zona) {
         $('#'+zona+' .capa_dimension_valores input:checked').each(function() {
             $(this).attr('checked', false);
         });
-        datasetPrincipal = datasetPrincipal_bk;
+        //datasetPrincipal = datasetPrincipal_bk;
+        $('#' + zona).attr('datasetPrincipal', $('#' + zona).attr('datasetPrincipal_bk'))        
         dibujarGraficoPrincipal(zona, $('#'+zona+' .tipo_grafico_principal').val());
     });
 }
@@ -474,13 +485,17 @@ function recuperarDimensiones(id_indicador) {
     function(resp) {
         //Construir el campo con las dimensiones disponibles
         if (resp.resultado === 'ok') {
-            var zona = 'graficoPrimario';
+            //var zona = 'graficoPrimario';
+            var zona_g = 'grafico_'+zona;
+            
             $('#canvas').hide();
-            $('#' + zona + ' .controles').html('');
-            dibujarControles(zona, resp);
-            dibujarGrafico(zona, $('#' + zona + ' .dimensiones').val());
+            $('#' + zona_g + ' .controles').html('');            
+            dibujarControles(zona_g, resp);
+            dibujarGrafico(zona_g, $('#' + zona_g + ' .dimensiones').val());
             //filtros();
+            zona++; 
         }
 
     });
 }
+var zona=1;

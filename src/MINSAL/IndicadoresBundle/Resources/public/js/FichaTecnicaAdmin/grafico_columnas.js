@@ -1,9 +1,9 @@
 graficoColumnas = function(ubicacion, datos, colorChosen, categoryChoosen) {
 
     this.tipo = 'columnas';
-    var margin = {top: 0, right: 5, bottom: 25, left: 70},
-    width = 450 - margin.left - margin.right,
-            height = 300 - margin.top - margin.bottom,
+    var margin = {top: 0, right: 5, bottom: 25, left: 40},
+    width = 390 - margin.left - margin.right,
+            height = 250 - margin.top - margin.bottom,
             barPadding = 1
             ;
 
@@ -22,6 +22,7 @@ graficoColumnas = function(ubicacion, datos, colorChosen, categoryChoosen) {
     // o el mayor valor del rango, el usuario elige
     // se utiliza datasetPrincipal_bk por si se han aplicado filtros
     // Así no usará el máximo valor del filtro
+    var datasetPrincipal_bk = JSON.parse($('#' + zona).attr('datasetPrincipal_bk'));
     max_y = d3.max(datasetPrincipal_bk, function(d) {
         return parseFloat(d.measure);
     });
@@ -58,7 +59,7 @@ graficoColumnas = function(ubicacion, datos, colorChosen, categoryChoosen) {
                 .call(yAxis)
                 .append("text")
                 .attr("transform", "rotate(-90)")
-                .attr("y", -50)
+                .attr("y", -30)                
                 .attr("x", -((height / 2) + (long / 2) * 6.5))
                 .text($('#' + ubicacion + ' .titulo_indicador').attr('data-unidad-medida'));
 

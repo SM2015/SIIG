@@ -2,8 +2,8 @@ graficoLineas = function(ubicacion, datos, colorChosen, categoryChoosen) {
 
     this.tipo = 'lineas';
     var margin = {top: 20, right: 40, bottom: 20, left: 70},
-    width = 450 - margin.left - margin.right,
-            height = 300 - margin.top - margin.bottom
+    width = 400 - margin.left - margin.right,
+            height = 250 - margin.top - margin.bottom
             ;
     var currentDatasetChart = datos;
     var zona = ubicacion;
@@ -15,6 +15,7 @@ graficoLineas = function(ubicacion, datos, colorChosen, categoryChoosen) {
             .rangeRoundBands([0, width], .9);
     ;
     var max_y;
+    var datasetPrincipal_bk = JSON.parse($('#' + zona).attr('datasetPrincipal_bk'));
     max_y = d3.max(datasetPrincipal_bk, function(d) {
         return parseFloat(d.measure);
     });

@@ -22,8 +22,8 @@ graficoMapa = function(ubicacion, datos, colorChosen, categoryChoosen) {
             elemento_id_codigo = arreglo_equivalencia;
         });
 
-        var width = 560,
-                height = 300,
+        var width = 400,
+                height = 250,
                 centered;
         var currentDatasetChart = datos;
         var arreglo_datos = new Object();
