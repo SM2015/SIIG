@@ -34,8 +34,8 @@ class CargarOrigenDatoConsumer implements ConsumerInterface {
             $fecha = new \DateTime("now");
             $ahora = $fecha->format('Y-m-d H:i:s');
 
-            //Leeré los datos en grupos de 100,000
-            $tamanio = 100000;            
+            //Leeré los datos en grupos de 10,000
+            $tamanio = 10000;            
             if ($total_registros > $tamanio and $origenDato->getConexion()->getIdMotor()->getCodigo() != 'pdo_dblib') {
                 $partes = ceil($total_registros / $tamanio);
                 $sql = $msg['sql'];

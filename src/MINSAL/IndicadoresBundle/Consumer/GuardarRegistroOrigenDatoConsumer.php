@@ -61,9 +61,9 @@ class GuardarRegistroOrigenDatoConsumer implements ConsumerInterface {
         } elseif ($msg['method'] == 'DELETE'){
             $this->em->getConnection()->beginTransaction();
             //Borrar los datos existentes por el momento así será pero debería haber una forma de ir a traer solo los nuevos
-            $sql = "INSERT INTO fila_origen_dato SELECT * FROM fila_origen_dato_aux WHERE id_origen_dato='$msg[id_origen_dato]' AND ultima_lectura = '$msg[ultima_lectura]';
-                    DELETE FROM fila_origen_dato WHERE id_origen_dato='$msg[id_origen_dato]' AND ultima_lectura < '$msg[ultima_lectura]' ;
-                    DELETE FROM fila_origen_dato_aux WHERE id_origen_dato='$msg[id_origen_dato]' AND ultima_lectura = '$msg[ultima_lectura]';
+            $sql = "DELETE FROM fila_origen_dato WHERE id_origen_dato='$msg[id_origen_dato]'  ;
+                    INSERT INTO fila_origen_dato SELECT * FROM fila_origen_dato_aux WHERE id_origen_dato='$msg[id_origen_dato]';                    
+                    DELETE FROM fila_origen_dato_aux WHERE id_origen_dato='$msg[id_origen_dato]' ;
                     ";
             $this->em->getConnection()->exec($sql);
             $this->em->getConnection()->commit();            
