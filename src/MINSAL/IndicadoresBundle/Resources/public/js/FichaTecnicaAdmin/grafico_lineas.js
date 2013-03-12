@@ -136,6 +136,9 @@ graficoLineas = function(ubicacion, datos, colorChosen, categoryChoosen) {
             return x0(d.category);
         });
         transition.select(".x.axis").call(xAxis).selectAll("g").delay(delay);
+        
+        // Ordenar la tabla de datos
+        $('#' + zona).attr('datasetPrincipal', JSON.stringify(currentDatasetChart));
 
-    }
+    };
 }

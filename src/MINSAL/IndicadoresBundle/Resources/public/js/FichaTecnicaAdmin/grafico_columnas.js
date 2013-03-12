@@ -135,16 +135,17 @@ graficoColumnas = function(ubicacion, datos, colorChosen, categoryChoosen) {
                 delay = function(d, i) {
             return i * 70;
         };
-
+        
         transition.selectAll("#"+ubicacion+" rect")
                 .delay(delay)
                 .attr("x", function(d) {
             return x0(d.category);
         });
-
         transition.select('#'+ubicacion+' .x.axis')
                 .call(xAxis)
                 .selectAll("g")
                 .delay(delay);
-    }
+        // Ordenar la tabla de datos
+        $('#' + zona).attr('datasetPrincipal', JSON.stringify(currentDatasetChart));
+    };
 }

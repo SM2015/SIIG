@@ -169,8 +169,7 @@ function dibujarGrafico(zona, dimension) {
 
 }
 
-function ordenarDatos(zona, ordenar_por, modo_orden) {
-    var datasetPrincipal = JSON.parse($('#' + zona).attr('datasetPrincipal'));
+function ordenarDatos(zona, ordenar_por, modo_orden) {    
     if (modo_orden === '-1')
         return;
     if (ordenar_por === 'dimension')
@@ -181,7 +180,8 @@ function ordenarDatos(zona, ordenar_por, modo_orden) {
     cerrarMenus();
     var grafico = crearGraficoObj(zona, $('#' + zona + ' .tipo_grafico_principal').val());
     grafico.ordenar(modo_orden, ordenar_por);
-    construir_tabla_datos(datasetPrincipal);
+    var datasetPrincipal = JSON.parse($('#' + zona).attr('datasetPrincipal'));
+    construir_tabla_datos(zona, datasetPrincipal);
 }
 
 function aplicarFiltro(zona) {
@@ -263,7 +263,7 @@ function construir_tabla_datos(zona, datos) {
 
     });
     tabla_datos += '</TABLE>';
-
+    
     $('#' + zona + ' .info').html(tabla_datos);
 }
 
