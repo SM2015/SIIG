@@ -183,12 +183,12 @@ class FichaTecnicaRepository extends EntityRepository {
     public function calcularIndicador(FichaTecnica $fichaTecnica, $dimension, $filtro_registros = null) {
         $util = new \MINSAL\IndicadoresBundle\Util\Util();
         $acumulado = $fichaTecnica->getEsAcumulado();
-        $formula = $fichaTecnica->getFormula();
+        $formula = strtolower($fichaTecnica->getFormula());
 
         //Recuperar las variables
         $variables = array();
         preg_match_all('/\{[a-z0-9\_]{1,}\}/', strtolower($formula), $variables, PREG_SET_ORDER);
-
+        
         $oper = 'SUM';
         if ($acumulado) {
             $formula = str_replace(array('{', '}'), array('MAX(', ')'), $formula);
@@ -196,7 +196,17 @@ class FichaTecnicaRepository extends EntityRepository {
         }
         else
             $formula = str_replace(array('{', '}'), array('SUM(', ')'), $formula);
-
+        
+        $denominador = explode('/', $fichaTecnica->getFormula());
+        $evitar_div_0 = '';
+        $variables_d=array();
+        if (count($denominador) > 1) {
+            preg_match('/\{.{1,}\}/', $denominador[1], $variables_d);
+            if (count($variables_d) > 0)
+                $var_d = strtolower(str_replace(array('{', '}'), array('(', ')'), array_shift($variables_d)));
+            $evitar_div_0 = 'AND '. $var_d . ' > 0';
+        }
+        
         // Formar la cadena con las variables para ponerlas en la consulta
         $variables_query = '';
         foreach ($variables as $var) {
@@ -222,7 +232,7 @@ class FichaTecnicaRepository extends EntityRepository {
 
         $sql = "SELECT $dimension as category, $variables_query, round(($formula)::numeric,2) as measure
             FROM $tabla_indicador A" . $rel_catalogo;
-        $sql .= ' WHERE 1=1 ';
+        $sql .= ' WHERE 1=1 '.$evitar_div_0;
         if ($filtro_registros != null) {
             foreach ($filtro_registros as $campo => $valor){
                 //Si el filtro es un catálogo, buscar su id correspondiente
@@ -242,7 +252,7 @@ class FichaTecnicaRepository extends EntityRepository {
         }
         $sql .= "            
             GROUP BY $dimension             
-            HAVING (($formula)::numeric) > 0
+            HAVING (($formula)::numeric) > 0 
             ORDER BY $dimension";
         try {
             return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
