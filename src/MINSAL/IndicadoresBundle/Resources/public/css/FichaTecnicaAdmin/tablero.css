@@ -77,3 +77,15 @@ input.valores_filtro{
     font-family: sans-serif;
     font-size: 11px;
 }
+
+.area_grafico:hover{
+    background-color: #EFEEF7;
+}
+
+.area_grafico{
+    border: 0.5px gray dashed;
+}
+
+.zona_actual{
+    border: 1.5px solid green;
+}

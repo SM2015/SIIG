@@ -480,20 +480,15 @@ function alternar_favorito(zona, id_indicador) {
     );
 }
 
-function recuperarDimensiones(id_indicador) {
+function recuperarDimensiones(id_indicador, zona_g) {
 
     $.getJSON(
             Routing.generate('indicador_dimensiones', {id: id_indicador}),
     function(resp) {
         //Construir el campo con las dimensiones disponibles
         if (resp.resultado === 'ok') {
-            //var zona = 'graficoPrimario';
-            var zona_g = 'grafico_'+zona;
             
             $('#canvas').hide();
-            /*$('#' + zona_g + ' .controles').html('');
-            $('#' + zona_g + ' .filtros_dimensiones').attr('data','');
-            $('#' + zona_g + ' .filtros_dimensiones').html('');*/
             dibujarControles(zona_g, resp);
             dibujarGrafico(zona_g, $('#' + zona_g + ' .dimensiones').val());            
         }

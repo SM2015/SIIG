@@ -44,7 +44,16 @@
                     {% endif %}
                 {% endfor %}
             </ul>                               
-        </div>        
+        </div>
+        <div class='btn-group'> 
+            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                <i class="icon-th"></i>{{'_sala_'|trans}}
+                <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">                                
+                <li><A id='agregar_fila' href='#'>{{'_agregar_fila_'|trans}}</a></li>
+            </ul>                               
+        </div>
         <div class='btn-group'>
             <a class="btn dropdown-toggle btn-success" data-toggle="dropdown" href="#">
                 <i class="icon-star"></i>{{"favoritos"|trans}} (<span id='cantidad_favoritos'>{{app.user.favoritos|length}}</span>)
@@ -100,9 +109,9 @@
             </div>
         {% endif %}               
     </div>
-    <div class="row-fluid" >
-        <div class="span12" id='tablero_graficos' >
-            <div class="span4 grafico" id='grafico_1' style='border: 1px solid black;'>
+    <div class="content sala" >
+        <div class="row-fluid">
+            <div class="span4 area_grafico zona_actual" id='grafico_1' >
                <h3 class='titulo_indicador'></h3>
                <h6 class='filtros_dimensiones'></h6>
                <div class='controles btn-toolbar'></div>
@@ -115,7 +124,7 @@
                    <div class='controlesDimension span4'></div>
                </div>
            </div>
-           <div class="span4 grafico" id='grafico_2' style='border: 1px solid red;'>
+           <div class="span4 area_grafico" id='grafico_2' >
                <h3 class='titulo_indicador'></h3>
                <h6 class='filtros_dimensiones'></h6>
                <div class='controles btn-toolbar'></div>
@@ -128,7 +137,7 @@
                    <div class='controlesDimension span4'></div>
                </div>
            </div>
-           <div class="span4 grafico" id='grafico_3' style='border: 1px solid green;'>
+           <div class="span4 area_grafico" id='grafico_3' >
                <h3 class='titulo_indicador'></h3>
                <h6 class='filtros_dimensiones'></h6>
                <div class='controles btn-toolbar'></div>
@@ -141,7 +150,7 @@
                    <div class='controlesDimension span4'></div>
                </div>
            </div>
-        </div>
+        </div>        
     </div>
     
     <canvas id="canvas" STYLE='visibility: hidden;'></canvas> 

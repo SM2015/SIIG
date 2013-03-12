@@ -6,11 +6,15 @@ $(document).ready(function() {
     });    
 
     $('A.indicador').click(function() {        
-        var zona_g = 'grafico_'+zona;                    
+        var zona_g = $('DIV.zona_actual').attr('id');        
         $('#' + zona_g + ' .controles').html('');
         $('#' + zona_g + ' .filtros_dimensiones').attr('data','');
         $('#' + zona_g + ' .filtros_dimensiones').html('');
-        recuperarDimensiones($(this).attr('data-id'));
+        recuperarDimensiones($(this).attr('data-id'), zona_g);
+    });
+    
+    $('#agregar_fila').click(function(){
+        sala_agregar_fila();
     });
    
 
@@ -19,11 +23,37 @@ $(document).ready(function() {
     }
     
     $('DIV.area_grafico').click(function(){
-       var zona_elegida = $(this).attr('id').split('_');
-       zona = zona_elegida[1];
-       $('DIV.zona_actual').removeClass('zona_actual');
-       $(this).addClass('zona_actual');
+       zona_elegir(this);
     });
-
-
+    
+    function zona_elegir(zona){
+        $('DIV.zona_actual').removeClass('zona_actual');
+        $(zona).addClass('zona_actual');
+    }
+    
+    function sala_agregar_fila(){
+        var html='<div class="row-fluid" >';
+        var cant = $('DIV.area_grafico').length;
+        for (i=cant+1; i<=cant+3;i++){
+            html += 
+                '<div class="span4 area_grafico" id="grafico_'+i+'" >'+
+                    '<h3 class="titulo_indicador"></h3>'+
+                    '<h6 class="filtros_dimensiones"></h6>'+
+                    '<div class="controles btn-toolbar"></div>'+
+                    '<div class="row-fluid info" ></div>'+
+                    '<div class="row-fluid" >'+
+                         '<div class="grafico" ></div>'+
+                    '</div>'+
+                    '<div class="row-fluid" >'+
+                        '<div class="span4 dimension" style="text-align: right"></div>'+
+                        '<div class="controlesDimension span4"></div>'+
+                    '</div>'+
+                '</div>';
+        }
+        html += '</div>';  
+        $('div.sala').append(html);
+        $('DIV.area_grafico').click(function(){
+            zona_elegir(this);
+        });
+    }
 });
