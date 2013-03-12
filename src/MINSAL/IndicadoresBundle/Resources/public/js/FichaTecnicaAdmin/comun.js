@@ -18,6 +18,8 @@ var formatAsPercentage = d3.format("%"),
 
 //var datasetPrincipal;
 var datasetPrincipal_bk;
+var zona=1;
+var max_zonas = 3;
 //var rangos_alertas;
 //var grafico;
 var color = d3.scale.category20();    //builtin range of colors
@@ -489,13 +491,12 @@ function recuperarDimensiones(id_indicador) {
             var zona_g = 'grafico_'+zona;
             
             $('#canvas').hide();
-            $('#' + zona_g + ' .controles').html('');            
+            /*$('#' + zona_g + ' .controles').html('');
+            $('#' + zona_g + ' .filtros_dimensiones').attr('data','');
+            $('#' + zona_g + ' .filtros_dimensiones').html('');*/
             dibujarControles(zona_g, resp);
-            dibujarGrafico(zona_g, $('#' + zona_g + ' .dimensiones').val());
-            //filtros();
-            zona++; 
+            dibujarGrafico(zona_g, $('#' + zona_g + ' .dimensiones').val());            
         }
 
     });
 }
-var zona=1;
