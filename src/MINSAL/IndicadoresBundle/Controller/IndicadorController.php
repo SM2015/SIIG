@@ -92,7 +92,7 @@ class IndicadorController extends Controller {
     /**
      * @Route("/indicador/datos/ordenar", name="indicador_datos_ordenar", options={"expose"=true})
      */
-    public function getDatosOrdenados() {
+    /*public function getDatosOrdenados() {
         $ordenar_por = $this->getRequest()->get('ordenar_por');
         $modo = $this->getRequest()->get('modo');
         $datos = $this->getRequest()->get('datos');
@@ -127,7 +127,7 @@ class IndicadorController extends Controller {
         if ($this->get('kernel')->getEnvironment() != 'dev')
             $response->setMaxAge($this->container->getParameter('indicador_cache_consulta'));
         return $response;
-    }
+    }*/
 
     /**
      * @Route("/indicador/datos/filtrar", name="indicador_datos_filtrar", options={"expose"=true})
@@ -146,7 +146,7 @@ class IndicadorController extends Controller {
             $datos_a_mostrar = explode('&', $elementos);
             foreach ($datos as $k => $fila)
                 if (in_array($fila['category'], $datos_a_mostrar)) {
-                    $datos_aux[$k] = $fila;                    
+                    $datos_aux[] = $fila;                    
                 }
         } else {
             $max = count($datos);
@@ -159,6 +159,7 @@ class IndicadorController extends Controller {
 
         $resp['datos'] = $datos_aux;
         $response = new Response(json_encode($resp));
+        
         if ($this->get('kernel')->getEnvironment() != 'dev')
             $response->setMaxAge($this->container->getParameter('indicador_cache_consulta'));
         return $response;
