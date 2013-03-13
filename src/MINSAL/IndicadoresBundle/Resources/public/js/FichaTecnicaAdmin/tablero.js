@@ -16,8 +16,13 @@ $(document).ready(function() {
     $('#agregar_fila').click(function(){
         sala_agregar_fila();
     });
-   
-
+    /*var $window = $(window);
+    $('#menu_sala').affix({
+        offset: {
+            top: function () { return $window.width() <= 980 ? 290 : 160 }
+        },
+        top: 100
+    }); */
     function ver_ficha_tecnica(id_indicador){ 
         $.get(Routing.generate('get_indicador_ficha',{id: id_indicador}));
     }

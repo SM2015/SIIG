@@ -77,7 +77,7 @@ function ascenderNivelDimension(zona, nivel) {
             if (i == nivel)
                 ruta += obj.etiqueta + ': ' + obj.valor;
             else
-                ruta += '<A href="#" data="' + i + '">' + obj.etiqueta + ': ' + obj.valor + '</A> / ';
+                ruta += '<A data="' + i + '">' + obj.etiqueta + ': ' + obj.valor + '</A> / ';
         }
         else {
             // Los que estén a la derecha del seleccionado deben volver al control de dimensiones                        
@@ -134,7 +134,7 @@ function descenderNivelDimension(zona, category) {
         if (i == (cant_obj - 1))
             ruta += obj.etiqueta + ': ' + obj.valor;
         else
-            ruta += '<A href="#" data="' + i + '">' + obj.etiqueta + ': ' + obj.valor + '</A> / ';
+            ruta += '<A data="' + i + '">' + obj.etiqueta + ': ' + obj.valor + '</A> / ';
     });
 
     $filtro.html(ruta);
@@ -323,9 +323,9 @@ function dibujarControles(zona, datos) {
             '<ul class="dropdown-menu" role="menu" >' +
             '<li><A class="ver_ficha_tecnica" '
             + ' href="' + Routing.generate('get_indicador_ficha', {id: datos.id_indicador}) + '"><i class="icon-briefcase"></i> ' + trans.ver_ficha_tecnica + '</A></li>' +
-            '<li><A class="ver_tabla_datos" href="#"><i class="icon-list-alt" ></i> ' + trans.tabla_datos + ' </A></li>' +
-            '<li><A class="ver_imagen" href="#"><i class="icon-picture"></i> ' + trans.descargar_grafico + '</A></li>' +
-            '<li><A class="agregar_como_favorito" data-indicador="' + datos.id_indicador + '" href="#">';
+            '<li><A class="ver_tabla_datos" ><i class="icon-list-alt" ></i> ' + trans.tabla_datos + ' </A></li>' +
+            '<li><A class="ver_imagen" ><i class="icon-picture"></i> ' + trans.descargar_grafico + '</A></li>' +
+            '<li><A class="agregar_como_favorito" data-indicador="' + datos.id_indicador + '" >';
     if ($('#fav-' + datos.id_indicador).length === 0)
         opciones += '<i class="icon-star"></i> ' + trans.agregar_favorito + '</A></li>';
     else
@@ -393,7 +393,7 @@ function dibujarControles(zona, datos) {
         $('#' + zona + ' .controles').append(opciones_indicador);
 
         $('#' + zona + ' .controles').append('<div class="btn-group">' +
-                '<a class="btn btn-warning dropdown-toggle" data-toggle="dropdown" href="#" title="' + trans.alertas_indicador + '">' +
+                '<a class="btn btn-warning dropdown-toggle" data-toggle="dropdown" title="' + trans.alertas_indicador + '">' +
                 '<i class="icon-exclamation-sign"></i>' +
                 '<span class="caret"></span>' +
                 '</a>' +
@@ -462,7 +462,7 @@ function alternar_favorito(zona, id_indicador) {
         $('#li_fav-' + id_indicador).remove();
     } else {
         $('#' + zona + ' .agregar_como_favorito').html('<i class=" icon-star-empty"></i>' + trans.quitar_favoritos);
-        $('#listado-favoritos').append("<li id='li_fav-" + id_indicador + "'><A href='#' data-id='" + id_indicador + "' " +
+        $('#listado-favoritos').append("<li id='li_fav-" + id_indicador + "'><A data-id='" + id_indicador + "' " +
                 "id='fav-" + id_indicador + "' " +
                 "data-unidad-medida='" + $('#' + zona + ' .titulo_indicador').attr('data-unidad-medida') + "'>" +
                 $('#' + zona + ' .titulo_indicador').html() +

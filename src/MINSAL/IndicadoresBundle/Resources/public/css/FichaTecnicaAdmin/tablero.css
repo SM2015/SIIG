@@ -89,3 +89,11 @@ input.valores_filtro{
 .zona_actual{
     border: 1.5px solid green;
 }
+
+#menu_sala.affix{
+    top: 0px;
+    z-index: 1000;
+    width: 100%;
+    background-color: white;
+    border-bottom: 3px solid black;
+}
