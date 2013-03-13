@@ -15,8 +15,8 @@
 
 
 
-#div_carga{
-    position:absolute;
+#div_carga{    
+    position: fixed;
     top:0;
     left:0;
     width:100%;
@@ -95,5 +95,5 @@ input.valores_filtro{
     z-index: 1000;
     width: 100%;
     background-color: white;
-    border-bottom: 3px solid black;
+    border-bottom: 3px solid green;
 }
