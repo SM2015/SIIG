@@ -75,7 +75,8 @@ class GuardarRegistroOrigenDatoConsumer implements ConsumerInterface {
                 foreach ($var->getIndicadores() as $ind){
                     $fichaTec = $this->em->find('IndicadoresBundle:FichaTecnica', $ind->getId());
                     $fichaRepository = $this->em->getRepository('IndicadoresBundle:FichaTecnica');
-                    $fichaRepository->crearIndicador($fichaTec);
+                    if (!$fichaTec->getEsAcumulado())
+                        $fichaRepository->crearIndicador($fichaTec);
                 }
             }            
             return true;
