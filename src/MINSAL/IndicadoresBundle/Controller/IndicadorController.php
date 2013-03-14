@@ -276,6 +276,64 @@ class IndicadorController extends Controller {
                 )
         );
     }
+    
+    /**
+     * @Route("/sala/guardar", name="sala_guardar", options={"expose"=true})
+     */
+    public function guardarSala() {
+        $em = $this->getDoctrine()->getManager();
+        $req = $this->getRequest();
+        $resp = array();
         
+        $sala = json_decode($req->get('datos'));
+        if ($sala->id != ''){
+            $grupoIndicadores = $em->find ('IndicadoresBundle:GrupoIndicadores', $sala->id);
+            //Borrar los indicadores antiguos de la sala
+            foreach($grupoIndicadores->getIndicadores() as $ind)
+                $em->remove ($ind);
+            $em->flush();
+                //$grupoIndicadores->removeIndicadore($ind);
+        }
+        else {
+            $grupoIndicadores = new \MINSAL\IndicadoresBundle\Entity\GrupoIndicadores();
+        }
+            
+        
+        $grupoIndicadores->setNombre($sala->nombre);
+        
+        
+        
+        foreach($sala->datos_indicadores as $grafico){
+            $indG = new \MINSAL\IndicadoresBundle\Entity\GrupoIndicadoresIndicador();
+            $ind = $em->find('IndicadoresBundle:FichaTecnica', $grafico->id_indicador);
+            
+            $indG->setDimension($grafico->dimension);
+            $indG->setFiltro($grafico->filtros);
+            $indG->setIndicador($ind);
+            $indG->setPosicion($grafico->posicion);
+            $indG->setTipoGrafico($grafico->tipo_grafico);
+            $indG->setGrupo($grupoIndicadores);
+            
+            $grupoIndicadores->addIndicadore($indG);
+        }
+        
+        $em->persist($grupoIndicadores);                       
+        $em->flush();
+        
+        if ($sala->id == ''){
+            $usuarioGrupoIndicadores = new \MINSAL\IndicadoresBundle\Entity\UsuarioGrupoIndicadores();
+            
+            $usuarioGrupoIndicadores->setUsuario($this->getUser());
+            $usuarioGrupoIndicadores->setEsDuenio(true);
+            $usuarioGrupoIndicadores->setGrupoIndicadores($grupoIndicadores);
+            
+            $em->persist($usuarioGrupoIndicadores);
+            $em->flush();
+        }
+        
+        $resp['estado'] = 'ok';
+        $resp['id_sala'] = $grupoIndicadores->getId();
+        return new Response(json_encode($resp));
+    }
 }
 
