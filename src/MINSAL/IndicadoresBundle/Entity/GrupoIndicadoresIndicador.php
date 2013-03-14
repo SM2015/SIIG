@@ -13,6 +13,15 @@ use Doctrine\ORM\Mapping as ORM;
 class GrupoIndicadoresIndicador
 {
     /**
+     * @var integer $id
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+    
+    /**
      *
      * @ORM\ManyToOne(targetEntity="FichaTecnica", inversedBy="grupos")
      * @ORM\JoinColumn(name="indicador_id", referencedColumnName="id")
