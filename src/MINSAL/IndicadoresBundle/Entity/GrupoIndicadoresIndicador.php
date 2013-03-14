@@ -23,7 +23,7 @@ class GrupoIndicadoresIndicador
     /**
      *
      * @ORM\ManyToOne(targetEntity="GrupoIndicadores", inversedBy="indicadores")
-     * @ORM\JoinColumn(name="usuario_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="grupo_indicadores_id", referencedColumnName="id")
      * @ORM\Id
      */
     private $grupo;
