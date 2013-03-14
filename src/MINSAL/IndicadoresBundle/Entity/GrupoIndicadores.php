@@ -113,15 +113,15 @@ class GrupoIndicadores
     public function getUsuarios()
     {
         return $this->usuarios;
-    }
+    }    
 
     /**
      * Add indicadores
      *
-     * @param \MINSAL\IndicadoresBundle\Entity\GrupoIndicadores $indicadores
+     * @param \MINSAL\IndicadoresBundle\Entity\GrupoIndicadoresIndicador $indicadores
      * @return GrupoIndicadores
      */
-    public function addIndicadore(\MINSAL\IndicadoresBundle\Entity\GrupoIndicadores $indicadores)
+    public function addIndicadore(\MINSAL\IndicadoresBundle\Entity\GrupoIndicadoresIndicador $indicadores)
     {
         $this->indicadores[] = $indicadores;
     
@@ -131,9 +131,9 @@ class GrupoIndicadores
     /**
      * Remove indicadores
      *
-     * @param \MINSAL\IndicadoresBundle\Entity\GrupoIndicadores $indicadores
+     * @param \MINSAL\IndicadoresBundle\Entity\GrupoIndicadoresIndicador $indicadores
      */
-    public function removeIndicadore(\MINSAL\IndicadoresBundle\Entity\GrupoIndicadores $indicadores)
+    public function removeIndicadore(\MINSAL\IndicadoresBundle\Entity\GrupoIndicadoresIndicador $indicadores)
     {
         $this->indicadores->removeElement($indicadores);
     }
