@@ -56,7 +56,12 @@
                 <li><!-- Button to trigger modal -->
                     <a href="#myModal" data-toggle="modal">{{'_guardar_sala_'|trans}}</a>
                 </li>
-            </ul>                               
+                <li class="divider"></li>
+                <li class="nav-header">{{'_salas_'|trans}}</li>
+                {% for sala in salas %}
+                    <li><A sala-id='{{sala.datos_sala.id}}' sala-nombre='{{sala.datos_sala.nombre}}' class='salas-id' data="{{sala.indicadores_sala|json_encode()}}">{{sala.datos_sala.nombre}}</A></li>
+                {% endfor %}
+            </ul>
         </div>
         <div class='btn-group'>
             <a class="btn dropdown-toggle btn-success" data-toggle="dropdown" >
@@ -114,8 +119,8 @@
         {% endif %}               
     </div>
     <div id='nombre_sala2' ></div>
-    <div class="content sala" >
-        <div class="row-fluid">
+    <div class="content" id="sala" >
+        <div class="row-fluid fila_sala">
             <div class="span4 area_grafico zona_actual" id='grafico_1' >
                <h3 class='titulo_indicador'></h3>
                <h6 class='filtros_dimensiones'></h6>

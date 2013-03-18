@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * MINSAL\IndicadoresBundle\Entity\GrupoIndicadores
  *
  * @ORM\Table(name="grupo_indicadores")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="MINSAL\IndicadoresBundle\Entity\GrupoIndicadoresRepository")
  */
 class GrupoIndicadores
 {

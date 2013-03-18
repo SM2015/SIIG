@@ -269,6 +269,7 @@ _ayuda_codigo_color_: 'Puede ser cualquier código de color HTML. Ej.: para azul
 _clasificacion_indicadores_: 'Clasificación'
 _tipo_no_corresponde_con_datos_: 'El tipo seleccionado no es adecuado para el campo'
 _sala_: 'Sala'
+_salas_: 'Salas'
 _agregar_fila_: 'Agregar fila'
 _guardar_sala_: 'Guardar Sala'
 _sala_situacional_: 'Sala situacional'

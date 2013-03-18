@@ -102,6 +102,19 @@ function ascenderNivelDimension(zona, nivel) {
     $('#' + zona + ' .ordenar_medida').children('option[value="-1"]').attr('selected', 'selected');
     //filtros();
 }
+
+function filtroRuta(filtros_obj){
+    var ruta = '';
+    //var filtros_obj = );
+    var cant_obj = filtros_obj.length;
+    $.each(filtros_obj, function(i, obj) {
+        if (i == (cant_obj - 1))
+            ruta += obj.etiqueta + ': ' + obj.valor;
+        else
+            ruta += '<A data="' + i + '">' + obj.etiqueta + ': ' + obj.valor + '</A> / ';
+    });
+    return ruta;
+}
 function descenderNivelDimension(zona, category) {
     if ($('#' + zona + ' .dimensiones option').length <= 1) {
         alert('No hay más niveles para descender');
@@ -113,8 +126,8 @@ function descenderNivelDimension(zona, category) {
             separador2 = '';
 
     // Construir la cadena de filtros
-    filtros = $filtro.attr('data');
-    filtro_a_agregar = '{"codigo":"' + $dimension.val() + '",' +
+    var filtros = $filtro.attr('data');
+    var filtro_a_agregar = '{"codigo":"' + $dimension.val() + '",' +
             '"etiqueta":"' + $dimension.html() + '",' +
             '"valor":"' + category + '"' +
             "}";
@@ -127,16 +140,7 @@ function descenderNivelDimension(zona, category) {
     filtros = filtros.replace(']', '');
     $filtro.attr('data', filtros + separador1 + filtro_a_agregar + ']');
 
-    ruta = '';
-    filtros_obj = jQuery.parseJSON($filtro.attr('data'));
-    cant_obj = filtros_obj.length;
-    $.each(filtros_obj, function(i, obj) {
-        if (i == (cant_obj - 1))
-            ruta += obj.etiqueta + ': ' + obj.valor;
-        else
-            ruta += '<A data="' + i + '">' + obj.etiqueta + ': ' + obj.valor + '</A> / ';
-    });
-
+    var ruta = filtroRuta(jQuery.parseJSON($filtro.attr('data')));
     $filtro.html(ruta);
 
     //Borrar la opcion del control de dimensiones
@@ -480,17 +484,42 @@ function alternar_favorito(zona, id_indicador) {
     );
 }
 
-function recuperarDimensiones(id_indicador, zona_g) {
-
+function recuperarDimensiones(id_indicador, datos) {
+    var zona_g = $('DIV.zona_actual').attr('id');
+    $('#' + zona_g + ' .controles').html('');
+    $('#' + zona_g + ' .filtros_dimensiones').attr('data', '');
+    $('#' + zona_g + ' .filtros_dimensiones').html('');
     $.getJSON(
             Routing.generate('indicador_dimensiones', {id: id_indicador}),
     function(resp) {
         //Construir el campo con las dimensiones disponibles
         if (resp.resultado === 'ok') {
-            
             $('#canvas').hide();
             dibujarControles(zona_g, resp);
-            dibujarGrafico(zona_g, $('#' + zona_g + ' .dimensiones').val());            
+            if (datos !==null){                
+                if(JSON.stringify(datos.filtro) !== '""'){
+                    var $filtro = $('#' + zona_g + ' .filtros_dimensiones');
+                    $filtro.attr('data', datos.filtro);
+                    filtro_obj = jQuery.parseJSON($filtro.attr('data'));
+                    var ruta = filtroRuta(filtro_obj);
+                    $filtro.html(ruta);
+                   
+                    for (i=0; i< filtro_obj.length; i++){
+                        //alert (datos.filtro[i].codigo);
+                        $('#' + zona_g + ' .dimensiones')
+                            .children('option[value=' + filtro_obj[i].codigo + ']')
+                            .remove();
+                    }
+                    
+                    $('#' + zona_g + ' .filtros_dimensiones A').click(function() {
+                        ascenderNivelDimension(zona_g, $(this).attr('data'));
+                    });
+                }
+                $('#' + zona_g + ' .titulo_indicador').attr('data-id', datos.idIndicador);
+                $('#' + zona_g + ' .dimensiones').val(datos.dimension);
+                $('#' + zona_g + ' .tipo_grafico_principal').val(datos.tipoGrafico);
+            }            
+            dibujarGrafico(zona_g, $('#' + zona_g + ' .dimensiones').val());
         }
 
     });

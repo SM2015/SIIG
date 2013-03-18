@@ -35,8 +35,15 @@ class FichaTecnicaAdminController extends Controller {
             $clasificacionUsoPorDefecto = $clasificacionUso[0];
         $categorias = $em->getRepository("IndicadoresBundle:ClasificacionTecnica")->findBy(array('clasificacionUso'=>$clasificacionUsoPorDefecto));
         
+        $usuarioSalas = $usuario->getGruposIndicadores();        
+        $i=0;
+        foreach($usuarioSalas as $sala){
+            $salas[$i]['datos_sala'] = $sala->getGrupoIndicadores();
+            $salas[$i]['indicadores_sala'] = $em->getRepository('IndicadoresBundle:GrupoIndicadores')
+                                                ->getIndicadoresSala($sala->getGrupoIndicadores());
+            $i++;
+        } 
         
-
         $usuarioIndicadores = ($usuario->hasRole('ROLE_SUPER_ADMIN')) ?
                 $em->getRepository("IndicadoresBundle:FichaTecnica")->findAll() :
                 $usuario->getIndicadores();
@@ -68,6 +75,7 @@ class FichaTecnicaAdminController extends Controller {
         return $this->render('IndicadoresBundle:FichaTecnicaAdmin:tablero.html.twig', array(
                     'categorias' => $categorias_indicador,
                     'clasificacionUso' => $clasificacionUso,
+                    'salas' => $salas,
                     'indicadores_no_clasificados' => $indicadores_no_clasificados
                 ));
     }
