@@ -311,6 +311,8 @@ class IndicadorController extends Controller {
             $indG->setFiltro($grafico->filtros);
             $indG->setIndicador($ind);
             $indG->setPosicion($grafico->posicion);
+            if (property_exists($grafico, 'orden'))
+                $indG->setOrden($grafico->orden);
             $indG->setTipoGrafico($grafico->tipo_grafico);
             $indG->setGrupo($grupoIndicadores);
             

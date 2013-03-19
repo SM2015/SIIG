@@ -52,7 +52,7 @@ class GrupoIndicadoresIndicador
     /**
      * @var string $posicion
      *
-     * @ORM\Column(name="posicion", type="integer", nullable=false)
+     * @ORM\Column(name="posicion", type="integer", nullable=true)
      */
     private $posicion;
     
@@ -62,6 +62,14 @@ class GrupoIndicadoresIndicador
      * @ORM\Column(name="tipo_grafico", type="string", length=50, nullable=false)
      */
     private $tipoGrafico;
+    
+    
+    /**
+     * @var string $orden
+     *
+     * @ORM\Column(name="orden", type="string", length=100, nullable=true)
+     */
+    private $orden;
 
     /**
      * Set dimension
@@ -209,5 +217,28 @@ class GrupoIndicadoresIndicador
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set orden
+     *
+     * @param string $orden
+     * @return GrupoIndicadoresIndicador
+     */
+    public function setOrden($orden)
+    {
+        $this->orden = $orden;
+    
+        return $this;
+    }
+
+    /**
+     * Get orden
+     *
+     * @return string 
+     */
+    public function getOrden()
+    {
+        return $this->orden;
     }
 }

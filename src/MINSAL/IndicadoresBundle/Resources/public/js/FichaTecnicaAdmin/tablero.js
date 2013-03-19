@@ -8,15 +8,15 @@ $(document).ready(function() {
     $('A.indicador').click(function() {
         dibujarIndicador($(this).attr('data-id'));
     });
-    
-    function dibujarIndicador(id_indicador){        
+
+    function dibujarIndicador(id_indicador) {
         recuperarDimensiones(id_indicador, null);
     }
-    
+
     $('#agregar_fila').click(function() {
         sala_agregar_fila();
     });
-    
+
     $('#quitar_indicador').click(function() {
         limpiarZona2($('DIV.zona_actual').attr('id'));
     });
@@ -63,7 +63,7 @@ $(document).ready(function() {
     $('#guardar_sala').click(function() {
         var arreglo_indicadores = [];
         var datos_sala = new Object();
-        
+
         var nombre_sala = $('#nombre_sala').val();
         if (nombre_sala === '') {
             alert('Ingrese un nombre de sala');
@@ -77,11 +77,12 @@ $(document).ready(function() {
                 datos.filtros = $(this).children('.filtros_dimensiones').attr('data');
                 datos.dimension = $('#' + $(this).attr('id') + ' .dimensiones').val();
                 datos.tipo_grafico = $('#' + $(this).attr('id') + ' .tipo_grafico_principal').val();
+                datos.orden = $(this).attr('orden');
                 datos.posicion = $(this).attr('id').split('_')[1];
                 arreglo_indicadores[i] = datos;
                 i++;
             }
-            
+
         });
         datos_sala.nombre = $('#nombre_sala').val();
         datos_sala.id = $('#nombre_sala').attr('id-sala');
@@ -89,43 +90,43 @@ $(document).ready(function() {
 
         $.getJSON(Routing.generate('sala_guardar'), {datos: JSON.stringify(datos_sala)},
         function(resp) {
-           if(resp.estado === 'ok'){
-               $('#nombre_sala').attr('id-sala', resp.id_sala);
-               $('#nombre_sala2').html('<h4>Nombre de sala: '+$('#nombre_sala').val()+'</h4>');
-               $('#myModal').modal('toggle');
-               //$('#info_sala').html('_sala_guardada_').addClass('success');
-           }
-           else{
-               $('#info_sala').html('_error_guardar_sala_').addClass('error');
-           }
-               
+            if (resp.estado === 'ok') {
+                $('#nombre_sala').attr('id-sala', resp.id_sala);
+                $('#nombre_sala2').html('<h4>Nombre de sala: ' + $('#nombre_sala').val() + '</h4>');
+                $('#myModal').modal('toggle');
+                //$('#info_sala').html('_sala_guardada_').addClass('success');
+            }
+            else {
+                $('#info_sala').html('_error_guardar_sala_').addClass('error');
+            }
+
         });
     });
-    
-    $('.salas-id').click(function(){
+
+    $('.salas-id').click(function() {
         $('#nombre_sala').attr('id-sala', $(this).attr('sala-id'));
         $('#nombre_sala').val($(this).attr('sala-nombre'));
-        $('#nombre_sala2').html('<h4>Nombre de sala: '+$(this).attr('sala-nombre')+'</h4>');
-        
+        $('#nombre_sala2').html('<h4>Nombre de sala: ' + $(this).attr('sala-nombre') + '</h4>');
+
         var graficos = JSON.parse($(this).attr('data'));
         var max_id = 0;
-        for(i=0; i<graficos.length;i++) {
-            if (parseInt(graficos[i].posicion) > max_id) 
+        for (i = 0; i < graficos.length; i++) {
+            if (parseInt(graficos[i].posicion) > max_id)
                 max_id = graficos[i].posicion;
         }
 
         $('.fila_sala').remove();
-        
-        var filas = Math.ceil(max_id/3);
-        for(i=1;i<=filas;i++){
+
+        var filas = Math.ceil(max_id / 3);
+        for (i = 1; i <= filas; i++) {
             sala_agregar_fila();
         }
-        
-        for(i=0; i<graficos.length;i++) {
+
+        for (i = 0; i < graficos.length; i++) {
             $('DIV.zona_actual').removeClass('zona_actual');
-            $('#grafico_'+graficos[i].posicion).addClass('zona_actual');
+            $('#grafico_' + graficos[i].posicion).addClass('zona_actual');
 
             recuperarDimensiones(graficos[i].idIndicador, graficos[i]);
         }        
-    });
+    });   
 });

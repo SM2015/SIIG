@@ -170,7 +170,7 @@ function dibujarGrafico(zona, dimension) {
         //datasetPrincipal_bk = datasetPrincipal;
 
         dibujarGraficoPrincipal(zona, $('#' + zona + ' .tipo_grafico_principal').val());
-        controles_filtros(zona);
+        controles_filtros(zona);        
     });
 
 }
@@ -184,6 +184,7 @@ function ordenarDatos(zona, ordenar_por, modo_orden) {
         $('#'+zona+' .ordenar_dimension').children('option[value="-1"]').attr('selected', 'selected');
 
     cerrarMenus();
+    $('#'+zona).attr('orden','[{"tipo":"'+ordenar_por+'", "modo": "'+modo_orden+'"}]');            
     var grafico = crearGraficoObj(zona, $('#' + zona + ' .tipo_grafico_principal').val());
     grafico.ordenar(modo_orden, ordenar_por);
     var datasetPrincipal = JSON.parse($('#' + zona).attr('datasetPrincipal'));
@@ -499,7 +500,7 @@ function limpiarZona2(zona){
             .attr('rangos_alertas','')
             .attr('data-id','')
             .attr('data-max_rango','')
-            .attr('datasetprincipal','')
+    $('#'+zona).attr('datasetprincipal','')
             .attr('datasetprincipal_bk','');
     $('#'+zona+' .grafico').html('');
     $('#'+zona+' .dimension').html('');
@@ -515,7 +516,7 @@ function recuperarDimensiones(id_indicador, datos) {
         if (resp.resultado === 'ok') {
             $('#canvas').hide();
             dibujarControles(zona_g, resp);
-            if (datos !==null){                
+            if (datos !==null){
                 if(JSON.stringify(datos.filtro) !== '""'){
                     var $filtro = $('#' + zona_g + ' .filtros_dimensiones');
                     $filtro.attr('data', datos.filtro);
@@ -524,7 +525,6 @@ function recuperarDimensiones(id_indicador, datos) {
                     $filtro.html(ruta);
                    
                     for (i=0; i< filtro_obj.length; i++){
-                        //alert (datos.filtro[i].codigo);
                         $('#' + zona_g + ' .dimensiones')
                             .children('option[value=' + filtro_obj[i].codigo + ']')
                             .remove();
@@ -535,9 +535,10 @@ function recuperarDimensiones(id_indicador, datos) {
                     });
                 }
                 $('#' + zona_g + ' .titulo_indicador').attr('data-id', datos.idIndicador);
+                $('#' + zona_g).attr('orden', datos.orden);
                 $('#' + zona_g + ' .dimensiones').val(datos.dimension);
                 $('#' + zona_g + ' .tipo_grafico_principal').val(datos.tipoGrafico);
-            }            
+            }
             dibujarGrafico(zona_g, $('#' + zona_g + ' .dimensiones').val());
         }
 
