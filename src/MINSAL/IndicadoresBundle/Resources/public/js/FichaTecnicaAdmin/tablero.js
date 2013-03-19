@@ -16,6 +16,10 @@ $(document).ready(function() {
     $('#agregar_fila').click(function() {
         sala_agregar_fila();
     });
+    
+    $('#quitar_indicador').click(function() {
+        limpiarZona2($('DIV.zona_actual').attr('id'));
+    });
 
     function ver_ficha_tecnica(id_indicador) {
         $.get(Routing.generate('get_indicador_ficha', {id: id_indicador}));

@@ -484,11 +484,30 @@ function alternar_favorito(zona, id_indicador) {
     );
 }
 
+function limpiarZona(zona){
+    $('#' + zona + ' .controles').html('');
+    $('#' + zona + ' .filtros_dimensiones').attr('data', '');
+    $('#' + zona + ' .filtros_dimensiones').html('');
+}
+
+function limpiarZona2(zona){
+    limpiarZona(zona);
+    $('#'+zona+' .titulo_indicador')
+            .html('')
+            .attr('data-unidad-medida','')
+            .attr('formula','')
+            .attr('rangos_alertas','')
+            .attr('data-id','')
+            .attr('data-max_rango','')
+            .attr('datasetprincipal','')
+            .attr('datasetprincipal_bk','');
+    $('#'+zona+' .grafico').html('');
+    $('#'+zona+' .dimension').html('');
+    $('#'+zona+' .controlesDimension').html('');    
+}
 function recuperarDimensiones(id_indicador, datos) {
     var zona_g = $('DIV.zona_actual').attr('id');
-    $('#' + zona_g + ' .controles').html('');
-    $('#' + zona_g + ' .filtros_dimensiones').attr('data', '');
-    $('#' + zona_g + ' .filtros_dimensiones').html('');
+    limpiarZona(zona_g);
     $.getJSON(
             Routing.generate('indicador_dimensiones', {id: id_indicador}),
     function(resp) {
