@@ -100,7 +100,7 @@ graficoLineas = function(ubicacion, datos, colorChosen, categoryChoosen) {
     };
     this.ordenar = function(modo_orden, ordenar_por) {
         var svg = d3.select("#" + zona + ' .grafico ');
-        // Copy-on-write since tweens are evaluated after a delay.
+        
         var datos_ordenados = ordenarArreglo(currentDatasetChart, ordenar_por, modo_orden);
         var x0 = xScale.domain(datos_ordenados.map(function(d) {
                 return d.category;

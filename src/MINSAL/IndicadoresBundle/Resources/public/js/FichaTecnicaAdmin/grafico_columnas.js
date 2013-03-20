@@ -102,9 +102,9 @@ graficoColumnas = function(ubicacion, datos, colorChosen, categoryChoosen) {
             plot.selectAll("rect").attr("fill", colorChosen);
     };
     this.ordenar = function(modo_orden, ordenar_por) {
-        //clearTimeout(sortTimeout);
+        
         var svg = d3.select("#" + zona + ' .grafico');
-        // Copy-on-write since tweens are evaluated after a delay.
+        
         var datos_ordenados = ordenarArreglo(currentDatasetChart, ordenar_por, modo_orden);
         var x0 = xScale.domain(datos_ordenados.map(function(d) {
                 return d.category;

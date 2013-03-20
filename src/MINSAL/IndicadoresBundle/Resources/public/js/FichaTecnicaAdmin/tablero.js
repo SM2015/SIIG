@@ -35,25 +35,26 @@ $(document).ready(function() {
     }
 
     function sala_agregar_fila() {
-        var html = '<div class="row-fluid fila_sala" >';
         var cant = $('DIV.area_grafico').length;
-        for (i = cant + 1; i <= cant + 3; i++) {
-            html +=
-                    '<div class="span4 area_grafico" id="grafico_' + i + '" >' +
-                    '<h3 class="titulo_indicador"></h3>' +
-                    '<h6 class="filtros_dimensiones"></h6>' +
-                    '<div class="controles btn-toolbar"></div>' +
-                    '<div class="row-fluid info" ></div>' +
-                    '<div class="row-fluid" >' +
-                    '<div class="grafico" ></div>' +
-                    '</div>' +
-                    '<div class="row-fluid" >' +
-                    '<div class="span4 dimension" style="text-align: right"></div>' +
-                    '<div class="controlesDimension span4"></div>' +
-                    '</div>' +
+        var html = '<div class="row-fluid fila_sala" >';
+        for (var ii = cant + 1; ii <= cant + 3; ii++) {
+            html = html + 
+                    '<div class="span4 area_grafico" id="grafico_' + ii + '" >' +
+                        '<h3 class="titulo_indicador"></h3>' +
+                        '<h6 class="filtros_dimensiones"></h6>' +
+                        '<div class="controles btn-toolbar"></div>' +
+                        '<div class="row-fluid info" ></div>' +
+                        '<div class="row-fluid" >' +
+                            '<div class="grafico" ></div>' +
+                        '</div>' +
+                        '<div class="row-fluid" >' +
+                            '<div class="span4 dimension" style="text-align: right"></div>' +
+                            '<div class="controlesDimension span4"></div>' +
+                        '</div>' +
                     '</div>';
         }
         html += '</div>';
+        
         $('#sala').append(html);
         $('DIV.area_grafico').click(function() {
             zona_elegir(this);

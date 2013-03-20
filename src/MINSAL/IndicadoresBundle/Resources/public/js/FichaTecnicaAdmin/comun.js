@@ -98,6 +98,7 @@ function ascenderNivelDimension(zona, nivel) {
     });
 
     dibujarGrafico(zona, $('#' + zona + ' .dimensiones').val());
+    $('#'+zona).attr('orden',null);
     $('#' + zona + ' .ordenar_dimension').children('option[value="-1"]').attr('selected', 'selected');
     $('#' + zona + ' .ordenar_medida').children('option[value="-1"]').attr('selected', 'selected');
     //filtros();
@@ -151,6 +152,7 @@ function descenderNivelDimension(zona, category) {
     });
 
     dibujarGrafico(zona, $('#' + zona + ' .dimensiones').val());
+    $('#'+zona).attr('orden',null);
     $('#' + zona + ' .ordenar_dimension').children('option[value="-1"]').attr('selected', 'selected');
     $('#' + zona + '.ordenar_medida').children('option[value="-1"]').attr('selected', 'selected');
     //filtros()
@@ -214,6 +216,7 @@ function aplicarFiltro(zona) {
         $('#' + zona).attr('datasetPrincipal', JSON.stringify(resp.datos));
         dibujarGraficoPrincipal(zona, $('#'+zona+' .tipo_grafico_principal').val());
     }, 'json');
+    $('#'+zona).attr('orden','');
 }
 
 function controles_filtros(zona) {
@@ -435,6 +438,7 @@ function dibujarControles(zona, datos) {
         $('#' + zona + ' .ordenar_dimension').children('option[value="-1"]').attr('selected', 'selected');
         $('#' + zona + ' .ordenar_medida').children('option[value="-1"]').attr('selected', 'selected');
         dibujarGrafico(zona, $(this).val());
+        $('#'+zona).attr('orden',null);
     });
 
     $('#' + zona + ' .tipo_grafico_principal').change(function() {
@@ -497,6 +501,7 @@ function limpiarZona(zona){
     $('#' + zona + ' .controles').html('');
     $('#' + zona + ' .filtros_dimensiones').attr('data', '');
     $('#' + zona + ' .filtros_dimensiones').html('');
+    $('#' + zona).attr('orden',null);
 }
 
 function limpiarZona2(zona){
