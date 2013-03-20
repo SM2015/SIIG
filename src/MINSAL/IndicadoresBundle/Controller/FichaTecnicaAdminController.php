@@ -37,6 +37,7 @@ class FichaTecnicaAdminController extends Controller {
         
         $usuarioSalas = $usuario->getGruposIndicadores();        
         $i=0;
+        $salas=array();
         foreach($usuarioSalas as $sala){
             $salas[$i]['datos_sala'] = $sala->getGrupoIndicadores();
             $salas[$i]['indicadores_sala'] = $em->getRepository('IndicadoresBundle:GrupoIndicadores')
