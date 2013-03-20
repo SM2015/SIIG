@@ -102,7 +102,11 @@ $(document).ready(function() {
 
         });
     });
-
+    function pausecomp(ms) {
+        ms += new Date().getTime();
+        while (new Date() < ms) {
+        }
+    }
     $('.salas-id').click(function() {
         $('#nombre_sala').attr('id-sala', $(this).attr('sala-id'));
         $('#nombre_sala').val($(this).attr('sala-nombre'));
@@ -127,6 +131,6 @@ $(document).ready(function() {
             $('#grafico_' + graficos[i].posicion).addClass('zona_actual');
 
             recuperarDimensiones(graficos[i].idIndicador, graficos[i]);
-        }        
+        }
     });   
 });

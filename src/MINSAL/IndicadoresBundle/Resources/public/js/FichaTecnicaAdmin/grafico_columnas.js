@@ -105,35 +105,14 @@ graficoColumnas = function(ubicacion, datos, colorChosen, categoryChoosen) {
         //clearTimeout(sortTimeout);
         var svg = d3.select("#" + zona + ' .grafico');
         // Copy-on-write since tweens are evaluated after a delay.
-        if (ordenar_por === 'dimension')
-            var x0 = xScale.domain(currentDatasetChart.sort(
-                    (modo_orden === 'asc') ?
-                    function(a, b) {
-                        return d3.ascending((isNaN(a.category)) ? a.category : parseFloat(a.category), (isNaN(b.category)) ? b.category : parseFloat(b.category));
-                    } :
-                    function(a, b) {
-                        return d3.descending((isNaN(a.category)) ? a.category : parseFloat(a.category), (isNaN(b.category)) ? b.category : parseFloat(b.category));
-                    }
-            ).map(function(d) {
+        var datos_ordenados = ordenarArreglo(currentDatasetChart, ordenar_por, modo_orden);
+        var x0 = xScale.domain(datos_ordenados.map(function(d) {
                 return d.category;
-            }))
-                    .copy();
-        else
-            var x0 = xScale.domain(currentDatasetChart.sort(
-                    (modo_orden == 'asc') ? function(a, b) {
-                return d3.ascending(parseFloat(a.measure), parseFloat(b.measure));
-            } :
-                    function(a, b) {
-                        return d3.descending(parseFloat(a.measure), parseFloat(b.measure));
-                    }
-            )
-                    .map(function(d) {
-                return d.category;
-            }))
-                    .copy();
+            })).copy();
+
         var transition = svg.transition().duration(750),
                 delay = function(d, i) {
-            return i * 70;
+            return i * 40;
         };
         
         transition.selectAll("#"+ubicacion+" rect")

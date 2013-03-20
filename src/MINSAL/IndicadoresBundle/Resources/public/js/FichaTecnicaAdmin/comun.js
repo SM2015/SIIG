@@ -164,11 +164,19 @@ function dibujarGrafico(zona, dimension) {
             {id: $('#' + zona + ' .titulo_indicador').attr('data-id'), dimension: dimension}),
     {filtro: filtro},
     function(resp) {
-        $('#' + zona).attr('datasetPrincipal', JSON.stringify(resp.datos));
-        $('#' + zona).attr('datasetPrincipal_bk', JSON.stringify(resp.datos));
-        //datasetPrincipal = resp.datos;
-        //datasetPrincipal_bk = datasetPrincipal;
-
+        var datos = JSON.stringify(resp.datos);
+        $('#' + zona).attr('datasetPrincipal_bk', datos);
+        
+        if ($('#' + zona).attr('orden') !== undefined && $('#' + zona).attr('orden') !== null){
+            if ($('#' + zona).attr('orden-aplicado') !== 'true'){
+                var ordenobj = JSON.parse($('DIV.zona_actual').attr('orden'));
+                datos = JSON.stringify(ordenarArreglo(resp.datos, ordenobj[0].tipo, ordenobj[0].modo));
+                $('DIV.zona_actual').attr('orden-aplicado','true');
+            }
+        }
+        
+        $('#' + zona).attr('datasetPrincipal', datos);        
+        
         dibujarGraficoPrincipal(zona, $('#' + zona + ' .tipo_grafico_principal').val());
         controles_filtros(zona);        
     });
@@ -536,11 +544,35 @@ function recuperarDimensiones(id_indicador, datos) {
                 }
                 $('#' + zona_g + ' .titulo_indicador').attr('data-id', datos.idIndicador);
                 $('#' + zona_g).attr('orden', datos.orden);
+                $('#' + zona_g).attr('orden-aplicado', 'false');
                 $('#' + zona_g + ' .dimensiones').val(datos.dimension);
                 $('#' + zona_g + ' .tipo_grafico_principal').val(datos.tipoGrafico);
             }
             dibujarGrafico(zona_g, $('#' + zona_g + ' .dimensiones').val());
         }
 
-    });
+    });  
+}
+
+function ordenarArreglo(datos, ordenar_por, modo_orden){
+    if (ordenar_por === 'dimension')
+        var datos_ordenados = datos.sort(
+                (modo_orden === 'asc') ?
+                function(a, b) {
+                    return d3.ascending((isNaN(a.category)) ? a.category : parseFloat(a.category), (isNaN(b.category)) ? b.category : parseFloat(b.category));
+                } :
+                function(a, b) {
+                    return d3.descending((isNaN(a.category)) ? a.category : parseFloat(a.category), (isNaN(b.category)) ? b.category : parseFloat(b.category));
+                }
+        );
+    else
+        var datos_ordenados = datos.sort(
+                (modo_orden === 'asc') ? function(a, b) {
+            return d3.ascending(parseFloat(a.measure), parseFloat(b.measure));
+        } :
+                function(a, b) {
+                    return d3.descending(parseFloat(a.measure), parseFloat(b.measure));
+                }
+        );
+    return datos_ordenados;
 }
