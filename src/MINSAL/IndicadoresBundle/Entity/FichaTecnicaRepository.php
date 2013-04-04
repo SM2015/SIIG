@@ -180,7 +180,7 @@ class FichaTecnicaRepository extends EntityRepository {
         return $sql;
     }
 
-    public function calcularIndicador(FichaTecnica $fichaTecnica, $dimension, $filtro_registros = null) {
+    public function calcularIndicador(FichaTecnica $fichaTecnica, $dimension, $filtro_registros = null, $ver_sql=false) {
         $util = new \MINSAL\IndicadoresBundle\Util\Util();
         $acumulado = $fichaTecnica->getEsAcumulado();
         $formula = strtolower($fichaTecnica->getFormula());
@@ -255,7 +255,10 @@ class FichaTecnicaRepository extends EntityRepository {
             HAVING (($formula)::numeric) > 0 
             ORDER BY $dimension";
         try {
-            return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
+            if ($ver_sql == true)
+                return $sql;
+            else
+                return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
         } catch (\PDOException $e) {
             return $e->getMessage();
         } catch (\Doctrine\DBAL\DBALException $e) {

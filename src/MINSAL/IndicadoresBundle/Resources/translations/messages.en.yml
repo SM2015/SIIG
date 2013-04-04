@@ -231,6 +231,7 @@ javascript:
   indicador: 'Indicator'
   descargar_grafico: 'Download Chart'
   opciones: 'Options'
+  ver_sql: 'View SQL'
 
 validacion:
   requerido: This field is required

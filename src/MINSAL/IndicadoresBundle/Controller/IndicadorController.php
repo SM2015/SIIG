@@ -62,6 +62,8 @@ class IndicadorController extends Controller {
 
         $resp = array();
         $filtro = $this->getRequest()->get('filtro');
+        $verSql = ($this->getRequest()->get('ver_sql') == 'true')? true: false;
+        
         if ($filtro == null or $filtro == '')
             $filtros = null;
         else {
@@ -82,7 +84,7 @@ class IndicadorController extends Controller {
 
 
         $fichaRepository->crearIndicador($fichaTec, $dimension, $filtros);
-        $resp['datos'] = $fichaRepository->calcularIndicador($fichaTec, $dimension, $filtros);
+        $resp['datos'] = $fichaRepository->calcularIndicador($fichaTec, $dimension, $filtros, $verSql);
         $response = new Response(json_encode($resp));
         if ($this->get('kernel')->getEnvironment() != 'dev')
             $response->setMaxAge($this->container->getParameter('indicador_cache_consulta'));
@@ -244,6 +246,12 @@ class IndicadorController extends Controller {
         return new Response();
     }
 
+    /**
+     * @Route("/indicador/datos/{id}/{dimension}", name="indicador_ver_sql", options={"expose"=true})
+     */
+    public function getSQLAction($id) {
+        //$this->getDatos();
+    }
     /**
      * @Route("/indicador/{id}/ficha", name="get_indicador_ficha", options={"expose"=true})
      */

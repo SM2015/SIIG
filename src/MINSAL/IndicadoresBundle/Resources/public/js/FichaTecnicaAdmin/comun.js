@@ -164,7 +164,7 @@ function dibujarGrafico(zona, dimension) {
     var filtro = $('#' + zona + ' .filtros_dimensiones').attr('data');
     $.getJSON(Routing.generate('indicador_datos',
             {id: $('#' + zona + ' .titulo_indicador').attr('data-id'), dimension: dimension}),
-    {filtro: filtro},
+    {filtro: filtro, ver_sql: false},
     function(resp) {
         var datos = JSON.stringify(resp.datos);
         $('#' + zona).attr('datasetPrincipal_bk', datos);
@@ -340,6 +340,7 @@ function dibujarControles(zona, datos) {
             '<li><A class="ver_ficha_tecnica" '
             + ' href="' + Routing.generate('get_indicador_ficha', {id: datos.id_indicador}) + '"><i class="icon-briefcase"></i> ' + trans.ver_ficha_tecnica + '</A></li>' +
             '<li><A class="ver_tabla_datos" ><i class="icon-list-alt" ></i> ' + trans.tabla_datos + ' </A></li>' +
+            '<li><A class="ver_sql" ><i class="icon-eye-open" ></i> ' + trans.ver_sql + ' </A></li>' +
             '<li><A class="ver_imagen" ><i class="icon-picture"></i> ' + trans.descargar_grafico + '</A></li>' +
             '<li><A class="agregar_como_favorito" data-indicador="' + datos.id_indicador + '" >';
     if ($('#fav-' + datos.id_indicador).length === 0)
@@ -452,6 +453,20 @@ function dibujarControles(zona, datos) {
     $('#' + zona + ' .ver_tabla_datos').click(function() {
         $('#' + zona + ' .info').toggle();
         cerrarMenus();
+    });
+    
+    $('#' + zona + ' .ver_sql').click(function() {
+        var filtro = $('#' + zona + ' .filtros_dimensiones').attr('data');
+        var dimension = $('#' + zona + ' .dimensiones').val();
+                
+        $.getJSON(Routing.generate('indicador_ver_sql',
+                {id: $('#' + zona + ' .titulo_indicador').attr('data-id'), dimension: dimension}),
+        {filtro: filtro, ver_sql: true},
+        function(resp) {
+            $('#myModalLabel2').html($('#' + zona + ' .titulo_indicador').html());
+            $('#sql').html(resp.datos);
+            $('#myModal2').modal('show')
+        });
     });
 
     $('#' + zona + ' .ver_imagen').click(function() {

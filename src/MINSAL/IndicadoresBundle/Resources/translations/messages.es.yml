@@ -238,6 +238,7 @@ javascript:
   indicador: 'Indicador'
   descargar_grafico: 'Descargar Gráfico'
   opciones: 'Opciones'
+  ver_sql: 'Ver SQL'
 
 validacion:
   requerido: Este dato es requerido
