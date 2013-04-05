@@ -168,10 +168,12 @@ function dibujarGrafico(zona, dimension) {
     function(resp) {
         var datos = JSON.stringify(resp.datos);
         $('#' + zona).attr('datasetPrincipal_bk', datos);
-        
-        if ($('#' + zona).attr('orden') !== undefined && $('#' + zona).attr('orden') !== null){
+        if ($('#' + zona).attr('orden') !== undefined 
+                && $('#' + zona).attr('orden') !== null
+                && $('#' + zona).attr('orden') !== '')
+        {
             if ($('#' + zona).attr('orden-aplicado') !== 'true'){
-                var ordenobj = JSON.parse($('DIV.zona_actual').attr('orden'));
+                var ordenobj = JSON.parse($('#' + zona).attr('orden'));
                 datos = JSON.stringify(ordenarArreglo(resp.datos, ordenobj[0].tipo, ordenobj[0].modo));
                 $('DIV.zona_actual').attr('orden-aplicado','true');
             }
@@ -217,6 +219,7 @@ function aplicarFiltro(zona) {
         dibujarGraficoPrincipal(zona, $('#'+zona+' .tipo_grafico_principal').val());
     }, 'json');
     $('#'+zona).attr('orden','');
+    $('#' + zona + ' .titulo_indicador').attr('filtro-elementos','');
 }
 
 function controles_filtros(zona) {
@@ -249,7 +252,15 @@ function controles_filtros(zona) {
         $('#' + zona).attr('datasetPrincipal', $('#' + zona).attr('datasetPrincipal_bk'))        
         dibujarGraficoPrincipal(zona, $('#'+zona+' .tipo_grafico_principal').val());
     });
+    if ($('#' + zona + ' .titulo_indicador').attr('filtro-elementos') !== '' ){            
+        var filtroElementos = $('#' + zona + ' .titulo_indicador').attr('filtro-elementos').split(',');
+        for(var j = 0; j<filtroElementos.length; j++){
+            $('#'+ zona +' .capa_dimension_valores input[value="'+filtroElementos[j]+'"]').attr('checked', true);
+        }
+        aplicarFiltro(zona);
+    }
 }
+
 function cerrarMenus() {
     $('.open').each(function(i, nodo) {
         $(nodo).removeClass('open');
@@ -290,6 +301,7 @@ function dibujarControles(zona, datos) {
             .attr('data-unidad-medida', datos.unidad_medida)
             .attr('formula', datos.formula)
             .attr('data-id', datos.id_indicador)
+            .attr('filtro-elementos', '')
             .attr('rangos_alertas', JSON.stringify(datos.rangos));
 
     var combo_dimensiones = trans.cambiar_dimension + ": <SELECT class='dimensiones' name='dimensiones'>";
@@ -566,6 +578,9 @@ function recuperarDimensiones(id_indicador, datos) {
                 $('#' + zona_g).attr('orden', datos.orden);
                 $('#' + zona_g).attr('orden-aplicado', 'false');
                 $('#' + zona_g + ' .dimensiones').val(datos.dimension);
+                $('#' + zona_g + ' .filtro_desde').val(datos.filtroPosicionDesde);
+                $('#' + zona_g + ' .filtro_hasta').val(datos.filtroPosicionHasta);
+                $('#' + zona_g + ' .titulo_indicador').attr('filtro-elementos', datos.filtroElementos);                
                 $('#' + zona_g + ' .tipo_grafico_principal').val(datos.tipoGrafico);
             }
             dibujarGrafico(zona_g, $('#' + zona_g + ' .dimensiones').val());
