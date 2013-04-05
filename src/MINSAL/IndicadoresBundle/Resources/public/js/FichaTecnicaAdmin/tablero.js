@@ -70,12 +70,20 @@ $(document).ready(function() {
             alert('Ingrese un nombre de sala');
             return;
         }
-        var i = 0;
+        var i = 0;        
         $('.area_grafico').each(function() {
             if ($(this).children('.titulo_indicador').html() !== '') {
                 var datos = new Object();
+                var elementos = [];
+                $('#'+ $(this).attr('id') +' .capa_dimension_valores input:checked').each(function() {
+                    elementos.push($(this).val());
+                }); 
+                
                 datos.id_indicador = $(this).children('.titulo_indicador').attr('data-id');
                 datos.filtros = $(this).children('.filtros_dimensiones').attr('data');
+                datos.filtro_desde = $('#'+$(this).attr('id')+' .filtro_desde').val();
+                datos.filtro_hasta = $('#'+$(this).attr('id')+' .filtro_hasta').val();
+                datos.filtro_elementos = elementos.toString();
                 datos.dimension = $('#' + $(this).attr('id') + ' .dimensiones').val();
                 datos.tipo_grafico = $('#' + $(this).attr('id') + ' .tipo_grafico_principal').val();
                 datos.orden = $(this).attr('orden');

@@ -305,11 +305,8 @@ class IndicadorController extends Controller {
         else {
             $grupoIndicadores = new \MINSAL\IndicadoresBundle\Entity\GrupoIndicadores();
         }
-            
-        
-        $grupoIndicadores->setNombre($sala->nombre);
-        
-        
+                    
+        $grupoIndicadores->setNombre($sala->nombre);        
         
         foreach($sala->datos_indicadores as $grafico){
             $indG = new \MINSAL\IndicadoresBundle\Entity\GrupoIndicadoresIndicador();
@@ -317,6 +314,9 @@ class IndicadorController extends Controller {
             
             $indG->setDimension($grafico->dimension);
             $indG->setFiltro($grafico->filtros);
+            $indG->setFiltroPosicionDesde($grafico->filtro_desde);
+            $indG->setFiltroPosicionHasta($grafico->filtro_hasta);
+            $indG->setFiltroElementos($grafico->filtro_elementos);
             $indG->setIndicador($ind);
             $indG->setPosicion($grafico->posicion);
             if (property_exists($grafico, 'orden'))

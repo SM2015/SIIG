@@ -45,9 +45,30 @@ class GrupoIndicadoresIndicador
     /**
      * @var string $filtro
      *
-     * @ORM\Column(name="filtro", type="string", length=500, nullable=false)
+     * @ORM\Column(name="filtro", type="string", length=500, nullable=true)
      */
     private $filtro;
+    
+    /**
+     * @var string $posicionDesde
+     *
+     * @ORM\Column(name="filtro_posicion_desde", type="string", length=10, nullable=true)
+     */
+    private $filtroPosicionDesde;
+    
+    /**
+     * @var string $posicionHasta
+     *
+     * @ORM\Column(name="filtro_posicion_hasta", type="string", length=10, nullable=true)
+     */
+    private $filtroPosicionHasta;
+    
+    /**
+     * @var string $filtroElementos
+     *
+     * @ORM\Column(name="filtro_elementos", type="text", nullable=true)
+     */
+    private $filtroElementos;
     
     /**
      * @var string $posicion
@@ -240,5 +261,76 @@ class GrupoIndicadoresIndicador
     public function getOrden()
     {
         return $this->orden;
+    }
+
+    /**
+     * Set filtroPosicionDesde
+     *
+     * @param string $filtroPosicionDesde
+     * @return GrupoIndicadoresIndicador
+     */
+    public function setFiltroPosicionDesde($filtroPosicionDesde)
+    {
+        $this->filtroPosicionDesde = $filtroPosicionDesde;
+    
+        return $this;
+    }
+
+    /**
+     * Get filtroPosicionDesde
+     *
+     * @return string 
+     */
+    public function getFiltroPosicionDesde()
+    {
+        return $this->filtroPosicionDesde;
+    }
+
+    /**
+     * Set filtroPosicionHasta
+     *
+     * @param string $filtroPosicionHasta
+     * @return GrupoIndicadoresIndicador
+     */
+    public function setFiltroPosicionHasta($filtroPosicionHasta)
+    {
+        $this->filtroPosicionHasta = $filtroPosicionHasta;
+    
+        return $this;
+    }
+
+    /**
+     * Get filtroPosicionHasta
+     *
+     * @return string 
+     */
+    public function getFiltroPosicionHasta()
+    {
+        return $this->filtroPosicionHasta;
+    }
+
+    
+
+    /**
+     * Set filtroElementos
+     *
+     * @param string $filtroElementos
+     * @return GrupoIndicadoresIndicador
+     */
+    public function setFiltroElementos($filtroElementos)
+    {
+        $this->filtroElementos = $filtroElementos;
+    
+        return $this;
+    }
+
+    /**
+     * Get filtroElementos
+     *
+     * @return string 
+     */
+    public function getFiltroElementos()
+    {
+        return $this->filtroElementos;
     }
 }
