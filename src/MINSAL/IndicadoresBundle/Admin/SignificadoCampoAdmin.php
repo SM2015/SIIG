@@ -27,9 +27,13 @@ class SignificadoCampoAdmin extends Admin {
                     'choices' => $this->repository->getCatalogos()
 
                 ))
-                ->add('nombreMapa', null, array('label' => $this->getTranslator()->trans('nombre_archivo_mapa')))
-
-        ;
+                ->with($this->getTranslator()->trans('_datos_geograficos_'), array('collapsed' => false))
+                    ->add('nombreMapa', null, array('label' => $this->getTranslator()->trans('nombre_archivo_mapa')))
+                    ->add('escala', null, array('label' => $this->getTranslator()->trans('_escala_')))
+                    ->add('origenX', null, array('label' => $this->getTranslator()->trans('_origen_x_')))
+                    ->add('origenY', null, array('label' => $this->getTranslator()->trans('_origen_y_')))
+                ->end()
+                ;
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper) {

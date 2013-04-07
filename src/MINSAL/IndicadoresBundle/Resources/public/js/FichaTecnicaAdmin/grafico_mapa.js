@@ -3,7 +3,7 @@ graficoMapa = function(ubicacion, datos, colorChosen, categoryChoosen) {
     // Esta variable me permite asociar el elmento del gráfico con los códigos utilizados
     // por los departamentos
     this.dibujar = function() {
-        var dimension = $('#' + ubicacion + ' .dimensiones').val();
+        var dimension = $('#' + ubicacion + ' .dimensiones').val();                
         var elemento_id_codigo = new Object();
 
         var width = 400,
@@ -21,10 +21,20 @@ graficoMapa = function(ubicacion, datos, colorChosen, categoryChoosen) {
         $.each(categorias, function(i, nodo) {            
             arreglo_datos[nodo] = medidas[i];
         });
-
+        //Recuperar las coordenadas a utilizar 
+        var coordenadas = $('#' + ubicacion + ' .dimensiones option[value="'+dimension+'"]');
+        coordenadas = $(coordenadas[0]);
+        if (coordenadas.attr('data-escala') === 'null'
+            || coordenadas.attr('data-x') === 'null'
+            || coordenadas.attr('data-y') === 'null'){
+                alert(trans.no_mapa);
+                $('#' + ubicacion + ' .tipo_grafico_principal').val('columnas');
+                dibujarGrafico(ubicacion, $('#' + ubicacion + ' .dimensiones').val());
+                return;
+        }
         var projection = d3.geo.albers()
-                .scale(9000)
-                .origin([-88.9, 13.7])
+                .scale(coordenadas.attr('data-escala'))
+                .origin([coordenadas.attr('data-x'), coordenadas.attr('data-y')])
                 .translate([0, 0]);
 
         var path = d3.geo.path()

@@ -28,7 +28,10 @@ class IndicadorController extends Controller {
             foreach ($campos as $campo) {
                 $significado = $em->getRepository('IndicadoresBundle:SignificadoCampo')
                         ->findOneByCodigo($campo);                
-                $dimensiones[$significado->getCodigo()] = ucfirst(preg_replace('/^Identificador /i', '', $significado->getDescripcion()));
+                $dimensiones[$significado->getCodigo()]['descripcion'] = ucfirst(preg_replace('/^Identificador /i', '', $significado->getDescripcion()));
+                $dimensiones[$significado->getCodigo()]['escala'] = $significado->getEscala();
+                $dimensiones[$significado->getCodigo()]['origenX'] = $significado->getOrigenX();
+                $dimensiones[$significado->getCodigo()]['origenY'] = $significado->getOrigenY();
             }
             $rangos_alertas_aux = array();
             foreach ($fichaTec->getAlertas() as $k => $rango) {
@@ -200,7 +203,7 @@ class IndicadorController extends Controller {
             $response->setMaxAge($this->container->getParameter('indicador_cache_consulta'));
         return $response;
     }
-
+        
     /**
      * @Route("/indicador/locale/change/{locale}", name="change_locale", options={"expose"=true})
      */

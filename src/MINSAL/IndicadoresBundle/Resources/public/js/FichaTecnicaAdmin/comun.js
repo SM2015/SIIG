@@ -305,8 +305,11 @@ function dibujarControles(zona, datos) {
             .attr('rangos_alertas', JSON.stringify(datos.rangos));
 
     var combo_dimensiones = trans.cambiar_dimension + ": <SELECT class='dimensiones' name='dimensiones'>";
-    $.each(datos.dimensiones, function(codigo, dimension) {
-        combo_dimensiones += "<option value='" + codigo + "'>" + dimension + "</option>";
+    $.each(datos.dimensiones, function(codigo, datosDimension) {
+        combo_dimensiones += "<option value='" + codigo + "' data-escala='"+datosDimension.escala +
+                "' data-x='"+datosDimension.origenX +
+                "' data-y='"+datosDimension.origenY +
+                "' >" + datosDimension.descripcion  + "</option>";
     });
     combo_dimensiones += "</SELECT>"
 
