@@ -220,6 +220,8 @@ class FichaTecnicaRepository extends EntityRepository {
 
         //Verificar si es un catálogo
         $rel_catalogo = '';
+        $otros_campos = '';
+        $grupo_extra = '';
         if (preg_match('/^id_/i', $dimension)) {
             $significado = $this->getEntityManager()->getRepository('IndicadoresBundle:SignificadoCampo')
                     ->findOneBy(array('codigo' => $dimension));
@@ -227,10 +229,12 @@ class FichaTecnicaRepository extends EntityRepository {
             if ($catalogo != '') {
                 $rel_catalogo = " INNER JOIN  $catalogo  B ON (A.$dimension::text = B.id::text) ";
                 $dimension = 'B.descripcion';
+                $otros_campos = ' B.id AS id_category, ';
+                $grupo_extra = ', B.id ';
             }
         }
 
-        $sql = "SELECT $dimension as category, $variables_query, round(($formula)::numeric,2) as measure
+        $sql = "SELECT $dimension AS category, $otros_campos $variables_query, round(($formula)::numeric,2) AS measure
             FROM $tabla_indicador A" . $rel_catalogo;
         $sql .= ' WHERE 1=1 '.$evitar_div_0;
         if ($filtro_registros != null) {
@@ -251,7 +255,7 @@ class FichaTecnicaRepository extends EntityRepository {
             }
         }
         $sql .= "            
-            GROUP BY $dimension             
+            GROUP BY $dimension $grupo_extra            
             HAVING (($formula)::numeric) > 0 
             ORDER BY $dimension";
         try {
