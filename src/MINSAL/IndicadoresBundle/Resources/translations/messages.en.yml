@@ -48,6 +48,12 @@ significado: Meaning
 'Origen Datos Create': 'Data Sources - Create'
 'Origen Datos Edit': 'Data Sources - Edit'
 
+'User List': 'User List'
+'User Delete': 'User Delete'
+'User Edit': 'User Edit'
+'usuario_indicadores': 'Indicators user'
+'nombre_usuario': User
+
 'responsable_datos': 'Data Manager'
 'Responsable Dato List': 'Data Manager - Listing'
 'Responsable Dato Delete': 'Data Manager - Delete'
