@@ -32,6 +32,10 @@ graficoMapa = function(ubicacion, datos, colorChosen, categoryChoosen) {
                 dibujarGrafico(ubicacion, $('#' + ubicacion + ' .dimensiones').val());
                 return;
         }
+        /* Datos para el mapa de El Salvador
+         * .scale(9000)
+-                .origin([-88.9, 13.7])
+         */
         var projection = d3.geo.albers()
                 .scale(coordenadas.attr('data-escala'))
                 .origin([coordenadas.attr('data-x'), coordenadas.attr('data-y')])
