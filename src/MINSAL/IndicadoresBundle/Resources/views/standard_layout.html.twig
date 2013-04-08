@@ -106,7 +106,7 @@ file that was distributed with this source code.
                                         {% if locale == app.request.locale %}
                                             <li class='active'><A href='#'>{{lenguaje}}</a></li>
                                         {% else %}
-                                            <li ><a href='{{url('change_locale',{locale:locale})}}'>{{lenguaje}}</a></li>
+                                            <li ><a href='{{url('change_locale',{_locale:locale})}}'>{{lenguaje}}</a></li>
                                         {% endif %}
                                     {% endfor %}
                                 </ul>                               

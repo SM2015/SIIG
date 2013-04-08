@@ -205,11 +205,11 @@ class IndicadorController extends Controller {
     }
         
     /**
-     * @Route("/indicador/locale/change/{locale}", name="change_locale", options={"expose"=true})
+     * @Route("/indicador/{_locale}/change", name="change_locale")
      */
-    public function changeLocaleAction($locale) {
+    public function changeLocaleAction($_locale) {
         $request = $this->getRequest();
-        $this->get('session')->set('_locale', $locale);
+        //$this->get('session')->set('_locale', $_locale);
         return $this->redirect($request->headers->get('referer'));
     }
 
