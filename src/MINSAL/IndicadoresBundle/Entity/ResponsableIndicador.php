@@ -186,7 +186,7 @@ class ResponsableIndicador
     }
     
     public function __toString() {
-        return $this->establecimiento;
+        return $this->establecimiento.'';
     }
 
     /**
