@@ -252,7 +252,7 @@ function controles_filtros(zona) {
         $('#' + zona).attr('datasetPrincipal', $('#' + zona).attr('datasetPrincipal_bk'))        
         dibujarGraficoPrincipal(zona, $('#'+zona+' .tipo_grafico_principal').val());
     });
-    if ($('#' + zona + ' .titulo_indicador').attr('filtro-elementos') !== '' ){            
+    if ($('#' + zona + ' .titulo_indicador').attr('filtro-elementos') !== undefined ){            
         var filtroElementos = $('#' + zona + ' .titulo_indicador').attr('filtro-elementos').split(',');
         for(var j = 0; j<filtroElementos.length; j++){
             $('#'+ zona +' .capa_dimension_valores input[value="'+filtroElementos[j]+'"]').attr('checked', true);
