@@ -9,7 +9,7 @@ use Sonata\AdminBundle\Validator\ErrorElement;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 
-class UserAdmin extends Admin {
+class UserIndicatorsAdmin extends Admin {
 
     protected $baseRouteName = 'admin_vendor_bundlename_adminclassname';
     protected $baseRoutePattern = 'usuario-indicadores';

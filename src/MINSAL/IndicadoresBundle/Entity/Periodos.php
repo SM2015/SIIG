@@ -101,7 +101,7 @@ class Periodos
     }
     
     public function __toString() {
-        return $this->descripcion.'';
+        return $this->descripcion ? :'';
     }
 
     /**
