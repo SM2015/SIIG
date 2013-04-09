@@ -32,8 +32,16 @@ file that was distributed with this source code.
                                         <i class="icon-list"></i>
                                     </a>
                                 {% endif %}
-                            </li>    
-
+                            </li>
+                     {% endif %}
+                     {% if admin.hasroute('tablero') and (is_granted('ROLE_SONATA_ADMIN') or is_granted('ROLE_USER_TABLERO')) %}
+                        {#<li><a href="{{ admin.generateUrl('tablero')}}">{{ 'indicador_tablero'|trans }}</a></li>#}
+                        <li class="ui-widget-content ui-corner-tr" >
+                            <h5 class="ui-widget-header">{{'indicador_tablero'|trans }}</h5>
+                            <a href="{{ admin.generateUrl('tablero')}}">
+                                <img style='margin:auto' align=center src="{{ asset(['bundles/indicadores/images/dashboard/dashboard-icon.jpg']|join) }}" alt="tablero" width="86" height="62" />    
+                            </a>                            
+                        </li>
                      {% endif %}
                  {% endfor %}
                  </ul>
