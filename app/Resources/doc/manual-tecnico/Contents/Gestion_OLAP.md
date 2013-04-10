@@ -145,34 +145,11 @@ https://github.com/erodriguez-minsal/SIIG/wiki/PlantillaIndicadorOLAP
 
 ### Consultando el Servidor OLAP
 
-El servidor OLAP procesa consultas REST usando su API http, y responde con datos en formato JSON. El formato general a utilizar es el siguiente:
-
-http://servidor:puerto/cubes/nombre_de_cubo/Consulta
-
-Ejemplo:
-
-<pre>
-~# curl "http://localhost:5000/cubes/indicador2/dimension/area"
-{
-    "depth": null, 
-    "data": [
-        {
-            "area.inicial": "U", 
-            "area.descripcion": "Urbano"
-        }, 
-        {
-            "area.inicial": "R", 
-            "area.descripcion": "Rural"
-        }
-    ], 
-    "dimension": "area"
-</pre>
+El servidor OLAP/Pentaho peude ser consultado a traves de SAIKU usando su API HTTP/REST. Esta API permite obtener informacion sobre 
+los cubos existentes en el servidor OLAP asi como efectuar consultas. La documentacion de la API puede ser consultada en:
 
 
-En este punto estamos listos para efectuar consultas desde el sistema de gestión de Indicadores usando AJAX.
-Un listado completo de las posibles consultas que se pueden hacer usando el servidor OLAP esta disponible en esta dirección:
-
-http://packages.python.org/cubes/server.html#http-api 
+http://dev.analytical-labs.com/saiku/serverdocs/
  
 
 ## Funciones Auxiliares de PostgreSQL
