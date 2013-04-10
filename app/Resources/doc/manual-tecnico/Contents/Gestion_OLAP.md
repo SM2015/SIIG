@@ -139,7 +139,8 @@ En este punto ya tenemos SAIKU disponible en:
 http://myserver/pentaho/content/saiku-ui/index.html?biplugin=true
 
 6- Agregar definición de cubos usando la plantilla para indicadores del MINSAL:
-indicadorX.xml
+
+https://github.com/erodriguez-minsal/SIIG/wiki/PlantillaIndicadorOLAP
 
 
 ### Consultando el Servidor OLAP
