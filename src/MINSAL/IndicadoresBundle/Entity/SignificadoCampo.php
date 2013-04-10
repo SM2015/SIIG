@@ -54,7 +54,30 @@ class SignificadoCampo
      *
      * @ORM\Column(name="nombre_mapa", type="string", length=200, nullable=true)
      */
-    private $nombreMapa;           
+    private $nombreMapa;
+    
+    /**
+     * @var string $escala
+     *
+     * @ORM\Column(name="escala", type="float", nullable=true)
+     */
+    private $escala;
+    
+    /**
+     * @var string $origen_x
+     *
+     * @ORM\Column(name="origen_x", type="float", nullable=true)
+     */
+    private $origenX;
+    
+    /**
+     * @var string $origen_y
+     *
+     * @ORM\Column(name="origen_y", type="float", nullable=true)
+     */
+    private $origenY;
+    
+    
 
     public function __construct() {
         $this->usoEnCatalogo = false;
@@ -200,6 +223,75 @@ class SignificadoCampo
     }   
     
     public function __toString() {
-        return $this->descripcion;
+        return $this->descripcion ? :'';
+    }
+
+    /**
+     * Set escala
+     *
+     * @param float $escala
+     * @return SignificadoCampo
+     */
+    public function setEscala($escala)
+    {
+        $this->escala = $escala;
+    
+        return $this;
+    }
+
+    /**
+     * Get escala
+     *
+     * @return float 
+     */
+    public function getEscala()
+    {
+        return $this->escala;
+    }
+
+    /**
+     * Set origenX
+     *
+     * @param float $origenX
+     * @return SignificadoCampo
+     */
+    public function setOrigenX($origenX)
+    {
+        $this->origenX = $origenX;
+    
+        return $this;
+    }
+
+    /**
+     * Get origenX
+     *
+     * @return float 
+     */
+    public function getOrigenX()
+    {
+        return $this->origenX;
+    }
+
+    /**
+     * Set origenY
+     *
+     * @param float $origenY
+     * @return SignificadoCampo
+     */
+    public function setOrigenY($origenY)
+    {
+        $this->origenY = $origenY;
+    
+        return $this;
+    }
+
+    /**
+     * Get origenY
+     *
+     * @return float 
+     */
+    public function getOrigenY()
+    {
+        return $this->origenY;
     }
 }

@@ -186,7 +186,7 @@ class FuenteDato
     }
     
     public function __toString() {
-        return $this->establecimiento;
+        return $this->establecimiento ? :'';
     }
 
     /**

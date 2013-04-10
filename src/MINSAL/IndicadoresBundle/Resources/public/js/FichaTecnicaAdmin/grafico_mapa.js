@@ -3,45 +3,42 @@ graficoMapa = function(ubicacion, datos, colorChosen, categoryChoosen) {
     // Esta variable me permite asociar el elmento del gráfico con los códigos utilizados
     // por los departamentos
     this.dibujar = function() {
-        var dimension = $('#' + ubicacion + ' .dimensiones').val();
+        var dimension = $('#' + ubicacion + ' .dimensiones').val();                
         var elemento_id_codigo = new Object();
 
-        d3.json(Routing.generate('indicador_datos_mapa', {dimension: dimension, tipo_peticion: 'equivalencias'}),
-        function(json) {
-            var datos_equivalencias = json.equivalencias;
-            var id_equivalencia = datos_equivalencias.map(function(d) {
-                return d.id;
-            });
-            var abrev_equivalencia = datos_equivalencias.map(function(d) {
-                return d.abrev;
-            });
-            var arreglo_equivalencia = new Object();
-            $.each(id_equivalencia, function(i, nodo) {
-                arreglo_equivalencia[nodo] = abrev_equivalencia[i];
-            });
-            elemento_id_codigo = arreglo_equivalencia;
-        });
-
-        var width = 560,
-                height = 300,
-                centered;
-        var currentDatasetChart = datos;
-        var arreglo_datos = new Object();
+        var width = 400,
+            height = 250,
+            currentDatasetChart = datos,
+            centered,
+            arreglo_datos = new Object();
 
         var categorias = currentDatasetChart.map(function(d) {
-            return d.category;
+            return d.id_category;
         });
         var medidas = currentDatasetChart.map(function(d) {
             return d.measure;
         });
-        $.each(categorias, function(i, nodo) {
+        $.each(categorias, function(i, nodo) {            
             arreglo_datos[nodo] = medidas[i];
         });
-
+        //Recuperar las coordenadas a utilizar 
+        var coordenadas = $('#' + ubicacion + ' .dimensiones option[value="'+dimension+'"]');
+        coordenadas = $(coordenadas[0]);
+        if (coordenadas.attr('data-escala') === 'null'
+            || coordenadas.attr('data-x') === 'null'
+            || coordenadas.attr('data-y') === 'null'){
+                alert(trans.no_mapa);
+                $('#' + ubicacion + ' .tipo_grafico_principal').val('columnas');
+                dibujarGrafico(ubicacion, $('#' + ubicacion + ' .dimensiones').val());
+                return;
+        }
+        /* Datos para el mapa de El Salvador
+         * .scale(9000)
+-                .origin([-88.9, 13.7])
+         */
         var projection = d3.geo.albers()
-                .scale(10000)
-                .origin([-88.7, 13.7])
-                //.parallels([12,14])  
+                .scale(coordenadas.attr('data-escala'))
+                .origin([coordenadas.attr('data-x'), coordenadas.attr('data-y')])
                 .translate([0, 0]);
 
         var path = d3.geo.path()
@@ -60,7 +57,7 @@ graficoMapa = function(ubicacion, datos, colorChosen, categoryChoosen) {
                 .attr("height", height)
                 .on("contextmenu", right_click)
                 .on("click", function(d, i) {
-            descenderNivelDimension(ubicacion, elemento_id_codigo[d.properties.ID]);
+            descenderNivelDimension(ubicacion, d.properties.NAME);
         });
 
         var g = svg.append("g")
@@ -84,22 +81,22 @@ graficoMapa = function(ubicacion, datos, colorChosen, categoryChoosen) {
 
             seccion.append("title").
                     text(function(d) {
-                if (arreglo_datos[elemento_id_codigo[d.properties.ID]] === null)
+                if (arreglo_datos[d.properties.ID] === undefined)
                     return d.properties.NAME;
                 else
-                    return d.properties.NAME + ': ' + arreglo_datos[elemento_id_codigo[d.properties.ID]];
+                    return d.properties.NAME + ': ' + arreglo_datos[d.properties.ID];
             });
 
             seccion.attr('fill', function(d, i) {
-                if (arreglo_datos[elemento_id_codigo[d.properties.ID]] === null)
+                if (arreglo_datos[d.properties.ID] === undefined)
                     return '#E5DBDB';
                 else
-                    return colores_alertas(ubicacion, arreglo_datos[elemento_id_codigo[d.properties.ID]], i);
+                    return colores_alertas(ubicacion, arreglo_datos[d.properties.ID], i);
             });
             seccion.on("contextmenu", right_click)
                     .on("click", function(d, i) {
-                if (arreglo_datos[elemento_id_codigo[d.properties.ID]] != null)
-                    descenderNivelDimension(ubicacion, elemento_id_codigo[d.properties.ID]);
+                if (arreglo_datos[d.properties.ID] !== undefined)
+                    descenderNivelDimension(ubicacion, d.properties.NAME);
             });
         });
 

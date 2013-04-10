@@ -70,7 +70,7 @@ class Alerta
     }
     
     public function __toString() {
-        return $this->color;
+        return $this->color ? :'';
     }
 
     /**

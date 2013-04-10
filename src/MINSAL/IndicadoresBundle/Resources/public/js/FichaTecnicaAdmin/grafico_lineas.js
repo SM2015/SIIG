@@ -2,8 +2,8 @@ graficoLineas = function(ubicacion, datos, colorChosen, categoryChoosen) {
 
     this.tipo = 'lineas';
     var margin = {top: 20, right: 40, bottom: 20, left: 70},
-    width = 450 - margin.left - margin.right,
-            height = 300 - margin.top - margin.bottom
+    width = 400 - margin.left - margin.right,
+            height = 250 - margin.top - margin.bottom
             ;
     var currentDatasetChart = datos;
     var zona = ubicacion;
@@ -15,6 +15,7 @@ graficoLineas = function(ubicacion, datos, colorChosen, categoryChoosen) {
             .rangeRoundBands([0, width], .9);
     ;
     var max_y;
+    var datasetPrincipal_bk = JSON.parse($('#' + zona).attr('datasetPrincipal_bk'));
     max_y = d3.max(datasetPrincipal_bk, function(d) {
         return parseFloat(d.measure);
     });
@@ -99,42 +100,24 @@ graficoLineas = function(ubicacion, datos, colorChosen, categoryChoosen) {
     };
     this.ordenar = function(modo_orden, ordenar_por) {
         var svg = d3.select("#" + zona + ' .grafico ');
-        // Copy-on-write since tweens are evaluated after a delay.
-        if (ordenar_por == 'dimension')
-            var x0 = xScale.domain(currentDatasetChart.sort(
-                    (modo_orden == 'asc') ?
-                    function(a, b) {
-                        return d3.ascending((isNaN(a.category)) ? a.category : parseFloat(a.category), (isNaN(b.category)) ? b.category : parseFloat(b.category));
-                    } :
-                    function(a, b) {
-                        return d3.descending((isNaN(a.category)) ? a.category : parseFloat(a.category), (isNaN(b.category)) ? b.category : parseFloat(b.category));
-                    }
-            ).map(function(d) {
+        
+        var datos_ordenados = ordenarArreglo(currentDatasetChart, ordenar_por, modo_orden);
+        var x0 = xScale.domain(datos_ordenados.map(function(d) {
                 return d.category;
-            })).copy();
-        else
-            var x0 = xScale.domain(currentDatasetChart.sort(
-                    (modo_orden === 'asc') ?
-                    function(a, b) {
-                        return d3.ascending(a.measure, b.measure);
-                    } :
-                    function(a, b) {
-                        return d3.descending(a.measure, b.measure);
-                    }
-            ).map(function(d) {
-                return d.category;
-            })).copy();
-
+            })).copy();        
         var transition = svg.transition().duration(750),
-                delay = function(d, i) {
-            return i * 90;
-        };
+            delay = function(d, i) {
+                    return i * 40;
+                };
 
         transition.selectAll(".line").delay(delay).attr("d", line).attr("stroke", 'blue');
         transition.selectAll(".dot").delay(delay).attr("cx", function(d) {
             return x0(d.category);
         });
         transition.select(".x.axis").call(xAxis).selectAll("g").delay(delay);
+        
+        // Ordenar la tabla de datos
+        $('#' + zona).attr('datasetPrincipal', JSON.stringify(currentDatasetChart));
 
-    }
+    };
 }

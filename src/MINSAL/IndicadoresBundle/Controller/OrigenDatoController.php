@@ -67,7 +67,16 @@ class OrigenDatoController extends Controller {
         } else {
             $resultado['mensaje'] = $this->get('translator')->trans('solo_select');
         }
-
+        
+        //verificar que no hayan problemas con codificación de caracteres
+        $datos_aux = array();
+        foreach($resultado['datos'] as $fila){
+                $nueva_fila = array();  
+                foreach($fila as $k=> $v)
+                   $nueva_fila[$k] =  trim(mb_check_encoding($v, 'UTF-8') ? $v : utf8_encode($v));
+                $datos_aux[] = $nueva_fila;
+        }
+        $resultado['datos'] = $datos_aux;
 
         return new Response(json_encode($resultado));
     }
@@ -304,11 +313,10 @@ class OrigenDatoController extends Controller {
         list($tipo_cambio, $id) = explode('__', $req->get('control'));
         $valor = $req->get('valor');
         $campo = $em->find("IndicadoresBundle:Campo", $id);
-
+        $valido = true;
         if ($tipo_cambio == 'tipo_campo') {
             $tipo_campo = $em->find("IndicadoresBundle:TipoCampo", $valor);
-            $datos_prueba = explode(', ', $req->get('datos_prueba'));
-            $valido = true;
+            $datos_prueba = explode(', ', $req->get('datos_prueba'));            
             $util = new \MINSAL\IndicadoresBundle\Util\Util();
             foreach ($datos_prueba as $dato) {
                 $valido = $util->validar($dato, $tipo_campo->getCodigo());

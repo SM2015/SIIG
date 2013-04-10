@@ -1,9 +1,9 @@
 graficoColumnas = function(ubicacion, datos, colorChosen, categoryChoosen) {
 
     this.tipo = 'columnas';
-    var margin = {top: 0, right: 5, bottom: 25, left: 70},
-    width = 450 - margin.left - margin.right,
-            height = 300 - margin.top - margin.bottom,
+    var margin = {top: 0, right: 5, bottom: 25, left: 40},
+    width = 390 - margin.left - margin.right,
+            height = 250 - margin.top - margin.bottom,
             barPadding = 1
             ;
 
@@ -22,6 +22,7 @@ graficoColumnas = function(ubicacion, datos, colorChosen, categoryChoosen) {
     // o el mayor valor del rango, el usuario elige
     // se utiliza datasetPrincipal_bk por si se han aplicado filtros
     // Así no usará el máximo valor del filtro
+    var datasetPrincipal_bk = JSON.parse($('#' + zona).attr('datasetPrincipal_bk'));
     max_y = d3.max(datasetPrincipal_bk, function(d) {
         return parseFloat(d.measure);
     });
@@ -58,7 +59,7 @@ graficoColumnas = function(ubicacion, datos, colorChosen, categoryChoosen) {
                 .call(yAxis)
                 .append("text")
                 .attr("transform", "rotate(-90)")
-                .attr("y", -50)
+                .attr("y", -30)                
                 .attr("x", -((height / 2) + (long / 2) * 6.5))
                 .text($('#' + ubicacion + ' .titulo_indicador').attr('data-unidad-medida'));
 
@@ -101,49 +102,29 @@ graficoColumnas = function(ubicacion, datos, colorChosen, categoryChoosen) {
             plot.selectAll("rect").attr("fill", colorChosen);
     };
     this.ordenar = function(modo_orden, ordenar_por) {
-        //clearTimeout(sortTimeout);
+        
         var svg = d3.select("#" + zona + ' .grafico');
-        // Copy-on-write since tweens are evaluated after a delay.
-        if (ordenar_por === 'dimension')
-            var x0 = xScale.domain(currentDatasetChart.sort(
-                    (modo_orden === 'asc') ?
-                    function(a, b) {
-                        return d3.ascending((isNaN(a.category)) ? a.category : parseFloat(a.category), (isNaN(b.category)) ? b.category : parseFloat(b.category));
-                    } :
-                    function(a, b) {
-                        return d3.descending((isNaN(a.category)) ? a.category : parseFloat(a.category), (isNaN(b.category)) ? b.category : parseFloat(b.category));
-                    }
-            ).map(function(d) {
+        
+        var datos_ordenados = ordenarArreglo(currentDatasetChart, ordenar_por, modo_orden);
+        var x0 = xScale.domain(datos_ordenados.map(function(d) {
                 return d.category;
-            }))
-                    .copy();
-        else
-            var x0 = xScale.domain(currentDatasetChart.sort(
-                    (modo_orden == 'asc') ? function(a, b) {
-                return d3.ascending(parseFloat(a.measure), parseFloat(b.measure));
-            } :
-                    function(a, b) {
-                        return d3.descending(parseFloat(a.measure), parseFloat(b.measure));
-                    }
-            )
-                    .map(function(d) {
-                return d.category;
-            }))
-                    .copy();
+            })).copy();
+
         var transition = svg.transition().duration(750),
                 delay = function(d, i) {
-            return i * 70;
+            return i * 40;
         };
-
+        
         transition.selectAll("#"+ubicacion+" rect")
                 .delay(delay)
                 .attr("x", function(d) {
             return x0(d.category);
         });
-
         transition.select('#'+ubicacion+' .x.axis')
                 .call(xAxis)
                 .selectAll("g")
                 .delay(delay);
-    }
+        // Ordenar la tabla de datos
+        $('#' + zona).attr('datasetPrincipal', JSON.stringify(currentDatasetChart));
+    };
 }

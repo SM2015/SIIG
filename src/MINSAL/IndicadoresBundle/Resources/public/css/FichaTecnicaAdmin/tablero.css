@@ -15,8 +15,8 @@
 
 
 
-#div_carga{
-    position:absolute;
+#div_carga{    
+    position: fixed;
     top:0;
     left:0;
     width:100%;
@@ -76,4 +76,24 @@ input.valores_filtro{
 .axis text {
     font-family: sans-serif;
     font-size: 11px;
+}
+
+.area_grafico:hover{
+    background-color: #EFEEF7;
+}
+
+.area_grafico{
+    border: 0.5px gray dashed;
+}
+
+.zona_actual{
+    border: 1.5px solid green;
+}
+
+#menu_sala.affix{
+    top: 0px;
+    z-index: 1000;
+    width: 100%;
+    background-color: white;
+    border-bottom: 3px solid green;
 }

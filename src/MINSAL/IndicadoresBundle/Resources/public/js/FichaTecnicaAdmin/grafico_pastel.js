@@ -1,10 +1,8 @@
 graficoPastel = function(ubicacion, datos, color_grafico, categoryChoosen) {
     this.tipo = 'pastel';
-    if (ubicacion == '' || ubicacion == null)
-        ubicacion = "graficoPrimario";
-
+    
     var width = 350,
-            height = 280,
+            height = 250,
             outerRadius = Math.min(width, height) / 2,
             innerRadius = outerRadius * .999,
             // for animation
@@ -124,10 +122,8 @@ graficoPastel = function(ubicacion, datos, color_grafico, categoryChoosen) {
                     .attr("d", arcFinal)
                     ;
         }
-    }
+    };
     this.ordenar = function(modo_orden, ordenar_por) { /*No hacer nada, el gráfico circular no se puede ordenar*/
-        return
-    }
-
-
+        return;
+    };
 }

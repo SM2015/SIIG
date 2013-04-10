@@ -5,12 +5,12 @@ namespace MINSAL\IndicadoresBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * MINSAL\IndicadoresBundle\Entity\ClasificacionNivel
+ * MINSAL\IndicadoresBundle\Entity\Diccionario
  *
- * @ORM\Table(name="clasificacion_nivel")
+ * @ORM\Table(name="diccionario")
  * @ORM\Entity
  */
-class ClasificacionNivel
+class Diccionario
 {
     /**
      * @var integer $id
@@ -24,26 +24,34 @@ class ClasificacionNivel
     /**
      * @var string $codigo
      *
-     * @ORM\Column(name="codigo", type="string", length=15, nullable=false)
+     * @ORM\Column(name="codigo", type="string", length=20, nullable=false)
      */
     private $codigo;
     
     /**
      * @var string $descripcion
      *
-     * @ORM\Column(name="descripcion", type="string", length=50, nullable=false)
+     * @ORM\Column(name="descripcion", type="string", length=200, nullable=false)
      */
     private $descripcion;
-
+    
     /**
-     * @var string $comentario
-     *
-     * @ORM\Column(name="comentario", type="text", nullable=true)
+    * @ORM\OneToMany(targetEntity="ReglaTransformacion", mappedBy="diccionario")
+    */
+    private $reglas;
+
+        
+    public function __toString() {
+        return $this->descripcion ? :'';
+    }
+    /**
+     * Constructor
      */
-    private $comentario;
-
-
-
+    public function __construct()
+    {
+        $this->reglas = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
     /**
      * Get id
      *
@@ -58,7 +66,7 @@ class ClasificacionNivel
      * Set descripcion
      *
      * @param string $descripcion
-     * @return ClasificacionNivel
+     * @return Diccionario
      */
     public function setDescripcion($descripcion)
     {
@@ -78,37 +86,43 @@ class ClasificacionNivel
     }
 
     /**
-     * Set comentario
+     * Add reglas
      *
-     * @param string $comentario
-     * @return ClasificacionNivel
+     * @param \MINSAL\IndicadoresBundle\Entity\ReglaTransformacion $reglas
+     * @return Diccionario
      */
-    public function setComentario($comentario)
+    public function addRegla(\MINSAL\IndicadoresBundle\Entity\ReglaTransformacion $reglas)
     {
-        $this->comentario = $comentario;
+        $this->reglas[] = $reglas;
     
         return $this;
     }
 
     /**
-     * Get comentario
+     * Remove reglas
      *
-     * @return string 
+     * @param \MINSAL\IndicadoresBundle\Entity\ReglaTransformacion $reglas
      */
-    public function getComentario()
+    public function removeRegla(\MINSAL\IndicadoresBundle\Entity\ReglaTransformacion $reglas)
     {
-        return $this->comentario;
+        $this->reglas->removeElement($reglas);
     }
-    
-    public function __toString() {
-        return $this->descripcion ? :'';
+
+    /**
+     * Get reglas
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getReglas()
+    {
+        return $this->reglas;
     }
 
     /**
      * Set codigo
      *
      * @param string $codigo
-     * @return ClasificacionNivel
+     * @return Diccionario
      */
     public function setCodigo($codigo)
     {
@@ -125,18 +139,5 @@ class ClasificacionNivel
     public function getCodigo()
     {
         return $this->codigo;
-    }
-
-    /**
-     * Set id
-     *
-     * @param integer $id
-     * @return ClasificacionNivel
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    
-        return $this;
     }
 }

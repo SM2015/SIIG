@@ -48,6 +48,12 @@ significado: Meaning
 'Origen Datos Create': 'Data Sources - Create'
 'Origen Datos Edit': 'Data Sources - Edit'
 
+'User List': 'User List'
+'User Delete': 'User Delete'
+'User Edit': 'User Edit'
+'usuario_indicadores': 'Indicators user'
+'nombre_usuario': User
+
 'responsable_datos': 'Data Manager'
 'Responsable Dato List': 'Data Manager - Listing'
 'Responsable Dato Delete': 'Data Manager - Delete'
@@ -218,7 +224,7 @@ javascript:
   limite_sup: 'Upper limit'
   comentario: 'Comment'
   rango_no_especificado: 'Range not specified'
-  no_mapa: 'Seelcted variable does not have  a map associated or the file was not found'
+  no_mapa: 'Seelcted variable does not have  a map associated, the file was not found or not defined coordinates'
   max_escala_y: 'Y Max.'
   max_indicador: 'Maximum indicator value'
   max_rango_alertas: 'Maximum warning value'
@@ -231,6 +237,7 @@ javascript:
   indicador: 'Indicator'
   descargar_grafico: 'Download Chart'
   opciones: 'Options'
+  ver_sql: 'View SQL'
 
 validacion:
   requerido: This field is required
@@ -258,5 +265,18 @@ _colores_alertas_ : 'Warnings - Colors'
 'Alerta Create': 'Colors - Create'
 'Alerta Edit': 'Colors - Edit'
 _ayuda_codigo_color_: 'It can be any HTML color code. Eg blue or #0000FF'
-_clasificacion_indicadores_: 'Indicators classification'
+_clasificacion_indicadores_: 'Classification'
 _tipo_no_corresponde_con_datos_: 'The selected type is not suitable for the field'
+_sala_: 'Room'
+_salas_: 'Rooms'
+_agregar_fila_: 'Add row'
+_guardar_sala_: 'Save room'
+_sala_situacional_: 'Situation Room'
+_nombre_sala_: Room name
+_cerrar_: Close
+_guardar_cambios_: 'Save Changes'
+_quitar_indicador_: 'Remove indicator'
+_datos_geograficos_: 'Geodata'
+_escala_ : 'Scale'
+_origen_x_: 'X Origin'
+_origen_y_: 'Y Origin'

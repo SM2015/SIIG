@@ -70,11 +70,11 @@ class CargarOrigenDatoCommand extends ContainerAwareCommand {
                     else
                         $this->getContainer()->get('old_sound_rabbit_mq.cargar_origen_datos_producer')
                                 ->publish(serialize($msg));
-                }
-                $ind->setUltimaLectura($ahora);
-                $em->flush();
+                    $ind->setUltimaLectura($ahora);
+                }                
             }
         }
+        $em->flush();
     }
 
 }

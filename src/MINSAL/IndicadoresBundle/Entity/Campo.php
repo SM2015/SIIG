@@ -53,6 +53,12 @@ class Campo
      **/
     private $significado;
     
+    /**
+     * @ORM\ManyToOne(targetEntity="Diccionario")
+     * @ORM\JoinColumn(name="id_diccionario", referencedColumnName="id")
+     **/
+    private $diccionario;
+    
 
     /**
      * Get id
@@ -192,5 +198,28 @@ class Campo
         $this->id = $id;
     
         return $this;
+    }
+
+    /**
+     * Set diccionario
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\Diccionario $diccionario
+     * @return Campo
+     */
+    public function setDiccionario(\MINSAL\IndicadoresBundle\Entity\Diccionario $diccionario = null)
+    {
+        $this->diccionario = $diccionario;
+    
+        return $this;
+    }
+
+    /**
+     * Get diccionario
+     *
+     * @return \MINSAL\IndicadoresBundle\Entity\Diccionario 
+     */
+    public function getDiccionario()
+    {
+        return $this->diccionario;
     }
 }

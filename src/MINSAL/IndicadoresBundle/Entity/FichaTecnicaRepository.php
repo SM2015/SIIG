@@ -7,7 +7,7 @@ use MINSAL\IndicadoresBundle\Entity\FichaTecnica;
 
 class FichaTecnicaRepository extends EntityRepository {
 
-    public function crearIndicador(FichaTecnica $fichaTecnica, $filtros = null) {
+    public function crearIndicador(FichaTecnica $fichaTecnica, $dimension = null, $filtros = null) {
         $em = $this->getEntityManager();
         $ahora = new \DateTime("now");
         $util = new \MINSAL\IndicadoresBundle\Util\Util();
@@ -74,7 +74,7 @@ class FichaTecnicaRepository extends EntityRepository {
         try {
             $em->getConnection()->exec($sql);
             if ($acumulado == true)
-                $this->crearIndicadorAcumulado($fichaTecnica,  $filtros);
+                $this->crearIndicadorAcumulado($fichaTecnica, $dimension, $filtros);
             $fichaTecnica->setUpdatedAt($ahora);
             $em->persist($fichaTecnica);
             $em->flush();
@@ -83,7 +83,7 @@ class FichaTecnicaRepository extends EntityRepository {
         }
     }
 
-    public function crearIndicadorAcumulado(FichaTecnica $fichaTecnica,  $filtros = null) {
+    public function crearIndicadorAcumulado(FichaTecnica $fichaTecnica,  $dimension, $filtros = null) {
         $em = $this->getEntityManager();
         $campos = str_replace("'", '', $fichaTecnica->getCamposIndicador());
         $tablas_variables = array();
@@ -180,15 +180,15 @@ class FichaTecnicaRepository extends EntityRepository {
         return $sql;
     }
 
-    public function calcularIndicador(FichaTecnica $fichaTecnica, $dimension, $filtro_registros = null) {
+    public function calcularIndicador(FichaTecnica $fichaTecnica, $dimension, $filtro_registros = null, $ver_sql=false) {
         $util = new \MINSAL\IndicadoresBundle\Util\Util();
         $acumulado = $fichaTecnica->getEsAcumulado();
-        $formula = $fichaTecnica->getFormula();
+        $formula = strtolower($fichaTecnica->getFormula());
 
         //Recuperar las variables
         $variables = array();
         preg_match_all('/\{[a-z0-9\_]{1,}\}/', strtolower($formula), $variables, PREG_SET_ORDER);
-
+        
         $oper = 'SUM';
         if ($acumulado) {
             $formula = str_replace(array('{', '}'), array('MAX(', ')'), $formula);
@@ -196,7 +196,17 @@ class FichaTecnicaRepository extends EntityRepository {
         }
         else
             $formula = str_replace(array('{', '}'), array('SUM(', ')'), $formula);
-
+        
+        $denominador = explode('/', $fichaTecnica->getFormula());
+        $evitar_div_0 = '';
+        $variables_d=array();
+        if (count($denominador) > 1) {
+            preg_match('/\{.{1,}\}/', $denominador[1], $variables_d);
+            if (count($variables_d) > 0)
+                $var_d = strtolower(str_replace(array('{', '}'), array('(', ')'), array_shift($variables_d)));
+            $evitar_div_0 = 'AND '. $var_d . ' > 0';
+        }
+        
         // Formar la cadena con las variables para ponerlas en la consulta
         $variables_query = '';
         foreach ($variables as $var) {
@@ -210,6 +220,8 @@ class FichaTecnicaRepository extends EntityRepository {
 
         //Verificar si es un catálogo
         $rel_catalogo = '';
+        $otros_campos = '';
+        $grupo_extra = '';
         if (preg_match('/^id_/i', $dimension)) {
             $significado = $this->getEntityManager()->getRepository('IndicadoresBundle:SignificadoCampo')
                     ->findOneBy(array('codigo' => $dimension));
@@ -217,12 +229,14 @@ class FichaTecnicaRepository extends EntityRepository {
             if ($catalogo != '') {
                 $rel_catalogo = " INNER JOIN  $catalogo  B ON (A.$dimension::text = B.id::text) ";
                 $dimension = 'B.descripcion';
+                $otros_campos = ' B.id AS id_category, ';
+                $grupo_extra = ', B.id ';
             }
         }
 
-        $sql = "SELECT $dimension as category, $variables_query, round(($formula)::numeric,2) as measure
+        $sql = "SELECT $dimension AS category, $otros_campos $variables_query, round(($formula)::numeric,2) AS measure
             FROM $tabla_indicador A" . $rel_catalogo;
-        $sql .= ' WHERE 1=1 ';
+        $sql .= ' WHERE 1=1 '.$evitar_div_0;
         if ($filtro_registros != null) {
             foreach ($filtro_registros as $campo => $valor){
                 //Si el filtro es un catálogo, buscar su id correspondiente
@@ -241,11 +255,14 @@ class FichaTecnicaRepository extends EntityRepository {
             }
         }
         $sql .= "            
-            GROUP BY $dimension             
-            HAVING (($formula)::numeric) > 0
+            GROUP BY $dimension $grupo_extra            
+            HAVING (($formula)::numeric) > 0 
             ORDER BY $dimension";
         try {
-            return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
+            if ($ver_sql == true)
+                return $sql;
+            else
+                return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
         } catch (\PDOException $e) {
             return $e->getMessage();
         } catch (\Doctrine\DBAL\DBALException $e) {

@@ -9,6 +9,7 @@
 {% block javascripts %}    
     {{ parent() }}
     {# <script src="{{ asset('bundles/indicadores/js/d3/d3.v3.min.js') }}" type="text/javascript"></script> #}
+    <script src="{{ asset('bundles/indicadores/js/affix.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('bundles/indicadores/js/d3/d3.v2.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('bundles/indicadores/js/FichaTecnicaAdmin/comun.js') }}" type="text/javascript"></script>
     <script src="{{ asset('bundles/indicadores/js/FichaTecnicaAdmin/grafico_pastel.js') }}" type="text/javascript"></script>
@@ -26,33 +27,51 @@
 
 
 {% block content %}
-    <div id="div_carga">
+    <div id="div_carga" class='affix'>
         <img id="cargador" src="{{ asset('bundles/indicadores/images/ajax-loader.gif') }}"/>
     </div>
-    <div class='btn-toolbar' >
+    <div id='menu_sala' class='btn-toolbar' data-spy="affix" data-offset-top="150">
         <div class='btn-group'> 
-            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#" title="clasificación a utilizar">
+            <a class="btn dropdown-toggle" data-toggle="dropdown" title="clasificación a utilizar">
                 <i class="icon-filter"></i>{{'_clasificacion_indicadores_'|trans}}
                 <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">                
                 {% for clasificacion in clasificacionUso %}
                     {% if clasificacion.codigo == app.user.clasificacionUso.codigo|default('') %}
-                        <li class='active'><A href='#'>{{clasificacion.descripcion}}</a></li>
+                        <li class='active'><A >{{clasificacion.descripcion}}</a></li>
                     {% else %}
                         <li ><a href='{{url('change_clasificacion_uso',{codigo_clasificacion:clasificacion.codigo})}}'>{{clasificacion.descripcion}}</a></li>
                     {% endif %}
                 {% endfor %}
             </ul>                               
-        </div>        
+        </div>
+        <div class='btn-group'> 
+            <a class="btn dropdown-toggle" data-toggle="dropdown" >
+                <i class="icon-th"></i>{{'_sala_'|trans}}
+                <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">                                
+                <li><A id='agregar_fila' >{{'_agregar_fila_'|trans}}</a></li>
+                <li><A id='quitar_indicador' >{{'_quitar_indicador_'|trans}}</a></li>
+                <li><!-- Button to trigger modal -->
+                    <a href="#myModal" data-toggle="modal">{{'_guardar_sala_'|trans}}</a>
+                </li>
+                <li class="divider"></li>
+                <li class="nav-header">{{'_salas_'|trans}}</li>
+                {% for sala in salas %}
+                    <li><A sala-id='{{sala.datos_sala.id}}' sala-nombre='{{sala.datos_sala.nombre}}' class='salas-id' data="{{sala.indicadores_sala|json_encode()}}">{{sala.datos_sala.nombre}}</A></li>
+                {% endfor %}
+            </ul>
+        </div>
         <div class='btn-group'>
-            <a class="btn dropdown-toggle btn-success" data-toggle="dropdown" href="#">
+            <a class="btn dropdown-toggle btn-success" data-toggle="dropdown" >
                 <i class="icon-star"></i>{{"favoritos"|trans}} (<span id='cantidad_favoritos'>{{app.user.favoritos|length}}</span>)
                 <span class="caret"></span>
             </a>
             <ul class="dropdown-menu" id='listado-favoritos'>
                 {% for indicador in app.user.favoritos %}
-                    <li ><A href="#" id='fav-{{indicador.id}}' class='indicador'
+                    <li ><A id='fav-{{indicador.id}}' class='indicador'
                             data-id='{{indicador.id}}'
                             data-unidad-medida='{{indicador.unidadMedida}}'>
                             {{indicador.nombre}}
@@ -64,13 +83,13 @@
         {% for categoria in categorias%}
             {% if categoria.indicadores|length > 0 %}
                 <div class='btn-group'>
-                    <a class="btn dropdown-toggle btn-info" data-toggle="dropdown" href="#">
+                    <a class="btn dropdown-toggle btn-info" data-toggle="dropdown" >
                         {{categoria.cat.descripcion}} ({{categoria.indicadores|length}})
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" >
                         {% for indicador in categoria.indicadores %}
-                            <li ><A href="#" id='{{indicador.id}}' class='indicador'
+                            <li ><A id='{{indicador.id}}' class='indicador'
                                    data-id='{{indicador.id}}'
                                    data-unidad-medida='{{indicador.unidadMedida}}'>
                                     {{indicador.nombre}}
@@ -83,13 +102,13 @@
         {% endfor %}
         {% if indicadores_no_clasificados|length > 0 %}
             <div class='btn-group'>
-                <a class="btn dropdown-toggle btn-danger" data-toggle="dropdown" href="#">
+                <a class="btn dropdown-toggle btn-danger" data-toggle="dropdown" >
                      <i class="icon-tags"></i>{{"_no_clasificados_"|trans}} (<span id='cantidad_no_clasificados'>{{indicadores_no_clasificados|length}}</span>)
                     <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu" >
                     {% for indicador in indicadores_no_clasificados %}
-                        <li ><A href="#" id='{{indicador.id}}' class='indicador'
+                        <li ><A id='{{indicador.id}}' class='indicador'
                                data-id='{{indicador.id}}'
                                data-unidad-medida='{{indicador.unidadMedida}}'>
                                 {{indicador.nombre}}
@@ -100,9 +119,10 @@
             </div>
         {% endif %}               
     </div>
-    <div class="row-fluid" >
-        <div class="span12" id='tablero_graficos' >                 
-            <div class="span4" id='graficoPrimario'>
+    <div id='nombre_sala2' ></div>
+    <div class="content" id="sala" >
+        <div class="row-fluid fila_sala">
+            <div class="span4 area_grafico zona_actual" id='grafico_1' >
                <h3 class='titulo_indicador'></h3>
                <h6 class='filtros_dimensiones'></h6>
                <div class='controles btn-toolbar'></div>
@@ -115,8 +135,67 @@
                    <div class='controlesDimension span4'></div>
                </div>
            </div>
-        </div>
+           <div class="span4 area_grafico" id='grafico_2' >
+               <h3 class='titulo_indicador'></h3>
+               <h6 class='filtros_dimensiones'></h6>
+               <div class='controles btn-toolbar'></div>
+               <div class="row-fluid info" ></div>
+               <div class="row-fluid" >                   
+                    <div class="grafico" ></div>             
+               </div>                        
+               <div class="row-fluid" >                   
+                   <div class='span4 dimension' style='text-align: right'></div>
+                   <div class='controlesDimension span4'></div>
+               </div>
+           </div>
+           <div class="span4 area_grafico" id='grafico_3' >
+               <h3 class='titulo_indicador'></h3>
+               <h6 class='filtros_dimensiones'></h6>
+               <div class='controles btn-toolbar'></div>
+               <div class="row-fluid info" ></div>
+               <div class="row-fluid" >                   
+                    <div class="grafico" ></div>             
+               </div>                        
+               <div class="row-fluid" >                   
+                   <div class='span4 dimension' style='text-align: right'></div>
+                   <div class='controlesDimension span4'></div>
+               </div>
+           </div>
+        </div>        
     </div>
     
-    <canvas id="canvas" STYLE='visibility: hidden;'></canvas> 
+    <canvas id="canvas" STYLE='visibility: hidden;'></canvas>         
+     
+    <!-- Modal -->
+    <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel">{{'_sala_situacional_'|trans}}</h3>
+        </div>
+        
+        <div class="modal-body">
+            <label for="nombre_sala">{{'_nombre_sala_'|trans}}</label>
+            <textarea id='nombre_sala' id-sala='' rows="3" style="width: 90%"></textarea>
+            <span class='info' id='info_sala'></span>
+        </div>
+        
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">{{'_cerrar_'|trans}}</button>
+            <button id='guardar_sala' class="btn btn-primary">{{'_guardar_cambios_'|trans}}</button>
+        </div>
+    </div>
+    <div id="myModal2" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel2"></h3>
+        </div>
+        
+        <div class="modal-body">
+            <span class='info' id='sql'></span>
+        </div>
+        
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">{{'_cerrar_'|trans}}</button>            
+        </div>
+    </div>
 {% endblock %}
