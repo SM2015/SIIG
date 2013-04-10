@@ -45,167 +45,83 @@ NOTICE:  Terminado.
 
 ### Servidor de Gestión de Cubos OLAP 
  
-Actualmente el sistema utiliza un servidor experimental de cubos escrito en Python. Este servidor contiene tres elementos:
+Actualmente el sistema utiliza Pentaho. Este servidor contiene tres elementos:
 
-1- Un gestor de persistencia (SQLAlchemy).  Este se conecta a nuestra base de datos y la descripción de los datos o modelo están contenidos en un arreglo JSON (fichero_modelo.json).
+1- Un gestor de persistencia (Hibernate) que se conecta a nuestra base de datos 
 
-2- Un servidor Web para procesar peticiones REST. Este componente permite hacer consultas al cubo usando un URL desde AJAX. La instalación oficial utiliza Werkzeug, pero es posible anadirlo como un virtual host en apache.
-
-3- Una utilidad de configuración y ejecución. SLICER es un componente que permite manipular el servidor desde la linea de comandos y su configuración se realiza en el fichero slicer.ini  
-
-A continuación se describen los pasos para instalar e integrar este servidor.
+2- Una aplicacion (SAIKU) para procesar peticiones REST. Este componente permite hacer consultas al cubo y mostrar resultados usando un URL desde AJAX.
 
 
 ### Instalar paquete Cubes de Python
 
- En Debian squeeze con repositorio 'testing':
 
+1. Instalar Java y soporte de Postgres:
+apt-get install openjdk-6-jre libpg-java
+2. Descargar la ultima version del servidor de Pentaho en:
+http://community.pentaho.com/projects/bi_platform/
 
-~#apt-get install python2.7 python-sqlalchemy python-werkzeug python-sqlite  python-psycopg2 python-pip
-
-
-Finalmente se debe usar un gestor de paquetes de Python para instalar el paquete del servidor OLAP 'Cubes'. La siguiente linea utiliza el gestor 'pip'.
-
-~# pip install cubes
-
-
-
-### Configuración de  modelo
-El modelo contiene un listado de los cubos/indicadores disponibles en el sistema.
-El siguiente modelo es un ejemplo simplificado del cubo/indicador2 con los siguientes datos:
-
-- La llave primaria del cubo/indicador2 es la columna id_fila
-
-- Este indicador tiene dos dimensiones 'departamento' y 'area'. 
-
-- La dimensión área esta asociada por medio de la llave foránea indicador2.id_area
-
-- La dimensión departamento esta asociada por medio de la llave foránea indicador2.id_departamento
-
-- Este indicador tiene ademas dos campos ('anio' y 'edad') que no dependen de ninguna dimensión.
-
-- La dimensión 'departamento' posee los campos descripción y abreviatura
-
-- La dimensión 'area' posee los campos descripción y abreviatura
-
-
- Este  fichero es utilizado por SQLAlchemy para manipular el cubo y describe sus campos y llaves foráneas.  
-
-~~~
-{   "name" : "cubos",
-    "locale":"en",
-    "cubes": [
-        {
-            "name": "indicador2",
-            "key":"id_fila",
-            "measures": {
-                "calculo": {"label": "Total"}
-            },
-            "details": [
-                {
-                    "name": "anio", 
-                    "label": "Anio"
-                },
-                {
-                    "name": "edad", 
-                    "label": "Edad"
-                }
-            ],
-            "dimensions": [
-                            "area","departamento"
-                                                        ],
-            "joins": [
-        
-                {
-                    "master": "indicador2.id_area",
-                "detail": "ctl_area.id_area"    
-            },
-          {
-              "master": "indicador2.id_departamento",
-              "detail": "ctl_departamento.id_departamento"    
-            }
-            ],
-"mappings": {
-    "ft_indicador2.id": "ft_indicador2.id_fila"},
-            "fact": "indicador2"
-        }
-    ],
-    
-    "dimensions": {
-        "area" : {
-             "name":"Area",
-            "label": "Area de Poblacion",
-             "key":"id_area",
-            "levels" : [
-                {
-                    "name": "area",
-                    "label_attribute":"descripcion",
-                    "attributes":[
-                        {"name":"descripcion", "label": "area"},
-                        {"name":"inicial", "label": "abreviatura"}
-                       ]
-                }
-                
-            ]
-        },
-
-"departamento" : {
-            "name":"Departamento",
-            "key":"id_departamento",
-            "label": "Departamento / Provincia",
-            "levels" : [
-                {
-                    "name": "departamento",
-                    "attributes":[
-                        {"name":"descripcion", "label": "departamento"},
-                        {"name":"abreviatura", "label": "abreviatura"}
-                       ]
-                }
-                
-            ]
-        }
-         
-    }    
-}
-~~~
-
-### Configuración de la utilidad 'Slicer'
-
-El iniciar el servidor se debe utilizar el siguiente comando:
-
-~# Ruta_de_Instalacion/cubes/bin/slicer serve slicer.ini
-
-El contenido del archivo slicer.ini es el siguiente:
- 
-
-<pre>
-
-[model]
-path: Ruta_Modelo/mi_modelo.json
-
-
-[server]
-# Set writeable path for logging slicer info
-log_level: info
-prettyprint: true
-backend: sql
-reload: true
-
-[workspace]
-# SET DATABASE -> adapter://user:password@host:port/database
-url: postgres://minsal:minsal@localhost:5432/minsal
-schema: cubos
-dimension_schema: public
-dimension_prefix: ctl_
-debug: true
-
-# Denormalisation demo (see README.md)
-#
- denormalized_view_prefix = mft_
- denormalized_view_schema = views
- use_denormalization = yes
-
+Descomprimir el archivo en la carpeta que elijamos, Ejem:
+/opt/biserver-ce/
+Configurar la base de datos, editar
+ /opt/biserver-ce/tomcat/webapps/hibernate.properties:
+ <pre>
+hibernate.dialect = org.hibernate.dialect.PostgreSQLDialect
+hibernate.connection.driver_class = org.postgresql.Driver
+hibernate.connection.url = jdbc:postgresql:NOMBRE_DE_BASE_DEDATOS
+hibernate.connection.username = USUARIO
+hibernate.connection.password = PASSWORD
+hibernate.hbm2ddl.auto = update
 </pre>
+
+3. Remover la seguridad interna de Pentaho segun la documentación:
+http://wiki.pentaho.com/display/ServerDoc2x/Removing+Security
+Iniciar el servidor:  ./opt/biserver-ce/start-pentaho.sh
+
+En este punto deberíamos poder abrir la aplicación sin usar credenciales usando dirección del servidor:
+http://myservidor:8080/pentaho
+
+Los errores del sistema son registrados en:
+/opt/biserver-ce/tomcat/logs/pentaho.log 
+/opt/biserver-ce/tomcat/logs/catalina.out	
+
+4. Activar el proxy de Apache/Esconder el Puerto de Pentaho
+Activar módulos de Apache:  a2enmod proxy proxy_http
+
+editar la seccion VirtualHost dentro de /etc/apache2/sites-enabled/000-default:
+<pre>
+<Location /pentaho/>
+      ProxyPass http://localhost:8080/pentaho/
+      ProxyPassReverse http://localhost:8080/pentaho/
+      SetEnv proxy-chain-auth
+    </Location>
+
+    <Location /pentaho-style/>
+      ProxyPass http://localhost:8080/pentaho-style/
+      ProxyPassReverse http://localhost:8080/pentaho-style/
+      SetEnv proxy-chain-auth
+    </Location>
+</pre>
+
+Después de reiniciar Apache, podemos usar la nueva dirección del servidor:
+http://myservidor/pentaho
+
+5. Descargar la ultima versión del SAIKU (Plugin para Pentaho):
+http://analytical-labs.com/downloads.php
+copiar el archivo descomprimido  en /opt/biserver-ce/pentaho-solutions/system/
+Ejecutar el instalador de  librerías de CTOOLS disponible en:
+
+https://github.com/pmalves/ctools-installer
+./ctools-installer.sh -s /opt/biserver-ce/pentaho-solutions
+Reiniciar Pentaho: ./stop-pentaho.sh
+                   ./start-pentaho.sh
+
+
+SAIKU esta disponible en: 
+http://myserver/pentaho/content/saiku-ui/index.html?biplugin=true
+
+6. Agregar definición de cubos usando la plantilla para indicadores del MINSAL:
+indicadorX.xml
+
 
 ### Consultando el Servidor OLAP
 
