@@ -52,7 +52,7 @@ class ReglaTransformacion
     
     /**
      * @ORM\ManyToOne(targetEntity="Diccionario", inversedBy="reglas")
-     * @ORM\JoinColumn(name="diccionario", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\JoinColumn(name="id_diccionario", referencedColumnName="id", onDelete="CASCADE")
      **/
     private $diccionario;
     

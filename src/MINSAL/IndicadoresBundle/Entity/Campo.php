@@ -55,7 +55,7 @@ class Campo
     
     /**
      * @ORM\ManyToOne(targetEntity="Diccionario")
-     * @ORM\JoinColumn(name="diccionario", referencedColumnName="id")
+     * @ORM\JoinColumn(name="id_diccionario", referencedColumnName="id")
      **/
     private $diccionario;
     
