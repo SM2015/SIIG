@@ -17,8 +17,9 @@ Estos incluyen:
 * PostgreSQL: Gestor de bases de Datos
 * Symfony: Entorno de desarrollo para PHP
 * PHP: Lenguaje de desarrollo de la Aplicación eTAB
-* Python: Lenguaje de desarrollo del servidor OLAP
-* Cubes: Servidor OLAP desarrollado en Python
+* Java/OpenJDK: Lenguaje de desarrollo del servidor OLAP
+* Pentaho: Servidor OLAP desarrollado en Java
+* Saiku: Interfaz  de analisys para consultas a servidor Pentaho
 * D3.js: Librería para la generación de gráficos
 * JQuery: Lenguaje para interfaces de usuario
 * RabbitMQ: Servidor de Mensajería
@@ -74,9 +75,15 @@ A diferencia  de otras librerías, D3 no crea imágenes, sino que interactúa la
 La carga de datos se apoya de las librerías de este paquete para crear una ‘lista de espera’ para evitar que  el servidor se sature al recibir demasiadas peticiones simultaneas.  
 
 ### Servidor de Cubos OLAP
-[Python OLAP Cubes](http://packages.python.org/cubes/)
+[Pentaho](http://community.pentaho.com/)
 
-El servidor de cubos OLAP es un proyecto de código abierto desarrollado usando Python 2.7, actualmente esta en la versión 0.10
+La version 'comunidad' del servidor de cubos OLAP Pentaho es un proyecto de código abierto desarrollado usando Java 6, se uso la ultima version disponible 4.8, el paquete incluye el servidor de aplicaciones Tomcat.
+
+### Interfaz de Analisis de cubos
+[Saiku](http://community.pentaho.com/)
+
+Saiku es una aplicacion de JAVA que oferece una interfaz escrita en JQuery para analizar cubos OLAP. En este proyecto se uso la version 'plugin' para Pentaho, version 2.4.
+
 
 ### Documentación
 La mayoría de la documentación ha sido escrita en formato markdown y se ha utilizado [easybook](http://easybook-project.org/) para la gen
