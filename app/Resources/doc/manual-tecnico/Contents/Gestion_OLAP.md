@@ -52,7 +52,7 @@ Actualmente el sistema utiliza Pentaho. Este servidor contiene tres elementos:
 2- Una aplicacion (SAIKU) para procesar peticiones REST. Este componente permite hacer consultas al cubo y mostrar resultados usando un URL desde AJAX.
 
 
-### Instalar paquete Cubes de Python
+### Instalar Pentaho
 
 
 1- Instalar Java y soporte de Postgres:
