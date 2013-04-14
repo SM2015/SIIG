@@ -239,6 +239,8 @@ javascript:
   descargar_grafico: 'Descargar Gráfico'
   opciones: 'Opciones'
   ver_sql: 'Ver SQL'
+  diccionario_transformacion: 'Diccionario de transformación'
+  elija_diccionario: 'Elija un diccionario'
 
 validacion:
   requerido: Este dato es requerido
@@ -282,3 +284,7 @@ _datos_geograficos_: 'Datos geográficos'
 _escala_ : 'Escala'
 _origen_x_: 'Origen X'
 _origen_y_: 'Origen Y'
+_diccionario_aplicado_: 'diccionario de transformación aplicado'
+_regla_: Regla
+_regla_transformacion_: 'Regla de transformación'
+_transformacion_: 'Transformación'

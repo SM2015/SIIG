@@ -77,6 +77,12 @@ $(document).ready(function(){
                 significado_datos = significado_datos +"<OPTION data-significado_codigo='"+fila.codigo+"' VALUE='"+fila.id+"'>"+fila.descripcion+"</OPTION>";
             });
             
+            // Construir las opciones de diccionarios
+            var diccionarios = '<OPTION value=-1>'+trans.elija_diccionario+'</OPTION>';
+            $.each(resp.diccionarios, function(indice, fila){
+                diccionarios = diccionarios +"<OPTION data-diccionario_codigo='"+fila.codigo+"' VALUE='"+fila.id+"'>"+fila.descripcion+"</OPTION>";
+            });
+            
             // Los encabezados de la fila
             $('#datos').append("<CAPTION>"+trans.configure_campos+
                 "</CAPTION>"+
@@ -85,6 +91,7 @@ $(document).ready(function(){
                 "<TH>"+trans.nombre_campo+"</TH>"+
                 "<TH>"+trans.tipo+"</TH>"+
                 "<TH>"+trans.significado+"</TH>"+
+                "<TH>"+trans.diccionario_transformacion+"</TH>"+
                 "<TH>"+trans.datos_muestra+"</TH>"+
                 "</TR></THEAD>"+
                 "<TBODY id='datos_body'></TBODY>");
@@ -97,6 +104,9 @@ $(document).ready(function(){
                 "<TD>"+
                 "<SELECT class='significado' data-significado_codigo='"+resp.campos[valor]['significado_codigo']+"' id='significado_variable__"+id+"' title='"+trans.elija_significado_dato+"' >"+significado_datos+"</SELECT>"+
                 "</TD>"+
+                "<TD>"+
+                "<SELECT class='diccionario' id='diccionario__"+id+"' >"+diccionarios+"</SELECT>"+
+                "</TD>"+
                 "<TD id='datos_ejemplo_campo__"+id+"'>"+
                 resp.datos[valor]+
                 "</TD>"+
@@ -108,10 +118,11 @@ $(document).ready(function(){
             $.each(resp.campos, function(campo, fila){                    
                 $('#tipo_campo__'+fila.id).val(fila.tipo);
                 $('#significado_variable__'+fila.id).val(fila.significado);
+                $('#diccionario__'+fila.id).val(fila.diccionario);
             })
             
             
-            /*o debe haber dos campos con el mismo significado
+            /*No debe haber dos campos con el mismo significado
              Si se elije un significado se debe desactivar esa opcion de los demas
              Excepto si el origen es catálogo, en ese caso no se podrá repetir
              pk y descripcion
@@ -150,9 +161,14 @@ $(document).ready(function(){
                     .attr('disabled', false)
                 guardar_cambio($(this));
             });
+            
             $('SELECT.tipo_campo').change(function(){
                 guardar_cambio($(this));
-            })
+            });
+            
+            $('SELECT.diccionario').change(function(){
+                guardar_cambio($(this));
+            });
             
             $objs = $('SELECT.tipo_campo');
             $objs[parseInt($objs.length/2)].focus();

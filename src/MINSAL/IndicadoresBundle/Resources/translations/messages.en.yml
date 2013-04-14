@@ -238,6 +238,8 @@ javascript:
   descargar_grafico: 'Download Chart'
   opciones: 'Options'
   ver_sql: 'View SQL'
+  diccionario_transformacion: 'Transformation Dictionary'
+  elija_diccionario: 'Choose a dictionary'
 
 validacion:
   requerido: This field is required
@@ -280,3 +282,7 @@ _datos_geograficos_: 'Geodata'
 _escala_ : 'Scale'
 _origen_x_: 'X Origin'
 _origen_y_: 'Y Origin'
+_diccionario_aplicado_: 'transformation dictionary applied '
+_regla_: Rule
+_regla_transformacion_: 'Transformation rule'
+_transformacion_: 'Transformation'

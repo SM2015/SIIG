@@ -132,7 +132,28 @@
             <argument>IndicadoresBundle:OrigenDatosAdmin</argument>
             <call method="setMaxPerPage"><argument>%admin_max_per_page_number%</argument></call>
         </service>
-        
+        <service id="sonata.admin.diccionario" class="MINSAL\IndicadoresBundle\Admin\DiccionarioAdmin">
+            <tag name="sonata.admin"
+                 manager_type="orm" 
+                 group="origen_datos" 
+                 label="javascript.diccionario_transformacion"
+            />    
+            <argument />            
+            <argument>MINSAL\IndicadoresBundle\Entity\Diccionario</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+            <call method="setMaxPerPage"><argument>%admin_max_per_page_number%</argument></call>
+        </service>
+        <service id="sonata.admin.regla_transformacion" class="MINSAL\IndicadoresBundle\Admin\ReglaTransformacionAdmin">
+            <tag name="sonata.admin"
+                 manager_type="orm" 
+                 group="origen_datos" 
+                 label="_regla_transformacion_"
+            />    
+            <argument />            
+            <argument>MINSAL\IndicadoresBundle\Entity\ReglaTransformacion</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+            <call method="setMaxPerPage"><argument>%admin_max_per_page_number%</argument></call>
+        </service>
         <service id="sonata.admin.variable" class="MINSAL\IndicadoresBundle\Admin\VariableDatoAdmin">
             <tag name="sonata.admin"
                  manager_type="orm" 
