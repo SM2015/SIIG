@@ -241,6 +241,7 @@ javascript:
   ver_sql: 'Ver SQL'
   diccionario_transformacion: 'Diccionario de transformación'
   elija_diccionario: 'Elija un diccionario'
+  quitar_indicador: 'Quitar indicador'
 
 validacion:
   requerido: Este dato es requerido
@@ -273,7 +274,7 @@ _clasificacion_indicadores_: 'Clasificación'
 _tipo_no_corresponde_con_datos_: 'El tipo seleccionado no es adecuado para el campo'
 _sala_: 'Sala'
 _salas_: 'Salas'
-_agregar_fila_: 'Agregar fila'
+_agregar_area_grafico_: 'Agregar área gráfico'
 _guardar_sala_: 'Guardar Sala'
 _sala_situacional_: 'Sala situacional'
 _nombre_sala_: 'Nombre de sala'

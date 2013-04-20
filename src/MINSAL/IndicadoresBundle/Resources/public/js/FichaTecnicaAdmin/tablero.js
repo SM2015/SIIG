@@ -4,7 +4,7 @@ $(document).ready(function() {
     }).ajaxStop(function() {
         $('#div_carga').hide();
     });
-    
+      
     $( "#sala" ).sortable();
     $( "#sala" ).disableSelection();
 
@@ -39,11 +39,7 @@ $(document).ready(function() {
 
     function sala_agregar_fila() {
         var cant = $('DIV.area_grafico').length;
-        //var html = '<div class="row-fluid fila_sala" >';
-        var html = '';
-        //for (var ii = cant + 1; ii <= cant + 3; ii++) {            
-            html = html + 
-                    '<div class=" area_grafico" id="grafico_' + parseInt(cant+1) + '" >' +
+        var html =  '<div class=" area_grafico" id="grafico_' + parseInt(cant+1) + '" >' +
                         '<h3 class="titulo_indicador"></h3>' +
                         '<h6 class="filtros_dimensiones"></h6>' +
                         '<div class="controles btn-toolbar"></div>' +
@@ -54,11 +50,8 @@ $(document).ready(function() {
                         '<div class="row-fluid" >' +
                             '<div class="span4 dimension" style="text-align: right"></div>' +
                             '<div class="controlesDimension span4"></div>' +
-                        '</div>' +
-                    '</div>';
-        //}
-        html += '';
-        //html += '</div>';
+                        '</div>'+ 
+                    '</DIV>';         
         
         $('#sala').append(html);
         $('DIV.area_grafico').click(function() {
@@ -110,7 +103,6 @@ $(document).ready(function() {
                 $('#nombre_sala').attr('id-sala', resp.id_sala);
                 $('#nombre_sala2').html('<h4>Nombre de sala: ' + $('#nombre_sala').val() + '</h4>');
                 $('#myModal').modal('toggle');
-                //$('#info_sala').html('_sala_guardada_').addClass('success');
             }
             else {
                 $('#info_sala').html('_error_guardar_sala_').addClass('error');

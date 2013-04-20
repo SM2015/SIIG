@@ -52,7 +52,7 @@
                 <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">                                
-                <li><A id='agregar_fila' >{{'_agregar_fila_'|trans}}</a></li>
+                <li><A id='agregar_fila' >{{'_agregar_area_grafico_'|trans}}</a></li>
                 <li><A id='quitar_indicador' >{{'_quitar_indicador_'|trans}}</a></li>
                 <li><!-- Button to trigger modal -->
                     <a href="#myModal" data-toggle="modal">{{'_guardar_sala_'|trans}}</a>
@@ -121,7 +121,6 @@
     </div>
     <div id='nombre_sala2' ></div>
     <div class="content" id="sala" >
-        {#<div class="row-fluid fila_sala">#}
             <div class=" area_grafico zona_actual" id='grafico_1' >
                <h3 class='titulo_indicador'></h3>
                <h6 class='filtros_dimensiones'></h6>
@@ -160,8 +159,7 @@
                    <div class='span4 dimension' style='text-align: right'></div>
                    <div class='controlesDimension span4'></div>
                </div>
-           </div>
-        {#</div>  #}      
+           </div>  
     </div>
     
     <canvas id="canvas" STYLE='visibility: hidden;'></canvas>         

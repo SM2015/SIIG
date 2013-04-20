@@ -240,6 +240,7 @@ javascript:
   ver_sql: 'View SQL'
   diccionario_transformacion: 'Transformation Dictionary'
   elija_diccionario: 'Choose a dictionary'
+  quitar_indicador: 'Remove indicator'
 
 validacion:
   requerido: This field is required
@@ -271,7 +272,7 @@ _clasificacion_indicadores_: 'Classification'
 _tipo_no_corresponde_con_datos_: 'The selected type is not suitable for the field'
 _sala_: 'Room'
 _salas_: 'Rooms'
-_agregar_fila_: 'Add row'
+_agregar_area_grafico_: 'Add graphic area'
 _guardar_sala_: 'Save room'
 _sala_situacional_: 'Situation Room'
 _nombre_sala_: Room name

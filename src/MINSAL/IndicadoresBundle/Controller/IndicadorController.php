@@ -208,6 +208,12 @@ class IndicadorController extends Controller {
         $em->flush();
         return new Response();
     }
+    /**
+     * @Route("/indicador/datos/{id}/{dimension}", name="indicador_ver_sql", options={"expose"=true})
+     */
+    public function getSQLAction($id) {
+        //$this->getDatos();
+    }
 
     /**
      * @Route("/indicador/{id}/ficha", name="get_indicador_ficha", options={"expose"=true})
