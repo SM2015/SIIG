@@ -95,46 +95,6 @@ class IndicadorController extends Controller {
     }
 
     /**
-     * @Route("/indicador/datos/ordenar", name="indicador_datos_ordenar", options={"expose"=true})
-     */
-    /* public function getDatosOrdenados() {
-      $ordenar_por = $this->getRequest()->get('ordenar_por');
-      $modo = $this->getRequest()->get('modo');
-      $datos = $this->getRequest()->get('datos');
-
-      // Adecuar el arreglo para luego ordenarlo
-      $datos_aux = array();
-      foreach ($datos as $fila) {
-      $datos_aux[$fila['category']] = $fila['measure'];
-      }
-      if ($ordenar_por == 'dimension') {
-      if ($modo == 'desc')
-      krsort($datos_aux);
-      else
-      ksort($datos_aux);
-      }
-      else {
-      if ($modo == 'desc')
-      arsort($datos_aux);
-      else
-      asort($datos_aux);
-      }
-
-      $datos_ordenados = array();
-      $i = 0;
-      foreach ($datos_aux as $k => $medida) {
-      $datos_ordenados[$i]['category'] = $k;
-      $datos_ordenados[$i]['measure'] = $medida;
-      $i++;
-      }
-      $resp['datos'] = $datos_ordenados;
-      $response = new Response(json_encode($resp));
-      if ($this->get('kernel')->getEnvironment() != 'dev')
-      $response->setMaxAge($this->container->getParameter('indicador_cache_consulta'));
-      return $response;
-      } */
-
-    /**
      * @Route("/indicador/datos/filtrar", name="indicador_datos_filtrar", options={"expose"=true})
      */
     public function getDatosFiltrados() {
@@ -250,13 +210,6 @@ class IndicadorController extends Controller {
     }
 
     /**
-     * @Route("/indicador/datos/{id}/{dimension}", name="indicador_ver_sql", options={"expose"=true})
-     */
-    public function getSQLAction($id) {
-        //$this->getDatos();
-    }
-
-    /**
      * @Route("/indicador/{id}/ficha", name="get_indicador_ficha", options={"expose"=true})
      */
     public function getFichaAction($id) {
@@ -360,4 +313,3 @@ class IndicadorController extends Controller {
     }
 
 }
-
