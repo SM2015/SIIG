@@ -1,16 +1,16 @@
 .background {
-  fill: none;
-  pointer-events: all;
+    fill: none;
+    pointer-events: all;
 }
 
 #states {
-  fill: #aaa;
-  stroke: #fff;
-  stroke-width: 1.5px;
+    fill: #aaa;
+    stroke: #fff;
+    stroke-width: 1.5px;
 }
 
 #states .active {
-  fill: steelblue;
+    fill: steelblue;
 }
 
 
@@ -24,9 +24,9 @@
     /* Para CSS3 */
     background: rgba(98, 135, 167, .4);
     /* IE8*/
-   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#886287a7', endColorstr='#886287a7');
-   /* anteriores a IE8 */
-   -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#886287a7', endColorstr='#886287a7');
+    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#886287a7', endColorstr='#886287a7');
+    /* anteriores a IE8 */
+    -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#886287a7', endColorstr='#886287a7');
 
     display:none;
     z-index:10000;
@@ -97,3 +97,6 @@ input.valores_filtro{
     background-color: white;
     border-bottom: 3px solid green;
 }
+
+#sala {margin: 0; padding: 0;}
+.area_grafico { margin: 3px 12px 3px 0; padding: 1px; float: left; width: 420px; height: 400px; font-size: 4em; text-align: center; overflow-y: auto}
