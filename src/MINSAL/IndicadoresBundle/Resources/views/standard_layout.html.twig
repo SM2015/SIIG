@@ -83,7 +83,7 @@ file that was distributed with this source code.
         {# initialize block value #}
 
         <!-- barra superior con el logo y el título -->         
-        <div class="navbar navbar-fixed-top">
+        <div class="navbar navbar-fixed-top" >
             <div class="navbar-inner">
                 <div class="container-fluid">
                     <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -123,7 +123,7 @@ file that was distributed with this source code.
                         {% endblock %}
 
                         {# MENU PRINCIPAL #}
-                        <div class="nav-collapse">
+                        <div class="nav-collapse" style='overflow-y: auto'>
                             <ul class="nav">
                                 {% block top_bar_before_nav %} {% endblock %}
                                 {% block sonata_top_bar_nav %}
