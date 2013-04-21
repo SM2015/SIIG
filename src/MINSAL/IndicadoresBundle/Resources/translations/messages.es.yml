@@ -242,6 +242,10 @@ javascript:
   diccionario_transformacion: 'Diccionario de transformación'
   elija_diccionario: 'Elija un diccionario'
   quitar_indicador: 'Quitar indicador'
+  columnas: 'Columnas'
+  pastel: 'Pastel'
+  mapa: 'Mapa'
+  lineas: 'Lineas'
 
 validacion:
   requerido: Este dato es requerido

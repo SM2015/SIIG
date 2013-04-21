@@ -1,9 +1,3 @@
-/*
- ################ FORMATS ##################
- -------------------------------------------
- */
-
-
 var formatAsPercentage = d3.format("%"),
         formatAsPercentage1Dec = d3.format(".1%"),
         formatPercent = d3.format("%"),
@@ -16,12 +10,9 @@ var formatAsPercentage = d3.format("%"),
         fmon = d3.time.format("%b")
         ;
 
-//var datasetPrincipal;
-var datasetPrincipal_bk;
 var zona=1;
 var max_zonas = 3;
-//var rangos_alertas;
-//var grafico;
+
 var color = d3.scale.category20();    //builtin range of colors
 
 function colores_alertas(zona, indice, i) {
@@ -317,12 +308,12 @@ function dibujarControles(zona, datos) {
     });
     combo_dimensiones += "</SELECT>"
 
-    var combo_tipo_grafico = trans.tipo_grafico + ": <SELECT class='tipo_grafico_principal' name='tipo_grafico_principal' >";
-    combo_tipo_grafico += "<OPTION VALUE='columnas'>Columnas</OPTION>" +
-            "<OPTION VALUE='pastel'>Pastel</OPTION>" +
-            "<OPTION VALUE='mapa'>Mapa</OPTION>" +
-            "<OPTION VALUE='lineas'>Lineas</OPTION>";
-    combo_tipo_grafico += "</SELECT>";
+    var combo_tipo_grafico = trans.tipo_grafico + ": <SELECT class='tipo_grafico_principal'  >"+
+            "<OPTION VALUE='columnas'>" + trans.columnas + "</OPTION>" +
+            "<OPTION VALUE='pastel'>" + trans.pastel + "</OPTION>" +
+            "<OPTION VALUE='mapa'>" + trans.mapa + "</OPTION>" +
+            "<OPTION VALUE='lineas'>" + trans.lineas + "</OPTION>"+
+        "</SELECT>";
 
     var combo_ordenar_por_dimension = trans.orden + ": <SELECT class='ordenar_dimension'>" +
             "<OPTION VALUE='-1'></OPTION>" +

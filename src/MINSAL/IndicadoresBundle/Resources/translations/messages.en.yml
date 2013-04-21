@@ -241,6 +241,10 @@ javascript:
   diccionario_transformacion: 'Transformation Dictionary'
   elija_diccionario: 'Choose a dictionary'
   quitar_indicador: 'Remove indicator'
+  columnas: 'Columns'
+  pastel: 'Cake'
+  mapa: 'Map'
+  lineas: 'Lines'
 
 validacion:
   requerido: This field is required
