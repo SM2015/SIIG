@@ -306,7 +306,7 @@ function dibujarControles(zona, datos) {
                 "' data-y='"+datosDimension.origenY +
                 "' >" + datosDimension.descripcion  + "</option>";
     });
-    combo_dimensiones += "</SELECT>"
+    combo_dimensiones += "</SELECT>";
 
     var combo_tipo_grafico = trans.tipo_grafico + ": <SELECT class='tipo_grafico_principal'  >"+
             "<OPTION VALUE='columnas'>" + trans.columnas + "</OPTION>" +
@@ -331,7 +331,7 @@ function dibujarControles(zona, datos) {
     var opciones_dimension = '<div class="btn-group dropup">' +
             '<button class="btn btn-info dropdown-toggle" data-toggle="dropdown" title="' + trans.dimension_opciones + '">' +
             '<i class="icon-check"></i>' +
-            '<span class="caret"></span>' +
+                '<span class="caret"></span>' +
             '</button>' +
             '<ul class="opciones_dimension dropdown-menu" role="menu" >' +
             '<li><A >'+ combo_dimensiones + '</A></li>' +
@@ -362,11 +362,13 @@ function dibujarControles(zona, datos) {
             '</div>';
     var opciones_indicador = '<div class="btn-group">' +
             '<button class="btn btn-info dropdown-toggle" data-toggle="dropdown" >' + trans.indicador_opciones +
-            '<span class="caret"></span>' +
+                '<span class="caret"></span>' +
             '</button>' +
-            '<ul class="dropdown-menu" role="menu" >' +
-            '<li><A >' + combo_tipo_grafico + '</A></li>' +
-            '<li><A >' + combo_ordenar_por_medida + '</A></li>';
+            '<ul class="dropdown-menu" role="menu" >' +            
+            '<li><A><label>&nbsp;</label></A></li>'+
+            '<li><A >' + combo_ordenar_por_medida + '</A></li>'+
+            '<li><A >' + combo_tipo_grafico + '</A></li>'
+            ;
 
     $('#' + zona + ' .controlesDimension').html('');
     $('#' + zona + ' .controlesDimension').append(opciones_dimension);
