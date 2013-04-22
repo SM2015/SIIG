@@ -42,8 +42,9 @@ graficoLineas = function(ubicacion, datos, colorChosen, categoryChoosen) {
         var svg = d3.select("#" + ubicacion + ' .grafico ')
                 .append("svg")
                 .datum(currentDatasetChart)
-                .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom)
+                .attr("width", '95%')
+                .attr("viewBox", '0 0 400 250')
+                .attr("preserveAspectRatio", 'none')
                 .attr("id", "ChartPlot")
         // create group and move it so that margins are respected (space for axis and title)
 

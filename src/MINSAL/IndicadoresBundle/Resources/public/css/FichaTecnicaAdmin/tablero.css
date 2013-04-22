@@ -99,3 +99,7 @@ input.valores_filtro{
 }
 
 .area_grafico { margin: 3px 12px 3px 0; float: left; width: 420px;}
+
+.titulo_indicador{
+    text-align: center;
+}

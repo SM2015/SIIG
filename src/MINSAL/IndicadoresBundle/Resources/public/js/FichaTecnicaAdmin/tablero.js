@@ -40,7 +40,7 @@ $(document).ready(function() {
     function sala_agregar_fila() {
         var cant = $('DIV.area_grafico').length;
         var html =  '<div class=" area_grafico" id="grafico_' + parseInt(cant+1) + '" >' +
-                        '<h3 class="titulo_indicador"></h3>' +
+                        '<h4 class="titulo_indicador"></h4>' +
                         '<h6 class="filtros_dimensiones"></h6>' +
                         '<div class="controles btn-toolbar"></div>' +
                         '<div class="row-fluid info" ></div>' +
