@@ -98,7 +98,7 @@ input.valores_filtro{
     border-bottom: 3px solid green;
 }
 
-.area_grafico { margin: 3px 12px 3px 0; float: left; width: 420px;}
+.area_grafico { margin: 3px 12px 3px 0; float: left; width: 370px; height: 370px; overflow-y: auto}
 
 .titulo_indicador{
     text-align: center;

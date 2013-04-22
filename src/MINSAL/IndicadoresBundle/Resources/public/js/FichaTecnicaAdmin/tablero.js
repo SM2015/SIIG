@@ -1,13 +1,40 @@
+
 $(document).ready(function() {
+    // *****************
+    //Con esto se verifica el comportamiento del area de gráfico
+    //Si se despliega algún menú dentro del gráfico se modifica un atributo
+    //ccs para que se muestre correctamente se regresa a su modo normal cuando el menú se cierra
+    //para esto fue necesario reescribir unos métodos de jQuery
+    (function(){
+        var methods = ["addClass", "toggleClass", "removeClass"]; //métodos a sobreescribir
+        $.map(methods, function(method){
+            var originalMethod = $.fn[ method ];            
+            $.fn[ method ] = function(){                
+                var result = originalMethod.apply( this, arguments ); // Execute the original method.                
+                myfunction(this); // call your function                
+                return result; // return the original result
+            };
+        });
+    })();
+    
+    function myfunction(obj){        
+        if($(obj).hasClass('dropup') || $(obj).hasClass('dropdown'))
+            if ($(obj).hasClass('open'))
+                $('.zona_actual').css('overflow-y','visible');            
+            else
+                $('.area_grafico').filter(function(){ return $(this).css('overflow-y') === 'visible';}).css('overflow-y','auto');        
+    }    
+    // *****************
+    
     jQuery(document).ajaxStart(function() {
         $('#div_carga').show();
     }).ajaxStop(function() {
         $('#div_carga').hide();
     });
-      
+            
     $( "#sala" ).sortable();
     $( "#sala" ).disableSelection();
-
+        
     $('A.indicador').click(function() {
         dibujarIndicador($(this).attr('data-id'));
     });
@@ -39,7 +66,7 @@ $(document).ready(function() {
 
     function sala_agregar_fila() {
         var cant = $('DIV.area_grafico').length;
-        var html =  '<div class=" area_grafico" id="grafico_' + parseInt(cant+1) + '" >' +
+        var html =  '<div class="area_grafico" id="grafico_' + parseInt(cant+1) + '" >' +
                         '<h4 class="titulo_indicador"></h4>' +
                         '<h6 class="filtros_dimensiones"></h6>' +
                         '<div class="controles btn-toolbar"></div>' +
@@ -53,7 +80,7 @@ $(document).ready(function() {
                         '</div>'+ 
                     '</DIV>';         
         
-        $('#sala').append(html);
+        $('#sala').append(html);        
         $('DIV.area_grafico').click(function() {
             zona_elegir(this);
         });

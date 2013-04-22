@@ -232,7 +232,7 @@ function controles_filtros(zona) {
     });
     //Corrige un error de bootstrap para que funcione un menu dropdown en tabletas
     $('body').on('touchstart.dropdown', '.dropdown-menu', function (e) { e.stopPropagation(); });
-    
+            
     $('#'+zona+' .aplicar_filtro').click(function() {
         aplicarFiltro(zona);
     });
