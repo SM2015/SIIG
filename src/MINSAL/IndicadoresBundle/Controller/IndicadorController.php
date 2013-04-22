@@ -348,5 +348,13 @@ class IndicadorController extends Controller {
         $resp['id_sala'] = $grupoIndicadores->getId();
         return new Response(json_encode($resp));
     }
+
+/**     
+     * @Route("/indicador/cubos", name="indicador_cubos", options={"expose"=true})
+     */
+    public function cubosAction() {
+        return $this->render('IndicadoresBundle:FichaTecnicaAdmin:cubos.html.twig');
+}
+
 }
 
