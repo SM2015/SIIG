@@ -5,6 +5,7 @@
 * Servidor Web
 * Gestor de base de datos
 * PHP 5.3.8+
+* Java 6
 
 ## Pasos
 
@@ -214,22 +215,94 @@ Pueden aparecer mensajes de aviso como "/usr/bin/nohup: redirecting stderr to st
 - Cargar la interfaz web: entrar a la dirección http://server_name:55672/mgmt/
 El usuario por defecto es **guest** y la clave **guest**
 
-## 4. Instalación de Servidor OLAP
+## 4. Instalación de Servidor OLAP Pentaho
 
-En Debian squeeze con repositorio 'testing':
+1- Instalar Java y soporte de Postgres:
 
-~#apt-get install python2.7 python-sqlalchemy python-werkzeug python-sqlite python-psycopg2 python-pip
+apt-get install openjdk-6-jre libpg-java
 
-Finalmente se debe usar un gestor de paquetes de Python para instalar el paquete del servidor OLAP 'Cubes'. La siguiente linea utiliza el gestor 'pip'.
 
-~# pip install cubes
-Desde la Carpeta siig/src/MINSAL/cubos, ejecutar:
+2- Descargar la ultima version del servidor de Pentaho en:
 
-~# slicer serve slicer.ini 
+http://community.pentaho.com/projects/bi_platform/
 
-Este comando ejecuta el servidor OLAP y muestra la salida en pantalla.
-La documentacion completa de este servidor dentor de la aplicacion esta disponible en la seccion "estion y Análisis de Cubos OLAP"
+Descomprimir el archivo en la carpeta que elijamos, Ejem: /opt/biserver-ce/
 
+Configurar la base de datos, editar
+/opt/biserver-ce/tomcat/webapps/hibernate.properties:
+ 
+```
+hibernate.dialect = org.hibernate.dialect.PostgreSQLDialect
+hibernate.connection.driver_class = org.postgresql.Driver
+hibernate.connection.url = jdbc:postgresql:NOMBRE_DE_BASE_DEDATOS
+hibernate.connection.username = USUARIO
+hibernate.connection.password = PASSWORD
+hibernate.hbm2ddl.auto = update
+```
+
+3- Remover la seguridad interna de Pentaho segun la documentación:
+
+http://wiki.pentaho.com/display/ServerDoc2x/Removing+Security
+
+Iniciar el servidor:  ./opt/biserver-ce/start-pentaho.sh
+
+En este punto deberíamos poder abrir la aplicación sin usar credenciales usando dirección del servidor:
+
+http://myservidor:8080/pentaho
+
+Los errores del sistema son registrados en:
+
+/opt/biserver-ce/tomcat/logs/pentaho.log 
+/opt/biserver-ce/tomcat/logs/catalina.out 
+
+4- Activar el proxy de Apache/Esconder el Puerto de Pentaho
+
+Activar módulos de Apache:  a2enmod proxy proxy_http
+
+editar la seccion VirtualHost dentro de /etc/apache2/sites-enabled/000-default:
+
+```
+<Location /pentaho/>
+      ProxyPass http://localhost:8080/pentaho/
+      ProxyPassReverse http://localhost:8080/pentaho/
+      SetEnv proxy-chain-auth
+    </Location>
+
+    <Location /pentaho-style/>
+      ProxyPass http://localhost:8080/pentaho-style/
+      ProxyPassReverse http://localhost:8080/pentaho-style/
+      SetEnv proxy-chain-auth
+    </Location>
+</pre>
+```
+Después de reiniciar Apache, podemos usar la nueva dirección del servidor:
+
+http://myservidor/pentaho
+
+5- Descargar la ultima versión del SAIKU (Plugin para Pentaho):
+
+http://analytical-labs.com/downloads.php
+
+Copiar el archivo descomprimido  en /opt/biserver-ce/pentaho-solutions/system/. Luego copiar y 
+ejecutar el instalador de  librerías de CTOOLS disponible en:
+
+https://github.com/pmalves/ctools-installer
+
+Para ejecutarlo, es necesario indicar la ubicacion de la instalacion:
+./ctools-installer.sh -s /opt/biserver-ce/pentaho-solutions
+
+
+Reiniciar Pentaho: ./stop-pentaho.sh
+                   ./start-pentaho.sh
+
+
+En este punto ya tenemos SAIKU disponible en: 
+
+http://myserver/pentaho/content/saiku-ui/index.html?biplugin=true
+
+6- Agregar definición de cubos usando la plantilla para indicadores del MINSAL:
+
+https://github.com/erodriguez-minsal/SIIG/wiki/PlantillaIndicadorOLAP
 ## Instalación de librería wkhtmltopdf
 [wkhtmltopdf](http://code.google.com/p/wkhtmltopdf/) Es una utilidad de línea de comando para convertir html a pdf
 
