@@ -1,16 +1,16 @@
 .background {
-  fill: none;
-  pointer-events: all;
+    fill: none;
+    pointer-events: all;
 }
 
 #states {
-  fill: #aaa;
-  stroke: #fff;
-  stroke-width: 1.5px;
+    fill: #aaa;
+    stroke: #fff;
+    stroke-width: 1.5px;
 }
 
 #states .active {
-  fill: steelblue;
+    fill: steelblue;
 }
 
 
@@ -24,9 +24,9 @@
     /* Para CSS3 */
     background: rgba(98, 135, 167, .4);
     /* IE8*/
-   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#886287a7', endColorstr='#886287a7');
-   /* anteriores a IE8 */
-   -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#886287a7', endColorstr='#886287a7');
+    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#886287a7', endColorstr='#886287a7');
+    /* anteriores a IE8 */
+    -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#886287a7', endColorstr='#886287a7');
 
     display:none;
     z-index:10000;
@@ -96,4 +96,10 @@ input.valores_filtro{
     width: 100%;
     background-color: white;
     border-bottom: 3px solid green;
+}
+
+.area_grafico { margin: 3px 12px 3px 0; float: left; width: 370px; height: 370px; overflow-y: auto}
+
+.titulo_indicador{
+    text-align: center;
 }

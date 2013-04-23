@@ -147,15 +147,13 @@ class OrigenDatoController extends Controller {
     }
 
     /**
-     * @Route("/{id}/leer", name="origen_dato_leer", options={"expose"=true})
+     * @Route("/origen_dato/{id}/leer", name="origen_dato_leer", options={"expose"=true})
      */
     public function leerOrigenAction($id) {
         $resultado = array('estado' => 'error',
             'mensaje' => '',
-            'tipos_datos' => array(),
             'tipo_origen' => '',
             'es_catalogo' => '',
-            'significados' => array(),
             'nombre_campos' => array(),
             'datos' => array());
 
@@ -168,6 +166,11 @@ class OrigenDatoController extends Controller {
                     FROM IndicadoresBundle:TipoCampo tp 
                     ORDER BY tp.descripcion";
         $resultado['tipos_datos'] = $em->createQuery($sql)->getArrayResult();
+        
+        $sql = "SELECT dic 
+                    FROM IndicadoresBundle:Diccionario dic 
+                    ORDER BY dic.descripcion";
+        $resultado['diccionarios'] = $em->createQuery($sql)->getArrayResult();
 
         $sql = "SELECT sv 
                     FROM IndicadoresBundle:SignificadoCampo sv                      
@@ -252,7 +255,7 @@ class OrigenDatoController extends Controller {
             $nombres_id = array();
             $campo = array();
             //Por defecto poner tipo entero
-            $tipo_campo = $em->getRepository("IndicadoresBundle:TipoCampo")->findOneByCodigo('integer');
+            $tipoCampo = $em->getRepository("IndicadoresBundle:TipoCampo")->findOneByCodigo('integer');
             $util = new \MINSAL\IndicadoresBundle\Util\Util();
             foreach ($resultado['nombre_campos'] as $k => $nombre) {
                 // si existe no guardarlo 
@@ -261,7 +264,7 @@ class OrigenDatoController extends Controller {
                     $campo[$k] = new Campo();
                     $campo[$k]->setNombre($nombre_campo);
                     $campo[$k]->setOrigenDato($origenDato);
-                    $campo[$k]->setTipoCampo($tipo_campo);
+                    $campo[$k]->setTipoCampo($tipoCampo);
                     $em->persist($campo[$k]);
                     $nombres_id[$campo[$k]->getId()] = $nombre_campo;
                 }
@@ -287,6 +290,7 @@ class OrigenDatoController extends Controller {
             $campos[$campo->getNombre()]['id'] = $campo->getId();
             $campos[$campo->getNombre()]['significado'] = ($campo->getSignificado()) ? $campo->getSignificado()->getId() : null;
             $campos[$campo->getNombre()]['significado_codigo'] = ($campo->getSignificado()) ? $campo->getSignificado()->getCodigo() : null;
+            $campos[$campo->getNombre()]['diccionario'] = ($campo->getDiccionario()) ? $campo->getDiccionario()->getId() : null;
             $campos[$campo->getNombre()]['tipo'] = ($campo->getTipoCampo()) ? $campo->getTipoCampo()->getId() : null;
         }
         $resultado['campos'] = $campos;
@@ -325,11 +329,17 @@ class OrigenDatoController extends Controller {
             }
             $mensaje = $campo->getNombre() . ': ' . $this->get('translator')->trans('tipo_campo_cambiado_a') . ' ' . $tipo_campo->getDescripcion();
             $campo->setTipoCampo($tipo_campo);
-        } else {
+        } elseif( $tipo_cambio == 'significado_variable'){
             $significado_variable = $em->find("IndicadoresBundle:SignificadoCampo", $valor);
             $mensaje = $campo->getNombre() . ': ' . $this->get('translator')->trans('significado_campo_cambiado_a') . ' ' . $significado_variable->getDescripcion();
             $campo->setSignificado($significado_variable);
+        } else{
+            $diccionario = $em->find("IndicadoresBundle:Diccionario", $valor);
+            $mensaje = $campo->getNombre() . ': ' . $this->get('translator')->trans('_diccionario_aplicado_') . ' ' . $diccionario->getDescripcion();
+            $campo->setDiccionario($diccionario);
         }
+        
+        
         if ($valido)
             $resultado['mensaje'] = $mensaje;
         else

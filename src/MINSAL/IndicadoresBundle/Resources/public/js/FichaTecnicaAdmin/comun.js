@@ -1,9 +1,3 @@
-/*
- ################ FORMATS ##################
- -------------------------------------------
- */
-
-
 var formatAsPercentage = d3.format("%"),
         formatAsPercentage1Dec = d3.format(".1%"),
         formatPercent = d3.format("%"),
@@ -16,12 +10,9 @@ var formatAsPercentage = d3.format("%"),
         fmon = d3.time.format("%b")
         ;
 
-//var datasetPrincipal;
-var datasetPrincipal_bk;
 var zona=1;
 var max_zonas = 3;
-//var rangos_alertas;
-//var grafico;
+
 var color = d3.scale.category20();    //builtin range of colors
 
 function colores_alertas(zona, indice, i) {
@@ -101,7 +92,6 @@ function ascenderNivelDimension(zona, nivel) {
     $('#'+zona).attr('orden',null);
     $('#' + zona + ' .ordenar_dimension').children('option[value="-1"]').attr('selected', 'selected');
     $('#' + zona + ' .ordenar_medida').children('option[value="-1"]').attr('selected', 'selected');
-    //filtros();
 }
 
 function filtroRuta(filtros_obj){
@@ -155,7 +145,6 @@ function descenderNivelDimension(zona, category) {
     $('#'+zona).attr('orden',null);
     $('#' + zona + ' .ordenar_dimension').children('option[value="-1"]').attr('selected', 'selected');
     $('#' + zona + '.ordenar_medida').children('option[value="-1"]').attr('selected', 'selected');
-    //filtros()
 }
 
 function dibujarGrafico(zona, dimension) {
@@ -229,16 +218,21 @@ function controles_filtros(zona) {
             '<input type="button" class="quitar_filtro" value="' + trans.quitar_filtro + '"/></DIV>';
     lista_datos_dimension += '<DIV class="capa_dimension_valores span12">' + trans.filtrar_por_elemento;
     $.each(datasetPrincipal, function(i, dato) {
-        lista_datos_dimension += '<li><input class="detenerclic" type="checkbox" id="categorias_a_mostrar' + zona+i + '" ' +
-                'name="categorias_a_mostrar[]" value="' + dato.category + '" /><label class="detenerclic" for="categorias_a_mostrar' + zona+i + '" >' + dato.category + '</label></li>';
+        lista_datos_dimension += '<li><input type="checkbox" id="categorias_a_mostrar' + zona+i + '" ' +
+                'name="categorias_a_mostrar[]" value="' + dato.category + '" /><label for="categorias_a_mostrar' + zona+i + '" >' + dato.category + '</label></li>';
     });    
     lista_datos_dimension += '</DIV>';
     
     $('#'+zona+' .lista_datos_dimension').html(lista_datos_dimension);
 
-    $('.detenerclic').click(function(event) {
-        event.stopPropagation();
-    })
+    // Corrige un error de bootstrap para permitir usar controles dentro de un dropdown
+    $('.dropdown-menu SELECT, .dropdown-menu LABEL, .dropdown-menu INPUT').click(function(event) {
+        $(this).focus();
+        event.stopPropagation();        
+    });
+    //Corrige un error de bootstrap para que funcione un menu dropdown en tabletas
+    $('body').on('touchstart.dropdown', '.dropdown-menu', function (e) { e.stopPropagation(); });
+            
     $('#'+zona+' .aplicar_filtro').click(function() {
         aplicarFiltro(zona);
     });
@@ -305,21 +299,21 @@ function dibujarControles(zona, datos) {
             .attr('filtro-elementos', '')
             .attr('rangos_alertas', JSON.stringify(datos.rangos));
 
-    var combo_dimensiones = trans.cambiar_dimension + ": <SELECT class='dimensiones' name='dimensiones'>";
+    var combo_dimensiones = trans.cambiar_dimension + ":<SELECT class='dimensiones' name='dimensiones'>";
     $.each(datos.dimensiones, function(codigo, datosDimension) {
         combo_dimensiones += "<option value='" + codigo + "' data-escala='"+datosDimension.escala +
                 "' data-x='"+datosDimension.origenX +
                 "' data-y='"+datosDimension.origenY +
                 "' >" + datosDimension.descripcion  + "</option>";
     });
-    combo_dimensiones += "</SELECT>"
+    combo_dimensiones += "</SELECT>";
 
-    var combo_tipo_grafico = trans.tipo_grafico + ": <SELECT class='tipo_grafico_principal' name='tipo_grafico_principal' >";
-    combo_tipo_grafico += "<OPTION VALUE='columnas'>Columnas</OPTION>" +
-            "<OPTION VALUE='pastel'>Pastel</OPTION>" +
-            "<OPTION VALUE='mapa'>Mapa</OPTION>" +
-            "<OPTION VALUE='lineas'>Lineas</OPTION>";
-    combo_tipo_grafico += "</SELECT>";
+    var combo_tipo_grafico = trans.tipo_grafico + ": <SELECT class='tipo_grafico_principal'  >"+
+            "<OPTION VALUE='columnas'>" + trans.columnas + "</OPTION>" +
+            "<OPTION VALUE='pastel'>" + trans.pastel + "</OPTION>" +
+            "<OPTION VALUE='mapa'>" + trans.mapa + "</OPTION>" +
+            "<OPTION VALUE='lineas'>" + trans.lineas + "</OPTION>"+
+        "</SELECT>";
 
     var combo_ordenar_por_dimension = trans.orden + ": <SELECT class='ordenar_dimension'>" +
             "<OPTION VALUE='-1'></OPTION>" +
@@ -337,12 +331,12 @@ function dibujarControles(zona, datos) {
     var opciones_dimension = '<div class="btn-group dropup">' +
             '<button class="btn btn-info dropdown-toggle" data-toggle="dropdown" title="' + trans.dimension_opciones + '">' +
             '<i class="icon-check"></i>' +
-            '<span class="caret"></span>' +
+                '<span class="caret"></span>' +
             '</button>' +
             '<ul class="opciones_dimension dropdown-menu" role="menu" >' +
-            '<li><A class="detenerclic">' + combo_dimensiones + '</A></li>' +
-            '<li><A class="detenerclic">' + combo_ordenar_por_dimension + '</A></li>' +
-            '<li><A class="detenerclic">' + filtro_posicion + '</A></li>' +
+            '<li><A >'+ combo_dimensiones + '</A></li>' +
+            '<li><A >' + combo_ordenar_por_dimension + '</A></li>' +
+            '<li ><A >' + filtro_posicion + '</A></li>' +
             '<li class="lista_datos_dimension"></li>' +
             '</ul>' +
             '</div>';
@@ -358,7 +352,8 @@ function dibujarControles(zona, datos) {
             '<li><A class="ver_tabla_datos" ><i class="icon-list-alt" ></i> ' + trans.tabla_datos + ' </A></li>' +
             '<li><A class="ver_sql" ><i class="icon-eye-open" ></i> ' + trans.ver_sql + ' </A></li>' +
             '<li><A class="ver_imagen" ><i class="icon-picture"></i> ' + trans.descargar_grafico + '</A></li>' +
-            '<li><A class="agregar_como_favorito" data-indicador="' + datos.id_indicador + '" >';
+            '<li><A class="quitar_indicador" ><i class="icon-remove-sign"></i> ' + trans.quitar_indicador + '</A></li>' +
+            '<li><A class="agregar_como_favorito" data-indicador="' + datos.id_indicador + '" >';            
     if ($('#fav-' + datos.id_indicador).length === 0)
         opciones += '<i class="icon-star"></i> ' + trans.agregar_favorito + '</A></li>';
     else
@@ -367,18 +362,16 @@ function dibujarControles(zona, datos) {
             '</div>';
     var opciones_indicador = '<div class="btn-group">' +
             '<button class="btn btn-info dropdown-toggle" data-toggle="dropdown" >' + trans.indicador_opciones +
-            '<span class="caret"></span>' +
+                '<span class="caret"></span>' +
             '</button>' +
-            '<ul class="dropdown-menu" role="menu" >' +
-            '<li><A class="detenerclic">' + combo_tipo_grafico + '</A></li>' +
-            '<li><A class="detenerclic">' + combo_ordenar_por_medida + '</A></li>';
-
+            '<ul class="dropdown-menu" role="menu" >' +            
+            '<li><A><label>&nbsp;</label></A></li>'+
+            '<li><A >' + combo_ordenar_por_medida + '</A></li>'+
+            '<li><A >' + combo_tipo_grafico + '</A></li>'
+            ;
 
     $('#' + zona + ' .controlesDimension').html('');
     $('#' + zona + ' .controlesDimension').append(opciones_dimension);
-
-
-
 
     var rangos_alertas = datos.rangos;
 
@@ -416,7 +409,7 @@ function dibujarControles(zona, datos) {
     $('#' + zona + ' .alertas').html('');
     $('#' + zona + ' .grafico').html('');
     if (rangos_alertas.length > 0) {
-        opciones_indicador += '<li><A class="detenerclic">' +
+        opciones_indicador += '<li><A >' +
                 trans.max_escala_y +
                 ": <SELECT class='max_y'>" +
                 "<OPTION VALUE='indicador' selected='selected'>" + trans.max_indicador + "</OPTION>" +
@@ -464,6 +457,9 @@ function dibujarControles(zona, datos) {
     $('#' + zona + ' .agregar_como_favorito').click(function() {
         alternar_favorito(zona, $(this).attr('data-indicador'));
         cerrarMenus();
+    });
+    $('#' + zona + ' .quitar_indicador').click(function() {
+        limpiarZona2(zona);
     });
     $('#' + zona + ' .info').hide();
     $('#' + zona + ' .ver_tabla_datos').click(function() {

@@ -28,7 +28,11 @@ Al especificar las opciones necesarias en el formulario de origen de datos y dar
 
 ![Configuración del origen de datos](origen_dato_configurar.png)
 
-Es de suma importancia realizar esta configuración correctamente. Debemos especificar para cada campo su tipo y significado. 
+Es de suma importancia realizar esta configuración correctamente. Debemos especificar para cada campo su tipo, significado y si usará un diccionario de transformación.
+
+El diccionario de transformación es un grupo de reglas para convertir un dato en otro, esto se podría usar en el caso de que se desee leer dos orígenes de datos pero 
+el campo en cada uno de ellos utiliza valores diferentes, supongamos que el campo es sexo y que en un origen de datos femenino se representa por F y masculino por M; pero en el otro origen de datos femenino se representa por 1 y masculino por 2; en este caso será necesario transformar los valores de uno de los orígenes para que coincida con el otro.
+
 El significado del campo determinará qué es lo que almacenará y por medio de éste se permitirá luego relacionar campos de diferentes orígenes de datos, un tipo de campo solo se puede aparecer una vez en cada origen de datos. Un campo con especial importancia es el **Campo para cálculos** el cual identificará el campo que se utilizará para realizar los cálculos dentro de la fórmula del indicador. Si algún campo contiene llaves foráneas se deberá seleccionar los tipos que comienzan con **Identificador** indicando que este dato tendrá asociado una tabla catálogo que ya debe estar cargada o que será cargada posteriormente en la base de datos. Por ejemplo para el caso de Departamento si está cargando el nombre del departamento el significado será *Departamento*. 
 Por otro lado, si en lugar del nombre tiene la llave foránea deberá colocar como significado *Identificador departamento* y su valor debe coincidir con una llave id_departamento en la tabla catalogo ctl_departamento.  Recuerde que necesitará una tabla de catálogo de departamento, la asociación de la tabla se realiza cuando se crea un significado de campos.
 

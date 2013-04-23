@@ -80,5 +80,9 @@ class FichaTecnicaAdminController extends Controller {
                     'indicadores_no_clasificados' => $indicadores_no_clasificados
                 ));
     }
+    
+    public function CubosAction() {
+        return $this->render('IndicadoresBundle:FichaTecnicaAdmin:cubos.html.twig', array());
+    }
 
 }

@@ -261,6 +261,7 @@ class FichaTecnicaAdmin extends Admin {
 
     protected function configureRoutes(RouteCollection $collection) {
         $collection->add('tablero');
+        $collection->add('cubos');
     }
 
     public function getTemplate($name) {

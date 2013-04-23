@@ -23,7 +23,7 @@ class FichaTecnicaRepository extends EntityRepository {
         }
         if ($fichaTecnica->getUpdatedAt() != '' and $fichaTecnica->getUltimaLectura() != '' and $existe == true and $acumulado == false) {
             if ($fichaTecnica->getUltimaLectura() < $fichaTecnica->getUpdatedAt())
-                return true;
+               return true;
         }
 
         $campos = str_replace("'", '', $fichaTecnica->getCamposIndicador());
@@ -34,10 +34,14 @@ class FichaTecnicaRepository extends EntityRepository {
         foreach ($fichaTecnica->getVariables() as $variable) {
             //Recuperar la información de los campos para crear la tabla            
             $origen = $variable->getOrigenDatos();
+            $diccionarios = array();
             $tabla = strtolower($variable->getIniciales());
             $sql .= 'CREATE TEMP TABLE IF NOT EXISTS ' . $tabla . '(';
+            
             foreach ($origen->getCampos() as $campo) {
                 $sql .= $campo->getSignificado()->getCodigo() . ' ' . $campo->getTipoCampo()->getCodigo() . ', ';
+                if ($campo->getDiccionario() != null)
+                    $diccionarios[$campo->getSignificado()->getCodigo()] = $campo->getDiccionario()->getId();
             }
             $sql = trim($sql, ', ') . ');';
 
@@ -65,6 +69,16 @@ class FichaTecnicaRepository extends EntityRepository {
                 GROUP BY $campos 
                 HAVING  SUM(calculo::numeric) > 0
                     ;";
+            
+            //aplicar transformaciones si las hubieran
+            foreach($diccionarios as $campo => $diccionario){
+                $sql .= " 
+                        UPDATE $tabla"."_var SET $campo = regla.transformacion 
+                            FROM regla_transformacion AS regla
+                            WHERE $tabla"."_var.$campo = regla.limite_inferior
+                                AND id_diccionario = $diccionario
+                    ;";                 
+            }
             $tablas_variables[] = $tabla;
         }
 

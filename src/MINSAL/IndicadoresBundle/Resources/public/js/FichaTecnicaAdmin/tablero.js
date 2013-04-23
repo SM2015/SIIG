@@ -1,10 +1,40 @@
+
 $(document).ready(function() {
+    // *****************
+    //Con esto se verifica el comportamiento del area de gráfico
+    //Si se despliega algún menú dentro del gráfico se modifica un atributo
+    //ccs para que se muestre correctamente se regresa a su modo normal cuando el menú se cierra
+    //para esto fue necesario reescribir unos métodos de jQuery
+    (function(){
+        var methods = ["addClass", "toggleClass", "removeClass"]; //métodos a sobreescribir
+        $.map(methods, function(method){
+            var originalMethod = $.fn[ method ];            
+            $.fn[ method ] = function(){                
+                var result = originalMethod.apply( this, arguments ); // Execute the original method.                
+                myfunction(this); // call your function                
+                return result; // return the original result
+            };
+        });
+    })();
+    
+    function myfunction(obj){        
+        if($(obj).hasClass('dropup') || $(obj).hasClass('dropdown'))
+            if ($(obj).hasClass('open'))
+                $('.zona_actual').css('overflow-y','visible');            
+            else
+                $('.area_grafico').filter(function(){ return $(this).css('overflow-y') === 'visible';}).css('overflow-y','auto');        
+    }    
+    // *****************
+    
     jQuery(document).ajaxStart(function() {
         $('#div_carga').show();
     }).ajaxStop(function() {
         $('#div_carga').hide();
     });
-
+            
+    $( "#sala" ).sortable();
+    $( "#sala" ).disableSelection();
+        
     $('A.indicador').click(function() {
         dibujarIndicador($(this).attr('data-id'));
     });
@@ -14,7 +44,7 @@ $(document).ready(function() {
     }
 
     $('#agregar_fila').click(function() {
-        sala_agregar_fila();
+        sala_agregar_fila();        
     });
 
     $('#quitar_indicador').click(function() {
@@ -36,11 +66,8 @@ $(document).ready(function() {
 
     function sala_agregar_fila() {
         var cant = $('DIV.area_grafico').length;
-        var html = '<div class="row-fluid fila_sala" >';
-        for (var ii = cant + 1; ii <= cant + 3; ii++) {
-            html = html + 
-                    '<div class="span4 area_grafico" id="grafico_' + ii + '" >' +
-                        '<h3 class="titulo_indicador"></h3>' +
+        var html =  '<div class="area_grafico" id="grafico_' + parseInt(cant+1) + '" >' +
+                        '<h4 class="titulo_indicador"></h4>' +
                         '<h6 class="filtros_dimensiones"></h6>' +
                         '<div class="controles btn-toolbar"></div>' +
                         '<div class="row-fluid info" ></div>' +
@@ -50,12 +77,10 @@ $(document).ready(function() {
                         '<div class="row-fluid" >' +
                             '<div class="span4 dimension" style="text-align: right"></div>' +
                             '<div class="controlesDimension span4"></div>' +
-                        '</div>' +
-                    '</div>';
-        }
-        html += '</div>';
+                        '</div>'+ 
+                    '</DIV>';         
         
-        $('#sala').append(html);
+        $('#sala').append(html);        
         $('DIV.area_grafico').click(function() {
             zona_elegir(this);
         });
@@ -70,7 +95,8 @@ $(document).ready(function() {
             alert('Ingrese un nombre de sala');
             return;
         }
-        var i = 0;        
+        var i = 0;
+        var posicion = 1;
         $('.area_grafico').each(function() {
             if ($(this).children('.titulo_indicador').html() !== '') {
                 var datos = new Object();
@@ -87,10 +113,11 @@ $(document).ready(function() {
                 datos.dimension = $('#' + $(this).attr('id') + ' .dimensiones').val();
                 datos.tipo_grafico = $('#' + $(this).attr('id') + ' .tipo_grafico_principal').val();
                 datos.orden = $(this).attr('orden');
-                datos.posicion = $(this).attr('id').split('_')[1];
+                datos.posicion = posicion;
                 arreglo_indicadores[i] = datos;
                 i++;
             }
+            posicion++;
 
         });
         datos_sala.nombre = $('#nombre_sala').val();
@@ -103,7 +130,6 @@ $(document).ready(function() {
                 $('#nombre_sala').attr('id-sala', resp.id_sala);
                 $('#nombre_sala2').html('<h4>Nombre de sala: ' + $('#nombre_sala').val() + '</h4>');
                 $('#myModal').modal('toggle');
-                //$('#info_sala').html('_sala_guardada_').addClass('success');
             }
             else {
                 $('#info_sala').html('_error_guardar_sala_').addClass('error');
@@ -124,10 +150,10 @@ $(document).ready(function() {
                 max_id = graficos[i].posicion;
         }
 
-        $('.fila_sala').remove();
+        $('#sala').html('');
 
         var filas = Math.ceil(max_id / 3);
-        for (i = 1; i <= filas; i++) {
+        for (i = 1; i <= max_id; i++) {
             sala_agregar_fila();
         }
 

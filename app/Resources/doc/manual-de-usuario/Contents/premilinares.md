@@ -21,7 +21,7 @@ Pasos alternos:
 1. Logo/Imagen principal
 1. Menú principal, se mostrarán las opciones de acuerdo al perfil del usuario
 1. Barra de navegación. Contrendrá las opciones en las cuales se ha ingresado
-1. Título del elemento actual. Dependerá del elemento y la acción que se esté ejecutando
+1. Área de trabajo
 
 ## Listado
 La mayoría de interfaces se componen de un listado, desde la cual podemos realizar las siguientes acciones:
