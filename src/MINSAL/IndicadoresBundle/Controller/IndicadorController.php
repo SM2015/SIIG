@@ -317,5 +317,4 @@ class IndicadorController extends Controller {
         $resp['id_sala'] = $grupoIndicadores->getId();
         return new Response(json_encode($resp));
     }
-
 }

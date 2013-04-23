@@ -5,6 +5,7 @@
 * Servidor Web
 * Gestor de base de datos
 * PHP 5.3.8+
+* Java 6
 
 ## Pasos
 
