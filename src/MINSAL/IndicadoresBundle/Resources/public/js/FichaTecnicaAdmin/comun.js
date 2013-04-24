@@ -365,7 +365,7 @@ function dibujarControles(zona, datos) {
                 '<span class="caret"></span>' +
             '</button>' +
             '<ul class="dropdown-menu" role="menu" >' +            
-            '<li><A><label>&nbsp;</label></A></li>'+
+            '<li><label>&nbsp;</label></li>'+
             '<li><A >' + combo_ordenar_por_medida + '</A></li>'+
             '<li><A >' + combo_tipo_grafico + '</A></li>'
             ;
