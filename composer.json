@@ -30,6 +30,7 @@
         "sonata-project/easy-extends-bundle": "master",
         "sonata-project/user-bundle": "master",
         "os/excel-bundle": "dev-master",
+        "videlalvaro/php-amqplib": "dev-master",
         "oldsound/rabbitmq-bundle": "*",
 	"knplabs/knp-snappy-bundle": "dev-master"
     },
