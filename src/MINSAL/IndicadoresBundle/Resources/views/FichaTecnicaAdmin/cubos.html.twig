@@ -77,5 +77,13 @@
 
 {% block content%}
 
+<div class="processing_container"></div>
+        <div class="processing">
+            <div class="processing_inner">
+                <span class="processing_image">&nbsp;</span>
+                <span class="processing_message i18n">Loading...</span>
+            </div>
+        </div>
+
   {% include 'IndicadoresBundle:FichaTecnicaAdmin:cubos_templates.html.twig' %}  
 {% endblock %}
