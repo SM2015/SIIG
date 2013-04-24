@@ -79,8 +79,10 @@ input.valores_filtro{
 }
 
 .area_grafico:hover{
-    background-color: #EFEEF7;
+    background-color: #F4F3FA;
 }
+
+.area_grafico {border: 1px gray dashed; }
 
 .zona_actual{
     border: 1.5px solid green;
@@ -100,9 +102,9 @@ input.valores_filtro{
     width: 370px; 
     height: 370px; 
     overflow-y: auto;
-    border: 1px gray dashed;
 }
 
-.titulo_indicador{
+.titulo_indicador{    
+    cursor: move;
     text-align: center;
 }
