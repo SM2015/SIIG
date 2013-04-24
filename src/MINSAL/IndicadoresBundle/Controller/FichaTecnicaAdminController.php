@@ -80,14 +80,5 @@ class FichaTecnicaAdminController extends Controller {
                     'indicadores_no_clasificados' => $indicadores_no_clasificados
                 ));
     }
-    
-/**
-     * @Route("/indicador/cubos", name="indicador_cubos", options={"expose"=true})
-     */
-
-public function CubosAction() {
-        return $this->render('IndicadoresBundle:FichaTecnicaAdmin:cubos.html.twig', array());
-    }
-
 
 }
