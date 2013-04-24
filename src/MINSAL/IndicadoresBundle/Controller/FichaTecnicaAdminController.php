@@ -81,8 +81,4 @@ class FichaTecnicaAdminController extends Controller {
                 ));
     }
     
-    public function CubosAction() {
-        return $this->render('IndicadoresBundle:FichaTecnicaAdmin:cubos.html.twig', array());
-    }
-
 }
