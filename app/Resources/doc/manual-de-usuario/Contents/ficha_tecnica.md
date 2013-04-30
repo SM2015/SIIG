@@ -28,12 +28,12 @@ Se debe indicar las variables que se utilizarán en la fórmula del indicador y 
 ![Ficha técnica - Definición de la fórmula](ficha2.png)
 
 ### Clasificación del indicador
-La clasificación del indicador tiene las siguientes opciones: Según nivel, clasificación técnica, privacidad  y según uso
+La clasificación del indicador tiene las siguientes opciones: Clasificación técnica  y nivel de usuario
 
 ![Ficha técnica - Datos generales](ficha3.png)
 
 ### Otros datos
-Podemos especificar el responsable del indicador, su confiabilidad, la periocidad de actualización de datos, la presentación que se utilizará en el tablero.
+Podemos especificar la confiabilidad de indicador, la periocidad de actualización de datos y alguna observación general.
 
 ![Ficha técnica - Otros datos](ficha4.png)
 

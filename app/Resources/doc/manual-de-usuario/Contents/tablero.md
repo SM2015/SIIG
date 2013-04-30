@@ -1,21 +1,20 @@
 # Tablero de indicadores
 El objetivo del trablero es proveer una herramienta para el análisis de los datos del indicador de manera dinámica y que el usuario pueda interactuar para mostrar los datos de la forma que más le sea útil.
 
-El tablero se divide en las siguientes áreas:
-1. Listado de indicadores agrupados por clasificación técnica.
-2. Filtros aplicados.
-3. Opciones que se pueden aplicar al indicador: Ordenar y tipo de gráfico.
-4. Área de gráfico.
-5. Descripción de rangos de alertas.
-6. Opciones de la dimensión: Ordenar, filtrar, cambiar dimensión.
-
 ![Tablero de indicadores](tablero.png)
 
-## Listado de indicadores
-Los grupos mostrados son de acuerdo a las clasificaciones técnicas existentes, para abrir un grupo se debe dar clic en el nombre y se mostrarán todos los indicadores pertenecientes. Para seleccionar un indicador se debe dar clic sobre este y se cargará la información de este.
+El tablero se divide en las siguientes áreas:
 
-## Área de gráfico
-El gráfico puede ser de cuatro tipos: líneas, circular, mapa o de columnas, el gráfico es interactivo y dinámico, al dar clic en algún elemento de este se creará un filtro con el valor seleccionado y se mostrará un gráfico con la siguiente dimensión disponible. Ej.: Si se tiene el gráfico con los valores para los años 2010 y 2011, podemos dar clic en el elemento del gráfico que representa 2011 para poder ver los datos filtrados por el año 2011 y se mostrará otro gráfico por ejemplo por género.
+1. Clasificación utilizada, de acuerdo a esta opción será los grupos mostrados en el numeral 4
+2. Menú de sala, los gráficos se pueden agrupar en salas se puede guardar y recuperar una sala
+3. Indicadores marcados como favoritos.
+4. Agrupación de indicadores, dependerá de la opción elegida en el numeral 1.
+5. Título del gráfico, se puede arrastar el gráfico por esta zona y ubicarlo en otra posición.
+6. Opciones del gráfico del indicador: se puede ordenar usando los valores del indicador y el tipo de gráfico.
+7. Opciones generales del indicador: Ver ficha técnica, ver tabla de datos, descargar gráfico, quitar indicador y marcar como favorito
+8. Area del gráfico
+9. Opciones de la dimensión utilizada en el gráfico, se refiere a la variable mostrada, podemos: ordenar, cambiar dimensión y filtrar.
+
 
 ## Filtros aplicados
 Cada vez que se dé clic sobre un elemento del gráfico se creará un filtro con el valor seleccionado, podemos aplicar filtros de acuerdo a la cantidad de variables disponibles para el indicador, además se puede regresar y quitar un filtro dando clic en el nivel deseado
