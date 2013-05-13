@@ -24,12 +24,13 @@ Estos incluyen:
 * JQuery: Lenguaje para interfaces de usuario
 * RabbitMQ: Servidor de Mensajería
 * EasyBook: Generador de documentos en formato PDF
+* Bootstrap: Framework para interfaces de usuario
 
 ### Gestor de base de datos
 [PostgreSQL] (http://www.postgresql.org/)
 
 Versión 9.2
-Actualmente le sistema únicamente puede utilizar PostgreSQL por la siguiente razón: 
+Actualmente el sistema únicamente puede utilizar PostgreSQL por la siguiente razón: 
 La aplicación debe proveer la capacidad de analizar datos para cualquier indicador. Cada indicador esta construido con varios datos y relacionados por una formula almacenada en el sistema.  Es posible crear una tabla por cada grupo de datos, con la limitante de que es necesario conocer el dato antes de guardarlo, lo cual no es sostenible a futuro. 
 
 La base de datos necesita guardar datos sin conocer de antemano sus características.  Esto se logra usando un esquema de datos generico EAV (entidad-atributo-valor). El manejo de esquemas EAV es implementado de diferentes formas para diferentes gestores de bases de datos. El Tablero eTAB usa la implementación de Postgres la cual crea un tipo especial de dato llamado HSTORE. Además, el modulo de cubos OLAP utiliza la función CROSSTAB de Postgres para transponer grupos de datos.   El tipo de campo HSTORE y la función CROSSTAB no existen en otros gestores de bases de datos por lo cual no seria posible instalar esta aplicación usando un gestor de base de datos que no sea PostgreSQL. 
