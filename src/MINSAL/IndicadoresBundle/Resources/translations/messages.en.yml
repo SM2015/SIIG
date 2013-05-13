@@ -245,6 +245,7 @@ javascript:
   pastel: 'Cake'
   mapa: 'Map'
   lineas: 'Lines'
+  guardar_imagen: 'Right click on the image, then choose "Save Image As ..."'
 
 validacion:
   requerido: This field is required

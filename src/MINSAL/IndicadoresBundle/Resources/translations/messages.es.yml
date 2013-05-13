@@ -246,6 +246,7 @@ javascript:
   pastel: 'Pastel'
   mapa: 'Mapa'
   lineas: 'Lineas'
+  guardar_imagen: 'De clic derecho sobre la imagen, luego elija "Guardar imagen como..."'
 
 validacion:
   requerido: Este dato es requerido
