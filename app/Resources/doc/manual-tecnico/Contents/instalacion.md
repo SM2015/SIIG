@@ -316,8 +316,6 @@ https://github.com/erodriguez-minsal/SIIG/wiki/PlantillaIndicadorOLAP
 biserver-ce/pentaho-solutions/system/olap/datasources.xml
 
 
-### Pentaho+Saiku API
-
 El servidor OLAP/Pentaho puede ser consultado a traves de SAIKU usando su API HTTP/REST. Esta API permite obtener informacion sobre 
 los cubos existentes en el servidor OLAP asi como efectuar consultas. La documentacion de la API puede ser consultada en:
 
@@ -325,10 +323,6 @@ los cubos existentes en el servidor OLAP asi como efectuar consultas. La documen
 http://dev.analytical-labs.com/saiku/serverdocs/
  
 
-
-6- Agregar definición de cubos usando la plantilla para indicadores del MINSAL:
-
-https://github.com/erodriguez-minsal/SIIG/wiki/PlantillaIndicadorOLAP
 ## Instalación de librería wkhtmltopdf
 [wkhtmltopdf](http://code.google.com/p/wkhtmltopdf/) Es una utilidad de línea de comando para convertir html a pdf
 
