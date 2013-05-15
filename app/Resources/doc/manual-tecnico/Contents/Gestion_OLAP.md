@@ -274,31 +274,11 @@ Los errores del sistema son registrados en:
 /opt/biserver-ce/tomcat/logs/pentaho.log 
 /opt/biserver-ce/tomcat/logs/catalina.out	
 
-4- Activar el proxy de Apache/Esconder el Puerto de Pentaho
-
-Activar módulos de Apache:  a2enmod proxy proxy_http
-
-editar la seccion VirtualHost dentro de /etc/apache2/sites-enabled/000-default:
-
-```
-<Location /pentaho/>
-      ProxyPass http://localhost:8080/pentaho/
-      ProxyPassReverse http://localhost:8080/pentaho/
-      SetEnv proxy-chain-auth
-    </Location>
-
-    <Location /pentaho-style/>
-      ProxyPass http://localhost:8080/pentaho-style/
-      ProxyPassReverse http://localhost:8080/pentaho-style/
-      SetEnv proxy-chain-auth
-    </Location>
-</pre>
-```
 Después de reiniciar Apache, podemos usar la nueva dirección del servidor:
 
-http://myservidor/pentaho
+http://myservidor:8080/pentaho
 
-5- Descargar la ultima versión del SAIKU (Plugin para Pentaho):
+4- Descargar la ultima versión de SAIKU-UI:
 
 http://analytical-labs.com/downloads.php
 
@@ -314,10 +294,25 @@ Para ejecutarlo, es necesario indicar la ubicacion de la instalacion:
 Reiniciar Pentaho: ./stop-pentaho.sh
                    ./start-pentaho.sh
 
+5- Activar el proxy de Apache/Esconder el Puerto de Pentaho
+
+Activar módulos de Apache:  a2enmod proxy proxy_http
+
+editar la seccion VirtualHost dentro de /etc/apache2/sites-enabled/000-default:
+
+```
+<Location /saiku/>
+      ProxyPass http://localhost:8080/pentaho/content/saiku/
+      ProxyPassReverse http://localhost:8080/pentaho/content/saiku/
+      SetEnv proxy-chain-auth
+    </Location>
+```
+
+
 
 En este punto ya tenemos SAIKU disponible en: 
 
-http://myserver/pentaho/content/saiku-ui/index.html?biplugin=true
+http://myserver/saiku-ui/index.html?biplugin=true
 
 6- Agregar definición de cubos usando la plantilla para indicadores del MINSAL:
 
@@ -339,7 +334,7 @@ http://dev.analytical-labs.com/saiku/serverdocs/
 
 ### Crear/Actualizar Catalogo Tiempo
 
-Cada catalgo/cubo utiliza la dimension tiempo, esta dimension es un tabla especial que es creada por el admoinistrador del sistema usando la funcion especial crear_ctl_tiempo. A continuacion se muestra el codigo de esta funcion:
+Cada indicador/cubo puede utilizar la dimension tiempo, esta dimension es un tabla/catalogo especial que es creada por el administrador del sistema usando la funcion especial crear_ctl_tiempo. A continuacion se muestra el codigo de esta funcion:
 
 
 ```postgres
@@ -401,7 +396,7 @@ RAISE NOTICE 'Se creo tabla Tiempo de % anios a partir de %',anios,inicio;
 END;
 $$  LANGUAGE plpgsql;
 ```
-Como se puede ver en el codigo intervalos y periodos de tiempo (feriados, etc) que se quieran usar para analizar datos pueden pueden ser configurados al crear esta funcion. Luego que se ha agregado esta funcion, procedemos a crear el catalogo tiempo dentro de la base de datos indicadores:
+Como se puede ver en el codigo, los intervalos y periodos de tiempo (feriados, etc) que se quieran usar para analizar datos pueden pueden ser configurados al crear esta funcion. Luego de que se ha agregado esta funcion, procedemos a crear el catalogo tiempo dentro de la base de datos indicadores:
 
 postgres=# select * from crear_ctl_tiempo(2008,5);
 
