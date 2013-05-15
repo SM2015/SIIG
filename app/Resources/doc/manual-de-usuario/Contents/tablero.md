@@ -59,9 +59,13 @@ Podemos combinar las diferentes opciones para adecuar el gráfico. Por ejemplo: 
 El objetivo de los Cubos OLAP es proveer una herramienta para el análisis de los datos del indicador de forma dinámica y que el usuario pueda seleccionar la combinacion de datos que le resulte mas efectiva para analizar la informacion disponible.
 
 El tablero de cubos OLAP se divide en las siguientes áreas:
+
 1. Menu de indicadores/cubos disponibles en el sistema.
+
 2. Dimensiones disponibles para el indicador seleccionado.
+
 3. Medidas disponibles para el indicador seleccionado.
+
 4. Menu de funciones de manipulacion de datos 
 
 ![Interfaz de cubos OLAP](cubos_olap.png)
