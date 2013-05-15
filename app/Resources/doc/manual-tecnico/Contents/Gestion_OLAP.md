@@ -44,16 +44,16 @@ El sistema cuenta con un servidor de gestion de cubos OLAP que se conecta direct
   </DataSource> 
 </DataSources>
 ``` 
-Como puede verse en este codigo cada indicador es un catalogo/cubo cuya descripcion esta contenida en otro archivo XML. Para facilitar la creacion de nuevos cubos a continuacion se muestra el codigo base de un nuevo indcadoe (indicsdorX.mondrian.xml) :
+Como puede verse en este codigo cada indicador es un catalogo/cubo cuya descripcion esta contenida en otro archivo XML. Para facilitar la creacion de nuevos cubos a continuacion se muestra el codigo base de un nuevo indcador, esta plantilla esta disponible en https://github.com/erodriguez-minsal/SIIG/wiki/PlantillaIndicadorOLAP:
 
 ```xml
 
 <!--Para crear un indicador nuevo se debe:
 1. Cambia el nombre del archivo usando el numero del indicador correspondiente ej: indicador5.mondrian.xml
 2. Modificar los valores de este archvo archivo (comentario N.1 - N.5) 
-3. Copiar este archivo al servidor en: /home/administrador/biserver-ce/pentaho-solutions/admin/resources/metadata
+3. Copiar este archivo al servidor en: /home/siig/biserver-ce/pentaho-solutions/admin/resources/metadata
 4. Agregar el indicador comoun nuevo catalgo: 
-el Archivo de Fuentes de datos /home/administrador/biserver-ce/pentaho-solutions/system/olap/datasources.xml
+el Archivo de Fuentes de datos /home/siig/biserver-ce/pentaho-solutions/system/olap/datasources.xml
 
 Se deben agregar estas lineas:
 
@@ -224,11 +224,11 @@ Se deben agregar estas lineas:
 
 ### Servidor de Gestión de Cubos OLAP 
  
-Actualmente el sistema utiliza Pentaho. Este servidor contiene tres elementos:
+Actualmente el sistema utiliza de inteligencia de negociso Pentaho Edicion Comunidad. Este servidor contiene tres elementos:
 
 1- Un gestor de persistencia (Hibernate) que se conecta a nuestra base de datos 
-
-2- Una aplicacion (SAIKU) para procesar peticiones REST. Este componente permite hacer consultas al cubo y mostrar resultados usando un URL desde AJAX.
+2- El servidor de aplicaciones Java/Tomcat
+3- Una aplicacion (SAIKU) para procesar peticiones REST. Este componente permite hacer consultas al cubo y mostrar resultados usando un URL desde AJAX.
 
 
 ### Instalar Pentaho
@@ -243,10 +243,10 @@ apt-get install openjdk-6-jre libpg-java
 
 http://community.pentaho.com/projects/bi_platform/
 
-Descomprimir el archivo en la carpeta que elijamos, Ejem: /opt/biserver-ce/
+Descomprimir el archivo en la carpeta que elijamos, Ejem: /home/siig/biserver-ce/
 
 Configurar la base de datos, editar
-/opt/biserver-ce/tomcat/webapps/hibernate.properties:
+/home/siig/biserver-ce/tomcat/webapps/hibernate.properties:
  
 ```
 hibernate.dialect = org.hibernate.dialect.PostgreSQLDialect
@@ -257,11 +257,11 @@ hibernate.connection.password = PASSWORD
 hibernate.hbm2ddl.auto = update
 ```
 
-3- Remover la seguridad interna de Pentaho segun la documentación:
+3- Permitir usuarios anonimos, remover la seguridad interna de Pentaho segun la documentación:
 
-http://wiki.pentaho.com/display/ServerDoc2x/Removing+Security
+http://infocenter.pentaho.com/help/index.jsp?topic=%2Fsecurity_guide%2Ftask_removing_security.html
 
-Iniciar el servidor:  ./opt/biserver-ce/start-pentaho.sh
+Iniciar el servidor:  ./start-pentaho.sh
 
 En este punto deberíamos poder abrir la aplicación sin usar credenciales usando dirección del servidor:
 
