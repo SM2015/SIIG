@@ -323,9 +323,9 @@ https://github.com/erodriguez-minsal/SIIG/wiki/PlantillaIndicadorOLAP
 biserver-ce/pentaho-solutions/system/olap/datasources.xml
 
 
-### Consultando el Servidor OLAP
+### Pentaho+Saiku API
 
-El servidor OLAP/Pentaho peude ser consultado a traves de SAIKU usando su API HTTP/REST. Esta API permite obtener informacion sobre 
+El servidor OLAP/Pentaho puede ser consultado a traves de SAIKU usando su API HTTP/REST. Esta API permite obtener informacion sobre 
 los cubos existentes en el servidor OLAP asi como efectuar consultas. La documentacion de la API puede ser consultada en:
 
 
