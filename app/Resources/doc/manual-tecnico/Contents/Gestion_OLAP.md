@@ -9,37 +9,216 @@ Por ejemplo: Si el catalogo municipio tiene los campos  municipio, departamento 
 La ventaja principal de usar un gestor de cubos OLAP es aislar la lógica de las búsquedas para analizar los datos. De esta forma el sistema se enfoca en presentar al usuario la mayor cantidad de información de forma flexible sin preocuparse de la lógica para obtener los datos.
 
 ### Indicadores y Cubos OLAP
-El sistema cuenta con una función que genera los cubos OLAP automáticamente usando un esquema estrella. 
-Los cubos son agregados dentro del mismo catalogo de Postgres pero en un esquema llamado 'cubos'. Esto permite que en el proceso de actualización de cubos, este esquema pueda ser borrado y creado nuevamente sin afectar el resto del sistema. A continuación se muestra como generar/actualizar los cubos usando la función interna del sistema desde la linea de comandos de Postgres:
+El sistema cuenta con un servidor de gestion de cubos OLAP que se conecta directamente a la base de datos de Indicadores. La definición de cubos esta descrita en el archivo  biserver-ce/pentaho-solutions/system/olap/datasources.xml, los contenidos de este archivo se muestran a continuacion:
 
-<pre>
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
 
-minsal=# select * from cargar_cubos();
-NOTICE:  Inicio..
-NOTICE:  ALTER TABLE / ADD PRIMARY KEY will create implicit index "cubos_indicador1_pk" for table "indicador1"
-CONTEXT:  SQL statement "ALTER TABLE cubos.indicador1 ADD CONSTRAINT cubos_indicador1_pk PRIMARY KEY (id_fila)"
-PL/pgSQL function crearcubos() line 39 at EXECUTE statement
-NOTICE:  Nueva Tabla cubos.indicador1
-NOTICE:  La columna id_area usara el catalago: ctl_area
-NOTICE:  La columna id_genero usara el catalago: ctl_sexo
-NOTICE:  La columna id_region usara el catalago: ctl_regiones
-NOTICE:  La columna id_municipio usara el catalago: ctl_municipio
-NOTICE:  La columna id_departamento usara el catalago: ctl_departamento
-NOTICE:  ALTER TABLE / ADD PRIMARY KEY will create implicit index "cubos_indicador2_pk" for table "indicador2"
-CONTEXT:  SQL statement "ALTER TABLE cubos.indicador2 ADD CONSTRAINT cubos_indicador2_pk PRIMARY KEY (id_fila)"
-PL/pgSQL function crearcubos() line 39 at EXECUTE statement
-NOTICE:  Nueva Tabla cubos.indicador2
-NOTICE:  La columna id_area usara el catalago: ctl_area
-NOTICE:  La columna id_genero usara el catalago: ctl_sexo
-NOTICE:  La columna id_region usara el catalago: ctl_regiones
-NOTICE:  La columna id_municipio usara el catalago: ctl_municipio
-NOTICE:  La columna id_departamento usara el catalago: ctl_departamento
-NOTICE:  Terminado.
- crearcubos 
-------------
+<DataSources> 
+  <DataSource> 
+    <DataSourceName>Provider=Mondrian;DataSource=Pentaho</DataSourceName>  
+    <DataSourceDescription>Pentaho BI Platform Datasources</DataSourceDescription>  
+    <URL>http://localhost:8080/pentaho/Xmla?userid=joe&amp;password=password</URL>  
+    <DataSourceInfo>Provider=mondrian</DataSourceInfo>  
+    <ProviderName>PentahoXMLA</ProviderName>  
+    <ProviderType>MDP</ProviderType>  
+    <AuthenticationMode>Unauthenticated</AuthenticationMode>  
+    <Catalogs> 
+      <Catalog name="Indicador 23"> 
+        <DataSourceInfo>Provider=mondrian;DataSource=Minsal</DataSourceInfo>  
+        <Definition>solution:/admin/resources/metadata/indicador23.mondrian.xml</Definition> 
+      </Catalog>  
+      <Catalog name="Indicador 24"> 
+        <DataSourceInfo>Provider=mondrian;DataSource=Minsal</DataSourceInfo>  
+        <Definition>solution:/admin/resources/metadata/indicador24.mondrian.xml</Definition> 
+      </Catalog>  
+      <Catalog name="Indicador 25"> 
+        <DataSourceInfo>Provider=mondrian;DataSource=Minsal</DataSourceInfo>  
+        <Definition>solution:/admin/resources/metadata/indicador25.mondrian.xml</Definition> 
+      </Catalog>  
+      <Catalog name="indicador 7"> 
+        <DataSourceInfo>Provider=mondrian;DataSource=Minsal</DataSourceInfo>  
+        <Definition>solution:/admin/resources/metadata/indicador7.mondrian.xml</Definition> 
+      </Catalog> 
+    </Catalogs> 
+  </DataSource> 
+</DataSources>
+``` 
+Como puede verse en este codigo cada indicador es un catalogo/cubo cuya descripcion esta contenida en otro archivo XML. Para facilitar la creacion de nuevos cubos a continuacion se muestra el codigo base de un nuevo indcadoe (indicsdorX.mondrian.xml) :
+
+```xml
+
+<!--Para crear un indicador nuevo se debe:
+1. Cambia el nombre del archivo usando el numero del indicador correspondiente ej: indicador5.mondrian.xml
+2. Modificar los valores de este archvo archivo (comentario N.1 - N.5) 
+3. Copiar este archivo al servidor en: /home/administrador/biserver-ce/pentaho-solutions/admin/resources/metadata
+4. Agregar el indicador comoun nuevo catalgo: 
+el Archivo de Fuentes de datos /home/administrador/biserver-ce/pentaho-solutions/system/olap/datasources.xml
+
+Se deben agregar estas lineas:
+
+ <Catalog name="Indicador 5"> 
+        <DataSourceInfo>Provider=mondrian;DataSource=Minsal</DataSourceInfo>  
+        <Definition>solution:/admin/resources/metadata/indicador5.mondrian.xml</Definition> 
+      </Catalog>
+      
+5. Refrescar la aplicacion.      
+      
+-->
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- N.1 - Asignar el numero del indicador segun la tabla Ficha_tecnica-->
+<Schema name="Indicador X">
+
+<!--Definicion de dimensiones, pueden estar definidas aun si no se utilizan en este indicador-->
+
+<!-- Definicion de la dimension departamento-->
+<Dimension visible="true" highCardinality="false" name="Departamento">
+    <Hierarchy name="Departamento" visible="true" hasAll="true" primaryKey="id">
+      <Table name="ctl_departamento" schema="public">
+      </Table>
+      <Level name="Departamento" visible="true" column="descripcion" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+    <Hierarchy name="Digestyc" visible="true" hasAll="true" primaryKey="id">
+      <Table name="ctl_departamento" schema="public">
+      </Table>
+      <Level name="Digestyc" visible="true" column="digestyc" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+    <Hierarchy name="Gis" visible="true" hasAll="true" primaryKey="id">
+      <Table name="ctl_departamento" schema="public">
+      </Table>
+      <Level name="Gis" visible="true" column="gis" type="Numeric" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  
+  <!-- Definicion de la dimension Municipio-->
+  <Dimension visible="true" highCardinality="false" name="Municipio">
+    <Hierarchy name="Municipio" visible="true" hasAll="true" primaryKey="id">
+      <Table name="ctl_municipio" schema="public">
+      </Table>
+      <Level name="Municipio" visible="true" column="descripcion" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  
+  
+  <!-- Definicion de la dimension Region-->
+  <Dimension visible="true" highCardinality="false" name="Region">
+    <Hierarchy name="Region" visible="true" hasAll="true" primaryKey="id">
+      <Table name="ctl_regiones" schema="public">
+      </Table>
+      <Level name="Region" visible="true" column="descripcion" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  
+  <!-- Definicion de la dimension Area-->
+  <Dimension visible="true" highCardinality="false" name="Area">
+    <Hierarchy name="Area" visible="true" hasAll="true" primaryKey="inicial">
+      <Table name="ctl_area" schema="public">
+      </Table>
+      <Level name="Area" visible="true" column="descripcion" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  
+ <!-- Definicion de la dimension Genero-->
+   <Dimension visible="true" highCardinality="false" name="Genero">
+    <Hierarchy name="Genero" visible="true" hasAll="true" primaryKey="inicial">
+      <Table name="ctl_sexo" schema="public">
+      </Table>
+      <Level name="Genero" visible="true" column="descripcion" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  
+ <!-- Definicion de la dimension Sibasi-->
+   <Dimension visible="true" highCardinality="false" name="Sibasi">
+    <Hierarchy name="Sibasi" visible="true" hasAll="true" primaryKey="id">
+      <Table name="ctl_sibasi" schema="public">
+      </Table>
+      <Level name="Sibasi" visible="true" column="descripcion" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  
+  <!-- Definicion de la dimension Tiempo-->
+  <Dimension visible="true" highCardinality="false" name="Tiempo">
+    <Hierarchy name="Anio" visible="true" hasAll="true" primaryKey="fecha">
+      <Table name="ctl_tiempo" schema="public">
+      </Table>
+      <Level name="Anio" visible="true" column="anio" type="Numeric" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+    <Hierarchy name="Mes" visible="true" hasAll="true" primaryKey="fecha">
+      <Table name="ctl_tiempo" schema="public">
+      </Table>
+      <Level name="Mes" visible="true" column="mes" type="Numeric" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="Mesanio" visible="true" column="mesanio" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="Finmes" visible="true" column="finmes" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+    <Hierarchy name="Feriadoelsalvador" visible="true" hasAll="true" primaryKey="fecha">
+      <Table name="ctl_tiempo" schema="public">
+      </Table>
+      <Level name="Feriadoelsalvador" visible="true" column="feriadoelsalvador" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+    <Hierarchy name="Periodo" visible="true" hasAll="true" primaryKey="fecha">
+      <Table name="ctl_tiempo" schema="public">
+      </Table>
+      <Level name="Periodo" visible="true" column="periodo" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+    <Hierarchy name="Semanaaniocalendario" visible="true" hasAll="true" primaryKey="fecha">
+      <Table name="ctl_tiempo" schema="public">
+      </Table>
+      <Level name="Semanaaniocalendario" visible="true" column="semanaaniocalendario" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="Semanacalendario" visible="true" column="semanacalendario" type="Numeric" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="Findesemana" visible="true" column="findesemana" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+    <Hierarchy name="Trimestre" visible="true" hasAll="true" primaryKey="fecha">
+      <Table name="ctl_tiempo" schema="public">
+      </Table>
+      <Level name="Trimestre" visible="true" column="trimestre" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="Trimestreanio" visible="true" column="trimestreanio" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  
+  <!--N.2 - Definicion del cubo-->
+  
+  <Cube name="Nombre del indicador">
+    <Table name="Nombre de la tabla del indicador" schema="public"/>
+    
+    <!--N.3 - Listado de dimensiones disponibles en este indicador. Para cada dimension el formato a seguir es:
+    DimensionUsage name=Etiqueta source=DimensionPreDefinida foreignKey=ColumnaTablaInidcador-->
+    
+    <DimensionUsage name="Departamento" source="Departamento" foreignKey="id_departamento"/>
+    <DimensionUsage name="Municipio" source="Municipio" foreignKey="id_municipio"/>
+    <DimensionUsage name="Region" source="Region" foreignKey="id_region"/>
+    <DimensionUsage source="Tiempo" name="Tiempo" visible="true" foreignKey="fecha" highCardinality="false"/>
  
-(1 row)
-</pre> 
+ <!--N.4 - Definicion de variables del indicador-->
+    <Measure name="nnici_p" column="nnici_p" aggregator="sum" formatString="#"/>
+    <Measure name="nnici_simmow" column="nnici_simmow" aggregator="sum" formatString="#"/>
+    
+    <!--N.5 - Definicion de la formula unidad de medida-->
+<CalculatedMember name="Porcentaje"  formula="([Measures].[nnici_p]/[Measures].[nnici_simmow])* 100" dimension="Measures" visible="true"/>
+ </Cube>
+</Schema>
+
+````
 
 
 
