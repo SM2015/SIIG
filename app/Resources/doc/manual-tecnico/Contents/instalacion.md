@@ -215,7 +215,19 @@ Pueden aparecer mensajes de aviso como "/usr/bin/nohup: redirecting stderr to st
 - Cargar la interfaz web: entrar a la dirección http://server_name:55672/mgmt/
 El usuario por defecto es **guest** y la clave **guest**
 
-## 4. Instalación de Servidor OLAP Pentaho
+## 4. Instalación de Servidor OLAP Pentaho + Saiku
+
+ 
+El sistema utiliza el servidor de inteligencia de negocios Pentaho Edicion Comunidad. Este servidor contiene tres elementos:
+
+A- Un gestor de persistencia (Hibernate) que se conecta a nuestra base de datos 
+
+B- El servidor de aplicaciones Java/Tomcat
+
+C- Una aplicacion (SAIKU) para procesar peticiones REST. Este componente permite hacer consultas al cubo y mostrar resultados usando un URL desde AJAX.
+
+
+
 
 1- Instalar Java y soporte de Postgres:
 
@@ -226,10 +238,10 @@ apt-get install openjdk-6-jre libpg-java
 
 http://community.pentaho.com/projects/bi_platform/
 
-Descomprimir el archivo en la carpeta que elijamos, Ejem: /opt/biserver-ce/
+Descomprimir el archivo en la carpeta que elijamos, Ejem: /home/siig/biserver-ce/
 
 Configurar la base de datos, editar
-/opt/biserver-ce/tomcat/webapps/hibernate.properties:
+/home/siig/biserver-ce/tomcat/webapps/hibernate.properties:
  
 ```
 hibernate.dialect = org.hibernate.dialect.PostgreSQLDialect
@@ -240,11 +252,11 @@ hibernate.connection.password = PASSWORD
 hibernate.hbm2ddl.auto = update
 ```
 
-3- Remover la seguridad interna de Pentaho segun la documentación:
+3- Permitir usuarios anonimos, remover la seguridad interna de Pentaho segun la documentación:
 
-http://wiki.pentaho.com/display/ServerDoc2x/Removing+Security
+http://infocenter.pentaho.com/help/index.jsp?topic=%2Fsecurity_guide%2Ftask_removing_security.html
 
-Iniciar el servidor:  ./opt/biserver-ce/start-pentaho.sh
+Iniciar el servidor:  ./start-pentaho.sh
 
 En este punto deberíamos poder abrir la aplicación sin usar credenciales usando dirección del servidor:
 
@@ -255,31 +267,11 @@ Los errores del sistema son registrados en:
 /opt/biserver-ce/tomcat/logs/pentaho.log 
 /opt/biserver-ce/tomcat/logs/catalina.out 
 
-4- Activar el proxy de Apache/Esconder el Puerto de Pentaho
-
-Activar módulos de Apache:  a2enmod proxy proxy_http
-
-editar la seccion VirtualHost dentro de /etc/apache2/sites-enabled/000-default:
-
-```
-<Location /pentaho/>
-      ProxyPass http://localhost:8080/pentaho/
-      ProxyPassReverse http://localhost:8080/pentaho/
-      SetEnv proxy-chain-auth
-    </Location>
-
-    <Location /pentaho-style/>
-      ProxyPass http://localhost:8080/pentaho-style/
-      ProxyPassReverse http://localhost:8080/pentaho-style/
-      SetEnv proxy-chain-auth
-    </Location>
-</pre>
-```
 Después de reiniciar Apache, podemos usar la nueva dirección del servidor:
 
-http://myservidor/pentaho
+http://myservidor:8080/pentaho
 
-5- Descargar la ultima versión del SAIKU (Plugin para Pentaho):
+4- Descargar la ultima versión de SAIKU-UI:
 
 http://analytical-labs.com/downloads.php
 
@@ -295,10 +287,44 @@ Para ejecutarlo, es necesario indicar la ubicacion de la instalacion:
 Reiniciar Pentaho: ./stop-pentaho.sh
                    ./start-pentaho.sh
 
+5- Activar el proxy de Apache/Esconder el Puerto de Pentaho
+
+Activar módulos de Apache:  a2enmod proxy proxy_http
+
+editar la seccion VirtualHost dentro de /etc/apache2/sites-enabled/000-default:
+
+```
+<Location /saiku/>
+      ProxyPass http://localhost:8080/pentaho/content/saiku/
+      ProxyPassReverse http://localhost:8080/pentaho/content/saiku/
+      SetEnv proxy-chain-auth
+    </Location>
+```
+
+
 
 En este punto ya tenemos SAIKU disponible en: 
 
-http://myserver/pentaho/content/saiku-ui/index.html?biplugin=true
+http://myserver/saiku-ui/index.html?biplugin=true
+
+6- Agregar definición de cubos usando la plantilla para indicadores del MINSAL:
+
+https://github.com/erodriguez-minsal/SIIG/wiki/PlantillaIndicadorOLAP
+
+7- Agregar el nuevo indicador al catalogo de cubos dentro de:
+
+biserver-ce/pentaho-solutions/system/olap/datasources.xml
+
+
+### Pentaho+Saiku API
+
+El servidor OLAP/Pentaho puede ser consultado a traves de SAIKU usando su API HTTP/REST. Esta API permite obtener informacion sobre 
+los cubos existentes en el servidor OLAP asi como efectuar consultas. La documentacion de la API puede ser consultada en:
+
+
+http://dev.analytical-labs.com/saiku/serverdocs/
+ 
+
 
 6- Agregar definición de cubos usando la plantilla para indicadores del MINSAL:
 
