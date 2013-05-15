@@ -44,7 +44,7 @@ El sistema cuenta con un servidor de gestion de cubos OLAP que se conecta direct
   </DataSource> 
 </DataSources>
 ``` 
-Como puede verse en este codigo cada indicador es un catalogo/cubo cuya descripcion esta contenida en otro archivo XML. Para facilitar la creacion de nuevos cubos a continuacion se muestra el codigo base de un nuevo indcador, esta plantilla esta disponible en https://github.com/erodriguez-minsal/SIIG/wiki/PlantillaIndicadorOLAP:
+Como puede verse en este codigo cada indicador es un catalogo/cubo cuya descripcion esta contenida en otro archivo XML. Para facilitar la creacion de nuevos cubos a continuacion se muestra el codigo base de un nuevo indcador, esta plantilla esta disponible en https://github.com/erodriguez-minsal/SIIG/wiki/PlantillaIndicadorOLAP 
 
 ```xml
 
@@ -227,7 +227,9 @@ Se deben agregar estas lineas:
 Actualmente el sistema utiliza de inteligencia de negociso Pentaho Edicion Comunidad. Este servidor contiene tres elementos:
 
 1- Un gestor de persistencia (Hibernate) que se conecta a nuestra base de datos 
+
 2- El servidor de aplicaciones Java/Tomcat
+
 3- Una aplicacion (SAIKU) para procesar peticiones REST. Este componente permite hacer consultas al cubo y mostrar resultados usando un URL desde AJAX.
 
 
@@ -321,6 +323,10 @@ http://myserver/pentaho/content/saiku-ui/index.html?biplugin=true
 
 https://github.com/erodriguez-minsal/SIIG/wiki/PlantillaIndicadorOLAP
 
+7- Agregar el nuevo indicador al catalogo de cubos dentro de:
+
+biserver-ce/pentaho-solutions/system/olap/datasources.xml
+
 
 ### Consultando el Servidor OLAP
 
@@ -331,171 +337,10 @@ los cubos existentes en el servidor OLAP asi como efectuar consultas. La documen
 http://dev.analytical-labs.com/saiku/serverdocs/
  
 
-## Funciones Auxiliares de PostgreSQL
-
- 
-Estas son funciones que utiliza el sistema, para poder crearlas es necesario instalar primero las funciones para manejar hstore y tablas pivot:
-
-postgres=# create extension hstore;
-
-postgres=# create extension tablefunc;
-
-
-### Crear/Actualizar Cubos
-
-
-
-Para crear los cubos OLAP se debe llamar la funcion correspondiente:
-
-postgres=# select * from cargar_cubos();
-
-[....]
-
-NOTICE:  Terminado.
-
-Es posible verificar las tablas/cubos generados en el paso anterior por medio de la siguiente consulta.
-
-postgres=# SELECT table_name FROM information_schema.tables WHERE table_schema = 'cubos';
-
-
-
-```postgres
-
-CREATE OR REPLACE FUNCTION cargar_cubos()
-  RETURNS void AS
-$BODY$
-DECLARE
-indicador int;
-columnas text;
-cols text [];
-c text;
-col text;
-fk record;
-coltype record;
-mycursor refcursor;
-mycursor2 refcursor;
-nombre_tabla text;
-myquery text;
-BEGIN
-SET client_min_messages='INFO';
-DROP SCHEMA IF EXISTS cubos CASCADE;
-CREATE SCHEMA cubos;
-   RAISE NOTICE 'Inicio..';
-    --Agrupar por indicador Para crear
-    -- y poblar tablas por indicador
-  FOR indicador IN SELECT DISTINCT id_ficha_tecnica FROM ficha_tecnica_variable_dato 
-      WHERE id_variable_dato IN (SELECT id FROM variable_dato WHERE 
-      id_origen_datos IN (SELECT id_origen_dato FROM fila_origen_dato 
-      GROUP BY id_origen_dato)) LOOP
-
-        --Obtener los campos comunes de este indicador
-                FOR col IN  SELECT skeys(datos) AS cosa FROM fila_origen_dato WHERE
-                    id IN (SELECT min(id) AS cosa FROM fila_origen_dato WHERE 
-                           id_origen_dato=(SELECT min(id_variable_dato) as tt 
-                            FROM ficha_tecnica_variable_dato WHERE id_ficha_tecnica=indicador))
-                  LOOP
-                    cols:= array_append(cols,col);
-                END LOOP;
-
-        --Crear lista de columnas
-                columnas:=array_to_string(cols, ' text,') || ' text';
-                columnas:='id_fila int, '|| columnas;
-
-         --Crear y poblar tabla por indicador/ 'Fact Table' del cubo
-                nombre_tabla:= 'cubos.indicador' || indicador;
-                EXECUTE 'CREATE TABLE IF NOT EXISTS ' || nombre_tabla || '(' || columnas || ')';
-                -- RAISE NOTICE 'Se creo tabla % con columnas:\n %', nombre_tabla,columnas;
-
-                EXECUTE 'INSERT INTO '|| nombre_tabla || '  SELECT * FROM
-                crosstab(''SELECT id,(each(datos)).key AS columna, 
-        (each(datos)).value AS valor FROM  fila_origen_dato where id_origen_dato 
-        IN (SELECT min(id_variable_dato) AS tt FROM ficha_tecnica_variable_dato
-         WHERE id_ficha_tecnica='|| indicador || ') '') AS ct('|| columnas ||')';
-
-
-         columnas :='';
-        cols:=ARRAY[]::text[];
-   END LOOP;
-
-
- --Agrupar por indicador para crear estructura de estrella
-  FOR indicador IN SELECT DISTINCT id_ficha_tecnica FROM ficha_tecnica_variable_dato 
-      WHERE id_variable_dato IN (SELECT id FROM variable_dato WHERE 
-      id_origen_datos IN (SELECT id_origen_dato FROM fila_origen_dato 
-      GROUP BY id_origen_dato)) LOOP
-
-        --Obtener los campos comunes de este indicador
-                FOR col IN  SELECT skeys(datos) AS cosa FROM fila_origen_dato WHERE
-                    id IN (SELECT min(id) AS cosa FROM fila_origen_dato WHERE 
-                           id_origen_dato=(SELECT min(id_variable_dato) as tt 
-                            FROM ficha_tecnica_variable_dato WHERE id_ficha_tecnica=indicador))
-                 LOOP
-                cols:= array_append(cols,col);
-                END LOOP;
-
-        --Crear lista de columnas
-                columnas:=array_to_string(cols, ' text,') || ' text';
-                columnas:='id_fila int, '|| columnas;
-                nombre_tabla:= 'cubos.indicador' || indicador;
-                RAISE NOTICE 'Tabla % con Columnas: %', nombre_tabla,columnas;
-
-                EXECUTE 'ALTER TABLE '|| nombre_tabla ||' ADD CONSTRAINT '||
-                replace(nombre_tabla,'.','_') ||'_pk PRIMARY KEY (id_fila)';
-                EXECUTE 'ALTER TABLE '|| nombre_tabla ||' ALTER COLUMN calculo
-                  TYPE numeric(10,2) USING calculo::numeric(10,2)';
-                RAISE NOTICE 'Nueva Tabla %',  nombre_tabla;
-
-        -- Crear estrella/relacios con otras dimensiones
-                FOREACH c IN ARRAY cols LOOP
-                        IF (c <>'calculo') THEN
-                        OPEN mycursor FOR EXECUTE 'SELECT  significado_campo.catalogo FROM
-                        public.significado_campo WHERE  significado_campo.codigo = '''|| c ||''' AND
-                        significado_campo.catalogo IS NOT NULL;' ;
-
-                        FETCH mycursor INTO fk;
-                                --myVar := rec
-                        IF fk.catalogo IS NULL THEN
-                                RAISE NOTICE 'No se encontro Catalogo para: %', c;
-                        ELSE
-
-                                RAISE NOTICE 'La columna % usara el catalago: %', c,fk.catalogo;
-                                OPEN mycursor2 FOR EXECUTE 'SELECT pg_typeof('||c||')::text as tipo
-                                FROM public.'||fk.catalogo||' LIMIT 1';
-
-                                FETCH mycursor2 INTO coltype;
-                                myquery:= 'ALTER TABLE '|| nombre_tabla ||' ALTER COLUMN '|| c ||
-                                 ' TYPE '|| coltype.tipo ||' using '||c||'::'||coltype.tipo;
-                                --RAISE NOTICE 'Codigo que modifica campo columna: %', myquery;
-                                EXECUTE myquery;
-
-                                myquery='ALTER TABLE '|| nombre_tabla ||' ADD CONSTRAINT '|| c ||'_fk
-                                 FOREIGN KEY ('||c||') REFERENCES public.'||fk.catalogo||' ('||c||') ON
-                                 DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE';
-                                --RAISE NOTICE 'Codigo de llave foranea: %', myquery;
-                                EXECUTE myquery;
-                                CLOSE mycursor2;
-                        END IF;
-                        CLOSE mycursor;
-                        END IF;
-                END LOOP;
-        columnas :='';
-        cols:=ARRAY[]::text[];
-    END LOOP;
-RAISE NOTICE 'Terminado.';
-SET client_min_messages='WARNING';
-END;
-$BODY$
-  LANGUAGE plpgsql VOLATILE
-  COST 100;
-```
-
-
 ### Crear/Actualizar Catalogo Tiempo
 
+Cada catalgo/cubo utiliza la dimension tiempo, esta dimension es un tabla especial que es creada por el admoinistrador del sistema usando la funcion especial crear_ctl_tiempo. A continuacion se muestra el codigo de esta funcion:
 
-postgres=# select * from crear_ctl_tiempo(2008,5);
-
-NOTICE:  Se creo tabla Tiempo de 5 anios a partir de 2008
 
 ```postgres
 CREATE OR REPLACE FUNCTION crear_ctl_tiempo(inicio integer DEFAULT 2006,
@@ -556,3 +401,8 @@ RAISE NOTICE 'Se creo tabla Tiempo de % anios a partir de %',anios,inicio;
 END;
 $$  LANGUAGE plpgsql;
 ```
+Como se puede ver en el codigo intervalos y periodos de tiempo (feriados, etc) que se quieran usar para analizar datos pueden pueden ser configurados al crear esta funcion. Luego que se ha agregado esta funcion, procedemos a crear el catalogo tiempo dentro de la base de datos indicadores:
+
+postgres=# select * from crear_ctl_tiempo(2008,5);
+
+NOTICE:  Se creo tabla Tiempo de 5 anios a partir de 2008
