@@ -332,6 +332,22 @@ http://dev.analytical-labs.com/saiku/serverdocs/
 4. Dar permisos de ejecución: chmod +x /usr/bin/wkhtmltopdf
 
 
+## Validación de Usarios desde directorios LDAP
+
+Si un usuario aun no esta creado dentro del sistema, se hara una busqueda en el drictorio LDAP especificado en el archivo app/config/config.yml.
+A continuacion se muestran las lineas relvantes para especificar que directorio usar:
+
+```yml
+#Fr3d_LDAP
+fr3d_ldap:
+    driver:
+        host:         10.10.20.2 # IP del Servidor LDAP Zimbra/Minsal
+        port:         389    # Opcional
+    user:
+        baseDn:          ou=people,dc=salud,dc=gob,dc=sv # contenedor de usuarios
+        filter: (objectClass=organizationalPerson) # esquema comun para todos los usuarios del directorio
+```
+
 ### Cargar la aplicación
 En este punto estamos listos para crgar la aplicacion desde: 
 http://siig.localhost/app_dev.php
