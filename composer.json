@@ -32,6 +32,7 @@
         "os/excel-bundle": "dev-master",
         "videlalvaro/php-amqplib": "dev-master",
         "oldsound/rabbitmq-bundle": "*",
+        "fr3d/ldap-bundle": "2.0.*@dev",
 	"knplabs/knp-snappy-bundle": "dev-master"
     },
     "scripts": {

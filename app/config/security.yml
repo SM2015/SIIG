@@ -13,24 +13,34 @@ security:
             #- ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT  # if you are using acl then this line must be commented
 
     providers:
+        chain_provider:
+             chain: 
+                 providers: [fos_userbundle, fr3d_ldapbundle]
         fos_userbundle:
             id: fos_user.user_manager
+        fr3d_ldapbundle:
+             id: fr3d_ldap.security.user.provider
+
     encoders:
         FOS\UserBundle\Model\UserInterface: sha512
-        
+        AcmeBundle\Acme\User\LdapUser: plaintext
+
+
+# La configuracion actual busca al usuario en la base local, luego en LDAP
+# y crea el usuario si es necesario, pero con permisos minimos
     firewalls:
         # -> custom firewall for the admin area of the URL
         admin:
             switch_user:        true
             context:            user
             pattern:            /admin(.*)
+            fr3d_ldap:           ~
             form_login:
-                provider:       fos_userbundle
                 login_path:     /admin/login
                 use_forward:    false
                 check_path:     /admin/login_check
-                failure_path:   null
-                use_referer:    true
+                default_target_path: /admin/dashboard
+                use_referer:    true   
             logout:
                 path:           /admin/logout
                 target:         /admin/login
@@ -38,17 +48,19 @@ security:
             anonymous:    true
         # -> end custom configuration
 
-        # defaut login area for standard users
+        # default login area for standard users
         main:
             switch_user:        true
             context:            user
             pattern:            .*
+            fr3d_ldap:           ~
             form_login:
-                provider:       fos_userbundle
                 login_path:     /admin/login
                 use_forward:    false
                 check_path:     /admin/login_check
                 failure_path:   null
+                default_target_path: /admin/dashboard
+                use_referer:    true
             logout:             true
             anonymous:          true
 
