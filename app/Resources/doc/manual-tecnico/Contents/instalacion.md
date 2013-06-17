@@ -22,7 +22,7 @@ Es muy importante poner atención al indicador "#" significa que el comando
 debe ser ejecutado como usuario root y "$" que debe ser ejecutado como un usuario normal
 ~~~
 # apt-get update
-# apt-get install php5 php5-pgsql php5-sqlite sqlite php5-xdebug  php-apc php5-cli php5-xsl php5-intl php5-mcrypt apache2 postgresql acl git-core curl postgresql-contrib
+# apt-get install php5 php5-pgsql php5-sqlite sqlite php5-xdebug  php-apc php5-cli php5-xsl php5-intl php5-mcrypt apache2 postgresql acl git-core curl postgresql-contrib php5-ldap
 ~~~
 
 ### Obtener el código fuente
