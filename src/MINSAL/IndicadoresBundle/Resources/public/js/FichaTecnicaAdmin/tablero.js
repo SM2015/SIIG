@@ -32,7 +32,9 @@ $(document).ready(function() {
         $('#div_carga').hide();
     });
             
-    $( "#sala" ).sortable();
+    $( "#sala" ).sortable({
+        handle: '.titulo_indicador',                
+    });
     $( "#sala" ).disableSelection();
         
     $('A.indicador').click(function() {
@@ -67,7 +69,7 @@ $(document).ready(function() {
     function sala_agregar_fila() {
         var cant = $('DIV.area_grafico').length;
         var html =  '<div class="area_grafico" id="grafico_' + parseInt(cant+1) + '" >' +
-                        '<h4 class="titulo_indicador"></h4>' +
+                        '<h4 class="titulo_indicador ui-widget-header ui-corner-all"></h4>' +
                         '<h6 class="filtros_dimensiones"></h6>' +
                         '<div class="controles btn-toolbar"></div>' +
                         '<div class="row-fluid info" ></div>' +

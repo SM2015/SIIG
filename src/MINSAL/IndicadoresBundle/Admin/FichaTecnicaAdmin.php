@@ -57,8 +57,8 @@ class FichaTecnicaAdmin extends Admin {
     {
         $showMapper
             ->add('nombre')
-            ->add('tema')
-            ->add('concepto')
+            ->add('tema','string')
+            ->add('concepto', 'string')
             ->add('unidadMedida')
             ->add('esAcumulado')
             ->add('variables')
@@ -73,7 +73,7 @@ class FichaTecnicaAdmin extends Admin {
             ->add('clasificacionPrivacidad')
             ->add('periodo')
             ->add('confiabilidad')
-            ->add('observacion')
+            ->add('observacion','string')
             ->add('alertas', 'sonata_type_collection', array(
                 'label' => $this->getTranslator()->trans('alertas'),
                 'required' => true), array(
@@ -81,7 +81,7 @@ class FichaTecnicaAdmin extends Admin {
                 'inline' => 'table',
                 'sortable' => 'position'
             ))
-            ->add('camposIndicador')
+            ->add('camposIndicador', 'string')
         ;
     }
 
