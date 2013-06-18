@@ -22,35 +22,47 @@ class FichaTecnicaAdmin extends Admin {
 
     protected function configureFormFields(FormMapper $formMapper) {
         $formMapper
-                ->add('nombre', null, array('label' => $this->getTranslator()->trans('nombre_indicador')))
-                ->add('tema', null, array('label' => $this->getTranslator()->trans('_interpretacion_')))
-                ->add('concepto', null, array('label' => $this->getTranslator()->trans('concepto')))
-                ->add('unidadMedida', null, array('label' => $this->getTranslator()->trans('unidad_medida')))
-                ->add('esAcumulado', null, array('label' => $this->getTranslator()->trans('es_acumulado')))
-                ->add('variables', null, array('label' => $this->getTranslator()->trans('variables'), 'expanded' => true))
-                ->add('formula', null, array('label' => $this->getTranslator()->trans('formula'),
-                    'help' => $this->getTranslator()->trans('ayuda_ingreso_formula')
+                ->with($this->getTranslator()->trans('_datos_generales_'))
+                    ->add('nombre', null, array('label' => $this->getTranslator()->trans('nombre_indicador')))
+                    ->add('tema', null, array('label' => $this->getTranslator()->trans('_interpretacion_')))
+                    ->add('concepto', null, array('label' => $this->getTranslator()->trans('concepto')))
+                    ->add('unidadMedida', null, array('label' => $this->getTranslator()->trans('unidad_medida')))
+                    ->add('esAcumulado', null, array('label' => $this->getTranslator()->trans('es_acumulado')))
+                    ->add('variables', null, array('label' => $this->getTranslator()->trans('variables'), 'expanded' => true))
+                    ->add('formula', null, array('label' => $this->getTranslator()->trans('formula'),
+                        'help' => $this->getTranslator()->trans('ayuda_ingreso_formula')
+                    ))
+                    ->add('clasificacionTecnica', null, array('label' => $this->getTranslator()->trans('clasificacion_tecnica'),
+                        'required' => true, 'expanded' => true,
+                        'class' => 'IndicadoresBundle:ClasificacionTecnica',
+                            'query_builder' => function ($repository){
+                                return $repository->createQueryBuilder('ct')
+                                        ->orderBy('ct.clasificacionUso');
+                            }))
+                    ->add('clasificacionPrivacidad', null, array('label' => $this->getTranslator()->trans('_nivel_de_usuario_'), 'expanded' => true))
+                    ->add('periodo', null, array('label' => $this->getTranslator()->trans('periodicidad')))
+                    ->add('confiabilidad', null, array('label' => $this->getTranslator()->trans('confiabilidad'), 'required' => false))
+                    ->add('observacion', 'textarea', array('label' => $this->getTranslator()->trans('_observacion_'), 'required' => false))
+                ->end()
+                ->with($this->getTranslator()->trans('alertas'))
+                    ->add('alertas', 'sonata_type_collection', array(
+                        'label' => $this->getTranslator()->trans('alertas'),
+                        'required' => true), array(
+                        'edit' => 'inline',
+                        'inline' => 'table',
+                        'sortable' => 'position'
+                    ))
+                ->end()
+                ->with($this->getTranslator()->trans('_dimensiones_'))
+                    ->add('camposIndicador', null, array('label' => $this->getTranslator()->trans('campos_indicador')))
+                ->end();
+        $accion = array_pop(explode('/',$this->getRequest()->server->get("REQUEST_URI")));
+        if ($accion=='create')
+            $formMapper
+                ->setHelps(array(
+                    'camposIndicador' => $this->getTranslator()->trans('_debe_guardar_para_ver_dimensiones_')
                 ))
-                ->add('clasificacionTecnica', null, array('label' => $this->getTranslator()->trans('clasificacion_tecnica'),
-                    'required' => true, 'expanded' => true,
-                    'class' => 'IndicadoresBundle:ClasificacionTecnica',
-                        'query_builder' => function ($repository){
-                            return $repository->createQueryBuilder('ct')
-                                    ->orderBy('ct.clasificacionUso');
-                        }))
-                ->add('clasificacionPrivacidad', null, array('label' => $this->getTranslator()->trans('_nivel_de_usuario_'), 'expanded' => true))
-                ->add('periodo', null, array('label' => $this->getTranslator()->trans('periodicidad')))
-                ->add('confiabilidad', null, array('label' => $this->getTranslator()->trans('confiabilidad'), 'required' => false))
-                ->add('observacion', 'textarea', array('label' => $this->getTranslator()->trans('_observacion_'), 'required' => false))
-                ->add('alertas', 'sonata_type_collection', array(
-                    'label' => $this->getTranslator()->trans('alertas'),
-                    'required' => true), array(
-                    'edit' => 'inline',
-                    'inline' => 'table',
-                    'sortable' => 'position'
-                ))
-                ->add('camposIndicador', null, array('label' => $this->getTranslator()->trans('campos_indicador')))
-        ;
+            ;
     }
     
     protected function configureShowFields(ShowMapper $showMapper)

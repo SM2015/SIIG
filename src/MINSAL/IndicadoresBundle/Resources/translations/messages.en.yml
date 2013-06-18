@@ -293,3 +293,6 @@ _regla_: Rule
 _regla_transformacion_: 'Transformation rule'
 _transformacion_: 'Transformation'
 _cubos_: 'OLAP cubes'
+_datos_generales_: 'General data'
+_dimensiones_:  'Dimensions'
+_debe_guardar_para_ver_dimensiones_: 'You must save to watch dimensions of the indicator'

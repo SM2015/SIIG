@@ -295,3 +295,6 @@ _regla_: Regla
 _regla_transformacion_: 'Regla de transformación'
 _transformacion_: 'Transformación'
 _cubos_: 'Cubos OLAP'
+_datos_generales_: 'Datos generales'
+_dimensiones_:  'Dimensiones'
+_debe_guardar_para_ver_dimensiones_: 'Debe guardar para ver las dimensiones del indicador'
