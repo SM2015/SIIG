@@ -47,6 +47,8 @@ $ curl -s https://getcomposer.org/installer | php
 ~~~
 $ php composer.phar install
 ~~~
+Al finalizar la instalación, se solicitará los parámetros de conexión a la base de datos, se deben ingresar los 
+valores correspondientes.
 
 ## Configuración
 
@@ -107,22 +109,14 @@ Es necesario tener [soporte para ACL](https://help.ubuntu.com/community/FilePerm
 está el proyecto y luego ejecutar
 
 ~~~
- # setfacl -R -m u:www-data:rwx -m u:`whoami`:rwx app/cache app/logs web/uploads
- # setfacl -dR -m u:www-data:rwx -m u:`whoami`:rwx app/cache app/logs web/uploads
+ # setfacl -R -m u:www-data:rwx -m u:nombre_usuario:rwx app/cache app/logs web/uploads
+ # setfacl -dR -m u:www-data:rwx -m u:nombre_usuario:rwx app/cache app/logs web/uploads
 ~~~
+* Modificar nombre_usuario por un usuario del sistema con que se modificará el código fuente
 
 ### Verificar la configuración
 Entra a la siguiente dirección desde el navegador http://siig.localhost/config.php 
 Si aparece algún error debe ser corregido antes de continuar
-
-### Configuración de la conexión
-editar el archivo app/config/parameters.yml y colocar los valores correctos para las variables siguientes:
-
-* database_host: localhost
-* database_port: null
-* database_name: nombre_base_datos
-* database_user: nombre_usuario_base_datos
-* database_password: clave_usuario
 
 
 ## 2. Instalación de Postgres
