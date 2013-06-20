@@ -27,6 +27,13 @@ class GuardarRegistroOrigenDatoConsumer implements ConsumerInterface {
                 $llaves_aux1 .= "'$k', ";
             $llaves_aux1 = trim($llaves_aux1, ', ');
 
+            // Verificar si existe la tabla fila_origen_dato_aux, sino existe crearla
+            try {
+                $this->em->getConnection()->exec("SELECT 1 FROM fila_origen_dato_aux LIMIT 1");
+            } catch (\Exception $exc) {
+                $this->em->getConnection()->exec("SELECT id_origen_dato, datos, ultima_lectura INTO fila_origen_dato_aux FROM fila_origen_dato LIMIT 0");
+            }
+
             $sql = "INSERT INTO fila_origen_dato_aux(id_origen_dato, datos, ultima_lectura) 
                     VALUES ";
             $i = 0;
@@ -58,7 +65,7 @@ class GuardarRegistroOrigenDatoConsumer implements ConsumerInterface {
                 return false;
             $this->em->getConnection()->commit();
             return true;
-        } elseif ($msg['method'] == 'DELETE'){
+        } elseif ($msg['method'] == 'DELETE') {
             $this->em->getConnection()->beginTransaction();
             //Borrar los datos existentes por el momento así será pero debería haber una forma de ir a traer solo los nuevos
             $sql = "DELETE FROM fila_origen_dato WHERE id_origen_dato='$msg[id_origen_dato]'  ;
@@ -66,19 +73,19 @@ class GuardarRegistroOrigenDatoConsumer implements ConsumerInterface {
                     DELETE FROM fila_origen_dato_aux WHERE id_origen_dato='$msg[id_origen_dato]' ;
                     ";
             $this->em->getConnection()->exec($sql);
-            $this->em->getConnection()->commit();            
-            
+            $this->em->getConnection()->commit();
+
             //Recalcular la tabla del indicador
             //Recuperar las variables en las que está presente el origen de datos
-            $origenDatos = $this->em->find('IndicadoresBundle:OrigenDatos', $msg['id_origen_dato']);                        
-            foreach ($origenDatos->getVariables() as $var){
-                foreach ($var->getIndicadores() as $ind){
+            $origenDatos = $this->em->find('IndicadoresBundle:OrigenDatos', $msg['id_origen_dato']);
+            foreach ($origenDatos->getVariables() as $var) {
+                foreach ($var->getIndicadores() as $ind) {
                     $fichaTec = $this->em->find('IndicadoresBundle:FichaTecnica', $ind->getId());
                     $fichaRepository = $this->em->getRepository('IndicadoresBundle:FichaTecnica');
                     if (!$fichaTec->getEsAcumulado())
                         $fichaRepository->crearIndicador($fichaTec);
                 }
-            }            
+            }
             return true;
         }
     }

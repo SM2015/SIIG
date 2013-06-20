@@ -22,7 +22,7 @@ Es muy importante poner atención al indicador "#" significa que el comando
 debe ser ejecutado como usuario root y "$" que debe ser ejecutado como un usuario normal
 ~~~
 # apt-get update
-# apt-get install php5 php5-pgsql php5-sqlite sqlite php5-xdebug  php-apc php5-cli php5-xsl php5-intl php5-mcrypt apache2 postgresql acl git-core curl postgresql-contrib
+# apt-get install php5 php5-pgsql php5-sqlite sqlite php5-xdebug  php-apc php5-cli php5-xsl php5-intl php5-mcrypt apache2 postgresql acl git-core curl postgresql-contrib php5-ldap
 ~~~
 
 ### Obtener el código fuente
@@ -47,6 +47,8 @@ $ curl -s https://getcomposer.org/installer | php
 ~~~
 $ php composer.phar install
 ~~~
+Al finalizar la instalación, se solicitará los parámetros de conexión a la base de datos, se deben ingresar los 
+valores correspondientes.
 
 ## Configuración
 
@@ -107,22 +109,14 @@ Es necesario tener [soporte para ACL](https://help.ubuntu.com/community/FilePerm
 está el proyecto y luego ejecutar
 
 ~~~
- # setfacl -R -m u:www-data:rwx -m u:`whoami`:rwx app/cache app/logs web/uploads
- # setfacl -dR -m u:www-data:rwx -m u:`whoami`:rwx app/cache app/logs web/uploads
+ # setfacl -R -m u:www-data:rwx -m u:nombre_usuario:rwx app/cache app/logs web/uploads
+ # setfacl -dR -m u:www-data:rwx -m u:nombre_usuario:rwx app/cache app/logs web/uploads
 ~~~
+* Modificar nombre_usuario por un usuario del sistema con que se modificará el código fuente
 
 ### Verificar la configuración
 Entra a la siguiente dirección desde el navegador http://siig.localhost/config.php 
 Si aparece algún error debe ser corregido antes de continuar
-
-### Configuración de la conexión
-editar el archivo app/config/parameters.yml y colocar los valores correctos para las variables siguientes:
-
-* database_host: localhost
-* database_port: null
-* database_name: nombre_base_datos
-* database_user: nombre_usuario_base_datos
-* database_password: clave_usuario
 
 
 ## 2. Instalación de Postgres
@@ -215,7 +209,19 @@ Pueden aparecer mensajes de aviso como "/usr/bin/nohup: redirecting stderr to st
 - Cargar la interfaz web: entrar a la dirección http://server_name:55672/mgmt/
 El usuario por defecto es **guest** y la clave **guest**
 
-## 4. Instalación de Servidor OLAP Pentaho
+## 4. Instalación de Servidor OLAP Pentaho + Saiku
+
+ 
+El sistema utiliza el servidor de inteligencia de negocios Pentaho Edicion Comunidad. Este servidor contiene tres elementos:
+
+A- Un gestor de persistencia (Hibernate) que se conecta a nuestra base de datos 
+
+B- El servidor de aplicaciones Java/Tomcat
+
+C- Una aplicacion (SAIKU) para procesar peticiones REST. Este componente permite hacer consultas al cubo y mostrar resultados usando un URL desde AJAX.
+
+
+
 
 1- Instalar Java y soporte de Postgres:
 
@@ -226,10 +232,10 @@ apt-get install openjdk-6-jre libpg-java
 
 http://community.pentaho.com/projects/bi_platform/
 
-Descomprimir el archivo en la carpeta que elijamos, Ejem: /opt/biserver-ce/
+Descomprimir el archivo en la carpeta que elijamos, Ejem: /home/siig/biserver-ce/
 
 Configurar la base de datos, editar
-/opt/biserver-ce/tomcat/webapps/hibernate.properties:
+/home/siig/biserver-ce/tomcat/webapps/hibernate.properties:
  
 ```
 hibernate.dialect = org.hibernate.dialect.PostgreSQLDialect
@@ -240,11 +246,11 @@ hibernate.connection.password = PASSWORD
 hibernate.hbm2ddl.auto = update
 ```
 
-3- Remover la seguridad interna de Pentaho segun la documentación:
+3- Permitir usuarios anonimos, remover la seguridad interna de Pentaho segun la documentación:
 
-http://wiki.pentaho.com/display/ServerDoc2x/Removing+Security
+http://infocenter.pentaho.com/help/index.jsp?topic=%2Fsecurity_guide%2Ftask_removing_security.html
 
-Iniciar el servidor:  ./opt/biserver-ce/start-pentaho.sh
+Iniciar el servidor:  ./start-pentaho.sh
 
 En este punto deberíamos poder abrir la aplicación sin usar credenciales usando dirección del servidor:
 
@@ -255,31 +261,11 @@ Los errores del sistema son registrados en:
 /opt/biserver-ce/tomcat/logs/pentaho.log 
 /opt/biserver-ce/tomcat/logs/catalina.out 
 
-4- Activar el proxy de Apache/Esconder el Puerto de Pentaho
-
-Activar módulos de Apache:  a2enmod proxy proxy_http
-
-editar la seccion VirtualHost dentro de /etc/apache2/sites-enabled/000-default:
-
-```
-<Location /pentaho/>
-      ProxyPass http://localhost:8080/pentaho/
-      ProxyPassReverse http://localhost:8080/pentaho/
-      SetEnv proxy-chain-auth
-    </Location>
-
-    <Location /pentaho-style/>
-      ProxyPass http://localhost:8080/pentaho-style/
-      ProxyPassReverse http://localhost:8080/pentaho-style/
-      SetEnv proxy-chain-auth
-    </Location>
-</pre>
-```
 Después de reiniciar Apache, podemos usar la nueva dirección del servidor:
 
-http://myservidor/pentaho
+http://myservidor:8080/pentaho
 
-5- Descargar la ultima versión del SAIKU (Plugin para Pentaho):
+4- Descargar la ultima versión de SAIKU-UI:
 
 http://analytical-labs.com/downloads.php
 
@@ -295,14 +281,42 @@ Para ejecutarlo, es necesario indicar la ubicacion de la instalacion:
 Reiniciar Pentaho: ./stop-pentaho.sh
                    ./start-pentaho.sh
 
+5- Activar el proxy de Apache/Esconder el Puerto de Pentaho
+
+Activar módulos de Apache:  a2enmod proxy proxy_http
+
+editar la seccion VirtualHost dentro de /etc/apache2/sites-enabled/000-default:
+
+```
+<Location /saiku/>
+      ProxyPass http://localhost:8080/pentaho/content/saiku/
+      ProxyPassReverse http://localhost:8080/pentaho/content/saiku/
+      SetEnv proxy-chain-auth
+    </Location>
+```
+
+
 
 En este punto ya tenemos SAIKU disponible en: 
 
-http://myserver/pentaho/content/saiku-ui/index.html?biplugin=true
+http://myserver/saiku-ui/index.html?biplugin=true
 
 6- Agregar definición de cubos usando la plantilla para indicadores del MINSAL:
 
 https://github.com/erodriguez-minsal/SIIG/wiki/PlantillaIndicadorOLAP
+
+7- Agregar el nuevo indicador al catalogo de cubos dentro de:
+
+biserver-ce/pentaho-solutions/system/olap/datasources.xml
+
+
+El servidor OLAP/Pentaho puede ser consultado a traves de SAIKU usando su API HTTP/REST. Esta API permite obtener informacion sobre 
+los cubos existentes en el servidor OLAP asi como efectuar consultas. La documentacion de la API puede ser consultada en:
+
+
+http://dev.analytical-labs.com/saiku/serverdocs/
+ 
+
 ## Instalación de librería wkhtmltopdf
 [wkhtmltopdf](http://code.google.com/p/wkhtmltopdf/) Es una utilidad de línea de comando para convertir html a pdf
 
@@ -311,6 +325,22 @@ https://github.com/erodriguez-minsal/SIIG/wiki/PlantillaIndicadorOLAP
 3. Mover y renombrar el archivo: mv wkhtmltopdf-amd64 /usr/bin/wkhtmltopdf
 4. Dar permisos de ejecución: chmod +x /usr/bin/wkhtmltopdf
 
+
+## Validación de Usarios desde directorios LDAP
+
+Si un usuario aun no esta creado dentro del sistema, se hara una busqueda en el drictorio LDAP especificado en el archivo app/config/config.yml.
+A continuacion se muestran las lineas relvantes para especificar que directorio usar:
+
+```yml
+#Fr3d_LDAP
+fr3d_ldap:
+    driver:
+        host:         10.10.20.2 # IP del Servidor LDAP Zimbra/Minsal
+        port:         389    # Opcional
+    user:
+        baseDn:          ou=people,dc=salud,dc=gob,dc=sv # contenedor de usuarios
+        filter: (objectClass=organizationalPerson) # esquema comun para todos los usuarios del directorio
+```
 
 ### Cargar la aplicación
 En este punto estamos listos para crgar la aplicacion desde: 

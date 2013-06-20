@@ -18,7 +18,7 @@ framework:
     templating:      { engines: ['twig'] } #assets_version: SomeVersionScheme
     default_locale:  %locale%
     trusted_proxies: ~
-    trust_proxy_headers: false # Whether or not the Request object should trust proxy headers (X_FORWARDED_FOR/HTTP_CLIENT_IP)
+    #trust_proxy_headers: false # Whether or not the Request object should trust proxy headers (X_FORWARDED_FOR/HTTP_CLIENT_IP)
     session:         ~
 
 # Twig Configuration
@@ -190,3 +190,20 @@ services:
         arguments: [%locale%]
         tags:
             -  { name: kernel.event_subscriber }
+            
+#Fr3d_LDAP
+fr3d_ldap:
+    driver:
+        host:         10.10.20.2 # Servidor LDAP Zimbra
+        port:         389    # Optional
+    user:
+        baseDn:          ou=people,dc=salud,dc=gob,dc=sv
+        filter: (objectClass=organizationalPerson)
+        attributes:          # Specify ldap attributes mapping [ldap attribute, user object method]
+            - { ldap_attr: uid,  user_method: setUsername } # Default
+            - { ldap_attr: mail,   user_method: setEmail }     # Optional
+#            - { ldap_attr: cn,  user_method: setName }         # Optional
+#   service:
+#       user_manager: fos_user.user_manager          # Overrides default user manager
+#       ldap_manager: fr3d_ldap.ldap_manager.default # Overrides default ldap manager
+            

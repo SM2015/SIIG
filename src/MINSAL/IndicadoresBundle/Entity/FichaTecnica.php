@@ -430,9 +430,10 @@ class FichaTecnica
     public function addAlertas(\MINSAL\IndicadoresBundle\Entity\IndicadorAlertas $alertas)
     {
         //$alertas->setIndicador($this);
-        $this->alertas[] = $alertas;
+        $this->addAlerta($alertas);
+        //$this->alertas[] = $alertas;
     
-        return $this;
+        //return $this;
     }
     
 
