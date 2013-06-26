@@ -108,3 +108,7 @@ input.valores_filtro{
     cursor: move;
     text-align: center;
 }
+
+.row_grafico{
+    height: 60%;
+}
