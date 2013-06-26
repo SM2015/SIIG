@@ -330,7 +330,7 @@ function dibujarControles(zona, datos) {
     var filtro_posicion = trans.filtro_posicion + " " + trans.desde +
             "<INPUT class='valores_filtro filtro_desde' type='text' length='5' value=''> " + trans.hasta +
             "<INPUT class='valores_filtro filtro_hasta' type='text' length='5' value=''> ";
-    var opciones_dimension = '<div class="btn-group dropup">' +
+    var opciones_dimension = '<div class="btn-group dropup sobre_div">' +
             '<button class="btn btn-info dropdown-toggle" data-toggle="dropdown" title="' + trans.dimension_opciones + '">' +
             '<i class="icon-check"></i>' +
             '<span class="caret"></span>' +
@@ -343,7 +343,7 @@ function dibujarControles(zona, datos) {
             '</ul>' +
             '</div>';
 
-    var opciones = '<div class="btn-group dropdown">' +
+    var opciones = '<div class="btn-group dropdown sobre_div">' +
             '<button class="btn btn-info dropdown-toggle" data-toggle="dropdown" title="' + trans.opciones + '">' +
             '<i class="icon-cog"></i>' +
             '<span class="caret"></span>' +
@@ -362,7 +362,7 @@ function dibujarControles(zona, datos) {
         opciones += '<i class="icon-star-empty"></i> ' + trans.quitar_favoritos + '</A></li>';
     opciones += '</ul>' +
             '</div>';
-    var opciones_indicador = '<div class="btn-group">' +
+    var opciones_indicador = '<div class="btn-group sobre_div">' +
             '<button class="btn btn-info dropdown-toggle" data-toggle="dropdown" >' + trans.indicador_opciones +
             '<span class="caret"></span>' +
             '</button>' +
@@ -420,7 +420,7 @@ function dibujarControles(zona, datos) {
                 '</A></li></ul></div>';
         $('#' + zona + ' .controles').append(opciones_indicador);
 
-        $('#' + zona + ' .controles').append('<div class="btn-group">' +
+        $('#' + zona + ' .controles').append('<div class="btn-group sobre_div">' +
                 '<a class="btn btn-warning dropdown-toggle" data-toggle="dropdown" title="' + trans.alertas_indicador + '">' +
                 '<i class="icon-exclamation-sign"></i>' +
                 '<span class="caret"></span>' +
@@ -484,27 +484,14 @@ function dibujarControles(zona, datos) {
     });
 
     $('#' + zona + ' .ver_imagen').click(function() {
-        canvg('canvas', $("#" + zona + ' .grafico').html().trim());
-        var canvas = document.getElementById('canvas');
-        var oImgPNG = Canvas2Image.saveAsPNG(canvas, true, 400, 290);
-        $("#" + zona + ' .grafico').hide();
-        $("#" + zona + ' .controles').hide();
-        $("#" + zona + ' .controlesDimension').hide();
-        
-        $("#" + zona + ' .grafico').parent().append(oImgPNG);
-        html2canvas($("#" + zona), {
-            onrendered: function(canvas) {
-                document.body.appendChild(canvas);
-                $('#myModalLabel2').html(trans.guardar_imagen);
-                $('#sql').html(canvas);
-                $('#myModal2').modal('show')
-                $("#" + zona + ' .grafico').next().remove();
-        
-                $("#" + zona + ' .grafico').show();
-                $("#" + zona + ' .controles').show();
-                $("#" + zona + ' .controlesDimension').show();
-            }
-        });        
+        var serializer = new XMLSerializer();
+        var xmlString = serializer.serializeToString(d3.select('#'+zona+' svg').node());
+        var imgData = 'data:image/svg+xml;base64,' + btoa(xmlString);
+        //Use the download attribute (or a shim) to provide a link
+        html= '<a href="'+imgData+'" download="download">Download</a>';
+        $('#myModalLabel2').html(trans.guardar_imagen);
+        $('#sql').html(html);
+        $('#myModal2').modal('show')
         cerrarMenus();
     });
 
