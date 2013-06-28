@@ -214,12 +214,12 @@ function aplicarFiltro(zona) {
 function controles_filtros(zona) {
     var datasetPrincipal = JSON.parse($('#' + zona).attr('datasetPrincipal'));
 
-    var lista_datos_dimension = '<DIV><input type="button" class="aplicar_filtro" value="' + trans.filtrar + '"/>' +
-            '<input type="button" class="quitar_filtro" value="' + trans.quitar_filtro + '"/></DIV>';
-    lista_datos_dimension += '<DIV class="capa_dimension_valores span12">' + trans.filtrar_por_elemento;
+    var lista_datos_dimension = '<DIV class="filtro_elementos"><input type="button" class="btn aplicar_filtro" value="' + trans.filtrar + '"/>' +
+            '<input type="button" class="btn quitar_filtro" value="' + trans.quitar_filtro + '"/></DIV>';
+    lista_datos_dimension += '<DIV class="capa_dimension_valores span12" >' + trans.filtrar_por_elemento+'<BR>';
     $.each(datasetPrincipal, function(i, dato) {
-        lista_datos_dimension += '<li><input type="checkbox" id="categorias_a_mostrar' + zona + i + '" ' +
-                'name="categorias_a_mostrar[]" value="' + dato.category + '" /><label for="categorias_a_mostrar' + zona + i + '" >' + dato.category + '</label></li>';
+        lista_datos_dimension += '<label class="forcheckbox" for="categorias_a_mostrar' + zona + i + '" ><input type="checkbox" id="categorias_a_mostrar' + zona + i + '" ' +
+                'name="categorias_a_mostrar[]" value="' + dato.category + '" />' + dato.category + '</label>';
     });
     lista_datos_dimension += '</DIV>';
 

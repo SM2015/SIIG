@@ -107,8 +107,37 @@ input.valores_filtro{
 .titulo_indicador{    
     cursor: move;
     text-align: center;
+    background-color: #CFF8F7;
 }
 
 .row_grafico{
-    height: 60%;
+    height: 58%;
+}
+@media only screen and (min-device-width : 1024px) {
+    .forcheckbox{
+        background-color: #ABA6A6;
+        color: white;
+        font-weight: bold;
+        width: 80%;
+        border-radius: 1em 1em 1em 1em;
+        line-height:  40px;
+        display: block  !important;
+        padding-left: 10px;
+    }        
+}
+@media only screen and (max-device-width : 1024px) {
+    .span6{
+        width: 48.8% !important;
+        float: left !important;
+    }
+}
+input[type=checkbox]
+{
+  /* Double-sized Checkboxes */
+  -ms-transform: scale(2); /* IE */
+  -moz-transform: scale(2); /* FF */
+  -webkit-transform: scale(2); /* Safari and Chrome */
+  -o-transform: scale(2); /* Opera */
+  margin-right: 10px;
+  margin-left: 10px;
 }

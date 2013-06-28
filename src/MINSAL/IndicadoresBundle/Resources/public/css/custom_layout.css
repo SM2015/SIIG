@@ -1,3 +1,32 @@
+@media only screen and (max-device-width : 1024px) {
+    .dropdown-menu li  a{
+        line-height: 45px;
+        color: white;
+        border-bottom: 2px solid gray;
+    }
+    .dropdown-menu{
+        background-color: #353535;
+        color: white;
+    }
+    .forcheckbox{
+        background-color: #EAEAEA;
+        color: green;
+        font-weight: bold;
+        width: 80%;
+        border-radius: 1em 1em 1em 1em;
+        line-height:  40px;
+        display: block  !important;
+    }
+    select, input{
+        height:  40px;
+    }
+    
+    .btn, .dropdown-toggle{
+        height: 40px;
+    }
+    
+    
+}
 @media (min-width: 979px) {
     body.sonata-bc {
         padding-top: 10px;
