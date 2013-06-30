@@ -6,7 +6,7 @@ graficoMapa = function(ubicacion, datos, colorChosen, categoryChoosen) {
         var dimension = $('#' + ubicacion + ' .dimensiones').val();                
         var elemento_id_codigo = new Object();
 
-        var width = 400,
+        var width = 370,
             height = 250,
             currentDatasetChart = datos,
             centered,
@@ -47,6 +47,9 @@ graficoMapa = function(ubicacion, datos, colorChosen, categoryChoosen) {
         $('#' + ubicacion + ' .grafico').html('');
         var svg = d3.select("#" + ubicacion + ' .grafico')
                 .append("svg")
+                .attr("width", '95%')
+                .attr("viewBox", '-15 0 450 260')
+                .attr("preserveAspectRatio", 'none')
                 .attr("width", width)
                 .attr("height", height)
                 .attr("id", "ChartPlot");

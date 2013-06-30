@@ -1,8 +1,8 @@
 graficoLineas = function(ubicacion, datos, colorChosen, categoryChoosen) {
 
     this.tipo = 'lineas';
-    var margin = {top: 20, right: 40, bottom: 20, left: 70},
-    width = 400 - margin.left - margin.right,
+    var margin = {top: 20, right: 5, bottom: 20, left: 70},
+    width = 390 - margin.left - margin.right,
             height = 250 - margin.top - margin.bottom
             ;
     var currentDatasetChart = datos;
@@ -43,7 +43,7 @@ graficoLineas = function(ubicacion, datos, colorChosen, categoryChoosen) {
                 .append("svg")
                 .datum(currentDatasetChart)
                 .attr("width", '95%')
-                .attr("viewBox", '0 0 400 250')
+                .attr("viewBox", '-5 0 450 260')
                 .attr("preserveAspectRatio", 'none')
                 .attr("id", "ChartPlot")
         // create group and move it so that margins are respected (space for axis and title)
