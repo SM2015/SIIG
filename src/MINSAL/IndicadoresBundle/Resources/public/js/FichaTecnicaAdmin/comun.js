@@ -48,13 +48,23 @@ function dibujarGraficoPrincipal(zona, tipo) {
                 .attr('font-family', 'sans-serif')
                 .attr('font-size', '11px');
     d3.selectAll(".background").attr('fill', 'none');
-                
+    
+    d3.selectAll(".x text").attr("transform", "rotate(45)").attr('x',7).attr('y',10).attr('text-anchor','start');
    
     var datasetPrincipal = JSON.parse($('#' + zona).attr('datasetPrincipal'));
     construir_tabla_datos(zona, datasetPrincipal);
 }
 
-
+function abreviatura(text, position){
+    var newText = '';
+    if (typeof text === 'string'){
+        if (text.length > 2)
+            newText = position;
+        else newText = text;
+    }else    
+        newText = text; 
+    return newText;
+}
 function crearGraficoObj(zona, tipo) {
     var grafico;
     var datasetPrincipal = JSON.parse($('#' + zona).attr('datasetPrincipal'));
@@ -234,7 +244,7 @@ function controles_filtros(zona) {
     lista_datos_dimension += '<DIV class="capa_dimension_valores span12" >' + trans.filtrar_por_elemento + '<BR>';
     $.each(datasetPrincipal, function(i, dato) {
         lista_datos_dimension += '<label class="forcheckbox" for="categorias_a_mostrar' + zona + i + '" ><input type="checkbox" id="categorias_a_mostrar' + zona + i + '" ' +
-                'name="categorias_a_mostrar[]" value="' + dato.category + '" />' + dato.category + '</label>';
+                'name="categorias_a_mostrar[]" value="' + dato.category + '" /> ' + dato.category + '</label>';
     });
     lista_datos_dimension += '</DIV>';
 

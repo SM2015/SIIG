@@ -43,9 +43,9 @@ graficoLineas = function(ubicacion, datos, colorChosen, categoryChoosen) {
                 .append("svg")
                 .datum(currentDatasetChart)
                 .attr("width", '95%')
-                .attr("viewBox", '-5 0 450 260')
+                .attr("viewBox", '-5 0 450 360')
                 .attr("preserveAspectRatio", 'none')
-                .attr("id", "ChartPlot")
+                .attr("id", "ChartPlot");
         // create group and move it so that margins are respected (space for axis and title)
 
         var plot = svg
@@ -63,11 +63,9 @@ graficoLineas = function(ubicacion, datos, colorChosen, categoryChoosen) {
                 .attr("x", -((height / 2) + (long / 2) * 6.5))
                 .text($('#' + ubicacion + ' .titulo_indicador').attr('data-unidad-medida'));
 
-
         svg.append("g")
-                .transition().duration(1000).delay(20)
                 .attr("class", "x axis")
-                .attr("transform", "translate(" + margin.left + "," + (margin.top + height) + ")")
+                .attr("transform", "translate(" + margin.left + "," + (margin.top + height ) + ")")
                 .call(xAxis);
 
         plot.append("path")
