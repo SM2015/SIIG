@@ -43,7 +43,7 @@ graficoColumnas = function(ubicacion, datos, colorChosen, categoryChoosen) {
             var svg = d3.select("#" + ubicacion + ' .grafico')
                 .append("svg")
                 .attr("width", '95%')
-                .attr("viewBox", '0 0 400 250')
+                .attr("viewBox", '-5 0 450 360')
                 .attr("preserveAspectRatio", 'none')
                 .attr("id", "ChartPlot")
                 ;
@@ -56,19 +56,19 @@ graficoColumnas = function(ubicacion, datos, colorChosen, categoryChoosen) {
 
         svg.append("g")
                 .attr("class", "axis")
-                .attr("transform", "translate(" + margin.left + ",5)")
+                .attr("transform", "translate(" + margin.left + ",5)")                
                 .call(yAxis)
                 .append("text")
                 .attr("transform", "rotate(-90)")
                 .attr("y", -30)                
                 .attr("x", -((height / 2) + (long / 2) * 6.5))
-                .text($('#' + ubicacion + ' .titulo_indicador').attr('data-unidad-medida'));
+                .text($('#' + ubicacion + ' .titulo_indicador').attr('data-unidad-medida'));       
 
         svg.append("g")
                 .attr("class", "x axis")
                 .attr("transform", "translate(" + margin.left + "," + (margin.top + height + 5) + ")")
                 .call(xAxis);
-
+        
         plot.selectAll("rect")
                 .data(currentDatasetChart)
                 .enter()
@@ -90,7 +90,7 @@ graficoColumnas = function(ubicacion, datos, colorChosen, categoryChoosen) {
                 .text(function(d) {
             return d.category + ": " + d.measure;
         });
-
+        
         plot.selectAll("rect").on("click", function(d, i) {
             descenderNivelDimension(ubicacion, d.category);
         });

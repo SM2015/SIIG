@@ -35,11 +35,36 @@ function dibujarGraficoPrincipal(zona, tipo) {
     var grafico = crearGraficoObj(zona, tipo);
 
     grafico.dibujar();
-    var datasetPrincipal = JSON.parse($('#' + zona).attr('datasetPrincipal'))
+    d3.selectAll(".axis path, .axis line")
+                .attr('fill', 'none')
+                .attr('stroke', 'black');
+    d3.selectAll(".line")
+                .attr('fill', 'none')
+                .attr('stroke-width', '2px');
+    d3.selectAll(".slice")
+                .attr('font-size', '11pt')
+                .attr('font-family', 'sans-serif');
+    d3.selectAll(".axis text")
+                .attr('font-family', 'sans-serif')
+                .attr('font-size', '11px');
+    d3.selectAll(".background").attr('fill', 'none');
+    
+    d3.selectAll(".x text").attr("transform", "rotate(45)").attr('x',7).attr('y',10).attr('text-anchor','start');
+   
+    var datasetPrincipal = JSON.parse($('#' + zona).attr('datasetPrincipal'));
     construir_tabla_datos(zona, datasetPrincipal);
 }
 
-
+function abreviatura(text, position){
+    var newText = '';
+    if (typeof text === 'string'){
+        if (text.length > 2)
+            newText = position;
+        else newText = text;
+    }else    
+        newText = text; 
+    return newText;
+}
 function crearGraficoObj(zona, tipo) {
     var grafico;
     var datasetPrincipal = JSON.parse($('#' + zona).attr('datasetPrincipal'));
@@ -214,12 +239,12 @@ function aplicarFiltro(zona) {
 function controles_filtros(zona) {
     var datasetPrincipal = JSON.parse($('#' + zona).attr('datasetPrincipal'));
 
-    var lista_datos_dimension = '<DIV><input type="button" class="aplicar_filtro" value="' + trans.filtrar + '"/>' +
-            '<input type="button" class="quitar_filtro" value="' + trans.quitar_filtro + '"/></DIV>';
-    lista_datos_dimension += '<DIV class="capa_dimension_valores span12">' + trans.filtrar_por_elemento;
+    var lista_datos_dimension = '<DIV class="filtro_elementos"><input type="button" class="btn aplicar_filtro" value="' + trans.filtrar + '"/>' +
+            '<input type="button" class="btn quitar_filtro" value="' + trans.quitar_filtro + '"/></DIV>';
+    lista_datos_dimension += '<DIV class="capa_dimension_valores span12" >' + trans.filtrar_por_elemento + '<BR>';
     $.each(datasetPrincipal, function(i, dato) {
-        lista_datos_dimension += '<li><input type="checkbox" id="categorias_a_mostrar' + zona + i + '" ' +
-                'name="categorias_a_mostrar[]" value="' + dato.category + '" /><label for="categorias_a_mostrar' + zona + i + '" >' + dato.category + '</label></li>';
+        lista_datos_dimension += '<label class="forcheckbox" for="categorias_a_mostrar' + zona + i + '" ><input type="checkbox" id="categorias_a_mostrar' + zona + i + '" ' +
+                'name="categorias_a_mostrar[]" value="' + dato.category + '" /> ' + dato.category + '</label>';
     });
     lista_datos_dimension += '</DIV>';
 
@@ -330,7 +355,7 @@ function dibujarControles(zona, datos) {
     var filtro_posicion = trans.filtro_posicion + " " + trans.desde +
             "<INPUT class='valores_filtro filtro_desde' type='text' length='5' value=''> " + trans.hasta +
             "<INPUT class='valores_filtro filtro_hasta' type='text' length='5' value=''> ";
-    var opciones_dimension = '<div class="btn-group dropup">' +
+    var opciones_dimension = '<div class="btn-group dropup sobre_div">' +
             '<button class="btn btn-info dropdown-toggle" data-toggle="dropdown" title="' + trans.dimension_opciones + '">' +
             '<i class="icon-check"></i>' +
             '<span class="caret"></span>' +
@@ -343,7 +368,7 @@ function dibujarControles(zona, datos) {
             '</ul>' +
             '</div>';
 
-    var opciones = '<div class="btn-group dropdown">' +
+    var opciones = '<div class="btn-group dropdown sobre_div">' +
             '<button class="btn btn-info dropdown-toggle" data-toggle="dropdown" title="' + trans.opciones + '">' +
             '<i class="icon-cog"></i>' +
             '<span class="caret"></span>' +
@@ -362,7 +387,7 @@ function dibujarControles(zona, datos) {
         opciones += '<i class="icon-star-empty"></i> ' + trans.quitar_favoritos + '</A></li>';
     opciones += '</ul>' +
             '</div>';
-    var opciones_indicador = '<div class="btn-group">' +
+    var opciones_indicador = '<div class="btn-group sobre_div">' +
             '<button class="btn btn-info dropdown-toggle" data-toggle="dropdown" >' + trans.indicador_opciones +
             '<span class="caret"></span>' +
             '</button>' +
@@ -420,7 +445,7 @@ function dibujarControles(zona, datos) {
                 '</A></li></ul></div>';
         $('#' + zona + ' .controles').append(opciones_indicador);
 
-        $('#' + zona + ' .controles').append('<div class="btn-group">' +
+        $('#' + zona + ' .controles').append('<div class="btn-group sobre_div">' +
                 '<a class="btn btn-warning dropdown-toggle" data-toggle="dropdown" title="' + trans.alertas_indicador + '">' +
                 '<i class="icon-exclamation-sign"></i>' +
                 '<span class="caret"></span>' +
@@ -479,33 +504,29 @@ function dibujarControles(zona, datos) {
         function(resp) {
             $('#myModalLabel2').html($('#' + zona + ' .titulo_indicador').html());
             $('#sql').html(resp.datos);
-            $('#myModal2').modal('show')
+            $('#myModal2').modal('show');
         });
     });
 
     $('#' + zona + ' .ver_imagen').click(function() {
-        canvg('canvas', $("#" + zona + ' .grafico').html().trim());
-        var canvas = document.getElementById('canvas');
-        var oImgPNG = Canvas2Image.saveAsPNG(canvas, true, 400, 290);
-        $("#" + zona + ' .grafico').hide();
-        $("#" + zona + ' .controles').hide();
-        $("#" + zona + ' .controlesDimension').hide();
-        
-        $("#" + zona + ' .grafico').parent().append(oImgPNG);
-        html2canvas($("#" + zona), {
-            onrendered: function(canvas) {
-                document.body.appendChild(canvas);
-                $('#myModalLabel2').html(trans.guardar_imagen);
-                $('#sql').html(canvas);
-                $('#myModal2').modal('show')
-                $("#" + zona + ' .grafico').next().remove();
-        
-                $("#" + zona + ' .grafico').show();
-                $("#" + zona + ' .controles').show();
-                $("#" + zona + ' .controlesDimension').show();
-            }
-        });        
-        cerrarMenus();
+        // Extract the data as SVG text string
+        var svg_xml = (new XMLSerializer).serializeToString(d3.select('#' + zona + ' svg').node());
+
+        $.post(Routing.generate('get_indicador_grafico'),
+                {data: svg_xml, output_format: 'png'},
+        function(resp) {
+            var html = '<H4 style="text-align:center;">' + $('#' + zona + ' .titulo_indicador').html() + '</H4>' +
+                    '<H6 >' + $('#' + zona + ' .filtros_dimensiones').html() + '</H6>' +
+                    '<IMG src="data:image/png;base64,' + resp + '" />' +
+                    '<H4 style="text-align:center;">' + $('#' + zona + ' .dimension h4').html() + '</H4>';
+            $('#sql').html('<canvas id="canvasGrp" width="400" height="440"></canvas>');
+            
+            var canvas = document.getElementById("canvasGrp");
+
+            rasterizeHTML.drawHTML(html, canvas);
+            $('#myModalLabel2').html(trans.guardar_imagen);
+            $('#myModal2').modal('show');
+        });
     });
 
     $('#' + zona + ' .ver_ficha_tecnica').click(function() {

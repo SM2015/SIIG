@@ -17,8 +17,8 @@ $(document).ready(function() {
         });
     })();
     
-    function myfunction(obj){        
-        if($(obj).hasClass('dropup') || $(obj).hasClass('dropdown'))
+    function myfunction(obj){
+        if($(obj).hasClass('sobre_div'))
             if ($(obj).hasClass('open'))
                 $('.zona_actual').css('overflow-y','visible');            
             else
@@ -73,7 +73,7 @@ $(document).ready(function() {
                         '<h6 class="filtros_dimensiones"></h6>' +
                         '<div class="controles btn-toolbar"></div>' +
                         '<div class="row-fluid info" ></div>' +
-                        '<div class="row-fluid" >' +
+                        '<div class="row-fluid row_grafico" >' +
                             '<div class="grafico" ></div>' +
                         '</div>' +
                         '<div class="row-fluid" >' +

@@ -1,6 +1,6 @@
-jms_security_extra:
-    secure_all_services: false
-    expressions: true
+#jms_security_extra:
+#    secure_all_services: false
+#    expressions: true
 
 security:
     #acl:
@@ -24,8 +24,8 @@ security:
     encoders:
         FOS\UserBundle\Model\UserInterface: sha512
         AcmeBundle\Acme\User\LdapUser: plaintext
-
-
+        
+    
 # La configuracion actual busca al usuario en la base local, luego en LDAP
 # y crea el usuario si es necesario, pero con permisos minimos
     firewalls:

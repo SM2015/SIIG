@@ -53,31 +53,6 @@ input.valores_filtro{
     width: 40px;
 }
 
-.slice {
-    font-size: 12pt;
-    font-family: Verdana;
-    fill: black; 
-    font-weight: bold;	
-}
-
-/*for line chart*/
-.axis path, .axis line {
-    fill: none;
-    stroke: black;
-    shape-rendering: crispEdges; 
-}
-
-.line {
-    fill: none;
-    /*stroke: steelblue;*/
-    stroke-width: 2px;
-}
-
-.axis text {
-    font-family: sans-serif;
-    font-size: 11px;
-}
-
 .area_grafico:hover{
     background-color: #F4F3FA;
 }
@@ -107,4 +82,47 @@ input.valores_filtro{
 .titulo_indicador{    
     cursor: move;
     text-align: center;
+    background-color: #CFF8F7;
+}
+
+.row_grafico{
+    height: 65%;
+}
+@media only screen and (min-device-width : 1024px) {
+    .forcheckbox{
+        background-color: #ABA6A6;
+        color: white;
+        font-weight: bold;
+        width: 80%;
+        border-radius: 1em 1em 1em 1em;
+        line-height:  30px;
+        display: block  !important;
+        padding-left: 10px;
+    }
+    input[type=checkbox]
+    {
+        /* Double-sized Checkboxes */
+        -ms-transform: scale(1.5); /* IE */
+        -moz-transform: scale(1.5); /* FF */
+        -webkit-transform: scale(1.5); /* Safari and Chrome */
+        -o-transform: scale(1.5); /* Opera */
+        margin-right: 10px;
+        margin-left: 10px;
+    }
+}
+@media only screen and (max-device-width : 1024px) {
+    .span6{
+        width: 48.8% !important;
+        float: left !important;
+    }
+    input[type=checkbox]
+    {
+        /* Double-sized Checkboxes */
+        -ms-transform: scale(2); /* IE */
+        -moz-transform: scale(2); /* FF */
+        -webkit-transform: scale(2); /* Safari and Chrome */
+        -o-transform: scale(2); /* Opera */
+        margin-right: 10px;
+        margin-left: 10px;
+    }
 }
