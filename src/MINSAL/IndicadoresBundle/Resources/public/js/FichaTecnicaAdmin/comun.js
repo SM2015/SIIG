@@ -35,7 +35,22 @@ function dibujarGraficoPrincipal(zona, tipo) {
     var grafico = crearGraficoObj(zona, tipo);
 
     grafico.dibujar();
-    var datasetPrincipal = JSON.parse($('#' + zona).attr('datasetPrincipal'))
+    d3.selectAll(".axis path, .axis line")
+                .attr('fill', 'none')
+                .attr('stroke', 'black');
+    d3.selectAll(".line")
+                .attr('fill', 'none')
+                .attr('stroke-width', '2px');
+    d3.selectAll(".slice")
+                .attr('font-size', '11pt')
+                .attr('font-family', 'sans-serif');
+    d3.selectAll(".axis text")
+                .attr('font-family', 'sans-serif')
+                .attr('font-size', '11px');
+    d3.selectAll(".background").attr('fill', 'none');
+                
+   
+    var datasetPrincipal = JSON.parse($('#' + zona).attr('datasetPrincipal'));
     construir_tabla_datos(zona, datasetPrincipal);
 }
 
@@ -216,7 +231,7 @@ function controles_filtros(zona) {
 
     var lista_datos_dimension = '<DIV class="filtro_elementos"><input type="button" class="btn aplicar_filtro" value="' + trans.filtrar + '"/>' +
             '<input type="button" class="btn quitar_filtro" value="' + trans.quitar_filtro + '"/></DIV>';
-    lista_datos_dimension += '<DIV class="capa_dimension_valores span12" >' + trans.filtrar_por_elemento+'<BR>';
+    lista_datos_dimension += '<DIV class="capa_dimension_valores span12" >' + trans.filtrar_por_elemento + '<BR>';
     $.each(datasetPrincipal, function(i, dato) {
         lista_datos_dimension += '<label class="forcheckbox" for="categorias_a_mostrar' + zona + i + '" ><input type="checkbox" id="categorias_a_mostrar' + zona + i + '" ' +
                 'name="categorias_a_mostrar[]" value="' + dato.category + '" />' + dato.category + '</label>';
@@ -479,20 +494,29 @@ function dibujarControles(zona, datos) {
         function(resp) {
             $('#myModalLabel2').html($('#' + zona + ' .titulo_indicador').html());
             $('#sql').html(resp.datos);
-            $('#myModal2').modal('show')
+            $('#myModal2').modal('show');
         });
     });
 
     $('#' + zona + ' .ver_imagen').click(function() {
-        var serializer = new XMLSerializer();
-        var xmlString = serializer.serializeToString(d3.select('#'+zona+' svg').node());
-        var imgData = 'data:image/svg+xml;base64,' + btoa(xmlString);
-        //Use the download attribute (or a shim) to provide a link
-        html= '<a href="'+imgData+'" download="download">Download</a>';
-        $('#myModalLabel2').html(trans.guardar_imagen);
-        $('#sql').html(html);
-        $('#myModal2').modal('show')
-        cerrarMenus();
+        // Extract the data as SVG text string
+        var svg_xml = (new XMLSerializer).serializeToString(d3.select('#' + zona + ' svg').node());
+
+        $.post(Routing.generate('get_indicador_grafico'),
+                {data: svg_xml, output_format: 'png'},
+        function(resp) {
+            var html = '<H4 style="text-align:center;">' + $('#' + zona + ' .titulo_indicador').html() + '</H4>' +
+                    '<H6 >' + $('#' + zona + ' .filtros_dimensiones').html() + '</H6>' +
+                    '<IMG src="data:image/png;base64,' + resp + '" />' +
+                    '<H4 style="text-align:center;">' + $('#' + zona + ' .dimension h4').html() + '</H4>';
+            $('#sql').html('<canvas id="canvasGrp" width="400" height="440"></canvas>');
+            
+            var canvas = document.getElementById("canvasGrp");
+
+            rasterizeHTML.drawHTML(html, canvas);
+            $('#myModalLabel2').html(trans.guardar_imagen);
+            $('#myModal2').modal('show');
+        });
     });
 
     $('#' + zona + ' .ver_ficha_tecnica').click(function() {
