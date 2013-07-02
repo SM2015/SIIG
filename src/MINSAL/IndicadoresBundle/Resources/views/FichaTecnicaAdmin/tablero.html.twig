@@ -27,6 +27,11 @@
         <img id="cargador" src="{{ asset('bundles/indicadores/images/ajax-loader.gif') }}"/>
     </div>
     <div id='menu_sala' class='btn-toolbar' data-spy="affix" data-offset-top="150">
+        <div class="accordion-heading btn-group">
+            <a class="btn accordion-toggle" data-toggle="collapse"  href="#collapseOne" title="{{'_ocultar/mostrar_menu_principal_'|trans}}">
+            <i class="icon-resize-full"></i>
+            </a>
+        </div>
         <div class='btn-group'> 
             <a class="btn dropdown-toggle" data-toggle="dropdown" title="clasificación a utilizar">
                 <i class="icon-filter"></i>{{'_clasificacion_indicadores_'|trans}}
@@ -118,43 +123,37 @@
     <div id='nombre_sala2' ></div>
     <div class="content" id="sala" >
             <div class="area_grafico zona_actual" id='grafico_1' >
-               <h4 class='titulo_indicador ui-widget-header ui-corner-all'></h4>
+               <DIV class= 'titulo'><span class='titulo_indicador ui-widget-header ui-corner-all'></span>
+                    <span>({{'_por_'|trans}} <span class='dimension' ></span>)</span>
+               </DIV>
                <h6 class='filtros_dimensiones'></h6>
                <div class='controles btn-toolbar'></div>
                <div class="row-fluid info" ></div>
                <div class="row-fluid row_grafico" >
                     <div class="grafico" ></div>             
-               </div>                        
-               <div class="row-fluid" >                   
-                   <div class='span6 dimension' style='text-align: right'></div>
-                   <div class='controlesDimension span2'></div>
-               </div>
+               </div>               
            </div>
            <div class="area_grafico" id='grafico_2' >
-               <h4 class='titulo_indicador ui-widget-header ui-corner-all'></h4>
+               <DIV class= 'titulo'><span class='titulo_indicador ui-widget-header ui-corner-all'></span>
+                    <span>({{'_por_'|trans}} <span class='dimension' ></span>)</span>
+               </DIV>
                <h6 class='filtros_dimensiones'></h6>
                <div class='controles btn-toolbar'></div>
                <div class="row-fluid info" ></div>
                <div class="row-fluid row_grafico" >                   
                     <div class="grafico" ></div>             
                </div>                        
-               <div class="row-fluid" >                   
-                   <div class='span6 dimension' style='text-align: right'></div>
-                   <div class='controlesDimension span2'></div>
-               </div>
            </div>
            <div class="area_grafico" id='grafico_3' >
-               <h4 class='titulo_indicador ui-widget-header ui-corner-all'></h4>
+               <DIV class= 'titulo'><span class='titulo_indicador ui-widget-header ui-corner-all'></span>
+                    <span>({{'_por_'|trans}} <span class='dimension' ></span>)</span>
+               </DIV>
                <h6 class='filtros_dimensiones'></h6>
                <div class='controles btn-toolbar'></div>
                <div class="row-fluid info" ></div>
                <div class="row-fluid row_grafico" >                   
                     <div class="grafico" ></div>             
                </div>                        
-               <div class="row-fluid" >                   
-                   <div class='span6 dimension' style='text-align: right'></div>
-                   <div class='controlesDimension span2'></div>
-               </div>
            </div>  
     </div>
      

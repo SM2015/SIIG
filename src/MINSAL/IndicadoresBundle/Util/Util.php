@@ -57,28 +57,4 @@ class Util {
                 return true;
         }
     }
-    /**
-     * Creates a temporary file.
-     * The file is not created if the $content argument is null
-     *
-     * @param  string $content  Optional content for the temporary file
-     * @param  string $extension An optional extension for the filename
-     *
-     * @return string The filename
-     */
-    public function createTemporaryFile($content = null, $extension = null)
-    {
-        $ruta = dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR. '..'.DIRECTORY_SEPARATOR.
-                '..'.DIRECTORY_SEPARATOR.'web'.DIRECTORY_SEPARATOR.'uploads'.DIRECTORY_SEPARATOR.'tmp'.DIRECTORY_SEPARATOR;
-        $filename = $ruta . uniqid('indicadores', true);
-        
-        if (null !== $extension) {
-            $filename .= '.'.$extension;
-        }
-        if (null !== $content) {
-            file_put_contents($filename, $content);
-        }        
-        return $filename;
-    }
-
 }

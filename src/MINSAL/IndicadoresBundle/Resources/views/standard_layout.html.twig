@@ -81,9 +81,9 @@ file that was distributed with this source code.
         {# initialize block value #}
 
         <!-- barra superior con el logo y el título -->         
-        <div class="navbar navbar-fixed-top" >
-            <div class="navbar-inner">
-                <div class="container-fluid">
+        <div  class="navbar navbar-fixed-top  " >
+            <div  class="navbar-inner">                 
+                <div  id="collapseOne" class="container-fluid accordion-body collapse in">
                     <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -166,7 +166,7 @@ file that was distributed with this source code.
                 {% endfor %}
             {% endblock %}
 
-            <div class="row-fluid">
+            <div class="row-fluid" id='tool_actions'>
                 <div class="span6">
                     {% if _breadcrumb is not empty or action is defined %}
                         <ul class="breadcrumb">

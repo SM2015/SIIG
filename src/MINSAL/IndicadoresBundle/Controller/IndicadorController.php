@@ -246,34 +246,7 @@ class IndicadorController extends Controller {
             'Content-Disposition' => 'attachment; filename="ficha_tecnica.pdf"'
                 )
         );
-    }
-    /**
-     * @Route("/indicador/grafico", name="get_indicador_grafico", options={"expose"=true})
-     */
-    public function getGraficoIndicador() {
-        $Util = new \MINSAL\IndicadoresBundle\Util\Util();
-        $req = $this->getRequest();
-        
-        $input_file = $Util->createTemporaryFile($req->get('data'), 'svg');
-        $output_file = $Util->createTemporaryFile(null, $req->get('output_format'));
-        $zoom = 1;
-        
-        exec("rsvg-convert -o '$output_file' -z '$zoom' -f '".$req->get('output_format')."' '$input_file'");
-        
-        $output_data = base64_encode(file_get_contents($output_file));
-        
-        unlink($input_file);
-        unlink($output_file);
-        //$mime_type = ($req->get('output_format') == "pdf")?"application/x-pdf":"image/png";
-        
-        /*return new Response($output_data, 200, array(
-            'Content-Type' => $mime_type,
-            'Content-Disposition' => 'attachment; filename="graph.'.$req->get('output_format').'"'
-                )
-        );*/
-        //$filename = explode(DIRECTORY_SEPARATOR, $output_file);        
-        return new Response($output_data, 200);
-    }
+    }    
 
     /**
      * @Route("/sala/guardar", name="sala_guardar", options={"expose"=true})

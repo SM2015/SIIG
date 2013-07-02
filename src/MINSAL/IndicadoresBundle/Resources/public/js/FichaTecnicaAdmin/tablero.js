@@ -33,7 +33,7 @@ $(document).ready(function() {
     });
             
     $( "#sala" ).sortable({
-        handle: '.titulo_indicador',                
+        handle: '.titulo',                
     });
     $( "#sala" ).disableSelection();
         
@@ -69,17 +69,15 @@ $(document).ready(function() {
     function sala_agregar_fila() {
         var cant = $('DIV.area_grafico').length;
         var html =  '<div class="area_grafico" id="grafico_' + parseInt(cant+1) + '" >' +
-                        '<h4 class="titulo_indicador ui-widget-header ui-corner-all"></h4>' +
+                        "<DIV class= 'titulo'><span class='titulo_indicador ui-widget-header ui-corner-all'></span>"
+                            "<span>({{'_por_'|trans}} <span class='dimension' ></span>)</span>"+
+                        '</DIV>'+
                         '<h6 class="filtros_dimensiones"></h6>' +
                         '<div class="controles btn-toolbar"></div>' +
                         '<div class="row-fluid info" ></div>' +
                         '<div class="row-fluid row_grafico" >' +
                             '<div class="grafico" ></div>' +
-                        '</div>' +
-                        '<div class="row-fluid" >' +
-                            '<div class="span4 dimension" style="text-align: right"></div>' +
-                            '<div class="controlesDimension span4"></div>' +
-                        '</div>'+ 
+                        '</div>' +                        
                     '</DIV>';         
         
         $('#sala').append(html);        

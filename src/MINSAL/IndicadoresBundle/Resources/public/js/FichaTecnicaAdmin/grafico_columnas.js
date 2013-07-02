@@ -42,8 +42,7 @@ graficoColumnas = function(ubicacion, datos, colorChosen, categoryChoosen) {
         $('#' + ubicacion + ' .grafico').html('');
             var svg = d3.select("#" + ubicacion + ' .grafico')
                 .append("svg")
-                .attr("width", '95%')
-                .attr("viewBox", '-5 0 450 360')
+                .attr("viewBox", '-5 0 440 310')
                 .attr("preserveAspectRatio", 'none')
                 .attr("id", "ChartPlot")
                 ;
