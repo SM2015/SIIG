@@ -22,7 +22,7 @@ Es muy importante poner atención al indicador "#" significa que el comando
 debe ser ejecutado como usuario root y "$" que debe ser ejecutado como un usuario normal
 ~~~
 # apt-get update
-# apt-get install php5 php5-pgsql php5-sqlite sqlite php5-xdebug  php-apc php5-cli php5-xsl php5-intl php5-mcrypt apache2 postgresql acl git-core curl postgresql-contrib php5-ldap librsvg2-bin
+# apt-get install php5 php5-pgsql php5-sqlite sqlite php5-xdebug  php-apc php5-cli php5-xsl php5-intl php5-mcrypt apache2 postgresql acl git-core curl postgresql-contrib php5-ldap
 ~~~
 
 ### Obtener el código fuente
@@ -109,8 +109,8 @@ Es necesario tener [soporte para ACL](https://help.ubuntu.com/community/FilePerm
 está el proyecto y luego ejecutar
 
 ~~~
- # setfacl -R -m u:www-data:rwx -m u:nombre_usuario:rwx app/cache app/logs web/uploads
- # setfacl -dR -m u:www-data:rwx -m u:nombre_usuario:rwx app/cache app/logs web/uploads
+ $ setfacl -R -m u:www-data:rwx -m u:`whoami`:rwx app/cache app/logs web/uploads
+ $ setfacl -dR -m u:www-data:rwx -m u:`whoami`:rwx app/cache app/logs web/uploads
 ~~~
 * Modificar nombre_usuario por un usuario del sistema con que se modificará el código fuente
 

@@ -15,8 +15,7 @@ graficoPastel = function(ubicacion, datos, color_grafico, categoryChoosen) {
         var vis = d3.select('#' + ubicacion + ' .grafico')
                 .append("svg:svg")              //create the SVG element inside the <body>
                 .data([datos])                   //associate our data with the document
-                .attr("width", '95%')
-                .attr("viewBox", '-5 0 450 260')
+                .attr("viewBox", '-5 0 440 310')
                 .attr("preserveAspectRatio", 'none')
                 .append("svg:g")                //make a group to hold our pie chart
                 .attr("transform", "translate(" + parseFloat(outerRadius + 30) + "," + outerRadius + ")")    //move the center of the pie chart from 0, 0 to radius, radius
