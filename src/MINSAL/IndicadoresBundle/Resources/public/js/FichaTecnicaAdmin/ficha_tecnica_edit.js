@@ -25,15 +25,15 @@ $(document).ready(function() {
     $('ul[id$="_clasificacionTecnica"] input:checkbox').change(function() {
         var categoria, $cambiar;
         //Si está marcado desmarcar todos los demas de la misma categoria
+        var id = $(this).attr('id');
         if ($(this).is(':checked')) {
             categoria = $(this).next('span').html().split(' -- ')[0];
             //Seleccionar todos los demás de la misma categoría
             $cambiar = $('ul[id$="_clasificacionTecnica"] input:checkbox + span:contains('+categoria+')');
             $cambiar.each(function(i, nodo){               
-                $(nodo).prev('input:checkbox').attr('checked', false);
+                if ($(nodo).prev('input:checkbox').attr('id') !== id)
+                    $(nodo).prev('input:checkbox').attr('checked', false);
             });
-            //Voler a marcar el recién seleccionado
-            $(this).attr('checked', true);
         }
     });
 
