@@ -69,8 +69,8 @@ $(document).ready(function() {
     function sala_agregar_fila() {
         var cant = $('DIV.area_grafico').length;
         var html =  '<div class="area_grafico" id="grafico_' + parseInt(cant+1) + '" >' +
-                        "<DIV class= 'titulo'><span class='titulo_indicador ui-widget-header ui-corner-all'></span>"
-                            "<span>({{'_por_'|trans}} <span class='dimension' ></span>)</span>"+
+                        "<DIV class= 'titulo'><span class='titulo_indicador '></span>"+
+                            "<span>("+trans.por+" <span class='dimension' ></span>)</span>"+
                         '</DIV>'+
                         '<h6 class="filtros_dimensiones"></h6>' +
                         '<div class="controles btn-toolbar"></div>' +
@@ -79,7 +79,7 @@ $(document).ready(function() {
                             '<div class="grafico" ></div>' +
                         '</div>' +                        
                     '</DIV>';         
-        
+
         $('#sala').append(html);        
         $('DIV.area_grafico').click(function() {
             zona_elegir(this);
@@ -151,12 +151,12 @@ $(document).ready(function() {
         }
 
         $('#sala').html('');
-
+        
         var filas = Math.ceil(max_id / 3);
         for (i = 1; i <= max_id; i++) {
             sala_agregar_fila();
         }
-
+        
         for (i = 0; i < graficos.length; i++) {
             $('DIV.zona_actual').removeClass('zona_actual');
             $('#grafico_' + graficos[i].posicion).addClass('zona_actual');

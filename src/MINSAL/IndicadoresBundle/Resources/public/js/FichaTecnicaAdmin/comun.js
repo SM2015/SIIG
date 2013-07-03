@@ -312,7 +312,7 @@ function construir_tabla_datos(zona, datos) {
     $('#' + zona + ' .info').html(tabla_datos);
 }
 
-function dibujarControles(zona, datos) {
+function dibujarControles(zona, datos) {    
     $('#' + zona + ' .titulo_indicador').html(datos.nombre_indicador)
             .attr('data-unidad-medida', datos.unidad_medida)
             .attr('formula', datos.formula)
@@ -585,7 +585,7 @@ function recuperarDimensiones(id_indicador, datos) {
             dibujarControles(zona_g, resp);
             if (datos !== null) {
                 if (JSON.stringify(datos.filtro) !== '""') {
-                    var $filtro = $('#' + zona_g + ' .filtros_dimensiones');
+                    var $filtro = $('#' + zona_g + ' .filtros_dimensiones');                    
                     $filtro.attr('data', datos.filtro);
                     filtro_obj = jQuery.parseJSON($filtro.attr('data'));
                     var ruta = filtroRuta(filtro_obj);
