@@ -20,12 +20,12 @@
     select, input{
         height:  40px;
     }
-    
+
     .btn, .dropdown-toggle{
         height: 40px;
     }
-    
-    
+
+
 }
 @media (min-width: 979px) {
     body.sonata-bc {
@@ -53,4 +53,14 @@
     max-height: 280px;
     overflow-y: auto;
     border: 1px solid #CCCCCC;        
+}
+@media only screen and (min-device-width: 1024px) {
+    #collapseOne.in.collapse{
+        overflow: visible;
+    }    
+}
+@media only screen and (max-width: 979px) {
+    .nav-collapse.in.collapse{
+        height: auto !important;
+    }    
 }
