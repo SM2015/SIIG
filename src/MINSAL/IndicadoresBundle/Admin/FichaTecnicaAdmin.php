@@ -55,8 +55,9 @@ class FichaTecnicaAdmin extends Admin {
                 ->end()
                 ->with($this->getTranslator()->trans('_dimensiones_'))
                     ->add('camposIndicador', null, array('label' => $this->getTranslator()->trans('campos_indicador')))
-                ->end();
-        $accion = array_pop(explode('/',$this->getRequest()->server->get("REQUEST_URI")));
+                ->end();        
+        $acciones = explode('/',$this->getRequest()->server->get("REQUEST_URI"));
+        $accion = array_pop($acciones);
         if ($accion=='create')
             $formMapper
                 ->setHelps(array(
