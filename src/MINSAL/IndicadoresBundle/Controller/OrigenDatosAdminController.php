@@ -152,7 +152,7 @@ class OrigenDatosAdminController extends Controller {
                 $this->get('old_sound_rabbit_mq.cargar_origen_datos_producer')
                         ->publish(serialize($msg));
         }
-        $this->get('session')->setFlash('sonata_flash_success', $this->get('translator')->trans('flash_batch_load_data_success'));
+        $this->addFlash('sonata_flash_success',$this->get('translator')->trans('flash_batch_load_data_success'));
         return new RedirectResponse($this->admin->generateUrl('list', $this->admin->getFilterParameters()));
     }
 
@@ -183,7 +183,7 @@ class OrigenDatosAdminController extends Controller {
         $em->persist($origenDato);
         $em->flush();
 
-        $this->get('session')->setFlash('sonata_flash_success', $origenDato->getNombre() . ' ' . $this->get('translator')->trans('fusion.origen_fusionado_creado'));
+        $this->addFlash('sonata_flash_success', $origenDato->getNombre() . ' ' . $this->get('translator')->trans('fusion.origen_fusionado_creado'));
         return new RedirectResponse($this->admin->generateUrl('list', $this->admin->getFilterParameters()));
     }
 

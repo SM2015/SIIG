@@ -34,28 +34,30 @@ function dibujarGraficoPrincipal(zona, tipo) {
     cerrarMenus();
     var grafico = crearGraficoObj(zona, tipo);
 
-    $('#'+zona+' .titulo').show();
+    $('#' + zona + ' .titulo').show();
     grafico.dibujar();
-    d3.selectAll(".axis path, .axis line")
-                .attr('fill', 'none')
-                .attr('stroke', 'black');
-    d3.selectAll(".line")
-                .attr('fill', 'none')
-                .attr('stroke-width', '2px');
-    d3.selectAll(".slice")
-                .attr('font-size', '11pt')
-                .attr('font-family', 'sans-serif');
-    d3.selectAll(".axis text")
-                .attr('font-family', 'sans-serif')
-                .attr('font-size', '9pt');
-    d3.selectAll(".background").attr('fill', 'none');
-    
-    d3.selectAll(".x g text").attr("transform", "rotate(45)").attr('x',7).attr('y',10).attr('text-anchor','start');
-    
+    aplicarFormato();
+
     var datasetPrincipal = JSON.parse($('#' + zona).attr('datasetPrincipal'));
     construir_tabla_datos(zona, datasetPrincipal);
 }
+function aplicarFormato() {
+    d3.selectAll(".axis path, .axis line")
+            .attr('fill', 'none')
+            .attr('stroke', 'black');
+    d3.selectAll(".line")
+            .attr('fill', 'none')
+            .attr('stroke-width', '2px');
+    d3.selectAll(".slice")
+            .attr('font-size', '11pt')
+            .attr('font-family', 'sans-serif');
+    d3.selectAll(".axis text")
+            .attr('font-family', 'sans-serif')
+            .attr('font-size', '9pt');
+    d3.selectAll(".background").attr('fill', 'none');
 
+    d3.selectAll(".x g text").attr("transform", "rotate(45)").attr('x', 7).attr('y', 10).attr('text-anchor', 'start');
+}
 function crearGraficoObj(zona, tipo) {
     var grafico;
     var datasetPrincipal = JSON.parse($('#' + zona).attr('datasetPrincipal'));
@@ -206,6 +208,7 @@ function ordenarDatos(zona, ordenar_por, modo_orden) {
     grafico.ordenar(modo_orden, ordenar_por);
     var datasetPrincipal = JSON.parse($('#' + zona).attr('datasetPrincipal'));
     construir_tabla_datos(zona, datasetPrincipal);
+    aplicarFormato();
 }
 
 function aplicarFiltro(zona) {
@@ -309,7 +312,7 @@ function construir_tabla_datos(zona, datos) {
     $('#' + zona + ' .info').html(tabla_datos);
 }
 
-function dibujarControles(zona, datos) {
+function dibujarControles(zona, datos) {    
     $('#' + zona + ' .titulo_indicador').html(datos.nombre_indicador)
             .attr('data-unidad-medida', datos.unidad_medida)
             .attr('formula', datos.formula)
@@ -376,7 +379,7 @@ function dibujarControles(zona, datos) {
     opciones += '</ul>' +
             '</div>';
     var opciones_indicador = '<div class="btn-group sobre_div">' +
-            '<button class="btn btn-info dropdown-toggle" data-toggle="dropdown" title="' + trans.opciones_grafico +'">' +
+            '<button class="btn btn-info dropdown-toggle" data-toggle="dropdown" title="' + trans.opciones_grafico + '">' +
             '<i class="icon-signal"></i>' +
             '</button>' +
             '<ul class="dropdown-menu" role="menu" >' +
@@ -447,7 +450,7 @@ function dibujarControles(zona, datos) {
         $('#' + zona + ' .controles').append(opciones_indicador);
     }
     $('#' + zona + ' .controles').append(opciones);
-    $('#' + zona + ' .controles').append(opciones_dimension);    
+    $('#' + zona + ' .controles').append(opciones_dimension);
 
     $('#' + zona + ' .max_y').change(function() {
         dibujarGraficoPrincipal(zona, $('#' + zona + ' .tipo_grafico_principal').val());
@@ -498,17 +501,17 @@ function dibujarControles(zona, datos) {
     });
 
     $('#' + zona + ' .ver_imagen').click(function() {
-        var html = '<H5 style="text-align:center;">' + $('#' + zona + ' .titulo_indicador').html() + 
-                    ' (por '+$('#' + zona + ' .dimension').html()+')</H5>' +
-                    '<H6 >' + $('#' + zona + ' .filtros_dimensiones').html() + '</H6>' +
-                    '<svg id="ChartPlot" width="95%" viewBox="-5 0 450 360" preserveAspectRatio="none">' + d3.select('#' + zona + ' svg').html() + '"</svg>' +
-            $('#sql').html('<canvas id="canvasGrp" width="400" height="350"></canvas>');
-            
-            var canvas = document.getElementById("canvasGrp");
+        var html = '<H5 style="text-align:center;">' + $('#' + zona + ' .titulo_indicador').html() +
+                ' (por ' + $('#' + zona + ' .dimension').html() + ')</H5>' +
+                '<H6 >' + $('#' + zona + ' .filtros_dimensiones').html() + '</H6>' +
+                '<svg id="ChartPlot" width="95%" viewBox="-5 0 450 360" preserveAspectRatio="none">' + d3.select('#' + zona + ' svg').html() + '"</svg>' +
+                $('#sql').html('<canvas id="canvasGrp" width="400" height="350"></canvas>');
 
-            rasterizeHTML.drawHTML(html, canvas);
-            $('#myModalLabel2').html(trans.guardar_imagen);
-            $('#myModal2').modal('show');        
+        var canvas = document.getElementById("canvasGrp");
+
+        rasterizeHTML.drawHTML(html, canvas);
+        $('#myModalLabel2').html(trans.guardar_imagen);
+        $('#myModal2').modal('show');
     });
 
     $('#' + zona + ' .ver_ficha_tecnica').click(function() {
@@ -569,7 +572,7 @@ function limpiarZona2(zona) {
     $('#' + zona + ' .grafico').html('');
     $('#' + zona + ' .dimension').html('');
     $('#' + zona + ' .controlesDimension').html('');
-    $('#'+zona+' .titulo').hide();
+    $('#' + zona + ' .titulo').hide();
 }
 function recuperarDimensiones(id_indicador, datos) {
     var zona_g = $('DIV.zona_actual').attr('id');
@@ -582,7 +585,7 @@ function recuperarDimensiones(id_indicador, datos) {
             dibujarControles(zona_g, resp);
             if (datos !== null) {
                 if (JSON.stringify(datos.filtro) !== '""') {
-                    var $filtro = $('#' + zona_g + ' .filtros_dimensiones');
+                    var $filtro = $('#' + zona_g + ' .filtros_dimensiones');                    
                     $filtro.attr('data', datos.filtro);
                     filtro_obj = jQuery.parseJSON($filtro.attr('data'));
                     var ruta = filtroRuta(filtro_obj);
