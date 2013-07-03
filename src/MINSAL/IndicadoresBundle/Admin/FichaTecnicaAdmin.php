@@ -228,7 +228,8 @@ class FichaTecnicaAdmin extends Admin {
         $this->setAlertas($fichaTecnica);
     }
 
-    public function crearCamposIndicador(FichaTecnica $fichaTecnica) {
+    public function crearCamposIndicador(FichaTecnica $fichaTecnica) {        
+        $em = $this->getConfigurationPool()->getContainer()->get('doctrine')->getManager();
         //Recuperar las variables
         $variables = $fichaTecnica->getVariables();
         $origen_campos = array();
@@ -236,12 +237,22 @@ class FichaTecnicaAdmin extends Admin {
         foreach ($variables as $k => $variable) {
             //Obtener la información de los campos de cada origen                        
             $origenDato[$k] = $variable->getOrigenDatos();
-            foreach ($origenDato[$k]->getCampos() as $campo) {
-                //La llave para considerar campo comun será el mismo tipo y significado                
-                //$llave = $campo->getSignificado()->getId() . '-' . $campo->getTipoCampo()->getId();
-                $llave = $campo->getSignificado()->getId();
-                $origen_campos[$origenDato[$k]->getId()][$llave]['significado'] = $campo->getSignificado()->getCodigo();
+            if ($origenDato[$k]->getEsFusionado()) {
+                $significados = explode(',', $origenDato[$k]->getCamposFusionados());
+                foreach($significados as $sig){
+                    $sig_ = str_replace("'", '', $sig);
+                    $significado = $em->getRepository('IndicadoresBundle:SignificadoCampo')->findOneBy (array('codigo'=>$sig_));
+                    $llave = $significado->getId();
+                    $origen_campos[$origenDato[$k]->getId()][$llave]['significado'] = $sig_;
+                }
             }
+            else
+                foreach ($origenDato[$k]->getCampos() as $campo) {
+                    //La llave para considerar campo comun será el mismo tipo y significado                
+                    //$llave = $campo->getSignificado()->getId() . '-' . $campo->getTipoCampo()->getId();                
+                    $llave = $campo->getSignificado()->getId();
+                    $origen_campos[$origenDato[$k]->getId()][$llave]['significado'] = $campo->getSignificado()->getCodigo();
+                }
 
             //Determinar los campos comunes (con igual significado)
             $aux = $origen_campos;
