@@ -76,6 +76,11 @@ class Conexion
      * @ORM\Column(name="instancia", type="string", length=50, nullable=true)
      */
     private $instancia;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="OrigenDatos", mappedBy="conexiones")
+     */
+    private $origenes;
 
     /**
      * @var MotorBd
@@ -323,5 +328,45 @@ class Conexion
         $this->id = $id;
     
         return $this;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->origenes = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add origenes
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\OrigenDatos $origenes
+     * @return Conexion
+     */
+    public function addOrigene(\MINSAL\IndicadoresBundle\Entity\OrigenDatos $origenes)
+    {
+        $this->origenes[] = $origenes;
+    
+        return $this;
+    }
+
+    /**
+     * Remove origenes
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\OrigenDatos $origenes
+     */
+    public function removeOrigene(\MINSAL\IndicadoresBundle\Entity\OrigenDatos $origenes)
+    {
+        $this->origenes->removeElement($origenes);
+    }
+
+    /**
+     * Get origenes
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getOrigenes()
+    {
+        return $this->origenes;
     }
 }

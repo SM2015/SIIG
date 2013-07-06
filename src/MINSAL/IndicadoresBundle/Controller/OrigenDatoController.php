@@ -38,43 +38,53 @@ class OrigenDatoController extends Controller {
 
         $resultado = array('estado' => 'error', 'mensaje' => '', 'datos' => array());
         $sql = $this->getRequest()->get('sentenciaSql');
+        $conexiones = explode('-', trim($this->getRequest()->get('conexiones_todas'), '-'));
+
         // Verificar que no tenga UPDATE o DELETE
         $patron = '/\bUPDATE\b|\bDELETE\b|\bINSERT\b|\bCREATE\b|\bDROP\b/i';
-        //
+        $conexion = '';
         if (preg_match($patron, $sql) == FALSE) {
-            try {
-                $conn = $this->getConexionGenerica('consulta_sql');
-                if ($this->driver == 'pdo_dblib') {
-                    $sql = str_ireplace('SELECT', 'SELECT TOP 50 ', $sql);
-                    $query = mssql_query($sql, $conn);
-                    if (mssql_num_rows($query) > 0)
-                        while ($row = mssql_fetch_assoc($query))
-                            $resultado['datos'][] = $row;
-                } else {
-                    $query = $conn->query($sql . ' LIMIT 50');
-                    if ($query->rowCount() > 0)
-                        $resultado['datos'] = $query->fetchAll();
+            try {                
+                foreach($conexiones as $cnx){                    
+                    $datos = array();
+                    $cnxObj = $this->getDoctrine()->getManager()->find('IndicadoresBundle:Conexion', $cnx);
+                    $conn = $this->getConexionGenerica('consulta_sql', $cnxObj);
+                    $conexion = $cnxObj->getNombreConexion();
+                    $sql = str_ireplace('FROM', ", '".$cnxObj->getNombreConexion()."' AS origen_datos FROM ", $sql);
+                    if ($this->driver == 'pdo_dblib') {
+                        $sql = str_ireplace('SELECT', 'SELECT TOP 20 ', $sql);                        
+                        $query = mssql_query($sql, $conn);
+                        if (mssql_num_rows($query) > 0)
+                            while ($row = mssql_fetch_assoc($query))
+                                $datos[] = $row;
+                    } else {
+                        $query = $conn->query($sql . ' LIMIT 20');                        
+                        if ($query->rowCount() > 0)
+                            $datos = $query->fetchAll();
+                    }
+                    $resultado['estado'] = 'ok';
+                    $resultado['mensaje'] = '<span style="color: green">' . $this->get('translator')->trans('sentencia_success') . '</span>';
+                    $resultado['datos'] = array_merge($resultado['datos'], $datos);
                 }
-                $resultado['estado'] = 'ok';
-                $resultado['mensaje'] = '<span style="color: green">' . $this->get('translator')->trans('sentencia_success') . '</span>';
+                
             } catch (\PDOException $e) {
-                $resultado['mensaje'] = '<span style="color: red">' . $this->get('translator')->trans('sentencia_error') . ': ' . $e->getMessage() . '</span>';
+                $resultado['mensaje'] = '<span style="color: red">' . $conexion.' '.$this->get('translator')->trans('sentencia_error') . ': ' . $e->getMessage() . '</span>';
             } catch (DBAL\DBALException $e) {
-                $resultado['mensaje'] = '<span style="color: red">' . $this->get('translator')->trans('sentencia_error') . ': ' . $e->getMessage() . '</span>';
+                $resultado['mensaje'] = '<span style="color: red">' . $conexion.' '.$this->get('translator')->trans('sentencia_error') . ': ' . $e->getMessage() . '</span>';
             } catch (\Exception $e) {
-                $resultado['mensaje'] = '<span style="color: red">' . $this->get('translator')->trans('sentencia_error') . ': ' . $e->getMessage() . '</span>';
+                $resultado['mensaje'] = '<span style="color: red">' . $conexion.' '.$this->get('translator')->trans('sentencia_error') . ': ' . $e->getMessage() . '</span>';
             }
         } else {
             $resultado['mensaje'] = $this->get('translator')->trans('solo_select');
         }
-        
+
         //verificar que no hayan problemas con codificación de caracteres
         $datos_aux = array();
-        foreach($resultado['datos'] as $fila){
-                $nueva_fila = array();  
-                foreach($fila as $k=> $v)
-                   $nueva_fila[$k] =  trim(mb_check_encoding($v, 'UTF-8') ? $v : utf8_encode($v));
-                $datos_aux[] = $nueva_fila;
+        foreach ($resultado['datos'] as $fila) {
+            $nueva_fila = array();
+            foreach ($fila as $k => $v)
+                $nueva_fila[$k] = trim(mb_check_encoding($v, 'UTF-8') ? $v : utf8_encode($v));
+            $datos_aux[] = $nueva_fila;
         }
         $resultado['datos'] = $datos_aux;
 
@@ -85,7 +95,7 @@ class OrigenDatoController extends Controller {
      * Crear una conexión para realizar pruebas
      * @param type $objeto_prueba, puede ser 'base_datos' o 'consulta_sql'
      */
-    public function getConexionGenerica($objeto_prueba, $idConexion = null) {
+    public function getConexionGenerica($objeto_prueba, $conexion = null) {
         $req = $this->getRequest();
         $em = $this->getDoctrine()->getManager();
 
@@ -100,11 +110,8 @@ class OrigenDatoController extends Controller {
                     'driver' => $motor->getCodigo(),
                     'port' => $req->get('puerto')
                 );
-            } elseif ($objeto_prueba == 'consulta_sql') {
-                if ($idConexion == null)
-                    $conexion = $em->find('IndicadoresBundle:Conexion', $req->get('conexion'));
-                else
-                    $conexion = $em->find('IndicadoresBundle:Conexion', $idConexion);
+            } elseif ($objeto_prueba == 'consulta_sql') {                
+                //$conexion = $em->find('IndicadoresBundle:Conexion', $idConexion);
 
                 $datos = array('dbname' => $conexion->getNombreBaseDatos(),
                     'user' => $conexion->getUsuario(),
@@ -166,7 +173,7 @@ class OrigenDatoController extends Controller {
                     FROM IndicadoresBundle:TipoCampo tp 
                     ORDER BY tp.descripcion";
         $resultado['tipos_datos'] = $em->createQuery($sql)->getArrayResult();
-        
+
         $sql = "SELECT dic 
                     FROM IndicadoresBundle:Diccionario dic 
                     ORDER BY dic.descripcion";
@@ -191,9 +198,9 @@ class OrigenDatoController extends Controller {
         if ($origenDato->getSentenciaSql() != '') {
             $resultado['tipo_origen'] = 'sql';
             $sentenciaSQL = $origenDato->getSentenciaSql();
-            $idConexion = $origenDato->getConexion()->getId();
+            $conexiones = $origenDato->getConexiones();
 
-            $conn = $this->getConexionGenerica('consulta_sql', $idConexion);
+            $conn = $this->getConexionGenerica('consulta_sql', $conexiones[0]);
             try {
                 if ($this->driver == 'pdo_dblib') {
                     $sentenciaSQL = str_ireplace('SELECT', 'SELECT TOP 20 ', $sentenciaSQL);
@@ -320,7 +327,7 @@ class OrigenDatoController extends Controller {
         $valido = true;
         if ($tipo_cambio == 'tipo_campo') {
             $tipo_campo = $em->find("IndicadoresBundle:TipoCampo", $valor);
-            $datos_prueba = explode(', ', $req->get('datos_prueba'));            
+            $datos_prueba = explode(', ', $req->get('datos_prueba'));
             $util = new \MINSAL\IndicadoresBundle\Util\Util();
             foreach ($datos_prueba as $dato) {
                 $valido = $util->validar($dato, $tipo_campo->getCodigo());
@@ -329,21 +336,21 @@ class OrigenDatoController extends Controller {
             }
             $mensaje = $campo->getNombre() . ': ' . $this->get('translator')->trans('tipo_campo_cambiado_a') . ' ' . $tipo_campo->getDescripcion();
             $campo->setTipoCampo($tipo_campo);
-        } elseif( $tipo_cambio == 'significado_variable'){
+        } elseif ($tipo_cambio == 'significado_variable') {
             $significado_variable = $em->find("IndicadoresBundle:SignificadoCampo", $valor);
             $mensaje = $campo->getNombre() . ': ' . $this->get('translator')->trans('significado_campo_cambiado_a') . ' ' . $significado_variable->getDescripcion();
             $campo->setSignificado($significado_variable);
-        } else{
+        } else {
             $diccionario = $em->find("IndicadoresBundle:Diccionario", $valor);
             $mensaje = $campo->getNombre() . ': ' . $this->get('translator')->trans('_diccionario_aplicado_') . ' ' . $diccionario->getDescripcion();
             $campo->setDiccionario($diccionario);
         }
-        
-        
+
+
         if ($valido)
             $resultado['mensaje'] = $mensaje;
         else
-            $resultado = array('estado' => 'error', 'mensaje' => $this->get('translator')->trans('_tipo_no_corresponde_con_datos_') );
+            $resultado = array('estado' => 'error', 'mensaje' => $this->get('translator')->trans('_tipo_no_corresponde_con_datos_'));
         try {
             $em->flush();
         } catch (\Exception $e) {

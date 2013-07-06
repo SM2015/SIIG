@@ -55,6 +55,14 @@ class OrigenDatos {
     private $conexion;
     
     /**
+     * @var Conexiones
+     *
+     * @ORM\ManyToMany(targetEntity="Conexion", inversedBy="origenes")
+     * @ORM\JoinTable(name="origenes_conexiones")
+     */
+    private $conexiones;
+    
+    /**
      * @var string $archivoNombre
      *
      * @ORM\Column(name="archivo_nombre", type="string", length=100, nullable=true)
@@ -112,6 +120,7 @@ class OrigenDatos {
     
     public function __construct() {
         $this->fusiones = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->conexiones = new \Doctrine\Common\Collections\ArrayCollection();
         $this->esCatalogo = false;
     }
 
@@ -485,4 +494,37 @@ class OrigenDatos {
         return $this->variables;
     }
     
+
+    /**
+     * Add conexiones
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\Conexion $conexiones
+     * @return OrigenDatos
+     */
+    public function addConexione(\MINSAL\IndicadoresBundle\Entity\Conexion $conexiones)
+    {
+        $this->conexiones[] = $conexiones;
+    
+        return $this;
+    }
+
+    /**
+     * Remove conexiones
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\Conexion $conexiones
+     */
+    public function removeConexione(\MINSAL\IndicadoresBundle\Entity\Conexion $conexiones)
+    {
+        $this->conexiones->removeElement($conexiones);
+    }
+
+    /**
+     * Get conexiones
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getConexiones()
+    {
+        return $this->conexiones;
+    }
 }
