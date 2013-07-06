@@ -42,7 +42,7 @@ graficoColumnas = function(ubicacion, datos, colorChosen, categoryChoosen) {
         $('#' + ubicacion + ' .grafico').html('');
             var svg = d3.select("#" + ubicacion + ' .grafico')
                 .append("svg")
-                .attr("viewBox", '-5 0 440 310')
+                .attr("viewBox", '-20 0 440 310')
                 .attr("preserveAspectRatio", 'none')
                 .attr("id", "ChartPlot")
                 ;
@@ -59,7 +59,7 @@ graficoColumnas = function(ubicacion, datos, colorChosen, categoryChoosen) {
                 .call(yAxis)
                 .append("text")
                 .attr("transform", "rotate(-90)")
-                .attr("y", -30)                
+                .attr("y", -50)                
                 .attr("x", -((height / 2) + (long / 2) * 6.5))
                 .text($('#' + ubicacion + ' .titulo_indicador').attr('data-unidad-medida'));       
 

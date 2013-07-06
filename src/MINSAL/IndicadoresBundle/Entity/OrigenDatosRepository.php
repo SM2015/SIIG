@@ -24,15 +24,15 @@ class OrigenDatosRepository extends EntityRepository {
             $sig = $campo->getSignificado();
             if ($sig != null) {
                 $significado = $sig->getCodigo();
-                if ($origen->getEsCatalogo()){
+                if ($origen->getEsCatalogo()) {
                     if ($significado == 'pk')
                         $tiene_pk = true;
                     elseif ($significado == 'descripcion')
                         $tiene_descripcion = true;
                 }
-                else 
-                    if ($significado == 'calculo')
-                        $tiene_campo_calculo = true;
+                else
+                if ($significado == 'calculo')
+                    $tiene_campo_calculo = true;
             }
             else
                 $tiene_null = true;
@@ -43,10 +43,10 @@ class OrigenDatosRepository extends EntityRepository {
             else
                 return true;
         else
-            if (!$tiene_campo_calculo or $tiene_null)
-                return false;
-            else
-                return true;
+        if (!$tiene_campo_calculo or $tiene_null)
+            return false;
+        else
+            return true;
     }
 
     public function getTotalRegistros(OrigenDatos $origenDato) {
@@ -68,25 +68,25 @@ class OrigenDatosRepository extends EntityRepository {
             return 1;
     }
 
-    public function getDatos(OrigenDatos $origenDato) {
+    public function getDatos($sql, $conexion, $ruta_archivo = null) {
         $datos = array();
         $nombre_campos = array();
-        if ($origenDato->getSentenciaSql() != '') {
-            $conexion = $origenDato->getConexion();
+        if ($ruta_archivo == null) {
+            //$conexion = $origenDato->getConexion();
             $conn = $this->getEntityManager()
                     ->getRepository('IndicadoresBundle:Conexion')
                     ->getConexionGenerica($conexion);
 
             try {
-                if ($conexion->getIdMotor()->getCodigo() == 'pdo_dblib') {                    
-                    $query = mssql_query($origenDato->getSentenciaSql(), $conn);
+                if ($conexion->getIdMotor()->getCodigo() == 'pdo_dblib') {
+                    $query = mssql_query($sql, $conn);
                     if (mssql_num_rows($query) > 0) {
                         while ($row = mssql_fetch_assoc($query))
                             $datos[] = $row;
                         $nombre_campos = array_keys($datos[0]);
                     }
                 } else {
-                    $query = $conn->query($origenDato->getSentenciaSql());
+                    $query = $conn->query($sql);
                     if ($query->rowCount() > 0) {
                         $datos = $query->fetchAll();
                         $nombre_campos = array_keys($datos[0]);
@@ -102,7 +102,7 @@ class OrigenDatosRepository extends EntityRepository {
         } else {
             $reader = new Excel();
             try {
-                $reader->loadFile($origenDato->getAbsolutePath());
+                $reader->loadFile($ruta_archivo);
                 $datos_aux = $reader->getSheet()->toArray(null, false, false, false);
                 $nombre_campos = array_values(array_shift($datos_aux));
 
@@ -187,7 +187,11 @@ class OrigenDatosRepository extends EntityRepository {
     }
 
     public function cargarCatalogo(OrigenDatos $origenDato) {
-        $datos = $this->getDatos($origenDato);
+        $datos = array();
+        foreach ($origenDato->getConexiones() as $cnx) {
+            $datos_cnx = $this->getDatos($origenDato->getSentenciaSql(), $cnx);
+            $datos = array_merge($datos, $datos_cnx);
+        }
         return $this->crearTablaCatalogo($origenDato, $datos);
     }
 

@@ -43,7 +43,7 @@ graficoPastel = function(ubicacion, datos, color_grafico, categoryChoosen) {
                 .on("mouseout", mouseout)
                 ;
         arcs.on("click", function(d, i) {
-            descenderNivelDimension(zona, d.data.category);
+            descenderNivelDimension(ubicacion, d.data.category);
         });
 
         if (color_grafico == null)

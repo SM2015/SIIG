@@ -38,11 +38,20 @@ class FichaTecnicaRepository extends EntityRepository {
             $tabla = strtolower($variable->getIniciales());
             $sql .= 'CREATE TEMP TABLE IF NOT EXISTS ' . $tabla . '(';
             
-            foreach ($origen->getCampos() as $campo) {
-                $sql .= $campo->getSignificado()->getCodigo() . ' ' . $campo->getTipoCampo()->getCodigo() . ', ';
-                if ($campo->getDiccionario() != null)
-                    $diccionarios[$campo->getSignificado()->getCodigo()] = $campo->getDiccionario()->getId();
+            if ($origen->getEsFusionado()) {
+                $significados = explode(",", str_replace("'",'',$origen->getCamposFusionados()));                
+                foreach ($significados as $campo) {
+                    $sql .= $campo . ' varchar(255), ';
+                    //if ($campo->getDiccionario() != null)
+                      //  $diccionarios[$campo->getSignificado()->getCodigo()] = $campo->getDiccionario()->getId();
+                }
             }
+            else
+                foreach ($origen->getCampos() as $campo) {
+                    $sql .= $campo->getSignificado()->getCodigo() . ' ' . $campo->getTipoCampo()->getCodigo() . ', ';
+                    if ($campo->getDiccionario() != null)
+                        $diccionarios[$campo->getSignificado()->getCodigo()] = $campo->getDiccionario()->getId();
+                }
             $sql = trim($sql, ', ') . ');';
 
             // Si es fusionado recuperar los orígenes que están contenidos

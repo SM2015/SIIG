@@ -130,8 +130,6 @@ class OrigenDatosAdminController extends Controller {
             else
                 $origenDato = $origen;
             
-            $msg['sql'] = $origenDato->getSentenciaSql(); 
-            $msg['total_registros'] = $em->getRepository('IndicadoresBundle:OrigenDatos')->getTotalRegistros($origenDato);
             $ahora = new \DateTime("now");
             foreach ($origenDato->getVariables() as $var) {
                 foreach ($var->getIndicadores() as $ind) {
@@ -144,7 +142,7 @@ class OrigenDatosAdminController extends Controller {
             if ($carga_directa){
                 $mess = $em->getRepository('IndicadoresBundle:OrigenDatos')->cargarCatalogo($origenDato);            
                 if ($mess !== true){
-                    $this->get('session')->setFlash('sonata_flash_error', $mess);
+                    $this->addFlash('sonata_flash_error', $mess);
                     return new RedirectResponse($this->admin->generateUrl('list', $this->admin->getFilterParameters()));
                 }                
             }

@@ -15,18 +15,22 @@ $(document).ready(function(){
             /* A cada nombre de campo se le agrega como prefijo el id que se está usando 
          * para el formulario, lo quitaré para que sea más fácil de manipular del lado del servidor
         */       
-            if ($('#'+$id+'_sentenciaSql').val() == '' || $('#'+$id+'_conexion').val() == ''){
+        var $conexiones = $('#'+$id+'_conexiones input:checked');
+            if ($('#'+$id+'_sentenciaSql').val() == '' || $conexiones.length == 0){
                 alert(trans.sentencia_sql_origen_requeridos);
                 return;
             }
             
             var patron = new RegExp($id+"%5B","ig");
-            var datos = $("form").serialize().replace(patron,'').replace(/%5D/ig,'').replace(/%5B/ig,'');                  
-        
+            var conexiones_todas ='';
+            $.each($conexiones, function(i, nodo){               
+                conexiones_todas += $(nodo).val()+'-';
+            });            
+            var datos = $("form").serialize().replace(patron,'').replace(/%5D/ig,'').replace(/%5B/ig,'');
             //Limpiar la tabla de datos
             $('#datos').html('');
                 
-            $.getJSON(Routing.generate('origen_dato_conexion_probar_sentencia'), datos, function(resp){            
+            $.getJSON(Routing.generate('origen_dato_conexion_probar_sentencia'), datos+'&conexiones_todas='+conexiones_todas, function(resp){            
                 $('#resultado_probar_consulta').html(resp.mensaje);
             
                 // Los encabezados de la fila
@@ -177,7 +181,7 @@ $(document).ready(function(){
     }
     
     function guardar_cambio(obj){
-        var valor = obj.attr('value');
+        var valor = obj.val();
         
         var id_control = obj.attr('id');
         var id_campo = id_control.split('__');        

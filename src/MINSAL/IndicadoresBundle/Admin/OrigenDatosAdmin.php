@@ -31,8 +31,9 @@ class OrigenDatosAdmin extends Admin {
                 ->with($this->getTranslator()->trans('datos_generales'), array('collapsed' => false))
                     ->add('esCatalogo', null, array('label' => $this->getTranslator()->trans('es_catalogo')))                    
                 ->end()
-                ->with($this->getTranslator()->trans('origen_datos_sql'), array('collapsed' => true))
-                        ->add('conexion', null, array('label' => $this->getTranslator()->trans('nombre_conexion'), 'required' => false))
+                ->with($this->getTranslator()->trans('origen_datos_sql'), array('collapsed' => true))                        
+                        ->add('conexion', null, array('label' => $this->getTranslator()->trans('nombre_conexion'), 'required' => false))        
+                        ->add('conexiones', null, array('label' => $this->getTranslator()->trans('nombre_conexion'), 'required' => false, 'expanded' => true))
                         ->add('sentenciaSql', null, array('label' => $this->getTranslator()->trans('sentencia_sql'), 
                             'required' => false,
                             'attr' => array('rows'=>7, 'cols'=>50)
@@ -47,7 +48,6 @@ class OrigenDatosAdmin extends Admin {
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper) {
         $datagridMapper
-                ->add('conexion', null, array('label' => $this->getTranslator()->trans('nombre_conexion')))
                 ->add('nombre', null, array('label' => $this->getTranslator()->trans('nombre')))
         ;
     }
@@ -56,7 +56,6 @@ class OrigenDatosAdmin extends Admin {
         $listMapper
                 ->addIdentifier('nombre', null, array('label' => $this->getTranslator()->trans('nombre')))
                 ->add('descripcion', null, array('label' => $this->getTranslator()->trans('descripcion')))
-                ->add('conexion', null, array('label' => $this->getTranslator()->trans('nombre_conexion')))
                 ->add('esFusionado', null, array('label' => $this->getTranslator()->trans('fusion.es_fusionado')))
                 ->add('esCatalogo', null, array('label' => $this->getTranslator()->trans('es_catalogo')))
                 ->add('sentenciaSql', null, array('label' => $this->getTranslator()->trans('sentencia_sql')))
@@ -76,12 +75,13 @@ class OrigenDatosAdmin extends Admin {
                         ->addViolation($this->getTranslator()->trans('validacion.sentencia_o_archivo_no_ambas'))
                         ->end();
             }
-            if ($object->getSentenciaSql() != '' and $object->getConexion() == '') {
-                $errorElement->with('conexion')
+            echo count($object->getConexiones());
+            if ($object->getSentenciaSql() != '' and count($object->getConexiones()) == 0) {
+                $errorElement->with('conexiones')
                         ->addViolation($this->getTranslator()->trans('validacion.requerido'))
                         ->end();
             }
-        }
+        }        
         // Revisar la validación, no me reconoce los archivos con los tipos que debería
         /*
          * 'application/octet-stream',
@@ -99,18 +99,19 @@ class OrigenDatosAdmin extends Admin {
           )))
           ->end()
           ; */
+        return true;
     }
 
     public function getBatchActions() {
         //$actions = parent::getBatchActions();
         $actions = array();
-
-        $actions['merge'] = array(
-            'label' => $this->trans('action_merge'),
-            'ask_confirmation' => true // If true, a confirmation will be asked before performing the action
-        );
+        
         $actions['load_data'] = array(
             'label' => $this->trans('action_load_data'),
+            'ask_confirmation' => true // If true, a confirmation will be asked before performing the action
+        );
+        $actions['merge'] = array(
+            'label' => $this->trans('action_merge'),
             'ask_confirmation' => true // If true, a confirmation will be asked before performing the action
         );
 
