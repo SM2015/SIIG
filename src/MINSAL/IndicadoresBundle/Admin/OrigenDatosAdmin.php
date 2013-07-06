@@ -32,7 +32,6 @@ class OrigenDatosAdmin extends Admin {
                     ->add('esCatalogo', null, array('label' => $this->getTranslator()->trans('es_catalogo')))                    
                 ->end()
                 ->with($this->getTranslator()->trans('origen_datos_sql'), array('collapsed' => true))                        
-                        ->add('conexion', null, array('label' => $this->getTranslator()->trans('nombre_conexion'), 'required' => false))        
                         ->add('conexiones', null, array('label' => $this->getTranslator()->trans('nombre_conexion'), 'required' => false, 'expanded' => true))
                         ->add('sentenciaSql', null, array('label' => $this->getTranslator()->trans('sentencia_sql'), 
                             'required' => false,

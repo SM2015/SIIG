@@ -42,17 +42,7 @@ class OrigenDatos {
      *
      * @ORM\Column(name="sentencia_sql", type="text", nullable=true)
      */
-    private $sentenciaSql;
-
-    /**
-     * @var Conexion
-     *
-     * @ORM\ManyToOne(targetEntity="Conexion")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_conexion", referencedColumnName="id")
-     * })
-     */
-    private $conexion;
+    private $sentenciaSql;    
     
     /**
      * @var Conexiones
@@ -377,29 +367,6 @@ class OrigenDatos {
     public function getCampos()
     {
         return $this->campos;
-    }
-
-    /**
-     * Set conexion
-     *
-     * @param MINSAL\IndicadoresBundle\Entity\Conexion $conexion
-     * @return OrigenDatos
-     */
-    public function setConexion(\MINSAL\IndicadoresBundle\Entity\Conexion $conexion = null)
-    {
-        $this->conexion = $conexion;
-    
-        return $this;
-    }
-
-    /**
-     * Get conexion
-     *
-     * @return MINSAL\IndicadoresBundle\Entity\Conexion 
-     */
-    public function getConexion()
-    {
-        return $this->conexion;
     }
 
     /**
