@@ -249,12 +249,12 @@ class FichaTecnicaAdmin extends Admin {
             else
                 foreach ($origenDato[$k]->getCampos() as $campo) {
                     //La llave para considerar campo comun será el mismo tipo y significado                
-                    //$llave = $campo->getSignificado()->getId() . '-' . $campo->getTipoCampo()->getId();                
-                    $llave = $campo->getSignificado()->getId();
+                    $llave = $campo->getSignificado()->getId() . '-' . $campo->getTipoCampo()->getId();                
+                    //$llave = $campo->getSignificado()->getId();
                     $origen_campos[$origenDato[$k]->getId()][$llave]['significado'] = $campo->getSignificado()->getCodigo();
                 }
 
-            //Determinar los campos comunes (con igual significado)
+            //Determinar los campos comunes (con igual significado e igual tipo)
             $aux = $origen_campos;
             $campos_comunes = array_shift($aux);
             foreach ($aux as $a) {
@@ -264,8 +264,10 @@ class FichaTecnicaAdmin extends Admin {
         $aux = array();
         foreach ($campos_comunes as $campo)
             $aux[$campo['significado']] = $campo['significado'];
+        
         if (isset($aux['calculo']))
-            unset($aux['calculo']);        
+            unset($aux['calculo']);
+        
         $campos_comunes = implode(", ", $aux);
         if ($fichaTecnica->getCamposIndicador()!=''){
             //Si ya existen los campos sacar el orden que ya ha especificado el usuario
