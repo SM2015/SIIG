@@ -4,7 +4,7 @@ namespace MINSAL\IndicadoresBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
+use MINSAL\IndicadoresBundle\Entity\OrigenDatos;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\DBAL as DBAL;
 use MINSAL\IndicadoresBundle\Excel\Excel as Excel;
@@ -156,7 +156,7 @@ class OrigenDatoController extends Controller {
     /**
      * @Route("/origen_dato/{id}/leer", name="origen_dato_leer", options={"expose"=true})
      */
-    public function leerOrigenAction($id) {
+    public function leerOrigenAction(OrigenDatos $origenDato) {
         $resultado = array('estado' => 'error',
             'mensaje' => '',
             'tipo_origen' => '',
@@ -166,7 +166,6 @@ class OrigenDatoController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
 
-        $origenDato = $em->find("IndicadoresBundle:OrigenDatos", $id);
         $resultado['es_catalogo'] = ($origenDato->getEsCatalogo()) ? true : false;
 
         $sql = "SELECT tp 
