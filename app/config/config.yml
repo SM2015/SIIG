@@ -190,7 +190,18 @@ services:
         arguments: [%locale%]
         tags:
             -  { name: kernel.event_subscriber }
+
+   vitacora.siig:
+        class: Symfony\Bridge\Monolog\Logger
+        arguments: [ACTIVIDAD]
+        calls:
+            - [pushHandler, [@vitacora.siig.handler]]
             
+   vitacora.siig.handler:
+        class: Monolog\Handler\StreamHandler
+        arguments: [%archivo_vitacora%, 200]
+
+
 #Fr3d_LDAP
 fr3d_ldap:
     driver:
