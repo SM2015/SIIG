@@ -23,7 +23,7 @@ class FichaTecnicaRepository extends EntityRepository {
         }
         if ($fichaTecnica->getUpdatedAt() != '' and $fichaTecnica->getUltimaLectura() != '' and $existe == true and $acumulado == false) {
             if ($fichaTecnica->getUltimaLectura() < $fichaTecnica->getUpdatedAt())
-               return true;
+                return true;
         }
 
         $campos = str_replace("'", '', $fichaTecnica->getCamposIndicador());
@@ -34,16 +34,23 @@ class FichaTecnicaRepository extends EntityRepository {
         foreach ($fichaTecnica->getVariables() as $variable) {
             //Recuperar la información de los campos para crear la tabla            
             $origen = $variable->getOrigenDatos();
-            $diccionarios = array();
+            $diccionarios = array();            
+
+            //Crear la estructura de la tabla asociada a la variable
             $tabla = strtolower($variable->getIniciales());
-            $sql .= 'CREATE TEMP TABLE IF NOT EXISTS ' . $tabla . '(';
-            
+            $sql .= ' CREATE TEMP TABLE IF NOT EXISTS ' . $tabla . '(';
+
             if ($origen->getEsFusionado()) {
-                $significados = explode(",", str_replace("'",'',$origen->getCamposFusionados()));                
+                $significados = explode(",", str_replace("'", '', $origen->getCamposFusionados()));
+                //Los tipos de campos sacarlos de uno de los orígenes de datos que ha sido fusionado
+                $fusionados = $origen->getFusiones();
+                $fusionado = $fusionados[0];
+                $tipos = array();
+                foreach ($fusionado->getCampos() as $campo) {
+                    $tipos[$campo->getSignificado()->getCodigo()] = $campo->getTipoCampo()->getCodigo();
+                }
                 foreach ($significados as $campo) {
-                    $sql .= $campo . ' varchar(255), ';
-                    //if ($campo->getDiccionario() != null)
-                      //  $diccionarios[$campo->getSignificado()->getCodigo()] = $campo->getDiccionario()->getId();
+                    $sql .= $campo . ' ' . $tipos[$campo] . ', ';
                 }
             }
             else
@@ -54,11 +61,11 @@ class FichaTecnicaRepository extends EntityRepository {
                 }
             $sql = trim($sql, ', ') . ');';
 
+            // Recuperar los datos desde los orígenes
             // Si es fusionado recuperar los orígenes que están contenidos
             $origenes = array();
             if ($origen->getEsFusionado()) {
-                $origenes_fusionados = $origen->getFusiones();
-                foreach ($origenes_fusionados as $of) {
+                foreach ($origen->getFusiones() as $of) {
                     $origenes[] = $of->getId();
                 }
             } else {
@@ -68,25 +75,25 @@ class FichaTecnicaRepository extends EntityRepository {
             $sql .= "INSERT INTO $tabla
                     SELECT (populate_record(null::$tabla, datos)).*                 
                     FROM fila_origen_dato 
-                        WHERE id_origen_dato IN (". implode(',', $origenes).") 
+                        WHERE id_origen_dato IN (" . implode(',', $origenes) . ") 
                     ;";
             //Obtener solo los datos que se pueden procesar en el indicador
-            $sql .= "DROP TABLE IF EXISTS $tabla"."_var; ";
+            $sql .= "DROP TABLE IF EXISTS $tabla" . "_var; ";
             $sql .= "SELECT  $campos, SUM(calculo::numeric) AS " . $tabla . "
                 INTO TEMP  $tabla" . "_var
                 FROM $tabla                 
                 GROUP BY $campos 
                 HAVING  SUM(calculo::numeric) > 0
                     ;";
-            
+
             //aplicar transformaciones si las hubieran
-            foreach($diccionarios as $campo => $diccionario){
+            foreach ($diccionarios as $campo => $diccionario) {
                 $sql .= " 
-                        UPDATE $tabla"."_var SET $campo = regla.transformacion 
+                        UPDATE $tabla" . "_var SET $campo = regla.transformacion 
                             FROM regla_transformacion AS regla
-                            WHERE $tabla"."_var.$campo = regla.limite_inferior
+                            WHERE $tabla" . "_var.$campo = regla.limite_inferior
                                 AND id_diccionario = $diccionario
-                    ;";                 
+                    ;";
             }
             $tablas_variables[] = $tabla;
         }
@@ -106,7 +113,7 @@ class FichaTecnicaRepository extends EntityRepository {
         }
     }
 
-    public function crearIndicadorAcumulado(FichaTecnica $fichaTecnica,  $dimension, $filtros = null) {
+    public function crearIndicadorAcumulado(FichaTecnica $fichaTecnica, $dimension, $filtros = null) {
         $em = $this->getEntityManager();
         $campos = str_replace("'", '', $fichaTecnica->getCamposIndicador());
         $tablas_variables = array();
@@ -203,7 +210,7 @@ class FichaTecnicaRepository extends EntityRepository {
         return $sql;
     }
 
-    public function calcularIndicador(FichaTecnica $fichaTecnica, $dimension, $filtro_registros = null, $ver_sql=false) {
+    public function calcularIndicador(FichaTecnica $fichaTecnica, $dimension, $filtro_registros = null, $ver_sql = false) {
         $util = new \MINSAL\IndicadoresBundle\Util\Util();
         $acumulado = $fichaTecnica->getEsAcumulado();
         $formula = strtolower($fichaTecnica->getFormula());
@@ -211,7 +218,7 @@ class FichaTecnicaRepository extends EntityRepository {
         //Recuperar las variables
         $variables = array();
         preg_match_all('/\{[a-z0-9\_]{1,}\}/', strtolower($formula), $variables, PREG_SET_ORDER);
-        
+
         $oper = 'SUM';
         if ($acumulado) {
             $formula = str_replace(array('{', '}'), array('MAX(', ')'), $formula);
@@ -219,17 +226,17 @@ class FichaTecnicaRepository extends EntityRepository {
         }
         else
             $formula = str_replace(array('{', '}'), array('SUM(', ')'), $formula);
-        
+
         $denominador = explode('/', $fichaTecnica->getFormula());
         $evitar_div_0 = '';
-        $variables_d=array();
+        $variables_d = array();
         if (count($denominador) > 1) {
             preg_match('/\{.{1,}\}/', $denominador[1], $variables_d);
             if (count($variables_d) > 0)
                 $var_d = strtolower(str_replace(array('{', '}'), array('(', ')'), array_shift($variables_d)));
-            $evitar_div_0 = 'AND '. $var_d . ' > 0';
+            $evitar_div_0 = 'AND ' . $var_d . ' > 0';
         }
-        
+
         // Formar la cadena con las variables para ponerlas en la consulta
         $variables_query = '';
         foreach ($variables as $var) {
@@ -259,22 +266,22 @@ class FichaTecnicaRepository extends EntityRepository {
 
         $sql = "SELECT $dimension AS category, $otros_campos $variables_query, round(($formula)::numeric,2) AS measure
             FROM $tabla_indicador A" . $rel_catalogo;
-        $sql .= ' WHERE 1=1 '.$evitar_div_0;
+        $sql .= ' WHERE 1=1 ' . $evitar_div_0;
         if ($filtro_registros != null) {
-            foreach ($filtro_registros as $campo => $valor){
+            foreach ($filtro_registros as $campo => $valor) {
                 //Si el filtro es un catálogo, buscar su id correspondiente
-                if (preg_match('/^id_/i', $campo)){
+                if (preg_match('/^id_/i', $campo)) {
                     $significado = $this->getEntityManager()->getRepository('IndicadoresBundle:SignificadoCampo')
-                                    ->findOneBy(array('codigo' => $campo));
+                            ->findOneBy(array('codigo' => $campo));
                     $catalogo = $significado->getCatalogo();
                     $sql_ctl = '';
-                    if ( $catalogo != ''){
+                    if ($catalogo != '') {
                         $sql_ctl = "SELECT id FROM $catalogo WHERE descripcion ='$valor'";
                         $reg = $this->getEntityManager()->getConnection()->executeQuery($sql_ctl)->fetch();
                         $valor = $reg['id'];
                     }
-                }                
-                $sql .= " AND A.".$campo." = '$valor' ";
+                }
+                $sql .= " AND A." . $campo . " = '$valor' ";
             }
         }
         $sql .= "            

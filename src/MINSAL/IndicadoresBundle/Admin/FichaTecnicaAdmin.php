@@ -239,17 +239,24 @@ class FichaTecnicaAdmin extends Admin {
             $origenDato[$k] = $variable->getOrigenDatos();
             if ($origenDato[$k]->getEsFusionado()) {
                 $significados = explode(',', $origenDato[$k]->getCamposFusionados());
+                //Los tipos de campos sacarlos de uno de los orígenes de datos que ha sido fusionado
+                $fusionados = $origenDato[$k]->getFusiones();
+                $fusionado = $fusionados[0];
+                $tipos = array();
+                foreach ($fusionado->getCampos() as $campo){
+                    $tipos[$campo->getSignificado()->getCodigo()] = $campo->getTipoCampo()->getCodigo();
+                }
                 foreach($significados as $sig){
                     $sig_ = str_replace("'", '', $sig);
                     $significado = $em->getRepository('IndicadoresBundle:SignificadoCampo')->findOneBy (array('codigo'=>$sig_));
-                    $llave = $significado->getId();
+                    $llave = $significado->getCodigo() . '-' . $tipos[$sig_];
                     $origen_campos[$origenDato[$k]->getId()][$llave]['significado'] = $sig_;
                 }
             }
             else
                 foreach ($origenDato[$k]->getCampos() as $campo) {
                     //La llave para considerar campo comun será el mismo tipo y significado                
-                    $llave = $campo->getSignificado()->getId() . '-' . $campo->getTipoCampo()->getId();                
+                    $llave = $campo->getSignificado()->getCodigo() . '-' . $campo->getTipoCampo()->getCodigo();                
                     //$llave = $campo->getSignificado()->getId();
                     $origen_campos[$origenDato[$k]->getId()][$llave]['significado'] = $campo->getSignificado()->getCodigo();
                 }
@@ -260,7 +267,7 @@ class FichaTecnicaAdmin extends Admin {
             foreach ($aux as $a) {
                 $campos_comunes = array_intersect_key($campos_comunes, $a);
             }
-        };
+        }
         $aux = array();
         foreach ($campos_comunes as $campo)
             $aux[$campo['significado']] = $campo['significado'];
