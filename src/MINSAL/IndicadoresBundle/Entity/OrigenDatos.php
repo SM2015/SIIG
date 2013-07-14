@@ -68,6 +68,13 @@ class OrigenDatos {
      */    
     private $esFusionado;
     
+    /**
+     * @var string $esPivote
+     *
+     * @ORM\Column(name="es_pivote", type="boolean", nullable=true)
+     */    
+    private $esPivote;
+    
      /**
      * @var string $esCatalogo
      *
@@ -493,5 +500,28 @@ class OrigenDatos {
     public function getConexiones()
     {
         return $this->conexiones;
+    }
+
+    /**
+     * Set esPivote
+     *
+     * @param boolean $esPivote
+     * @return OrigenDatos
+     */
+    public function setEsPivote($esPivote)
+    {
+        $this->esPivote = $esPivote;
+    
+        return $this;
+    }
+
+    /**
+     * Get esPivote
+     *
+     * @return boolean 
+     */
+    public function getEsPivote()
+    {
+        return $this->esPivote;
     }
 }

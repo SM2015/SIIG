@@ -5,6 +5,7 @@ namespace MINSAL\IndicadoresBundle\Controller;
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use MINSAL\IndicadoresBundle\Entity\OrigenDatos;
@@ -15,7 +16,15 @@ use MINSAL\IndicadoresBundle\Entity\FusionOrigenesDatos;
 
 class OrigenDatosAdminController extends Controller {
 
-    public function batchActionMergeIsRelevant(array $normalizedSelectedIds, $allEntitiesSelected) {
+    public function batchActionCrearPivoteIsRelevant(array $normalizedSelectedIds, $allEntitiesSelected) {
+        return $this->batchActionMergeIsRelevant($normalizedSelectedIds, $allEntitiesSelected, true);
+    }
+
+    public function batchActionCrearPivote(ProxyQueryInterface $selectedModelQuery) {
+        return $this->batchActionMerge($selectedModelQuery, true);
+    }
+
+    public function batchActionMergeIsRelevant(array $normalizedSelectedIds, $allEntitiesSelected, $esPivote=false) {
         $em = $this->getDoctrine()->getManager();
         $parameterBag = $this->get('request')->request;
         $selecciones = $parameterBag->get('idx');
@@ -36,7 +45,7 @@ class OrigenDatosAdminController extends Controller {
             return $this->get('translator')->trans('fusion.selecione_2_o_mas_elementos');
     }
 
-    public function batchActionMerge(ProxyQueryInterface $selectedModelQuery) {
+    public function batchActionMerge(ProxyQueryInterface $selectedModelQuery, $esPivote = false) {
         $selecciones = $this->getRequest()->get('idx');
         $em = $this->getDoctrine()->getManager();
 
@@ -84,16 +93,17 @@ class OrigenDatosAdminController extends Controller {
         }
 
         return $this->render('IndicadoresBundle:OrigenDatosAdmin:merge_selection.html.twig', array('origen_dato' => $origenDato,
-                    'campos' => $campos_ord
-                ));
+                    'campos' => $campos_ord,
+                    'es_pivote' => $esPivote
+        ));
     }
 
-    public function batchActionLoadDataIsRelevant(array $normalizedSelectedIds, $allEntitiesSelected) {
+    public function batchActionLoadDataIsRelevant($idx = null) {
         $em = $this->getDoctrine()->getManager();
         $parameterBag = $this->get('request')->request;
-        
+
         if (!$parameterBag->get('all_elements')) {
-            $selecciones = $parameterBag->get('idx');
+            $selecciones = ($idx == null) ? $parameterBag->get('idx'): $idx;
             // Verificar que los orígenes esten configurados
             foreach ($selecciones as $id_origen) {
                 $origenDato = $em->find('IndicadoresBundle:OrigenDatos', $id_origen);
@@ -102,9 +112,9 @@ class OrigenDatosAdminController extends Controller {
                     return $origenDato->getNombre() . ': ' . $this->get('translator')->trans('origen_no_configurado');
             }
         }
-        else{
+        else {
             $origenes = $em->getRepository('IndicadoresBundle:OrigenDatos')->findAll();
-            foreach($origenes as $origen){
+            foreach ($origenes as $origen) {
                 $configurado = $em->getRepository('IndicadoresBundle:OrigenDatos')->estaConfigurado($origen);
                 if (!$configurado)
                     return $origen->getNombre() . ': ' . $this->get('translator')->trans('origen_no_configurado');
@@ -113,22 +123,24 @@ class OrigenDatosAdminController extends Controller {
         return true;
     }
 
-    public function batchActionLoadData(ProxyQueryInterface $selectedModelQuery) {
+    public function batchActionLoadData($idx = null) {
         //Mardar a la cola de carga de datos cada origen seleccionado        
         $parameterBag = $this->get('request')->request;
         $em = $this->getDoctrine()->getManager();
-        
-        if (!$parameterBag->get('all_elements')) 
-            $selecciones = $this->getRequest()->get('idx');
+
+        if (!$parameterBag->get('all_elements'))
+            $selecciones = ($idx == null) ? $parameterBag->get('idx'): $idx;
         else
-            $selecciones = $em->getRepository('IndicadoresBundle:OrigenDatos')->findAll ();
+            $selecciones = $em->getRepository('IndicadoresBundle:OrigenDatos')->findAll();
         foreach ($selecciones as $origen) {
-            $msg = array('id_origen_dato' => $origen);
+            
             $em = $this->getDoctrine()->getManager();
-            if (!$parameterBag->get('all_elements')) 
+            if (!$parameterBag->get('all_elements'))
                 $origenDato = $em->find('IndicadoresBundle:OrigenDatos', $origen);
             else
                 $origenDato = $origen;
+            
+            $msg = array('id_origen_dato' => $origen, 'sql' => $origenDato->getSentenciaSql());
             
             $ahora = new \DateTime("now");
             foreach ($origenDato->getVariables() as $var) {
@@ -139,18 +151,18 @@ class OrigenDatosAdminController extends Controller {
             $em->flush();
             $carga_directa = $origenDato->getEsCatalogo();
             // No mandar a la cola de carga los que son catálogos, Se cargarán directamente            
-            if ($carga_directa){
-                $mess = $em->getRepository('IndicadoresBundle:OrigenDatos')->cargarCatalogo($origenDato);            
-                if ($mess !== true){
+            if ($carga_directa) {
+                $mess = $em->getRepository('IndicadoresBundle:OrigenDatos')->cargarCatalogo($origenDato);
+                if ($mess !== true) {
                     $this->addFlash('sonata_flash_error', $mess);
                     return new RedirectResponse($this->admin->generateUrl('list', $this->admin->getFilterParameters()));
-                }                
+                }
             }
             else
                 $this->get('old_sound_rabbit_mq.cargar_origen_datos_producer')
                         ->publish(serialize($msg));
         }
-        $this->addFlash('sonata_flash_success',$this->get('translator')->trans('flash_batch_load_data_success'));
+        $this->addFlash('sonata_flash_success', $this->get('translator')->trans('flash_batch_load_data_success'));
         return new RedirectResponse($this->admin->generateUrl('list', $this->admin->getFilterParameters()));
     }
 
@@ -163,7 +175,10 @@ class OrigenDatosAdminController extends Controller {
         $origenDato = new OrigenDatos();
         $origenDato->setNombre($req->get('nombre'));
         $origenDato->setDescripcion($req->get('descripcion'));
-        $origenDato->setEsFusionado(true);
+        if ($req->get('es_pivote') == 1)
+            $origenDato->setEsPivote(true);
+        else
+            $origenDato->setEsFusionado(true);
 
         foreach ($req->get('origenes_fusionados') as $k => $origen_id) {
             $origenFu = $em->find('IndicadoresBundle:OrigenDatos', $origen_id);
@@ -181,8 +196,23 @@ class OrigenDatosAdminController extends Controller {
         $em->persist($origenDato);
         $em->flush();
 
-        $this->addFlash('sonata_flash_success', $origenDato->getNombre() . ' ' . $this->get('translator')->trans('fusion.origen_fusionado_creado'));
+        if ($req->get('es_pivote') == 1)
+            $this->addFlash('sonata_flash_success', $origenDato->getNombre() . ' ' . $this->get('translator')->trans('_origen_pivote_creado_'));
+        else
+            $this->addFlash('sonata_flash_success', $origenDato->getNombre() . ' ' . $this->get('translator')->trans('fusion.origen_fusionado_creado'));
         return new RedirectResponse($this->admin->generateUrl('list', $this->admin->getFilterParameters()));
+    }
+        
+    public function loadDataAction() {
+        $id = $this->getRequest()->get('id');
+        $origen = $this->getDoctrine()->getManager()->find('IndicadoresBundle:OrigenDatos', $id);
+        $valid = $this->batchActionLoadDataIsRelevant(array($id));
+        if($valid === true)
+            return $this->batchActionLoadData(array($id));
+        else {
+            $this->addFlash('sonata_flash_error', $origen->getNombre() . ': ' . $this->get('translator')->trans('origen_no_configurado'));
+            return new RedirectResponse($this->admin->generateUrl('list', $this->admin->getFilterParameters()));
+        }
     }
 
 }

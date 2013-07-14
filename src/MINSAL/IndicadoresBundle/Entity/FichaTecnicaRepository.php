@@ -34,7 +34,37 @@ class FichaTecnicaRepository extends EntityRepository {
         foreach ($fichaTecnica->getVariables() as $variable) {
             //Recuperar la información de los campos para crear la tabla            
             $origen = $variable->getOrigenDatos();
-            $diccionarios = array();            
+            $diccionarios = array();
+
+            // Si es pivote crear las tablas para los origenes relacionados 
+            if ($origen->getEsPivote()) {
+                $campos_pivote = explode(",", str_replace("'", '', $origen->getCamposFusionados()));
+                $pivote = array();
+                $campos_regulares = array();
+                $tablas_piv = array();
+                foreach ($origen->getFusiones() as $or) {
+                    $or_id = $or->getId();
+                    $sql .= " CREATE TEMP TABLE IF NOT EXISTS od_$or_id ( ";
+                    foreach ($or->getCampos() as $campo) {
+                        $tipo = $campo->getTipoCampo()->getCodigo();
+                        $sig = $campo->getSignificado()->getCodigo();
+                        $sql .= $sig . ' ' . $tipo . ', ';
+                        if (in_array($sig, $campos_pivote))
+                            $pivote[$sig] = $tipo;
+                        else
+                            $campos_regulares[$sig] = $tipo;
+                    }
+                    $sql = trim($sql, ', ');
+                    $tablas_piv[] = 'od_' . $or_id;
+                    $campos_piv = array_merge($pivote, $campos_regulares);
+                    $sql .= ' ); ';
+                    $sql .= "INSERT INTO od_$or_id
+                    SELECT (populate_record(null::od_$or_id, datos)).*
+                    FROM fila_origen_dato 
+                        WHERE id_origen_dato = '$or_id'
+                    ;";
+                }
+            }
 
             //Crear la estructura de la tabla asociada a la variable
             $tabla = strtolower($variable->getIniciales());
@@ -52,6 +82,9 @@ class FichaTecnicaRepository extends EntityRepository {
                 foreach ($significados as $campo) {
                     $sql .= $campo . ' ' . $tipos[$campo] . ', ';
                 }
+            } elseif ($origen->getEsPivote()) {
+                foreach ($campos_piv as $campo => $tipo)
+                    $sql .= $campo . ' ' . $tipo . ', ';
             }
             else
                 foreach ($origen->getCampos() as $campo) {
@@ -61,22 +94,29 @@ class FichaTecnicaRepository extends EntityRepository {
                 }
             $sql = trim($sql, ', ') . ');';
 
-            // Recuperar los datos desde los orígenes
-            // Si es fusionado recuperar los orígenes que están contenidos
-            $origenes = array();
-            if ($origen->getEsFusionado()) {
-                foreach ($origen->getFusiones() as $of) {
-                    $origenes[] = $of->getId();
-                }
-            } else {
-                $origenes[] = $origen->getId();
-            }
+            // Recuperar los datos desde los orígenes            
             //Llenar la tabla con los valores del hstore
-            $sql .= "INSERT INTO $tabla
+            if ($origen->getEsPivote()) {
+                $tabla1 = array_shift($tablas_piv);
+                $sql .= " INSERT INTO $tabla SELECT " . implode(', ', array_keys($campos_piv)) . " FROM $tabla1 ";
+                foreach ($tablas_piv as $t) {
+                    $sql .= " FULL OUTER JOIN $t USING (" . implode(', ', array_keys($pivote)) .') ';
+                }
+                $sql .='; ';
+            } else {
+                // Si es fusionado recuperar los orígenes que están contenidos
+                $origenes = array();
+                if ($origen->getEsFusionado())
+                    foreach ($origen->getFusiones() as $of)
+                        $origenes[] = $of->getId();
+                else
+                    $origenes[] = $origen->getId();
+                $sql .= "INSERT INTO $tabla
                     SELECT (populate_record(null::$tabla, datos)).*                 
                     FROM fila_origen_dato 
                         WHERE id_origen_dato IN (" . implode(',', $origenes) . ") 
                     ;";
+            }
             //Obtener solo los datos que se pueden procesar en el indicador
             $sql .= "DROP TABLE IF EXISTS $tabla" . "_var; ";
             $sql .= "SELECT  $campos, SUM(calculo::numeric) AS " . $tabla . "

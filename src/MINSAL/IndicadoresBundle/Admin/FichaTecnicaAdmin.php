@@ -253,6 +253,16 @@ class FichaTecnicaAdmin extends Admin {
                     $origen_campos[$origenDato[$k]->getId()][$llave]['significado'] = $sig_;
                 }
             }
+            elseif($origenDato[$k]->getEsPivote()){
+                foreach ($origenDato[$k]->getFusiones() as $or) {
+                    foreach($or->getCampos() as $campo){
+                        //La llave para considerar campo comun será el mismo tipo y significado                
+                        $llave = $campo->getSignificado()->getCodigo() . '-' . $campo->getTipoCampo()->getCodigo();                
+                        //$llave = $campo->getSignificado()->getId();
+                        $origen_campos[$origenDato[$k]->getId()][$llave]['significado'] = $campo->getSignificado()->getCodigo();
+                    }
+                }
+            }
             else
                 foreach ($origenDato[$k]->getCampos() as $campo) {
                     //La llave para considerar campo comun será el mismo tipo y significado                
