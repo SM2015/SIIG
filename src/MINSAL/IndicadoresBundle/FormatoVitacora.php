@@ -14,6 +14,7 @@ class FormatoVitacora
     private $container;
 
     /**
+     * Toma un objeto @service_container: 
      * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
      */
     public function __construct(ContainerInterface $container)
@@ -22,8 +23,8 @@ class FormatoVitacora
     }
 
     /**
+     * Funcion Principal, toma el registro, agrega datos y devuelve el registro modificado
      * @param array $record
-     *
      * @return array
      */
     public function __invoke(array $record)
