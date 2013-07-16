@@ -191,15 +191,21 @@ services:
         tags:
             -  { name: kernel.event_subscriber }
 
-   vitacora.siig:
+    monolog.processor.siig:
+        class: MINSAL\IndicadoresBundle\FormatoVitacora
+        arguments:  ["@service_container"]
+        tags:
+            - { name: monolog.processor, handler: vitacora.siig}
+            
+    vitacora.siig:
         class: Symfony\Bridge\Monolog\Logger
         arguments: [ACTIVIDAD]
         calls:
-            - [pushHandler, [@vitacora.siig.handler]]
-            
-   vitacora.siig.handler:
+            - [pushHandler, [@monolog.handler.vitacora.siig]]
+        
+    monolog.handler.vitacora.siig:
         class: Monolog\Handler\StreamHandler
-        arguments: [%archivo_vitacora%, 200]
+        arguments: [%archivo_vitacora%, 200] #definido en Parameters.yml
 
 
 #Fr3d_LDAP
