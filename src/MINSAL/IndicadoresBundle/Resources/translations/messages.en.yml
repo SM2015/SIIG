@@ -299,3 +299,5 @@ _debe_guardar_para_ver_dimensiones_: 'You must save to watch dimensions of the i
 _por_: 'by'
 _ocultar/mostrar_menu_principal_: 'Show/Hide Main menu'
 _campo_calculado_: 'Calculated Field'
+_campos_utilizables_en_campos_calculados_: 'Usable fields in the formula '
+_variable_no_campo_: 'You have used a variable that doesnt belong to the fields in the data source'

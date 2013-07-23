@@ -44,21 +44,21 @@ class OrigenDatoController extends Controller {
         $patron = '/\bUPDATE\b|\bDELETE\b|\bINSERT\b|\bCREATE\b|\bDROP\b/i';
         $conexion = '';
         if (preg_match($patron, $sql) == FALSE) {
-            try {                
-                foreach($conexiones as $cnx){                    
+            try {
+                foreach ($conexiones as $cnx) {
                     $datos = array();
                     $cnxObj = $this->getDoctrine()->getManager()->find('IndicadoresBundle:Conexion', $cnx);
                     $conn = $this->getConexionGenerica('consulta_sql', $cnxObj);
                     $conexion = $cnxObj->getNombreConexion();
-                    $sql = str_ireplace('FROM', ", '".$cnxObj->getNombreConexion()."' AS origen_datos FROM ", $sql);
+                    $sql = str_ireplace('FROM', ", '" . $cnxObj->getNombreConexion() . "' AS origen_datos FROM ", $sql);
                     if ($this->driver == 'pdo_dblib') {
-                        $sql = str_ireplace('SELECT', 'SELECT TOP 20 ', $sql);                        
+                        $sql = str_ireplace('SELECT', 'SELECT TOP 20 ', $sql);
                         $query = mssql_query($sql, $conn);
                         if (mssql_num_rows($query) > 0)
                             while ($row = mssql_fetch_assoc($query))
                                 $datos[] = $row;
                     } else {
-                        $query = $conn->query($sql . ' LIMIT 20');                        
+                        $query = $conn->query($sql . ' LIMIT 20');
                         if ($query->rowCount() > 0)
                             $datos = $query->fetchAll();
                     }
@@ -66,13 +66,12 @@ class OrigenDatoController extends Controller {
                     $resultado['mensaje'] = '<span style="color: green">' . $this->get('translator')->trans('sentencia_success') . '</span>';
                     $resultado['datos'] = array_merge($resultado['datos'], $datos);
                 }
-                
             } catch (\PDOException $e) {
-                $resultado['mensaje'] = '<span style="color: red">' . $conexion.' '.$this->get('translator')->trans('sentencia_error') . ': ' . $e->getMessage() . '</span>';
+                $resultado['mensaje'] = '<span style="color: red">' . $conexion . ' ' . $this->get('translator')->trans('sentencia_error') . ': ' . $e->getMessage() . '</span>';
             } catch (DBAL\DBALException $e) {
-                $resultado['mensaje'] = '<span style="color: red">' . $conexion.' '.$this->get('translator')->trans('sentencia_error') . ': ' . $e->getMessage() . '</span>';
+                $resultado['mensaje'] = '<span style="color: red">' . $conexion . ' ' . $this->get('translator')->trans('sentencia_error') . ': ' . $e->getMessage() . '</span>';
             } catch (\Exception $e) {
-                $resultado['mensaje'] = '<span style="color: red">' . $conexion.' '.$this->get('translator')->trans('sentencia_error') . ': ' . $e->getMessage() . '</span>';
+                $resultado['mensaje'] = '<span style="color: red">' . $conexion . ' ' . $this->get('translator')->trans('sentencia_error') . ': ' . $e->getMessage() . '</span>';
             }
         } else {
             $resultado['mensaje'] = $this->get('translator')->trans('solo_select');
@@ -110,7 +109,7 @@ class OrigenDatoController extends Controller {
                     'driver' => $motor->getCodigo(),
                     'port' => $req->get('puerto')
                 );
-            } elseif ($objeto_prueba == 'consulta_sql') {                
+            } elseif ($objeto_prueba == 'consulta_sql') {
                 //$conexion = $em->find('IndicadoresBundle:Conexion', $idConexion);
 
                 $datos = array('dbname' => $conexion->getNombreBaseDatos(),
@@ -356,6 +355,27 @@ class OrigenDatoController extends Controller {
             $resultado = array('estado' => 'error', 'mensaje' => $this->get('translator')->trans('camio_no_realizado'));
         }
         return new Response(json_encode($resultado));
+    }
+
+    /**
+     * @Route("/origen_dato/get_campos/{id}", name="origen_dato_get_campos", options={"expose"=true})
+     */
+    public function getCamposAction(OrigenDatos $origen) {
+        $resp = '<h6>' . $this->get('translator')->trans('_campos_utilizables_en_campos_calculados_') . '</h6>
+                <UL class="campos_disponibles">';
+        if ($origen->getEsFusionado() or $origen->getEsPivote()) {
+            $campos = explode(',', str_replace(array(' ',"'"), '', $origen->getCamposFusionados()));
+            foreach ($campos as $campo)
+                $resp .= '<LI><A href="javascript:funcion()">{' . $campo . '}</A></LI>';
+        } else {
+            $campos = $origen->getCampos();
+            foreach ($campos as $campo) {
+                if ($campo->getSignificado())
+                    $resp .= '<LI><A href="javascript:funcion()">{' . $campo->getSignificado()->getCodigo() . '}</A></LI>';
+            }
+        }
+
+        return new Response($resp . '</UL>');
     }
 
 }

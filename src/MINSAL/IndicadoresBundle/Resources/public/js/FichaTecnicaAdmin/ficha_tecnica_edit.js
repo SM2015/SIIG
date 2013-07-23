@@ -5,8 +5,7 @@ $(document).ready(function() {
     $campos.hide();
 
     var campos_list = $campos.html().split(',');
-    //alert (campos_list);
-    //campos_list = campos_list;
+
     var listado = '<UL id="campos_orden">';
     $.each(campos_list, function(i, nodo) {
         listado += '<ol class="ui-state-default" data="' + nodo + '"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>' + nodo + '</ol>';
@@ -20,6 +19,18 @@ $(document).ready(function() {
         }
     });
 
+    //Al seleccionar una variable pasarla al campo de la fórmula
+    $('ul[id$="_variables"] input[type=checkbox]').change(function() {
+        var variable = $.trim($(this).next('span').html()).match(/(\([A-Z_]{1,}\)$)/g);
+        variable = variable[0].replace('(','{').replace(')','}');        
+        
+        if ($(this).is(':checked'))
+            $("input[id$='_formula']").atCaret('insert', variable);
+        else
+            $("input[id$='_formula']").val($("input[id$='_formula']").val().replace(variable, ''));
+
+    });
+
     //Verificar que cuando se elija la clasificación técnica
     // solo se pueda marcar uno por categoría
     $('ul[id$="_clasificacionTecnica"] input:checkbox').change(function() {
@@ -29,8 +40,8 @@ $(document).ready(function() {
         if ($(this).is(':checked')) {
             categoria = $(this).next('span').html().split(' -- ')[0];
             //Seleccionar todos los demás de la misma categoría
-            $cambiar = $('ul[id$="_clasificacionTecnica"] input:checkbox + span:contains('+categoria+')');
-            $cambiar.each(function(i, nodo){               
+            $cambiar = $('ul[id$="_clasificacionTecnica"] input:checkbox + span:contains(' + categoria + ')');
+            $cambiar.each(function(i, nodo) {
                 if ($(nodo).prev('input:checkbox').attr('id') !== id)
                     $(nodo).prev('input:checkbox').attr('checked', false);
             });

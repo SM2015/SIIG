@@ -151,6 +151,7 @@ class FichaTecnicaAdmin extends Admin {
         else {
             //Obtener las variables utilizadas en la fórmula
             //Quitar todos los espacios en blanco de la fórmula
+            $vars_formula = array();
             $formula = str_replace(' ', '', $object->getFormula());
             preg_match_all('/\{([\w]+)\}/', $formula, $vars_formula);
 
@@ -243,7 +244,7 @@ class FichaTecnicaAdmin extends Admin {
                 $fusionados = $origenDato[$k]->getFusiones();
                 $fusionado = $fusionados[0];
                 $tipos = array();
-                foreach ($fusionado->getCampos() as $campo){
+                foreach ($fusionado->getAllFields() as $campo){
                     $tipos[$campo->getSignificado()->getCodigo()] = $campo->getTipoCampo()->getCodigo();
                 }
                 foreach($significados as $sig){
@@ -255,7 +256,7 @@ class FichaTecnicaAdmin extends Admin {
             }
             elseif($origenDato[$k]->getEsPivote()){
                 foreach ($origenDato[$k]->getFusiones() as $or) {
-                    foreach($or->getCampos() as $campo){
+                    foreach($or->getAllFields() as $campo){
                         //La llave para considerar campo comun será el mismo tipo y significado                
                         $llave = $campo->getSignificado()->getCodigo() . '-' . $campo->getTipoCampo()->getCodigo();                
                         //$llave = $campo->getSignificado()->getId();
@@ -264,7 +265,7 @@ class FichaTecnicaAdmin extends Admin {
                 }
             }
             else
-                foreach ($origenDato[$k]->getCampos() as $campo) {
+                foreach ($origenDato[$k]->getAllFields() as $campo) {
                     //La llave para considerar campo comun será el mismo tipo y significado                
                     $llave = $campo->getSignificado()->getCodigo() . '-' . $campo->getTipoCampo()->getCodigo();                
                     //$llave = $campo->getSignificado()->getId();

@@ -301,3 +301,5 @@ _debe_guardar_para_ver_dimensiones_: 'Debe guardar para ver las dimensiones del 
 _por_: 'por'
 _ocultar/mostrar_menu_principal_: 'Mostrar/Ocultar Menú principal'
 _campo_calculado_: 'Campo calculado'
+_campos_utilizables_en_campos_calculados_: 'Campos utilizables en la fórmula'
+_variable_no_campo_: 'Ha utilizado una variable que no es parte de los campos del origen de datos'

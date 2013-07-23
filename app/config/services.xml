@@ -154,6 +154,17 @@
             <argument>SonataAdminBundle:CRUD</argument>
             <call method="setMaxPerPage"><argument>%admin_max_per_page_number%</argument></call>
         </service>
+        <service id="sonata.admin.campo_calculado" class="MINSAL\IndicadoresBundle\Admin\CampoAdmin">
+            <tag name="sonata.admin"
+                 manager_type="orm" 
+                 group="origen_datos" 
+                 label="_campo_calculado_"
+            />    
+            <argument />            
+            <argument>MINSAL\IndicadoresBundle\Entity\Campo</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+            <call method="setMaxPerPage"><argument>10</argument></call>
+        </service>
         <service id="sonata.admin.variable" class="MINSAL\IndicadoresBundle\Admin\VariableDatoAdmin">
             <tag name="sonata.admin"
                  manager_type="orm" 

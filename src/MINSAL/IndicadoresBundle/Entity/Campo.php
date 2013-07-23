@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="campo")
  * @ORM\Entity
  */
-class Campo
-{
+class Campo {
+
     /**
      * @var integer $id
      *
@@ -27,46 +27,51 @@ class Campo
      * @ORM\Column(name="nombre", type="string", length=100, nullable=false)
      */
     private $nombre;
-    
+
     /**
      * @var string $descripcion
      *
      * @ORM\Column(name="descripcion", type="text", nullable=true)
      */
     private $descripcion;
-    
+
+    /**
+     * @var string $formula
+     *
+     * @ORM\Column(name="formula", type="text", nullable=true)
+     */
+    private $formula;
+
     /**
      * @ORM\ManyToOne(targetEntity="OrigenDatos", inversedBy="campos")
      * @ORM\JoinColumn(name="id_origen_datos", referencedColumnName="id", onDelete="CASCADE")
-     **/
+     * */
     private $origenDato;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="TipoCampo")
      * @ORM\JoinColumn(name="id_tipo_campo", referencedColumnName="id")
-     **/
+     * */
     private $tipoCampo;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="SignificadoCampo")
      * @ORM\JoinColumn(name="id_significado_campo", referencedColumnName="id")
-     **/
+     * */
     private $significado;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="Diccionario")
      * @ORM\JoinColumn(name="id_diccionario", referencedColumnName="id")
-     **/
+     * */
     private $diccionario;
-    
 
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -76,10 +81,9 @@ class Campo
      * @param string $nombre
      * @return Campo
      */
-    public function setNombre($nombre)
-    {
+    public function setNombre($nombre) {
         $this->nombre = $nombre;
-    
+
         return $this;
     }
 
@@ -88,8 +92,7 @@ class Campo
      *
      * @return string 
      */
-    public function getNombre()
-    {
+    public function getNombre() {
         return $this->nombre;
     }
 
@@ -99,10 +102,9 @@ class Campo
      * @param string $descripcion
      * @return Campo
      */
-    public function setDescripcion($descripcion)
-    {
+    public function setDescripcion($descripcion) {
         $this->descripcion = $descripcion;
-    
+
         return $this;
     }
 
@@ -111,11 +113,9 @@ class Campo
      *
      * @return string 
      */
-    public function getDescripcion()
-    {
+    public function getDescripcion() {
         return $this->descripcion;
     }
-    
 
     /**
      * Set tipoCampo
@@ -123,10 +123,9 @@ class Campo
      * @param MINSAL\IndicadoresBundle\Entity\TipoCampo $tipoCampo
      * @return Campo
      */
-    public function setTipoCampo(\MINSAL\IndicadoresBundle\Entity\TipoCampo $tipoCampo = null)
-    {
+    public function setTipoCampo(\MINSAL\IndicadoresBundle\Entity\TipoCampo $tipoCampo = null) {
         $this->tipoCampo = $tipoCampo;
-    
+
         return $this;
     }
 
@@ -135,11 +134,9 @@ class Campo
      *
      * @return MINSAL\IndicadoresBundle\Entity\TipoCampo 
      */
-    public function getTipoCampo()
-    {
+    public function getTipoCampo() {
         return $this->tipoCampo;
     }
-
 
     /**
      * Set origenDato
@@ -147,10 +144,9 @@ class Campo
      * @param MINSAL\IndicadoresBundle\Entity\OrigenDatos $origenDato
      * @return Campo
      */
-    public function setOrigenDato(\MINSAL\IndicadoresBundle\Entity\OrigenDatos $origenDato = null)
-    {
+    public function setOrigenDato(\MINSAL\IndicadoresBundle\Entity\OrigenDatos $origenDato = null) {
         $this->origenDato = $origenDato;
-    
+
         return $this;
     }
 
@@ -159,8 +155,7 @@ class Campo
      *
      * @return MINSAL\IndicadoresBundle\Entity\OrigenDatos 
      */
-    public function getOrigenDato()
-    {
+    public function getOrigenDato() {
         return $this->origenDato;
     }
 
@@ -170,10 +165,9 @@ class Campo
      * @param MINSAL\IndicadoresBundle\Entity\SignificadoCampo $significado
      * @return Campo
      */
-    public function setSignificado(\MINSAL\IndicadoresBundle\Entity\SignificadoCampo $significado = null)
-    {
+    public function setSignificado(\MINSAL\IndicadoresBundle\Entity\SignificadoCampo $significado = null) {
         $this->significado = $significado;
-    
+
         return $this;
     }
 
@@ -182,8 +176,7 @@ class Campo
      *
      * @return MINSAL\IndicadoresBundle\Entity\SignificadoCampo
      */
-    public function getSignificado()
-    {
+    public function getSignificado() {
         return $this->significado;
     }
 
@@ -193,10 +186,9 @@ class Campo
      * @param integer $id
      * @return Campo
      */
-    public function setId($id)
-    {
+    public function setId($id) {
         $this->id = $id;
-    
+
         return $this;
     }
 
@@ -206,10 +198,9 @@ class Campo
      * @param \MINSAL\IndicadoresBundle\Entity\Diccionario $diccionario
      * @return Campo
      */
-    public function setDiccionario(\MINSAL\IndicadoresBundle\Entity\Diccionario $diccionario = null)
-    {
+    public function setDiccionario(\MINSAL\IndicadoresBundle\Entity\Diccionario $diccionario = null) {
         $this->diccionario = $diccionario;
-    
+
         return $this;
     }
 
@@ -218,8 +209,33 @@ class Campo
      *
      * @return \MINSAL\IndicadoresBundle\Entity\Diccionario 
      */
-    public function getDiccionario()
-    {
+    public function getDiccionario() {
         return $this->diccionario;
     }
+
+    /**
+     * Set formula
+     *
+     * @param string $formula
+     * @return Campo
+     */
+    public function setFormula($formula) {
+        $this->formula = $formula;
+
+        return $this;
+    }
+
+    /**
+     * Get formula
+     *
+     * @return string 
+     */
+    public function getFormula() {
+        return $this->formula;
+    }
+
+    public function __toString() {
+        return $this->nombre ? : '';
+    }
+
 }

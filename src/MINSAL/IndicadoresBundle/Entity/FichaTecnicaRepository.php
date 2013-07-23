@@ -85,13 +85,13 @@ class FichaTecnicaRepository extends EntityRepository {
             } elseif ($origen->getEsPivote()) {
                 foreach ($campos_piv as $campo => $tipo)
                     $sql .= $campo . ' ' . $tipo . ', ';
-            }
-            else
+            } else {
                 foreach ($origen->getCampos() as $campo) {
                     $sql .= $campo->getSignificado()->getCodigo() . ' ' . $campo->getTipoCampo()->getCodigo() . ', ';
                     if ($campo->getDiccionario() != null)
                         $diccionarios[$campo->getSignificado()->getCodigo()] = $campo->getDiccionario()->getId();
                 }
+            }
             $sql = trim($sql, ', ') . ');';
 
             // Recuperar los datos desde los orígenes            
@@ -100,7 +100,7 @@ class FichaTecnicaRepository extends EntityRepository {
                 $tabla1 = array_shift($tablas_piv);
                 $sql .= " INSERT INTO $tabla SELECT " . implode(', ', array_keys($campos_piv)) . " FROM $tabla1 ";
                 foreach ($tablas_piv as $t) {
-                    $sql .= " FULL OUTER JOIN $t USING (" . implode(', ', array_keys($pivote)) .') ';
+                    $sql .= " FULL OUTER JOIN $t USING (" . implode(', ', array_keys($pivote)) . ') ';
                 }
                 $sql .='; ';
             } else {
@@ -117,12 +117,30 @@ class FichaTecnicaRepository extends EntityRepository {
                         WHERE id_origen_dato IN (" . implode(',', $origenes) . ") 
                     ;";
             }
+            //Obtener los campos que son calculados
+            $campos_calculados = array();
+            foreach ($origen->getCamposCalculados() as $campo) {
+                $campos_calculados[$campo->getSignificado()->getCodigo()] = str_replace(array('{', '}'), '', $campo->getFormula()) . ' AS ' . $campo->getSignificado()->getCodigo();
+            }
+            $campos_calculados_nombre = '';
+
+            if (count($campos_calculados) > 0) {
+                //Quitar los campos calculados del listado campos del indicador sino da error
+                $campos_aux = explode(',', str_replace(' ', '', $campos));
+                $campos = implode(',', array_diff($campos_aux, array_keys($campos_calculados)));
+                
+                $campos_calculados_nombre = ', ' . implode(', ', array_keys($campos_calculados));
+                $campos_calculados = ', ' . implode(', ', $campos_calculados);
+                
+            }
+            else
+                $campos_calculados = '';
             //Obtener solo los datos que se pueden procesar en el indicador
             $sql .= "DROP TABLE IF EXISTS $tabla" . "_var; ";
-            $sql .= "SELECT  $campos, SUM(calculo::numeric) AS " . $tabla . "
+            $sql .= "SELECT  $campos, SUM(calculo::numeric) AS  $tabla $campos_calculados
                 INTO TEMP  $tabla" . "_var
                 FROM $tabla                 
-                GROUP BY $campos 
+                GROUP BY $campos $campos_calculados_nombre 
                 HAVING  SUM(calculo::numeric) > 0
                     ;";
 
