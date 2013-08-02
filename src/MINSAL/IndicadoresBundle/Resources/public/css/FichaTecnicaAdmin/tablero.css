@@ -137,3 +137,6 @@ input.valores_filtro{
 .navbar-inner {
     min-height: 0px !important;
 }
+.dropdown-menu li a {
+    cursor: pointer;
+}

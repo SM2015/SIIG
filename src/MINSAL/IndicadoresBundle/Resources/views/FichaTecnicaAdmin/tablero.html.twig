@@ -53,26 +53,26 @@
                 <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">                                
-                <li><A href='#' id='agregar_fila' >{{'_agregar_area_grafico_'|trans}}</a></li>
-                <li><A href='#' id='quitar_indicador' >{{'_quitar_indicador_'|trans}}</a></li>
+                <li><A id='agregar_fila' >{{'_agregar_area_grafico_'|trans}}</a></li>
+                <li><A id='quitar_indicador' >{{'_quitar_indicador_'|trans}}</a></li>
                 <li><!-- Button to trigger modal -->
                     <a href="#myModal" data-toggle="modal">{{'_guardar_sala_'|trans}}</a>
                 </li>
                 <li class="divider"></li>
                 <li class="nav-header">{{'_salas_'|trans}}</li>
                 {% for sala in salas %}
-                    <li><A href='#' sala-id='{{sala.datos_sala.id}}' sala-nombre='{{sala.datos_sala.nombre}}' class='salas-id' data="{{sala.indicadores_sala|json_encode()}}">{{sala.datos_sala.nombre}}</A></li>
+                    <li><A sala-id='{{sala.datos_sala.id}}' sala-nombre='{{sala.datos_sala.nombre}}' class='salas-id' data="{{sala.indicadores_sala|json_encode()}}">{{sala.datos_sala.nombre}}</A></li>
                 {% endfor %}
             </ul>
         </div>
         <div class='btn-group'>
-            <a href='#' class="btn dropdown-toggle btn-success" data-toggle="dropdown" >
+            <a class="btn dropdown-toggle btn-success" data-toggle="dropdown" >
                 <i class="icon-star"></i>{{"favoritos"|trans}} (<span id='cantidad_favoritos'>{{app.user.favoritos|length}}</span>)
                 <span class="caret"></span>
             </a>
             <ul class="dropdown-menu" id='listado-favoritos'>
                 {% for indicador in app.user.favoritos %}
-                    <li ><A href='#' id='fav-{{indicador.id}}' class='indicador'
+                    <li ><A id='fav-{{indicador.id}}' class='indicador'
                             data-id='{{indicador.id}}'
                             data-unidad-medida='{{indicador.unidadMedida}}'>
                             {{indicador.nombre}}
@@ -84,13 +84,13 @@
         {% for categoria in categorias%}
             {% if categoria.indicadores|length > 0 %}
                 <div class='btn-group'>
-                    <a href='#' class="btn dropdown-toggle btn-info" data-toggle="dropdown" >
+                    <a  class="btn dropdown-toggle btn-info" data-toggle="dropdown" >
                         {{categoria.cat.descripcion}} ({{categoria.indicadores|length}})
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" >
                         {% for indicador in categoria.indicadores %}
-                            <li ><A href='#' id='{{indicador.id}}' class='indicador'
+                            <li ><A id='{{indicador.id}}' class='indicador'
                                    data-id='{{indicador.id}}'
                                    data-unidad-medida='{{indicador.unidadMedida}}'>
                                     {{indicador.nombre}}
@@ -103,13 +103,13 @@
         {% endfor %}
         {% if indicadores_no_clasificados|length > 0 %}
             <div class='btn-group'>
-                <a href='#' class="btn dropdown-toggle btn-danger" data-toggle="dropdown" >
+                <a class="btn dropdown-toggle btn-danger" data-toggle="dropdown" >
                      <i class="icon-tags"></i>{{"_no_clasificados_"|trans}} (<span id='cantidad_no_clasificados'>{{indicadores_no_clasificados|length}}</span>)
                     <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu" >
                     {% for indicador in indicadores_no_clasificados %}
-                        <li ><A href='#' id='{{indicador.id}}' class='indicador'
+                        <li ><A id='{{indicador.id}}' class='indicador'
                                data-id='{{indicador.id}}'
                                data-unidad-medida='{{indicador.unidadMedida}}'>
                                 {{indicador.nombre}}

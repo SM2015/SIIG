@@ -1,3 +1,4 @@
-$(document).ready(function(){
-    $('i').popover('show');        
+$(document).ready(function() {
+    $('i').popover({html: true});
+    $('i').popover('show');
 });

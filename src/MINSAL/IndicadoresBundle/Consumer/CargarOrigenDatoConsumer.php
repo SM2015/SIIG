@@ -40,7 +40,7 @@ class CargarOrigenDatoConsumer implements ConsumerInterface {
             $i = 0;
             $nombre_conexion = $cnx->getNombreConexion();            
             if ($cnx->getIdMotor()->getCodigo() != 'pdo_dblib' or $origenDato->getSentenciaSql() != '') {
-                $sql = $origenDato->getSentenciaSql();
+                $sql = $msg['sql'];
                 while ($leidos >= $tamanio) {
                     $sql_aux = $sql . ' LIMIT ' . $tamanio . ' OFFSET ' . $i * $tamanio;
 

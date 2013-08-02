@@ -2,8 +2,8 @@ $(document).ready(function(){
     
     //****************** PARTE PARA PROBAR LA SENTENCIA SQL
     // id que se está usando para los nombres de los formularios (es aleatorio)
-    if ($('select[id$="_conexion"]').length){
-        var $id = $('select[id$="_conexion"]').attr('id').split('_')[0];
+    if ($('input[id$="_nombre"]').length){
+        var $id = $('input[id$="_nombre"]').attr('id').split('_')[0];
     
         // La barra con los botones de acción
         // Agregaré el de probar sentencia     
@@ -30,26 +30,26 @@ $(document).ready(function(){
             //Limpiar la tabla de datos
             $('#datos').html('');
                 
-            $.getJSON(Routing.generate('origen_dato_conexion_probar_sentencia'), datos+'&conexiones_todas='+conexiones_todas, function(resp){            
+            $.post(Routing.generate('origen_dato_conexion_probar_sentencia'), datos+'&conexiones_todas='+conexiones_todas, function(resp){            
                 $('#resultado_probar_consulta').html(resp.mensaje);
             
                 // Los encabezados de la fila
                 $('#datos').append("<TR id='fila_enc'></TR>");
                 $.each(resp.datos[0], function(nombre_campo){
                     $('#fila_enc').append("<TH>"+nombre_campo+"</TH>");
-                })
+                });
             
                 //Los datos
                 $.each(resp.datos, function(indice,fila){
                     $('#datos').append("<TR id='fila"+indice+"'></TR>");
                     $.each(fila, function(i, campo){
                         $('#fila'+indice).append("<TD>"+campo+"</TD>");
-                    })
-                })
+                    });
+                });
             
-            });
+            }, 'json');
 
-        })
+        });
     }
     //************************** CÓDIGO PARA MOSTRAR EL RESULTADO PARA CONFIGURACIÓN DE CAMPOS
     

@@ -4,27 +4,30 @@ namespace MINSAL\IndicadoresBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Response;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\HttpFoundation\RedirectResponse;
+use MINSAL\IndicadoresBundle\Entity\FichaTecnica;
+use MINSAL\IndicadoresBundle\Entity\ClasificacionUso;
 
 class IndicadorController extends Controller {
 
     /**
      * @Route("/indicador/dimensiones/{id}", name="indicador_dimensiones", options={"expose"=true})
      */
-    public function getDimensiones($id) {
+    public function getDimensiones(FichaTecnica $fichaTec) {
 
         $resp = array();
         $em = $this->getDoctrine()->getManager();
 
-        $fichaTec = $em->find('IndicadoresBundle:FichaTecnica', $id);
         if ($fichaTec) {
             $resp['nombre_indicador'] = $fichaTec->getNombre();
-            $resp['id_indicador'] = $id;
+            $resp['id_indicador'] = $fichaTec->getId();
             $resp['unidad_medida'] = $fichaTec->getUnidadMedida();
-            $campos = explode(',', str_replace(array("'", ' '), array('', ''), $fichaTec->getCamposIndicador()));
-
+            if ($fichaTec->getCamposIndicador() != '')
+                $campos = explode(',', str_replace(array("'", ' '), array('', ''), $fichaTec->getCamposIndicador()));
+            else
+                $campos = array();
+            $dimensiones = array();
             foreach ($campos as $campo) {
                 $significado = $em->getRepository('IndicadoresBundle:SignificadoCampo')
                         ->findOneByCodigo($campo);
@@ -61,7 +64,7 @@ class IndicadorController extends Controller {
     /**
      * @Route("/indicador/datos/{id}/{dimension}", name="indicador_datos", options={"expose"=true})
      */
-    public function getDatos($id, $dimension) {
+    public function getDatos(FichaTecnica $fichaTec, $dimension) {
 
         $resp = array();
         $filtro = $this->getRequest()->get('filtro');
@@ -82,7 +85,6 @@ class IndicadorController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
 
-        $fichaTec = $em->find('IndicadoresBundle:FichaTecnica', $id);
         $fichaRepository = $em->getRepository('IndicadoresBundle:FichaTecnica');
 
 
@@ -175,13 +177,12 @@ class IndicadorController extends Controller {
 
     /**
      * @Route("/tablero/usuario/change/{codigo_clasificacion}", name="change_clasificacion_uso", options={"expose"=true})
+     * @ParamConverter("clasificacion", options={"mapping": {"codigo_clasificacion": "codigo"}})
      */
-    public function changeClasificacionUsoAction($codigo_clasificacion) {
+    public function changeClasificacionUsoAction(ClasificacionUso $clasificacion) {
         $request = $this->getRequest();
         $em = $this->getDoctrine()->getManager();
-        $usuario = $this->getUser();
-        $clasificacion = $em->getRepository('IndicadoresBundle:ClasificacionUso')
-                ->findOneBy(array('codigo' => $codigo_clasificacion));
+        $usuario = $this->getUser();        
         $usuario->setClasificacionUso($clasificacion);
         $em->persist($usuario);
         $em->flush();
@@ -218,24 +219,15 @@ class IndicadorController extends Controller {
     /**
      * @Route("/indicador/{id}/ficha", name="get_indicador_ficha", options={"expose"=true})
      */
-    public function getFichaAction($id) {
+    public function getFichaAction(FichaTecnica $fichaTec) {
 
-        $admin = $this->get('sonata.admin.ficha');
-        $object = $admin->getObject($id);
+        $admin = $this->get('sonata.admin.ficha');        
 
-        if (!$object) {
-            throw new NotFoundHttpException(sprintf('unable to find the object with id : %s', $id));
-        }
-
-        if (false === $admin->isGranted('VIEW', $object)) {
-            throw new AccessDeniedException();
-        }
-
-        $admin->setSubject($object);
+        $admin->setSubject($fichaTec);
 
         $html = $this->render($admin->getTemplate('show'), array(
             'action' => 'show',
-            'object' => $object,
+            'object' => $fichaTec,
             'elements' => $admin->getShow(),
             'admin' => $admin,
             'base_template' => 'IndicadoresBundle::pdf_layout.html.twig'

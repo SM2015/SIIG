@@ -24,7 +24,7 @@ class LoadSignificadoCampoData extends AbstractFixture implements OrderedFixture
         $datos[9]['campos'] = array('Codigo'=>'mes','Descripcion'=>'Mes');
         $datos[10]['campos'] = array('Codigo'=>'anio','Descripcion'=>'Año');
         $datos[11]['campos'] = array('Codigo'=>'sibasi','Descripcion'=>'Sibasi');
-        $datos[12]['campos'] = array('Codigo'=>'origen','Descripcion'=>'Origen Dato');
+        $datos[12]['campos'] = array('Codigo'=>'origen_dato','Descripcion'=>'Origen Dato');
         
         $datos[13]['campos'] = array('Codigo'=>'id_genero','Descripcion'=>'Identificador género');                
         $datos[14]['campos'] = array('Codigo'=>'id_establecimiento','Descripcion'=>'Identificador establecimiento');        

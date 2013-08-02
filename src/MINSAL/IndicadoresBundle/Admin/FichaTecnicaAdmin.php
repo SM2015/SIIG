@@ -151,6 +151,7 @@ class FichaTecnicaAdmin extends Admin {
         else {
             //Obtener las variables utilizadas en la fórmula
             //Quitar todos los espacios en blanco de la fórmula
+            $vars_formula = array();
             $formula = str_replace(' ', '', $object->getFormula());
             preg_match_all('/\{([\w]+)\}/', $formula, $vars_formula);
 
@@ -239,33 +240,52 @@ class FichaTecnicaAdmin extends Admin {
             $origenDato[$k] = $variable->getOrigenDatos();
             if ($origenDato[$k]->getEsFusionado()) {
                 $significados = explode(',', $origenDato[$k]->getCamposFusionados());
+                //Los tipos de campos sacarlos de uno de los orígenes de datos que ha sido fusionado
+                $fusionados = $origenDato[$k]->getFusiones();
+                $fusionado = $fusionados[0];
+                $tipos = array();
+                foreach ($fusionado->getAllFields() as $campo){
+                    $tipos[$campo->getSignificado()->getCodigo()] = $campo->getTipoCampo()->getCodigo();
+                }
                 foreach($significados as $sig){
                     $sig_ = str_replace("'", '', $sig);
                     $significado = $em->getRepository('IndicadoresBundle:SignificadoCampo')->findOneBy (array('codigo'=>$sig_));
-                    $llave = $significado->getId();
+                    $llave = $significado->getCodigo() . '-' . $tipos[$sig_];
                     $origen_campos[$origenDato[$k]->getId()][$llave]['significado'] = $sig_;
                 }
             }
+            elseif($origenDato[$k]->getEsPivote()){
+                foreach ($origenDato[$k]->getFusiones() as $or) {
+                    foreach($or->getAllFields() as $campo){
+                        //La llave para considerar campo comun será el mismo tipo y significado                
+                        $llave = $campo->getSignificado()->getCodigo() . '-' . $campo->getTipoCampo()->getCodigo();                
+                        //$llave = $campo->getSignificado()->getId();
+                        $origen_campos[$origenDato[$k]->getId()][$llave]['significado'] = $campo->getSignificado()->getCodigo();
+                    }
+                }
+            }
             else
-                foreach ($origenDato[$k]->getCampos() as $campo) {
+                foreach ($origenDato[$k]->getAllFields() as $campo) {
                     //La llave para considerar campo comun será el mismo tipo y significado                
-                    //$llave = $campo->getSignificado()->getId() . '-' . $campo->getTipoCampo()->getId();                
-                    $llave = $campo->getSignificado()->getId();
+                    $llave = $campo->getSignificado()->getCodigo() . '-' . $campo->getTipoCampo()->getCodigo();                
+                    //$llave = $campo->getSignificado()->getId();
                     $origen_campos[$origenDato[$k]->getId()][$llave]['significado'] = $campo->getSignificado()->getCodigo();
                 }
 
-            //Determinar los campos comunes (con igual significado)
+            //Determinar los campos comunes (con igual significado e igual tipo)
             $aux = $origen_campos;
             $campos_comunes = array_shift($aux);
             foreach ($aux as $a) {
                 $campos_comunes = array_intersect_key($campos_comunes, $a);
             }
-        };
+        }
         $aux = array();
         foreach ($campos_comunes as $campo)
             $aux[$campo['significado']] = $campo['significado'];
+        
         if (isset($aux['calculo']))
-            unset($aux['calculo']);        
+            unset($aux['calculo']);
+        
         $campos_comunes = implode(", ", $aux);
         if ($fichaTecnica->getCamposIndicador()!=''){
             //Si ya existen los campos sacar el orden que ya ha especificado el usuario

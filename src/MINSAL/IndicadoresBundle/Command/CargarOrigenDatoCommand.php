@@ -59,9 +59,7 @@ class CargarOrigenDatoCommand extends ContainerAwareCommand {
                 foreach ($ind->getVariables() as $var) {
                     $origenDato = $var->getOrigenDatos();
 
-                    $msg = array('id_origen_dato' => $origenDato->getId());
-                    //$msg['sql'] = $origenDato->getSentenciaSql();
-                    //$msg['total_registros'] = $em->getRepository('IndicadoresBundle:OrigenDatos')->getTotalRegistros($origenDato);
+                    $msg = array('id_origen_dato' => $origenDato->getId(), 'sql'=> $origenDato->getSentenciaSql());
 
                     $carga_directa = $origenDato->getEsCatalogo();
                     // No mandar a la cola de carga los que son catálogos, Se cargarán directamente                    
