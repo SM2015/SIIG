@@ -191,7 +191,7 @@ class FichaTecnicaRepository extends EntityRepository {
         }
 
         $campos2 = implode(', ', $campos_aux);
-        $sql = '';
+        $sql = 'CREATE TEMP TABLE no_acum(dimension varchar(100)); ';
         // Hacer coincidir las tablas en las filas que tenga una y la otra no, agregarla 
         // y ponerle 0 para que se acumule
         foreach ($fichaTecnica->getVariables() as $v) {
@@ -206,8 +206,10 @@ class FichaTecnicaRepository extends EntityRepository {
                         SELECT $campos, 0 FROM " . strtolower($t->getIniciales()) . "_var
                             WHERE ($campos) NOT IN (SELECT $campos FROM $t1);
                                 ";
+                //Quitar aquellos grupos que no tengan ningún dato para el grupo según la dimensión
+                $sql .= "INSERT INTO  no_acum SELECT $dimension FROM $t1 GROUP BY $dimension HAVING (SUM($campo_calculo) = 0);  ";
             }
-        }
+        }                
         foreach ($fichaTecnica->getVariables() as $variable) {
             $tabla = strtolower($variable->getIniciales());
             $tablas_variables[] = $tabla;
@@ -229,9 +231,10 @@ class FichaTecnicaRepository extends EntityRepository {
                         (SELECT SUM(TT.$tabla) 
                             FROM $tabla" . "_var TT 
                             WHERE " . implode(' AND ', $condiciones) . "
+                            AND $dimension::varchar(100) NOT IN (SELECT dimension FROM no_acum)
                         ) AS $tabla
                     INTO TEMP $tabla" . "_var_acum
-                    FROM $tabla" . "_var T  
+                    FROM $tabla" . "_var T                      
                     ORDER BY $campos2 ;
                     ";
         }
