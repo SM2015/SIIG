@@ -28,7 +28,7 @@ Saiku.i18n = {
         // Load language file if it isn't English
         if (Saiku.i18n.locale != "en") {
             $.ajax({
-                url: "http://localhost/bundles/indicadores/cubos/js/saiku/plugins/I18n/po/es.json",
+                url: "/bundles/indicadores/cubos/js/saiku/plugins/I18n/po/es.json",
                 type: 'GET',
                 dataType: 'json',
                 success: function(data) {
