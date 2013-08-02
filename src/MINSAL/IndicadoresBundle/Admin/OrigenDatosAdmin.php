@@ -57,7 +57,8 @@ class OrigenDatosAdmin extends Admin {
                 ->add('descripcion', null, array('label' => $this->getTranslator()->trans('descripcion')))
                 ->add('esFusionado', null, array('label' => $this->getTranslator()->trans('fusion.es_fusionado')))
                 ->add('esCatalogo', null, array('label' => $this->getTranslator()->trans('es_catalogo')))
-                ->add('sentenciaSql', null, array('label' => $this->getTranslator()->trans('sentencia_sql')))
+                ->add('sentenciaSql', null, array('label' => $this->getTranslator()->trans('sentencia_sql'),
+                    'template'=>'IndicadoresBundle:CRUD:list_sentencia_sql.html.twig'))
                 ->add('archivoNombre', null, array('label' => $this->getTranslator()->trans('archivo_asociado')))
                 ->add('_action', 'actions', array(
                     'actions' => array(
