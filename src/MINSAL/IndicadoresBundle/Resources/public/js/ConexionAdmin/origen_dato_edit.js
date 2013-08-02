@@ -2,8 +2,8 @@ $(document).ready(function(){
     
     //****************** PARTE PARA PROBAR LA SENTENCIA SQL
     // id que se está usando para los nombres de los formularios (es aleatorio)
-    if ($('select[id$="_conexion"]').length){
-        var $id = $('select[id$="_conexion"]').attr('id').split('_')[0];
+    if ($('input[id$="_nombre"]').length){
+        var $id = $('input[id$="_nombre"]').attr('id').split('_')[0];
     
         // La barra con los botones de acción
         // Agregaré el de probar sentencia     
