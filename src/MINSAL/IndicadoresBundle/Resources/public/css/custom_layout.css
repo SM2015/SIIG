@@ -1,12 +1,12 @@
 @media only screen and (max-device-width : 1024px) {
     .dropdown-menu li  a{
-        line-height: 45px;
-        color: white;
-        border-bottom: 2px solid gray;
+        line-height: 45px !important;
+        color: white !important;
+        border-bottom: 2px solid gray !important;
     }
     .dropdown-menu{
-        background-color: #353535;
-        color: white;
+        background-color: #353535 !important;
+        color: white !important;
     }
     .forcheckbox{
         background-color: #EAEAEA;
@@ -28,8 +28,12 @@
         margin: -190px 0 0 -250px !important;
         border: 1px solid red !important;
     }
+    
+    #collapseOne.in.collapse{
+        overflow: visible;
+    }    
 
-}
+}    
 @media (min-width: 979px) {
     body.sonata-bc {
         padding-top: 10px;
@@ -56,11 +60,6 @@
     max-height: 280px;
     overflow-y: auto;
     border: 1px solid #CCCCCC;        
-}
-@media only screen and (min-device-width: 1024px) {
-    #collapseOne.in.collapse{
-        overflow: visible;
-    }    
 }
 @media only screen and (max-width: 979px) {
     .nav-collapse.in.collapse{

@@ -83,11 +83,11 @@ file that was distributed with this source code.
         <div  class="navbar navbar-fixed-top  " >
             <div  class="navbar-inner">                 
                 <div  id="collapseOne" class="container-fluid accordion-body collapse in">
-                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    {#<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
-                    </a>
+                    </a> #}
 
                         <div class="navbar-text pull-right">                            
                             {% if app.user != '' %}
@@ -119,7 +119,7 @@ file that was distributed with this source code.
                         {% endblock %}
 
                         {# MENU PRINCIPAL #}
-                        <div class="nav-collapse" >
+                        <div  >
                             <ul class="nav">
                                 {% block top_bar_before_nav %} {% endblock %}
                                 {% block sonata_top_bar_nav %}
