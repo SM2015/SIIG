@@ -24,7 +24,10 @@
     .btn, .dropdown-toggle{
         height: 40px;
     }
-
+    .connection{
+        margin: -190px 0 0 -250px !important;
+        border: 1px solid red !important;
+    }
 
 }
 @media (min-width: 979px) {
@@ -62,5 +65,11 @@
 @media only screen and (max-width: 979px) {
     .nav-collapse.in.collapse{
         height: auto !important;
-    }    
+    } 
+}
+@media only screen and (max-width: 767px) {
+    .connection{
+        margin: -330px 0 0 -250px !important;
+        border: 1px solid green !important;
+    }
 }
