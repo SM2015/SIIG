@@ -24,9 +24,8 @@
     .btn, .dropdown-toggle{
         height: 40px;
     }
-    .connection{
+    .sonata-bc div.connection{
         margin: -190px 0 0 -250px !important;
-        border: 1px solid red !important;
     }
     
     #collapseOne.in.collapse{
@@ -38,16 +37,6 @@
     body.sonata-bc {
         padding-top: 10px;
     }
-}
-.sonata-bc div.connection {
-    border: 1px solid #DDDDDD;
-    border-radius: 6px 6px 6px 6px;
-    box-shadow: 2px 2px 10px #CCCCCC;
-    left: 50%;
-    margin: 10px 0 0 -250px;
-    position: relative;
-    top: 35%;
-    width: 460px;
 }
 
 .editable{
@@ -61,14 +50,28 @@
     overflow-y: auto;
     border: 1px solid #CCCCCC;        
 }
+@media only screen and (min-device-width: 1024px) {
+    #collapseOne.in.collapse{
+        overflow: visible;
+    }
+    .sonata-bc div.connection {
+    border: 1px solid #DDDDDD;
+    border-radius: 6px 6px 6px 6px;
+    box-shadow: 2px 2px 10px #CCCCCC;
+    left: 50%;
+    margin: 10px 0 0 -250px;
+    position: relative;
+    top: 35%;
+    width: 460px;
+}
+}
 @media only screen and (max-width: 979px) {
     .nav-collapse.in.collapse{
         height: auto !important;
     } 
 }
 @media only screen and (max-width: 767px) {
-    .connection{
+    .sonata-bc div.connection{
         margin: -330px 0 0 -250px !important;
-        border: 1px solid green !important;
     }
 }
