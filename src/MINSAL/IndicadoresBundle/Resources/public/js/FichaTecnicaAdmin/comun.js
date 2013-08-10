@@ -366,7 +366,7 @@ function dibujarControles(zona, datos) {
             '</button>' +
             '<ul class="dropdown-menu" role="menu" >' +
             '<li><A class="ver_ficha_tecnica" '
-            + ' href="' + Routing.generate('get_indicador_ficha', {id: datos.id_indicador}) + '"><i class="icon-briefcase"></i> ' + trans.ver_ficha_tecnica + '</A></li>' +
+            + ' ><i class="icon-briefcase"></i> ' + trans.ver_ficha_tecnica + '</A></li>' +
             '<li><A class="ver_tabla_datos" ><i class="icon-list-alt" ></i> ' + trans.tabla_datos + ' </A></li>' +
             '<li><A class="ver_sql" ><i class="icon-eye-open" ></i> ' + trans.ver_sql + ' </A></li>' +
             '<li><A class="ver_imagen" ><i class="icon-picture"></i> ' + trans.descargar_grafico + '</A></li>' +
@@ -546,9 +546,43 @@ function dibujarControles(zona, datos) {
         $('#myModal2').modal('show');
     });
 
-    $('#' + zona + ' .ver_ficha_tecnica').click(function() {
-        //ver_ficha_tecnica($(this).attr('data-indicador'));
-        cerrarMenus();
+    $('#' + zona + ' .ver_ficha_tecnica').click(function() {        
+        $.get(Routing.generate('get_indicador_ficha',
+                {id: $('#' + zona + ' .titulo_indicador').attr('data-id')}),
+        function(resp) {
+            $('#myModalLabel2').html($('#' + zona + ' .titulo_indicador').html());
+            $('#sql').html(resp);
+            //Dejar solo el código html de la tabla, quitar todo lo demás
+            
+            $('#sql').html('<table>' + $('#sql table').html() + '</table>');
+            $('#sql .sonata-ba-view-title').remove();
+            $('#sql table').append('<thead><TR><TH>Campo</TH><TH>Descripcion</TH></TR></thead>');
+            $('#sql table').dataTable({
+                "bFilter": false,
+                "bSort": false,
+                "sDom": '<"H"T>',
+                "bInfo": false,
+                "iDisplayLength": 30,
+                "oTableTools": {
+                    "sSwfPath": "/bundles/indicadores/js/DataTables/media/swf/copy_csv_xls_pdf.swf",
+                    "aButtons": [
+                        {
+                            "sExtends": "collection",
+                            "sButtonText": trans.exportar,
+                            "aButtons": [{
+                                    "sExtends": "xls",
+                                    "sTitle": $('#' + zona + ' .titulo_indicador').html()
+                                }, {
+                                    "sExtends": "pdf",
+                                    "sTitle": $('#' + zona + ' .titulo_indicador').html()
+                                }]
+                        }
+                    ]
+                },
+            });
+            $('#sql .DTTT_container').css('float', 'left');
+            $('#myModal2').modal('show');
+        }, 'html');
     });
 }
 
