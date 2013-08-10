@@ -12,6 +12,9 @@ class SignificadoCampoAdminController extends Controller {
         $repo = $this->getDoctrine()->getManager()->getRepository('IndicadoresBundle:OrigenDatos');        
         $this->admin->setRepository($repo);
         
+        $vitacora = $this->get('vitacora.siig');
+        $vitacora->addInfo('Se Edito significado de Campo ');
+
         return parent::editAction($id);
 
     }
@@ -20,6 +23,9 @@ class SignificadoCampoAdminController extends Controller {
     {
         $repo = $this->getDoctrine()->getManager()->getRepository('IndicadoresBundle:OrigenDatos');        
         $this->admin->setRepository($repo);
+        
+        $vitacora = $this->get('vitacora.siig');
+        $vitacora->addInfo('Se Creo nuevo significado de Campo');
         
         return parent::createAction();
 

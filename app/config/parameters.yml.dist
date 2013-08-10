@@ -12,3 +12,4 @@ parameters:
     locale: es_SV
     secret: 295125e6c66ab2a1038b62ad3c910733510
     database_path: null
+    archivo_vitacora: %kernel.logs_dir%/minsal.log
