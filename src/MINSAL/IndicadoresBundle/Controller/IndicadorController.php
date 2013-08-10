@@ -232,12 +232,13 @@ class IndicadorController extends Controller {
             'admin' => $admin,
             'base_template' => 'IndicadoresBundle::pdf_layout.html.twig'
         ));
-        return new Response(
+        return new Response($html->getContent(), 200);
+        /*return new Response(
                 $this->get('knp_snappy.pdf')->getOutputFromHtml($html->getContent()), 200, array(
             'Content-Type' => 'application/pdf',
             'Content-Disposition' => 'attachment; filename="ficha_tecnica.pdf"'
                 )
-        );
+        );*/
     }    
 
     /**

@@ -297,22 +297,22 @@ function construir_tabla_datos(zona, datos) {
                     campo = trans.indicador + ' (' + $('#' + zona + ' .titulo_indicador').attr('formula') + ')';
                 tabla_datos += '<TH>' + campo.toUpperCase() + '</TH>';
             }
-            tabla_datos += '</TR></THEAD>';
+            tabla_datos += '</TR></THEAD><TBODY>';
         }
 
         //los datos
-        tabla_datos += '<TBODY><TR>';
+        tabla_datos += '<TR>';
         for (var i in fila)
             tabla_datos += '<TD>' + fila[i] + '</TD>';
-        tabla_datos += '</TR></TBODY>';
+        tabla_datos += '</TR>';
 
     });
-    tabla_datos += '</TABLE>';
+    tabla_datos += '</TBODY></TABLE>';
 
     $('#' + zona + ' .info').html(tabla_datos);
 }
 
-function dibujarControles(zona, datos) {    
+function dibujarControles(zona, datos) {
     $('#' + zona + ' .titulo_indicador').html(datos.nombre_indicador)
             .attr('data-unidad-medida', datos.unidad_medida)
             .attr('formula', datos.formula)
@@ -482,8 +482,40 @@ function dibujarControles(zona, datos) {
     });
     $('#' + zona + ' .info').hide();
     $('#' + zona + ' .ver_tabla_datos').click(function() {
-        $('#' + zona + ' .info').toggle();
-        cerrarMenus();
+        $('#myModalLabel2').html();
+        $('#sql').html($('#' + zona + ' .info').html());
+        $('#sql table').dataTable({
+            "bJQueryUI": true,
+            "sDom": '<"H"Tfr>t<"F"ip>',
+            "oTableTools": {
+                "sSwfPath": "/bundles/indicadores/js/DataTables/media/swf/copy_csv_xls_pdf.swf",
+                "aButtons": [
+                    {
+                        "sExtends": "collection",
+                        "sButtonText": trans.exportar,
+                        "aButtons": [{
+                                "sExtends": "csv",
+                                "sTitle": $('#' + zona + ' .titulo_indicador').html()
+                            }, {
+                                "sExtends": "xls",
+                                "sTitle": $('#' + zona + ' .titulo_indicador').html()
+                            }, {
+                                "sExtends": "pdf",
+                                "sTitle": $('#' + zona + ' .titulo_indicador').html()
+                            }]
+                    }
+                ]
+            },
+            "oLanguage": {
+                "sLengthMenu": "Display _MENU_ records per page",
+                "sZeroRecords": trans.nada_encontrado,
+                "sInfo": trans.mostrando_n_de_n,
+                "sInfoEmpty": trans.mostrando_0,
+                "sInfoFiltered": trans.filtrados_de
+            }
+        });
+        $('#myModal2').modal('show');
+        //cerrarMenus();
     });
 
     $('#' + zona + ' .ver_sql').click(function() {
@@ -585,7 +617,7 @@ function recuperarDimensiones(id_indicador, datos) {
             dibujarControles(zona_g, resp);
             if (datos !== null) {
                 if (JSON.stringify(datos.filtro) !== '""') {
-                    var $filtro = $('#' + zona_g + ' .filtros_dimensiones');                    
+                    var $filtro = $('#' + zona_g + ' .filtros_dimensiones');
                     $filtro.attr('data', datos.filtro);
                     filtro_obj = jQuery.parseJSON($filtro.attr('data'));
                     var ruta = filtroRuta(filtro_obj);
