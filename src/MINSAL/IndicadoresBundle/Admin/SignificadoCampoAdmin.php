@@ -27,6 +27,9 @@ class SignificadoCampoAdmin extends Admin {
                     'choices' => $this->repository->getCatalogos()
 
                 ))
+                ->add('tiposGraficos', null, array('label' => $this->getTranslator()->trans('_tipos_graficos_'),
+                            'expanded' => true
+                        ))
                 ->with($this->getTranslator()->trans('_datos_geograficos_'), array('collapsed' => false))
                     ->add('nombreMapa', null, array('label' => $this->getTranslator()->trans('nombre_archivo_mapa')))
                     ->add('escala', null, array('label' => $this->getTranslator()->trans('_escala_')))

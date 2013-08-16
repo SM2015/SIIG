@@ -306,3 +306,4 @@ _campo_calculado_: 'Calculated Field'
 _campos_utilizables_en_campos_calculados_: 'Usable fields in the formula '
 _variable_no_campo_: 'You have used a variable that doesnt belong to the fields in the data source'
 _exportar_: 'Export'
+_tipos_graficos_: Graph types allowed
