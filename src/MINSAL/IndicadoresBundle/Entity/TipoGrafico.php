@@ -5,12 +5,12 @@ namespace MINSAL\IndicadoresBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * MINSAL\IndicadoresBundle\Entity\TipoCampo
+ * MINSAL\IndicadoresBundle\Entity\TipoGrafico
  *
- * @ORM\Table(name="tipo_campo")
+ * @ORM\Table(name="tipo_grafico")
  * @ORM\Entity
  */
-class TipoCampo
+class TipoGrafico
 {
     /**
      * @var integer $id
@@ -35,6 +35,11 @@ class TipoCampo
      * @ORM\Column(name="codigo", type="string", length=50, nullable=false)
      */
     private $codigo;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="SignificadoCampo", mappedBy="tiposGraficos")
+     **/
+    private $significados;
     
 
     /**
@@ -108,5 +113,45 @@ class TipoCampo
     
     public function __toString() {
         return $this->descripcion;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->significados = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add significados
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\SignificadoCampo $significados
+     * @return TipoGrafico
+     */
+    public function addSignificado(\MINSAL\IndicadoresBundle\Entity\SignificadoCampo $significados)
+    {
+        $this->significados[] = $significados;
+    
+        return $this;
+    }
+
+    /**
+     * Remove significados
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\SignificadoCampo $significados
+     */
+    public function removeSignificado(\MINSAL\IndicadoresBundle\Entity\SignificadoCampo $significados)
+    {
+        $this->significados->removeElement($significados);
+    }
+
+    /**
+     * Get significados
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSignificados()
+    {
+        return $this->significados;
     }
 }

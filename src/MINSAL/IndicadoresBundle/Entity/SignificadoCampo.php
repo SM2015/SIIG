@@ -5,7 +5,7 @@ namespace MINSAL\IndicadoresBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * MINSAL\IndicadoresBundle\Entity\CatGenero
+ * MINSAL\IndicadoresBundle\Entity\SignificadoCampo
  *
  * @ORM\Table(name="significado_campo")
  * @ORM\Entity
@@ -77,6 +77,11 @@ class SignificadoCampo
      */
     private $origenY;
     
+    /**
+     * @ORM\ManyToMany(targetEntity="TipoGrafico", inversedBy="significados", cascade={"remove", "persist"})
+     * @ORM\JoinTable(name="significados_tipos_graficos")
+     **/
+    private $tiposGraficos;
     
 
     public function __construct() {
@@ -293,5 +298,38 @@ class SignificadoCampo
     public function getOrigenY()
     {
         return $this->origenY;
+    }
+
+    /**
+     * Add tiposGraficos
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\TipoGrafico $tiposGraficos
+     * @return SignificadoCampo
+     */
+    public function addTiposGrafico(\MINSAL\IndicadoresBundle\Entity\TipoGrafico $tiposGraficos)
+    {
+        $this->tiposGraficos[] = $tiposGraficos;
+    
+        return $this;
+    }
+
+    /**
+     * Remove tiposGraficos
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\TipoGrafico $tiposGraficos
+     */
+    public function removeTiposGrafico(\MINSAL\IndicadoresBundle\Entity\TipoGrafico $tiposGraficos)
+    {
+        $this->tiposGraficos->removeElement($tiposGraficos);
+    }
+
+    /**
+     * Get tiposGraficos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTiposGraficos()
+    {
+        return $this->tiposGraficos;
     }
 }

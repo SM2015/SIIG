@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * MINSAL\IndicadoresBundle\Entity\TablaDatos
+ * MINSAL\IndicadoresBundle\Entity\FusionOrigenesDatos
  *
  * @ORM\Table(name="fusion_origenes_datos")
  * @ORM\Entity
