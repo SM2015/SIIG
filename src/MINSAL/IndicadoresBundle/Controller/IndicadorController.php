@@ -12,6 +12,20 @@ use MINSAL\IndicadoresBundle\Entity\ClasificacionUso;
 class IndicadorController extends Controller {
 
     /**
+     * @Route("/profile/show", name="fos_user_profile_show")
+     */
+    public function raiz() {        
+        //$this->container->get('session')->getFlashBag()->set('notice', 'change_password.flash.success');
+        $this->get('session')->getFlashBag()->add(
+            'notice',
+            'change_password.flash.success'
+        );
+        //return new RedirectResponse($this->admin->generateUrl('_inicio'));
+        //return $this->redirect($this->generateUrl('_inicio'));
+        return $this->redirect($this->generateUrl('_inicio'));
+    }
+    
+    /**
      * @Route("/indicador/dimensiones/{id}", name="indicador_dimensiones", options={"expose"=true})
      */
     public function getDimensiones(FichaTecnica $fichaTec) {

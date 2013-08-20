@@ -309,3 +309,5 @@ _campos_utilizables_en_campos_calculados_: 'Campos utilizables en la fórmula'
 _variable_no_campo_: 'Ha utilizado una variable que no es parte de los campos del origen de datos'
 _exportar_: 'Exportar' 
 _tipos_graficos_: Tipos de gráficos permitidos
+change_password.flash.success: 'Contraseña ha sido cambiada con éxito'  
+_cambiar_clave_: Cambiar clave de acceso

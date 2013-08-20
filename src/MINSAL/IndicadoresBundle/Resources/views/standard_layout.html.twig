@@ -78,7 +78,7 @@ file that was distributed with this source code.
     </head>
     <body class="sonata-bc {% if _side_menu is empty %}sonata-ba-no-side-menu{% endif %}">
         {# initialize block value #}
-
+            
         <!-- barra superior con el logo y el título -->         
         <div  class="navbar navbar-fixed-top  " >
             <div  class="navbar-inner">                 
@@ -98,6 +98,7 @@ file that was distributed with this source code.
                                 </a>
                                 <ul class="dropdown-menu pull-right">
                                     <li><A href='{{url('sonata_user_admin_security_logout')}}'>{{"cerrar_sesion"|trans}}</A></li>
+                                    <li><A href='{{url('fos_user_change_password')}}'>{{"_cambiar_clave_"|trans}}</A></li>
                                     <li class="divider"></li>                                
                                     {% for locale, lenguaje in {'es_SV':'Español', 'en_US':'English'} %}
                                         {% if locale == app.request.locale %}
@@ -110,13 +111,12 @@ file that was distributed with this source code.
                             </div>
                             {% endif %}
                         </div>
-
-                    {% if admin_pool is defined %}
-                        {% block logo %}
-                            {# <a href="{{ url('sonata_admin_dashboard') }}" class="brand"> #}
-                                <img src="{{ asset('/bundles/indicadores/images/logo_salud.png') }}"  />
-                            {# </a> #}
-                        {% endblock %}
+                    {% block logo %}
+                        {# <a href="{{ url('sonata_admin_dashboard') }}" class="brand"> #}
+                            <img src="{{ asset('/bundles/indicadores/images/logo_salud.png') }}"  />
+                        {# </a> #}
+                    {% endblock %}
+                    {% if admin_pool is defined %}                        
 
                         {# MENU PRINCIPAL #}
                         <div  >
@@ -161,10 +161,14 @@ file that was distributed with this source code.
                         <div class="alert {{ 'alert-' ~ notice_level }}">
                             {{ flash|trans([], 'SonataAdminBundle') }}
                         </div>
-                    {% endfor %}
+                    {% endfor %}                    
                 {% endfor %}
-            {% endblock %}
-
+                {% for flashMessage in app.session.flashbag.get('notice') %}
+                    <div class="alert alert-success">
+                        {{ flashMessage|trans }}
+                    </div>
+                {% endfor %}
+            {% endblock %}            
             <div class="row-fluid" id='tool_actions'>
                 <div class="span6">
                     {% if _breadcrumb is not empty or action is defined %}
