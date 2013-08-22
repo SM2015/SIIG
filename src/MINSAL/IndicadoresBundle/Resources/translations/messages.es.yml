@@ -251,6 +251,7 @@ javascript:
   _mostrando_n_de_n_: 'Mostrando desde _START_ hasta _END_ de _TOTAL_ registros'
   _mostrando_0_ : 'Mostrando 0 registros'
   _filtrados_de_ : '(filtrados de _MAX_ registros)'
+  no_mas_niveles: 'No hay más niveles para descender'
 
 validacion:
   requerido: Este dato es requerido

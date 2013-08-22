@@ -61,7 +61,7 @@ function aplicarFormato() {
 function crearGraficoObj(zona, tipo) {
     var grafico;
     var datasetPrincipal = JSON.parse($('#' + zona).attr('datasetPrincipal'));
-    if (tipo == null || tipo == 'pastel')
+    if (tipo == 'pastel')
         grafico = new graficoPastel(zona, datasetPrincipal);
     else if (tipo == 'columnas')
         grafico = new graficoColumnas(zona, datasetPrincipal);
@@ -69,7 +69,7 @@ function crearGraficoObj(zona, tipo) {
         grafico = new graficoLineas(zona, datasetPrincipal);
     else if (tipo == 'mapa')
         grafico = new graficoMapa(zona, datasetPrincipal);
-
+    
     return grafico;
 }
 function ascenderNivelDimension(zona, nivel) {
@@ -126,7 +126,7 @@ function filtroRuta(filtros_obj) {
 }
 function descenderNivelDimension(zona, category) {
     if ($('#' + zona + ' .dimensiones option').length <= 1) {
-        alert('No hay más niveles para descender');
+        alert(trans.no_mas_niveles);
         return;
     }
     var $dimension = $('#' + zona + ' .dimensiones option:selected');
@@ -166,7 +166,7 @@ function descenderNivelDimension(zona, category) {
 }
 
 function dibujarGrafico(zona, dimension) {
-    if (dimension === null)
+    if (dimension === null )
         return;
     var filtro = $('#' + zona + ' .filtros_dimensiones').attr('data');
     $.getJSON(Routing.generate('indicador_datos',
@@ -187,9 +187,9 @@ function dibujarGrafico(zona, dimension) {
         }
 
         $('#' + zona).attr('datasetPrincipal', datos);
-
+                
         dibujarGraficoPrincipal(zona, $('#' + zona + ' .tipo_grafico_principal').val());
-        controles_filtros(zona);
+        controles_filtros(zona);        
     });
 
 }
@@ -325,17 +325,12 @@ function dibujarControles(zona, datos) {
         combo_dimensiones += "<option value='" + codigo + "' data-escala='" + datosDimension.escala +
                 "' data-x='" + datosDimension.origenX +
                 "' data-y='" + datosDimension.origenY +
-                "' >" + datosDimension.descripcion + "</option>";
+                "' data-graficos='"+JSON.stringify(datosDimension.graficos)+"'>" + datosDimension.descripcion + "</option>";
     });
     combo_dimensiones += "</SELECT>";
-
-    var combo_tipo_grafico = trans.tipo_grafico + ": <SELECT class='tipo_grafico_principal'  >" +
-            "<OPTION VALUE='columnas'>" + trans.columnas + "</OPTION>" +
-            "<OPTION VALUE='pastel'>" + trans.pastel + "</OPTION>" +
-            "<OPTION VALUE='mapa'>" + trans.mapa + "</OPTION>" +
-            "<OPTION VALUE='lineas'>" + trans.lineas + "</OPTION>" +
-            "</SELECT>";
-
+    
+    var combo_tipo_grafico = trans.tipo_grafico + ": <SELECT class='tipo_grafico_principal'  ></SELECT>";
+    
     var combo_ordenar_por_dimension = trans.ordenar_x + ": <SELECT class='ordenar_dimension'>" +
             "<OPTION VALUE='-1'></OPTION>" +
             "<OPTION VALUE='desc'>" + trans.descendente + "</OPTION>" +
@@ -462,12 +457,17 @@ function dibujarControles(zona, datos) {
     $('#' + zona + ' .ordenar_dimension').change(function() {
         ordenarDatos(zona, 'dimension', $(this).val());
     });
-
+    
+    setTiposGraficos(zona);
+    
     $('#' + zona + ' .dimensiones').change(function() {
-        $('#' + zona + ' .ordenar_dimension').children('option[value="-1"]').attr('selected', 'selected');
-        $('#' + zona + ' .ordenar_medida').children('option[value="-1"]').attr('selected', 'selected');
-        dibujarGrafico(zona, $(this).val());
-        $('#' + zona).attr('orden', null);
+        setTiposGraficos(zona);
+        if ($('#' + zona + ' .tipo_grafico_principal').val() != null) {
+            $('#' + zona + ' .ordenar_dimension').children('option[value="-1"]').attr('selected', 'selected');
+            $('#' + zona + ' .ordenar_medida').children('option[value="-1"]').attr('selected', 'selected');
+            dibujarGrafico(zona, $(this).val());
+            $('#' + zona).attr('orden', null);
+        }
     });
 
     $('#' + zona + ' .tipo_grafico_principal').change(function() {
@@ -584,6 +584,15 @@ function dibujarControles(zona, datos) {
             $('#myModal2').modal('show');
         }, 'html');
     });
+}
+
+function setTiposGraficos(zona){    
+    var tipos_graficos = '';
+    var graficos = jQuery.parseJSON($('#'+ zona + ' .dimensiones option:selected').attr('data-graficos'));
+    $.each(graficos, function (i, grafico) {
+        tipos_graficos += "<OPTION VALUE='"+grafico.codigo+"'>" + grafico.descripcion + "</OPTION>";
+    });  
+    $('#'+ zona + ' .tipo_grafico_principal').html(tipos_graficos);
 }
 
 function alternar_favorito(zona, id_indicador) {
