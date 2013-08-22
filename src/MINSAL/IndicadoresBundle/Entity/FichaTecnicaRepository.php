@@ -128,12 +128,10 @@ class FichaTecnicaRepository extends EntityRepository {
                 //Quitar los campos calculados del listado campos del indicador sino da error
                 $campos_aux = explode(',', str_replace(' ', '', $campos));
                 $campos = implode(',', array_diff($campos_aux, array_keys($campos_calculados)));
-                
+
                 $campos_calculados_nombre = ', ' . implode(', ', array_keys($campos_calculados));
                 $campos_calculados = ', ' . implode(', ', $campos_calculados);
-                
-            }
-            else
+            } else
                 $campos_calculados = '';
             //Obtener solo los datos que se pueden procesar en el indicador
             $sql .= "DROP TABLE IF EXISTS $tabla" . "_var; ";
@@ -209,7 +207,7 @@ class FichaTecnicaRepository extends EntityRepository {
                 //Quitar aquellos grupos que no tengan ningún dato para el grupo según la dimensión
                 $sql .= "INSERT INTO  no_acum SELECT $dimension FROM $t1 GROUP BY $dimension HAVING (SUM($campo_calculo) = 0);  ";
             }
-        }                
+        }
         foreach ($fichaTecnica->getVariables() as $variable) {
             $tabla = strtolower($variable->getIniciales());
             $tablas_variables[] = $tabla;
@@ -284,8 +282,7 @@ class FichaTecnicaRepository extends EntityRepository {
         if ($acumulado) {
             $formula = str_replace(array('{', '}'), array('MAX(', ')'), $formula);
             $oper = 'MAX';
-        }
-        else
+        } else
             $formula = str_replace(array('{', '}'), array('SUM(', ')'), $formula);
 
         $denominador = explode('/', $fichaTecnica->getFormula());
@@ -313,17 +310,16 @@ class FichaTecnicaRepository extends EntityRepository {
         $rel_catalogo = '';
         $otros_campos = '';
         $grupo_extra = '';
-        if (preg_match('/^id_/i', $dimension)) {
-            $significado = $this->getEntityManager()->getRepository('IndicadoresBundle:SignificadoCampo')
-                    ->findOneBy(array('codigo' => $dimension));
-            $catalogo = $significado->getCatalogo();
-            if ($catalogo != '') {
-                $rel_catalogo = " INNER JOIN  $catalogo  B ON (A.$dimension::text = B.id::text) ";
-                $dimension = 'B.descripcion';
-                $otros_campos = ' B.id AS id_category, ';
-                $grupo_extra = ', B.id ';
-            }
+        $significado = $this->getEntityManager()->getRepository('IndicadoresBundle:SignificadoCampo')
+                ->findOneBy(array('codigo' => $dimension));
+        $catalogo = $significado->getCatalogo();
+        if ($catalogo != '') {
+            $rel_catalogo = " INNER JOIN  $catalogo  B ON (A.$dimension::text = B.id::text) ";
+            $dimension = 'B.descripcion';
+            $otros_campos = ' B.id AS id_category, ';
+            $grupo_extra = ', B.id ';
         }
+
 
         $sql = "SELECT $dimension AS category, $otros_campos $variables_query, round(($formula)::numeric,2) AS measure
             FROM $tabla_indicador A" . $rel_catalogo;
@@ -331,16 +327,14 @@ class FichaTecnicaRepository extends EntityRepository {
         if ($filtro_registros != null) {
             foreach ($filtro_registros as $campo => $valor) {
                 //Si el filtro es un catálogo, buscar su id correspondiente
-                if (preg_match('/^id_/i', $campo)) {
-                    $significado = $this->getEntityManager()->getRepository('IndicadoresBundle:SignificadoCampo')
-                            ->findOneBy(array('codigo' => $campo));
-                    $catalogo = $significado->getCatalogo();
-                    $sql_ctl = '';
-                    if ($catalogo != '') {
-                        $sql_ctl = "SELECT id FROM $catalogo WHERE descripcion ='$valor'";
-                        $reg = $this->getEntityManager()->getConnection()->executeQuery($sql_ctl)->fetch();
-                        $valor = $reg['id'];
-                    }
+                $significado = $this->getEntityManager()->getRepository('IndicadoresBundle:SignificadoCampo')
+                        ->findOneBy(array('codigo' => $campo));
+                $catalogo = $significado->getCatalogo();
+                $sql_ctl = '';
+                if ($catalogo != '') {
+                    $sql_ctl = "SELECT id FROM $catalogo WHERE descripcion ='$valor'";
+                    $reg = $this->getEntityManager()->getConnection()->executeQuery($sql_ctl)->fetch();
+                    $valor = $reg['id'];
                 }
                 $sql .= " AND A." . $campo . " = '$valor' ";
             }
