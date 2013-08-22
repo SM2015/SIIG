@@ -247,6 +247,11 @@ javascript:
   mapa: 'Mapa'
   lineas: 'Lineas'
   guardar_imagen: 'De clic derecho sobre la imagen, luego elija "Guardar imagen como..."'
+  _nada_encontrado_ : 'No se encontraron resultados'
+  _mostrando_n_de_n_: 'Mostrando desde _START_ hasta _END_ de _TOTAL_ registros'
+  _mostrando_0_ : 'Mostrando 0 registros'
+  _filtrados_de_ : '(filtrados de _MAX_ registros)'
+  no_mas_niveles: 'No hay más niveles para descender'
 
 validacion:
   requerido: Este dato es requerido
@@ -303,3 +308,7 @@ _ocultar/mostrar_menu_principal_: 'Mostrar/Ocultar Menú principal'
 _campo_calculado_: 'Campo calculado'
 _campos_utilizables_en_campos_calculados_: 'Campos utilizables en la fórmula'
 _variable_no_campo_: 'Ha utilizado una variable que no es parte de los campos del origen de datos'
+_exportar_: 'Exportar' 
+_tipos_graficos_: Tipos de gráficos permitidos
+change_password.flash.success: 'Contraseña ha sido cambiada con éxito'  
+_cambiar_clave_: Cambiar clave de acceso

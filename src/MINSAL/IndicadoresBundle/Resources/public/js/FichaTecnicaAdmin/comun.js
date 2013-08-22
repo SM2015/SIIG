@@ -61,7 +61,7 @@ function aplicarFormato() {
 function crearGraficoObj(zona, tipo) {
     var grafico;
     var datasetPrincipal = JSON.parse($('#' + zona).attr('datasetPrincipal'));
-    if (tipo == null || tipo == 'pastel')
+    if (tipo == 'pastel')
         grafico = new graficoPastel(zona, datasetPrincipal);
     else if (tipo == 'columnas')
         grafico = new graficoColumnas(zona, datasetPrincipal);
@@ -69,7 +69,7 @@ function crearGraficoObj(zona, tipo) {
         grafico = new graficoLineas(zona, datasetPrincipal);
     else if (tipo == 'mapa')
         grafico = new graficoMapa(zona, datasetPrincipal);
-
+    
     return grafico;
 }
 function ascenderNivelDimension(zona, nivel) {
@@ -126,7 +126,7 @@ function filtroRuta(filtros_obj) {
 }
 function descenderNivelDimension(zona, category) {
     if ($('#' + zona + ' .dimensiones option').length <= 1) {
-        alert('No hay más niveles para descender');
+        alert(trans.no_mas_niveles);
         return;
     }
     var $dimension = $('#' + zona + ' .dimensiones option:selected');
@@ -166,7 +166,7 @@ function descenderNivelDimension(zona, category) {
 }
 
 function dibujarGrafico(zona, dimension) {
-    if (dimension === null)
+    if (dimension === null )
         return;
     var filtro = $('#' + zona + ' .filtros_dimensiones').attr('data');
     $.getJSON(Routing.generate('indicador_datos',
@@ -187,9 +187,9 @@ function dibujarGrafico(zona, dimension) {
         }
 
         $('#' + zona).attr('datasetPrincipal', datos);
-
+                
         dibujarGraficoPrincipal(zona, $('#' + zona + ' .tipo_grafico_principal').val());
-        controles_filtros(zona);
+        controles_filtros(zona);        
     });
 
 }
@@ -297,22 +297,22 @@ function construir_tabla_datos(zona, datos) {
                     campo = trans.indicador + ' (' + $('#' + zona + ' .titulo_indicador').attr('formula') + ')';
                 tabla_datos += '<TH>' + campo.toUpperCase() + '</TH>';
             }
-            tabla_datos += '</TR></THEAD>';
+            tabla_datos += '</TR></THEAD><TBODY>';
         }
 
         //los datos
-        tabla_datos += '<TBODY><TR>';
+        tabla_datos += '<TR>';
         for (var i in fila)
             tabla_datos += '<TD>' + fila[i] + '</TD>';
-        tabla_datos += '</TR></TBODY>';
+        tabla_datos += '</TR>';
 
     });
-    tabla_datos += '</TABLE>';
+    tabla_datos += '</TBODY></TABLE>';
 
     $('#' + zona + ' .info').html(tabla_datos);
 }
 
-function dibujarControles(zona, datos) {    
+function dibujarControles(zona, datos) {
     $('#' + zona + ' .titulo_indicador').html(datos.nombre_indicador)
             .attr('data-unidad-medida', datos.unidad_medida)
             .attr('formula', datos.formula)
@@ -325,17 +325,12 @@ function dibujarControles(zona, datos) {
         combo_dimensiones += "<option value='" + codigo + "' data-escala='" + datosDimension.escala +
                 "' data-x='" + datosDimension.origenX +
                 "' data-y='" + datosDimension.origenY +
-                "' >" + datosDimension.descripcion + "</option>";
+                "' data-graficos='"+JSON.stringify(datosDimension.graficos)+"'>" + datosDimension.descripcion + "</option>";
     });
     combo_dimensiones += "</SELECT>";
-
-    var combo_tipo_grafico = trans.tipo_grafico + ": <SELECT class='tipo_grafico_principal'  >" +
-            "<OPTION VALUE='columnas'>" + trans.columnas + "</OPTION>" +
-            "<OPTION VALUE='pastel'>" + trans.pastel + "</OPTION>" +
-            "<OPTION VALUE='mapa'>" + trans.mapa + "</OPTION>" +
-            "<OPTION VALUE='lineas'>" + trans.lineas + "</OPTION>" +
-            "</SELECT>";
-
+    
+    var combo_tipo_grafico = trans.tipo_grafico + ": <SELECT class='tipo_grafico_principal'  ></SELECT>";
+    
     var combo_ordenar_por_dimension = trans.ordenar_x + ": <SELECT class='ordenar_dimension'>" +
             "<OPTION VALUE='-1'></OPTION>" +
             "<OPTION VALUE='desc'>" + trans.descendente + "</OPTION>" +
@@ -366,7 +361,7 @@ function dibujarControles(zona, datos) {
             '</button>' +
             '<ul class="dropdown-menu" role="menu" >' +
             '<li><A class="ver_ficha_tecnica" '
-            + ' href="' + Routing.generate('get_indicador_ficha', {id: datos.id_indicador}) + '"><i class="icon-briefcase"></i> ' + trans.ver_ficha_tecnica + '</A></li>' +
+            + ' ><i class="icon-briefcase"></i> ' + trans.ver_ficha_tecnica + '</A></li>' +
             '<li><A class="ver_tabla_datos" ><i class="icon-list-alt" ></i> ' + trans.tabla_datos + ' </A></li>' +
             '<li><A class="ver_sql" ><i class="icon-eye-open" ></i> ' + trans.ver_sql + ' </A></li>' +
             '<li><A class="ver_imagen" ><i class="icon-picture"></i> ' + trans.descargar_grafico + '</A></li>' +
@@ -462,12 +457,17 @@ function dibujarControles(zona, datos) {
     $('#' + zona + ' .ordenar_dimension').change(function() {
         ordenarDatos(zona, 'dimension', $(this).val());
     });
-
+    
+    setTiposGraficos(zona);
+    
     $('#' + zona + ' .dimensiones').change(function() {
-        $('#' + zona + ' .ordenar_dimension').children('option[value="-1"]').attr('selected', 'selected');
-        $('#' + zona + ' .ordenar_medida').children('option[value="-1"]').attr('selected', 'selected');
-        dibujarGrafico(zona, $(this).val());
-        $('#' + zona).attr('orden', null);
+        setTiposGraficos(zona);
+        if ($('#' + zona + ' .tipo_grafico_principal').val() != null) {
+            $('#' + zona + ' .ordenar_dimension').children('option[value="-1"]').attr('selected', 'selected');
+            $('#' + zona + ' .ordenar_medida').children('option[value="-1"]').attr('selected', 'selected');
+            dibujarGrafico(zona, $(this).val());
+            $('#' + zona).attr('orden', null);
+        }
     });
 
     $('#' + zona + ' .tipo_grafico_principal').change(function() {
@@ -482,8 +482,40 @@ function dibujarControles(zona, datos) {
     });
     $('#' + zona + ' .info').hide();
     $('#' + zona + ' .ver_tabla_datos').click(function() {
-        $('#' + zona + ' .info').toggle();
-        cerrarMenus();
+        $('#myModalLabel2').html();
+        $('#sql').html($('#' + zona + ' .info').html());
+        $('#sql table').dataTable({
+            "bJQueryUI": true,
+            "sDom": '<"H"Tfr>t<"F"ip>',
+            "oTableTools": {
+                "sSwfPath": "/bundles/indicadores/js/DataTables/media/swf/copy_csv_xls_pdf.swf",
+                "aButtons": [
+                    {
+                        "sExtends": "collection",
+                        "sButtonText": trans.exportar,
+                        "aButtons": [{
+                                "sExtends": "csv",
+                                "sTitle": $('#' + zona + ' .titulo_indicador').html()
+                            }, {
+                                "sExtends": "xls",
+                                "sTitle": $('#' + zona + ' .titulo_indicador').html()
+                            }, {
+                                "sExtends": "pdf",
+                                "sTitle": $('#' + zona + ' .titulo_indicador').html()
+                            }]
+                    }
+                ]
+            },
+            "oLanguage": {
+                "sLengthMenu": "Display _MENU_ records per page",
+                "sZeroRecords": trans.nada_encontrado,
+                "sInfo": trans.mostrando_n_de_n,
+                "sInfoEmpty": trans.mostrando_0,
+                "sInfoFiltered": trans.filtrados_de
+            }
+        });
+        $('#myModal2').modal('show');
+        //cerrarMenus();
     });
 
     $('#' + zona + ' .ver_sql').click(function() {
@@ -514,10 +546,53 @@ function dibujarControles(zona, datos) {
         $('#myModal2').modal('show');
     });
 
-    $('#' + zona + ' .ver_ficha_tecnica').click(function() {
-        //ver_ficha_tecnica($(this).attr('data-indicador'));
-        cerrarMenus();
+    $('#' + zona + ' .ver_ficha_tecnica').click(function() {        
+        $.get(Routing.generate('get_indicador_ficha',
+                {id: $('#' + zona + ' .titulo_indicador').attr('data-id')}),
+        function(resp) {
+            $('#myModalLabel2').html($('#' + zona + ' .titulo_indicador').html());
+            $('#sql').html(resp);
+            //Dejar solo el código html de la tabla, quitar todo lo demás
+            
+            $('#sql').html('<table>' + $('#sql table').html() + '</table>');
+            $('#sql .sonata-ba-view-title').remove();
+            $('#sql table').append('<thead><TR><TH>Campo</TH><TH>Descripcion</TH></TR></thead>');
+            $('#sql table').dataTable({
+                "bFilter": false,
+                "bSort": false,
+                "sDom": '<"H"T>',
+                "bInfo": false,
+                "iDisplayLength": 30,
+                "oTableTools": {
+                    "sSwfPath": "/bundles/indicadores/js/DataTables/media/swf/copy_csv_xls_pdf.swf",
+                    "aButtons": [
+                        {
+                            "sExtends": "collection",
+                            "sButtonText": trans.exportar,
+                            "aButtons": [{
+                                    "sExtends": "xls",
+                                    "sTitle": $('#' + zona + ' .titulo_indicador').html()
+                                }, {
+                                    "sExtends": "pdf",
+                                    "sTitle": $('#' + zona + ' .titulo_indicador').html()
+                                }]
+                        }
+                    ]
+                },
+            });
+            $('#sql .DTTT_container').css('float', 'left');
+            $('#myModal2').modal('show');
+        }, 'html');
     });
+}
+
+function setTiposGraficos(zona){    
+    var tipos_graficos = '';
+    var graficos = jQuery.parseJSON($('#'+ zona + ' .dimensiones option:selected').attr('data-graficos'));
+    $.each(graficos, function (i, grafico) {
+        tipos_graficos += "<OPTION VALUE='"+grafico.codigo+"'>" + grafico.descripcion + "</OPTION>";
+    });  
+    $('#'+ zona + ' .tipo_grafico_principal').html(tipos_graficos);
 }
 
 function alternar_favorito(zona, id_indicador) {
@@ -585,7 +660,7 @@ function recuperarDimensiones(id_indicador, datos) {
             dibujarControles(zona_g, resp);
             if (datos !== null) {
                 if (JSON.stringify(datos.filtro) !== '""') {
-                    var $filtro = $('#' + zona_g + ' .filtros_dimensiones');                    
+                    var $filtro = $('#' + zona_g + ' .filtros_dimensiones');
                     $filtro.attr('data', datos.filtro);
                     filtro_obj = jQuery.parseJSON($filtro.attr('data'));
                     var ruta = filtroRuta(filtro_obj);

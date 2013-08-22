@@ -1,53 +1,6 @@
 {#
+Por el momento no se mostrará nada en esta plantilla, se deja vacía para evitar
+el comportamiento por defecto que es mostrar un listado de las interfaces
+de administración cargadas
 
-This file is part of the Sonata package.
-
-(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
-
-For the full copyright and license information, please view the LICENSE
-file that was distributed with this source code.
-
-#}
-{#
-{% extends 'SonataBlockBundle:Block:block_base.html.twig' %}
-
-{% block block %}
-<div id="accordion">
-    <ol>
-    {% for group in groups %}        
-        <li> 
-            <h2><span>{{ group.label|trans }}</span></h2>
-            <div style='overflow: auto;'>
-                <ul id="gallery" class="gallery ui-helper-reset ui-helper-clearfix">
-                {% for admin in group.items %}
-                    {% if admin.hasroute('create') and admin.isGranted('CREATE') or admin.hasroute('list') and admin.isGranted('LIST') %}            
-                            <li class="ui-widget-content ui-corner-tr">
-                                <h5 class="ui-widget-header">{{ admin.label|trans({}, admin.translationdomain) }}</h5>
-                                <img src="{{ asset(['bundles/indicadores/images/dashboard/',admin.label,'.jpeg']|join) }}" alt="" width="56" height="32" />
-                                {% if admin.hasroute('create') and admin.isGranted('CREATE') %}
-                                    <a href="{{ admin.generateUrl('create')}}" title="{%- trans from 'SonataAdminBundle' %}link_add{% endtrans -%}" class="ui-icon ui-icon-circle-plus"></a>
-                                {% endif %}
-                                {% if admin.hasroute('list') and admin.isGranted('LIST') %}
-                                    <a href="{{ admin.generateUrl('list')}}" title="{%- trans from 'SonataAdminBundle' %}link_list{% endtrans -%}" >
-                                        <i class="icon-list"></i>
-                                    </a>
-                                {% endif %}
-                            </li>
-                     {% endif %}
-                     {% if admin.hasroute('tablero') and (is_granted('ROLE_SONATA_ADMIN') or is_granted('ROLE_USER_TABLERO')) %}                        
-                        <li class="ui-widget-content ui-corner-tr" >
-                            <h5 class="ui-widget-header">{{'indicador_tablero'|trans }}</h5>
-                            <a href="{{ admin.generateUrl('tablero')}}">
-                                <img style='margin:auto' align=center src="{{ asset(['bundles/indicadores/images/dashboard/dashboard-icon.jpg']|join) }}" alt="tablero" width="86" height="62" />    
-                            </a>                            
-                        </li>
-                     {% endif %}
-                 {% endfor %}
-                 </ul>
-            </div>         
-        </li>
-    {% endfor %}
-    </ol>
-</div>
-{% endblock %}
 #}

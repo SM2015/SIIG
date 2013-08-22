@@ -159,6 +159,7 @@ class OrigenDatosRepository extends EntityRepository {
           INSERT INTO $nombre_temp($nombre_campos) VALUES ";
 
         foreach ($datos as $fila) {
+            $fila = array_map('utf8_encode',$fila);
             $sql .= "('" . implode("','", $fila) . "'), ";
         }
         $sql = trim($sql, ', ');

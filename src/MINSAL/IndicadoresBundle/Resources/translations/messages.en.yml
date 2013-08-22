@@ -246,6 +246,11 @@ javascript:
   mapa: 'Map'
   lineas: 'Lines'
   guardar_imagen: 'Right click on the image, then choose "Save Image As ..."'
+  _nada_encontrado_ : 'Nothing found - sorry'
+  _mostrando_n_de_n_: 'Showing _START_ to _END_ of _TOTAL_ records'
+  _mostrando_0_ : 'Showing 0 to 0 of 0 records'
+  _filtrados_de_ : '(filtered from _MAX_ total records)'  
+  no_mas_niveles: 'No more levels to descend'
 
 validacion:
   requerido: This field is required
@@ -301,3 +306,7 @@ _ocultar/mostrar_menu_principal_: 'Show/Hide Main menu'
 _campo_calculado_: 'Calculated Field'
 _campos_utilizables_en_campos_calculados_: 'Usable fields in the formula '
 _variable_no_campo_: 'You have used a variable that doesnt belong to the fields in the data source'
+_exportar_: 'Export'
+_tipos_graficos_: Graph types allowed
+change_password.flash.success: 'Password has been successfully changed'
+_cambiar_clave_: Change password

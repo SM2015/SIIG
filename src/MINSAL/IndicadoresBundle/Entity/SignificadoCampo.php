@@ -5,13 +5,13 @@ namespace MINSAL\IndicadoresBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * MINSAL\IndicadoresBundle\Entity\CatGenero
+ * MINSAL\IndicadoresBundle\Entity\SignificadoCampo
  *
  * @ORM\Table(name="significado_campo")
  * @ORM\Entity
  */
-class SignificadoCampo
-{
+class SignificadoCampo {
+
     /**
      * @var integer $id
      *
@@ -34,63 +34,65 @@ class SignificadoCampo
      * @ORM\Column(name="codigo", type="string", length=40, nullable=false)
      */
     private $codigo;
-    
+
     /**
      * @var string $uso_en_catalogo
      *
      * @ORM\Column(name="uso_en_catalogo", type="boolean", nullable=true)
-     */    
+     */
     private $usoEnCatalogo;
-    
-     /**
+
+    /**
      * @var string $catalogo
      *
      * @ORM\Column(name="catalogo", type="string", length=255, nullable=true)
      */
     private $catalogo;
-    
+
     /**
      * @var string $nombre_mapa
      *
      * @ORM\Column(name="nombre_mapa", type="string", length=200, nullable=true)
      */
     private $nombreMapa;
-    
+
     /**
      * @var string $escala
      *
      * @ORM\Column(name="escala", type="float", nullable=true)
      */
     private $escala;
-    
+
     /**
      * @var string $origen_x
      *
      * @ORM\Column(name="origen_x", type="float", nullable=true)
      */
     private $origenX;
-    
+
     /**
      * @var string $origen_y
      *
      * @ORM\Column(name="origen_y", type="float", nullable=true)
      */
     private $origenY;
-    
-    
+
+    /**
+     * @ORM\ManyToMany(targetEntity="TipoGrafico", inversedBy="significados", cascade={"remove", "persist"})
+     * @ORM\JoinTable(name="significados_tipos_graficos")
+     * */
+    private $tiposGraficos;
 
     public function __construct() {
         $this->usoEnCatalogo = false;
     }
-
 
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -100,10 +102,9 @@ class SignificadoCampo
      * @param string $descripcion
      * @return SignificadoCampo
      */
-    public function setDescripcion($descripcion)
-    {
+    public function setDescripcion($descripcion) {
         $this->descripcion = $descripcion;
-    
+
         return $this;
     }
 
@@ -112,8 +113,7 @@ class SignificadoCampo
      *
      * @return string 
      */
-    public function getDescripcion()
-    {
+    public function getDescripcion() {
         return $this->descripcion;
     }
 
@@ -123,10 +123,9 @@ class SignificadoCampo
      * @param string $codigo
      * @return SignificadoCampo
      */
-    public function setCodigo($codigo)
-    {
+    public function setCodigo($codigo) {
         $this->codigo = $codigo;
-    
+
         return $this;
     }
 
@@ -135,8 +134,7 @@ class SignificadoCampo
      *
      * @return string 
      */
-    public function getCodigo()
-    {
+    public function getCodigo() {
         return $this->codigo;
     }
 
@@ -146,10 +144,9 @@ class SignificadoCampo
      * @param integer $id
      * @return SignificadoCampo
      */
-    public function setId($id)
-    {
+    public function setId($id) {
         $this->id = $id;
-    
+
         return $this;
     }
 
@@ -159,10 +156,9 @@ class SignificadoCampo
      * @param boolean $usoEnCatalogo
      * @return SignificadoCampo
      */
-    public function setUsoEnCatalogo($usoEnCatalogo)
-    {
+    public function setUsoEnCatalogo($usoEnCatalogo) {
         $this->usoEnCatalogo = $usoEnCatalogo;
-    
+
         return $this;
     }
 
@@ -171,8 +167,7 @@ class SignificadoCampo
      *
      * @return boolean 
      */
-    public function getUsoEnCatalogo()
-    {
+    public function getUsoEnCatalogo() {
         return $this->usoEnCatalogo;
     }
 
@@ -182,10 +177,9 @@ class SignificadoCampo
      * @param string $catalogo
      * @return SignificadoCampo
      */
-    public function setCatalogo($catalogo)
-    {
+    public function setCatalogo($catalogo) {
         $this->catalogo = $catalogo;
-    
+
         return $this;
     }
 
@@ -194,10 +188,9 @@ class SignificadoCampo
      *
      * @return string 
      */
-    public function getCatalogo()
-    {
+    public function getCatalogo() {
         return $this->catalogo;
-    }   
+    }
 
     /**
      * Set nombreMapa
@@ -205,10 +198,9 @@ class SignificadoCampo
      * @param string $nombreMapa
      * @return SignificadoCampo
      */
-    public function setNombreMapa($nombreMapa)
-    {
+    public function setNombreMapa($nombreMapa) {
         $this->nombreMapa = $nombreMapa;
-    
+
         return $this;
     }
 
@@ -217,13 +209,12 @@ class SignificadoCampo
      *
      * @return string 
      */
-    public function getNombreMapa()
-    {
+    public function getNombreMapa() {
         return $this->nombreMapa;
-    }   
-    
+    }
+
     public function __toString() {
-        return $this->descripcion ? :'';
+        return $this->descripcion ? : '';
     }
 
     /**
@@ -232,10 +223,9 @@ class SignificadoCampo
      * @param float $escala
      * @return SignificadoCampo
      */
-    public function setEscala($escala)
-    {
+    public function setEscala($escala) {
         $this->escala = $escala;
-    
+
         return $this;
     }
 
@@ -244,8 +234,7 @@ class SignificadoCampo
      *
      * @return float 
      */
-    public function getEscala()
-    {
+    public function getEscala() {
         return $this->escala;
     }
 
@@ -255,10 +244,9 @@ class SignificadoCampo
      * @param float $origenX
      * @return SignificadoCampo
      */
-    public function setOrigenX($origenX)
-    {
+    public function setOrigenX($origenX) {
         $this->origenX = $origenX;
-    
+
         return $this;
     }
 
@@ -267,8 +255,7 @@ class SignificadoCampo
      *
      * @return float 
      */
-    public function getOrigenX()
-    {
+    public function getOrigenX() {
         return $this->origenX;
     }
 
@@ -278,10 +265,9 @@ class SignificadoCampo
      * @param float $origenY
      * @return SignificadoCampo
      */
-    public function setOrigenY($origenY)
-    {
+    public function setOrigenY($origenY) {
         $this->origenY = $origenY;
-    
+
         return $this;
     }
 
@@ -290,8 +276,46 @@ class SignificadoCampo
      *
      * @return float 
      */
-    public function getOrigenY()
-    {
+    public function getOrigenY() {
         return $this->origenY;
     }
+
+    /**
+     * Add tiposGraficos
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\TipoGrafico $tiposGraficos
+     * @return SignificadoCampo
+     */
+    public function addTiposGrafico(\MINSAL\IndicadoresBundle\Entity\TipoGrafico $tiposGraficos) {
+        $this->tiposGraficos[] = $tiposGraficos;
+
+        return $this;
+    }
+
+    /**
+     * Remove tiposGraficos
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\TipoGrafico $tiposGraficos
+     */
+    public function removeTiposGrafico(\MINSAL\IndicadoresBundle\Entity\TipoGrafico $tiposGraficos) {
+        $this->tiposGraficos->removeElement($tiposGraficos);
+    }
+
+    /**
+     * Get tiposGraficos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTiposGraficos() {
+        return $this->tiposGraficos;
+    }
+
+    public function getTiposGraficosArray() {
+        $graficos = array();
+        foreach ($this->tiposGraficos as $grafico) {
+            $graficos[] = array('codigo'=> $grafico->getCodigo(), 'descripcion' => $grafico->getDescripcion());
+        }
+        return $graficos;
+    }
+
 }

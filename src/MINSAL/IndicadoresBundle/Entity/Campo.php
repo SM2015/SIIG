@@ -5,7 +5,7 @@ namespace MINSAL\IndicadoresBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * MINSAL\IndicadoresBundle\Entity\TablaDatos
+ * MINSAL\IndicadoresBundle\Entity\Campo
  *
  * @ORM\Table(name="campo")
  * @ORM\Entity

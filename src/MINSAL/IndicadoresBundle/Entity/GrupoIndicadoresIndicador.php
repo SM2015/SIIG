@@ -5,7 +5,7 @@ namespace MINSAL\IndicadoresBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * MINSAL\IndicadoresBundle\Entity\UsuarioGrupoIndicadores
+ * MINSAL\IndicadoresBundle\Entity\GrupoIndicadoresIndicador
  *
  * @ORM\Table(name="grupo_indicadores_indicador")
  * @ORM\Entity

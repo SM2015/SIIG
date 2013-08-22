@@ -12,6 +12,17 @@ use MINSAL\IndicadoresBundle\Entity\ClasificacionUso;
 class IndicadorController extends Controller {
 
     /**
+     * @Route("/profile/show", name="fos_user_profile_show")
+     */
+    public function raiz() {        
+        $this->get('session')->getFlashBag()->add(
+            'notice',
+            'change_password.flash.success'
+        );
+        return $this->redirect($this->generateUrl('_inicio'));
+    }
+    
+    /**
      * @Route("/indicador/dimensiones/{id}", name="indicador_dimensiones", options={"expose"=true})
      */
     public function getDimensiones(FichaTecnica $fichaTec) {
@@ -23,18 +34,22 @@ class IndicadorController extends Controller {
             $resp['nombre_indicador'] = $fichaTec->getNombre();
             $resp['id_indicador'] = $fichaTec->getId();
             $resp['unidad_medida'] = $fichaTec->getUnidadMedida();
-            if ($fichaTec->getCamposIndicador() != '')
+            if ($fichaTec->getCamposIndicador() != ''){
                 $campos = explode(',', str_replace(array("'", ' '), array('', ''), $fichaTec->getCamposIndicador()));
-            else
+            }else{
                 $campos = array();
+            }
             $dimensiones = array();
             foreach ($campos as $campo) {
                 $significado = $em->getRepository('IndicadoresBundle:SignificadoCampo')
                         ->findOneByCodigo($campo);
-                $dimensiones[$significado->getCodigo()]['descripcion'] = ucfirst(preg_replace('/^Identificador /i', '', $significado->getDescripcion()));
-                $dimensiones[$significado->getCodigo()]['escala'] = $significado->getEscala();
-                $dimensiones[$significado->getCodigo()]['origenX'] = $significado->getOrigenX();
-                $dimensiones[$significado->getCodigo()]['origenY'] = $significado->getOrigenY();
+                if (count($significado->getTiposGraficosArray()) > 0){
+                    $dimensiones[$significado->getCodigo()]['descripcion'] = ucfirst(preg_replace('/^Identificador /i', '', $significado->getDescripcion()));
+                    $dimensiones[$significado->getCodigo()]['escala'] = $significado->getEscala();
+                    $dimensiones[$significado->getCodigo()]['origenX'] = $significado->getOrigenX();
+                    $dimensiones[$significado->getCodigo()]['origenY'] = $significado->getOrigenY();                
+                    $dimensiones[$significado->getCodigo()]['graficos'] = $significado->getTiposGraficosArray();
+                }
             }
             $rangos_alertas_aux = array();
             foreach ($fichaTec->getAlertas() as $k => $rango) {
@@ -53,11 +68,13 @@ class IndicadorController extends Controller {
             $resp['dimensiones'] = $dimensiones;
             $resp['resultado'] = 'ok';
         }
-        else
+        else{
             $resp['resultado'] = 'error';
+        }
         $response = new Response(json_encode($resp));
-        if ($this->get('kernel')->getEnvironment() != 'dev')
+        if ($this->get('kernel')->getEnvironment() != 'dev'){
             $response->setMaxAge($this->container->getParameter('indicador_cache_consulta'));
+        }
         return $response;
     }
 
@@ -232,12 +249,7 @@ class IndicadorController extends Controller {
             'admin' => $admin,
             'base_template' => 'IndicadoresBundle::pdf_layout.html.twig'
         ));
-        return new Response(
-                $this->get('knp_snappy.pdf')->getOutputFromHtml($html->getContent()), 200, array(
-            'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'attachment; filename="ficha_tecnica.pdf"'
-                )
-        );
+        return new Response($html->getContent(), 200);
     }    
 
     /**
@@ -275,8 +287,9 @@ class IndicadorController extends Controller {
                 $indG->setFiltroElementos($grafico->filtro_elementos);
                 $indG->setIndicador($ind);
                 $indG->setPosicion($grafico->posicion);
-                if (property_exists($grafico, 'orden'))
+                if (property_exists($grafico, 'orden')){
                     $indG->setOrden($grafico->orden);
+                }
                 $indG->setTipoGrafico($grafico->tipo_grafico);
                 $indG->setGrupo($grupoIndicadores);
 
