@@ -252,6 +252,7 @@ javascript:
   _mostrando_0_ : 'Mostrando 0 registros'
   _filtrados_de_ : '(filtrados de _MAX_ registros)'
   no_mas_niveles: 'No hay más niveles para descender'
+  no_graficos_asignados: 'No ha asignado los tipos de gráficos permitidos a los significados de campo'
 
 validacion:
   requerido: Este dato es requerido
