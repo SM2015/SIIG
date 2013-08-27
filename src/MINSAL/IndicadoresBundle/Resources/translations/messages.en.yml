@@ -22,7 +22,7 @@ categoria_indicador: "Indicator's Category"
 categoria: 'Category'
 alertas: 'Alerts'
 indicador: 'Indicator'
-limite_inferior: 'Lower limit'
+limite_inferior: 'Value'
 limite_superior: 'Upper Limit'
 color: 'Color'
 indicador_alertas: "Indicator's alerts"

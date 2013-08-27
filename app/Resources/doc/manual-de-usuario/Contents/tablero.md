@@ -1,7 +1,7 @@
 # Tablero de indicadores
 El objetivo del trablero es proveer una herramienta para el análisis de los datos del indicador de manera dinámica y que el usuario pueda interactuar para mostrar los datos de la forma que más le sea útil.
 
-![Tablero de indicadores](tablero.png)
+![Tablero de indicadores](images/tablero.png)
 
 El tablero se divide en las siguientes áreas:
 
@@ -25,22 +25,22 @@ Cada elemento del gráfico se mostrará con el color del rango al cual pertenece
 
 ## Opciones del indicador
 
-![Opciones del indicador](opciones_indicador.png)
+![Opciones del indicador](images/opciones_indicador.png)
 
 Podemos elegir el tipo de gráfico: Columnas, líneas, mapa y circular. El usuario podrá elegir el gráfico que represente mejor los datos, cada uno de estos gráficos es interactivo.
 En el caso de que la variable sea de tipo geográfica y exista un mapa asociado a ella, se dispondrá de este tipo
 de gráfico, para acercar el mapa se usará clic derecho de igual manera clic derecho sobre el mismo elemento
 para alejar, si se da clic sobre otro elemento cuando el mapa tiene un acercamiento se pasará ese elemento al centro.
 
-![Gráfico circular](region_pastel.png)
-![Gráfico de columnas](region_columnas.png)
-![Gráfico de líneas](region_lineas.png)
-![Gráfico de mapa](grafico_mapa.png)
+![Gráfico circular](images/region_pastel.png)
+![Gráfico de columnas](images/region_columnas.png)
+![Gráfico de líneas](images/region_lineas.png)
+![Gráfico de mapa](images/grafico_mapa.png)
 
 Ordenar por valor del indicador, con esta opciones podemos ordenar los elementos del gráfico tomando el valor del indicador como parámetro de ordenamiento.
 
 ## Opciones de dimensión
-![Opciones de dimensión](opciones_dimension.png)
+![Opciones de dimensión](images/opciones_dimension.png)
 
 Cambiar dimensión: Podemos elegir la dimensión/variable que queremos graficar.
 Ordenar: Ordena según el valor nombre de la dimensión/variable, nos será de mucha utilidad por ejemplo en el caso de que la variable sea año. En otras dimensiones solo hará un ordenamiento alfabético por ejemplo por nombre de municipio.
@@ -64,5 +64,5 @@ El tablero de cubos OLAP se divide en las siguientes áreas:
 3. Medidas disponibles para el indicador seleccionado.
 4. Menu de funciones de manipulacion de datos 
 
-![Interfaz de cubos OLAP](cubos_olap.png)
+![Interfaz de cubos OLAP](images/cubos_olap.png)
 

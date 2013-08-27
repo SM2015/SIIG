@@ -2,7 +2,7 @@
 
 ### Esquema general de la Aplicacion
 
-![Esquema de la aplicación](esquema_app.png)
+![Esquema de la aplicación](images/esquema_app.png)
 
 Los datos que maneja el sistema provienen de distintas fuentes y son de una naturaleza tal que es necesario utilizar el modelo de
 base datos sin esquema/genérico EAV. Las tabla EAV (Fila_origen_dato) y demás tablas auxiliares son parte del
@@ -15,9 +15,9 @@ El Siguiente Diccionario de Datos y Diagrama ER describen la estructura del alma
 ### Diagrama Entidad Relacion
 
 
-![Diagrama ER1](ER1.png)
+![Diagrama ER1](images/ER1.png)
 
-![Diagrama ER2](ER2.png)
+![Diagrama ER2](images/ER2.png)
 
 
 ### Diccionario de Datos
