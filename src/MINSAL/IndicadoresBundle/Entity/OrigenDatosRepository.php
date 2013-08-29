@@ -33,8 +33,7 @@ class OrigenDatosRepository extends EntityRepository {
                 else
                 if ($significado == 'calculo')
                     $tiene_campo_calculo = true;
-            }
-            else
+            } else
                 $tiene_null = true;
         }
         if ($origen->getEsCatalogo())
@@ -59,12 +58,10 @@ class OrigenDatosRepository extends EntityRepository {
             if ($conexion->getIdMotor()->getCodigo() == 'pdo_dblib') {
                 $query = mssql_query($origenDato->getSentenciaSql(), $conn);
                 $total = mssql_num_rows($query);
-            }
-            else
+            } else
                 $total = $conn->query($origenDato->getSentenciaSql())->rowCount();
             return $total;
-        }
-        else
+        } else
             return 1;
     }
 
@@ -159,7 +156,7 @@ class OrigenDatosRepository extends EntityRepository {
           INSERT INTO $nombre_temp($nombre_campos) VALUES ";
 
         foreach ($datos as $fila) {
-            $fila = array_map('utf8_encode',$fila);
+            $fila = array_map('utf8_encode', $fila);
             $sql .= "('" . implode("','", $fila) . "'), ";
         }
         $sql = trim($sql, ', ');
@@ -188,11 +185,17 @@ class OrigenDatosRepository extends EntityRepository {
     }
 
     public function cargarCatalogo(OrigenDatos $origenDato) {
+        $em = $this->getEntityManager();
         $datos = array();
-        foreach ($origenDato->getConexiones() as $cnx) {
-            $datos_cnx = $this->getDatos($origenDato->getSentenciaSql(), $cnx);
-            $datos = array_merge($datos, $datos_cnx);
+        if (count($origenDato->getConexiones()) > 0) {
+            foreach ($origenDato->getConexiones() as $cnx) {
+                $datos_cnx = $this->getDatos($origenDato->getSentenciaSql(), $cnx);
+                $datos = array_merge($datos, $datos_cnx);
+            }
+        } else {
+            $datos = $em->getRepository('IndicadoresBundle:OrigenDatos')->getDatos(null, null, $origenDato->getAbsolutePath());
         }
+        
         return $this->crearTablaCatalogo($origenDato, $datos);
     }
 
