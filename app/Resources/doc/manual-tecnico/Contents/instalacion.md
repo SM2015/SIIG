@@ -151,11 +151,10 @@ create extension hstore;
 - (no con el usuario postrgres, a menos que este mismo sea el dueño de la base de datos)
 ~~~
 CREATE TABLE fila_origen_dato(
-    id serial,
     id_origen_dato integer,
     datos hstore,
+    ultima_lectura timestamp,
 
-    PRIMARY KEY (id),
     FOREIGN KEY (id_origen_dato) REFERENCES origen_datos(id) on update CASCADE on delete CASCADE
 );
 ~~~
