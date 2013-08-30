@@ -164,5 +164,5 @@ $(document).ready(function() {
             recuperarDimensiones(graficos[i].idIndicador, graficos[i]);
         }
     });   
-    
+
 });
