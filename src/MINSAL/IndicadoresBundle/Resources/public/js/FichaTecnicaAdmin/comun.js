@@ -243,7 +243,17 @@ function controles_filtros(zona) {
     lista_datos_dimension += '</DIV>';
 
     $('#' + zona + ' .lista_datos_dimension').html(lista_datos_dimension);       
-
+    
+    // Corrige un error de bootstrap para permitir usar controles dentro de un dropdown
+    $('.dropdown-menu SELECT, .dropdown-menu LABEL, .dropdown-menu INPUT').click(function(event) {
+        $(this).focus();
+        event.stopPropagation();
+    });    
+    //Corrige un error de bootstrap para que funcione un menu dropdown en tabletas
+    $('body').on('touchstart.dropdown', '.dropdown-menu', function(e) {
+        e.stopPropagation();
+    }); 
+    
     $('#' + zona + ' .aplicar_filtro').click(function() {
         aplicarFiltro(zona);
     });

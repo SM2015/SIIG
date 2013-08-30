@@ -31,100 +31,13 @@
 <div id="div_carga" class='affix'>
     <img id="cargador" src="{{ asset('bundles/indicadores/images/ajax-loader.gif') }}"/>
 </div>
-<div id='menu_sala' class='btn-toolbar' data-spy="affix" data-offset-top="150">
-    <div class="accordion-heading btn-group">
-        <a class="btn accordion-toggle" data-toggle="collapse"  href="#collapseOne" title="{{'_ocultar/mostrar_menu_principal_'|trans}}">
-            <i class="icon-resize-full"></i>
-        </a>
-    </div>
-    <div class='btn-group'> 
-        <a href='#' class="btn dropdown-toggle" data-toggle="dropdown" >
-            <i class="icon-th"></i>{{'_sala_'|trans}}
-            <span class="caret"></span>
-        </a>            
-        <ul class="dropdown-menu">                
-            <li><A id='agregar_fila' >{{'_agregar_area_grafico_'|trans}}</a></li>
-            <li><A id='quitar_indicador' >{{'_quitar_indicador_'|trans}}</a></li>
-            <li><!-- Button to trigger modal -->
-                <a href="#myModal" data-toggle="modal">{{'_guardar_sala_'|trans}}</a>
-            </li>
-            <li class="dropdown-submenu">
-                <a >
-                    {{'_clasificacion_indicadores_'|trans}}
-                </a>
-                <ul class="dropdown-menu">                
-                {% for clasificacion in clasificacionUso %}
-                    {% if clasificacion.codigo == app.user.clasificacionUso.codigo|default('') %}
-                    <li class='active'><A >{{clasificacion.descripcion}}</a></li>
-                    {% else %}
-                    <li ><a href='{{url('change_clasificacion_uso',{codigo_clasificacion:clasificacion.codigo})}}'>{{clasificacion.descripcion}}</a></li>
-                    {% endif %}
-                {% endfor %}
-                </ul> 
-            </li>
-            <li class="divider"></li>
-            <li class="nav-header">{{'_salas_'|trans}}</li>
-                {% for sala in salas %}
-            <li><A sala-id='{{sala.datos_sala.id}}' sala-nombre='{{sala.datos_sala.nombre}}' class='salas-id' data="{{sala.indicadores_sala|json_encode()}}">{{sala.datos_sala.nombre}}</A></li>
-                {% endfor %}
-        </ul>
-    </div>
-    <div class='btn-group'>
-        <a class="btn dropdown-toggle btn-success" data-toggle="dropdown" >
-            <i class="icon-align-left"></i>{{"indicadores"|trans}}
-            <span class="caret"></span>
-        </a>
-        <ul class="dropdown-menu">                
-            <li class="dropdown-submenu">
-                <a >{{"favoritos"|trans}} (<span id='cantidad_favoritos'>{{app.user.favoritos|length}}</span>)</a>
-                <ul class="dropdown-menu" id='listado-favoritos'>
-                        {% for indicador in app.user.favoritos %}
-                    <li ><A id='fav-{{indicador.id}}' class='indicador'
-                            data-id='{{indicador.id}}'
-                            data-unidad-medida='{{indicador.unidadMedida}}'>
-                                    {{indicador.nombre}}
-                        </A>
-                    </li>
-                        {% endfor %}
-                </ul>
-            </li>
-        
-        {% for categoria in categorias%}
-            {% if categoria.indicadores|length > 0 %}
-            <li class="dropdown-submenu">
-                <a> {{categoria.cat.descripcion}} ({{categoria.indicadores|length}}) </a>
-                <ul class="dropdown-menu" >
-                    {% for indicador in categoria.indicadores %}
-                    <li ><A id='{{indicador.id}}' class='indicador'
-                            data-id='{{indicador.id}}'
-                            data-unidad-medida='{{indicador.unidadMedida}}'>
-                                            {{indicador.nombre}}
-                        </A>
-                    </li>
-                    {% endfor %}
-                </ul>
-            </li>
-            {% endif %}
-        {% endfor %}
-            
-        {% if indicadores_no_clasificados|length > 0 %}
-        <li class="dropdown-submenu">
-            <a>{{"_no_clasificados_"|trans}} (<span id='cantidad_no_clasificados'>{{indicadores_no_clasificados|length}}</span>)</a>
-            <ul class="dropdown-menu" >
-                {% for indicador in indicadores_no_clasificados %}
-                <li ><A id='{{indicador.id}}' class='indicador'
-                        data-id='{{indicador.id}}'
-                        data-unidad-medida='{{indicador.unidadMedida}}'>
-                                    {{indicador.nombre}}
-                    </A>
-                </li>
-                {% endfor %}
-            </ul>
-        <li class="dropdown-submenu">
-        {% endif %}
-        </ul>
-    </div>                               
-</div>
+
+{% if is_mobile() %}
+    {% include 'IndicadoresBundle:FichaTecnicaAdmin:menu_tablero_mobile.html.twig' %}
+{% else %}
+    {% include 'IndicadoresBundle:FichaTecnicaAdmin:menu_tablero.html.twig' %}
+{% endif %}
+
 <div id='nombre_sala2' ></div>
 <div class="content" id="sala" >
     <div class="area_grafico zona_actual" id='grafico_1' >
@@ -180,7 +93,7 @@
         <button id='guardar_sala' class="btn btn-primary">{{'_guardar_cambios_'|trans}}</button>
     </div>
 </div>
-<div id="myModal2" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div id="myModal2" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
         <h3 id="myModalLabel2"></h3>
