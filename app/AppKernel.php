@@ -40,6 +40,8 @@ class AppKernel extends Kernel
             
             new FR3D\LdapBundle\FR3DLdapBundle(),
             
+            new SunCat\MobileDetectBundle\MobileDetectBundle(),
+            
             new MINSAL\IndicadoresBundle\IndicadoresBundle(),
         );
 
