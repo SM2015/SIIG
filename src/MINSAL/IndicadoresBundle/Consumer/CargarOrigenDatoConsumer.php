@@ -34,26 +34,32 @@ class CargarOrigenDatoConsumer implements ConsumerInterface {
         //Leeré los datos en grupos de 10,000
         $tamanio = 10000;
 
-        // Recorrer cada conexión que tenga asociado el origen de datos
-        foreach ($origenDato->getConexiones() as $cnx) {
-            $leidos = 10001;
-            $i = 0;
-            $nombre_conexion = $cnx->getNombreConexion();            
-            if ($cnx->getIdMotor()->getCodigo() != 'pdo_dblib' or $origenDato->getSentenciaSql() != '') {
-                $sql = $msg['sql'];
-                while ($leidos >= $tamanio) {
-                    $sql_aux = $sql . ' LIMIT ' . $tamanio . ' OFFSET ' . $i * $tamanio;
+        if ($origenDato->getSentenciaSql() != ''){
+            // Recorrer cada conexión que tenga asociado el origen de datos       
+            foreach ($origenDato->getConexiones() as $cnx) {
+                $leidos = 10001;
+                $i = 0;
+                $nombre_conexion = $cnx->getNombreConexion();            
+                if ($cnx->getIdMotor()->getCodigo() != 'pdo_dblib') {
+                    $sql = $msg['sql'];
+                    while ($leidos >= $tamanio) {
+                        $sql_aux = $sql . ' LIMIT ' . $tamanio . ' OFFSET ' . $i * $tamanio;
 
-                    $datos = $em->getRepository('IndicadoresBundle:OrigenDatos')->getDatos($sql_aux, $cnx);
+                        $datos = $em->getRepository('IndicadoresBundle:OrigenDatos')->getDatos($sql_aux, $cnx);
 
+                        $this->enviarDatos($idOrigen, $datos, $campos_sig, $ahora, $nombre_conexion);
+                        $leidos = count($datos);
+                        $i++;
+                    }
+                } else {
+                    $datos = $em->getRepository('IndicadoresBundle:OrigenDatos')->getDatos($msg['sql'], $cnx);
                     $this->enviarDatos($idOrigen, $datos, $campos_sig, $ahora, $nombre_conexion);
-                    $leidos = count($datos);
-                    $i++;
                 }
-            } else {
-                $datos = $em->getRepository('IndicadoresBundle:OrigenDatos')->getDatos(null, $cnx, $origenDato->getAbsolutePath());
-                $this->enviarDatos($idOrigen, $datos, $campos_sig, $ahora, $nombre_conexion);
             }
+        }
+        else{
+            $datos = $em->getRepository('IndicadoresBundle:OrigenDatos')->getDatos(null, null, $origenDato->getAbsolutePath());
+            $this->enviarDatos($idOrigen, $datos, $campos_sig, $ahora, $nombre_conexion);
         }
         //Después de enviados todos los registros para guardar, mandar mensaje para borrar los antiguos
         $msg_guardar = array('id_origen_dato' => $idOrigen,
