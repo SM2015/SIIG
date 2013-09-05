@@ -248,7 +248,7 @@ hibernate.hbm2ddl.auto = update
 
 3- Permitir usuarios anonimos, remover la seguridad interna de Pentaho segun la documentación:
 
-http://infocenter.pentaho.com/help/index.jsp?topic=%2Fsecurity_guide%2Ftask_removing_security.html
+http://wiki.pentaho.com/display/ServerDoc2x/Removing+Security
 
 Iniciar el servidor:  ./start-pentaho.sh
 
