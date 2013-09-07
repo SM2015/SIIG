@@ -216,7 +216,9 @@ Pentaho es un servidor de  análisis (Business Inteligence) modular que ofrece h
 A continuación: 
 
 1-Instalaremos el modulo base de Pentaho - edición comunidad
+
 2- Configuraremos su servicio de análisis dimensional conocido como Mondrian 
+
 3- Instalaremos la aplicación de visualización de cubos OLAP llamada SAIKU.
 
 El objetivo es usar el servidor Pentaho+Saiku para analizar los datos del SIIG y a la vez integrar esta aplicación dentro de  la plataforma del SIIG de forma que el usuario no se percate de que esta usando una aplicación externa. 
@@ -224,14 +226,18 @@ El objetivo es usar el servidor Pentaho+Saiku para analizar los datos del SIIG y
 ### 4.1 Instalación de Pentaho
 
 Pentaho es una aplicación escrita en JAVA que utiliza persistencia (Hibernate) un servidor de aplicaciones (Tomcat). Pentaho servirá como plataforma ejecutar nuestra aplicación de análisis de datos.
+
 - Instalar Java y soporte de Postgres:
-~# apt-get install openjdk-6-jre libpg-java
+
+~~~
+# apt-get install openjdk-6-jre libpg-java
+~~~
 
 - Descargar la ultima versión del servidor de Pentaho en:
 
 http://community.pentaho.com/projects/bi_platform/
 
-Y luego descomprimir el archivo descargado en la carpeta que elijamos, Ejem: /home/siig/biserver-ce/
+Y luego descomprimir el archivo descargado en la carpeta que elijamos.
 
 El archivo comprimido del servidor de Pentaho (biserver-ce-X.X-estable.tar) contiene dos carpetas con dos servicios diferentes:
 
@@ -239,20 +245,29 @@ El archivo comprimido del servidor de Pentaho (biserver-ce-X.X-estable.tar) cont
 - aministration-console, la interfaz de administración del servidor que permite manejar cuentas de usuario, roles y conexiones a bases de datos, accesible desde el puerto 8099.   
 
 Cada uno de estos dos servicios tiene su script de inicio correspondiente y credenciales por defecto. A continuación eliminaremos el sistema de seguridad interno de Pentaho, para que no pida credenciales y así  facilitar la integración con el resto del sistema SIIG. Estos cambios afectan ambos servicios: la plataforma de Pentaho y la consola de administración. Para eliminar el uso de credenciales basta seguir las instrucciones del manual oficial de Pentaho:
-http://wiki.pentaho.com/display/ServerDoc2x/Removing+Security
-Luego de hacer esos cambios estamos listos para iniciar el servidor:  
-~# cd biserver-ce
-~# ./start-pentaho.sh
-En este punto deberíamos poder abrir la aplicación sin usar credenciales usando la dirección del servidor:
-http://localhost:8080/pentaho
-Nota: Si fuesen necesarias, las credenciales por defecto son usuario: joe, pwd: password
 
+http://wiki.pentaho.com/display/ServerDoc2x/Removing+Security
+
+Luego de hacer esos cambios estamos listos para iniciar el servidor:  
+~~~
+# cd biserver-ce
+# ./start-pentaho.sh
+~~~
+
+En este punto deberíamos poder abrir la aplicación sin usar credenciales usando la dirección del servidor:
+
+http://localhost:8080/pentaho
+~~~
+Nota: Si fuesen necesarias, las credenciales por defecto son usuario: joe, pwd: password
 Los errores del sistema son registrados en:
 Log de Pentaho:  biserver-ce/tomcat/logs/pentaho.log 
 Log de Servidor Tomcat: biserver-ce/tomcat/logs/catalina.out 
+~~~
 
 A continuación, conectaremos Pentaho a la base de datos del SIIG usando la consola de administración. La consola de administración no incluye soporte para Postgres. El primer paso es copiar el manejador de Postgres:
-~# cp biserver-ce/tomcat/lib/postgresql-9.1-902.jdbc4.jar administration-console/jdbc/
+~~~
+# cp biserver-ce/tomcat/lib/postgresql-9.1-902.jdbc4.jar administration-console/jdbc/
+~~~
 
 Luego arrancamos la consola de administración usando el script dentro de la carpeta administration-console:
 ~# ./start-pac.sh
@@ -261,9 +276,12 @@ En este punto ya podemos conectarnos a http://localhost:8099/
 Nota: Si fuese necesario las credenciales por defecto son: usuario: admin, pwd: password
 
 Una vez dentro de la consola, podemos crear nueva conexión de bases de datos, asegurándonos de usar estos valores.
+
+~~~
 nombre: NOMBRE_CONN 
 driver: org.postgres.Driver
 URL: jdbc:postgresql://localhost:5432/NOMRE_BASE_DE_DATOS
+~~~
 
 Asegurese de probar la conexión usando el botón "Test/Probar" al pie de esta misma ventana. Finalmente guarde sus cambios.
 
@@ -271,45 +289,57 @@ Asegurese de probar la conexión usando el botón "Test/Probar" al pie de esta m
 Ahora que Pentaho ya puede conectarse a nuestra base datos, procederemos a configurar el servicio de Mondrian para la gestión de cubos OLAP. Para esto es necesario: 
 
 - Crear un archivo para definir nuestro cubo OLAP. Mondrian conoce estos archivos como ‘schemas’ y puede ser creado usando la siguiente plantilla: 
+
 https://github.com/erodriguez-minsal/SIIG/wiki/PlantillaIndicadorOLAP
+
 Alternativamente el mismo archivo puede ser editado/creado  usando la aplicación Mondrian Schema Workbench disponible aquí:
 
 http://sourceforge.net/projects/mondrian/files/schema%20workbench/
 
 Finalmente guardamos el archivo de la siguiente forma:
+
 Biserver-ce/pentaho-solutions/admin/resources/metadata/NOMBRE_CUBO.mondrian.xml
 
 Y Agregamos el nuevo cubo al listado de cubos de Mondrian. Este listado esta descrito en le archivo:
 biserver-ce/pentaho-solutions/system/olap/datasources.xml
-En este archivo cada cubo esta definido de la siguiente forma:
 
+En este archivo cada cubo esta definido de la siguiente forma:
+~~~
  <Catalog name="NOMBRE_CUBO"> 
         <DataSourceInfo>Provider=mondrian;DataSource=NOMBRE_CONN_BD</DataSourceInfo>  
         <Definition>solution:admin/resources/metadata/NOMBRE_CUBO.mondrian.xml</Definition> 
       </Catalog>
+~~~
 
  Este listado puede incluir varios cubos, por cada cubo que se agregue al sistema habrá que crear su archivo/esquema correspondiente y agregarlo a este listado.
 Alternativamente, la aplicación Mondrian Workbench, puede generar el esquema del cubo y luego publicarlo/agregarlo a este listado por nosostros.
  
 
 ### 4.3 Instalar SAIKU
+
 Para poder manipular visualmente los cubos que hemos creado usaremos SAIKU. Esta es una aplicación que permite hacer consultas al cubo y mostrar resultados usando peticiones REST y AJAX. SIKU procesa la respuesta devuelta por Pentaho en formato JSON para generar representaciones visuales de los datos. Para saber mas cerca de SAIKU puede visitar:
+
 http://analytical-labs.com/downloads.php
 
 Para instalar SAIKU debemos primero instalar las librerías de CTOOLS. Estas librerías se pueden instalar automáticamente usando este Script:
+
 https://github.com/pmalves/ctools-installer
 
 Guardamos este archivo como: biserver-ce/instalar_ctools.sh
 Le damos permisos de ejecución: ~#chmod +x instalar_ctools.sh
 
 Y ejecutamos el script :
-~# ./instalar_ctools.sh –s pentaho-solutions/
+~~~
+# ./instalar_ctools.sh –s pentaho-solutions/
+~~~
+
 El Script preguntara si queremos instalar todas las librerías, incluyendo el paquete SAIKU, respondemos que si a todo.
 
 Reiniciar Pentaho:
- ./stop-pentaho.sh  
- ./start-pentaho.sh
-
+ ~~~
+# ./stop-pentaho.sh  
+# ./start-pentaho.sh
+~~~
 
 
 5- Activar el proxy de Apache/Esconder el Puerto de Pentaho
