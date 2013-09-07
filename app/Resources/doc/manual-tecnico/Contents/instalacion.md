@@ -395,14 +395,14 @@ http://dev.analytical-labs.com/saiku/serverdocs/
 
 ## 6. OPCIONAL: Validación de Usarios desde directorios LDAP
 
-Si fuese necesario validar usuarios contra un directorio LDAP, se deben seguir los pasos descritos en esta sección.Si un usuario aun no esta creado dentro del sistema, se hara una busqueda en el drictorio LDAP especificado en el archivo app/config/config.yml.
+Si fuese necesario validar usuarios contra un directorio LDAP, se deben seguir los pasos descritos en esta sección. Si un usuario aun no esta creado dentro del sistema, se hara una busqueda en el drictorio LDAP especificado en el archivo app/config/config.yml.
 A continuacion se muestran las lineas relvantes para especificar que directorio usar:
 
 ```yml
 #Fr3d_LDAP
 fr3d_ldap:
     driver:
-        host:         10.10.20.2 # IP del Servidor LDAP Zimbra/Minsal
+        host:         10.10.20.2 # IP del Servidor LDAP institucional
         port:         389    # Opcional
     user:
         baseDn:          ou=people,dc=salud,dc=gob,dc=sv # contenedor de usuarios
