@@ -384,7 +384,7 @@ los cubos existentes en el servidor OLAP asi como efectuar consultas, los result
 http://dev.analytical-labs.com/saiku/serverdocs/
  
 
-## Instalación de librería wkhtmltopdf
+## 5. Instalación de librería wkhtmltopdf
 [wkhtmltopdf](http://code.google.com/p/wkhtmltopdf/) Es una utilidad de línea de comando para convertir html a pdf
 
 1. Descargar wkhtmltopdf desde http://code.google.com/p/wkhtmltopdf/downloads/list elegir la versión adecuada al sistema operativo
@@ -393,9 +393,9 @@ http://dev.analytical-labs.com/saiku/serverdocs/
 4. Dar permisos de ejecución: chmod +x /usr/bin/wkhtmltopdf
 
 
-## Validación de Usarios desde directorios LDAP
+## 6. OPCIONAL: Validación de Usarios desde directorios LDAP
 
-Si un usuario aun no esta creado dentro del sistema, se hara una busqueda en el drictorio LDAP especificado en el archivo app/config/config.yml.
+Si fuese necesario validar usuarios contra un directorio LDAP, se deben seguir los pasos descritos en esta sección.Si un usuario aun no esta creado dentro del sistema, se hara una busqueda en el drictorio LDAP especificado en el archivo app/config/config.yml.
 A continuacion se muestran las lineas relvantes para especificar que directorio usar:
 
 ```yml
