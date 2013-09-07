@@ -270,10 +270,12 @@ A continuación, conectaremos Pentaho a la base de datos del SIIG usando la cons
 ~~~
 
 Luego arrancamos la consola de administración usando el script dentro de la carpeta administration-console:
-~# ./start-pac.sh
 
+~~~
+# ./start-pac.sh
 En este punto ya podemos conectarnos a http://localhost:8099/
 Nota: Si fuese necesario las credenciales por defecto son: usuario: admin, pwd: password
+~~~
 
 Una vez dentro de la consola, podemos crear nueva conexión de bases de datos, asegurándonos de usar estos valores.
 
@@ -362,17 +364,9 @@ En este punto ya tenemos SAIKU disponible en:
 
 http://myserver/saiku-ui/index.html?biplugin=true
 
-6- Agregar definición de cubos usando la plantilla para indicadores del MINSAL:
 
-https://github.com/erodriguez-minsal/SIIG/wiki/PlantillaIndicadorOLAP
-
-7- Agregar el nuevo indicador al catalogo de cubos dentro de:
-
-biserver-ce/pentaho-solutions/system/olap/datasources.xml
-
-
-El servidor OLAP/Pentaho puede ser consultado a traves de SAIKU usando su API HTTP/REST. Esta API permite obtener informacion sobre 
-los cubos existentes en el servidor OLAP asi como efectuar consultas. La documentacion de la API puede ser consultada en:
+El servidor OLAP/Mondrian puede ser consultado a traves de SAIKU usando su API HTTP/REST. Esta API permite obtener informacion sobre 
+los cubos existentes en el servidor OLAP asi como efectuar consultas, los resultados son deveultos en formato JSON. La documentacion de la API puede ser consultada en:
 
 
 http://dev.analytical-labs.com/saiku/serverdocs/
