@@ -221,6 +221,8 @@ A continuación:
 
 3- Instalaremos la aplicación de visualización de cubos OLAP llamada SAIKU.
 
+4- Modificaremos Apache: URL del SIIG apuntando a SAIKU  
+
 El objetivo es usar el servidor Pentaho+Saiku para analizar los datos del SIIG y a la vez integrar esta aplicación dentro de  la plataforma del SIIG de forma que el usuario no se percate de que esta usando una aplicación externa. 
 
 ### 4.1 Instalación de Pentaho
@@ -306,7 +308,7 @@ Finalmente guardamos el archivo de la siguiente forma:
 
 Biserver-ce/pentaho-solutions/admin/resources/metadata/NOMBRE_CUBO.mondrian.xml
 
-Y Agregamos el nuevo cubo al listado de cubos de Mondrian. Este listado esta descrito en le archivo:
+- Y Agregamos el nuevo cubo al listado de cubos de Mondrian. Este listado esta descrito en le archivo:
 biserver-ce/pentaho-solutions/system/olap/datasources.xml
 
 En este archivo cada cubo esta definido de la siguiente forma:
@@ -347,15 +349,18 @@ Reiniciar Pentaho:
 # ./start-pentaho.sh
 ~~~
 
+### 4.4 Modificar Apache: URL del SIIG apuntando a SAIKU 
 
-5- Activar el proxy de Apache/Esconder el Puerto de Pentaho
+Para enmascarar le URL de Pentaho debemos activar el proxy de Apache para esto debemos activar un par de módulos de Apache:  
 
-Activar módulos de Apache:  a2enmod proxy proxy_http
+~~~
+#a2enmod proxy proxy_http
+~~~
 
-editar la seccion VirtualHost dentro de /etc/apache2/sites-enabled/000-default:
+Luego editamos la seccion VirtualHost dentro de /etc/apache2/sites-enabled/000-default:
 
 ```
-<Location /saiku/>
+<Location /admin/minsal/indicadores/saiku/>
       ProxyPass http://localhost:8080/pentaho/content/saiku/
       ProxyPassReverse http://localhost:8080/pentaho/content/saiku/
       SetEnv proxy-chain-auth
@@ -364,9 +369,9 @@ editar la seccion VirtualHost dentro de /etc/apache2/sites-enabled/000-default:
 
 
 
-En este punto ya tenemos SAIKU disponible en: 
+En este punto ya tenemos SAIKU disponible como una URL del SIIG en: 
 
-http://myserver/saiku-ui/index.html?biplugin=true
+http://localhost/admin/minsal/indicadores/saiku/
 
 
 El servidor OLAP/Mondrian puede ser consultado a traves de SAIKU usando su API HTTP/REST. Esta API permite obtener informacion sobre 
