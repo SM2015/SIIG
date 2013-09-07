@@ -333,8 +333,11 @@ Para instalar SAIKU debemos primero instalar las librerías de CTOOLS. Estas lib
 
 https://github.com/pmalves/ctools-installer
 
-Guardamos este archivo como: biserver-ce/instalar_ctools.sh
-Le damos permisos de ejecución: ~#chmod +x instalar_ctools.sh
+Guardamos este archivo como: biserver-ce/instalar_ctools.sh y le damos permisos de ejecución:
+
+~~~
+#chmod +x instalar_ctools.sh
+~~~
 
 Y ejecutamos el script :
 ~~~
