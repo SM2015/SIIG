@@ -285,7 +285,11 @@ driver: org.postgres.Driver
 URL: jdbc:postgresql://localhost:5432/NOMRE_BASE_DE_DATOS
 ~~~
 
-Asegurese de probar la conexión usando el botón "Test/Probar" al pie de esta misma ventana. Finalmente guarde sus cambios.
+Asegurese de probar la conexión usando el botón "Test/Probar" al pie de esta misma ventana. Finalmente guarde sus cambios y detener la conolsa de administracion:
+
+~~~
+./stop-pac.sh
+~~~
 
 ### 4.2 Configuracion de Mondrian
 Ahora que Pentaho ya puede conectarse a nuestra base datos, procederemos a configurar el servicio de Mondrian para la gestión de cubos OLAP. Para esto es necesario: 
