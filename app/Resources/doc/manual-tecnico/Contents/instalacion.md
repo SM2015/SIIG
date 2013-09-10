@@ -293,7 +293,7 @@ Asegurese de probar la conexión usando el botón "Test/Probar" al pie de esta m
 ./stop-pac.sh
 ~~~
 
-### 4.2 Configuracion de Mondrian
+### 4.2 Configuración  de Mondrian
 Ahora que Pentaho ya puede conectarse a nuestra base datos, procederemos a configurar el servicio de Mondrian para la gestión de cubos OLAP. Para esto es necesario: 
 
 - Crear un archivo para definir nuestro cubo OLAP. Mondrian conoce estos archivos como ‘schemas’ y puede ser creado usando la siguiente plantilla: 
@@ -322,9 +322,8 @@ En este archivo cada cubo esta definido de la siguiente forma:
  Este listado puede incluir varios cubos, por cada cubo que se agregue al sistema habrá que crear su archivo/esquema correspondiente y agregarlo a este listado.
 Alternativamente, la aplicación Mondrian Workbench, puede generar el esquema del cubo y luego publicarlo/agregarlo a este listado por nosostros.
  
-
+ 
 ### 4.3 Instalar SAIKU
-
 Para poder manipular visualmente los cubos que hemos creado usaremos SAIKU. Esta es una aplicación que permite hacer consultas al cubo y mostrar resultados usando peticiones REST y AJAX. SIKU procesa la respuesta devuelta por Pentaho en formato JSON para generar representaciones visuales de los datos. Para saber mas cerca de SAIKU puede visitar:
 
 http://analytical-labs.com/downloads.php
