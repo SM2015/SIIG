@@ -116,8 +116,12 @@ class OrigenDatosRepository extends EntityRepository {
                 }
                 $fix_datos = array();
                 foreach ($datos as $k => $f) {
+                    // determinar que datos tienen todos sus campos nulos
+                    $todosNULL = true;
                     foreach ($f as $indice => $campo) {
                         $fix_datos[$k][$nombre_campos[$indice]] = trim($campo);
+                        if(!empty($fix_datos[$k][$nombre_campos[$indice]]))
+                            $todosNULL = false;
                     }
                 }
             } catch (\Exception $e) {

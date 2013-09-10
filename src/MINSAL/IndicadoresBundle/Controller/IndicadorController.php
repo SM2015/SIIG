@@ -21,7 +21,7 @@ class IndicadorController extends Controller {
         );
         return $this->redirect($this->generateUrl('_inicio'));
     }
-    
+        
     /**
      * @Route("/indicador/dimensiones/{id}", name="indicador_dimensiones", options={"expose"=true})
      */

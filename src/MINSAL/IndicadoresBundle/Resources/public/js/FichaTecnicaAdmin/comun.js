@@ -243,7 +243,7 @@ function controles_filtros(zona) {
     lista_datos_dimension += '</DIV>';
 
     $('#' + zona + ' .lista_datos_dimension').html(lista_datos_dimension);       
-
+    
     // Corrige un error de bootstrap para permitir usar controles dentro de un dropdown
     $('.dropdown-menu SELECT, .dropdown-menu LABEL, .dropdown-menu INPUT').click(function(event) {
         $(this).focus();
@@ -566,8 +566,7 @@ function dibujarControles(zona, datos) {
                 "bInfo": false,
                 "iDisplayLength": 30,
                 "oTableTools": {
-                    //"sSwfPath": "/bundles/indicadores/js/DataTables/media/swf/copy_csv_xls_pdf.swf",
-                    "sSwfPath": "http://cdnjs.cloudflare.com/ajax/libs/zeroclipboard/1.1.7/ZeroClipboard.swf",
+                    "sSwfPath": "/bundles/indicadores/js/DataTables/media/swf/copy_csv_xls_pdf.swf",
                     "aButtons": [
                         {
                             "sExtends": "collection",
