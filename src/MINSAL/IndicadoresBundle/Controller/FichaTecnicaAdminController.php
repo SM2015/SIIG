@@ -28,10 +28,12 @@ class FichaTecnicaAdminController extends Controller {
         $clasificacionUso = $em->getRepository("IndicadoresBundle:ClasificacionUso")->findAll();
 
         //Luego agregar un método para obtener la clasificacion de uso por defecto del usuario
-        if ($usuario->getClasificacionUso())
+        $usuario = $this->getUser();
+        if ($usuario->getClasificacionUso()) {
             $clasificacionUsoPorDefecto = $usuario->getClasificacionUso();
-        else
+        } else {
             $clasificacionUsoPorDefecto = $clasificacionUso[0];
+        }
         $categorias = $em->getRepository("IndicadoresBundle:ClasificacionTecnica")->findBy(array('clasificacionUso' => $clasificacionUsoPorDefecto));
 
         $usuarioSalas = $usuario->getGruposIndicadores();
@@ -68,7 +70,7 @@ class FichaTecnicaAdminController extends Controller {
 
         $indicadores_no_clasificados = array();
         foreach ($usuarioIndicadores as $ind) {
-            if (!in_array($ind->getId(), $indicadores_clasificados)){
+            if (!in_array($ind->getId(), $indicadores_clasificados)) {
                 $indicadores_no_clasificados[] = $ind;
             }
         }
@@ -105,7 +107,7 @@ class FichaTecnicaAdminController extends Controller {
                 'admin' => $admin,
                 'base_template' => 'IndicadoresBundle::pdf_layout.html.twig'
             ));
-            
+
             $salida .= $html->getContent() . '<BR /><BR /><hr size="5" style= "color: blue;"/>';
         }
         //Quitar los comentarios del código html
@@ -114,7 +116,6 @@ class FichaTecnicaAdminController extends Controller {
             'Content-Type' => 'application/rtf',
             'Content-Disposition' => 'attachment; filename="ficha_tecnica.rtf"')
         );
-
-    }       
+    }
 
 }
