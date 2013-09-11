@@ -134,7 +134,6 @@ class OrigenDatosAdminController extends Controller {
             $selecciones = $em->getRepository('IndicadoresBundle:OrigenDatos')->findAll();
         foreach ($selecciones as $origen) {
             
-            $em = $this->getDoctrine()->getManager();
             if (!$parameterBag->get('all_elements'))
                 $origenDato = $em->find('IndicadoresBundle:OrigenDatos', $origen);
             else

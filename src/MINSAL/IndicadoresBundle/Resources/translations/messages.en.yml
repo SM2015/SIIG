@@ -311,3 +311,4 @@ _exportar_: 'Export'
 _tipos_graficos_: Graph types allowed
 change_password.flash.success: 'Password has been successfully changed'
 _cambiar_clave_: Change password
+_ver_ficha_: See technical profile

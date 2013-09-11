@@ -117,8 +117,14 @@ class FichaTecnicaAdmin extends Admin {
     }
 
     public function getBatchActions() {
-        $actions = parent::getBatchActions();
-        $actions['delete'] = null;
+        $actions = array();
+        
+        $actions['ver_ficha'] = array(
+            'label' => $this->trans('_ver_ficha_'),
+            'ask_confirmation' => false // If true, a confirmation will be asked before performing the action
+        );
+        
+        return $actions;
     }
 
     public function validate(ErrorElement $errorElement, $object) {
@@ -307,7 +313,7 @@ class FichaTecnicaAdmin extends Admin {
         $collection->add('tablero');
         $collection->add('cubos');
     }
-
+    
     public function getTemplate($name) {
         switch ($name) {
             case 'edit':
