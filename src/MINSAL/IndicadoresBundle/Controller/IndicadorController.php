@@ -14,14 +14,13 @@ class IndicadorController extends Controller {
     /**
      * @Route("/profile/show", name="fos_user_profile_show")
      */
-    public function raiz() {        
+    public function raiz() {
         $this->get('session')->getFlashBag()->add(
-            'notice',
-            'change_password.flash.success'
+                'notice', 'change_password.flash.success'
         );
         return $this->redirect($this->generateUrl('_inicio'));
     }
-    
+
     /**
      * @Route("/indicador/dimensiones/{id}", name="indicador_dimensiones", options={"expose"=true})
      */
@@ -34,20 +33,20 @@ class IndicadorController extends Controller {
             $resp['nombre_indicador'] = $fichaTec->getNombre();
             $resp['id_indicador'] = $fichaTec->getId();
             $resp['unidad_medida'] = $fichaTec->getUnidadMedida();
-            if ($fichaTec->getCamposIndicador() != ''){
+            if ($fichaTec->getCamposIndicador() != '') {
                 $campos = explode(',', str_replace(array("'", ' '), array('', ''), $fichaTec->getCamposIndicador()));
-            }else{
+            } else {
                 $campos = array();
             }
             $dimensiones = array();
             foreach ($campos as $campo) {
                 $significado = $em->getRepository('IndicadoresBundle:SignificadoCampo')
                         ->findOneByCodigo($campo);
-                if (count($significado->getTiposGraficosArray()) > 0){
+                if (count($significado->getTiposGraficosArray()) > 0) {
                     $dimensiones[$significado->getCodigo()]['descripcion'] = ucfirst(preg_replace('/^Identificador /i', '', $significado->getDescripcion()));
                     $dimensiones[$significado->getCodigo()]['escala'] = $significado->getEscala();
                     $dimensiones[$significado->getCodigo()]['origenX'] = $significado->getOrigenX();
-                    $dimensiones[$significado->getCodigo()]['origenY'] = $significado->getOrigenY();                
+                    $dimensiones[$significado->getCodigo()]['origenY'] = $significado->getOrigenY();
                     $dimensiones[$significado->getCodigo()]['graficos'] = $significado->getTiposGraficosArray();
                 }
             }
@@ -67,12 +66,11 @@ class IndicadorController extends Controller {
             $resp['formula'] = $fichaTec->getFormula();
             $resp['dimensiones'] = $dimensiones;
             $resp['resultado'] = 'ok';
-        }
-        else{
+        } else {
             $resp['resultado'] = 'error';
         }
         $response = new Response(json_encode($resp));
-        if ($this->get('kernel')->getEnvironment() != 'dev'){
+        if ($this->get('kernel')->getEnvironment() != 'dev') {
             $response->setMaxAge($this->container->getParameter('indicador_cache_consulta'));
         }
         return $response;
@@ -173,8 +171,7 @@ class IndicadorController extends Controller {
             } catch (\Exception $e) {
                 $mapa = json_encode(array('features' => ''));
             }
-        }
-        else
+        } else
             $mapa = json_encode(array('features' => ''));
         $headers = array('Content-Type' => 'application/json');
         $response = new Response($mapa, 200, $headers);
@@ -199,7 +196,7 @@ class IndicadorController extends Controller {
     public function changeClasificacionUsoAction(ClasificacionUso $clasificacion) {
         $request = $this->getRequest();
         $em = $this->getDoctrine()->getManager();
-        $usuario = $this->getUser();        
+        $usuario = $this->getUser();
         $usuario->setClasificacionUso($clasificacion);
         $em->persist($usuario);
         $em->flush();
@@ -226,6 +223,7 @@ class IndicadorController extends Controller {
         $em->flush();
         return new Response();
     }
+
     /**
      * @Route("/indicador/datos/{id}/{dimension}", name="indicador_ver_sql", options={"expose"=true})
      */
@@ -238,7 +236,7 @@ class IndicadorController extends Controller {
      */
     public function getFichaAction(FichaTecnica $fichaTec) {
 
-        $admin = $this->get('sonata.admin.ficha');        
+        $admin = $this->get('sonata.admin.ficha');
 
         $admin->setSubject($fichaTec);
 
@@ -250,7 +248,7 @@ class IndicadorController extends Controller {
             'base_template' => 'IndicadoresBundle::pdf_layout.html.twig'
         ));
         return new Response($html->getContent(), 200);
-    }    
+    }
 
     /**
      * @Route("/sala/guardar", name="sala_guardar", options={"expose"=true})
@@ -277,23 +275,25 @@ class IndicadorController extends Controller {
             $grupoIndicadores->setNombre($sala->nombre);
 
             foreach ($sala->datos_indicadores as $grafico) {
-                $indG = new \MINSAL\IndicadoresBundle\Entity\GrupoIndicadoresIndicador();
-                $ind = $em->find('IndicadoresBundle:FichaTecnica', $grafico->id_indicador);
+                if (!empty($grafico->id_indicador)) {
+                    $indG = new \MINSAL\IndicadoresBundle\Entity\GrupoIndicadoresIndicador();
+                    $ind = $em->find('IndicadoresBundle:FichaTecnica', $grafico->id_indicador);
 
-                $indG->setDimension($grafico->dimension);
-                $indG->setFiltro($grafico->filtros);
-                $indG->setFiltroPosicionDesde($grafico->filtro_desde);
-                $indG->setFiltroPosicionHasta($grafico->filtro_hasta);
-                $indG->setFiltroElementos($grafico->filtro_elementos);
-                $indG->setIndicador($ind);
-                $indG->setPosicion($grafico->posicion);
-                if (property_exists($grafico, 'orden')){
-                    $indG->setOrden($grafico->orden);
+                    $indG->setDimension($grafico->dimension);
+                    $indG->setFiltro($grafico->filtros);
+                    $indG->setFiltroPosicionDesde($grafico->filtro_desde);
+                    $indG->setFiltroPosicionHasta($grafico->filtro_hasta);
+                    $indG->setFiltroElementos($grafico->filtro_elementos);
+                    $indG->setIndicador($ind);
+                    $indG->setPosicion($grafico->posicion);
+                    if (property_exists($grafico, 'orden')) {
+                        $indG->setOrden($grafico->orden);
+                    }
+                    $indG->setTipoGrafico($grafico->tipo_grafico);
+                    $indG->setGrupo($grupoIndicadores);
+
+                    $grupoIndicadores->addIndicadore($indG);
                 }
-                $indG->setTipoGrafico($grafico->tipo_grafico);
-                $indG->setGrupo($grupoIndicadores);
-
-                $grupoIndicadores->addIndicadore($indG);
             }
 
             $em->persist($grupoIndicadores);
@@ -318,7 +318,7 @@ class IndicadorController extends Controller {
             throw $e;
         }
 
-        
+
         $resp['id_sala'] = $grupoIndicadores->getId();
         return new Response(json_encode($resp));
     }

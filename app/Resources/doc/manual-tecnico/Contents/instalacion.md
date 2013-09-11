@@ -151,11 +151,10 @@ create extension hstore;
 - (no con el usuario postrgres, a menos que este mismo sea el dueño de la base de datos)
 ~~~
 CREATE TABLE fila_origen_dato(
-    id serial,
     id_origen_dato integer,
     datos hstore,
+    ultima_lectura timestamp,
 
-    PRIMARY KEY (id),
     FOREIGN KEY (id_origen_dato) REFERENCES origen_datos(id) on update CASCADE on delete CASCADE
 );
 ~~~
@@ -209,8 +208,15 @@ Pueden aparecer mensajes de aviso como "/usr/bin/nohup: redirecting stderr to st
 - Cargar la interfaz web: entrar a la dirección http://server_name:55672/mgmt/
 El usuario por defecto es **guest** y la clave **guest**
 
-## 4. Instalación de Servidor de Aanálisis Pentaho
+- Además es necesario configurar el CRON para que ejecute periodicamente la carga de datos, con esto se llamará al proceso origen-dato:cargar que verificará para cada indicador si le corresponde realizar la carga de datos según se haya configurado: diario, mensual, bimensual, trimestral o anual. Un ejemplo podría ser crear el archivo: /etc/cron.d/carga-php-siig
 
+~~~
+#Ejecutar cada dia a las 00:00
+0 0     * * *   www-data        test -x /usr/bin/php && /usr/bin/php /var/www/siig/app/console origen-dato:cargar
+~~~
+
+
+## 4. Instalación de Servidor de Aanálisis Pentaho
  
 Pentaho es un servidor de  análisis (Business Inteligence) modular que ofrece herramientas para la carga de datos(ETL), análisis dimensional (OLAP), minería de datos y  reportes entre otras. 
 A continuación: 

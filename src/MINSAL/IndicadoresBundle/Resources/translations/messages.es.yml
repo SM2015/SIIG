@@ -23,8 +23,8 @@ categoria_indicador: 'Categoría de Indicadores'
 categoria: 'Categoría'
 alertas: 'Alertas'
 indicador: 'Indicador'
-limite_inferior: 'Limite inferior'
-limite_superior: 'Limite superior'
+limite_inferior: 'Valor'
+limite_superior: 'Límite superior'
 color: 'Color'
 indicador_alertas: 'Alertas de indicador'
 comentario: 'Comentario'
@@ -313,3 +313,4 @@ _exportar_: 'Exportar'
 _tipos_graficos_: Tipos de gráficos permitidos
 change_password.flash.success: 'Contraseña ha sido cambiada con éxito'  
 _cambiar_clave_: Cambiar clave de acceso
+_ver_ficha_: Ver Ficha Técnica

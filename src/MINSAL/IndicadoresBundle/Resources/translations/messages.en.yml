@@ -22,7 +22,7 @@ categoria_indicador: "Indicator's Category"
 categoria: 'Category'
 alertas: 'Alerts'
 indicador: 'Indicator'
-limite_inferior: 'Lower limit'
+limite_inferior: 'Value'
 limite_superior: 'Upper Limit'
 color: 'Color'
 indicador_alertas: "Indicator's alerts"
@@ -311,3 +311,4 @@ _exportar_: 'Export'
 _tipos_graficos_: Graph types allowed
 change_password.flash.success: 'Password has been successfully changed'
 _cambiar_clave_: Change password
+_ver_ficha_: See technical profile

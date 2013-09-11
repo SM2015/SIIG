@@ -20,17 +20,35 @@
     select, input{
         height:  40px;
     }
-
-    .btn, .dropdown-toggle{
-        height: 40px;
-    }
-    .sonata-bc div.connection{
-        margin: -190px 0 0 -250px !important;
-    }
     
     #collapseOne.in.collapse{
         overflow: visible;
-    }    
+    }
+    .sonata-bc div.connection input.big{
+        width: 90%;
+    }
+    .sonata-bc div.connection .control-group{
+        margin-bottom: 0px;
+    }
+    .sonata-bc div.connection div.form-actions{
+        margin-top: 10px !important;
+        padding: 5px 5px 5px !important;
+    }
+    
+    .sonata-bc div.connection input.big{
+        font-size: 16px !important;
+        height: 10% !important;
+    }
+    
+    .sonata-bc div.connection {
+        border: 1px solid #DDDDDD;
+        border-radius: 6px 6px 6px 6px;
+        box-shadow: 2px 2px 10px #CCCCCC;
+        margin-left: -50% !important;
+        position: relative;
+        margin-top: -5% !important;
+        width: 80%;
+    }
 
 }    
 @media (min-width: 979px) {
@@ -55,23 +73,18 @@
         overflow: visible;
     }
     .sonata-bc div.connection {
-    border: 1px solid #DDDDDD;
-    border-radius: 6px 6px 6px 6px;
-    box-shadow: 2px 2px 10px #CCCCCC;
-    left: 50%;
-    margin: 10px 0 0 -250px;
-    position: relative;
-    top: 35%;
-    width: 460px;
-}
+        border: 1px solid #DDDDDD;
+        border-radius: 6px 6px 6px 6px;
+        box-shadow: 2px 2px 10px #CCCCCC;
+        left: 50%;
+        margin: 10px 0 0 -250px;
+        position: relative;
+        top: 35%;
+        width: 460px;
+    }
 }
 @media only screen and (max-width: 979px) {
     .nav-collapse.in.collapse{
         height: auto !important;
     } 
-}
-@media only screen and (max-width: 767px) {
-    .sonata-bc div.connection{
-        margin: -330px 0 0 -250px !important;
-    }
 }

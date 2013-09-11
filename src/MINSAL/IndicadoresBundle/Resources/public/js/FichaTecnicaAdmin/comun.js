@@ -242,18 +242,18 @@ function controles_filtros(zona) {
     });
     lista_datos_dimension += '</DIV>';
 
-    $('#' + zona + ' .lista_datos_dimension').html(lista_datos_dimension);
-
+    $('#' + zona + ' .lista_datos_dimension').html(lista_datos_dimension);       
+    
     // Corrige un error de bootstrap para permitir usar controles dentro de un dropdown
     $('.dropdown-menu SELECT, .dropdown-menu LABEL, .dropdown-menu INPUT').click(function(event) {
         $(this).focus();
         event.stopPropagation();
-    });
+    });    
     //Corrige un error de bootstrap para que funcione un menu dropdown en tabletas
     $('body').on('touchstart.dropdown', '.dropdown-menu', function(e) {
         e.stopPropagation();
-    });
-
+    }); 
+    
     $('#' + zona + ' .aplicar_filtro').click(function() {
         aplicarFiltro(zona);
     });
@@ -488,7 +488,9 @@ function dibujarControles(zona, datos) {
             "bJQueryUI": true,
             "sDom": '<"H"Tfr>t<"F"ip>',
             "oTableTools": {
-                "sSwfPath": "/bundles/indicadores/js/DataTables/media/swf/copy_csv_xls_pdf.swf",
+                //"sSwfPath": "/bundles/indicadores/js/DataTables/media/swf/copy_csv_xls_pdf.swf",
+                "sSwfPath": "http://cdnjs.cloudflare.com/ajax/libs/zeroclipboard/1.1.7/ZeroClipboard.swf",
+                //
                 "aButtons": [
                     {
                         "sExtends": "collection",
