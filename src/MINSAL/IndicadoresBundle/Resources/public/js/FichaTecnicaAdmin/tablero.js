@@ -98,7 +98,7 @@ $(document).ready(function() {
         var i = 0;
         var posicion = 1;
         $('.area_grafico').each(function() {
-            if ($(this).find('.titulo_indicador').html() !== '') {
+            if ($(this).children('.titulo_indicador').html() !== '') {
                 var datos = new Object();
                 var elementos = [];
                 $('#'+ $(this).attr('id') +' .capa_dimension_valores input:checked').each(function() {
