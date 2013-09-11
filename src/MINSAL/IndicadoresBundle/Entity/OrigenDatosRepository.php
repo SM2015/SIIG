@@ -120,9 +120,11 @@ class OrigenDatosRepository extends EntityRepository {
                     $todosNULL = true;
                     foreach ($f as $indice => $campo) {
                         $fix_datos[$k][$nombre_campos[$indice]] = trim($campo);
-                        if(!empty($fix_datos[$k][$nombre_campos[$indice]]))
+                        if (!empty($fix_datos[$k][$nombre_campos[$indice]]))
                             $todosNULL = false;
                     }
+                    if ($todosNULL)
+                        unset($fix_datos[$k]);
                 }
             } catch (\Exception $e) {
                 return false;
@@ -199,7 +201,7 @@ class OrigenDatosRepository extends EntityRepository {
         } else {
             $datos = $em->getRepository('IndicadoresBundle:OrigenDatos')->getDatos(null, null, $origenDato->getAbsolutePath());
         }
-        
+
         return $this->crearTablaCatalogo($origenDato, $datos);
     }
 
