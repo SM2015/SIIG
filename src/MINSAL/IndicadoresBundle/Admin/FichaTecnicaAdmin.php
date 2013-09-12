@@ -69,13 +69,12 @@ class FichaTecnicaAdmin extends Admin {
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
-            ->add('nombre')
-            ->add('tema','string')
-            ->add('concepto', 'string')
-            ->add('unidadMedida')
-            ->add('esAcumulado')
-            ->add('variables')
-            ->add('formula')
+            ->add('tema', null, array('label' => $this->getTranslator()->trans('_interpretacion_')))
+            ->add('concepto', null, array('label' => $this->getTranslator()->trans('concepto')))
+            ->add('unidadMedida', null, array('label' => $this->getTranslator()->trans('unidad_medida')))
+            ->add('esAcumulado', null, array('label' => $this->getTranslator()->trans('es_acumulado')))
+            ->add('variables', null, array('label' => $this->getTranslator()->trans('variables'), 'expanded' => true))
+            ->add('formula', null, array('label' => $this->getTranslator()->trans('formula')))
             ->add('clasificacionTecnica', null, array('label' => $this->getTranslator()->trans('clasificacion_tecnica'),
                 'required' => true, 'expanded' => true,
                 'class' => 'IndicadoresBundle:ClasificacionTecnica',
@@ -83,10 +82,10 @@ class FichaTecnicaAdmin extends Admin {
                         return $repository->createQueryBuilder('ct')
                                 ->orderBy('ct.clasificacionUso');
                     }))
-            ->add('clasificacionPrivacidad')
-            ->add('periodo')
-            ->add('confiabilidad')
-            ->add('observacion','string')
+            ->add('clasificacionPrivacidad', null, array('label' => $this->getTranslator()->trans('_nivel_de_usuario_'), 'expanded' => true))
+            ->add('periodo', null, array('label' => $this->getTranslator()->trans('periodicidad')))
+            ->add('confiabilidad', null, array('label' => $this->getTranslator()->trans('confiabilidad')))
+            ->add('observacion','string', array('label' => $this->getTranslator()->trans('_observacion_')))
             ->add('alertas', 'sonata_type_collection', array(
                 'label' => $this->getTranslator()->trans('alertas'),
                 'required' => true), array(
@@ -94,7 +93,8 @@ class FichaTecnicaAdmin extends Admin {
                 'inline' => 'table',
                 'sortable' => 'position'
             ))
-            ->add('camposIndicador', 'string')
+            ->add('camposIndicador', null, array('label' => $this->getTranslator()->trans('campos_indicador')))
+            ->add('ultimaLectura', null, array('label' => $this->getTranslator()->trans('_ultima_actualizacion_')))
         ;
     }
 
@@ -318,6 +318,9 @@ class FichaTecnicaAdmin extends Admin {
         switch ($name) {
             case 'edit':
                 return 'IndicadoresBundle:CRUD:ficha_tecnica-edit.html.twig';
+                break;
+            case 'show':
+                return 'IndicadoresBundle:FichaTecnicaAdmin:show.html.twig';
                 break;
             default:
                 return parent::getTemplate($name);

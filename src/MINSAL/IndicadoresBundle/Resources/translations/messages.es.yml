@@ -314,3 +314,4 @@ _tipos_graficos_: Tipos de gráficos permitidos
 change_password.flash.success: 'Contraseña ha sido cambiada con éxito'  
 _cambiar_clave_: Cambiar clave de acceso
 _ver_ficha_: Ver Ficha Técnica
+_ultima_actualizacion_: Última actualización

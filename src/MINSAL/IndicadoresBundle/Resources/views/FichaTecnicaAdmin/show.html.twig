@@ -1,16 +1,40 @@
 {# Modificado para que agregar el botón para ir al listado #}
 
-{% extends 'IndicadoresBundle::pdf_layout.html.twig' %}
+{% extends base_template %}
 
-{% block content %}
-    <table  >
-    <tr>
-        <TD>adfaf</td>
-        <TD>adfafafdafaf</td>
-    </tr>
-    <tr>
-        <TD>adfaf</td>
-        <TD>adfafafdafaf</td>
-    </tr>
-    </table>
+{% block actions %}
+    <div class="sonata-actions btn-group">
+        {% include 'SonataAdminBundle:Button:edit_button.html.twig' %}
+        {% include 'SonataAdminBundle:Button:history_button.html.twig' %}
+        {% include 'SonataAdminBundle:Button:create_button.html.twig' %}
+        {% include 'SonataAdminBundle:Button:list_button.html.twig' %}
+    </div>
+{% endblock %}
+
+{% block side_menu %}{{ knp_menu_render(admin.sidemenu(action), {'currentClass' : 'active'}, 'list') }}{% endblock %}
+
+{% block show %}
+    <div class="sonata-ba-view">
+        {% for name, view_group in admin.showgroups %}
+            <table class="table table-bordered" >
+                {% if name %}
+                    <tr class="sonata-ba-view-title" bgcolor='#E1EFFB'>
+                        <td colspan="2" >
+                            {#{{ admin.trans(name) }}#}
+                            <H2>{{ object.nombre }}</h2>
+                        </td>
+                    </tr>
+                {% endif %}
+                {% set fila = 1 %}
+                {% for field_name in view_group.fields %}                    
+                    <tr class="sonata-ba-view-container" {% if fila % 2 != 0 %} bgcolor='#f5f5f5' {% endif%}>
+                        {% if elements[field_name] is defined %}                            
+                                {{ elements[field_name]|render_view_element(object) }}
+                            {% endif %}                        
+                    </tr>
+                    {% set fila = fila +1 %}
+                {% endfor %}
+            </table>
+        {% endfor %}
+    </div>
 {% endblock %}
