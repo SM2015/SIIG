@@ -108,13 +108,20 @@ class FichaTecnicaAdminController extends Controller {
                 'base_template' => 'IndicadoresBundle::pdf_layout.html.twig'
             ));
 
-            $salida .= $html->getContent() . '<BR /><BR /><hr size="5" style= "color: blue;"/>';
+            $salida .= $html->getContent() . '<BR /><BR />';
         }
-        //Quitar los comentarios del código html
+        //Quitar los comentarios del código html, enlaces y aplicar estilos
         $salida = preg_replace('/<!--(.|\s)*?-->/', '', $salida);
+        $salida = preg_replace('/<a(.|\s)*?>/', '', $salida);        
+        $salida = str_ireplace('</a>', '', $salida);
+        $salida = str_ireplace('TD',"TD STYLE='border: 2px double black'", $salida);
+        $salida = str_ireplace('TH',"TH STYLE='border: 2px double black'", $salida);
         return new Response($salida, 200, array(
-            'Content-Type' => 'application/rtf',
-            'Content-Disposition' => 'attachment; filename="ficha_tecnica.rtf"')
+            'Content-Type' => 'application/msword',
+            'Content-Disposition' => 'attachment; filename="ficha_tecnica.doc"',
+            'Pragma' => 'no-cache',
+            'Expires' => '0'
+            )
         );
     }
 
