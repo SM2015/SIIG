@@ -93,7 +93,7 @@ class FichaTecnicaAdminController extends Controller {
     public function reporteAction() {
 
         $id = $this->getRequest()->get('id');
-        $reporte= "http://etab.salud.gob.sv:8080/pentaho/content/reporting/reportviewer/report.html?solution=reportes&path=&name=indicador".$
+        $reporte= "http://etab.salud.gob.sv:8080/pentaho/content/reporting/reportviewer/report.html?solution=reportes&path=&name=indicador".$id.".prpt";
         return new RedirectResponse($reporte);
         
         } 
