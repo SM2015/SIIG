@@ -4,7 +4,7 @@ namespace MINSAL\IndicadoresBundle\Controller;
 
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
 use Symfony\Component\HttpFoundation\Response;
-
+use Symfony\Component\HttpFoundation\RedirectResponse;
 //use Symfony\Component\Console\Input\ArrayInput;
 
 class FichaTecnicaAdminController extends Controller {
