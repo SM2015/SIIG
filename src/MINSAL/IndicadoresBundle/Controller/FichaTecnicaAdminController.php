@@ -86,6 +86,18 @@ class FichaTecnicaAdminController extends Controller {
     public function CubosAction() {
         return $this->render('IndicadoresBundle:FichaTecnicaAdmin:cubos.html.twig', array());
     }
+    
+    /*
+    Mostrar Reporte Gerenciales generados por Pentaho
+    */
+    public function reporteAction() {
+
+        $id = $this->getRequest()->get('id');
+        $reporte= "http://etab.salud.gob.sv:8080/pentaho/content/reporting/reportviewer/report.html?solution=reportes&path=&name=indicador".$
+        return new RedirectResponse($reporte);
+        
+        } 
+
 
     public function batchActionVerFicha($idx = null) {
         $parameterBag = $this->get('request')->request;
