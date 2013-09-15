@@ -320,6 +320,9 @@ class FichaTecnicaAdmin extends Admin {
     protected function configureRoutes(RouteCollection $collection) {
         $collection->add('tablero');
         $collection->add('cubos');
+        $collection->add('reporte', 
+        $this->getRouterIdParameter().'/reporte');
+
     }
 
     public function getTemplate($name) {
