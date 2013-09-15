@@ -253,6 +253,7 @@ javascript:
   _filtrados_de_ : '(filtrados de _MAX_ registros)'
   no_mas_niveles: 'No hay más niveles para descender'
   no_graficos_asignados: 'No ha asignado los tipos de gráficos permitidos a los significados de campo'
+  recargar_origen: 'Recargar información de origen de datos'
 
 validacion:
   requerido: Este dato es requerido
@@ -315,3 +316,4 @@ change_password.flash.success: 'Contraseña ha sido cambiada con éxito'
 _cambiar_clave_: Cambiar clave de acceso
 _ver_ficha_: Ver Ficha Técnica
 _ultima_actualizacion_: Última actualización
+_no_conexion_configurada_: No existe una conexión configurada

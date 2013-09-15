@@ -156,15 +156,16 @@ class OrigenDatoController extends Controller {
      * @Route("/origen_dato/{id}/leer", name="origen_dato_leer", options={"expose"=true})
      */
     public function leerOrigenAction(OrigenDatos $origenDato) {
-        $resultado = array('estado' => 'error',
+        $resultado = array('estado' => 'ok',
             'mensaje' => '',
             'tipo_origen' => '',
             'es_catalogo' => '',
             'nombre_campos' => array(),
             'datos' => array());
-
+        $recargar = ($this->getRequest()->get('recargar')=='false') ? false : true;
+        
         $em = $this->getDoctrine()->getManager();
-
+        
         $resultado['es_catalogo'] = ($origenDato->getEsCatalogo()) ? true : false;
 
         $sql = "SELECT tp 
@@ -193,103 +194,115 @@ class OrigenDatoController extends Controller {
             $campos[$campo->getNombre()]['id'] = $campo->getId();
 
         $resultado['campos'] = $campos;
-        if ($origenDato->getSentenciaSql() != '') {
-            $resultado['tipo_origen'] = 'sql';
-            $sentenciaSQL = $origenDato->getSentenciaSql();
-            $conexiones = $origenDato->getConexiones();
+        if (count($campos_existentes) == 0 or $recargar == true) {
+            if ($origenDato->getSentenciaSql() != '') {
+                $resultado['tipo_origen'] = 'sql';
+                $sentenciaSQL = $origenDato->getSentenciaSql();
+                $conexiones = $origenDato->getConexiones();
 
-            $conn = $this->getConexionGenerica('consulta_sql', $conexiones[0]);
-            try {
-                if ($this->driver == 'pdo_dblib') {
-                    $sentenciaSQL = str_ireplace('SELECT', 'SELECT TOP 20 ', $sentenciaSQL);
-                    $query = mssql_query($sentenciaSQL, $conn);
-                    if (mssql_num_rows($query) > 0) {
-                        while ($row = mssql_fetch_assoc($query))
-                            $resultado['datos'][] = $row;
-                        $resultado['nombre_campos'] = array_keys($resultado['datos'][0]);
-                    }
+                if ($conexiones[0] == null) {
+                    $resultado['mensaje'] = $this->get('translator')->trans('sentencia_error') . ': ' . $this->get('translator')->trans('_no_conexion_configurada_');
+                    $resultado['estado'] = 'error';
                 } else {
-                    $query = $conn->query($sentenciaSQL . ' LIMIT 20');
-                    if ($query->rowCount() > 0) {
-                        $resultado['datos'] = $query->fetchAll();
-                        $resultado['nombre_campos'] = array_keys($resultado['datos'][0]);
+                    $conn = $this->getConexionGenerica('consulta_sql', $conexiones[0]);
+                    try {
+                        if ($this->driver == 'pdo_dblib') {
+                            $sentenciaSQL = str_ireplace('SELECT', 'SELECT TOP 20 ', $sentenciaSQL);
+                            $query = mssql_query($sentenciaSQL, $conn);
+                            if (mssql_num_rows($query) > 0) {
+                                while ($row = mssql_fetch_assoc($query))
+                                    $resultado['datos'][] = $row;
+                                $resultado['nombre_campos'] = array_keys($resultado['datos'][0]);
+                            }
+                        } else {
+                            $query = $conn->query($sentenciaSQL . ' LIMIT 20');
+                            if ($query->rowCount() > 0) {
+                                $resultado['datos'] = $query->fetchAll();
+                                $resultado['nombre_campos'] = array_keys($resultado['datos'][0]);
+                            }
+                        }
+
+                        $resultado['estado'] = 'ok';
+                        $resultado['mensaje'] = '<span style="color: green">' . $this->get('translator')->trans('sentencia_success');
+                    } catch (\PDOException $e) {
+                        $resultado['mensaje'] = $this->get('translator')->trans('sentencia_error') . ' 1: ' . $e->getMessage();
+                    } catch (DBAL\DBALException $e) {
+                        $resultado['mensaje'] = $this->get('translator')->trans('sentencia_error') . ' 2: ' . $e->getMessage();
+                    } catch (\Exception $e) {
+                        $resultado['mensaje'] = $this->get('translator')->trans('sentencia_error') . ' 3: ' . $e->getMessage();
                     }
                 }
+            } else {
+                $resultado['tipo_origen'] = 'archivo';
+                $reader = new Excel();
+                try {
+                    $reader->loadFile($origenDato->getAbsolutePath());
+                    $datos = $reader->getSheet()->toArray($nullValue = null, $calculateFormulas = false, $formatData = false, $returnCellRef = false);
+                    $resultado['nombre_campos'] = array_values(array_shift($datos));
 
-                $resultado['estado'] = 'ok';
-                $resultado['mensaje'] = '<span style="color: green">' . $this->get('translator')->trans('sentencia_success') . '</span>';
-            } catch (\PDOException $e) {
-                $resultado['mensaje'] = '<span style="color: red">' . $this->get('translator')->trans('sentencia_error') . ': ' . $e->getMessage() . '</span>';
-            } catch (DBAL\DBALException $e) {
-                $resultado['mensaje'] = '<span style="color: red">' . $this->get('translator')->trans('sentencia_error') . ': ' . $e->getMessage() . '</span>';
-            } catch (\Exception $e) {
-                $resultado['mensaje'] = '<span style="color: red">' . $this->get('translator')->trans('sentencia_error') . ': ' . $e->getMessage() . '</span>';
+                    // Buscar por columnas que tengan null en el título
+                    $primer_null = array_search(null, $resultado['nombre_campos']);
+
+                    if ($primer_null == false)
+                        foreach ($datos as $fila)
+                            $resultado['datos'][] = $fila;
+                    else {
+                        $resultado['nombre_campos'] = array_slice($resultado['nombre_campos'], 0, $primer_null, true);
+                        foreach ($datos as $fila)
+                            $resultado['datos'][] = array_slice($fila, 0, $primer_null, true);
+                    }
+                    $resultado['estado'] = 'ok';
+
+                    // Poner el nombre de la columna como indice del arreglo
+                    $aux = array();
+                    foreach ($resultado['datos'] as $fila)
+                        $aux[] = array_combine($resultado['nombre_campos'], $fila);
+                    $resultado['datos'] = $aux;
+                } catch (\Exception $e) {
+                    $resultado['estado'] = 'error';
+                    $resultado['mensaje'] = $e->getMessage();
+                }
             }
+            // Guardar los campos
+            if ($resultado['estado'] == 'ok') {
+                $nombres_id = array();
+                $campo = array();
+                //Por defecto poner tipo entero
+                $tipoCampo = $em->getRepository("IndicadoresBundle:TipoCampo")->findOneByCodigo('integer');
+                $util = new \MINSAL\IndicadoresBundle\Util\Util();
+                foreach ($resultado['nombre_campos'] as $k => $nombre) {
+                    // si existe no guardarlo 
+                    $nombre_campo = $util->slug($nombre);
+                    if (!array_key_exists($nombre_campo, $campos)) {
+                        $campo[$k] = new Campo();
+                        $campo[$k]->setNombre($nombre_campo);
+                        $campo[$k]->setOrigenDato($origenDato);
+                        $campo[$k]->setTipoCampo($tipoCampo);
+                        $em->persist($campo[$k]);
+                        $nombres_id[$campo[$k]->getId()] = $nombre_campo;
+                    } else
+                        $nombres_id[$campos[$nombre_campo]['id']] = $nombre_campo;
+                }
+                //Borrar algún campo que ya no se use
+                foreach ($campos_existentes as $campo) {
+                    if (!in_array($campo->getNombre(), $nombres_id))
+                        $em->remove($campo);
+                }
+                try {
+                    $em->flush();
+                } catch (\Exception $e) {
+                    $resultado = array('estado' => 'error', 'mensaje' => '<div class="alert alert-error"> ' . $this->get('translator')->trans('camio_no_realizado') . '</div>');
+                }
+                $resultado['nombre_campos'] = $nombres_id;
+            }
+
+            $campos_existentes = $em->getRepository('IndicadoresBundle:Campo')->findBy(array('origenDato' => $origenDato));
         } else {
-            $resultado['tipo_origen'] = 'archivo';
-            $reader = new Excel();
-            try {
-                $reader->loadFile($origenDato->getAbsolutePath());
-                $datos = $reader->getSheet()->toArray($nullValue = null, $calculateFormulas = false, $formatData = false, $returnCellRef = false);
-                $resultado['nombre_campos'] = array_values(array_shift($datos));
-
-                // Buscar por columnas que tengan null en el título
-                $primer_null = array_search(null, $resultado['nombre_campos']);
-
-                if ($primer_null == false)
-                    foreach ($datos as $fila)
-                        $resultado['datos'][] = $fila;
-                else {
-                    $resultado['nombre_campos'] = array_slice($resultado['nombre_campos'], 0, $primer_null, true);
-                    foreach ($datos as $fila)
-                        $resultado['datos'][] = array_slice($fila, 0, $primer_null, true);
-                }
-                $resultado['estado'] = 'ok';
-
-                // Poner el nombre de la columna como indice del arreglo
-                $aux = array();
-                foreach ($resultado['datos'] as $fila)
-                    $aux[] = array_combine($resultado['nombre_campos'], $fila);
-                $resultado['datos'] = $aux;
-            } catch (\Exception $e) {
-                $resultado['mensaje'] = '<span style="color: red">' . $e->getMessage() . '</span>';
-            }
-        }
-        // Guardar los campos
-        if ($resultado['estado'] == 'ok') {
-            $nombres_id = array();
-            $campo = array();
-            //Por defecto poner tipo entero
-            $tipoCampo = $em->getRepository("IndicadoresBundle:TipoCampo")->findOneByCodigo('integer');
-            $util = new \MINSAL\IndicadoresBundle\Util\Util();
-            foreach ($resultado['nombre_campos'] as $k => $nombre) {
-                // si existe no guardarlo 
-                $nombre_campo = $util->slug($nombre);
-                if (!array_key_exists($nombre_campo, $campos)) {
-                    $campo[$k] = new Campo();
-                    $campo[$k]->setNombre($nombre_campo);
-                    $campo[$k]->setOrigenDato($origenDato);
-                    $campo[$k]->setTipoCampo($tipoCampo);
-                    $em->persist($campo[$k]);
-                    $nombres_id[$campo[$k]->getId()] = $nombre_campo;
-                }
-                else
-                    $nombres_id[$campos[$nombre_campo]['id']] = $nombre_campo;
-            }
-            //Borrar algún campo que ya no se use
             foreach ($campos_existentes as $campo) {
-                if (!in_array($campo->getNombre(), $nombres_id))
-                    $em->remove($campo);
+                $nombre_campos[$campo->getId()] = $campo->getNombre();
             }
-            try {
-                $em->flush();
-            } catch (\Exception $e) {
-                $resultado = array('estado' => 'error', 'mensaje' => '<div class="alert alert-error"> ' . $this->get('translator')->trans('camio_no_realizado') . '</div>');
-            }
-            $resultado['nombre_campos'] = $nombres_id;
+            $resultado['nombre_campos'] = $nombre_campos;
         }
-
-        $campos_existentes = $em->getRepository('IndicadoresBundle:Campo')->findBy(array('origenDato' => $origenDato));
         $campos = array();
         foreach ($campos_existentes as $campo) {
             $campos[$campo->getNombre()]['id'] = $campo->getId();
@@ -325,12 +338,15 @@ class OrigenDatoController extends Controller {
         $valido = true;
         if ($tipo_cambio == 'tipo_campo') {
             $tipo_campo = $em->find("IndicadoresBundle:TipoCampo", $valor);
-            $datos_prueba = explode(', ', $req->get('datos_prueba'));
-            $util = new \MINSAL\IndicadoresBundle\Util\Util();
-            foreach ($datos_prueba as $dato) {
-                $valido = $util->validar($dato, $tipo_campo->getCodigo());
-                if (!$valido)
-                    break;
+            if (strlen($req->get('datos_prueba'))){
+                $datos_prueba = explode(', ', $req->get('datos_prueba'));
+            
+                $util = new \MINSAL\IndicadoresBundle\Util\Util();
+                foreach ($datos_prueba as $dato) {
+                    $valido = $util->validar($dato, $tipo_campo->getCodigo());
+                    if (!$valido)
+                        break;
+                }
             }
             $mensaje = $campo->getNombre() . ': ' . $this->get('translator')->trans('tipo_campo_cambiado_a') . ' ' . $tipo_campo->getDescripcion();
             $campo->setTipoCampo($tipo_campo);
@@ -345,10 +361,11 @@ class OrigenDatoController extends Controller {
         }
 
 
-        if ($valido)
+        if ($valido) {
             $resultado['mensaje'] = $mensaje;
-        else
+        } else {
             $resultado = array('estado' => 'error', 'mensaje' => $this->get('translator')->trans('_tipo_no_corresponde_con_datos_'));
+        }
         try {
             $em->flush();
         } catch (\Exception $e) {
@@ -364,7 +381,7 @@ class OrigenDatoController extends Controller {
         $resp = '<h6>' . $this->get('translator')->trans('_campos_utilizables_en_campos_calculados_') . '</h6>
                 <UL class="campos_disponibles">';
         if ($origen->getEsFusionado() or $origen->getEsPivote()) {
-            $campos = explode(',', str_replace(array(' ',"'"), '', $origen->getCamposFusionados()));
+            $campos = explode(',', str_replace(array(' ', "'"), '', $origen->getCamposFusionados()));
             foreach ($campos as $campo)
                 $resp .= '<LI><A href="javascript:funcion()">{' . $campo . '}</A></LI>';
         } else {
