@@ -426,7 +426,8 @@ Los reportes pueden ser creados y editados de forma local, y una vez terminados 
 Una vez dentro de la carpeta 'reportes' deberá asignar un nombre de archivo (Ejem: indicador15.prpt), un titulo e ingresar la clave de publicación que se fijo en el primer paso. 
 
 ~~~
-NOTA: El SIIG  esta configurado para leer reportes tales como: reportes/indicadorX.prpt Por esto, si el reporte es publicado en una carpeta diferente o si el nombre asignado al archivo es diferente, no podrá ser leido por el SIIG. 
+NOTA: El SIIG  esta configurado para leer reportes tales como: reportes/indicadorX.prpt 
+Por esto, si el reporte es publicado en una carpeta diferente o si el nombre asignado al archivo es diferente, no podrá ser leido por el SIIG. 
 ~~~
 
 ## 5. Instalación de librería wkhtmltopdf
