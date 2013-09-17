@@ -427,7 +427,8 @@ Una vez dentro de la carpeta 'reportes' deberá asignar un nombre de archivo (Ej
 
 ~~~
 NOTA: El SIIG  esta configurado para leer reportes tales como: reportes/indicadorX.prpt 
-Por esto, si el reporte es publicado en una carpeta diferente o si el nombre asignado al archivo es diferente, no podrá ser leido por el SIIG. 
+Por esto, si el reporte es publicado en una carpeta diferente o si el nombre 
+asignado al archivo es diferente, no podrá ser leido por el SIIG. 
 ~~~
 
 ## 5. Instalación de librería wkhtmltopdf
