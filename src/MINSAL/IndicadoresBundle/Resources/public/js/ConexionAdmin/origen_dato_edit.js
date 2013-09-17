@@ -58,9 +58,9 @@ $(document).ready(function() {
     $('input[name$="btn_create_and_list"]').remove();
 
     function cargarDatos(recargar_origen) {
-        $('#configurar').append('<table id="datos"></table>');
+        $('#datos').html('');
         $('#datos').addClass("table table-condensed table-hover");
-        $('#datos').before("<div id='mensajito_cambio'></div>");
+        $('#datos').before("<div id='mensajito_cambio'></div>");         
         $.getJSON(Routing.generate('origen_dato_leer', {id: $('#configurar').attr('data')}), {recargar: recargar_origen},
         function(resp) {
             //Construir los options de tipo_datoe
@@ -100,7 +100,7 @@ $(document).ready(function() {
                         "<TH>" + trans.diccionario_transformacion + "</TH>" +
                         "<TH>" + trans.datos_muestra + "</TH>" +
                         "</TR></THEAD>" +
-                        "<TBODY id='datos_body'></TBODY>");
+                        "<TBODY id='datos_body'></TBODY>");                
                 $.each(resp.nombre_campos, function(id, valor) {
                     fila = "<TR>" +
                             "<TD>" + valor + "</TD>" +
@@ -183,7 +183,7 @@ $(document).ready(function() {
     }
     //Si existe la capa configurar, cargar los datos    
     if ($('#configurar').length) {
-        $('.form-actions').after("<INPUT TYPE='checkbox' id='recargar_origen' />" + trans.recargar_origen);
+        $('.form-actions').after("<INPUT TYPE='checkbox' id='recargar_origen' /><LABEL FOR='recargar_origen'>" + trans.recargar_origen+"</label>");
         $('#recargar_origen').change(function() {
             if ($(this).is(':checked')) {
                 cargarDatos(true);
