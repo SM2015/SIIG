@@ -402,7 +402,7 @@ Todos los indicadores en el listado tienen el botón 'Mostrar Reporte', sin emba
 
 El proceso para crear y publicar reportes incluye:
 
-- Fijar clave para la publicación de contenidos al editar el archivo:
+1. Fijar clave para la publicación de contenidos al editar el archivo:
 
 ~~~ 
 pentaho-solutions/system/publisher_config.xml 
@@ -412,7 +412,7 @@ para modificar esta linea
 <publisher-password>NUEVA_CLAVE</publisher-password>
 ~~~
 
-- Crear Reporte para el Indicador deseado usando la aplicación de Reportes de Pentaho. Esta aplicación debe ser instalada en la terminal del administrador del sistema y puede ser descargada en:
+2. Crear Reporte para el Indicador deseado usando la aplicación de Reportes de Pentaho. Esta aplicación debe ser instalada en la terminal del administrador del sistema y puede ser descargada en:
 http://reporting.pentaho.com/report_designer.php
 
 Una guía completa sobre el diseño de reportes usando esta aplicación esta disponible en:
@@ -421,11 +421,13 @@ http://wiki.pentaho.com/display/Reporting/01.+Creating+Your+First+Report
 
 Los reportes pueden ser creados y editados de forma local, y una vez terminados pueden ser publicados en el servidor de Pentaho. Al publicar un reporte, este inmediatamente esta disponible para el sistema SIIG. Si es necesario modificar un reporte existente, la modificación debe hacerse en forma local y luego publicar la nueva version del reporte . 
 
-- Publicar reporte. Al seleccionar el la opción publicar, aparece un ventana que nos pide elegir una carpeta en la cual se publicara el reporte. Para que pueda ser encontrada por el SIIG, asegurese de guardar todos sus reportes en  una carpeta llamada 'reportes'.  Si esta carpeta no existe puede crearla al momento de guardar su primer reporte usando el botón 'Nueva Carpeta'.  
+3. Publicar reporte. Al seleccionar el la opción publicar, aparece un ventana que nos pide elegir una carpeta en la cual se publicara el reporte. Para que pueda ser encontrada por el SIIG, asegurese de guardar todos sus reportes en  una carpeta llamada 'reportes'.  Si esta carpeta no existe puede crearla al momento de guardar su primer reporte usando el botón 'Nueva Carpeta'.  
 
 Una vez dentro de la carpeta 'reportes' deberá asignar un nombre de archivo (Ejem: indicador15.prpt), un titulo e ingresar la clave de publicación que se fijo en el primer paso. 
 
+~~~
 NOTA: El SIIG  esta configurado para leer reportes tales como: reportes/indicadorX.prpt Por esto, si el reporte es publicado en una carpeta diferente o si el nombre asignado al archivo es diferente, no podrá ser leido por el SIIG. 
+~~~
 
 ## 5. Instalación de librería wkhtmltopdf
 [wkhtmltopdf](http://code.google.com/p/wkhtmltopdf/) Es una utilidad de línea de comando para convertir html a pdf
