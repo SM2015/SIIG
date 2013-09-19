@@ -12,8 +12,8 @@ use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 
-class FichaTecnicaAdmin extends Admin {
-
+class FichaTecnicaAdmin extends Admin
+{
     private $repository;
     protected $datagridValues = array(
         '_page' => 1, // Display the first page (default = 1)
@@ -21,7 +21,8 @@ class FichaTecnicaAdmin extends Admin {
         '_sort_by' => 'nombre' // name of the ordered field (default = the model id field, if any)
     );
 
-    protected function configureFormFields(FormMapper $formMapper) {
+    protected function configureFormFields(FormMapper $formMapper)
+    {
         $formMapper
                 ->with($this->getTranslator()->trans('_datos_generales_'))
                 ->add('nombre', null, array('label' => $this->getTranslator()->trans('nombre_indicador')))
@@ -68,7 +69,8 @@ class FichaTecnicaAdmin extends Admin {
         }
     }
 
-    protected function configureShowFields(ShowMapper $showMapper) {
+    protected function configureShowFields(ShowMapper $showMapper)
+    {
         $showMapper
                 ->add('tema', null, array('label' => $this->getTranslator()->trans('_interpretacion_')))
                 ->add('concepto', null, array('label' => $this->getTranslator()->trans('concepto')))
@@ -99,7 +101,8 @@ class FichaTecnicaAdmin extends Admin {
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper) {
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    {
         $datagridMapper
                 ->add('nombre', null, array('label' => $this->getTranslator()->trans('nombre')))
                 ->add('clasificacionTecnica', null, array('label' => $this->getTranslator()->trans('clasificacion_tecnica')))
@@ -107,7 +110,8 @@ class FichaTecnicaAdmin extends Admin {
         ;
     }
 
-    protected function configureListFields(ListMapper $listMapper) {
+    protected function configureListFields(ListMapper $listMapper)
+    {
         $listMapper
                 ->addIdentifier('nombre', null, array('label' => $this->getTranslator()->trans('nombre_indicador')))
                 ->add('tema', null, array('label' => $this->getTranslator()->trans('_interpretacion_')))
@@ -117,7 +121,8 @@ class FichaTecnicaAdmin extends Admin {
         ;
     }
 
-    public function getBatchActions() {
+    public function getBatchActions()
+    {
         $actions = array();
 
         $actions['ver_ficha'] = array(
@@ -128,8 +133,8 @@ class FichaTecnicaAdmin extends Admin {
         return $actions;
     }
 
-    public function validate(ErrorElement $errorElement, $object) {
-
+    public function validate(ErrorElement $errorElement, $object)
+    {
         //Verificar que todos los campos esten configurados
         foreach ($object->getVariables() as $variable) {
             $campos_no_configurados = $this->getModelManager()
@@ -174,7 +179,7 @@ class FichaTecnicaAdmin extends Admin {
             }
 
             // ******** Verificar si matematicamente la fórmula es correcta
-            // 1) Sustituir las variables por valores aleatorios entre 1 y 100      
+            // 1) Sustituir las variables por valores aleatorios entre 1 y 100
             $formula_check = $formula;
             $formula_valida = true;
             $result = '';
@@ -207,25 +212,29 @@ class FichaTecnicaAdmin extends Admin {
         }
     }
 
-    public function postPersist($fichaTecnica) {
+    public function postPersist($fichaTecnica)
+    {
         $this->crearCamposIndicador($fichaTecnica);
         //$this->repository->crearTablaIndicador();
     }
 
-    public function postUpdate($fichaTecnica) {
+    public function postUpdate($fichaTecnica)
+    {
         $this->crearCamposIndicador($fichaTecnica);
         //$this->repository->crearTablaIndicador($fichaTecnica);
     }
 
-    public function prePersist($fichaTecnica) {
+    public function prePersist($fichaTecnica)
+    {
         $this->crearCamposIndicador($fichaTecnica);
         $this->setAlertas($fichaTecnica);
     }
 
-    public function setAlertas($fichaTecnica) {
+    public function setAlertas($fichaTecnica)
+    {
         $alertas = $fichaTecnica->getAlertas();
         $fichaTecnica->removeAlertas();
-        if (count($alertas) > 0){
+        if (count($alertas) > 0) {
             foreach ($alertas as $alerta) {
                 $alerta->setIndicador($fichaTecnica);
                 $fichaTecnica->addAlerta($alerta);
@@ -233,19 +242,21 @@ class FichaTecnicaAdmin extends Admin {
         }
     }
 
-    public function preUpdate($fichaTecnica) {
+    public function preUpdate($fichaTecnica)
+    {
         $this->crearCamposIndicador($fichaTecnica);
         $this->setAlertas($fichaTecnica);
     }
 
-    public function crearCamposIndicador(FichaTecnica $fichaTecnica) {
+    public function crearCamposIndicador(FichaTecnica $fichaTecnica)
+    {
         $em = $this->getConfigurationPool()->getContainer()->get('doctrine')->getManager();
         //Recuperar las variables
         $variables = $fichaTecnica->getVariables();
         $origen_campos = array();
         $origenDato = array();
         foreach ($variables as $k => $variable) {
-            //Obtener la información de los campos de cada origen                        
+            //Obtener la información de los campos de cada origen
             $origenDato[$k] = $variable->getOrigenDatos();
             if ($origenDato[$k]->getEsFusionado()) {
                 $significados = explode(',', $origenDato[$k]->getCamposFusionados());
@@ -265,7 +276,7 @@ class FichaTecnicaAdmin extends Admin {
             } elseif ($origenDato[$k]->getEsPivote()) {
                 foreach ($origenDato[$k]->getFusiones() as $or) {
                     foreach ($or->getAllFields() as $campo) {
-                        //La llave para considerar campo comun será el mismo tipo y significado                
+                        //La llave para considerar campo comun será el mismo tipo y significado
                         $llave = $campo->getSignificado()->getCodigo() . '-' . $campo->getTipoCampo()->getCodigo();
                         //$llave = $campo->getSignificado()->getId();
                         $origen_campos[$origenDato[$k]->getId()][$llave]['significado'] = $campo->getSignificado()->getCodigo();
@@ -273,7 +284,7 @@ class FichaTecnicaAdmin extends Admin {
                 }
             } else {
                 foreach ($origenDato[$k]->getAllFields() as $campo) {
-                    //La llave para considerar campo comun será el mismo tipo y significado                
+                    //La llave para considerar campo comun será el mismo tipo y significado
                     $llave = $campo->getSignificado()->getCodigo() . '-' . $campo->getTipoCampo()->getCodigo();
                     //$llave = $campo->getSignificado()->getId();
                     $origen_campos[$origenDato[$k]->getId()][$llave]['significado'] = $campo->getSignificado()->getCodigo();
@@ -288,11 +299,11 @@ class FichaTecnicaAdmin extends Admin {
             }
         }
         $aux = array();
-        foreach ($campos_comunes as $campo){
+        foreach ($campos_comunes as $campo) {
             $aux[$campo['significado']] = $campo['significado'];
         }
 
-        if (isset($aux['calculo'])){
+        if (isset($aux['calculo'])) {
             unset($aux['calculo']);
         }
 
@@ -309,16 +320,19 @@ class FichaTecnicaAdmin extends Admin {
         $fichaTecnica->setCamposIndicador($campos_comunes);
     }
 
-    public function setRepository($repository) {
+    public function setRepository($repository)
+    {
         $this->repository = $repository;
     }
 
-    protected function configureRoutes(RouteCollection $collection) {
+    protected function configureRoutes(RouteCollection $collection)
+    {
         $collection->add('tablero');
         $collection->add('cubos');
     }
 
-    public function getTemplate($name) {
+    public function getTemplate($name)
+    {
         switch ($name) {
             case 'edit':
                 return 'IndicadoresBundle:CRUD:ficha_tecnica-edit.html.twig';
@@ -335,7 +349,8 @@ class FichaTecnicaAdmin extends Admin {
     /**
      * @return \Sonata\AdminBundle\Datagrid\ProxyQueryInterface
      */
-    public function createQuery($context = 'list') {
+    public function createQuery($context = 'list')
+    {
         $query = parent::createQuery($context);
 
         $usuario = $this->getConfigurationPool()
@@ -343,18 +358,18 @@ class FichaTecnicaAdmin extends Admin {
                 ->get('security.context')
                 ->getToken()
                 ->getUser();
-        if ($usuario->hasRole('ROLE_SUPER_ADMIN')){
+        if ($usuario->hasRole('ROLE_SUPER_ADMIN')) {
             return new ProxyQuery($query->where('1=1'));
-        }
-        else{
+        } else {
             $ind = $usuario->getIndicadores();
             $indicadores = array();
-            foreach($ind as $f){
+            foreach ($ind as $f) {
                 $indicadores[] = $f->getId();
             }
+
             return new ProxyQuery(
                     $query->where($query->getRootAlias() . '.id IN ('.  implode(", ", $indicadores).')')
             );
-        }                                        
+        }
     }
 }

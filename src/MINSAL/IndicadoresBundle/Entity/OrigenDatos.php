@@ -12,8 +12,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity(repositoryClass="MINSAL\IndicadoresBundle\Entity\OrigenDatosRepository")
  * @UniqueEntity(fields="sentenciaSql", message="La sentencia SQL ya fue utilizada")
  */
-class OrigenDatos {
-
+class OrigenDatos
+{
     /**
      * @var integer $id
      *
@@ -114,32 +114,38 @@ class OrigenDatos {
      * */
     private $variables;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->fusiones = new \Doctrine\Common\Collections\ArrayCollection();
         $this->conexiones = new \Doctrine\Common\Collections\ArrayCollection();
         $this->esCatalogo = false;
     }
 
-    public function getAbsolutePath() {
+    public function getAbsolutePath()
+    {
         return null === $this->archivoNombre ? null : $this->getUploadRootDir() . '/' . $this->archivoNombre;
     }
 
-    public function getWebPath() {
+    public function getWebPath()
+    {
         return null === $this->archivoNombre ? null : $this->getUploadDir() . '/' . $this->archivoNombre;
     }
 
-    protected function getUploadRootDir() {
+    protected function getUploadRootDir()
+    {
         // the absolute directory path where uploaded documents should be saved
         return __DIR__ . '/../../../../web/' . $this->getUploadDir();
         //return $basepath . $this->getUploadDir();
     }
 
-    protected function getUploadDir() {
+    protected function getUploadDir()
+    {
         // get rid of the __DIR__ so it doesn't screw when displaying uploaded doc/image in the view.
         return 'uploads/origen_datos';
     }
 
-    public function upload($basepath) {
+    public function upload($basepath)
+    {
         // the file property can be empty if the field is not required
         if (null === $this->file) {
             return;
@@ -164,19 +170,21 @@ class OrigenDatos {
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
     /**
      * Set nombre
      *
-     * @param string $nombre
+     * @param  string     $nombre
      * @return TablaDatos
      */
-    public function setNombre($nombre) {
+    public function setNombre($nombre)
+    {
         $this->nombre = $nombre;
 
         return $this;
@@ -185,19 +193,21 @@ class OrigenDatos {
     /**
      * Get nombre
      *
-     * @return string 
+     * @return string
      */
-    public function getNombre() {
+    public function getNombre()
+    {
         return $this->nombre;
     }
 
     /**
      * Set descripcion
      *
-     * @param string $descripcion
+     * @param  string     $descripcion
      * @return TablaDatos
      */
-    public function setDescripcion($descripcion) {
+    public function setDescripcion($descripcion)
+    {
         $this->descripcion = $descripcion;
 
         return $this;
@@ -206,19 +216,21 @@ class OrigenDatos {
     /**
      * Get descripcion
      *
-     * @return string 
+     * @return string
      */
-    public function getDescripcion() {
+    public function getDescripcion()
+    {
         return $this->descripcion;
     }
 
     /**
      * Set archivoNombre
      *
-     * @param string $archivoNombre
+     * @param  string      $archivoNombre
      * @return OrigenDatos
      */
-    public function setArchivoNombre($archivoNombre) {
+    public function setArchivoNombre($archivoNombre)
+    {
         $this->archivoNombre = $archivoNombre;
 
         return $this;
@@ -227,19 +239,21 @@ class OrigenDatos {
     /**
      * Get archivoNombre
      *
-     * @return string 
+     * @return string
      */
-    public function getArchivoNombre() {
+    public function getArchivoNombre()
+    {
         return $this->archivoNombre;
     }
 
     /**
      * Set sentenciaSql
      *
-     * @param string $sentenciaSql
+     * @param  string      $sentenciaSql
      * @return OrigenDatos
      */
-    public function setSentenciaSql($sentenciaSql) {
+    public function setSentenciaSql($sentenciaSql)
+    {
         $this->sentenciaSql = $sentenciaSql;
 
         return $this;
@@ -248,23 +262,26 @@ class OrigenDatos {
     /**
      * Get sentenciaSql
      *
-     * @return string 
+     * @return string
      */
-    public function getSentenciaSql() {
+    public function getSentenciaSql()
+    {
         return $this->sentenciaSql;
     }
 
-    public function __toString() {
+    public function __toString()
+    {
         return $this->nombre ? : '';
     }
 
     /**
      * Set esFusionado
      *
-     * @param boolean $esFusionado
+     * @param  boolean     $esFusionado
      * @return OrigenDatos
      */
-    public function setEsFusionado($esFusionado) {
+    public function setEsFusionado($esFusionado)
+    {
         $this->esFusionado = $esFusionado;
 
         return $this;
@@ -273,19 +290,21 @@ class OrigenDatos {
     /**
      * Get esFusionado
      *
-     * @return boolean 
+     * @return boolean
      */
-    public function getEsFusionado() {
+    public function getEsFusionado()
+    {
         return $this->esFusionado;
     }
 
     /**
      * Set camposFusionados
      *
-     * @param string $camposFusionados
+     * @param  string      $camposFusionados
      * @return OrigenDatos
      */
-    public function setCamposFusionados($camposFusionados) {
+    public function setCamposFusionados($camposFusionados)
+    {
         $this->camposFusionados = $camposFusionados;
 
         return $this;
@@ -294,19 +313,21 @@ class OrigenDatos {
     /**
      * Get camposFusionados
      *
-     * @return string 
+     * @return string
      */
-    public function getCamposFusionados() {
+    public function getCamposFusionados()
+    {
         return $this->camposFusionados;
     }
 
     /**
      * Add fusiones
      *
-     * @param MINSAL\IndicadoresBundle\Entity\OrigenDatos $fusiones
+     * @param  MINSAL\IndicadoresBundle\Entity\OrigenDatos $fusiones
      * @return OrigenDatos
      */
-    public function addFusione(\MINSAL\IndicadoresBundle\Entity\OrigenDatos $fusiones) {
+    public function addFusione(\MINSAL\IndicadoresBundle\Entity\OrigenDatos $fusiones)
+    {
         $this->fusiones[] = $fusiones;
 
         return $this;
@@ -317,26 +338,29 @@ class OrigenDatos {
      *
      * @param MINSAL\IndicadoresBundle\Entity\OrigenDatos $fusiones
      */
-    public function removeFusione(\MINSAL\IndicadoresBundle\Entity\OrigenDatos $fusiones) {
+    public function removeFusione(\MINSAL\IndicadoresBundle\Entity\OrigenDatos $fusiones)
+    {
         $this->fusiones->removeElement($fusiones);
     }
 
     /**
      * Get fusiones
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return Doctrine\Common\Collections\Collection
      */
-    public function getFusiones() {
+    public function getFusiones()
+    {
         return $this->fusiones;
     }
 
     /**
      * Add campos
      *
-     * @param MINSAL\IndicadoresBundle\Entity\Campo $campos
+     * @param  MINSAL\IndicadoresBundle\Entity\Campo $campos
      * @return OrigenDatos
      */
-    public function addCampo(\MINSAL\IndicadoresBundle\Entity\Campo $campos) {
+    public function addCampo(\MINSAL\IndicadoresBundle\Entity\Campo $campos)
+    {
         $this->campos[] = $campos;
 
         return $this;
@@ -347,53 +371,60 @@ class OrigenDatos {
      *
      * @param MINSAL\IndicadoresBundle\Entity\Campo $campos
      */
-    public function removeCampo(\MINSAL\IndicadoresBundle\Entity\Campo $campos) {
+    public function removeCampo(\MINSAL\IndicadoresBundle\Entity\Campo $campos)
+    {
         $this->campos->removeElement($campos);
     }
 
     /**
      * Get campos
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return Doctrine\Common\Collections\Collection
      */
-    public function getCampos() {
+    public function getCampos()
+    {
         $campos = array();
         foreach ($this->campos as $campo) {
             if ($campo->getFormula() == null)
                 $campos[] = $campo;
         }
+
         return $campos;
     }
     /**
      * Get camposCalculados
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return Doctrine\Common\Collections\Collection
      */
-    public function getCamposCalculados() {
+    public function getCamposCalculados()
+    {
         $campos = array();
         foreach ($this->campos as $campo) {
             if ($campo->getFormula() != null)
                 $campos[] = $campo;
         }
+
         return $campos;
     }
-    
+
     /**
      * Get AllFields
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return Doctrine\Common\Collections\Collection
      */
-    public function getAllFields() {
+    public function getAllFields()
+    {
         return $this->campos;
     }
 
     /**
      * Set id
      *
-     * @param integer $id
+     * @param  integer     $id
      * @return OrigenDatos
      */
-    public function setId($id) {
+    public function setId($id)
+    {
         $this->id = $id;
 
         return $this;
@@ -402,10 +433,11 @@ class OrigenDatos {
     /**
      * Set esCatalogo
      *
-     * @param boolean $esCatalogo
+     * @param  boolean     $esCatalogo
      * @return OrigenDatos
      */
-    public function setEsCatalogo($esCatalogo) {
+    public function setEsCatalogo($esCatalogo)
+    {
         $this->esCatalogo = $esCatalogo;
 
         return $this;
@@ -414,19 +446,21 @@ class OrigenDatos {
     /**
      * Get esCatalogo
      *
-     * @return boolean 
+     * @return boolean
      */
-    public function getEsCatalogo() {
+    public function getEsCatalogo()
+    {
         return $this->esCatalogo;
     }
 
     /**
      * Set nombreCatalogo
      *
-     * @param string $nombreCatalogo
+     * @param  string      $nombreCatalogo
      * @return OrigenDatos
      */
-    public function setNombreCatalogo($nombreCatalogo) {
+    public function setNombreCatalogo($nombreCatalogo)
+    {
         $this->nombreCatalogo = $nombreCatalogo;
 
         return $this;
@@ -435,19 +469,21 @@ class OrigenDatos {
     /**
      * Get nombreCatalogo
      *
-     * @return string 
+     * @return string
      */
-    public function getNombreCatalogo() {
+    public function getNombreCatalogo()
+    {
         return $this->nombreCatalogo;
     }
 
     /**
      * Add variables
      *
-     * @param \MINSAL\IndicadoresBundle\Entity\VariableDato $variables
+     * @param  \MINSAL\IndicadoresBundle\Entity\VariableDato $variables
      * @return OrigenDatos
      */
-    public function addVariable(\MINSAL\IndicadoresBundle\Entity\VariableDato $variables) {
+    public function addVariable(\MINSAL\IndicadoresBundle\Entity\VariableDato $variables)
+    {
         $this->variables[] = $variables;
 
         return $this;
@@ -458,26 +494,29 @@ class OrigenDatos {
      *
      * @param \MINSAL\IndicadoresBundle\Entity\VariableDato $variables
      */
-    public function removeVariable(\MINSAL\IndicadoresBundle\Entity\VariableDato $variables) {
+    public function removeVariable(\MINSAL\IndicadoresBundle\Entity\VariableDato $variables)
+    {
         $this->variables->removeElement($variables);
     }
 
     /**
      * Get variables
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getVariables() {
+    public function getVariables()
+    {
         return $this->variables;
     }
 
     /**
      * Add conexiones
      *
-     * @param \MINSAL\IndicadoresBundle\Entity\Conexion $conexiones
+     * @param  \MINSAL\IndicadoresBundle\Entity\Conexion $conexiones
      * @return OrigenDatos
      */
-    public function addConexione(\MINSAL\IndicadoresBundle\Entity\Conexion $conexiones) {
+    public function addConexione(\MINSAL\IndicadoresBundle\Entity\Conexion $conexiones)
+    {
         $this->conexiones[] = $conexiones;
 
         return $this;
@@ -488,26 +527,29 @@ class OrigenDatos {
      *
      * @param \MINSAL\IndicadoresBundle\Entity\Conexion $conexiones
      */
-    public function removeConexione(\MINSAL\IndicadoresBundle\Entity\Conexion $conexiones) {
+    public function removeConexione(\MINSAL\IndicadoresBundle\Entity\Conexion $conexiones)
+    {
         $this->conexiones->removeElement($conexiones);
     }
 
     /**
      * Get conexiones
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getConexiones() {
+    public function getConexiones()
+    {
         return $this->conexiones;
     }
 
     /**
      * Set esPivote
      *
-     * @param boolean $esPivote
+     * @param  boolean     $esPivote
      * @return OrigenDatos
      */
-    public function setEsPivote($esPivote) {
+    public function setEsPivote($esPivote)
+    {
         $this->esPivote = $esPivote;
 
         return $this;
@@ -516,9 +558,10 @@ class OrigenDatos {
     /**
      * Get esPivote
      *
-     * @return boolean 
+     * @return boolean
      */
-    public function getEsPivote() {
+    public function getEsPivote()
+    {
         return $this->esPivote;
     }
 

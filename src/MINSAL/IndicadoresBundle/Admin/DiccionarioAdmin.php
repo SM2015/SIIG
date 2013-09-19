@@ -14,10 +14,10 @@ class DiccionarioAdmin extends Admin
         '_sort_order' => 'ASC', // Descendant ordering (default = 'ASC')
         '_sort_by' => 'descripcion' // name of the ordered field (default = the model id field, if any)
     );
-    
+
     protected function configureFormFields(FormMapper $formMapper)
     {
-        $formMapper            
+        $formMapper
             ->add('codigo', null, array('label'=> $this->getTranslator()->trans('codigo')))
             ->add('descripcion', null, array('label'=> $this->getTranslator()->trans('descripcion')))
         ;
@@ -32,15 +32,15 @@ class DiccionarioAdmin extends Admin
 
     protected function configureListFields(ListMapper $listMapper)
     {
-        $listMapper            
+        $listMapper
             ->addIdentifier('codigo', null, array('label'=> $this->getTranslator()->trans('codigo')))
             ->add('descripcion', null, array('required'=>false, 'label'=> $this->getTranslator()->trans('descripcion')))
         ;
     }
 
-    public function getBatchActions(){
+    public function getBatchActions()
+    {
         $actions = parent::getBatchActions();
         $actions['delete'] = null;
     }
 }
-?>

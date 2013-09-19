@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="significado_campo")
  * @ORM\Entity
  */
-class SignificadoCampo {
-
+class SignificadoCampo
+{
     /**
      * @var integer $id
      *
@@ -83,26 +83,29 @@ class SignificadoCampo {
      * */
     private $tiposGraficos;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->usoEnCatalogo = false;
     }
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
     /**
      * Set descripcion
      *
-     * @param string $descripcion
+     * @param  string           $descripcion
      * @return SignificadoCampo
      */
-    public function setDescripcion($descripcion) {
+    public function setDescripcion($descripcion)
+    {
         $this->descripcion = $descripcion;
 
         return $this;
@@ -111,19 +114,21 @@ class SignificadoCampo {
     /**
      * Get descripcion
      *
-     * @return string 
+     * @return string
      */
-    public function getDescripcion() {
+    public function getDescripcion()
+    {
         return $this->descripcion;
     }
 
     /**
      * Set codigo
      *
-     * @param string $codigo
+     * @param  string           $codigo
      * @return SignificadoCampo
      */
-    public function setCodigo($codigo) {
+    public function setCodigo($codigo)
+    {
         $this->codigo = $codigo;
 
         return $this;
@@ -132,19 +137,21 @@ class SignificadoCampo {
     /**
      * Get codigo
      *
-     * @return string 
+     * @return string
      */
-    public function getCodigo() {
+    public function getCodigo()
+    {
         return $this->codigo;
     }
 
     /**
      * Set id
      *
-     * @param integer $id
+     * @param  integer          $id
      * @return SignificadoCampo
      */
-    public function setId($id) {
+    public function setId($id)
+    {
         $this->id = $id;
 
         return $this;
@@ -153,10 +160,11 @@ class SignificadoCampo {
     /**
      * Set usoEnCatalogo
      *
-     * @param boolean $usoEnCatalogo
+     * @param  boolean          $usoEnCatalogo
      * @return SignificadoCampo
      */
-    public function setUsoEnCatalogo($usoEnCatalogo) {
+    public function setUsoEnCatalogo($usoEnCatalogo)
+    {
         $this->usoEnCatalogo = $usoEnCatalogo;
 
         return $this;
@@ -165,19 +173,21 @@ class SignificadoCampo {
     /**
      * Get usoEnCatalogo
      *
-     * @return boolean 
+     * @return boolean
      */
-    public function getUsoEnCatalogo() {
+    public function getUsoEnCatalogo()
+    {
         return $this->usoEnCatalogo;
     }
 
     /**
      * Set catalogo
      *
-     * @param string $catalogo
+     * @param  string           $catalogo
      * @return SignificadoCampo
      */
-    public function setCatalogo($catalogo) {
+    public function setCatalogo($catalogo)
+    {
         $this->catalogo = $catalogo;
 
         return $this;
@@ -186,19 +196,21 @@ class SignificadoCampo {
     /**
      * Get catalogo
      *
-     * @return string 
+     * @return string
      */
-    public function getCatalogo() {
+    public function getCatalogo()
+    {
         return $this->catalogo;
     }
 
     /**
      * Set nombreMapa
      *
-     * @param string $nombreMapa
+     * @param  string           $nombreMapa
      * @return SignificadoCampo
      */
-    public function setNombreMapa($nombreMapa) {
+    public function setNombreMapa($nombreMapa)
+    {
         $this->nombreMapa = $nombreMapa;
 
         return $this;
@@ -207,23 +219,26 @@ class SignificadoCampo {
     /**
      * Get nombreMapa
      *
-     * @return string 
+     * @return string
      */
-    public function getNombreMapa() {
+    public function getNombreMapa()
+    {
         return $this->nombreMapa;
     }
 
-    public function __toString() {
+    public function __toString()
+    {
         return $this->descripcion ? : '';
     }
 
     /**
      * Set escala
      *
-     * @param float $escala
+     * @param  float            $escala
      * @return SignificadoCampo
      */
-    public function setEscala($escala) {
+    public function setEscala($escala)
+    {
         $this->escala = $escala;
 
         return $this;
@@ -232,19 +247,21 @@ class SignificadoCampo {
     /**
      * Get escala
      *
-     * @return float 
+     * @return float
      */
-    public function getEscala() {
+    public function getEscala()
+    {
         return $this->escala;
     }
 
     /**
      * Set origenX
      *
-     * @param float $origenX
+     * @param  float            $origenX
      * @return SignificadoCampo
      */
-    public function setOrigenX($origenX) {
+    public function setOrigenX($origenX)
+    {
         $this->origenX = $origenX;
 
         return $this;
@@ -253,19 +270,21 @@ class SignificadoCampo {
     /**
      * Get origenX
      *
-     * @return float 
+     * @return float
      */
-    public function getOrigenX() {
+    public function getOrigenX()
+    {
         return $this->origenX;
     }
 
     /**
      * Set origenY
      *
-     * @param float $origenY
+     * @param  float            $origenY
      * @return SignificadoCampo
      */
-    public function setOrigenY($origenY) {
+    public function setOrigenY($origenY)
+    {
         $this->origenY = $origenY;
 
         return $this;
@@ -274,19 +293,21 @@ class SignificadoCampo {
     /**
      * Get origenY
      *
-     * @return float 
+     * @return float
      */
-    public function getOrigenY() {
+    public function getOrigenY()
+    {
         return $this->origenY;
     }
 
     /**
      * Add tiposGraficos
      *
-     * @param \MINSAL\IndicadoresBundle\Entity\TipoGrafico $tiposGraficos
+     * @param  \MINSAL\IndicadoresBundle\Entity\TipoGrafico $tiposGraficos
      * @return SignificadoCampo
      */
-    public function addTiposGrafico(\MINSAL\IndicadoresBundle\Entity\TipoGrafico $tiposGraficos) {
+    public function addTiposGrafico(\MINSAL\IndicadoresBundle\Entity\TipoGrafico $tiposGraficos)
+    {
         $this->tiposGraficos[] = $tiposGraficos;
 
         return $this;
@@ -297,24 +318,28 @@ class SignificadoCampo {
      *
      * @param \MINSAL\IndicadoresBundle\Entity\TipoGrafico $tiposGraficos
      */
-    public function removeTiposGrafico(\MINSAL\IndicadoresBundle\Entity\TipoGrafico $tiposGraficos) {
+    public function removeTiposGrafico(\MINSAL\IndicadoresBundle\Entity\TipoGrafico $tiposGraficos)
+    {
         $this->tiposGraficos->removeElement($tiposGraficos);
     }
 
     /**
      * Get tiposGraficos
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getTiposGraficos() {
+    public function getTiposGraficos()
+    {
         return $this->tiposGraficos;
     }
 
-    public function getTiposGraficosArray() {
+    public function getTiposGraficosArray()
+    {
         $graficos = array();
         foreach ($this->tiposGraficos as $grafico) {
             $graficos[] = array('codigo'=> $grafico->getCodigo(), 'descripcion' => $grafico->getDescripcion());
         }
+
         return $graficos;
     }
 

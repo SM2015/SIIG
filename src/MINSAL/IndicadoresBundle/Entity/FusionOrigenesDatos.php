@@ -3,7 +3,6 @@
 namespace MINSAL\IndicadoresBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * MINSAL\IndicadoresBundle\Entity\FusionOrigenesDatos
@@ -11,8 +10,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Table(name="fusion_origenes_datos")
  * @ORM\Entity
  */
-class FusionOrigenesDatos {
-
+class FusionOrigenesDatos
+{
     /**
      * @var integer $id
      *
@@ -21,19 +20,19 @@ class FusionOrigenesDatos {
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="OrigenDatos", inversedBy="fusiones")
      * @ORM\JoinColumn(name="id_origen_datos", referencedColumnName="id", onDelete="CASCADE")
      **/
     private $origenDatos;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="OrigenDatos")
      * @ORM\JoinColumn(name="id_origen_datos_fusionado", referencedColumnName="id", onDelete="CASCADE")
      **/
     private $origenDatosFusionado;
-    
+
     /**
      * @var string $campos
      *
@@ -44,7 +43,7 @@ class FusionOrigenesDatos {
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -54,20 +53,20 @@ class FusionOrigenesDatos {
     /**
      * Set origenDatos
      *
-     * @param MINSAL\IndicadoresBundle\Entity\OrigenDatos $origenDatos
+     * @param  MINSAL\IndicadoresBundle\Entity\OrigenDatos $origenDatos
      * @return FusionOrigenesDatos
      */
     public function setOrigenDatos(\MINSAL\IndicadoresBundle\Entity\OrigenDatos $origenDatos = null)
     {
         $this->origenDatos = $origenDatos;
-    
+
         return $this;
     }
 
     /**
      * Get origenDatos
      *
-     * @return MINSAL\IndicadoresBundle\Entity\OrigenDatos 
+     * @return MINSAL\IndicadoresBundle\Entity\OrigenDatos
      */
     public function getOrigenDatos()
     {
@@ -77,20 +76,20 @@ class FusionOrigenesDatos {
     /**
      * Set origenDatosFusionado
      *
-     * @param MINSAL\IndicadoresBundle\Entity\OrigenDatos $origenDatosFusionado
+     * @param  MINSAL\IndicadoresBundle\Entity\OrigenDatos $origenDatosFusionado
      * @return FusionOrigenesDatos
      */
     public function setOrigenDatosFusionado(\MINSAL\IndicadoresBundle\Entity\OrigenDatos $origenDatosFusionado = null)
     {
         $this->origenDatosFusionado = $origenDatosFusionado;
-    
+
         return $this;
     }
 
     /**
      * Get origenDatosFusionado
      *
-     * @return MINSAL\IndicadoresBundle\Entity\OrigenDatos 
+     * @return MINSAL\IndicadoresBundle\Entity\OrigenDatos
      */
     public function getOrigenDatosFusionado()
     {
@@ -100,20 +99,20 @@ class FusionOrigenesDatos {
     /**
      * Set campos
      *
-     * @param string $campos
+     * @param  string              $campos
      * @return FusionOrigenesDatos
      */
     public function setCampos($campos)
     {
         $this->campos = $campos;
-    
+
         return $this;
     }
 
     /**
      * Get campos
      *
-     * @return string 
+     * @return string
      */
     public function getCampos()
     {
@@ -123,13 +122,13 @@ class FusionOrigenesDatos {
     /**
      * Set id
      *
-     * @param integer $id
+     * @param  integer             $id
      * @return FusionOrigenesDatos
      */
     public function setId($id)
     {
         $this->id = $id;
-    
+
         return $this;
     }
 }

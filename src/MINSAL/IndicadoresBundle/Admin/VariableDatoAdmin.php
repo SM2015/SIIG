@@ -9,16 +9,17 @@ use Sonata\AdminBundle\Validator\ErrorElement;
 use Sonata\AdminBundle\Form\FormMapper;
 use Doctrine\ORM\EntityRepository;
 
-class VariableDatoAdmin extends Admin {
-
+class VariableDatoAdmin extends Admin
+{
     protected $datagridValues = array(
         '_page' => 1, // Display the first page (default = 1)
         '_sort_order' => 'ASC', // Descendant ordering (default = 'ASC')
         '_sort_by' => 'nombre' // name of the ordered field (default = the model id field, if any)
     );
 
-    protected function configureFormFields(FormMapper $formMapper) {
-        $formMapper                
+    protected function configureFormFields(FormMapper $formMapper)
+    {
+        $formMapper
                 ->add('origenDatos', 'entity', array('label' => $this->getTranslator()->trans('origen_dato'),
                     'class' => 'IndicadoresBundle:OrigenDatos',
                     'property' => 'nombre',
@@ -38,7 +39,8 @@ class VariableDatoAdmin extends Admin {
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper) {
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    {
         $datagridMapper
                 ->add('nombre', null, array('label' => $this->getTranslator()->trans('nombre')))
                 ->add('iniciales', null, array('label' => $this->getTranslator()->trans('iniciales')))
@@ -46,34 +48,35 @@ class VariableDatoAdmin extends Admin {
         ;
     }
 
-    protected function configureListFields(ListMapper $listMapper) {
-        $listMapper                
+    protected function configureListFields(ListMapper $listMapper)
+    {
+        $listMapper
                 ->addIdentifier('nombre', null, array('label' => $this->getTranslator()->trans('nombre_variable')))
-                ->add('iniciales', null, array('label' => $this->getTranslator()->trans('iniciales')))                
+                ->add('iniciales', null, array('label' => $this->getTranslator()->trans('iniciales')))
                 ->add('origenDatos', null, array('label' => $this->getTranslator()->trans('origen_dato')))
 
         ;
     }
 
-    public function validate(ErrorElement $errorElement, $object) {        
-        $campos_no_configurados = $this->getModelManager()->findBy('IndicadoresBundle:Campo', 
+    public function validate(ErrorElement $errorElement, $object)
+    {
+        $campos_no_configurados = $this->getModelManager()->findBy('IndicadoresBundle:Campo',
                 array('origenDato' => $object->getOrigenDatos(),
                     'significado' => null));
-        
-        if (count($campos_no_configurados) > 0){
+
+        if (count($campos_no_configurados) > 0) {
             $errorElement
                 ->with('origenDatos')
                     ->addViolation($this->getTranslator()->trans('origen_no_configurado'))
                 ->end();
         }
-            
+
     }
 
-    public function getBatchActions() {
+    public function getBatchActions()
+    {
         $actions = parent::getBatchActions();
         $actions['delete'] = null;
     }
 
 }
-
-?>

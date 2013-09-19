@@ -249,7 +249,7 @@ javascript:
   _nada_encontrado_ : 'Nothing found - sorry'
   _mostrando_n_de_n_: 'Showing _START_ to _END_ of _TOTAL_ records'
   _mostrando_0_ : 'Showing 0 to 0 of 0 records'
-  _filtrados_de_ : '(filtered from _MAX_ total records)'  
+  _filtrados_de_ : '(filtered from _MAX_ total records)'
   no_mas_niveles: 'No more levels to descend'
   no_graficos_asignados: 'No assigned graph types allowed to field meanings'
   recargar_origen: 'Reload data source information'

@@ -7,23 +7,26 @@ use Symfony\Component\HttpFoundation\Response;
 
 //use Symfony\Component\Console\Input\ArrayInput;
 
-class FichaTecnicaAdminController extends Controller {
-
-    public function editAction($id = null) {
+class FichaTecnicaAdminController extends Controller
+{
+    public function editAction($id = null)
+    {
         $repo = $this->getDoctrine()->getManager()->getRepository('IndicadoresBundle:FichaTecnica');
         $this->admin->setRepository($repo);
 
         return parent::editAction($id);
     }
 
-    public function createAction() {
+    public function createAction()
+    {
         $repo = $this->getDoctrine()->getManager()->getRepository('IndicadoresBundle:FichaTecnica');
         $this->admin->setRepository($repo);
 
         return parent::createAction();
     }
 
-    public function tableroAction() {
+    public function tableroAction()
+    {
         $em = $this->getDoctrine()->getManager();
         $clasificacionUso = $em->getRepository("IndicadoresBundle:ClasificacionUso")->findAll();
 
@@ -83,11 +86,13 @@ class FichaTecnicaAdminController extends Controller {
         ));
     }
 
-    public function CubosAction() {
+    public function CubosAction()
+    {
         return $this->render('IndicadoresBundle:FichaTecnicaAdmin:cubos.html.twig', array());
     }
 
-    public function batchActionVerFicha($idx = null) {
+    public function batchActionVerFicha($idx = null)
+    {
         $parameterBag = $this->get('request')->request;
         $em = $this->getDoctrine()->getManager();
 
@@ -112,11 +117,12 @@ class FichaTecnicaAdminController extends Controller {
         }
         //Quitar los comentarios del código html, enlaces y aplicar estilos
         $salida = preg_replace('/<!--(.|\s)*?-->/', '', $salida);
-        $salida = preg_replace('/<a(.|\s)*?>/', '', $salida);        
+        $salida = preg_replace('/<a(.|\s)*?>/', '', $salida);
         $salida = str_ireplace('</a>', '', $salida);
         $salida = str_ireplace('TD',"TD STYLE='border: 2px double black'", $salida);
         $salida = str_ireplace('TH',"TH STYLE='border: 2px double black'", $salida);
         $salida = str_ireplace('<TABLE',"<TABLE width=95% ", $salida);
+
         return new Response('<HTML>'.$salida.'</HTML>', 200, array(
             'Content-Type' => 'application/msword',
             'Content-Disposition' => 'attachment; filename="ficha_tecnica.doc"',

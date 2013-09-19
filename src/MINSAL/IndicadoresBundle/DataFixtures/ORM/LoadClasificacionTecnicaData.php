@@ -18,7 +18,7 @@ class LoadClasificacionTecnicaData extends AbstractFixture implements OrderedFix
         $datos[3]['campos'] = array('Codigo'=>'Morbi','Descripcion'=>'Morbilidad');
         $datos[4]['campos'] = array('Codigo'=>'ReSeCo','Descripcion'=>'Recursos, Servicios y Cobertura');
         $datos[5]['campos'] = array('Codigo'=>'Socioeco','Descripcion'=>'Socioecónomicos');
-        
+
         $master = new LoadMaster();
         $master->save($datos, $manager, $this);
     }

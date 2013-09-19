@@ -18,7 +18,7 @@ class LoadClasificacionNivelData extends AbstractFixture implements OrderedFixtu
         $datos[3]['campos'] = array('Codigo'=>'sibasi','Descripcion'=>'SIBASI');
         $datos[4]['campos'] = array('Codigo'=>'region','Descripcion'=>'Región');
         $datos[5]['campos'] = array('Codigo'=>'nacional','Descripcion'=>'Nacional');
-        
+
         $master = new LoadMaster();
         $master->save($datos, $manager, $this);
     }

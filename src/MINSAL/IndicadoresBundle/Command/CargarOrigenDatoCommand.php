@@ -3,21 +3,21 @@
 namespace MINSAL\IndicadoresBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CargarOrigenDatoCommand extends ContainerAwareCommand {
-
-    protected function configure() {
+class CargarOrigenDatoCommand extends ContainerAwareCommand
+{
+    protected function configure()
+    {
         $this
                 ->setName('origen-dato:cargar')
                 ->setDescription('Cargar datos especificados en los orígenes')
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output) {
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
         $em = $this->getContainer()->get('doctrine')->getManager();
 
         //Recuperar todos las fichas técnicas de indicadores
@@ -33,7 +33,7 @@ class CargarOrigenDatoCommand extends ContainerAwareCommand {
                 $ultima_lectura = $ind->getUltimaLectura();
                 if ($ind->getPeriodo() != null)
                     $periocidad = $ind->getPeriodo()->getCodigo();
-                else $periocidad='d';                
+                else $periocidad='d';
 
                 $intervalo = $ahora->diff($ultima_lectura);
                 $dif_dias = $intervalo->format('%a');
@@ -55,21 +55,21 @@ class CargarOrigenDatoCommand extends ContainerAwareCommand {
             }
             if ($dif >= 1) {
                 //Es necesaria realizar la carga de datos
-                // Recuperar los orígenes de datos asociados a las variables del indicador                
+                // Recuperar los orígenes de datos asociados a las variables del indicador
                 foreach ($ind->getVariables() as $var) {
                     $origenDato = $var->getOrigenDatos();
 
                     $msg = array('id_origen_dato' => $origenDato->getId(), 'sql'=> $origenDato->getSentenciaSql());
 
                     $carga_directa = $origenDato->getEsCatalogo();
-                    // No mandar a la cola de carga los que son catálogos, Se cargarán directamente                    
+                    // No mandar a la cola de carga los que son catálogos, Se cargarán directamente
                     if ($carga_directa)
                         $em->getRepository('IndicadoresBundle:OrigenDatos')->cargarCatalogo($origenDato);
                     else
                         $this->getContainer()->get('old_sound_rabbit_mq.cargar_origen_datos_producer')
                                 ->publish(serialize($msg));
                     $ind->setUltimaLectura($ahora);
-                }                
+                }
             }
         }
         $em->flush();

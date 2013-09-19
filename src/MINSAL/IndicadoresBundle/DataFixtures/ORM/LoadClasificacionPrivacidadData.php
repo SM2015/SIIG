@@ -15,7 +15,7 @@ class LoadClasificacionPrivacidadData extends AbstractFixture implements Ordered
         $datos = array();
         $datos[1]['campos'] = array('Codigo'=>'tecnico','Descripcion'=>'Restringido a técnicos');
         $datos[2]['campos'] = array('Codigo'=>'n3','Descripcion'=>'Nivel 3');
-        
+
         $master = new LoadMaster();
         $master->save($datos, $manager, $this);
     }

@@ -14,7 +14,7 @@ class LoadResponsableIndicadorData extends AbstractFixture implements OrderedFix
     {
         $datos = array();
         $datos[1]['campos'] = array('Establecimiento'=>'Establecimiento-lugar responsable del indicador, ejemplo1','Contacto'=>'nombre persona contacto ejemplo 1', 'Correo'=>'correo persona contacto ejemplo1', 'Telefono'=>'9999-9999', 'Cargo'=>'cargo persona contacto ejemplo 1');
-        
+
         $master = new LoadMaster();
         $master->save($datos, $manager, $this);
     }

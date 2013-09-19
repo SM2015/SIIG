@@ -9,15 +9,16 @@ use Sonata\AdminBundle\Validator\ErrorElement;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 
-class OrigenDatosAdmin extends Admin {
-
+class OrigenDatosAdmin extends Admin
+{
     protected $datagridValues = array(
         '_page' => 1, // Display the first page (default = 1)
         '_sort_order' => 'ASC', // Descendant ordering (default = 'ASC')
         '_sort_by' => 'nombre' // name of the ordered field (default = the model id field, if any)
     );
 
-    protected function configureFormFields(FormMapper $formMapper) {
+    protected function configureFormFields(FormMapper $formMapper)
+    {
         $esFusionado = $this->getSubject()->getEsFusionado();
 
         $formMapper
@@ -45,13 +46,15 @@ class OrigenDatosAdmin extends Admin {
             ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper) {
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    {
         $datagridMapper
                 ->add('nombre', null, array('label' => $this->getTranslator()->trans('nombre')))
         ;
     }
 
-    protected function configureListFields(ListMapper $listMapper) {
+    protected function configureListFields(ListMapper $listMapper)
+    {
         $listMapper
                 ->addIdentifier('nombre', null, array('label' => $this->getTranslator()->trans('nombre')))
                 ->add('descripcion', null, array('label' => $this->getTranslator()->trans('descripcion')))
@@ -68,7 +71,8 @@ class OrigenDatosAdmin extends Admin {
         ;
     }
 
-    public function validate(ErrorElement $errorElement, $object) {
+    public function validate(ErrorElement $errorElement, $object)
+    {
         if ($object->getEsFusionado() == false) {
             if ($object->file == '' and $object->getArchivoNombre() == '' and $object->getSentenciaSql() == '') {
                 $errorElement->with('sentenciaSql')
@@ -104,10 +108,12 @@ class OrigenDatosAdmin extends Admin {
           )))
           ->end()
           ; */
+
         return true;
     }
 
-    public function getBatchActions() {
+    public function getBatchActions()
+    {
         //$actions = parent::getBatchActions();
         $actions = array();
 
@@ -124,11 +130,11 @@ class OrigenDatosAdmin extends Admin {
             'ask_confirmation' => true // If true, a confirmation will be asked before performing the action
         );
 
-
         return $actions;
     }
 
-    public function getTemplate($name) {
+    public function getTemplate($name)
+    {
         switch ($name) {
             case 'edit':
                 return 'IndicadoresBundle:CRUD:origen_dato-edit.html.twig';
@@ -139,20 +145,23 @@ class OrigenDatosAdmin extends Admin {
         }
     }
 
-    public function prePersist($origenDato) {
+    public function prePersist($origenDato)
+    {
         $this->saveFile($origenDato);
         $this->setNombreCatalogo($origenDato);
 
         $this->guardarDrescripcion($origenDato);
     }
 
-    public function preUpdate($origenDato) {
+    public function preUpdate($origenDato)
+    {
         $this->saveFile($origenDato);
         $this->guardarDrescripcion($origenDato);
         $this->setNombreCatalogo($origenDato);
     }
 
-    public function setNombreCatalogo($origenDato) {
+    public function setNombreCatalogo($origenDato)
+    {
         if ($origenDato->getEsCatalogo()) {
             // replace all non letters or digits by -
             $util = new \MINSAL\IndicadoresBundle\Util\Util();
@@ -160,7 +169,8 @@ class OrigenDatosAdmin extends Admin {
         }
     }
 
-    public function guardarDrescripcion($origenDato) {
+    public function guardarDrescripcion($origenDato)
+    {
         if ($origenDato->getEsFusionado()) {
             $origenes_fusionados = '';
             foreach ($origenDato->getFusiones() as $origen) {
@@ -175,16 +185,16 @@ class OrigenDatosAdmin extends Admin {
         }
     }
 
-    public function saveFile($origenDato) {
+    public function saveFile($origenDato)
+    {
         $basepath = $this->getRequest()->getBasePath();
         $origenDato->upload($basepath);
     }
 
-    protected function configureRoutes(RouteCollection $collection) {
+    protected function configureRoutes(RouteCollection $collection)
+    {
         $collection->add('merge_save', 'merge/save');
         $collection->add('load_data');
-    }    
+    }
 
 }
-
-?>

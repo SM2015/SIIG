@@ -27,19 +27,19 @@ class GrupoIndicadores
      * @ORM\Column(name="nombre", type="string", length=50, nullable=false)
      */
     private $nombre;
-    
+
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
      * @ORM\OneToMany(targetEntity="UsuarioGrupoIndicadores", mappedBy="grupoIndicadores" , cascade={"all"}, orphanRemoval=true)
      **/
     private $usuarios;
-    
+
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
      * @ORM\OneToMany(targetEntity="GrupoIndicadoresIndicador", mappedBy="grupo" , cascade={"all"}, orphanRemoval=true)
      **/
     private $indicadores;
-    
+
     /**
      * Constructor
      */
@@ -48,11 +48,11 @@ class GrupoIndicadores
         $this->usuarios = new \Doctrine\Common\Collections\ArrayCollection();
         $this->indicadores = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -62,20 +62,20 @@ class GrupoIndicadores
     /**
      * Set nombre
      *
-     * @param string $nombre
+     * @param  string           $nombre
      * @return GrupoIndicadores
      */
     public function setNombre($nombre)
     {
         $this->nombre = $nombre;
-    
+
         return $this;
     }
 
     /**
      * Get nombre
      *
-     * @return string 
+     * @return string
      */
     public function getNombre()
     {
@@ -85,13 +85,13 @@ class GrupoIndicadores
     /**
      * Add usuarios
      *
-     * @param \MINSAL\IndicadoresBundle\Entity\UsuarioGrupoIndicadores $usuarios
+     * @param  \MINSAL\IndicadoresBundle\Entity\UsuarioGrupoIndicadores $usuarios
      * @return GrupoIndicadores
      */
     public function addUsuario(\MINSAL\IndicadoresBundle\Entity\UsuarioGrupoIndicadores $usuarios)
     {
         $this->usuarios[] = $usuarios;
-    
+
         return $this;
     }
 
@@ -108,23 +108,23 @@ class GrupoIndicadores
     /**
      * Get usuarios
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getUsuarios()
     {
         return $this->usuarios;
-    }    
+    }
 
     /**
      * Add indicadores
      *
-     * @param \MINSAL\IndicadoresBundle\Entity\GrupoIndicadoresIndicador $indicadores
+     * @param  \MINSAL\IndicadoresBundle\Entity\GrupoIndicadoresIndicador $indicadores
      * @return GrupoIndicadores
      */
     public function addIndicadore(\MINSAL\IndicadoresBundle\Entity\GrupoIndicadoresIndicador $indicadores)
     {
         $this->indicadores[] = $indicadores;
-    
+
         return $this;
     }
 
@@ -141,7 +141,7 @@ class GrupoIndicadores
     /**
      * Get indicadores
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getIndicadores()
     {

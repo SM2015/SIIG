@@ -9,23 +9,25 @@ use Symfony\Component\HttpFoundation\Response;
 use MINSAL\IndicadoresBundle\Entity\FichaTecnica;
 use MINSAL\IndicadoresBundle\Entity\ClasificacionUso;
 
-class IndicadorController extends Controller {
-
+class IndicadorController extends Controller
+{
     /**
      * @Route("/profile/show", name="fos_user_profile_show")
      */
-    public function raiz() {
+    public function raiz()
+    {
         $this->get('session')->getFlashBag()->add(
                 'notice', 'change_password.flash.success'
         );
+
         return $this->redirect($this->generateUrl('_inicio'));
     }
 
     /**
      * @Route("/indicador/dimensiones/{id}", name="indicador_dimensiones", options={"expose"=true})
      */
-    public function getDimensiones(FichaTecnica $fichaTec) {
-
+    public function getDimensiones(FichaTecnica $fichaTec)
+    {
         $resp = array();
         $em = $this->getDoctrine()->getManager();
 
@@ -73,14 +75,15 @@ class IndicadorController extends Controller {
         if ($this->get('kernel')->getEnvironment() != 'dev') {
             $response->setMaxAge($this->container->getParameter('indicador_cache_consulta'));
         }
+
         return $response;
     }
 
     /**
      * @Route("/indicador/datos/{id}/{dimension}", name="indicador_datos", options={"expose"=true})
      */
-    public function getDatos(FichaTecnica $fichaTec, $dimension) {
-
+    public function getDatos(FichaTecnica $fichaTec, $dimension)
+    {
         $resp = array();
         $filtro = $this->getRequest()->get('filtro');
         $verSql = ($this->getRequest()->get('ver_sql') == 'true') ? true : false;
@@ -97,24 +100,24 @@ class IndicadorController extends Controller {
             $filtros = array_combine($filtros_dimensiones, $filtros_valores);
         }
 
-
         $em = $this->getDoctrine()->getManager();
 
         $fichaRepository = $em->getRepository('IndicadoresBundle:FichaTecnica');
-
 
         $fichaRepository->crearIndicador($fichaTec, $dimension, $filtros);
         $resp['datos'] = $fichaRepository->calcularIndicador($fichaTec, $dimension, $filtros, $verSql);
         $response = new Response(json_encode($resp));
         if ($this->get('kernel')->getEnvironment() != 'dev')
             $response->setMaxAge($this->container->getParameter('indicador_cache_consulta'));
+
         return $response;
     }
 
     /**
      * @Route("/indicador/datos/filtrar", name="indicador_datos_filtrar", options={"expose"=true})
      */
-    public function getDatosFiltrados() {
+    public function getDatosFiltrados()
+    {
         $desde = $this->getRequest()->get('desde');
         $hasta = $this->getRequest()->get('hasta');
         $datos = $this->getRequest()->get('datos');
@@ -144,13 +147,15 @@ class IndicadorController extends Controller {
 
         if ($this->get('kernel')->getEnvironment() != 'dev')
             $response->setMaxAge($this->container->getParameter('indicador_cache_consulta'));
+
         return $response;
     }
 
     /**
      * @Route("/indicador/datos/mapa", name="indicador_datos_mapa", options={"expose"=true})
      */
-    public function getMapaAction() {
+    public function getMapaAction()
+    {
         $em = $this->getDoctrine()->getManager();
         $dimension = $this->getRequest()->get('dimension');
         $tipo_peticion = $this->getRequest()->get('tipo_peticion');
@@ -177,13 +182,15 @@ class IndicadorController extends Controller {
         $response = new Response($mapa, 200, $headers);
         if ($this->get('kernel')->getEnvironment() != 'dev')
             $response->setMaxAge($this->container->getParameter('indicador_cache_consulta'));
+
         return $response;
     }
 
     /**
      * @Route("/indicador/{_locale}/change", name="change_locale")
      */
-    public function changeLocaleAction($_locale) {
+    public function changeLocaleAction($_locale)
+    {
         $request = $this->getRequest();
         //$this->get('session')->set('_locale', $_locale);
         return $this->redirect($request->headers->get('referer'));
@@ -193,7 +200,8 @@ class IndicadorController extends Controller {
      * @Route("/tablero/usuario/change/{codigo_clasificacion}", name="change_clasificacion_uso", options={"expose"=true})
      * @ParamConverter("clasificacion", options={"mapping": {"codigo_clasificacion": "codigo"}})
      */
-    public function changeClasificacionUsoAction(ClasificacionUso $clasificacion) {
+    public function changeClasificacionUsoAction(ClasificacionUso $clasificacion)
+    {
         $request = $this->getRequest();
         $em = $this->getDoctrine()->getManager();
         $usuario = $this->getUser();
@@ -207,35 +215,38 @@ class IndicadorController extends Controller {
     /**
      * @Route("/indicador/favorito", name="indicador_favorito", options={"expose"=true})
      */
-    public function indicadorFavorito() {
+    public function indicadorFavorito()
+    {
         $em = $this->getDoctrine()->getManager();
         $req = $this->getRequest();
 
         $indicador = $em->find('IndicadoresBundle:FichaTecnica', $req->get('id'));
         $usuario = $this->getUser();
         if ($req->get('es_favorito') == 'true') {
-            //Es favorito, entonces quitar            
+            //Es favorito, entonces quitar
             $usuario->removeFavorito($indicador);
         } else {
             $usuario->addFavorito($indicador);
         }
 
         $em->flush();
+
         return new Response();
     }
 
     /**
      * @Route("/indicador/datos/{id}/{dimension}", name="indicador_ver_sql", options={"expose"=true})
      */
-    public function getSQLAction($id) {
+    public function getSQLAction($id)
+    {
         //$this->getDatos();
     }
 
     /**
      * @Route("/indicador/{id}/ficha", name="get_indicador_ficha", options={"expose"=true})
      */
-    public function getFichaAction(FichaTecnica $fichaTec) {
-
+    public function getFichaAction(FichaTecnica $fichaTec)
+    {
         $admin = $this->get('sonata.admin.ficha');
 
         $admin->setSubject($fichaTec);
@@ -247,13 +258,15 @@ class IndicadorController extends Controller {
             'admin' => $admin,
             'base_template' => 'IndicadoresBundle::pdf_layout.html.twig'
         ));
+
         return new Response($html->getContent(), 200);
     }
 
     /**
      * @Route("/sala/guardar", name="sala_guardar", options={"expose"=true})
      */
-    public function guardarSala() {
+    public function guardarSala()
+    {
         $em = $this->getDoctrine()->getManager();
         $req = $this->getRequest();
         $resp = array();
@@ -318,8 +331,8 @@ class IndicadorController extends Controller {
             throw $e;
         }
 
-
         $resp['id_sala'] = $grupoIndicadores->getId();
+
         return new Response(json_encode($resp));
     }
 

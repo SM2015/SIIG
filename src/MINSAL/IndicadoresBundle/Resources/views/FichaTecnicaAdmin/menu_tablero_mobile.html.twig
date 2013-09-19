@@ -4,12 +4,12 @@
             <i class="icon-resize-full"></i>
         </a>
     </div>
-    <div class='btn-group'> 
+    <div class='btn-group'>
         <a href='#' class="btn dropdown-toggle" data-toggle="dropdown" >
             <i class="icon-th"></i>{{'_sala_'|trans}}
             <span class="caret"></span>
-        </a>            
-        <ul class="dropdown-menu">                
+        </a>
+        <ul class="dropdown-menu">
             <li><A id='agregar_fila' >{{'_agregar_area_grafico_'|trans}}</a></li>
             <li><A id='quitar_indicador' >{{'_quitar_indicador_'|trans}}</a></li>
             <li><A href="#myModal" data-toggle="modal">{{'_guardar_sala_'|trans}}</A></li>
@@ -26,7 +26,7 @@
             <i class="icon-align-left"></i>{{"indicadores"|trans}}
             <span class="caret"></span>
         </a>
-        <ul class="dropdown-menu">                
+        <ul class="dropdown-menu">
             <li ><a href="#favoritosModal" data-toggle="modal">{{"favoritos"|trans}} (<span id='cantidad_favoritos'>{{app.user.favoritos|length}}</span>)</a></li>
 
         {% for categoria in categorias%}
@@ -54,7 +54,7 @@
                 <li > <a href='{{url('change_clasificacion_uso',{codigo_clasificacion:clasificacion.codigo})}}'>{{clasificacion.descripcion}}</a></li>
             {% endif %}
         {% endfor %}
-        </ul> 
+        </ul>
     </div>
 </div>
 

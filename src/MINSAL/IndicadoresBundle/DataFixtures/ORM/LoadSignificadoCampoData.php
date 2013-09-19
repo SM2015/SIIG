@@ -25,20 +25,20 @@ class LoadSignificadoCampoData extends AbstractFixture implements OrderedFixture
         $datos[10]['campos'] = array('Codigo'=>'anio','Descripcion'=>'Año');
         $datos[11]['campos'] = array('Codigo'=>'sibasi','Descripcion'=>'Sibasi');
         $datos[12]['campos'] = array('Codigo'=>'origen_dato','Descripcion'=>'Origen Dato');
-        
-        $datos[13]['campos'] = array('Codigo'=>'id_genero','Descripcion'=>'Identificador género');                
-        $datos[14]['campos'] = array('Codigo'=>'id_establecimiento','Descripcion'=>'Identificador establecimiento');        
-        $datos[15]['campos'] = array('Codigo'=>'id_municipio','Descripcion'=>'Identificador municipio');        
+
+        $datos[13]['campos'] = array('Codigo'=>'id_genero','Descripcion'=>'Identificador género');
+        $datos[14]['campos'] = array('Codigo'=>'id_establecimiento','Descripcion'=>'Identificador establecimiento');
+        $datos[15]['campos'] = array('Codigo'=>'id_municipio','Descripcion'=>'Identificador municipio');
         $datos[16]['campos'] = array('Codigo'=>'id_area','Descripcion'=>'Identificador Área');
-        $datos[17]['campos'] = array('Codigo'=>'id_departamento','Descripcion'=>'Identificador departamento');        
-        $datos[18]['campos'] = array('Codigo'=>'id_region','Descripcion'=>'Identificador región');        
-        $datos[19]['campos'] = array('Codigo'=>'id_mes','Descripcion'=>'Identificador mes');                
-        
+        $datos[17]['campos'] = array('Codigo'=>'id_departamento','Descripcion'=>'Identificador departamento');
+        $datos[18]['campos'] = array('Codigo'=>'id_region','Descripcion'=>'Identificador región');
+        $datos[19]['campos'] = array('Codigo'=>'id_mes','Descripcion'=>'Identificador mes');
+
         $datos[20]['campos'] = array('Codigo'=>'pk','Descripcion'=>'Clave primaria', 'UsoEnCatalogo'=>true);
         $datos[21]['campos'] = array('Codigo'=>'fk','Descripcion'=>'Clave foránea', 'UsoEnCatalogo'=>true);
         $datos[23]['campos'] = array('Codigo'=>'descripcion','Descripcion'=>'Descripción', 'UsoEnCatalogo'=>true);
         $datos[24]['campos'] = array('Codigo'=>'otro','Descripcion'=>'Otro significado', 'UsoEnCatalogo'=>true);
-        
+
         $master = new LoadMaster();
         $master->save($datos, $manager, $this);
     }

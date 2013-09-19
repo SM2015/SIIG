@@ -10,15 +10,15 @@ use Doctrine\DBAL as DBAL;
 use MINSAL\IndicadoresBundle\Excel\Excel as Excel;
 use MINSAL\IndicadoresBundle\Entity\Campo;
 
-class OrigenDatoController extends Controller {
-
+class OrigenDatoController extends Controller
+{
     private $driver;
 
     /**
      * @Route("/conexion/probar", name="origen_dato_conexion_probar", options={"expose"=true})
      */
-    public function probarConexionAction() {
-
+    public function probarConexionAction()
+    {
         try {
             $conn = $this->getConexionGenerica('base_datos');
             if ($this->driver != 'pdo_dblib')
@@ -34,8 +34,8 @@ class OrigenDatoController extends Controller {
     /**
      * @Route("/sentencia/probar", name="origen_dato_conexion_probar_sentencia", options={"expose"=true})
      */
-    public function probarSentenciaAction() {
-
+    public function probarSentenciaAction()
+    {
         $resultado = array('estado' => 'error', 'mensaje' => '', 'datos' => array());
         $sql = $this->getRequest()->get('sentenciaSql');
         $conexiones = explode('-', trim($this->getRequest()->get('conexiones_todas'), '-'));
@@ -94,10 +94,10 @@ class OrigenDatoController extends Controller {
      * Crear una conexión para realizar pruebas
      * @param type $objeto_prueba, puede ser 'base_datos' o 'consulta_sql'
      */
-    public function getConexionGenerica($objeto_prueba, $conexion = null) {
+    public function getConexionGenerica($objeto_prueba, $conexion = null)
+    {
         $req = $this->getRequest();
         $em = $this->getDoctrine()->getManager();
-
 
         try {
             if ($objeto_prueba == 'base_datos') {
@@ -149,13 +149,15 @@ class OrigenDatoController extends Controller {
 
             $conn = DBAL\DriverManager::getConnection($connectionParams, $config);
         }
+
         return $conn;
     }
 
     /**
      * @Route("/origen_dato/{id}/leer", name="origen_dato_leer", options={"expose"=true})
      */
-    public function leerOrigenAction(OrigenDatos $origenDato) {
+    public function leerOrigenAction(OrigenDatos $origenDato)
+    {
         $resultado = array('estado' => 'ok',
             'mensaje' => '',
             'tipo_origen' => '',
@@ -163,24 +165,24 @@ class OrigenDatoController extends Controller {
             'nombre_campos' => array(),
             'datos' => array());
         $recargar = ($this->getRequest()->get('recargar')=='false') ? false : true;
-        
+
         $em = $this->getDoctrine()->getManager();
-        
+
         $resultado['es_catalogo'] = ($origenDato->getEsCatalogo()) ? true : false;
 
-        $sql = "SELECT tp 
-                    FROM IndicadoresBundle:TipoCampo tp 
+        $sql = "SELECT tp
+                    FROM IndicadoresBundle:TipoCampo tp
                     ORDER BY tp.descripcion";
         $resultado['tipos_datos'] = $em->createQuery($sql)->getArrayResult();
 
-        $sql = "SELECT dic 
-                    FROM IndicadoresBundle:Diccionario dic 
+        $sql = "SELECT dic
+                    FROM IndicadoresBundle:Diccionario dic
                     ORDER BY dic.descripcion";
         $resultado['diccionarios'] = $em->createQuery($sql)->getArrayResult();
 
-        $sql = "SELECT sv 
-                    FROM IndicadoresBundle:SignificadoCampo sv                      
-                    WHERE sv.usoEnCatalogo = :uso_en_catalogo 
+        $sql = "SELECT sv
+                    FROM IndicadoresBundle:SignificadoCampo sv
+                    WHERE sv.usoEnCatalogo = :uso_en_catalogo
                     ORDER BY sv.descripcion";
         $resultado['significados'] = $em->createQuery($sql)
                 ->setParameter('uso_en_catalogo', $resultado['es_catalogo'] ? 'true' : 'false')
@@ -271,7 +273,7 @@ class OrigenDatoController extends Controller {
                 $tipoCampo = $em->getRepository("IndicadoresBundle:TipoCampo")->findOneByCodigo('integer');
                 $util = new \MINSAL\IndicadoresBundle\Util\Util();
                 foreach ($resultado['nombre_campos'] as $k => $nombre) {
-                    // si existe no guardarlo 
+                    // si existe no guardarlo
                     $nombre_campo = $util->slug($nombre);
                     if (!array_key_exists($nombre_campo, $campos)) {
                         $campo[$k] = new Campo();
@@ -313,7 +315,7 @@ class OrigenDatoController extends Controller {
         }
         $resultado['campos'] = $campos;
 
-        //Cambiar la estructura        
+        //Cambiar la estructura
         $aux = array();
         foreach ($resultado['nombre_campos'] as $n)
             $aux[$n] = '';
@@ -321,13 +323,15 @@ class OrigenDatoController extends Controller {
             foreach ($fila as $k => $v)
                 $aux[$util->slug($k)] .= trim(mb_check_encoding($v, 'UTF-8') ? $v : utf8_encode($v)) . ', ';
         $resultado['datos'] = $aux;
+
         return new Response(json_encode($resultado));
     }
 
     /**
      * @Route("/configurar/campo", name="configurar_campo", options={"expose"=true})
      */
-    public function configurarCampoAction() {
+    public function configurarCampoAction()
+    {
         $resultado = array('estado' => 'success', 'mensaje' => '');
 
         $em = $this->getDoctrine()->getManager();
@@ -338,9 +342,9 @@ class OrigenDatoController extends Controller {
         $valido = true;
         if ($tipo_cambio == 'tipo_campo') {
             $tipo_campo = $em->find("IndicadoresBundle:TipoCampo", $valor);
-            if (strlen($req->get('datos_prueba'))){
+            if (strlen($req->get('datos_prueba'))) {
                 $datos_prueba = explode(', ', $req->get('datos_prueba'));
-            
+
                 $util = new \MINSAL\IndicadoresBundle\Util\Util();
                 foreach ($datos_prueba as $dato) {
                     $valido = $util->validar($dato, $tipo_campo->getCodigo());
@@ -360,7 +364,6 @@ class OrigenDatoController extends Controller {
             $campo->setDiccionario($diccionario);
         }
 
-
         if ($valido) {
             $resultado['mensaje'] = $mensaje;
         } else {
@@ -371,13 +374,15 @@ class OrigenDatoController extends Controller {
         } catch (\Exception $e) {
             $resultado = array('estado' => 'error', 'mensaje' => $this->get('translator')->trans('camio_no_realizado'));
         }
+
         return new Response(json_encode($resultado));
     }
 
     /**
      * @Route("/origen_dato/get_campos/{id}", name="origen_dato_get_campos", options={"expose"=true})
      */
-    public function getCamposAction(OrigenDatos $origen) {
+    public function getCamposAction(OrigenDatos $origen)
+    {
         $resp = '<h6>' . $this->get('translator')->trans('_campos_utilizables_en_campos_calculados_') . '</h6>
                 <UL class="campos_disponibles">';
         if ($origen->getEsFusionado() or $origen->getEsPivote()) {

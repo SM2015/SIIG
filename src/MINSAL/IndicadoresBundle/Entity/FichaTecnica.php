@@ -70,40 +70,40 @@ class FichaTecnica
      * @ORM\Column(name="campos_indicador", type="text", nullable=true)
      */
     private $camposIndicador;
-    
+
     /**
      * @var integer $confiabilidad
      *
      * @ORM\Column(name="confiabilidad", type="integer", nullable=true)
-     * 
+     *
      * @Assert\Range(
      *      min = "0",
      *      max = "100"
      * )
      */
     private $confiabilidad;
-        
+
     /**
      * @var datetime $updatedAt
      *
      * @ORM\Column(name="updated_at", type="datetime", nullable=true)
      */
     private $updatedAt;
-    
+
     /**
      * @var string $esAcumulado
      *
      * @ORM\Column(name="es_acumulado", type="boolean", nullable=true)
-     */    
+     */
     private $esAcumulado;
-    
+
     /**
      * @var datetime ultimaLectura
      *
      * @ORM\Column(name="ultima_lectura", type="datetime", nullable=true)
      */
     private $ultimaLectura;
-            
+
     /**
      * @var clasificacionPrivacidad
      *
@@ -112,14 +112,13 @@ class FichaTecnica
      */
     private $clasificacionPrivacidad;
 
-    /**     
+    /**
      * @ORM\ManyToMany(targetEntity="ClasificacionTecnica", inversedBy="indicadores")
      **/
-    private $clasificacionTecnica;    
-        
-    
+    private $clasificacionTecnica;
+
     /**
-     * 
+     *
      * @var periodo
      *
      * @ORM\ManyToOne(targetEntity="Periodos")
@@ -131,10 +130,10 @@ class FichaTecnica
     /**
     * @var \Doctrine\Common\Collections\ArrayCollection
      * @ORM\OneToMany(targetEntity="IndicadorAlertas", mappedBy="indicador", cascade={"all"}, orphanRemoval=true)
-     * 
+     *
      */
     private $alertas;
-    
+
     /**
      * @ORM\ManyToMany(targetEntity="VariableDato", inversedBy="indicadores")
      * @ORM\JoinTable(name="ficha_tecnica_variable_dato",
@@ -144,17 +143,17 @@ class FichaTecnica
      * @ORM\OrderBy({"nombre" = "ASC"})
      **/
     private $variables;
-    
+
     /**
      * @ORM\ManyToMany(targetEntity="User", mappedBy="indicadores")
      **/
     private $usuarios;
-    
+
     /**
      * @ORM\ManyToMany(targetEntity="User", mappedBy="favoritos")
      **/
     private $usuariosFavoritos;
-    
+
     /**
      * @ORM\ManyToMany(targetEntity="Campo")
      * @ORM\JoinTable(name="ficha_tecnica_campo",
@@ -163,8 +162,7 @@ class FichaTecnica
      *      )
      **/
     private $campos;
-    
-       
+
     /**
     * @var \Doctrine\Common\Collections\ArrayCollection
     * @ORM\OneToMany(targetEntity="GrupoIndicadoresIndicador", mappedBy="indicador", cascade={"all"}, orphanRemoval=true)
@@ -174,7 +172,7 @@ class FichaTecnica
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -184,20 +182,20 @@ class FichaTecnica
     /**
      * Set nombre
      *
-     * @param string $nombre
+     * @param  string       $nombre
      * @return FichaTecnica
      */
     public function setNombre($nombre)
     {
         $this->nombre = $nombre;
-    
+
         return $this;
     }
 
     /**
      * Get nombre
      *
-     * @return string 
+     * @return string
      */
     public function getNombre()
     {
@@ -207,20 +205,20 @@ class FichaTecnica
     /**
      * Set tema
      *
-     * @param string $tema
+     * @param  string       $tema
      * @return FichaTecnica
      */
     public function setTema($tema)
     {
         $this->tema = $tema;
-    
+
         return $this;
     }
 
     /**
      * Get tema
      *
-     * @return string 
+     * @return string
      */
     public function getTema()
     {
@@ -230,20 +228,20 @@ class FichaTecnica
     /**
      * Set concepto
      *
-     * @param string $concepto
+     * @param  string       $concepto
      * @return FichaTecnica
      */
     public function setConcepto($concepto)
     {
         $this->concepto = $concepto;
-    
+
         return $this;
     }
 
     /**
      * Get concepto
      *
-     * @return string 
+     * @return string
      */
     public function getConcepto()
     {
@@ -253,20 +251,20 @@ class FichaTecnica
     /**
      * Set unidadMedida
      *
-     * @param string $unidadMedida
+     * @param  string       $unidadMedida
      * @return FichaTecnica
      */
     public function setUnidadMedida($unidadMedida)
     {
         $this->unidadMedida = $unidadMedida;
-    
+
         return $this;
     }
 
     /**
      * Get unidadMedida
      *
-     * @return string 
+     * @return string
      */
     public function getUnidadMedida()
     {
@@ -276,20 +274,20 @@ class FichaTecnica
     /**
      * Set formula
      *
-     * @param string $formula
+     * @param  string       $formula
      * @return FichaTecnica
      */
     public function setFormula($formula)
     {
         $this->formula = $formula;
-    
+
         return $this;
     }
 
     /**
      * Get formula
      *
-     * @return string 
+     * @return string
      */
     public function getFormula()
     {
@@ -299,20 +297,20 @@ class FichaTecnica
     /**
      * Set observacion
      *
-     * @param string $observacion
+     * @param  string       $observacion
      * @return FichaTecnica
      */
     public function setObservacion($observacion)
     {
         $this->observacion = $observacion;
-    
+
         return $this;
     }
 
     /**
      * Get observacion
      *
-     * @return string 
+     * @return string
      */
     public function getObservacion()
     {
@@ -322,26 +320,26 @@ class FichaTecnica
     /**
      * Set confiabilidad
      *
-     * @param integer $confiabilidad
+     * @param  integer      $confiabilidad
      * @return FichaTecnica
      */
     public function setConfiabilidad($confiabilidad)
     {
         $this->confiabilidad = $confiabilidad;
-    
+
         return $this;
     }
 
     /**
      * Get confiabilidad
      *
-     * @return integer 
+     * @return integer
      */
     public function getConfiabilidad()
     {
         return $this->confiabilidad;
-    }        
-           
+    }
+
     /**
      * Constructor
      */
@@ -349,18 +347,18 @@ class FichaTecnica
     {
         $this->periodos = new \Doctrine\Common\Collections\ArrayCollection();
         $this->variables = new \Doctrine\Common\Collections\ArrayCollection();
-    }        
+    }
 
     /**
      * Add campos
      *
-     * @param MINSAL\IndicadoresBundle\Entity\Campo $campos
+     * @param  MINSAL\IndicadoresBundle\Entity\Campo $campos
      * @return FichaTecnica
      */
     public function addCampo(\MINSAL\IndicadoresBundle\Entity\Campo $campos)
     {
         $this->campos[] = $campos;
-    
+
         return $this;
     }
 
@@ -377,7 +375,7 @@ class FichaTecnica
     /**
      * Get campos
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return Doctrine\Common\Collections\Collection
      */
     public function getCampos()
     {
@@ -387,44 +385,43 @@ class FichaTecnica
     /**
      * Set id
      *
-     * @param integer $id
+     * @param  integer      $id
      * @return FichaTecnica
      */
     public function setId($id)
     {
         $this->id = $id;
-    
+
         return $this;
     }
 
     /**
      * Set camposIndicador
      *
-     * @param string $camposIndicador
+     * @param  string       $camposIndicador
      * @return FichaTecnica
      */
     public function setCamposIndicador($camposIndicador)
     {
         $this->camposIndicador = $camposIndicador;
-    
+
         return $this;
     }
 
     /**
      * Get camposIndicador
      *
-     * @return string 
+     * @return string
      */
     public function getCamposIndicador()
     {
         return $this->camposIndicador;
     }
-        
 
     /**
      * Add alertas
      *
-     * @param MINSAL\IndicadoresBundle\Entity\IndicadorAlertas $alertas
+     * @param  MINSAL\IndicadoresBundle\Entity\IndicadorAlertas $alertas
      * @return FichaTecnica
      */
     public function addAlertas(\MINSAL\IndicadoresBundle\Entity\IndicadorAlertas $alertas)
@@ -432,35 +429,35 @@ class FichaTecnica
         //$alertas->setIndicador($this);
         $this->addAlerta($alertas);
         //$this->alertas[] = $alertas;
-    
+
         //return $this;
     }
-    
 
     /**
      * Get alertas
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return Doctrine\Common\Collections\Collection
      */
     public function getAlertas()
     {
         return $this->alertas;
     }
-    
-    public function __toString() {
+
+    public function __toString()
+    {
         return $this->nombre ? :'';
     }
 
     /**
      * Add alertas
      *
-     * @param MINSAL\IndicadoresBundle\Entity\IndicadorAlertas $alertas
+     * @param  MINSAL\IndicadoresBundle\Entity\IndicadorAlertas $alertas
      * @return FichaTecnica
      */
     public function addAlerta(\MINSAL\IndicadoresBundle\Entity\IndicadorAlertas $alertas)
     {
         $this->alertas[] = $alertas;
-    
+
         return $this;
     }
 
@@ -473,7 +470,7 @@ class FichaTecnica
     {
         $this->alertas->removeElement($alertas);
     }
-    
+
     public function removeAlertas()
     {
         $this->alertas=array();
@@ -482,20 +479,20 @@ class FichaTecnica
     /**
      * Set updatedAt
      *
-     * @param \DateTime $updatedAt
+     * @param  \DateTime    $updatedAt
      * @return FichaTecnica
      */
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
-    
+
         return $this;
     }
 
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -505,13 +502,13 @@ class FichaTecnica
     /**
      * Add variables
      *
-     * @param \MINSAL\IndicadoresBundle\Entity\VariableDato $variables
+     * @param  \MINSAL\IndicadoresBundle\Entity\VariableDato $variables
      * @return FichaTecnica
      */
     public function addVariable(\MINSAL\IndicadoresBundle\Entity\VariableDato $variables)
     {
         $this->variables[] = $variables;
-    
+
         return $this;
     }
 
@@ -528,7 +525,7 @@ class FichaTecnica
     /**
      * Get variables
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getVariables()
     {
@@ -538,20 +535,20 @@ class FichaTecnica
     /**
      * Set ultimaLectura
      *
-     * @param \DateTime $ultimaLectura
+     * @param  \DateTime    $ultimaLectura
      * @return FichaTecnica
      */
     public function setUltimaLectura($ultimaLectura)
     {
         $this->ultimaLectura = $ultimaLectura;
-    
+
         return $this;
     }
 
     /**
      * Get ultimaLectura
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUltimaLectura()
     {
@@ -561,20 +558,20 @@ class FichaTecnica
     /**
      * Set periodo
      *
-     * @param \MINSAL\IndicadoresBundle\Entity\Periodos $periodo
+     * @param  \MINSAL\IndicadoresBundle\Entity\Periodos $periodo
      * @return FichaTecnica
      */
     public function setPeriodo(\MINSAL\IndicadoresBundle\Entity\Periodos $periodo = null)
     {
         $this->periodo = $periodo;
-    
+
         return $this;
     }
 
     /**
      * Get periodo
      *
-     * @return \MINSAL\IndicadoresBundle\Entity\Periodos 
+     * @return \MINSAL\IndicadoresBundle\Entity\Periodos
      */
     public function getPeriodo()
     {
@@ -584,13 +581,13 @@ class FichaTecnica
     /**
      * Add usuariosFavoritos
      *
-     * @param \MINSAL\IndicadoresBundle\Entity\User $usuariosFavoritos
+     * @param  \MINSAL\IndicadoresBundle\Entity\User $usuariosFavoritos
      * @return FichaTecnica
      */
     public function addUsuariosFavorito(\MINSAL\IndicadoresBundle\Entity\User $usuariosFavoritos)
     {
         $this->usuariosFavoritos[] = $usuariosFavoritos;
-    
+
         return $this;
     }
 
@@ -607,7 +604,7 @@ class FichaTecnica
     /**
      * Get usuariosFavoritos
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getUsuariosFavoritos()
     {
@@ -617,37 +614,36 @@ class FichaTecnica
     /**
      * Set esAcumulado
      *
-     * @param boolean $esAcumulado
+     * @param  boolean      $esAcumulado
      * @return FichaTecnica
      */
     public function setEsAcumulado($esAcumulado)
     {
         $this->esAcumulado = $esAcumulado;
-    
+
         return $this;
     }
 
     /**
      * Get esAcumulado
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getEsAcumulado()
     {
         return $this->esAcumulado;
     }
-    
 
     /**
      * Add grupos
      *
-     * @param \MINSAL\IndicadoresBundle\Entity\GrupoIndicadoresIndicador $grupos
+     * @param  \MINSAL\IndicadoresBundle\Entity\GrupoIndicadoresIndicador $grupos
      * @return FichaTecnica
      */
     public function addGrupo(\MINSAL\IndicadoresBundle\Entity\GrupoIndicadoresIndicador $grupos)
     {
         $this->grupos[] = $grupos;
-    
+
         return $this;
     }
 
@@ -664,7 +660,7 @@ class FichaTecnica
     /**
      * Get grupos
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getGrupos()
     {
@@ -674,13 +670,13 @@ class FichaTecnica
     /**
      * Add clasificacionTecnica
      *
-     * @param \MINSAL\IndicadoresBundle\Entity\ClasificacionTecnica $clasificacionTecnica
+     * @param  \MINSAL\IndicadoresBundle\Entity\ClasificacionTecnica $clasificacionTecnica
      * @return FichaTecnica
      */
     public function addClasificacionTecnica(\MINSAL\IndicadoresBundle\Entity\ClasificacionTecnica $clasificacionTecnica)
     {
         $this->clasificacionTecnica[] = $clasificacionTecnica;
-    
+
         return $this;
     }
 
@@ -697,13 +693,13 @@ class FichaTecnica
     /**
      * Get clasificacionTecnica
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getClasificacionTecnica()
     {
         return $this->clasificacionTecnica;
     }
-    
+
     /**
      * Get clasificacionTecnica
      *
@@ -711,7 +707,7 @@ class FichaTecnica
      */
     public function setClasificacionTecnica(\Doctrine\Common\Collections\Collection $clasificacionTecnica)
     {
-        foreach ($clasificacionTecnica as $c){
+        foreach ($clasificacionTecnica as $c) {
             $this->addClasificacionTecnica($c);
         }
     }
@@ -719,13 +715,13 @@ class FichaTecnica
     /**
      * Add clasificacionPrivacidad
      *
-     * @param \MINSAL\IndicadoresBundle\Entity\ClasificacionPrivacidad $clasificacionPrivacidad
+     * @param  \MINSAL\IndicadoresBundle\Entity\ClasificacionPrivacidad $clasificacionPrivacidad
      * @return FichaTecnica
      */
     public function addClasificacionPrivacidad(\MINSAL\IndicadoresBundle\Entity\ClasificacionPrivacidad $clasificacionPrivacidad)
     {
         $this->clasificacionPrivacidad[] = $clasificacionPrivacidad;
-    
+
         return $this;
     }
 
@@ -742,7 +738,7 @@ class FichaTecnica
     /**
      * Get clasificacionPrivacidad
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getClasificacionPrivacidad()
     {
@@ -752,13 +748,13 @@ class FichaTecnica
     /**
      * Add usuarios
      *
-     * @param \MINSAL\IndicadoresBundle\Entity\User $usuarios
+     * @param  \MINSAL\IndicadoresBundle\Entity\User $usuarios
      * @return FichaTecnica
      */
     public function addUsuario(\MINSAL\IndicadoresBundle\Entity\User $usuarios)
     {
         $this->usuarios[] = $usuarios;
-    
+
         return $this;
     }
 
@@ -775,7 +771,7 @@ class FichaTecnica
     /**
      * Get usuarios
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getUsuarios()
     {

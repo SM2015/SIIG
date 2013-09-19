@@ -6,15 +6,17 @@ use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
 use Doctrine\ORM\EntityManager;
 
-class GuardarRegistroOrigenDatoConsumer implements ConsumerInterface {
-
+class GuardarRegistroOrigenDatoConsumer implements ConsumerInterface
+{
     protected $em;
 
-    public function __construct(EntityManager $em) {
+    public function __construct(EntityManager $em)
+    {
         $this->em = $em;
     }
 
-    public function execute(AMQPMessage $mensaje) {
+    public function execute(AMQPMessage $mensaje)
+    {
         $msg = unserialize($mensaje->body);
 
         // Si se retorna falso se enviará un mensaje que le indicará al producer que no se pudo procesar
@@ -34,7 +36,7 @@ class GuardarRegistroOrigenDatoConsumer implements ConsumerInterface {
                 $this->em->getConnection()->exec("SELECT id_origen_dato, datos, ultima_lectura INTO fila_origen_dato_aux FROM fila_origen_dato LIMIT 0");
             }
 
-            $sql = "INSERT INTO fila_origen_dato_aux(id_origen_dato, datos, ultima_lectura) 
+            $sql = "INSERT INTO fila_origen_dato_aux(id_origen_dato, datos, ultima_lectura)
                     VALUES ";
             $i = 0;
             foreach ($msg['datos'] as $fila) {
@@ -64,12 +66,13 @@ class GuardarRegistroOrigenDatoConsumer implements ConsumerInterface {
             if (!$result)
                 return false;
             $this->em->getConnection()->commit();
+
             return true;
         } elseif ($msg['method'] == 'DELETE') {
             $this->em->getConnection()->beginTransaction();
             //Borrar los datos existentes por el momento así será pero debería haber una forma de ir a traer solo los nuevos
             $sql = "DELETE FROM fila_origen_dato WHERE id_origen_dato='$msg[id_origen_dato]'  ;
-                    INSERT INTO fila_origen_dato SELECT * FROM fila_origen_dato_aux WHERE id_origen_dato='$msg[id_origen_dato]';                    
+                    INSERT INTO fila_origen_dato SELECT * FROM fila_origen_dato_aux WHERE id_origen_dato='$msg[id_origen_dato]';
                     DELETE FROM fila_origen_dato_aux WHERE id_origen_dato='$msg[id_origen_dato]' ;
                     ";
             $this->em->getConnection()->exec($sql);
@@ -86,6 +89,7 @@ class GuardarRegistroOrigenDatoConsumer implements ConsumerInterface {
                         $fichaRepository->crearIndicador($fichaTec);
                 }
             }
+
             return true;
         }
     }

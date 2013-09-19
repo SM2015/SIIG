@@ -230,7 +230,7 @@ javascript:
   max_indicador: 'Máximo valor del indicador'
   max_rango_alertas: 'Máximo valor de alertas'
   ocultar_listado_indicadores: 'Ocultar listado de indicadores'
-  mostrar_listado_indicadores: 'Mostrar listado de indicadores'  
+  mostrar_listado_indicadores: 'Mostrar listado de indicadores'
   agregar_favorito: 'Marcar como favorito'
   quitar_favoritos: 'Quitar de favoritos'
   ver_ficha_tecnica: 'Ver ficha Técnica'
@@ -270,7 +270,7 @@ tablero:
   tipo_grafico_principal: Tipo de gráfico principal
   tipo_grafico_secundario: Tipo de gráfico secundario
 
-  
+
 _no_clasificados_ : 'Sin clasificacion'
 _interpretacion_ : 'Interpretación'
 _nivel_de_usuario_ : 'Nivel de usuario'
@@ -310,9 +310,9 @@ _ocultar/mostrar_menu_principal_: 'Mostrar/Ocultar Menú principal'
 _campo_calculado_: 'Campo calculado'
 _campos_utilizables_en_campos_calculados_: 'Campos utilizables en la fórmula'
 _variable_no_campo_: 'Ha utilizado una variable que no es parte de los campos del origen de datos'
-_exportar_: 'Exportar' 
+_exportar_: 'Exportar'
 _tipos_graficos_: Tipos de gráficos permitidos
-change_password.flash.success: 'Contraseña ha sido cambiada con éxito'  
+change_password.flash.success: 'Contraseña ha sido cambiada con éxito'
 _cambiar_clave_: Cambiar clave de acceso
 _ver_ficha_: Ver Ficha Técnica
 _ultima_actualizacion_: Última actualización

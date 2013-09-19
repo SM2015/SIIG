@@ -8,17 +8,17 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Validator\ErrorElement;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
 
-class CampoAdmin extends Admin {
-
+class CampoAdmin extends Admin
+{
     protected $datagridValues = array(
         '_page' => 1, // Display the first page (default = 1)
         '_sort_order' => 'ASC', // Descendant ordering (default = 'ASC')
         '_sort_by' => 'origenDato.nombre' // name of the ordered field (default = the model id field, if any)
     );
 
-    protected function configureFormFields(FormMapper $formMapper) {
+    protected function configureFormFields(FormMapper $formMapper)
+    {
         $formMapper
                 ->add('nombre', null, array('label' => $this->getTranslator()->trans('nombre')))
                 ->add('descripcion', null, array('label' => $this->getTranslator()->trans('descripcion'), 'required' => true))
@@ -30,14 +30,16 @@ class CampoAdmin extends Admin {
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper) {
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    {
         $datagridMapper
                 ->add('nombre', null, array('label' => $this->getTranslator()->trans('nombre')))
                 ->add('origenDato', null, array('label' => $this->getTranslator()->trans('origen_datos')))
         ;
     }
 
-    protected function configureListFields(ListMapper $listMapper) {
+    protected function configureListFields(ListMapper $listMapper)
+    {
         $listMapper
                 ->add('nombre', null, array('label' => $this->getTranslator()->trans('nombre')))
                 ->add('descripcion', null, array('label' => $this->getTranslator()->trans('descripcion')))
@@ -55,7 +57,8 @@ class CampoAdmin extends Admin {
     /**
      * @return \Sonata\AdminBundle\Datagrid\ProxyQueryInterface
      */
-    public function createQuery($context = 'list') {
+    public function createQuery($context = 'list')
+    {
         $query = parent::createQuery($context);
 
         return new ProxyQuery(
@@ -64,7 +67,8 @@ class CampoAdmin extends Admin {
         );
     }
 
-    public function getTemplate($name) {
+    public function getTemplate($name)
+    {
         switch ($name) {
             case 'edit':
                 return 'IndicadoresBundle:CRUD:campo-edit.html.twig';
@@ -75,44 +79,48 @@ class CampoAdmin extends Admin {
         }
     }
 
-    public function validate(ErrorElement $errorElement, $object) {
+    public function validate(ErrorElement $errorElement, $object)
+    {
         $vars_formula = array();
         $formula = str_replace(' ', '', $object->getFormula());
         preg_match_all('/(\{[\w]+\})/', $formula, $vars_formula);
-        
-        //Verificar que haya utilizado solo campos existentes en el origen de datos        
+
+        //Verificar que haya utilizado solo campos existentes en el origen de datos
         foreach ($object->getOrigenDato()->getCampos() as $campo) {
-            if ($campo->getSignificado() and $campo->getTipoCampo())
+            if ($campo->getSignificado() and $campo->getTipoCampo()){
                 $campos[$campo->getSignificado()->getCodigo()] = $campo->getTipoCampo()->getCodigo();
-        }        
-        
+            }
+        }
+
         //Verificar que todas las variables sean campos del origen de datos
-        foreach ($vars_formula[0] as $var){
-            if (!array_key_exists(str_replace(array('{','}'),'',$var), $campos)){
+        foreach ($vars_formula[0] as $var) {
+            if (!array_key_exists(str_replace(array('{', '}'), '', $var), $campos)) {
                 $errorElement
-                    ->with('formula')
-                    ->addViolation('<span style="color:red">'.$var.'</span> '.$this->getTranslator()->trans('_variable_no_campo_'))
-                    ->end();
+                        ->with('formula')
+                        ->addViolation('<span style="color:red">' . $var . '</span> ' . $this->getTranslator()->trans('_variable_no_campo_'))
+                        ->end();
+
                 return;
             }
         }
         // ******** Verificar si matematicamente la fórmula es correcta
-        // 1) Sustituir las variables por valores aleatorios entre 1 y 100              
+        // 1) Sustituir las variables por valores aleatorios entre 1 y 100
         foreach ($vars_formula[0] as $var) {
-            $variable = str_replace(array('{','}'),'',$var);
-            
-            if ($campos[$variable]=='integer' or $campos[$variable]=='float')
+            $variable = str_replace(array('{', '}'), '', $var);
+
+            if ($campos[$variable] == 'integer' or $campos[$variable] == 'float') {
                 $formula = str_replace($var, rand(1, 100), $formula);
-            elseif ($campos[$variable]=='date')
+            } elseif ($campos[$variable] == 'date') {
                 $formula = str_replace($var, ' current_date ', $formula);
-            else
+            } else {
                 $formula = str_replace($var, "'texto'", $formula);
+            }
         }
 
         //evaluar la formula
         try {
             $sql = 'SELECT ' . $formula;
-            
+
             $this->getConfigurationPool()
                     ->getContainer()
                     ->get('doctrine')
@@ -128,5 +136,3 @@ class CampoAdmin extends Admin {
     }
 
 }
-
-?>

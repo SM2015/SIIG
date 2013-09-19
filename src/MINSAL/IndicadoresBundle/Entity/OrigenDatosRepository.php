@@ -7,14 +7,15 @@ use MINSAL\IndicadoresBundle\Entity\OrigenDatos;
 use MINSAL\IndicadoresBundle\Excel\Excel as Excel;
 use Doctrine\DBAL as DBAL;
 
-class OrigenDatosRepository extends EntityRepository {
-
+class OrigenDatosRepository extends EntityRepository
+{
     /**
      * Verifica que el origen de datos esté totalmente configurado
      * 1) Que no tenga ningún campo sin significado
      * 2) Que tenga un campo con significado "calculo"
      */
-    public function estaConfigurado(OrigenDatos $origen) {
+    public function estaConfigurado(OrigenDatos $origen)
+    {
         $tiene_campo_calculo = false;
         $tiene_descripcion = false;
         $tiene_pk = false;
@@ -29,8 +30,7 @@ class OrigenDatosRepository extends EntityRepository {
                         $tiene_pk = true;
                     elseif ($significado == 'descripcion')
                         $tiene_descripcion = true;
-                }
-                else
+                } else
                 if ($significado == 'calculo')
                     $tiene_campo_calculo = true;
             } else
@@ -48,7 +48,8 @@ class OrigenDatosRepository extends EntityRepository {
             return true;
     }
 
-    public function getTotalRegistros(OrigenDatos $origenDato) {
+    public function getTotalRegistros(OrigenDatos $origenDato)
+    {
         if ($origenDato->getSentenciaSql() != '') {
             $conexion = $origenDato->getConexion();
 
@@ -60,12 +61,15 @@ class OrigenDatosRepository extends EntityRepository {
                 $total = mssql_num_rows($query);
             } else
                 $total = $conn->query($origenDato->getSentenciaSql())->rowCount();
+
             return $total;
         } else
+
             return 1;
     }
 
-    public function getDatos($sql, $conexion, $ruta_archivo = null) {
+    public function getDatos($sql, $conexion, $ruta_archivo = null)
+    {
         $datos = array();
         $nombre_campos = array();
         if ($ruta_archivo == null) {
@@ -135,7 +139,8 @@ class OrigenDatosRepository extends EntityRepository {
         return $datos;
     }
 
-    public function crearTablaCatalogo(OrigenDatos $origenDato, array $datos) {
+    public function crearTablaCatalogo(OrigenDatos $origenDato, array $datos)
+    {
         //Recuperar la información para construir la tabla
         $em = $this->getEntityManager();
         $nombre_tabla = $origenDato->getNombreCatalogo();
@@ -154,7 +159,7 @@ class OrigenDatosRepository extends EntityRepository {
         $sql = trim($sql, ', ') . '); ';
         //Crear tabla temporal para hacer un puente y validar antes de subir al catálogo
         $nombre_temp = $nombre_tabla . time();
-        $sql .= ' 
+        $sql .= '
                 SELECT * INTO TEMP ' . $nombre_temp . ' FROM ' . $nombre_tabla . ' LIMIT 0;';
         $nombre_campos = implode(", ", array_keys($datos[0]));
 
@@ -176,7 +181,7 @@ class OrigenDatosRepository extends EntityRepository {
                 $sql .= " $campo = $nombre_temp.$campo, ";
             }
             $sql = trim($sql, ', ');
-            $sql .=" FROM $nombre_temp WHERE $nombre_tabla.$pk IN (SELECT $pk FROM $nombre_tabla) 
+            $sql .=" FROM $nombre_temp WHERE $nombre_tabla.$pk IN (SELECT $pk FROM $nombre_tabla)
                     AND $nombre_tabla.$pk = $nombre_temp.$pk";
         }
 
@@ -187,10 +192,12 @@ class OrigenDatosRepository extends EntityRepository {
         } catch (DBAL\DBALException $e) {
             return $e->getMessage();
         }
+
         return true;
     }
 
-    public function cargarCatalogo(OrigenDatos $origenDato) {
+    public function cargarCatalogo(OrigenDatos $origenDato)
+    {
         $em = $this->getEntityManager();
         $datos = array();
         if (count($origenDato->getConexiones()) > 0) {
@@ -205,12 +212,12 @@ class OrigenDatosRepository extends EntityRepository {
         return $this->crearTablaCatalogo($origenDato, $datos);
     }
 
-    public function getCatalogos() {
-
+    public function getCatalogos()
+    {
         //Consulta directa sobre el gestor postgresql, no funcionará en otro
         // Recupero todas las tablas cuyo nombre empieza con ctl_
-        $sql = "SELECT relname AS nombre, relname AS nombre_tabla  
-            FROM pg_stat_user_tables 
+        $sql = "SELECT relname AS nombre, relname AS nombre_tabla
+            FROM pg_stat_user_tables
             WHERE relname LIKE 'ctl_%'
             ORDER BY relname";
 
@@ -219,6 +226,7 @@ class OrigenDatosRepository extends EntityRepository {
         foreach ($datos as $fila) {
             $result[$fila['nombre']] = $fila['nombre'];
         }
+
         return $result;
     }
 

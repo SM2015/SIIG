@@ -5,7 +5,6 @@ namespace MINSAL\IndicadoresBundle\Admin;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
-use Sonata\AdminBundle\Validator\ErrorElement;
 use Sonata\AdminBundle\Form\FormMapper;
 
 class ResponsableDatoAdmin extends Admin
@@ -15,10 +14,10 @@ class ResponsableDatoAdmin extends Admin
         '_sort_order' => 'ASC', // Descendant ordering (default = 'ASC')
         '_sort_by' => 'contacto' // name of the ordered field (default = the model id field, if any)
     );
-    
+
     protected function configureFormFields(FormMapper $formMapper)
     {
-        $formMapper            
+        $formMapper
             ->add('contacto', null, array('label'=> $this->getTranslator()->trans('contacto')))
             ->add('establecimiento', null, array('label'=> $this->getTranslator()->trans('establecimiento')))
             ->add('correo', 'email', array('label'=> $this->getTranslator()->trans('correo_electronico')))
@@ -40,19 +39,19 @@ class ResponsableDatoAdmin extends Admin
 
     protected function configureListFields(ListMapper $listMapper)
     {
-        $listMapper            
+        $listMapper
             ->addIdentifier('contacto', null, array('label'=> $this->getTranslator()->trans('contacto')))
             ->add('establecimiento', null, array('label'=> $this->getTranslator()->trans('nombre_establecimiento')))
             ->add('correo', null, array('label'=> $this->getTranslator()->trans('correo_electronico')))
             ->add('telefono', null, array('label'=> $this->getTranslator()->trans('telefono')))
             ->add('cargo', null, array('label'=> $this->getTranslator()->trans('cargo')))
-                
+
         ;
     }
 
-    public function getBatchActions(){
+    public function getBatchActions()
+    {
         $actions = parent::getBatchActions();
         $actions['delete'] = null;
     }
 }
-?>

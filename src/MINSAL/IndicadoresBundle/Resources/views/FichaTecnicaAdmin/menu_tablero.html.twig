@@ -4,12 +4,12 @@
             <i class="icon-resize-full"></i>
         </a>
     </div>
-    <div class='btn-group'> 
+    <div class='btn-group'>
         <a href='#' class="btn dropdown-toggle" data-toggle="dropdown" >
             <i class="icon-th"></i>{{'_sala_'|trans}}
             <span class="caret"></span>
-        </a>            
-        <ul class="dropdown-menu">                
+        </a>
+        <ul class="dropdown-menu">
             <li><A id='agregar_fila' >{{'_agregar_area_grafico_'|trans}}</a></li>
             <li><A id='quitar_indicador' >{{'_quitar_indicador_'|trans}}</a></li>
             <li><!-- Button to trigger modal -->
@@ -19,7 +19,7 @@
                 <a >
                     {{'_clasificacion_indicadores_'|trans}}
                 </a>
-                <ul class="dropdown-menu">                
+                <ul class="dropdown-menu">
                 {% for clasificacion in clasificacionUso %}
                     {% if clasificacion.codigo == app.user.clasificacionUso.codigo|default('') %}
                     <li class='active'><A >{{clasificacion.descripcion}}</a></li>
@@ -27,7 +27,7 @@
                     <li ><a href='{{url('change_clasificacion_uso',{codigo_clasificacion:clasificacion.codigo})}}'>{{clasificacion.descripcion}}</a></li>
                     {% endif %}
                 {% endfor %}
-                </ul> 
+                </ul>
             </li>
             <li class="divider"></li>
             <li class="nav-header">{{'_salas_'|trans}}</li>
@@ -41,7 +41,7 @@
             <i class="icon-align-left"></i>{{"indicadores"|trans}}
             <span class="caret"></span>
         </a>
-        <ul class="dropdown-menu">                
+        <ul class="dropdown-menu">
             <li class="dropdown-submenu">
                 <a >{{"favoritos"|trans}} (<span id='cantidad_favoritos'>{{app.user.favoritos|length}}</span>)</a>
                 <ul class="dropdown-menu" id='listado-favoritos'>

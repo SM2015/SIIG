@@ -58,12 +58,10 @@ class FuenteDato
      */
     private $cargo;
 
-
-
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -73,20 +71,20 @@ class FuenteDato
     /**
      * Set establecimiento
      *
-     * @param string $establecimiento
+     * @param  string     $establecimiento
      * @return FuenteDato
      */
     public function setEstablecimiento($establecimiento)
     {
         $this->establecimiento = $establecimiento;
-    
+
         return $this;
     }
 
     /**
      * Get establecimiento
      *
-     * @return string 
+     * @return string
      */
     public function getEstablecimiento()
     {
@@ -96,20 +94,20 @@ class FuenteDato
     /**
      * Set contacto
      *
-     * @param string $contacto
+     * @param  string     $contacto
      * @return FuenteDato
      */
     public function setContacto($contacto)
     {
         $this->contacto = $contacto;
-    
+
         return $this;
     }
 
     /**
      * Get contacto
      *
-     * @return string 
+     * @return string
      */
     public function getContacto()
     {
@@ -119,20 +117,20 @@ class FuenteDato
     /**
      * Set correo
      *
-     * @param string $correo
+     * @param  string     $correo
      * @return FuenteDato
      */
     public function setCorreo($correo)
     {
         $this->correo = $correo;
-    
+
         return $this;
     }
 
     /**
      * Get correo
      *
-     * @return string 
+     * @return string
      */
     public function getCorreo()
     {
@@ -142,20 +140,20 @@ class FuenteDato
     /**
      * Set telefono
      *
-     * @param string $telefono
+     * @param  string     $telefono
      * @return FuenteDato
      */
     public function setTelefono($telefono)
     {
         $this->telefono = $telefono;
-    
+
         return $this;
     }
 
     /**
      * Get telefono
      *
-     * @return string 
+     * @return string
      */
     public function getTelefono()
     {
@@ -165,40 +163,41 @@ class FuenteDato
     /**
      * Set cargo
      *
-     * @param string $cargo
+     * @param  string     $cargo
      * @return FuenteDato
      */
     public function setCargo($cargo)
     {
         $this->cargo = $cargo;
-    
+
         return $this;
     }
 
     /**
      * Get cargo
      *
-     * @return string 
+     * @return string
      */
     public function getCargo()
     {
         return $this->cargo;
     }
-    
-    public function __toString() {
+
+    public function __toString()
+    {
         return $this->establecimiento ? :'';
     }
 
     /**
      * Set id
      *
-     * @param integer $id
+     * @param  integer    $id
      * @return FuenteDato
      */
     public function setId($id)
     {
         $this->id = $id;
-    
+
         return $this;
     }
 }
