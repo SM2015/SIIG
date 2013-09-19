@@ -113,7 +113,7 @@ class FichaTecnicaAdminController extends Controller {
         //Quitar los comentarios del código html, enlaces y aplicar estilos
         $salida = preg_replace('/<!--(.|\s)*?-->/', '', $salida);
         $salida = preg_replace('/<a(.|\s)*?>/', '', $salida);        
-        
+        $salida = str_ireplace('</a>', '', $salida);
         $salida = str_ireplace('TD',"TD STYLE='border: 2px double black'", $salida);
         $salida = str_ireplace('TH',"TH STYLE='border: 2px double black'", $salida);
         $salida = str_ireplace('<TABLE',"<TABLE width=95% ", $salida);

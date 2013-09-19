@@ -60,7 +60,7 @@ $(document).ready(function() {
     function cargarDatos(recargar_origen) {
         $('#datos').html('');
         $('#datos').addClass("table table-condensed table-hover");
-        $('#datos').before("<div id='mensajito_cambio'></div>");         
+        $('#datos').before("<div id='mensajito_cambio'></div>");
         $.getJSON(Routing.generate('origen_dato_leer', {id: $('#configurar').attr('data')}), {recargar: recargar_origen},
         function(resp) {
             //Construir los options de tipo_datoe
@@ -100,7 +100,7 @@ $(document).ready(function() {
                         "<TH>" + trans.diccionario_transformacion + "</TH>" +
                         "<TH>" + trans.datos_muestra + "</TH>" +
                         "</TR></THEAD>" +
-                        "<TBODY id='datos_body'></TBODY>");                
+                        "<TBODY id='datos_body'></TBODY>");
                 $.each(resp.nombre_campos, function(id, valor) {
                     fila = "<TR>" +
                             "<TD>" + valor + "</TD>" +
