@@ -36,26 +36,40 @@ var Chart = Backbone.View.extend({
         
         // Listen to adjust event and rerender chart
         this.workspace.bind('workspace:adjust', this.render);
+        var chartoptions ="<div class='chart-switcher'>" +
+                "<a class='type' href='#bar' class='i18n'>bar</a>" +
+                "<a class='type' href='#stackedBar' class='i18n'>stacked bar</a>" +
+                "<a class='type' href='#line' class='i18n'>line</a>" +
+                "<a class='type' href='#pie' class='i18n'>pie</a>" +
+                "<a class='type' href='#heatgrid' class='i18n'>heatgrid</a>";
+
+        var exportoptions = "Export to: " +
+                "<a class='export' href='#png' class='i18n'>PNG</a>, " +
+                "<a class='export' href='#pdf' class='i18n'>PDF</a>, " +
+                "<a class='export' href='#tiff' class='i18n'>TIFF</a>, " +
+                "<a class='export' href='#svg' class='i18n'>SVG</a>, " +
+                "<a class='export' href='#jpg' class='i18n'>JPG</a>" +
+                "<form id='svgChartPseudoForm' action='/saiku/svg' method='POST'>" +
+                "<input type='hidden' name='type' class='type'/>" +
+                "<input type='hidden' name='svg' class='svg'/>" +
+                "</form>";
+
+        var chartnav = (Settings.PLUGIN) ? chartoptions + "<div>" : chartoptions + exportoptions + "</div>";
         
         // Create navigation
-        this.nav = $("<div class='chart-switcher'>" +
-        		"<a href='#bar' class='i18n'>bar</a>" +
-                "<a href='#stackedBar' class='i18n'>stacked bar</a>" +
-        		"<a href='#line' class='i18n'>line</a>" +
-        		"<a href='#pie' class='i18n'>pie</a>" +
-                "<a href='#heatgrid' class='i18n'>heatgrid</a>" +
-        		"</div>").css({
+        this.nav = $(chartnav).css({
         		    'padding-bottom': '10px'
         		});
-        this.nav.find('a').css({ 
-                    color: '#666', 
-                    'margin-right': '5px', 
-                    'text-decoration': 'none', 
-                    'border': '1px solid #ccc', 
-                    padding: '5px' 
+        this.nav.find('a.type').css({
+                    color: '#666',
+                    'margin-right': '5px',
+                    'text-decoration': 'none',
+                    'border': '1px solid #ccc',
+                    padding: '5px'
                 })
                 .click(this.setOptions);
-    
+        this.nav.find('a.export').click(this.exportChart);
+
         // Append chart to workspace
         $(this.workspace.el).find('.workspace_results')
             .prepend($(this.el).hide())
@@ -65,13 +79,14 @@ var Chart = Backbone.View.extend({
     add_button: function() {
         var $chart_button = 
             $('<a href="#chart" class="chart button disabled_toolbar i18n" title="Toggle Chart"></a>')
-            .css({  'background-image': "url('js/saiku/plugins/Chart/chart.png')",
+            .css({  'background-image': "url('/bundles/indicadores/cubos/js/saiku/plugins/Chart/chart.png')",
                     'background-repeat':'no-repeat',
                     'background-position':'50% 50%'
                 });
 
         var $chart_li = $('<li class="seperator"></li>').append($chart_button);
         $(this.workspace.toolbar.el).find("ul").append($chart_li);
+
     },
     
     show: function(event, ui) {
@@ -81,6 +96,7 @@ var Chart = Backbone.View.extend({
         $(event.target).toggleClass('on');
         
         if ($(event.target).hasClass('on')) {
+            this.process_data({ data: this.workspace.query.result.lastresult() });
             this.render();
         }
     },
@@ -94,6 +110,16 @@ var Chart = Backbone.View.extend({
         return false;
     },
     
+    exportChart: function(event) {
+        var type = $(event.target).attr('href').replace('#', '');
+        var svgContent = new XMLSerializer().serializeToString($('svg')[0]);
+        var form = $('#svgChartPseudoForm');
+        form.find('.type').val(type);
+        form.find('.svg').val(svgContent);
+        form.submit();
+        return false;
+    },
+
     stackedBar: function() {
         this.options.stacked = true;
         this.options.type = "BarChart";
@@ -141,7 +167,7 @@ var Chart = Backbone.View.extend({
             legend: true,
             legendPosition:"top",
             legendAlign: "right",
-            colors: ["#B40010", "#CCC8B4", "#DDB965", "#72839D", "#1D2D40"],
+            colors: ["#4bb2c5", "#c5b47f", "#EAA228", "#579575", "#839557", "#958c12", "#953579", "#4b5de4", "#d8b83f", "#ff5800", "#0085cc"],
             type: 'BarChart'
         }, this.options);
         
@@ -160,8 +186,8 @@ var Chart = Backbone.View.extend({
                     panelSizeRatio: 0.8,
                     yAxisPosition: "left",
                     yAxisSize: 150,
-                    minColor: "#FEDFE1",
-                    maxColor: "#F11929",
+                    minColor: "#FFFFFF",
+                    maxColor: "green",
                     extensionPoints: {
                         xAxisLabel_textAngle: -(Math.PI / 2),
                         xAxisLabel_textAlign: "right",
@@ -195,6 +221,9 @@ var Chart = Backbone.View.extend({
     },
     
     receive_data: function(args) {
+        if (! $(this.workspace.toolbar.el).find('.chart').hasClass('on')) {
+            return;
+        }
         return _.delay(this.process_data, 0, args);
     },
     
@@ -204,50 +233,94 @@ var Chart = Backbone.View.extend({
         this.data.metadata = [];
         this.data.height = 0;
         this.data.width = 0;
-        
-        if (args.data.cellset && args.data.cellset.length > 0) {
+
+        var cellset = args.data.cellset;
+        if (cellset && cellset.length > 0) {
             
             var lowest_level = 0;
-        
-            for (var row = 0; row < args.data.cellset.length; row++) {
-                if (args.data.cellset[row][0].type == "ROW_HEADER_HEADER") {
+            var data_start = 0;
+            for (var row = 0; data_start == 0 && row < cellset.length; row++) {
                     this.data.metadata = [];
-                    for (var field = 0; field < args.data.cellset[row].length; field++) {
-                        if (args.data.cellset[row][field].type == "ROW_HEADER_HEADER") {
-                            this.data.metadata.shift();
-                            lowest_level = field;
+                    for (var field = 0; field < cellset[row].length; field++) {
+                        var firstHeader = [];
+
+                        while (cellset[row][field].type == "COLUMN_HEADER" && cellset[row][field].value == "null") {
+                            row++;
                         }
-                        
-                        this.data.metadata.push({
-                            colIndex: field,
-                            colType: typeof(args.data.cellset[row + 1][field].value) !== "number" &&
-                                isNaN(args.data.cellset[row + 1][field].value
-                                .replace(/[^a-zA-Z 0-9.]+/g,'')) ? "String" : "Numeric",
-                            colName: args.data.cellset[row][field].value
-                        });
+                        if (cellset[row][field].type == "ROW_HEADER_HEADER") {
+
+                            while(cellset[row][field].type == "ROW_HEADER_HEADER") {
+                                firstHeader.push(cellset[row][field].value);
+                                field++;
+                            }
+
+                            this.data.metadata.push({
+                                colIndex: 0,
+                                colType: "String",
+                                colName: firstHeader.join('/')
+                            });    
+                            lowest_level = field - 1;
+                        }
+                        if (cellset[row][field].type == "COLUMN_HEADER" && cellset[row][field].value != "null") {
+                            var lowest_col_header = 0;
+                            var colheader = [];
+                            while(lowest_col_header <= row) {
+                                colheader.push(cellset[lowest_col_header][field].value);
+                                lowest_col_header++;
+                            }
+                            this.data.metadata.push({
+                                colIndex: field - lowest_level + 1,
+                                colType: "Numeric",
+                                colName: colheader.join('/')
+                            });
+
+                            data_start = row+1;
+                        }
                     }
-                } else if (args.data.cellset[row][0].value !== "null" && args.data.cellset[row][0].value !== "") {
+            }
+            var labelsSet = {};
+            for (var row = data_start; row < cellset.length; row++) {
+            if (cellset[row][0].value !== "") {
                     var record = [];
-                    this.data.width = args.data.cellset[row].length;
-                    for (var col = lowest_level; col < args.data.cellset[row].length; col++) {
-                        var value = args.data.cellset[row][col].value;
-                        // check if the resultset contains the raw value, if not try to parse the given value
-                        if (args.data.cellset[row][col].properties.raw && args.data.cellset[row][col].properties.raw !== "null")
-                        {
-                            value = parseFloat(args.data.cellset[row][col].properties.raw);
-                        } else if (typeof(args.data.cellset[row][col].value) !== "number" &&
-                            parseFloat(args.data.cellset[row][col].value.replace(/[^a-zA-Z 0-9.]+/g,''))) 
-                        {
-                            value = parseFloat(args.data.cellset[row][col].value.replace(/[^a-zA-Z 0-9.]+/g,''));
+                    this.data.width = cellset[row].length - lowest_level + 1;
+                    var label = "";
+                    for (var labelCol = lowest_level; labelCol >= 0; labelCol--) {
+                        var lastKnownUpperLevelRow = row;
+                        while(cellset[lastKnownUpperLevelRow] && cellset[lastKnownUpperLevelRow][labelCol].value === 'null') {
+                            --lastKnownUpperLevelRow;
                         }
-                        if (col == lowest_level) {
-                            value += " [" + row + "]";
+                        if(cellset[lastKnownUpperLevelRow]) {
+                            if (label == "") {
+                                label = cellset[lastKnownUpperLevelRow][labelCol].value;
+                            } else {
+                                label = cellset[lastKnownUpperLevelRow][labelCol].value + " / " + label;
+                            }
+                        }
+                    }
+                    if(label in labelsSet) {
+                        labelsSet[label] = labelsSet[label]+1;
+                        label = label + ' [' + (labelsSet[label] + 1) + ']';
+                    } else {
+                        labelsSet[label] = 0;
+                    }
+                    record.push(label);
+
+                    for (var col = lowest_level + 1; col < cellset[row].length; col++) {
+                        var cell = cellset[row][col];
+                        var value = cell.value || 0;
+                        // check if the resultset contains the raw value, if not try to parse the given value
+                        var raw = cell.properties.raw;
+                        if (raw && raw !== "null") {
+                            value = parseFloat(raw);
+                        } else if (typeof(cell.value) !== "number" && parseFloat(cell.value.replace(/[^a-zA-Z 0-9.]+/g,''))) {
+                            value = parseFloat(cell.value.replace(/[^a-zA-Z 0-9.]+/g,''));
                         }
                         record.push(value);
                     }
                     this.data.resultset.push(record);
                 }
             }
+            //makeSureUniqueLabels(this.data.resultset);
             this.data.height = this.data.resultset.length;
             this.render();
         } else {
@@ -262,7 +335,7 @@ var Chart = Backbone.View.extend({
 (function() {
     // Initialize CCC
     $.ajax({
-        url: "http://localhost/bundles/indicadores/cubos/js/saiku/plugins/Chart/ccc.js",
+        url: "/bundles/indicadores/cubos/js/saiku/plugins/Chart/ccc.js",
         dataType: "script",
         cache: true,
         success: function() {

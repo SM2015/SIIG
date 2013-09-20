@@ -21,7 +21,6 @@ var Table = Backbone.View.extend({
     tagName: "table",
 
     events: {
-        'click .cancel': 'cancel',
         'click th.row' : 'clicked_cell',
         'click th.col' : 'clicked_cell'
     },
@@ -30,14 +29,14 @@ var Table = Backbone.View.extend({
         this.workspace = args.workspace;
         
         // Bind table rendering to query result event
-        _.bindAll(this, "render", "process_data", "cancelled", "cancel");
+        _.bindAll(this, "render", "process_data");
         this.workspace.bind('query:result', this.render);
     },
     
     clicked_cell: function(event) {
         var self = this;
         
-        if (this.workspace.query.get('type') != 'QM' || Settings.MODE == "view") {
+        if (this.workspace.query.get('type') != 'QM' || Settings.MODE == "table") {
             return false;
         }
 
@@ -45,9 +44,9 @@ var Table = Backbone.View.extend({
             $(event.target).find('div') : $(event.target);
         
     $body = $(document);
-    $body.off('.contextMenu .contextMenuAutoHide');
-    $('.context-menu-list').remove();
-    $.contextMenu('destroy');
+    //$body.off('.contextMenu .contextMenuAutoHide');
+    //$('.context-menu-list').remove();
+    $.contextMenu('destroy', '.row, .col');
     $.contextMenu({
         appendTo: $target,
         selector: '.row, .col', 
@@ -72,27 +71,33 @@ var Table = Backbone.View.extend({
 
             var keep_payload = JSON.stringify(
                 {
-                    "hierarchy"     : "[" + h + "]",
+                    "hierarchy"     :  h,
                     "uniquename"    : l,
                     "type"          : "level",
                     "action"        : "delete"
                 }) 
             + "," +JSON.stringify(
                 {
-                    "hierarchy"     : "[" + h + "]",
+                    "hierarchy"     :  h,
                     "uniquename"    : cell.properties.uniquename,
                     "type"          : "member",
                     "action"        : "add"
                 }       
             );
 
+            var children_payload = cell.properties.uniquename;
+
             var levels = [];
             var items = {};
             var dimensions = Saiku.session.sessionworkspace.dimensions[cube].get('data');
+            if (typeof dimensions == "undefined") {
+                Saiku.session.sessionworkspace.dimensions[cube].fetch({async : false});
+                dimensions = Saiku.session.sessionworkspace.dimensions[cube].get('data');
+            }
             var dimsel = {};
             var used_levels = [];
 
-            self.workspace.query.action.get("/axis/" + axis + "/dimension/" + d, { 
+            self.workspace.query.action.get("/axis/" + axis + "/dimension/" + encodeURIComponent(d), { 
                         success: function(response, model) {
                             dimsel = model;
                         },
@@ -108,12 +113,12 @@ var Table = Backbone.View.extend({
             _.each(dimensions, function(dimension) {
                 if (dimension.name == d) {
                     _.each(dimension.hierarchies, function(hierarchy) {
-                        if (hierarchy.name == h) {
+                        if (hierarchy.uniqueName == h) {
                             _.each(hierarchy.levels, function(level) {
                                 items[level.name] = {
-                                    name: level.name,
+                                    name: level.caption,
                                     payload: JSON.stringify({
-                                        "hierarchy"     : "[" + h + "]",
+                                        "hierarchy"     : h,
                                         uniquename    : level.uniqueName,
                                         type          : "level",
                                         action        : "add"
@@ -122,9 +127,9 @@ var Table = Backbone.View.extend({
                                 if(_.indexOf(used_levels, level.uniqueName) > -1) {
                                     items[level.name].disabled = true;
                                     items["remove-" + level.name] = {
-                                        name: level.name,
+                                        name: level.caption,
                                         payload: JSON.stringify({
-                                            "hierarchy"     : "[" + h + "]",
+                                            "hierarchy"     :  h,
                                             uniquename    : level.uniqueName,
                                             type          : "level",
                                             action        : "delete"
@@ -141,6 +146,7 @@ var Table = Backbone.View.extend({
                 }
             });
             items["keeponly"] = { payload: keep_payload }
+            items["getchildren"] = { payload: children_payload }
             
 
             
@@ -162,6 +168,7 @@ var Table = Backbone.View.extend({
                     "keeponly": {name: "Keep Only", payload: keep_payload }
             };
             if (d != "Measures") {
+                citems["getchildren"] = {name: "Show Children", payload: children_payload }
                 citems["fold1key"] = {
                         name: "Include Level",
                         items: lvlitems("include-")
@@ -177,33 +184,24 @@ var Table = Backbone.View.extend({
             }
             return {
                 callback: function(key, options) {
-                    self.workspace.query.action.put('/axis/' + axis + '/dimension/' + d, { 
-                        success: function() {
-                            self.workspace.query.clear();
-                            self.workspace.query.fetch({ success: function() {
-                                
-                                $(self.workspace.el).find('.fields_list_body ul').empty();
-                                $(self.workspace.dimension_list.el).find('.parent_dimension a.folder_collapsed').removeAttr('style');
-                                
-                                $(self.workspace.dimension_list.el).find('.parent_dimension ul li')
-                                    .draggable('enable')
-                                    .css({ fontWeight: 'normal' });
-
-                                $(self.workspace.measure_list.el).find('a.measure').parent()
-                                    .draggable('enable')
-                                    .css({ fontWeight: 'normal' });
-
-                                self.workspace.populate_selections(self.workspace.measure_list.el);
-                                $(self.workspace.el).find('.fields_list_body ul li')
-                                    .removeClass('ui-draggable-disabled ui-state-disabled')
-                                    .css({ fontWeight: 'normal' });
-
-                             }});
-
-                        },
-                        data: {
-                            selections: "[" + items[key].payload + "]"
-                        }
+                    var url = '/axis/' + axis + '/dimension/' + encodeURIComponent(d);
+                    var children = false;
+                    if (key.indexOf("children") > 0) {
+                        url = '/axis/' + axis + '/dimension/' + encodeURIComponent(d) + "/children";
+                        children = true;
+                    }
+                    if (children) {
+                        self.workspace.query.set({ 'formatter' : 'flat' });
+                    }
+                    self.workspace.query.action.put(url, { success: self.workspace.sync_query,
+                        data: children ?
+                            {
+                                member: items[key].payload
+                            }
+                            :
+                            {
+                                selections: "[" + items[key].payload + "]"
+                            }
                     });
                     
                 },
@@ -219,22 +217,19 @@ var Table = Backbone.View.extend({
 
     render: function(args, block) {
 
-        $(this.workspace.el).find(".workspace_results_info").empty();
+        if (typeof args == "undefined" || typeof args.data == "undefined" || 
+            ($(this.workspace.el).is(':visible') && !$(this.el).is(':visible'))) {
+            return;
+        }
 
         if (args.data != null && args.data.error != null) {
-            return this.error(args);
+            return;
+        }        
+        // Check to see if there is data
+        if (args.data == null || (args.data.cellset && args.data.cellset.length === 0)) {
+            return;
         }
 
-        
-        // Check to see if there is data
-        if (args.data.cellset && args.data.cellset.length === 0) {
-            return this.no_results(args);
-        }
-        
-        // Clear the contents of the table
-        var runtime = args.data.runtime != null ? (args.data.runtime / 1000).toFixed(2) : "";
-        $(this.workspace.el).find(".workspace_results_info")
-            .html('<b>Rows:</b> ' + args.data.height + " <b>Columns:</b> " + args.data.width + " <b>Duration:</b> " + runtime + "s");
         $(this.el).html('<tr><td>Rendering ' + args.data.width + ' columns and ' + args.data.height + ' rows...</td></tr>');
 
         // Render the table without blocking the UI thread
@@ -247,6 +242,7 @@ var Table = Backbone.View.extend({
     },
 
     process_data: function(data) {
+
         var contents = "";
         var table = data ? data : [];
         var colSpan;
@@ -295,7 +291,8 @@ var Table = Backbone.View.extend({
                         var groupChange = (col > 1 && row > 1 && !isHeaderLowestLvl && col > firstColumn) ?
                             data[row-1][col+1].value != data[row-1][col].value
                             : false;
-                        if (header.value != nextHeader.value || isHeaderLowestLvl || groupChange) {
+                        var maxColspan = colSpan > 999 ? true : false;
+                        if (header.value != nextHeader.value || isHeaderLowestLvl || groupChange || maxColspan) {
                             if (header.value == "null") {
                                 contents += '<th class="col_null" colspan="' + colSpan + '"><div>&nbsp;</div></th>';
                             } else {
@@ -323,12 +320,12 @@ var Table = Backbone.View.extend({
                     var cssclass = (same ? "row_null" : "row");
                     var colspan = 0;
 
-                    if (!isHeaderLowestLvl && nextHeader.value === "null") {
+                    if (!isHeaderLowestLvl && (typeof nextHeader == "undefined" || nextHeader.value === "null")) {
                         colspan = 1;
                         var group = header.properties.dimension;
                         var level = header.properties.level;
                         var groupWidth = (group in rowGroups ? rowGroups[group].length - rowGroups[group].indexOf(level) : 1);
-                        for (var k = col + 1; colspan < groupWidth && data[row][k] !== "null"; k++) {
+                        for (var k = col + 1; colspan < groupWidth && k <= (lowestRowLvl+1) && data[row][k] !== "null"; k++) {
                             colspan = k - col;
                         }
                         col = col + colspan -1;
@@ -352,6 +349,12 @@ var Table = Backbone.View.extend({
                     var color = "";
                     var val = header.value;
                     var arrow = "";
+                    if (header.properties.hasOwnProperty('image')) {
+                        var img_height = header.properties.hasOwnProperty('image_height') ? " height='" + header.properties.image_height + "'" : "";
+                        var img_width = header.properties.hasOwnProperty('image_width') ? " width='" + header.properties.image_width + "'" : "";
+                        val = "<img " + img_height + " " + img_width + " style='padding-left: 5px' src='" + header.properties.image + "' border='0'>";
+                    }
+
                     if (header.properties.hasOwnProperty('style')) {
                         color = " style='background-color: " + header.properties.style + "' ";
                     }
@@ -368,7 +371,8 @@ var Table = Backbone.View.extend({
             contents += "</tr>";
             
         }
-
+        this.workspace.processing.hide();
+        this.workspace.adjust();
         // Append the table
         $(this.el).html(contents);
         this.post_process();
@@ -378,20 +382,6 @@ var Table = Backbone.View.extend({
         if (this.workspace.query.get('type') == 'QM' && Settings.MODE != "view") {
             $(this.el).find('th.row, th.col').addClass('headerhighlight');
         }
-    },
-    cancel: function(event) {
-        this.workspace.query.action.del("/result", {success: this.cancelled } );
-    },
-    
-    cancelled: function(args) {
-        $(this.el).html('<tr><td>No results</td></tr>');
-    },
-
-    no_results: function(args) {
-        $(this.el).html('<tr><td>No results</td></tr>');
-    },
-    
-    error: function(args) {
-        $(this.el).html('<tr><td>' + args.data.error + '</td></tr>');
+        this.workspace.trigger('table:rendered', this);
     }
 });

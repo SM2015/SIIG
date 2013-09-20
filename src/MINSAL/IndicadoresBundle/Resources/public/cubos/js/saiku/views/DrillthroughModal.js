@@ -30,10 +30,11 @@ var DrillthroughModal = Modal.extend({
         'click .expand': 'select',
         'click .folder_collapsed': 'select',
         'click .folder_expanded': 'select',
-        
         'click .dialog_footer a:' : 'call',
         'click .parent_dimension input' : 'select_dimension',
-        'click .measure_tree input' : 'select_measure'
+        'click .measure_tree input' : 'select_measure',
+        'click input.all_measures' : 'select_all_measures',
+        'click input.all_dimensions' : 'select_all_dimensions'
     },
 
     
@@ -114,6 +115,18 @@ var DrillthroughModal = Modal.extend({
         $target.parent().find('input').attr('checked', checked);
     },
 
+    select_all_dimensions: function(event) {
+        var $target = $(event.target);
+        var checked = $target.is(':checked');
+        $(this.el).find('.dimension_tree input').attr('checked', checked);
+    },
+
+    select_all_measures: function(event) {
+        var $target = $(event.target);
+        var checked = $target.is(':checked');
+        $(this.el).find('.measure_tree input').attr('checked', checked);
+    },
+
     select_measure: function(event) {
         var $target = $(event.target);
         var checked = $target.is(':checked');
@@ -161,7 +174,14 @@ var DrillthroughModal = Modal.extend({
 
     drilled: function(model, response) {
         var table = new Table({ workspace: this.workspace });
-        table.render({ data: response }, true);
+        if (response != null && response.error != null) {
+            $(table.el).html('<tr><td>' + safe_tags_replace(response.error) + '</td></tr>');
+        } else {
+            table.process_data(response.cellset);
+        }
+
+        //table.render({ data: response }, true);
+
 
         Saiku.ui.unblock();
         var html = '<div id="fancy_results" class="workspace_results" style="overflow:visible"><table>' + $(table.el).html() + '</table></div>';

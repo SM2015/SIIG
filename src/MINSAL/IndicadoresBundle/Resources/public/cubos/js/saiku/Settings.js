@@ -18,8 +18,10 @@
  * Change settings here
  */
 var Settings = {
-    VERSION: "Saiku 2.4",
+    VERSION: "Saiku 2.5",
     BIPLUGIN: true,
+USERNAME: 'joe',
+PASSWORD:'password',
     BASE_URL: "",
     TOMCAT_WEBAPP: "/saiku",
     REST_MOUNT_POINT: "/rest/saiku/",
@@ -31,7 +33,8 @@ var Settings = {
         'saiku.olap.query.automatic_execution': 'true',
         'saiku.olap.query.nonempty': 'true',
         'saiku.olap.query.nonempty.rows': 'true',
-        'saiku.olap.query.nonempty.columns': 'true'
+        'saiku.olap.query.nonempty.columns': 'true',
+        'saiku.ui.render.mode' : 'table'
     },
     /* Valid values for CELLSET_FORMATTER:
      * 1) flattened
@@ -41,6 +44,7 @@ var Settings = {
     // limits the number of rows in the result
     // 0 - no limit
     RESULT_LIMIT: 0,
+    MEMBERS_FROM_RESULT: true,
     PLUGINS: [
         "Chart"
     ],
@@ -75,6 +79,14 @@ Settings.REST_URL = Settings.BASE_URL
     + Settings.TOMCAT_WEBAPP 
     + Settings.REST_MOUNT_POINT;
 
+// lets assume we dont need a min width/height for table mode
+if (Settings.MODE == "table") {
+    Settings.DIMENSION_PREFETCH = false;
+    $('body, html').css('min-height',0);
+    $('body, html').css('min-width',0);
+
+}
+
 
 /**
  * < IE9 doesn't support Array.indexOf
@@ -102,7 +114,42 @@ if (!Array.prototype.indexOf)
   };
 }
 
+var tagsToReplace = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;'
+};
+
+function replaceTag(tag) {
+    return tagsToReplace[tag] || tag;
+}
+
+function safe_tags_replace(str) {
+    return str.replace(/[&<>]/g, replaceTag);
+}
+
+if ($.blockUI) {
+    $.blockUI.defaults.css = {};
+    $.blockUI.defaults.overlayCSS = {};
+    $.blockUI.defaults.blockMsgClass = 'processing';
+    $.blockUI.defaults.fadeOut = 0;
+    $.blockUI.defaults.fadeIn = 0;
+    $.blockUI.defaults.ignoreIfBlocked = false;
+
+}
+
 if (window.location.hostname && (window.location.hostname == "dev.analytical-labs.com" || window.location.hostname == "demo.analytical-labs.com" )) {
     Settings.USERNAME = "admin";
     Settings.PASSWORD = "admin";
 }
+
+var isIE = (function(){
+    var undef, v = 3, div = document.createElement('div');
+
+    while (
+        div.innerHTML = '<!--[if gt IE '+(++v)+']><i></i><![endif]-->',
+        div.getElementsByTagName('i')[0]
+    );
+
+    return v> 4 ? v : false;
+}());
