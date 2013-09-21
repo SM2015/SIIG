@@ -18,30 +18,34 @@
  * The user's current locale
  */
 Saiku.i18n = {
-    locale: (navigator.language || navigator.browserLanguage || 
-        navigator.systemLanguage || navigator.userLanguage).substring(0,2).toLowerCase(),
+    locale: (navigator.language || navigator.browserLanguage ||
+        navigator.systemLanguage || navigator.userLanguage).substring(0, 2).toLowerCase(),
     po_file: {},
-    translate: function() {
+    translate: function () {
         $('.i18n').i18n(Saiku.i18n.po_file);
     },
-    automatic_i18n: function() {
+    automatic_i18n: function () {
         // Load language file if it isn't English
+
+        //compatible 'zh-CN' -> 'zh';
+        if (Saiku.i18n.locale == 'zh') Saiku.i18n.locale = 'cn';
+
         if (Saiku.i18n.locale != "en") {
             $.ajax({
-                url: "/bundles/indicadores/cubos/js/saiku/plugins/I18n/po/es.json",
+                url: "/bundles/indicadores/cubos/js/saiku/plugins/I18n/po/" + Saiku.i18n.locale + ".json",
                 type: 'GET',
                 dataType: 'json',
-                success: function(data) {
+                success: function (data) {
                     Saiku.i18n.po_file = data;
                     Saiku.i18n.translate();
                 }
             });
         }
-        
+
         return true;
     },
     elements: [],
-    improve_translation: function() {
+    improve_translation: function () {
         Saiku.tabs.add(new TranslationTab());
         return false;
     }
@@ -185,7 +189,8 @@ var TranslationTab = Backbone.View.extend({
         $(this.el).find('.changed').each(function(element) {
             translation[decodeURI($(this).attr('name'))] = encodeURI($(this).val());
         });
-        Translate.log(translation);
+        window.location = "mailto:contact@analytical-labs.com?subject=Translation for " + Saiku.i18n.locale + '&body=' + JSON.stringify(translation);
+        //Translate.log(translation);
         Saiku.ui.block('Thank you for improving our translation!');
         this.tab.remove();
         _.delay(function() {
@@ -204,22 +209,6 @@ var TranslationTab = Backbone.View.extend({
  */
 Saiku.i18n.automatic_i18n();
 
-/** 
- * Add translate button
- */
-Saiku.events.bind('toolbar:render', function(args) {
-    if (Saiku.i18n.locale != "en") {
-        var $link = $("<a />").text(Saiku.i18n.locale)
-            .attr({ 
-                href: "#translate",
-                title: "Improve this translation"
-            })
-            .click(Saiku.i18n.improve_translation)
-            .addClass('sprite translate i18n');
-        var $li = $("<li />").append($link);
-        $(args.toolbar.el).find('ul').append($li);
-    }
-});
 
 /**
  * Bind to new workspace
@@ -230,6 +219,22 @@ Saiku.events.bind('session:new', function() {
     
     // Translate new workspaces
     Saiku.session.bind('tab:add', Saiku.i18n.translate);
+
+    /** 
+     * Add translate button
+     */
+    if (Saiku.i18n.locale != "en") {
+        var $link = $("<a />").text(Saiku.i18n.locale)
+            .attr({ 
+                href: "#translate",
+                title: "Improve this translation"
+            })
+            .click(Saiku.i18n.improve_translation)
+            .addClass('sprite translate i18n');
+        var $li = $("<li />").append($link);
+        $(Saiku.toolbar.el).find('ul').append($li);
+    }
+
 });
 
 /**

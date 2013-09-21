@@ -4,7 +4,7 @@ namespace MINSAL\IndicadoresBundle\Controller;
 
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
 use Symfony\Component\HttpFoundation\Response;
-
+use Symfony\Component\HttpFoundation\RedirectResponse;
 //use Symfony\Component\Console\Input\ArrayInput;
 
 class FichaTecnicaAdminController extends Controller
@@ -90,6 +90,18 @@ class FichaTecnicaAdminController extends Controller
     {
         return $this->render('IndicadoresBundle:FichaTecnicaAdmin:cubos.html.twig', array());
     }
+    
+    /*
+    Mostrar Reporte Gerenciales generados por Pentaho
+    */
+    public function reporteAction() {
+
+        $id = $this->getRequest()->get('id');
+        $reporte= "http://etab.salud.gob.sv:8080/pentaho/content/reporting/reportviewer/report.html?solution=reportes&path=&name=indicador".$id.".prpt";
+        return new RedirectResponse($reporte);
+        
+        } 
+
 
     public function batchActionVerFicha($idx = null)
     {

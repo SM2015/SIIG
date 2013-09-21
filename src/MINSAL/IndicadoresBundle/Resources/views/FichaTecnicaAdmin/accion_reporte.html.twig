@@ -1,0 +1,8 @@
+{% if admin.hasRoute('reporte') %}
+    <a href="{{ admin.generateObjectUrl('reporte', object) }}"  alt="Mostrar reporte si Existe"
+    class="btn view_link" target="_blank" title="{{ 'Mostrar Reporte' }}">
+        <i class="icon-download-alt"></i>
+        {{ 'Mostrar Reporte'}}
+        
+    </a>
+{% endif %}

@@ -117,6 +117,10 @@ class FichaTecnicaAdmin extends Admin
                 ->add('tema', null, array('label' => $this->getTranslator()->trans('_interpretacion_')))
                 ->add('concepto', null, array('label' => $this->getTranslator()->trans('concepto')))
                 ->add('camposIndicador', null, array('label' => $this->getTranslator()->trans('campos_indicador')))
+                ->add('_action', 'actions', array(
+                'actions' => array('reporte' => array('template' => 'IndicadoresBundle:FichaTecnicaAdmin:accion_reporte.html.twig'),
+                        )
+               )) ;
 
         ;
     }
@@ -329,6 +333,9 @@ class FichaTecnicaAdmin extends Admin
     {
         $collection->add('tablero');
         $collection->add('cubos');
+        $collection->add('reporte', 
+        $this->getRouterIdParameter().'/reporte');
+
     }
 
     public function getTemplate($name)

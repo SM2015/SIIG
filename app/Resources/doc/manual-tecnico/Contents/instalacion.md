@@ -227,7 +227,9 @@ A continuación:
 
 3- Instalaremos la aplicación de visualización de cubos OLAP llamada SAIKU.
 
-4- Modificaremos Apache: URL del SIIG apuntando a SAIKU  
+4- Modificaremos Apache: URL del SIIG apuntando a Pentaho 
+
+5- Crear y Publicar Reportes por Indicador
 
 El objetivo es usar el servidor Pentaho+Saiku para analizar los datos del SIIG y a la vez integrar esta aplicación dentro de  la plataforma del SIIG de forma que el usuario no se percate de que esta usando una aplicación externa. 
 
@@ -357,7 +359,7 @@ Reiniciar Pentaho:
 # ./start-pentaho.sh
 ~~~
 
-### 4.4 Modificar Apache: URL del SIIG apuntando a SAIKU 
+### 4.4 Modificar Apache: URL del SIIG apuntando a Pentaho 
 
 Para enmascarar le URL de Pentaho debemos activar el proxy de Apache para esto debemos activar un par de módulos de Apache:  
 
@@ -388,6 +390,46 @@ los cubos existentes en el servidor OLAP asi como efectuar consultas, los result
 
 http://dev.analytical-labs.com/saiku/serverdocs/
  
+### 4.5 Generación de Reportes 
+ 
+Los reportes son generados usando el servidor de análisis Pentaho.
+Cada indicador puede tener un reporte individual que incluye menúes de selección, gráficos, texto y tablas de datos según se requiera. 
+Debido a que los requerimientos de análisis y presentación varían entre indicadores, estos reportes deben ser diseñados y publicados manualmente por el administrador del sistema. 
+Los reportes existentes están disponibles desde  el menú del SIIG en administración->Indicadores->Ficha Tecnica (http://SIIG/admin/minsal/indicadores/fichatecnica/list).
+
+El listado de Ficha Tecnica incluye un botón Mostrar Reporte que carga el reporte para el indicador correspondiente usando los datos disponibles mas recientes. 
+Todos los indicadores en el listado tienen el botón 'Mostrar Reporte', sin embargo solo los reportes creados y publicados por el administrador del sistema están disponibles.
+
+El proceso para crear y publicar reportes incluye:
+
+1. Fijar clave para la publicación de contenidos al editar el archivo:
+
+~~~ 
+pentaho-solutions/system/publisher_config.xml 
+
+para modificar esta linea
+
+<publisher-password>NUEVA_CLAVE</publisher-password>
+~~~
+
+2. Crear Reporte para el Indicador deseado usando la aplicación de Reportes de Pentaho. Esta aplicación debe ser instalada en la terminal del administrador del sistema y puede ser descargada en:
+http://reporting.pentaho.com/report_designer.php
+
+Una guía completa sobre el diseño de reportes usando esta aplicación esta disponible en:
+
+http://wiki.pentaho.com/display/Reporting/01.+Creating+Your+First+Report
+
+Los reportes pueden ser creados y editados de forma local, y una vez terminados pueden ser publicados en el servidor de Pentaho. Al publicar un reporte, este inmediatamente esta disponible para el sistema SIIG. Si es necesario modificar un reporte existente, la modificación debe hacerse en forma local y luego publicar la nueva version del reporte . 
+
+3. Publicar reporte. Al seleccionar el la opción publicar, aparece un ventana que nos pide elegir una carpeta en la cual se publicara el reporte. Para que pueda ser encontrada por el SIIG, asegurese de guardar todos sus reportes en  una carpeta llamada 'reportes'.  Si esta carpeta no existe puede crearla al momento de guardar su primer reporte usando el botón 'Nueva Carpeta'.  
+
+Una vez dentro de la carpeta 'reportes' deberá asignar un nombre de archivo (Ejem: indicador15.prpt), un titulo e ingresar la clave de publicación que se fijo en el primer paso. 
+
+~~~
+NOTA: El SIIG  esta configurado para leer reportes tales como: reportes/indicadorX.prpt 
+Por esto, si el reporte es publicado en una carpeta diferente o si el nombre 
+asignado al archivo es diferente, no podrá ser leido por el SIIG. 
+~~~
 
 ## 5. Instalación de librería wkhtmltopdf
 [wkhtmltopdf](http://code.google.com/p/wkhtmltopdf/) Es una utilidad de línea de comando para convertir html a pdf

@@ -26,7 +26,9 @@ var SaveQuery = Modal.extend({
         'click .dialog_footer a:' : 'call',
         'submit form': 'save',
         'click .query': 'select_name',
-        'click li.folder': 'toggle_folder'
+        'click li.folder': 'toggle_folder',
+        'keyup .search_file' : 'search_file',
+        'click .cancel_search' : 'cancel_search'
     },
     
     buttons: [
@@ -34,20 +36,32 @@ var SaveQuery = Modal.extend({
         { text: "Cancel", method: "close" }
     ],
 
+    folder_name: null,
+    file_name: null,
+
     initialize: function(args) {
         // Append events
         var self = this;
         var name = "";
+        var full_path = "";
         if (args.query.name) {
-            name = args.query.name.split('/')[args.query.name.split('/').length -1];
+            var full_path = args.query.name;
+            var path = args.query.name.split('/');
+
+            name = path[path.length -1];
+            this.file_name = name;
+            if (path.length > 1) {
+                this.folder_name = path.splice(0,path.length - 1).join("/");
+            }
         }
         this.query = args.query;
-        this.message = _.template("<form id='save_query_form'>" +
-            "<label for='name'>To save a new query, " + 
-            "please select a folder and type a name in the text box below:</label><br />" +
+        this.message = _.template('<div style="height:25px; line-height:25px;"><b><span class="i18n">Search:</span></b> &nbsp;' +
+                ' <span class="search"><input type="text" class="search_file"></input><span class="cancel_search"></span></span></div>' +
+            "<form id='save_query_form'>" +
             "<div class='RepositoryObjects'></div>" +
-            "<input type='text' name='name' value='<%= name %>' />" +
-            "</form>")({ name: name });
+            "<br /><label for='name' class='i18n'>File:</label>&nbsp;" +
+            "<input type='text' name='name' value='<%= name %>' /> <span class='save sprite'></span>" +
+            "</form>")({ name: full_path });
 
         _.extend(this.options, {
             title: "Save query"
@@ -63,12 +77,12 @@ var SaveQuery = Modal.extend({
             }
             $(this.el).find('.RepositoryObjects').height( height );
             $(this.el).dialog( 'option', 'position', 'center' );
-            $(this.el).parents('.ui-dialog').css({ width: "500px" });
+            $(this.el).parents('.ui-dialog').css({ width: "550px" });
             self.repository.fetch( );
         } );
 
         // Maintain `this`
-        _.bindAll( this, "copy_to_repository", "close", "toggle_folder", "select_name", "populate" );
+        _.bindAll( this, "copy_to_repository", "close", "toggle_folder", "select_name", "populate", "set_name", "cancel_search" );
         
         // fix event listening in IE < 9
         if($.browser.msie && $.browser.version < 9) {
@@ -97,6 +111,10 @@ var SaveQuery = Modal.extend({
         var $target = $( event.currentTarget );
         this.unselect_current_selected_folder( );
         $target.children('.folder_row').addClass( 'selected' );
+        var f_name = $target.find( 'a' ).attr('href').replace('#', '');
+        this.set_name(f_name, null);
+
+
         var $queries = $target.children( '.folder_content' );
         var isClosed = $target.children( '.folder_row' ).find('.sprite').hasClass( 'collapsed' );
         if( isClosed ) {
@@ -109,12 +127,64 @@ var SaveQuery = Modal.extend({
         return false;
     },
 
+    set_name: function(folder, file) {
+        if (folder != null) {
+            this.folder_name = folder;
+            var name = (this.folder_name != null ? this.folder_name + "/" : "") + (this.file_name != null ? this.file_name : "")
+            $(this.el).find('input[name="name"]').val( name );
+        }
+        if (file != null) {
+            $(this.el).find('input[name="name"]').val( file );
+        }
+
+    },
+
+    // XXX - duplicaten from OpenQuery
+        search_file: function(event) {
+        var filter = $(this.el).find('.search_file').val().toLowerCase();
+        var isEmpty = (typeof filter == "undefined" || filter == "" || filter == null);
+        if (isEmpty || event.which == 27 || event.which == 9) {
+            this.cancel_search();
+        } else {
+            if ($(this.el).find('.search_file').val()) {
+                $(this.el).find('.cancel_search').show();
+            } else {
+                $(this.el).find('.cancel_search').hide();
+            }
+            $(this.el).find('li.query').removeClass('hide')
+            $(this.el).find('li.query a').filter(function (index) { 
+                return $(this).text().toLowerCase().indexOf(filter) == -1; 
+            }).parent().addClass('hide');
+            $(this.el).find('li.folder').addClass('hide');
+            $(this.el).find('li.query').not('.hide').parents('li.folder').removeClass('hide');
+            //$(this.el).find( 'li.folder .folder_content').not(':has(.query:visible)').parent().addClass('hide');
+
+            //not(':contains("' + filter + '")').parent().hide();
+            $(this.el).find( 'li.folder .folder_row' ).find('.sprite').removeClass( 'collapsed' );
+            $(this.el).find( 'li.folder .folder_content' ).removeClass('hide');
+        }
+        return false;
+    },
+    cancel_search: function(event) {
+        $(this.el).find('input.search_file').val('');
+        $(this.el).find('.cancel_search').hide();
+        $(this.el).find('li.query, li.folder').removeClass('hide');
+        $(this.el).find( '.folder_row' ).find('.sprite').addClass( 'collapsed' );
+        $(this.el).find( 'li.folder .folder_content' ).addClass('hide');
+        $(this.el).find('.search_file').val('').focus();
+        $(this.el).find('.cancel_search').hide();
+
+    },
+
+
+
+
     select_name: function( event ) {
         var $currentTarget = $( event.currentTarget );
         this.unselect_current_selected_folder( );
         $currentTarget.parent( ).parent( ).has( '.folder' ).children('.folder_row').addClass( 'selected' );
-        var name = $currentTarget.find( 'a' ).text();
-        $(this.el).find('input[name="name"]').val( name );
+        var name = $currentTarget.find( 'a' ).attr('href').replace('#','');
+        this.set_name(null, name);
         return false;
     },
 
@@ -125,11 +195,13 @@ var SaveQuery = Modal.extend({
     save: function(event) {
         // Save the name for future reference
         var foldername = ''; /* XXX == root, should it be something different than ''? */
+        /*
         var $folder = $(this.el).find( '.folder_row.selected a' ).first( );
         if( $folder.length ) {
             foldername = $folder.attr( 'href' ).replace( '#', '' );
             foldername = (foldername != null && foldername.length > 0 ? foldername + "/" : "");
         }
+        */
         
         var name = $(this.el).find('input[name="name"]').val();
         if (name != null && name.length > 0) {
@@ -149,7 +221,8 @@ var SaveQuery = Modal.extend({
     copy_to_repository: function(model, response) {
         var self = this;
         var folder = this.query.get('folder');
-        var file = this.query.get('name').indexOf(".saiku") == this.query.get('name').length - 6 ? this.query.get('name') : this.query.get('name') + ".saiku";
+        var file = this.query.get('name');
+        file = file.length > 6 && file.indexOf(".saiku") == file.length - 6 ? file : file + ".saiku";
         file = folder + file;
         var error = function(data, textStatus, jqXHR) {
                 if (textStatus && textStatus.status == 403 && textStatus.responseText) {

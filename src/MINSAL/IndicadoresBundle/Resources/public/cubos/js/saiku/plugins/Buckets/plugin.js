@@ -97,7 +97,7 @@ var Buckets = Backbone.View.extend({
     add_button: function() {
         var $stats_button = 
             $('<a href="#buckets" class="buckets button disabled_toolbar i18n" title="Tags"></a>')
-            .css({  'background-image': "url('js/saiku/plugins/Buckets/tag_red.png')",
+            .css({  'background-image': "url('/bundles/indicadores/cubos/js/saiku/plugins/Buckets/tag_red.png')",
                     'background-repeat':'no-repeat',
                     'background-position':'50% 50%'
                 });
