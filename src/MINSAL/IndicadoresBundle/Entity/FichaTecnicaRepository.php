@@ -5,9 +5,10 @@ namespace MINSAL\IndicadoresBundle\Entity;
 use Doctrine\ORM\EntityRepository;
 use MINSAL\IndicadoresBundle\Entity\FichaTecnica;
 
-class FichaTecnicaRepository extends EntityRepository {
-
-    public function crearIndicador(FichaTecnica $fichaTecnica, $dimension = null, $filtros = null) {
+class FichaTecnicaRepository extends EntityRepository
+{
+    public function crearIndicador(FichaTecnica $fichaTecnica, $dimension = null, $filtros = null)
+    {
         $em = $this->getEntityManager();
         $ahora = new \DateTime("now");
         $util = new \MINSAL\IndicadoresBundle\Util\Util();
@@ -32,11 +33,11 @@ class FichaTecnicaRepository extends EntityRepository {
         $sql = 'DROP TABLE IF EXISTS tmp_ind_' . $nombre_indicador . '; ';
         // Crear las tablas para cada variable
         foreach ($fichaTecnica->getVariables() as $variable) {
-            //Recuperar la información de los campos para crear la tabla            
+            //Recuperar la información de los campos para crear la tabla
             $origen = $variable->getOrigenDatos();
             $diccionarios = array();
 
-            // Si es pivote crear las tablas para los origenes relacionados 
+            // Si es pivote crear las tablas para los origenes relacionados
             if ($origen->getEsPivote()) {
                 $campos_pivote = explode(",", str_replace("'", '', $origen->getCamposFusionados()));
                 $pivote = array();
@@ -60,7 +61,7 @@ class FichaTecnicaRepository extends EntityRepository {
                     $sql .= ' ); ';
                     $sql .= "INSERT INTO od_$or_id
                     SELECT (populate_record(null::od_$or_id, datos)).*
-                    FROM fila_origen_dato 
+                    FROM fila_origen_dato
                         WHERE id_origen_dato = '$or_id'
                     ;";
                 }
@@ -94,7 +95,7 @@ class FichaTecnicaRepository extends EntityRepository {
             }
             $sql = trim($sql, ', ') . ');';
 
-            // Recuperar los datos desde los orígenes            
+            // Recuperar los datos desde los orígenes
             //Llenar la tabla con los valores del hstore
             if ($origen->getEsPivote()) {
                 $tabla1 = array_shift($tablas_piv);
@@ -112,9 +113,9 @@ class FichaTecnicaRepository extends EntityRepository {
                 else
                     $origenes[] = $origen->getId();
                 $sql .= "INSERT INTO $tabla
-                    SELECT (populate_record(null::$tabla, datos)).*                 
-                    FROM fila_origen_dato 
-                        WHERE id_origen_dato IN (" . implode(',', $origenes) . ") 
+                    SELECT (populate_record(null::$tabla, datos)).*
+                    FROM fila_origen_dato
+                        WHERE id_origen_dato IN (" . implode(',', $origenes) . ")
                     ;";
             }
             //Obtener los campos que son calculados
@@ -137,15 +138,15 @@ class FichaTecnicaRepository extends EntityRepository {
             $sql .= "DROP TABLE IF EXISTS $tabla" . "_var; ";
             $sql .= "SELECT  $campos, SUM(calculo::numeric) AS  $tabla $campos_calculados
                 INTO TEMP  $tabla" . "_var
-                FROM $tabla                 
-                GROUP BY $campos $campos_calculados_nombre 
+                FROM $tabla
+                GROUP BY $campos $campos_calculados_nombre
                 HAVING  SUM(calculo::numeric) > 0
                     ;";
 
             //aplicar transformaciones si las hubieran
             foreach ($diccionarios as $campo => $diccionario) {
-                $sql .= " 
-                        UPDATE $tabla" . "_var SET $campo = regla.transformacion 
+                $sql .= "
+                        UPDATE $tabla" . "_var SET $campo = regla.transformacion
                             FROM regla_transformacion AS regla
                             WHERE $tabla" . "_var.$campo = regla.limite_inferior
                                 AND id_diccionario = $diccionario
@@ -169,7 +170,8 @@ class FichaTecnicaRepository extends EntityRepository {
         }
     }
 
-    public function crearIndicadorAcumulado(FichaTecnica $fichaTecnica, $dimension, $filtros = null) {
+    public function crearIndicadorAcumulado(FichaTecnica $fichaTecnica, $dimension, $filtros = null)
+    {
         $em = $this->getEntityManager();
         $campos = str_replace("'", '', $fichaTecnica->getCamposIndicador());
         $tablas_variables = array();
@@ -190,7 +192,7 @@ class FichaTecnicaRepository extends EntityRepository {
 
         $campos2 = implode(', ', $campos_aux);
         $sql = 'CREATE TEMP TABLE no_acum(dimension varchar(100)); ';
-        // Hacer coincidir las tablas en las filas que tenga una y la otra no, agregarla 
+        // Hacer coincidir las tablas en las filas que tenga una y la otra no, agregarla
         // y ponerle 0 para que se acumule
         foreach ($fichaTecnica->getVariables() as $v) {
             $tablas = $fichaTecnica->getVariables();
@@ -215,7 +217,7 @@ class FichaTecnicaRepository extends EntityRepository {
             $sql2 = "SELECT * FROM $tabla" . '_var';
             $fila = $em->getConnection()->executeQuery($sql2)->fetch();
 
-            // De acuerdo al tipo de dato será el signo de la relación 
+            // De acuerdo al tipo de dato será el signo de la relación
             $condiciones = array();
             foreach ($fila as $k => $v) {
                 if (in_array($k, $campos_condicion)) {
@@ -225,14 +227,14 @@ class FichaTecnicaRepository extends EntityRepository {
             }
             //Crear la tabla acumulada
             $sql .= "
-                    SELECT $campos2, 
-                        (SELECT SUM(TT.$tabla) 
-                            FROM $tabla" . "_var TT 
+                    SELECT $campos2,
+                        (SELECT SUM(TT.$tabla)
+                            FROM $tabla" . "_var TT
                             WHERE " . implode(' AND ', $condiciones) . "
                             AND $dimension::varchar(100) NOT IN (SELECT dimension FROM no_acum)
                         ) AS $tabla
                     INTO TEMP $tabla" . "_var_acum
-                    FROM $tabla" . "_var T                      
+                    FROM $tabla" . "_var T
                     ORDER BY $campos2 ;
                     ";
         }
@@ -241,7 +243,8 @@ class FichaTecnicaRepository extends EntityRepository {
         $em->getConnection()->exec($sql);
     }
 
-    public function crearTablaIndicador(FichaTecnica $fichaTecnica, $tablas_variables) {
+    public function crearTablaIndicador(FichaTecnica $fichaTecnica, $tablas_variables)
+    {
         $sql = '';
         $util = new \MINSAL\IndicadoresBundle\Util\Util();
         $nombre_indicador = $util->slug($fichaTecnica->getNombre());
@@ -269,7 +272,8 @@ class FichaTecnicaRepository extends EntityRepository {
         return $sql;
     }
 
-    public function calcularIndicador(FichaTecnica $fichaTecnica, $dimension, $filtro_registros = null, $ver_sql = false) {
+    public function calcularIndicador(FichaTecnica $fichaTecnica, $dimension, $filtro_registros = null, $ver_sql = false)
+    {
         $util = new \MINSAL\IndicadoresBundle\Util\Util();
         $acumulado = $fichaTecnica->getEsAcumulado();
         $formula = strtolower($fichaTecnica->getFormula());
@@ -320,7 +324,6 @@ class FichaTecnicaRepository extends EntityRepository {
             $grupo_extra = ', B.id ';
         }
 
-
         $sql = "SELECT $dimension AS category, $otros_campos $variables_query, round(($formula)::numeric,2) AS measure
             FROM $tabla_indicador A" . $rel_catalogo;
         $sql .= ' WHERE 1=1 ' . $evitar_div_0;
@@ -339,9 +342,9 @@ class FichaTecnicaRepository extends EntityRepository {
                 $sql .= " AND A." . $campo . " = '$valor' ";
             }
         }
-        $sql .= "            
-            GROUP BY $dimension $grupo_extra            
-            HAVING (($formula)::numeric) > 0 
+        $sql .= "
+            GROUP BY $dimension $grupo_extra
+            HAVING (($formula)::numeric) > 0
             ORDER BY $dimension";
         try {
             if ($ver_sql == true)

@@ -26,11 +26,11 @@
                     </tr>
                 {% endif %}
                 {% set fila = 1 %}
-                {% for field_name in view_group.fields %}                    
+                {% for field_name in view_group.fields %}
                     <tr class="sonata-ba-view-container" {% if fila % 2 != 0 %} bgcolor='#f5f5f5' {% endif%}>
-                        {% if elements[field_name] is defined %}                            
+                        {% if elements[field_name] is defined %}
                                 {{ elements[field_name]|render_view_element(object) }}
-                            {% endif %}                        
+                            {% endif %}
                     </tr>
                     {% set fila = fila +1 %}
                 {% endfor %}

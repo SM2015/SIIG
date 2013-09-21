@@ -27,14 +27,13 @@ class ClasificacionTecnica
      * @ORM\Column(name="codigo", type="string", length=15, nullable=false)
      */
     private $codigo;
-    
+
     /**
      * @var string $descripcion
      *
      * @ORM\Column(name="descripcion", type="string", length=50, nullable=false)
      */
     private $descripcion;
-    
 
     /**
      * @var string $comentario
@@ -49,7 +48,7 @@ class ClasificacionTecnica
     private $indicadores;
 
   /**
-     * 
+     *
      * @var clasificacionUso
      *
      * @ORM\ManyToOne(targetEntity="ClasificacionUso")
@@ -57,11 +56,10 @@ class ClasificacionTecnica
      **/
     private $clasificacionUso;
 
-
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -71,20 +69,20 @@ class ClasificacionTecnica
     /**
      * Set descripcion
      *
-     * @param string $descripcion
+     * @param  string               $descripcion
      * @return ClasificacionTecnica
      */
     public function setDescripcion($descripcion)
     {
         $this->descripcion = $descripcion;
-    
+
         return $this;
     }
 
     /**
      * Get descripcion
      *
-     * @return string 
+     * @return string
      */
     public function getDescripcion()
     {
@@ -94,27 +92,28 @@ class ClasificacionTecnica
     /**
      * Set comentario
      *
-     * @param string $comentario
+     * @param  string               $comentario
      * @return ClasificacionTecnica
      */
     public function setComentario($comentario)
     {
         $this->comentario = $comentario;
-    
+
         return $this;
     }
 
     /**
      * Get comentario
      *
-     * @return string 
+     * @return string
      */
     public function getComentario()
     {
         return $this->comentario;
     }
-    
-    public function __toString() {
+
+    public function __toString()
+    {
         if ($this->clasificacionUso)
             return $this->clasificacionUso->getDescripcion().' -- '.$this->descripcion;
         else
@@ -124,20 +123,20 @@ class ClasificacionTecnica
     /**
      * Set codigo
      *
-     * @param string $codigo
+     * @param  string               $codigo
      * @return ClasificacionTecnica
      */
     public function setCodigo($codigo)
     {
         $this->codigo = $codigo;
-    
+
         return $this;
     }
 
     /**
      * Get codigo
      *
-     * @return string 
+     * @return string
      */
     public function getCodigo()
     {
@@ -147,33 +146,33 @@ class ClasificacionTecnica
     /**
      * Set id
      *
-     * @param integer $id
+     * @param  integer              $id
      * @return ClasificacionTecnica
      */
     public function setId($id)
     {
         $this->id = $id;
-    
+
         return $this;
     }
 
     /**
      * Set clasificacionUso
      *
-     * @param \MINSAL\IndicadoresBundle\Entity\ClasificacionUso $clasificacionUso
+     * @param  \MINSAL\IndicadoresBundle\Entity\ClasificacionUso $clasificacionUso
      * @return ClasificacionTecnica
      */
     public function setClasificacionUso(\MINSAL\IndicadoresBundle\Entity\ClasificacionUso $clasificacionUso = null)
     {
         $this->clasificacionUso = $clasificacionUso;
-    
+
         return $this;
     }
 
     /**
      * Get clasificacionUso
      *
-     * @return \MINSAL\IndicadoresBundle\Entity\ClasificacionUso 
+     * @return \MINSAL\IndicadoresBundle\Entity\ClasificacionUso
      */
     public function getClasificacionUso()
     {
@@ -186,17 +185,17 @@ class ClasificacionTecnica
     {
         $this->indicadores = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     /**
      * Add indicadores
      *
-     * @param \MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores
+     * @param  \MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores
      * @return ClasificacionTecnica
      */
     public function addIndicadore(\MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores)
     {
         $this->indicadores[] = $indicadores;
-    
+
         return $this;
     }
 
@@ -213,7 +212,7 @@ class ClasificacionTecnica
     /**
      * Get indicadores
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getIndicadores()
     {

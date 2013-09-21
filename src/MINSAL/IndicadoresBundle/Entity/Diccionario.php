@@ -27,21 +27,21 @@ class Diccionario
      * @ORM\Column(name="codigo", type="string", length=20, nullable=false)
      */
     private $codigo;
-    
+
     /**
      * @var string $descripcion
      *
      * @ORM\Column(name="descripcion", type="string", length=200, nullable=false)
      */
     private $descripcion;
-    
+
     /**
     * @ORM\OneToMany(targetEntity="ReglaTransformacion", mappedBy="diccionario")
     */
     private $reglas;
 
-        
-    public function __toString() {
+    public function __toString()
+    {
         return $this->descripcion ? :'';
     }
     /**
@@ -51,11 +51,11 @@ class Diccionario
     {
         $this->reglas = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -65,20 +65,20 @@ class Diccionario
     /**
      * Set descripcion
      *
-     * @param string $descripcion
+     * @param  string      $descripcion
      * @return Diccionario
      */
     public function setDescripcion($descripcion)
     {
         $this->descripcion = $descripcion;
-    
+
         return $this;
     }
 
     /**
      * Get descripcion
      *
-     * @return string 
+     * @return string
      */
     public function getDescripcion()
     {
@@ -88,13 +88,13 @@ class Diccionario
     /**
      * Add reglas
      *
-     * @param \MINSAL\IndicadoresBundle\Entity\ReglaTransformacion $reglas
+     * @param  \MINSAL\IndicadoresBundle\Entity\ReglaTransformacion $reglas
      * @return Diccionario
      */
     public function addRegla(\MINSAL\IndicadoresBundle\Entity\ReglaTransformacion $reglas)
     {
         $this->reglas[] = $reglas;
-    
+
         return $this;
     }
 
@@ -111,7 +111,7 @@ class Diccionario
     /**
      * Get reglas
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getReglas()
     {
@@ -121,20 +121,20 @@ class Diccionario
     /**
      * Set codigo
      *
-     * @param string $codigo
+     * @param  string      $codigo
      * @return Diccionario
      */
     public function setCodigo($codigo)
     {
         $this->codigo = $codigo;
-    
+
         return $this;
     }
 
     /**
      * Get codigo
      *
-     * @return string 
+     * @return string
      */
     public function getCodigo()
     {

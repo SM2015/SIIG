@@ -4,15 +4,13 @@
 {% block stylesheets %}
     {{ parent() }}
 <link rel="stylesheet" href="{{ asset('bundles/indicadores/css/FichaTecnicaAdmin/tablero.css') }}" type="text/css" media="all" />
-{#<link rel="stylesheet" href="{{ asset('bundles/indicadores/js/DataTables/media/css/jquery.dataTables.css') }}" type="text/css" media="all" />#}
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/datatables/1.9.4/css/jquery.dataTables.min.css" type="text/css" media="all" />
-{#<link rel="stylesheet" href="{{ asset('bundles/indicadores/js/DataTables/media/css/TableTools.css') }}" type="text/css" media="all" />#}
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/datatables-tabletools/2.1.4/css/TableTools.min.css" type="text/css" media="all" />
-{% endblock %}    
+<link rel="stylesheet" href="{{ asset('bundles/indicadores/js/DataTables/media/css/jquery.dataTables.css') }}" type="text/css" media="all" />
+<link rel="stylesheet" href="{{ asset('bundles/indicadores/js/DataTables/media/css/TableTools.css') }}" type="text/css" media="all" />
+{% endblock %}
 
-{% block javascripts %}    
-    {{ parent() }}    
-<script src="//cdnjs.cloudflare.com/ajax/libs/d3/2.10.0/d3.v2.min.js"></script>
+{% block javascripts %}
+    {{ parent() }}
+<script src="{{ asset('bundles/indicadores/js/d3.v2.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('bundles/indicadores/js/affix.min.js') }}" type="text/javascript"></script>
 
 <script src="{{ asset('bundles/indicadores/js/FichaTecnicaAdmin/comun.js') }}" type="text/javascript"></script>
@@ -21,15 +19,12 @@
 <script src="{{ asset('bundles/indicadores/js/FichaTecnicaAdmin/grafico_lineas.js') }}" type="text/javascript"></script>
 <script src="{{ asset('bundles/indicadores/js/FichaTecnicaAdmin/grafico_mapa.js') }}" type="text/javascript"></script>
 <script src="{{ asset('bundles/indicadores/js/FichaTecnicaAdmin/tablero.js') }}" type="text/javascript"></script>
-<script src="{{ asset('bundles/indicadores/js/bridge_draggable_touch.js') }}" type="text/javascript"></script>    
-<script src="{{ asset('bundles/indicadores/js/jquery.ui.touch-punch.js') }}" type="text/javascript"></script>    
+<script src="{{ asset('bundles/indicadores/js/bridge_draggable_touch.js') }}" type="text/javascript"></script>
+<script src="{{ asset('bundles/indicadores/js/jquery.ui.touch-punch.js') }}" type="text/javascript"></script>
 <script src="{{ asset('bundles/indicadores/js/rasterizeHTML.allinone.js') }}" type="text/javascript"></script>
-{#<script src="{{ asset('bundles/indicadores/js/DataTables/jquery.dataTables.min.js') }}" type="text/javascript"></script>#}
-<script src="//cdnjs.cloudflare.com/ajax/libs/datatables/1.9.4/jquery.dataTables.min.js"></script>
-{#<script src="{{ asset('bundles/indicadores/js/DataTables/ZeroClipboard.js') }}" type="text/javascript"></script>#}
-<script src="//cdnjs.cloudflare.com/ajax/libs/zeroclipboard/1.1.7/ZeroClipboard.min.js"></script>
-{#<script src="{{ asset('bundles/indicadores/js/DataTables/TableTools.min.js') }}" type="text/javascript"></script>#}
-<script src="//cdnjs.cloudflare.com/ajax/libs/datatables-tabletools/2.1.4/js/TableTools.min.js"></script>
+<script src="{{ asset('bundles/indicadores/js/DataTables/jquery.dataTables.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('bundles/indicadores/js/DataTables/ZeroClipboard.js') }}" type="text/javascript"></script>
+<script src="{{ asset('bundles/indicadores/js/DataTables/TableTools.min.js') }}" type="text/javascript"></script>
 {% endblock %}
 
 {% block content %}
@@ -53,8 +48,8 @@
         <div class='controles btn-toolbar'></div>
         <div class="row-fluid info" ></div>
         <div class="row-fluid row_grafico" >
-            <div class="grafico" ></div>             
-        </div>               
+            <div class="grafico" ></div>
+        </div>
     </div>
     <div class="area_grafico" id='grafico_2' >
         <DIV class= 'titulo'><span class='titulo_indicador'></span>
@@ -63,9 +58,9 @@
         <h6 class='filtros_dimensiones'></h6>
         <div class='controles btn-toolbar'></div>
         <div class="row-fluid info" ></div>
-        <div class="row-fluid row_grafico" >                   
-            <div class="grafico" ></div>             
-        </div>                        
+        <div class="row-fluid row_grafico" >
+            <div class="grafico" ></div>
+        </div>
     </div>
     <div class="area_grafico" id='grafico_3' >
         <DIV class= 'titulo'><span class='titulo_indicador'></span>
@@ -74,10 +69,10 @@
         <h6 class='filtros_dimensiones'></h6>
         <div class='controles btn-toolbar'></div>
         <div class="row-fluid info" ></div>
-        <div class="row-fluid row_grafico" >                   
-            <div class="grafico" ></div>             
-        </div>                        
-    </div>  
+        <div class="row-fluid row_grafico" >
+            <div class="grafico" ></div>
+        </div>
+    </div>
 </div>
 
 <!-- Modal -->
@@ -109,7 +104,7 @@
     </div>
 
     <div class="modal-footer">
-        <button class="btn" data-dismiss="modal" aria-hidden="true">{{'_cerrar_'|trans}}</button>            
+        <button class="btn" data-dismiss="modal" aria-hidden="true">{{'_cerrar_'|trans}}</button>
     </div>
 </div>
 {% endblock %}

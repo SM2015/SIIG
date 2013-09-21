@@ -30,7 +30,7 @@
                 {% if errors|length > 0 %}
                     <i class="ui-icon ui-icon-alert" data-title="{{'error'|trans}}" data-content="{{form_errors(form)}}" style="display: inline-block"></i>
                 {% endif %}
-                
+
                 {% if sonata_admin.field_description.help %}
                     <span class="help-block sonata-ba-field-help">{{ sonata_admin.admin.trans(sonata_admin.field_description.help, {}, sonata_admin.field_description.translationDomain)|raw }}</span>
                 {% endif %}

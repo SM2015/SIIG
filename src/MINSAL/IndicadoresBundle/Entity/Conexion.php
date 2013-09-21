@@ -76,7 +76,7 @@ class Conexion
      * @ORM\Column(name="instancia", type="string", length=50, nullable=true)
      */
     private $instancia;
-    
+
     /**
      * @ORM\ManyToMany(targetEntity="OrigenDatos", mappedBy="conexiones")
      */
@@ -92,12 +92,10 @@ class Conexion
      */
     private $idMotor;
 
-
-
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -107,20 +105,20 @@ class Conexion
     /**
      * Set nombreConexion
      *
-     * @param string $nombreConexion
+     * @param  string   $nombreConexion
      * @return Conexion
      */
     public function setNombreConexion($nombreConexion)
     {
         $this->nombreConexion = $nombreConexion;
-    
+
         return $this;
     }
 
     /**
      * Get nombreConexion
      *
-     * @return string 
+     * @return string
      */
     public function getNombreConexion()
     {
@@ -130,20 +128,20 @@ class Conexion
     /**
      * Set comentario
      *
-     * @param string $comentario
+     * @param  string   $comentario
      * @return Conexion
      */
     public function setComentario($comentario)
     {
         $this->comentario = $comentario;
-    
+
         return $this;
     }
 
     /**
      * Get comentario
      *
-     * @return string 
+     * @return string
      */
     public function getComentario()
     {
@@ -153,20 +151,20 @@ class Conexion
     /**
      * Set ip
      *
-     * @param string $ip
+     * @param  string   $ip
      * @return Conexion
      */
     public function setIp($ip)
     {
         $this->ip = $ip;
-    
+
         return $this;
     }
 
     /**
      * Get ip
      *
-     * @return string 
+     * @return string
      */
     public function getIp()
     {
@@ -176,20 +174,20 @@ class Conexion
     /**
      * Set usuario
      *
-     * @param string $usuario
+     * @param  string   $usuario
      * @return Conexion
      */
     public function setUsuario($usuario)
     {
         $this->usuario = $usuario;
-    
+
         return $this;
     }
 
     /**
      * Get usuario
      *
-     * @return string 
+     * @return string
      */
     public function getUsuario()
     {
@@ -199,45 +197,46 @@ class Conexion
     /**
      * Set clave
      *
-     * @param string $clave
+     * @param  string   $clave
      * @return Conexion
      */
     public function setClave($clave)
     {
         $Util = new \MINSAL\IndicadoresBundle\Util\Util();
         $this->clave = $Util->encriptar_clave($clave);
-    
+
         return $this;
     }
 
     /**
      * Get clave
      *
-     * @return string 
+     * @return string
      */
     public function getClave()
     {
         $Util = new \MINSAL\IndicadoresBundle\Util\Util();
+
         return $Util->desencriptar_clave($this->clave);
     }
 
     /**
      * Set nombreBaseDatos
      *
-     * @param string $nombreBaseDatos
+     * @param  string   $nombreBaseDatos
      * @return Conexion
      */
     public function setNombreBaseDatos($nombreBaseDatos)
     {
         $this->nombreBaseDatos = $nombreBaseDatos;
-    
+
         return $this;
     }
 
     /**
      * Get nombreBaseDatos
      *
-     * @return string 
+     * @return string
      */
     public function getNombreBaseDatos()
     {
@@ -247,20 +246,20 @@ class Conexion
     /**
      * Set puerto
      *
-     * @param string $puerto
+     * @param  string   $puerto
      * @return Conexion
      */
     public function setPuerto($puerto)
     {
         $this->puerto = $puerto;
-    
+
         return $this;
     }
 
     /**
      * Get puerto
      *
-     * @return string 
+     * @return string
      */
     public function getPuerto()
     {
@@ -270,20 +269,20 @@ class Conexion
     /**
      * Set instancia
      *
-     * @param string $instancia
+     * @param  string   $instancia
      * @return Conexion
      */
     public function setInstancia($instancia)
     {
         $this->instancia = $instancia;
-    
+
         return $this;
     }
 
     /**
      * Get instancia
      *
-     * @return string 
+     * @return string
      */
     public function getInstancia()
     {
@@ -293,40 +292,41 @@ class Conexion
     /**
      * Set idMotor
      *
-     * @param MINSAL\IndicadoresBundle\Entity\MotorBd $idMotor
+     * @param  MINSAL\IndicadoresBundle\Entity\MotorBd $idMotor
      * @return Conexion
      */
     public function setIdMotor(\MINSAL\IndicadoresBundle\Entity\MotorBd $idMotor = null)
     {
         $this->idMotor = $idMotor;
-    
+
         return $this;
     }
 
     /**
      * Get idMotor
      *
-     * @return MINSAL\IndicadoresBundle\Entity\MotorBd 
+     * @return MINSAL\IndicadoresBundle\Entity\MotorBd
      */
     public function getIdMotor()
     {
         return $this->idMotor;
     }
-    
-    public function __toString() {
+
+    public function __toString()
+    {
         return $this->nombreConexion.' - '.$this->ip .' - ' . $this->nombreBaseDatos;
     }
 
     /**
      * Set id
      *
-     * @param integer $id
+     * @param  integer  $id
      * @return Conexion
      */
     public function setId($id)
     {
         $this->id = $id;
-    
+
         return $this;
     }
     /**
@@ -336,17 +336,17 @@ class Conexion
     {
         $this->origenes = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     /**
      * Add origenes
      *
-     * @param \MINSAL\IndicadoresBundle\Entity\OrigenDatos $origenes
+     * @param  \MINSAL\IndicadoresBundle\Entity\OrigenDatos $origenes
      * @return Conexion
      */
     public function addOrigene(\MINSAL\IndicadoresBundle\Entity\OrigenDatos $origenes)
     {
         $this->origenes[] = $origenes;
-    
+
         return $this;
     }
 
@@ -363,7 +363,7 @@ class Conexion
     /**
      * Get origenes
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getOrigenes()
     {

@@ -5,7 +5,6 @@ namespace MINSAL\IndicadoresBundle\Admin;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
-use Sonata\AdminBundle\Validator\ErrorElement;
 use Sonata\AdminBundle\Form\FormMapper;
 
 class ClasificacionUsoAdmin extends Admin
@@ -15,10 +14,10 @@ class ClasificacionUsoAdmin extends Admin
         '_sort_order' => 'ASC', // Descendant ordering (default = 'ASC')
         '_sort_by' => 'descripcion' // name of the ordered field (default = the model id field, if any)
     );
-    
+
     protected function configureFormFields(FormMapper $formMapper)
     {
-        $formMapper            
+        $formMapper
             ->add('codigo', null, array('label'=> $this->getTranslator()->trans('codigo')))
             ->add('descripcion', null, array('label'=> $this->getTranslator()->trans('descripcion')))
             ->add('comentario', 'textarea', array('required'=>false, 'label'=> $this->getTranslator()->trans('comentario')))
@@ -35,15 +34,15 @@ class ClasificacionUsoAdmin extends Admin
 
     protected function configureListFields(ListMapper $listMapper)
     {
-        $listMapper            
+        $listMapper
             ->addIdentifier('descripcion', null, array('label'=> $this->getTranslator()->trans('descripcion')))
             ->add('comentario', null, array('required'=>false, 'label'=> $this->getTranslator()->trans('comentario')))
         ;
     }
 
-    public function getBatchActions(){
+    public function getBatchActions()
+    {
         $actions = parent::getBatchActions();
         $actions['delete'] = null;
     }
 }
-?>

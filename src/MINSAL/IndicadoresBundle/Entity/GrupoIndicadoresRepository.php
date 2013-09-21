@@ -8,13 +8,14 @@ use MINSAL\IndicadoresBundle\Entity\GrupoIndicadores;
 
 /**
  * GrupoIndicadoresRepository
- * 
+ *
  */
-class GrupoIndicadoresRepository extends EntityRepository {
+class GrupoIndicadoresRepository extends EntityRepository
+{
+    public function getIndicadoresSala(GrupoIndicadores $sala)
+    {
+        $em = $this->getEntityManager();
 
-    public function getIndicadoresSala(GrupoIndicadores $sala) {
-        $em = $this->getEntityManager();                
-        
         $dql = "SELECT i.filtro, i.dimension, i.posicion, i.tipoGrafico, i.orden,
                     f.id as idIndicador, i.filtroPosicionDesde, i.filtroPosicionHasta,
                     i.filtroElementos
@@ -24,7 +25,7 @@ class GrupoIndicadoresRepository extends EntityRepository {
                         i.grupo = :sala";
         $query = $em->createQuery($dql);
         $query->setParameter('sala', $sala->getId());
-        
+
         return $query->getArrayResult();
     }
 

@@ -18,7 +18,7 @@ class LoadClasificacionUsoData extends AbstractFixture implements OrderedFixture
         $datos[3]['campos'] = array('Codigo'=>'cigob','Descripcion'=>'CIGOB');
         $datos[4]['campos'] = array('Codigo'=>'bid','Descripcion'=>'BID');
         $datos[5]['campos'] = array('Codigo'=>'ppr','Descripcion'=>'PPR');
-        
+
         $master = new LoadMaster();
         $master->save($datos, $manager, $this);
     }

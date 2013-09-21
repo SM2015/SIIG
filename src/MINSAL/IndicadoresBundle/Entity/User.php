@@ -11,20 +11,21 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Entity
  * @ORM\Table(name="fos_user_user")
  */
-class User extends BaseUser{
+class User extends BaseUser
+{
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-            
+
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
      * @ORM\OneToMany(targetEntity="UsuarioGrupoIndicadores", mappedBy="usuario", cascade={"all"}, orphanRemoval=true)
      **/
-    protected $gruposIndicadores;    
-   
+    protected $gruposIndicadores;
+
      /**
       * @ORM\ManyToMany(targetEntity="FichaTecnica", inversedBy="usuariosFavoritos")
       * @ORM\JoinTable(name="usuario_indicadores_favoritos",
@@ -33,8 +34,7 @@ class User extends BaseUser{
       *      )
       **/
     private $favoritos;
-    
-    
+
     /**
      * @ORM\ManyToMany(targetEntity="FichaTecnica", inversedBy="usuarios")
      * @ORM\JoinTable(name="indicador_usuario",
@@ -44,20 +44,20 @@ class User extends BaseUser{
      * @ORM\OrderBy({"nombre" = "ASC"})
      **/
     protected $indicadores;
-    
+
     /**
-     * 
+     *
      * @var clasificacionUso
      *
      * @ORM\ManyToOne(targetEntity="ClasificacionUso")
      * @ORM\OrderBy({"codigo" = "ASC"})
      **/
     private $clasificacionUso;
-    
+
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -68,17 +68,16 @@ class User extends BaseUser{
      */
     protected $groups;
 
-
     /**
      * Add groups
      *
-     * @param \Application\Sonata\UserBundle\Entity\Group $groups
+     * @param  \Application\Sonata\UserBundle\Entity\Group $groups
      * @return User
      */
     public function addGroup(GroupInterface $groups)
     {
         $this->groups[] = $groups;
-    
+
         return $this;
     }
 
@@ -111,17 +110,17 @@ class User extends BaseUser{
         $this->groups = new \Doctrine\Common\Collections\ArrayCollection();
         parent::__construct();
     }
-    
+
     /**
      * Add gruposIndicadores
      *
-     * @param \MINSAL\IndicadoresBundle\Entity\UsuarioGrupoIndicadores $gruposIndicadores
+     * @param  \MINSAL\IndicadoresBundle\Entity\UsuarioGrupoIndicadores $gruposIndicadores
      * @return User
      */
     public function addGruposIndicadore(\MINSAL\IndicadoresBundle\Entity\UsuarioGrupoIndicadores $gruposIndicadores)
     {
         $this->gruposIndicadores[] = $gruposIndicadores;
-    
+
         return $this;
     }
 
@@ -138,23 +137,23 @@ class User extends BaseUser{
     /**
      * Get gruposIndicadores
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getGruposIndicadores()
     {
         return $this->gruposIndicadores;
-    }    
+    }
 
     /**
      * Add favoritos
      *
-     * @param \MINSAL\IndicadoresBundle\Entity\FichaTecnica $favoritos
+     * @param  \MINSAL\IndicadoresBundle\Entity\FichaTecnica $favoritos
      * @return User
      */
     public function addFavorito(\MINSAL\IndicadoresBundle\Entity\FichaTecnica $favoritos)
     {
         $this->favoritos[] = $favoritos;
-    
+
         return $this;
     }
 
@@ -171,7 +170,7 @@ class User extends BaseUser{
     /**
      * Get favoritos
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getFavoritos()
     {
@@ -181,20 +180,20 @@ class User extends BaseUser{
     /**
      * Set clasificacionUso
      *
-     * @param \MINSAL\IndicadoresBundle\Entity\ClasificacionUso $clasificacionUso
+     * @param  \MINSAL\IndicadoresBundle\Entity\ClasificacionUso $clasificacionUso
      * @return User
      */
     public function setClasificacionUso(\MINSAL\IndicadoresBundle\Entity\ClasificacionUso $clasificacionUso = null)
     {
         $this->clasificacionUso = $clasificacionUso;
-    
+
         return $this;
     }
 
     /**
      * Get clasificacionUso
      *
-     * @return \MINSAL\IndicadoresBundle\Entity\ClasificacionUso 
+     * @return \MINSAL\IndicadoresBundle\Entity\ClasificacionUso
      */
     public function getClasificacionUso()
     {
@@ -204,13 +203,13 @@ class User extends BaseUser{
     /**
      * Add indicadores
      *
-     * @param \MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores
+     * @param  \MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores
      * @return User
      */
     public function addIndicadore(\MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores)
     {
         $this->indicadores[] = $indicadores;
-    
+
         return $this;
     }
 
@@ -227,7 +226,7 @@ class User extends BaseUser{
     /**
      * Get indicadores
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getIndicadores()
     {

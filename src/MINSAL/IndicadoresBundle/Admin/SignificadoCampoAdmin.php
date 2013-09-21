@@ -8,8 +8,8 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Validator\ErrorElement;
 
-class SignificadoCampoAdmin extends Admin {
-
+class SignificadoCampoAdmin extends Admin
+{
     private $repository;
     protected $datagridValues = array(
         '_page' => 1, // Display the first page (default = 1)
@@ -17,7 +17,8 @@ class SignificadoCampoAdmin extends Admin {
         '_sort_by' => 'descripcion' // name of the ordered field (default = the model id field, if any)
     );
 
-    protected function configureFormFields(FormMapper $formMapper) {
+    protected function configureFormFields(FormMapper $formMapper)
+    {
         $formMapper
                 ->add('codigo', null, array('label' => $this->getTranslator()->trans('codigo')))
                 ->add('descripcion', null, array('label' => $this->getTranslator()->trans('descripcion')))
@@ -39,14 +40,16 @@ class SignificadoCampoAdmin extends Admin {
                 ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper) {
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    {
         $datagridMapper
                 ->add('descripcion', null, array('label' => $this->getTranslator()->trans('descripcion')))
                 ->add('catalogo', null, array('label' => $this->getTranslator()->trans('catalogo')))
         ;
     }
 
-    protected function configureListFields(ListMapper $listMapper) {
+    protected function configureListFields(ListMapper $listMapper)
+    {
         $listMapper
                 ->addIdentifier('codigo', null, array('label' => $this->getTranslator()->trans('codigo')))
                 ->add('descripcion', null, array('label' => $this->getTranslator()->trans('descripcion')))
@@ -56,12 +59,14 @@ class SignificadoCampoAdmin extends Admin {
         ;
     }
 
-    public function getBatchActions() {
+    public function getBatchActions()
+    {
         $actions = parent::getBatchActions();
         $actions['delete'] = null;
     }
 
-    public function validate(ErrorElement $errorElement, $object) {
+    public function validate(ErrorElement $errorElement, $object)
+    {
         //Marcó la opción que se usará en catálogo pero no ha elegido un catálog
         if ($object->getUsoEnCatalogo() == true and $object->getCatalogo() != '') {
             $errorElement
@@ -70,22 +75,22 @@ class SignificadoCampoAdmin extends Admin {
                     ->end();
         }
     }
-    
-    
-    public function setRepository($repository){
+
+    public function setRepository($repository)
+    {
         $this->repository = $repository;
     }
-    
-    public function prePersist($Significado) {
+
+    public function prePersist($Significado)
+    {
         $util = new \MINSAL\IndicadoresBundle\Util\Util();
-        $Significado->setCodigo($util->slug($Significado->getCodigo()));        
+        $Significado->setCodigo($util->slug($Significado->getCodigo()));
     }
 
-    public function preUpdate($Significado) {
+    public function preUpdate($Significado)
+    {
         $util = new \MINSAL\IndicadoresBundle\Util\Util();
         $Significado->setCodigo($util->slug($Significado->getCodigo()));
     }
 
 }
-
-?>

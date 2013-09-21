@@ -33,7 +33,7 @@ class VariableDato
      * @var integer $confiabilidad
      *
      * @ORM\Column(name="confiabilidad", type="integer", nullable=true)
-     * 
+     *
      * @Assert\Range(
      *      min = "0",
      *      max = "100"
@@ -81,7 +81,7 @@ class VariableDato
      * })
      */
     private $idResponsableDato;
-    
+
     /**
      * @var OrigenDatos
      *
@@ -91,7 +91,7 @@ class VariableDato
      * })
      */
     private $origenDatos;
-    
+
     /**
      * @ORM\ManyToMany(targetEntity="FichaTecnica", mappedBy="variables")
      **/
@@ -100,7 +100,7 @@ class VariableDato
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -110,20 +110,20 @@ class VariableDato
     /**
      * Set nombre
      *
-     * @param string $nombre
+     * @param  string       $nombre
      * @return VariableDato
      */
     public function setNombre($nombre)
     {
         $this->nombre = $nombre;
-    
+
         return $this;
     }
 
     /**
      * Get nombre
      *
-     * @return string 
+     * @return string
      */
     public function getNombre()
     {
@@ -133,20 +133,20 @@ class VariableDato
     /**
      * Set confiabilidad
      *
-     * @param integer $confiabilidad
+     * @param  integer      $confiabilidad
      * @return VariableDato
      */
     public function setConfiabilidad($confiabilidad)
     {
         $this->confiabilidad = $confiabilidad;
-    
+
         return $this;
     }
 
     /**
      * Get confiabilidad
      *
-     * @return integer 
+     * @return integer
      */
     public function getConfiabilidad()
     {
@@ -156,20 +156,20 @@ class VariableDato
     /**
      * Set iniciales
      *
-     * @param string $iniciales
+     * @param  string       $iniciales
      * @return VariableDato
      */
     public function setIniciales($iniciales)
     {
         $this->iniciales = $iniciales;
-    
+
         return $this;
     }
 
     /**
      * Get iniciales
      *
-     * @return string 
+     * @return string
      */
     public function getIniciales()
     {
@@ -179,20 +179,20 @@ class VariableDato
     /**
      * Set comentario
      *
-     * @param string $comentario
+     * @param  string       $comentario
      * @return VariableDato
      */
     public function setComentario($comentario)
     {
         $this->comentario = $comentario;
-    
+
         return $this;
     }
 
     /**
      * Get comentario
      *
-     * @return string 
+     * @return string
      */
     public function getComentario()
     {
@@ -202,20 +202,20 @@ class VariableDato
     /**
      * Set esPoblacion
      *
-     * @param boolean $esPoblacion
+     * @param  boolean      $esPoblacion
      * @return VariableDato
      */
     public function setEsPoblacion($esPoblacion)
     {
         $this->esPoblacion = $esPoblacion;
-    
+
         return $this;
     }
 
     /**
      * Get esPoblacion
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getEsPoblacion()
     {
@@ -225,20 +225,20 @@ class VariableDato
     /**
      * Set idFuenteDato
      *
-     * @param MINSAL\IndicadoresBundle\Entity\FuenteDato $idFuenteDato
+     * @param  MINSAL\IndicadoresBundle\Entity\FuenteDato $idFuenteDato
      * @return VariableDato
      */
     public function setIdFuenteDato(\MINSAL\IndicadoresBundle\Entity\FuenteDato $idFuenteDato = null)
     {
         $this->idFuenteDato = $idFuenteDato;
-    
+
         return $this;
     }
 
     /**
      * Get idFuenteDato
      *
-     * @return MINSAL\IndicadoresBundle\Entity\FuenteDato 
+     * @return MINSAL\IndicadoresBundle\Entity\FuenteDato
      */
     public function getIdFuenteDato()
     {
@@ -248,48 +248,48 @@ class VariableDato
     /**
      * Set idResponsableDato
      *
-     * @param MINSAL\IndicadoresBundle\Entity\ResponsableDato $idResponsableDato
+     * @param  MINSAL\IndicadoresBundle\Entity\ResponsableDato $idResponsableDato
      * @return VariableDato
      */
     public function setIdResponsableDato(\MINSAL\IndicadoresBundle\Entity\ResponsableDato $idResponsableDato = null)
     {
         $this->idResponsableDato = $idResponsableDato;
-    
+
         return $this;
     }
 
     /**
      * Get idResponsableDato
      *
-     * @return MINSAL\IndicadoresBundle\Entity\ResponsableDato 
+     * @return MINSAL\IndicadoresBundle\Entity\ResponsableDato
      */
     public function getIdResponsableDato()
     {
         return $this->idResponsableDato;
     }
-    
-    public function __toString() {
+
+    public function __toString()
+    {
         return $this->nombre. ' (' . $this->iniciales . ')';
-    }    
-        
+    }
 
     /**
      * Set origenDatos
      *
-     * @param MINSAL\IndicadoresBundle\Entity\OrigenDatos $origenDatos
+     * @param  MINSAL\IndicadoresBundle\Entity\OrigenDatos $origenDatos
      * @return VariableDato
      */
     public function setOrigenDatos(\MINSAL\IndicadoresBundle\Entity\OrigenDatos $origenDatos = null)
     {
         $this->origenDatos = $origenDatos;
-    
+
         return $this;
     }
 
     /**
      * Get origenDatos
      *
-     * @return MINSAL\IndicadoresBundle\Entity\OrigenDatos 
+     * @return MINSAL\IndicadoresBundle\Entity\OrigenDatos
      */
     public function getOrigenDatos()
     {
@@ -299,13 +299,13 @@ class VariableDato
     /**
      * Set id
      *
-     * @param integer $id
+     * @param  integer      $id
      * @return VariableDato
      */
     public function setId($id)
     {
         $this->id = $id;
-    
+
         return $this;
     }
     /**
@@ -315,17 +315,17 @@ class VariableDato
     {
         $this->indicadores = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     /**
      * Add indicadores
      *
-     * @param \MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores
+     * @param  \MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores
      * @return VariableDato
      */
     public function addIndicador(\MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores)
     {
         $this->indicadores[] = $indicadores;
-    
+
         return $this;
     }
 
@@ -342,7 +342,7 @@ class VariableDato
     /**
      * Get indicadores
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getIndicadores()
     {
@@ -352,13 +352,13 @@ class VariableDato
     /**
      * Add indicadores
      *
-     * @param \MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores
+     * @param  \MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores
      * @return VariableDato
      */
     public function addIndicadore(\MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores)
     {
         $this->indicadores[] = $indicadores;
-    
+
         return $this;
     }
 

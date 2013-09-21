@@ -27,7 +27,7 @@ class Periodos
      * @ORM\Column(name="descripcion", type="string", length=25, nullable=false)
      */
     private $descripcion;
-    
+
     /**
      * @var string $codigo
      *
@@ -42,12 +42,10 @@ class Periodos
      */
     private $sentencia;
 
-
-
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -57,20 +55,20 @@ class Periodos
     /**
      * Set descripcion
      *
-     * @param string $descripcion
+     * @param  string   $descripcion
      * @return Periodos
      */
     public function setDescripcion($descripcion)
     {
         $this->descripcion = $descripcion;
-    
+
         return $this;
     }
 
     /**
      * Get descripcion
      *
-     * @return string 
+     * @return string
      */
     public function getDescripcion()
     {
@@ -80,47 +78,48 @@ class Periodos
     /**
      * Set sentencia
      *
-     * @param string $sentencia
+     * @param  string   $sentencia
      * @return Periodos
      */
     public function setSentencia($sentencia)
     {
         $this->sentencia = $sentencia;
-    
+
         return $this;
     }
 
     /**
      * Get sentencia
      *
-     * @return string 
+     * @return string
      */
     public function getSentencia()
     {
         return $this->sentencia;
     }
-    
-    public function __toString() {
+
+    public function __toString()
+    {
         return $this->descripcion ? :'';
     }
 
     /**
      * Set codigo
      *
-     * @param string $codigo
+     * @param  string   $codigo
      * @return Periodos
      */
     public function setCodigo($codigo)
     {
         $this->codigo = $codigo;
-    
+
         return $this;
     }
 
     /**
      * Get codigo
      *
-     * @return string 
+     * @return string
      */
     public function getCodigo()
     {
@@ -130,13 +129,13 @@ class Periodos
     /**
      * Set id
      *
-     * @param integer $id
+     * @param  integer  $id
      * @return Periodos
      */
     public function setId($id)
     {
         $this->id = $id;
-    
+
         return $this;
     }
 }

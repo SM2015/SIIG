@@ -27,19 +27,18 @@ class Alerta
      * @ORM\Column(name="codigo", type="string", length=30, nullable=false)
      */
     private $codigo;
-    
+
     /**
      * @var string $color
      *
      * @ORM\Column(name="color", type="string", length=50, nullable=false)
      */
     private $color;
-        
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -49,47 +48,48 @@ class Alerta
     /**
      * Set color
      *
-     * @param string $color
+     * @param  string $color
      * @return Alerta
      */
     public function setColor($color)
     {
         $this->color = $color;
-    
+
         return $this;
     }
 
     /**
      * Get color
      *
-     * @return string 
+     * @return string
      */
     public function getColor()
     {
         return $this->color;
     }
-    
-    public function __toString() {
+
+    public function __toString()
+    {
         return $this->color ? :'';
     }
 
     /**
      * Set codigo
      *
-     * @param string $codigo
+     * @param  string $codigo
      * @return Alerta
      */
     public function setCodigo($codigo)
     {
         $this->codigo = $codigo;
-    
+
         return $this;
     }
 
     /**
      * Get codigo
      *
-     * @return string 
+     * @return string
      */
     public function getCodigo()
     {

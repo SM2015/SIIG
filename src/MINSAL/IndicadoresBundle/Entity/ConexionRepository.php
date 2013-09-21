@@ -8,11 +8,12 @@ use Doctrine\DBAL as DBAL;
 
 /**
  * ConexionRepository
- * 
+ *
  */
-class ConexionRepository extends EntityRepository {
-
-    public function getConexionGenerica(Conexion $conexion) {
+class ConexionRepository extends EntityRepository
+{
+    public function getConexionGenerica(Conexion $conexion)
+    {
         if ($conexion->getIdMotor()->getCodigo() == 'pdo_dblib') {
             $servername = $conexion->getIp();
             if ($conexion->getPuerto() != '')
@@ -35,6 +36,7 @@ class ConexionRepository extends EntityRepository {
 
             $conn = DBAL\DriverManager::getConnection($connectionParams, $config);
         }
+
         return $conn;
     }
 

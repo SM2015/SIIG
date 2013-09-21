@@ -6,15 +6,17 @@ use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class CargarOrigenDatoConsumer implements ConsumerInterface {
-
+class CargarOrigenDatoConsumer implements ConsumerInterface
+{
     protected $container;
 
-    public function __construct(ContainerInterface $container) {
+    public function __construct(ContainerInterface $container)
+    {
         $this->container = $container;
     }
 
-    public function execute(AMQPMessage $msg) {
+    public function execute(AMQPMessage $msg)
+    {
         $msg = unserialize($msg->body);
         $em = $this->container->get('doctrine.orm.entity_manager');
 
@@ -34,12 +36,12 @@ class CargarOrigenDatoConsumer implements ConsumerInterface {
         //Leeré los datos en grupos de 10,000
         $tamanio = 10000;
 
-        if ($origenDato->getSentenciaSql() != ''){
-            // Recorrer cada conexión que tenga asociado el origen de datos       
+        if ($origenDato->getSentenciaSql() != '') {
+            // Recorrer cada conexión que tenga asociado el origen de datos
             foreach ($origenDato->getConexiones() as $cnx) {
                 $leidos = 10001;
                 $i = 0;
-                $nombre_conexion = $cnx->getNombreConexion();            
+                $nombre_conexion = $cnx->getNombreConexion();
                 if ($cnx->getIdMotor()->getCodigo() != 'pdo_dblib') {
                     $sql = $msg['sql'];
                     while ($leidos >= $tamanio) {
@@ -56,8 +58,7 @@ class CargarOrigenDatoConsumer implements ConsumerInterface {
                     $this->enviarDatos($idOrigen, $datos, $campos_sig, $ahora, $nombre_conexion);
                 }
             }
-        }
-        else{
+        } else {
             $datos = $em->getRepository('IndicadoresBundle:OrigenDatos')->getDatos(null, null, $origenDato->getAbsolutePath());
             $this->enviarDatos($idOrigen, $datos, $campos_sig, $ahora, $nombre_conexion);
         }
@@ -68,13 +69,15 @@ class CargarOrigenDatoConsumer implements ConsumerInterface {
         );
         $this->container->get('old_sound_rabbit_mq.guardar_registro_producer')
                 ->publish(serialize($msg_guardar));
+
         return true;
     }
 
-    public function enviarDatos($idOrigen, $datos, $campos_sig, $ultima_lectura, $nombre_conexion) {
+    public function enviarDatos($idOrigen, $datos, $campos_sig, $ultima_lectura, $nombre_conexion)
+    {
         //Esta cola la utilizaré solo para leer todos los datos y luego mandar uno por uno
         // a otra cola que se encarará de guardarlo en la base de datos
-        // luego se puede probar a mandar por grupos       
+        // luego se puede probar a mandar por grupos
         $datos_a_enviar = array();
         $util = new \MINSAL\IndicadoresBundle\Util\Util();
         $i = 0;
@@ -119,4 +122,3 @@ class CargarOrigenDatoConsumer implements ConsumerInterface {
     }
 
 }
-?>

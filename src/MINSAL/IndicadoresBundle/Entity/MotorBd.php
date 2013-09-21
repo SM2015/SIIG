@@ -35,12 +35,10 @@ class MotorBd
      */
     private $codigo;
 
-
-
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -50,20 +48,20 @@ class MotorBd
     /**
      * Set nombre
      *
-     * @param string $nombre
+     * @param  string  $nombre
      * @return MotorBd
      */
     public function setNombre($nombre)
     {
         $this->nombre = $nombre;
-    
+
         return $this;
     }
 
     /**
      * Get nombre
      *
-     * @return string 
+     * @return string
      */
     public function getNombre()
     {
@@ -73,40 +71,41 @@ class MotorBd
     /**
      * Set codigo
      *
-     * @param string $codigo
+     * @param  string  $codigo
      * @return MotorBd
      */
     public function setCodigo($codigo)
     {
         $this->codigo = $codigo;
-    
+
         return $this;
     }
 
     /**
      * Get codigo
      *
-     * @return string 
+     * @return string
      */
     public function getCodigo()
     {
         return $this->codigo;
     }
-    
-    public function __toString() {
+
+    public function __toString()
+    {
         return $this->nombre ? :'';
     }
 
     /**
      * Set id
      *
-     * @param integer $id
+     * @param  integer $id
      * @return MotorBd
      */
     public function setId($id)
     {
         $this->id = $id;
-    
+
         return $this;
     }
 }

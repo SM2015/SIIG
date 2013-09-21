@@ -27,7 +27,7 @@ class ClasificacionPrivacidad
      * @ORM\Column(name="codigo", type="string", length=15, nullable=false)
      */
     private $codigo;
-    
+
     /**
      * @var string $descripcion
      *
@@ -41,18 +41,16 @@ class ClasificacionPrivacidad
      * @ORM\Column(name="comentario", type="text", nullable=true)
      */
     private $comentario;
-    
+
     /**
      * @ORM\ManyToMany(targetEntity="FichaTecnica", mappedBy="clasificacionPrivacidad")
      **/
     private $indicadores;
 
-
-
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -62,20 +60,20 @@ class ClasificacionPrivacidad
     /**
      * Set descripcion
      *
-     * @param string $descripcion
+     * @param  string                  $descripcion
      * @return ClasificacionPrivacidad
      */
     public function setDescripcion($descripcion)
     {
         $this->descripcion = $descripcion;
-    
+
         return $this;
     }
 
     /**
      * Get descripcion
      *
-     * @return string 
+     * @return string
      */
     public function getDescripcion()
     {
@@ -85,47 +83,48 @@ class ClasificacionPrivacidad
     /**
      * Set comentario
      *
-     * @param string $comentario
+     * @param  string                  $comentario
      * @return ClasificacionPrivacidad
      */
     public function setComentario($comentario)
     {
         $this->comentario = $comentario;
-    
+
         return $this;
     }
 
     /**
      * Get comentario
      *
-     * @return string 
+     * @return string
      */
     public function getComentario()
     {
         return $this->comentario;
     }
-    
-    public function __toString() {
+
+    public function __toString()
+    {
         return $this->descripcion ? :'';
     }
 
     /**
      * Set codigo
      *
-     * @param string $codigo
+     * @param  string                  $codigo
      * @return ClasificacionPrivacidad
      */
     public function setCodigo($codigo)
     {
         $this->codigo = $codigo;
-    
+
         return $this;
     }
 
     /**
      * Get codigo
      *
-     * @return string 
+     * @return string
      */
     public function getCodigo()
     {
@@ -135,13 +134,13 @@ class ClasificacionPrivacidad
     /**
      * Set id
      *
-     * @param integer $id
+     * @param  integer                 $id
      * @return ClasificacionPrivacidad
      */
     public function setId($id)
     {
         $this->id = $id;
-    
+
         return $this;
     }
     /**
@@ -151,17 +150,17 @@ class ClasificacionPrivacidad
     {
         $this->indicadores = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     /**
      * Add indicadores
      *
-     * @param \MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores
+     * @param  \MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores
      * @return ClasificacionPrivacidad
      */
     public function addIndicadore(\MINSAL\IndicadoresBundle\Entity\FichaTecnica $indicadores)
     {
         $this->indicadores[] = $indicadores;
-    
+
         return $this;
     }
 
@@ -178,7 +177,7 @@ class ClasificacionPrivacidad
     /**
      * Get indicadores
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getIndicadores()
     {

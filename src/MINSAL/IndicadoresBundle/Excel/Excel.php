@@ -4,14 +4,16 @@ namespace MINSAL\IndicadoresBundle\Excel;
 use PHPExcel_IOFactory;
 use OS\ExcelBundle\Excel\Excel as ExcelBase;
 
-class Excel extends ExcelBase{    
+class Excel extends ExcelBase
+{
     /**
      * Parse and load and spreadsheet file
-     * 
+     *
      * @param string $file
-     * @param array $options 
+     * @param array  $options
      */
-    public function loadFile($file = null, $options = array()) {
+    public function loadFile($file = null, $options = array())
+    {
         $this->options += $options;
 
         if (!$file)
@@ -26,5 +28,3 @@ class Excel extends ExcelBase{
         $this->setActiveSheet();
     }
 }
-
-?>
