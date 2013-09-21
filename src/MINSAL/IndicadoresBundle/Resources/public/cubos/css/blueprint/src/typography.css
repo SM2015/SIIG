@@ -8,7 +8,7 @@
 /* Default font settings.
    The font-size percentage is of 16px. (0.75 * 16px = 12px) */
 html { font-size:100.01%; }
-body {
+siig {
   /*font-size: 75%;*/
   font-size: 68.75%;
   color: #222;
@@ -50,7 +50,7 @@ p .right 		{ margin: 1.5em 0 1.5em 1.5em; padding: 0; }
 
 a:focus,
 a:hover     { color: #09f; }
-a           { color: #06c; text-decoration: underline; }
+a           { color: #06c; text-decoration: none; }
 
 blockquote  { margin: 1.5em; color: #666; font-style: italic; }
 strong,dfn	{ font-weight: bold; }
