@@ -8,77 +8,33 @@
       <link rel="stylesheet" href="{{ asset('bundles/indicadores/cubos/css/blueprint/src/typography.css') }}" type="text/css" media="screen, projection">
       <link rel="stylesheet" href="{{ asset('bundles/indicadores/cubos/css/blueprint/src/forms.css') }}" type="text/css" media="screen, projection">
       <link rel="stylesheet" href="{{ asset('bundles/indicadores/cubos/css/saiku/src/styles.css') }}" type="text/css">
-       <link rel="stylesheet" href="{{ asset('bundles/indicadores/cubos/css/jquery/jquery-ui.css') }}" type="text/css" media="all" />
+       <link rel="stylesheet" href="{{ asset('bundles/indicadores/cubos/css/jquery/jquery-ui.css') }}" type="text/css" media="all" />        
        <link rel="stylesheet" href="{{ asset('bundles/indicadores/cubos/js/fancybox/jquery.fancybox-1.3.4.css') }}" type="text/css" media="screen" />
        <link rel="stylesheet" href="{{ asset('bundles/indicadores/cubos/js/jquery/jquery.contextMenu.css') }}" type="text/css" media="screen" />
 
-{% endblock %}
+{% endblock %}   
 
-{% block javascripts %}
+{% block javascripts %}  
  {{ parent() }}
 
       {# Es necesario usar la version de JQuery que viene con Saiku #}
       <script src="{{ asset('bundles/indicadores/cubos/js/jquery/jquery.min.js') }}" type="text/javascript"></script>
       <script src="{{ asset('bundles/indicadores/cubos/js/jquery/jquery-ui.min.js') }}" type="text/javascript"></script>
-       <script src="{{ asset('bundles/indicadores/cubos/js/jquery/jquery.contextMenu.js') }}"></script>
+       <script src="{{ asset('bundles/indicadores/cubos/js/jquery/jquery.contextMenu.js') }}"></script>        
         <script src="{{ asset('bundles/indicadores/cubos/js/jquery/jquery-mobile-touch.js') }}"></script>
-<<<<<<< HEAD
-        <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/fancybox/jquery.fancybox-1.3.4.pack.js') }}"></script>
-=======
         <script src="{{ asset('bundles/indicadores/cubos/js/jquery/jquery.blockUI.js') }}"></script>
         <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/fancybox/jquery.fancybox-1.3.4.pack.js') }}"></script>  
->>>>>>> f06e033c9282c437e07729b697693d1b9398484d
 
 <!-- Backbone.js y sus dependencias -->
-
-        <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/backbone/underscore.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/backbone/json2.js') }}"></script>
+        
+        <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/backbone/underscore.js') }}"></script>  
+        <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/backbone/json2.js') }}"></script>  
         <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/backbone/backbone.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/saiku/Settings.js') }}"></script>
-
+        <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/saiku/Settings.js') }}"></script> 
+  
 <!-- Loggly error logging service -->
-        <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/logger/janky.post.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/logger/janky.post.min.js') }}"></script>  
         <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/logger/Logger.js') }}"></script>
-<<<<<<< HEAD
-<!--Librerias de Saiku-->
-        <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/saiku/models/Dimension.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/saiku/views/DimensionList.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/saiku/views/Toolbar.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/saiku/views/Modal.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/saiku/views/MDXModal.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/saiku/views/SelectionsModal.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/saiku/views/DrillthroughModal.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/saiku/views/PermissionsModal.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/saiku/views/LoginForm.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/saiku/views/AboutModal.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/saiku/views/AddFolderModal.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/saiku/views/WorkspaceToolbar.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/saiku/views/WorkspaceDropZone.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/saiku/views/Table.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/saiku/views/Workspace.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/saiku/views/DeleteRepositoryObject.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/saiku/views/OpenQuery.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/saiku/views/SaveQuery.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/saiku/views/Tab.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/saiku/models/Repository.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/saiku/models/Properties.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/saiku/models/Result.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/saiku/models/QueryAction.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/saiku/models/QueryScenario.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/saiku/models/Query.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/saiku/models/Session.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/saiku/models/SessionWorkspace.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/saiku/models/Member.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/saiku/Saiku.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/saiku/adapters/SaikuServer.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/saiku/routers/QueryRouter.js') }}"></script>
-
-	<script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/saiku/plugins/Chart/plugin.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/saiku/plugins/Statistics/plugin.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/saiku/plugins/I18n/plugin.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/saiku/plugins/BIServer/plugin.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/saiku/plugins/Buckets/plugin.js') }}"></script>
-=======
 
 <!--Librerias de Saiku--> 
         <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/saiku/models/Dimension.js') }}"></script>  
@@ -137,7 +93,6 @@
 <script type="text/css" href="{{ asset('bundles/indicadores/cubos/js/saiku/plugins/CCC_Chart/tipsy.css') }}" rel="stylesheet"></script>
 <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/saiku/plugins/CCC_Chart/plugin.js') }}"></script>
 <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/ace/ace.js') }}" charset="utf8"></script>
->>>>>>> f06e033c9282c437e07729b697693d1b9398484d
 
 {% endblock %}
 
@@ -151,5 +106,5 @@
             </div>
         </div>
 
-  {% include 'IndicadoresBundle:FichaTecnicaAdmin:cubos_templates.html.twig' %}
+  {% include 'IndicadoresBundle:FichaTecnicaAdmin:cubos_templates.html.twig' %}  
 {% endblock %}

@@ -20,7 +20,7 @@
                 <option value="" class="i18n">Select a cube</option>
                 <% _.each(connections, function(connection) { %>
                     <% _.each(connection.catalogs, function(catalog) { %>
-                        <% _.each(catalog.schemas, function(schema) {
+                        <% _.each(catalog.schemas, function(schema) { 
                             if (schema.cubes.length > 0) { %>
                                 <optgroup label="<%= ( schema.name != "" ? schema.name : catalog.name) +'  (' + connection.name + ')' %>">
                                 <% _.each(schema.cubes, function(cube) { %>
@@ -43,7 +43,7 @@
             <li class='parent_dimension'>
                 <span class="root collapsed sprite"></span>
                 <a class="folder_collapsed sprite" href="#" title="<%= dimension.description ? dimension.description : dimension.caption %>"><%= dimension.caption %></a>
-
+                
                 <ul>
                 <% _.each(dimension.hierarchies, function(hierarchy) { %>
                     <% if (typeof hierarchy["visible"] == "undefined" || hierarchy["visible"]) { %>
@@ -54,13 +54,8 @@
                         <% } %>
                         <% _.each(hierarchy.levels, function(level) { %>
                             <% if (typeof level["visible"] == "undefined" || level["visible"]) { %>
-<<<<<<< HEAD
-                                <li class="hide"><a title="<%= level.uniqueName %>" rel="<%= level.uniqueName %>"
-                                    class="level" href="#<%= dimension.name %>/hierarchy/<%= hierarchy.uniqueName %>/<%= level.uniqueName %>"><%= level.caption %></a>
-=======
                                 <li class="hide"><a title="<%= level.description ? level.description : level.caption %>" rel="<%= level.uniqueName %>" 
                                     class="level" href="#<%= encodeURIComponent(dimension.name) %>/hierarchy/<%= encodeURIComponent(hierarchy.uniqueName) %>/<%= encodeURIComponent(level.uniqueName) %>"><%= level.caption %></a>
->>>>>>> f06e033c9282c437e07729b697693d1b9398484d
                                 </li>
                             <% } %>
                         <% }); %>
@@ -71,13 +66,13 @@
         <% }); %>
         </ul>
         </script>
-
+        
         <script type="text/x-jquery-tmpl" id="template-measures">
         <ul>
             <li>
                 <span class="root expand sprite"></span>
                    <a href="#" title="Measures" class="folder_expand sprite i18n">Measures</a>
-
+                
                 <ul>
                 <% _.each(measures, function(measure) { %>
                     <li><a title="<%= measure.description ? measure.description : measure.uniqueName %>"
@@ -89,7 +84,7 @@
             </li>
         </ul>
         </script>
-
+        
         <script type="text/x-jquery-tmpl" id="template-workspace">
         <div class="workspace">
             <div class="workspace_inner">
@@ -112,8 +107,8 @@
             <div>
                 <h3 class="top i18n">Cubes</h3>
                 <div class="refresh_cubes_nav">
-                    <a href="#refresh_cubes"
-                        class="i18n button refresh_cubes"
+                    <a href="#refresh_cubes" 
+                        class="i18n button refresh_cubes"  
                         title="Refresh Cubes (Clear Cache)"></a>
                 </div>
             </div>
@@ -125,7 +120,7 @@
             <h3 class="i18n">Measures</h3>
             <div class="sidebar_inner measure_tree"></div>
         </div>
-
+        
         <div class="sidebar_separator"></div>
         <div class="clear"></div>
         </script>
@@ -158,13 +153,9 @@
             </div>
         </div>
         </script>
-
+        
         <script type="text/x-jquery-tmpl" id="template-workspace-toolbar">
         <ul>
-<<<<<<< HEAD
-            <li><a href="#save_query"
-                class="i18n save button disabled_toolbar sprite"
-=======
             <li><a href="#new_query" 
                 class="i18n new disabled_toolbar button sprite" 
                 title="New query"></a></li>
@@ -173,60 +164,54 @@
                 title="Open query"></a></li>
             <li><a href="#save_query" 
                 class="i18n save button disabled_toolbar sprite" 
->>>>>>> f06e033c9282c437e07729b697693d1b9398484d
                 title="Save query"></a></li>
-            <li class="seperator"><a href="#run_query"
-                class="i18n run button disabled_toolbar sprite"
+            <li class="seperator"><a href="#run_query" 
+                class="i18n run button disabled_toolbar sprite" 
                 title="Run query"></a></li>
-            <li><a href="#automatic_execution"
-                class="i18n auto button disabled_toolbar sprite"
+            <li><a href="#automatic_execution" 
+                class="i18n auto button disabled_toolbar sprite" 
                 title="Automatic execution"></a></li>
-            <li><a href="#toggle_fields"
+            <li><a href="#toggle_fields" 
                 class="i18n toggle_fields button sprite"
                 title="Toggle fields"></a></li>
-            <li><a href="#toggle_sidebar"
-                class="i18n toggle_sidebar button sprite"
+            <li><a href="#toggle_sidebar" 
+                class="i18n toggle_sidebar button sprite" 
                 title="Toggle sidebar"></a></li>
-            <li class="seperator"><a href="#group_parents"
-                class="i18n group_parents button disabled_toolbar sprite"
+            <li class="seperator"><a href="#group_parents" 
+                class="i18n group_parents button disabled_toolbar sprite" 
                 title="Hide Parents"></a></li>
-            <li><a href="#non_empty"
-                class="i18n non_empty button disabled_toolbar sprite"
+            <li><a href="#non_empty" 
+                class="i18n non_empty button disabled_toolbar sprite"  
                 title="Non-empty"></a></li>
-            <li><a href="#swap_axis"
-                class="i18n swap_axis button disabled_toolbar sprite"
+            <li><a href="#swap_axis" 
+                class="i18n swap_axis button disabled_toolbar sprite" 
                 title="Swap axis"></a></li>
-            <li><a href="#show_mdx"
-                class="i18n mdx button disabled_toolbar sprite"
+            <li><a href="#show_mdx" 
+                class="i18n mdx button disabled_toolbar sprite" 
                 title="Show MDX"></a></li>
-            <li><a href="#explain_query"
-                class="i18n explain_query button disabled_toolbar sprite"
+            <li><a href="#explain_query" 
+                class="i18n explain_query button disabled_toolbar sprite" 
                 title="Show Explain Plan"></a></li>
-            <li class="seperator"><a href="#query_scenario"
-                class="i18n table_mode query_scenario button disabled_toolbar sprite"
+            <li class="seperator"><a href="#query_scenario" 
+                class="i18n table_mode query_scenario button disabled_toolbar sprite" 
                 title="Query Scenario"></a></li>
-            <li class="seperator"><a href="#drillthrough"
-                class="i18n table_mode drillthrough button disabled_toolbar sprite"
+            <li class="seperator"><a href="#drillthrough" 
+                class="i18n table_mode drillthrough button disabled_toolbar sprite" 
                 title="Drill through on cell"></a></li>
-            <li><a href="#export_drillthrough"
-                class="i18n table_mode drillthrough_export button disabled_toolbar sprite"
+            <li><a href="#export_drillthrough" 
+                class="i18n table_mode drillthrough_export button disabled_toolbar sprite" 
                 title="Export Drill-Through on cell to CSV"></a></li>
-            <li class="seperator"><a href="#export_xls"
-                class="i18n export_xls button disabled_toolbar sprite"
+            <li class="seperator"><a href="#export_xls" 
+                class="i18n export_xls button disabled_toolbar sprite" 
                 title="Export XLS"></a></li>
-            <li><a href="#export_csv"
-                class="i18n export_csv button disabled_toolbar sprite"
+            <li><a href="#export_csv" 
+                class="i18n export_csv button disabled_toolbar sprite" 
                 title="Export CSV"></a></li>
-<<<<<<< HEAD
-            <li><a href="#switch_to_mdx"
-                class="i18n switch_to_mdx button disabled_toolbar"
-=======
             <li><a href="#export_pdf" 
                 class="i18n export_pdf button disabled_toolbar sprite" 
                 title="EXPERIMENTAL: Export PDF"></a></li>
             <li><a href="#switch_to_mdx" 
                 class="i18n switch_to_mdx button disabled_toolbar" 
->>>>>>> f06e033c9282c437e07729b697693d1b9398484d
                 title="Switch to MDX Mode"></a></li>
         </ul>
 
@@ -297,7 +282,7 @@
         </ul>
         </div>
         </script>
-
+        
         <script type="text/x-jquery-tmpl" id="template-open-dialog">
             <div class="workspace" style="margin-left: -305px">
                 <div class="workspace_inner" style="margin-left: 305px">
@@ -333,7 +318,7 @@
                     </ul>
                 </div>
             </div>
-
+            
             <div class="sidebar_separator"></div>
             <div class="clear"></div>
         </script>
@@ -394,28 +379,19 @@
                 <input name="use_result" id="use_result" type="checkbox" /><label for="use_result" class="i18n">Use Result</label>
             </div>
         </script>
-<<<<<<< HEAD
-
-=======
->>>>>>> f06e033c9282c437e07729b697693d1b9398484d
         <script type="text/x-jquery-tmpl" id="template-permissions">
             <div class="permissions">
 
                         <label for="filter_roles" class="i18n">Add role permission:</label>
                         <br />
                         <form>
-<<<<<<< HEAD
-                            <input name="'filter_roles" id="filter_roles" type="text" class="filterbox" />
-                            <input type="submit" value="Add" class="add_role" />
-=======
                             <input name="'filter_roles" id="filter_roles" type="text" class="filterbox" /> 
                             <input type="submit" value="Add" class="i18n add_role" />
->>>>>>> f06e033c9282c437e07729b697693d1b9398484d
                         </form>
-                        <input type="checkbox" class="acl" value="READ" />READ
-                        <input type="checkbox" class="acl" value="WRITE" /> WRITE
+                        <input type="checkbox" class="acl" value="READ" />READ 
+                        <input type="checkbox" class="acl" value="WRITE" /> WRITE 
                         <input type="checkbox" class="acl" value="GRANT" /> GRANT
-                <br />
+                <br />                        
                 <br />
                 <span class="i18n">Roles:</span>
                 <div class="rolelist"></div>
@@ -430,15 +406,11 @@
             </div>
             <br />
         </script>
-<<<<<<< HEAD
-
-=======
->>>>>>> f06e033c9282c437e07729b697693d1b9398484d
         <script type="text/x-jquery-tmpl" id="template-permissions-rolelist">
             <select class="select_roles" multiple size="4">
                 <% _.each(roles, function(grants, role) {
                     var aclstring ="";
-                     _.each(grants, function(grant, index) {
+                     _.each(grants, function(grant, index) { 
                         aclstring += (index > 0 ? (", " + grant) : grant);
                     });
                 %>
@@ -455,10 +427,6 @@
                 <span class="i18n"><b>CAUTION:</b> The number of rows can have a significant impact on the performance of the following action.</span>
             </div>
         </script>
-<<<<<<< HEAD
-
-=======
->>>>>>> f06e033c9282c437e07729b697693d1b9398484d
         <script type="text/x-jquery-tmpl" id="template-drillthrough-list">
         <div class="sidebar" style="border:1px solid #CCCCCC">
             <h3><input type="checkbox" class="all_dimensions"/> &nbsp;<span class="i18n">Dimensions</span></h3>
@@ -466,7 +434,7 @@
             <h3><input type="checkbox" class="all_measures"/> &nbsp;<span class="i18n">Measures</span></h3>
             <div class="sidebar_inner measure_tree"></div>
         </div>
-
+        
         <div class="sidebar_separator"></div>
         <div class="clear"></div>
         </script>
@@ -478,7 +446,7 @@
                 <span class="root collapsed sprite"></span>
                 <input type="checkbox" class="check_dimension" />
                 <a class="folder_collapsed sprite" href="#" title="<%= dimension.description ? dimension.description : dimension.caption %>"><%= dimension.caption %></a>
-
+                
                 <ul>
                 <% _.each(dimension.hierarchies, function(hierarchy) { %>
                     <% if (dimension.hierarchies.length > 1) { %>
@@ -499,18 +467,13 @@
         <% }); %>
         </ul>
         </script>
-
+        
         <script type="text/x-jquery-tmpl" id="template-drillthrough-measures">
         <ul>
             <li>
                 <span class="root expand sprite"></span>
-<<<<<<< HEAD
-                   <a href="#" title="Measures" class="folder_expand sprite">Measures</a>
-
-=======
                    <a href="#" title="Measures" class="folder_expand i18n sprite">Measures</a>
                 
->>>>>>> f06e033c9282c437e07729b697693d1b9398484d
                 <ul>
                 <% _.each(measures, function(measure) { %>
                     <% if(typeof measure.calculated == "undefined" || measure.calculated == false) { %>
@@ -522,10 +485,6 @@
                 </ul>
             </li>
         </ul>
-<<<<<<< HEAD
-</script>
-=======
         </script>
    <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/ga.js') }}"></script>
    
->>>>>>> f06e033c9282c437e07729b697693d1b9398484d
