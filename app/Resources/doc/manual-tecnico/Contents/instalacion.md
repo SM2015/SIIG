@@ -1,5 +1,4 @@
-#Tablero eTAB
-## Instalacion del Sistema Integrado de Información Gerencial
+# Instalación del eTAB
 
 ## Requerimientos
 * Servidor Web
@@ -7,22 +6,26 @@
 * PHP 5.3.8+
 * Java 6
 
-## Pasos
-
-1. Instalación de Symfony2
-2. Instalación de Postgres
-3. Instalación RabbitMQ
-4. Instalación Servidor de Análisis
-5. Librería wkhtmltopdf
 
 
-## 1. Instalación de Symfony2
+## Instalación de Symfony2
 ### Instalación de los requerimientos desde un servidor Debian 
 Es muy importante poner atención al indicador "#" significa que el comando 
-debe ser ejecutado como usuario root y "$" que debe ser ejecutado como un usuario normal
+debe ser ejecutado como usuario root y "$" que debe ser ejecutado como un usuario normal, en ambos casos desde una consola de comandos.
+
 ~~~
 # apt-get update
-# apt-get install php5 php5-pgsql php5-sqlite sqlite php5-xdebug  php-apc php5-cli php5-xsl php5-intl php5-mcrypt apache2 postgresql acl git-core curl postgresql-contrib php5-ldap
+# apt-get install php5 php5-pgsql php5-sqlite sqlite php5-xdebug  php-apc php5-cli php5-xsl php5-intl php5-mcrypt apache2 postgresql acl git-core curl postgresql-contrib php5-ldap php5-mysql php5-sybase
+~~~
+
+### Crear usuario y directorio de trabajo
+El directorio y usuario a utilizar pueden variar de acuerdo a los que se deseen elegir en cada instalación, como ejemplo se usará un usuario llamado *siig* y el directorio de instalación */var/www/siig*
+~~~
+# adduser siig
+# mkdir /var/www/siig
+# chown siig:siig /var/www/siig
+# su siig
+$ cd /var/www
 ~~~
 
 ### Obtener el código fuente
@@ -48,7 +51,7 @@ $ curl -s https://getcomposer.org/installer | php
 $ php composer.phar install
 ~~~
 Al finalizar la instalación, se solicitará los parámetros de conexión a la base de datos, se deben ingresar los 
-valores correspondientes.
+valores correspondientes. Más adelante, Configuración de PosgreSQL se muestra un ejemplo de cómo crear un usuario de la base de datos para utilizarlo en el siig
 
 ## Configuración
 
@@ -66,9 +69,9 @@ El contenido será similar a esto:
 <VirtualHost 127.0.0.7>
  
     ServerName siig.localhost
-    DocumentRoot /ruta_al_directorio_descargado/web
+    DocumentRoot /var/www/siig/web
  
-    <Directory /ruta_al_directorio_descargado/web >
+    <Directory /var/www/siig/web >
          Options Indexes FollowSymLinks MultiViews
          AllowOverride All
          Order allow,deny
@@ -119,7 +122,32 @@ Entra a la siguiente dirección desde el navegador http://siig.localhost/config.
 Si aparece algún error debe ser corregido antes de continuar
 
 
-## 2. Instalación de Postgres
+## Configuración de Postgres
+
+### Editar archivo de configuración
+Como usuario root realizar:
+
+1. Editar el archivo */etc/postgresql/9.1/main/pg_hba.conf* 
+2. Cambiar la siguiente línea, sustituir la última palabra por *md5* 
+~~~
+local   all             all                       md5
+~~~
+Reiniciar PostgreSQL
+~~~
+# /etc/init.d/postgresql restart
+~~~
+
+### Crear el usuario dueño de la base de datos
+
+Se creará el usuario dueño de la base de datos, las opciones utilizadas dependerán de los criterios que se quieran seguir, se muestra un ejemplo, ejecutar *createuser --help* para la explicación de las opciones.
+El nombre utilizado y la clave debe corresponder con los parámetros especificados al ejecutar *php composer.phar install* en unas secciones anteriores
+
+~~~
+# su postgres
+$ createuser -d -S  -R -P admin;
+~~~
+
+Al finalizar presionar la combinación Ctrl+D 2 veces para regresar al usuario siig y continuar con la instalación.
 
 ### Crear la base de datos
 ~~~
@@ -133,7 +161,7 @@ $ app/console doctrine:schema:update --force
 $ app/console doctrine:fixtures:load
 ~~~
 
-### Crear un usuario administrador
+### Crear un usuario administrador del SIIG
 ~~~
 $ app/console fos:user:create --super-admin
 ~~~
@@ -159,9 +187,8 @@ CREATE TABLE fila_origen_dato(
 );
 ~~~
 
-## 3. Instalación de RabbitMQ
+## Instalación de RabbitMQ
 
-### Instalación de RabbitMQ
 [RabbitMQ](http://www.rabbitmq.com/) es un sistema de mensajería empresarial completo y altamente confiable basado en el estándar AMQP
 [Charla sobre RabbitMQ](http://www.symfony.es/noticias/2011/07/06/desymfony-2011-reduciendo-el-acoplamiento-entre-aplicaciones-con-rabbitmq/).
 En este proyecto será utilizado para la carga masiva de datos y así evitar cuelgues o saturación del servidor.
@@ -216,7 +243,7 @@ El usuario por defecto es **guest** y la clave **guest**
 ~~~
 
 
-## 4. Instalación de Servidor de Aanálisis Pentaho
+## Instalación de Servidor de Análisis Pentaho
  
 Pentaho es un servidor de  análisis (Business Inteligence) modular que ofrece herramientas para la carga de datos(ETL), análisis dimensional (OLAP), minería de datos y  reportes entre otras. 
 A continuación: 
@@ -233,7 +260,7 @@ A continuación:
 
 El objetivo es usar el servidor Pentaho+Saiku para analizar los datos del SIIG y a la vez integrar esta aplicación dentro de  la plataforma del SIIG de forma que el usuario no se percate de que esta usando una aplicación externa. 
 
-### 4.1 Instalación de Pentaho
+### Instalación de Pentaho
 
 Pentaho es una aplicación escrita en JAVA que utiliza persistencia (Hibernate) un servidor de aplicaciones (Tomcat). Pentaho servirá como plataforma ejecutar nuestra aplicación de análisis de datos.
 
@@ -301,7 +328,7 @@ Asegurese de probar la conexión usando el botón "Test/Probar" al pie de esta m
 ./stop-pac.sh
 ~~~
 
-### 4.2 Configuración  de Mondrian
+### Configuración  de Mondrian
 Ahora que Pentaho ya puede conectarse a nuestra base datos, procederemos a configurar el servicio de Mondrian para la gestión de cubos OLAP. Para esto es necesario: 
 
 - Crear un archivo para definir nuestro cubo OLAP. Mondrian conoce estos archivos como ‘schemas’ y puede ser creado usando la siguiente plantilla: 
@@ -331,7 +358,7 @@ En este archivo cada cubo esta definido de la siguiente forma:
 Alternativamente, la aplicación Mondrian Workbench, puede generar el esquema del cubo y luego publicarlo/agregarlo a este listado por nosostros.
  
  
-### 4.3 Instalar SAIKU
+### Instalar SAIKU
 Para poder manipular visualmente los cubos que hemos creado usaremos SAIKU. Esta es una aplicación que permite hacer consultas al cubo y mostrar resultados usando peticiones REST y AJAX. SIKU procesa la respuesta devuelta por Pentaho en formato JSON para generar representaciones visuales de los datos. Para saber mas cerca de SAIKU puede visitar:
 
 http://analytical-labs.com/downloads.php
@@ -354,12 +381,12 @@ Y ejecutamos el script :
 El Script preguntara si queremos instalar todas las librerías, incluyendo el paquete SAIKU, respondemos que si a todo.
 
 Reiniciar Pentaho:
- ~~~
+~~~
 # ./stop-pentaho.sh  
 # ./start-pentaho.sh
 ~~~
 
-### 4.4 Modificar Apache: URL del SIIG apuntando a Pentaho 
+### Modificar Apache: URL del SIIG apuntando a SAIKU 
 
 Para enmascarar le URL de Pentaho debemos activar el proxy de Apache para esto debemos activar un par de módulos de Apache:  
 
@@ -431,7 +458,7 @@ Por esto, si el reporte es publicado en una carpeta diferente o si el nombre
 asignado al archivo es diferente, no podrá ser leido por el SIIG. 
 ~~~
 
-## 5. Instalación de librería wkhtmltopdf
+## Instalación de librería wkhtmltopdf
 [wkhtmltopdf](http://code.google.com/p/wkhtmltopdf/) Es una utilidad de línea de comando para convertir html a pdf
 
 1. Descargar wkhtmltopdf desde http://code.google.com/p/wkhtmltopdf/downloads/list elegir la versión adecuada al sistema operativo
@@ -440,12 +467,12 @@ asignado al archivo es diferente, no podrá ser leido por el SIIG.
 4. Dar permisos de ejecución: chmod +x /usr/bin/wkhtmltopdf
 
 
-## 6. OPCIONAL: Validación de Usarios desde directorios LDAP
+## OPCIONAL: Validación de Usarios desde directorios LDAP
 
 Si fuese necesario validar usuarios contra un directorio LDAP, se deben seguir los pasos descritos en esta sección. Si un usuario aun no esta creado dentro del sistema, se hara una busqueda en el drictorio LDAP especificado en el archivo app/config/config.yml.
 A continuacion se muestran las lineas relvantes para especificar que directorio usar:
 
-```yml
+~~~
 #Fr3d_LDAP
 fr3d_ldap:
     driver:
@@ -454,7 +481,7 @@ fr3d_ldap:
     user:
         baseDn:          ou=people,dc=salud,dc=gob,dc=sv # contenedor de usuarios
         filter: (objectClass=organizationalPerson) # esquema comun para todos los usuarios del directorio
-```
+~~~
 
 ### Cargar la aplicación
 En este punto estamos listos para crgar la aplicacion desde: 
