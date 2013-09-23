@@ -25,7 +25,7 @@ El directorio y usuario a utilizar pueden variar de acuerdo a los que se deseen 
 # mkdir /var/www/siig
 # chown siig:siig /var/www/siig
 # su siig
-# cd /var/www/siig
+$ cd /var/www/siig
 ~~~
 
 ### Obtener el código fuente
