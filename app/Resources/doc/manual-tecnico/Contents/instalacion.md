@@ -243,7 +243,7 @@ El usuario por defecto es **guest** y la clave **guest**
 ~~~
 
 
-## Instalación de Servidor de Aanálisis Pentaho
+## Instalación de Servidor de Análisis Pentaho
  
 Pentaho es un servidor de  análisis (Business Inteligence) modular que ofrece herramientas para la carga de datos(ETL), análisis dimensional (OLAP), minería de datos y  reportes entre otras. 
 A continuación: 
