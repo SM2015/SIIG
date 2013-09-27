@@ -4,13 +4,18 @@
 {% extends 'IndicadoresBundle::standard_layout.html.twig' %}
 {% block stylesheets %}
     {{ parent() }}
-    <!-- <link rel="stylesheet" href="{{ asset('bundles/indicadores/cubos/css/blueprint/src/reset.css') }}" type="text/css" media="screen, projection">-->
-      <link rel="stylesheet" href="{{ asset('bundles/indicadores/cubos/css/blueprint/src/typography.css') }}" type="text/css" media="screen, projection">
+  <!--[if lt IE 9]><script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/svgweb/svg.js') }}"
+	 data-path="{{ asset('bundles/indicadores/cubos/js/svgweb/') }}"></script><![endif]-->
+	<meta name="svg.render.forceflash" content="true">
+  <link rel="stylesheet" href="{{ asset('bundles/indicadores/cubos/css/blueprint/src/reset.css') }}" type="text/css" media="screen, projection">
+     
+ <link rel="stylesheet" href="{{ asset('bundles/indicadores/cubos/css/blueprint/src/typography.css') }}" type="text/css" media="screen, projection">
       <link rel="stylesheet" href="{{ asset('bundles/indicadores/cubos/css/blueprint/src/forms.css') }}" type="text/css" media="screen, projection">
-      <link rel="stylesheet" href="{{ asset('bundles/indicadores/cubos/css/saiku/src/styles.css') }}" type="text/css">
+    <!--[if lt IE 8]><link rel="stylesheet" href="{{ asset('bundles/indicadores/cubos/css/blueprint/src/ie.css') }}" type="text/css" media="screen, projection"><![endif]-->
        <link rel="stylesheet" href="{{ asset('bundles/indicadores/cubos/css/jquery/jquery-ui.css') }}" type="text/css" media="all" />        
        <link rel="stylesheet" href="{{ asset('bundles/indicadores/cubos/js/fancybox/jquery.fancybox-1.3.4.css') }}" type="text/css" media="screen" />
        <link rel="stylesheet" href="{{ asset('bundles/indicadores/cubos/js/jquery/jquery.contextMenu.css') }}" type="text/css" media="screen" />
+       <link rel="stylesheet" href="{{ asset('bundles/indicadores/cubos/css/saiku/src/styles.css') }}" type="text/css">
 
 {% endblock %}   
 
@@ -77,8 +82,9 @@
 
 <!-- Saiku Plugins-->
 
+<!--
  <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/saiku/plugins/Chart/plugin.js') }}"></script>
-
+-->
 <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/saiku/plugins/Statistics/plugin.js') }}" defer></script>
 <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/saiku/plugins/BIServer/plugin.js') }}" defer></script>
 <script type="text/javascript" src="{{ asset('bundles/indicadores/cubos/js/saiku/plugins/Buckets/plugin.js') }}" defer></script>     
