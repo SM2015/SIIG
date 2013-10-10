@@ -5,5 +5,5 @@ $(document).ready(function(){
             alert(trans.elija_al_menos_un_campo);
             $(this).attr('checked','ckecked');
         }
-    })
+    });
 });

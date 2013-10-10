@@ -137,7 +137,10 @@ sonata_user:
     class:
         user:         MINSAL\IndicadoresBundle\Entity\User
         group:        Application\Sonata\UserBundle\Entity\Group
-
+    
+    admin:                  # Admin Classes
+        user:
+            class:          Application\Sonata\UserBundle\Admin\Entity\UserAdmin
     profile:  # Profile Form (firstname, lastname, etc ...)
         form:
             type:               sonata_user_profile

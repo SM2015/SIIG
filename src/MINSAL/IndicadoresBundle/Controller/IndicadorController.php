@@ -8,6 +8,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Response;
 use MINSAL\IndicadoresBundle\Entity\FichaTecnica;
 use MINSAL\IndicadoresBundle\Entity\ClasificacionUso;
+use MINSAL\IndicadoresBundle\Entity\User;
+use MINSAL\IndicadoresBundle\Entity\GrupoIndicadores;
+use MINSAL\IndicadoresBundle\Entity\UsuarioGrupoIndicadores;
 
 class IndicadorController extends Controller
 {
@@ -335,5 +338,26 @@ class IndicadorController extends Controller
 
         return new Response(json_encode($resp));
     }
-
+    
+    /**
+     * @Route("/usuario/{id}/sala/{id_sala}/{accion}", name="usuario_asignar_sala", options={"expose"=true})
+     * @ParamConverter("sala", class="IndicadoresBundle:GrupoIndicadores", options={"id" = "id_sala"})
+     */
+    public function asignarSala(User $usuario, GrupoIndicadores $sala, $accion){
+        
+        $em = $this->getDoctrine()->getManager();
+        if ($accion=='add'){
+            $salaUsuario = new UsuarioGrupoIndicadores();
+            $salaUsuario->setUsuario($usuario);
+            $salaUsuario->setGrupoIndicadores($sala);
+            $em->persist($salaUsuario);
+        }  else {
+            $salaUsuario = $em->getRepository('IndicadoresBundle:UsuarioGrupoIndicadores')
+                    ->findOneBy(array('usuario' => $usuario,
+                                    'grupoIndicadores' => $sala));
+            $em->remove($salaUsuario);
+        }        
+        $em->flush();
+        return new Response();
+    }
 }

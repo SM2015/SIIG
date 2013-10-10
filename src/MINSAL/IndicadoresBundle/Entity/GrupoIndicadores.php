@@ -147,4 +147,9 @@ class GrupoIndicadores
     {
         return $this->indicadores;
     }
+    
+    public function __toString()
+    {
+        return $this->nombre;
+    }
 }
