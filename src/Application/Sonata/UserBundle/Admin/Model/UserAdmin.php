@@ -89,9 +89,10 @@ class UserAdmin extends BaseAdmin
         if ($this->getSubject() && !$this->getSubject()->hasRole('ROLE_SUPER_ADMIN')) {
             $acciones = explode('/', $this->getRequest()->server->get("REQUEST_URI"));
             $accion = array_pop($acciones);
-            if ($accion == 'edit') {
+            $accion = explode('?',$accion);
+            if ($accion[0] == 'edit') {
                 $formMapper
-                    ->with($this->getTranslator()->trans('indicadores'))
+                    ->with($this->getTranslator()->trans('_indicadores_y_salas_'))
                         ->add('indicadores', null, array('label' => $this->getTranslator()->trans('indicadores'), 'expanded' => true))
                         ->add('gruposIndicadores', null, array('label' => $this->getTranslator()->trans('_salas_situacionales_'),
                             'property'=>'grupoIndicadores.id',
@@ -108,15 +109,6 @@ class UserAdmin extends BaseAdmin
             }
         }
         
-    }
-
-    public function preUpdate($usuario)
-    {
-        var_dump($usuario); exit;
-        foreach ($usuario->_salas_ as $sala) {
-            var_dump($sala);
-        }
-        exit;
     }
     
     public function getTemplate($name)

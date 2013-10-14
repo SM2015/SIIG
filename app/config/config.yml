@@ -141,6 +141,8 @@ sonata_user:
     admin:                  # Admin Classes
         user:
             class:          Application\Sonata\UserBundle\Admin\Entity\UserAdmin
+        group:
+            class:          Application\Sonata\UserBundle\Admin\Entity\GroupAdmin
     profile:  # Profile Form (firstname, lastname, etc ...)
         form:
             type:               sonata_user_profile

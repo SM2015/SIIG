@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace ApplicationSonata\UserBundle\Admin\Entity;
+namespace Application\Sonata\UserBundle\Admin\Entity;
 
 use Application\Sonata\UserBundle\Admin\Model\GroupAdmin as BaseGroupAdmin;
 

@@ -9,50 +9,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Sonata\UserBundle\Admin\Model;
+namespace Application\Sonata\UserBundle\Admin\Model;
 
-use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
-use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\UserBundle\Admin\Model\GroupAdmin as BaseAdmin;
 
-class GroupAdmin extends Admin
-{
-    protected $formOptions = array(
-        'validation_groups' => 'Registration'
-    );
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getNewInstance()
-    {
-        $class = $this->getClass();
-
-        return new $class('', array());
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function configureListFields(ListMapper $listMapper)
-    {
-        $listMapper
-            ->addIdentifier('name')
-            ->add('roles')
-        ;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
-    {
-        $datagridMapper
-            ->add('name')
-        ;
-    }
-
+class GroupAdmin extends BaseAdmin
+{    
     /**
      * {@inheritdoc}
      */
@@ -66,5 +30,18 @@ class GroupAdmin extends Admin
                 'required' => false
             ))
         ;
+        if ($this->getSubject() && !$this->getSubject()->hasRole('ROLE_SUPER_ADMIN')) {
+            $acciones = explode('/', $this->getRequest()->server->get("REQUEST_URI"));
+            $accion = array_pop($acciones);
+            $accion = explode('?',$accion);
+            if ($accion[0] == 'edit') {
+                $formMapper
+                    ->with($this->getTranslator()->trans('_indicadores_y_salas_'))
+                        ->add('indicadores', null, array('label' => $this->getTranslator()->trans('indicadores'), 'expanded' => true))
+                        ->add('salas', null, array('label' => $this->getTranslator()->trans('_salas_situacionales_'), 'expanded' => true))
+                    ->end()
+                ;
+            }
+        }
     }
 }

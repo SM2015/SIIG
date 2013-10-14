@@ -39,6 +39,11 @@ class GrupoIndicadores
      * @ORM\OneToMany(targetEntity="GrupoIndicadoresIndicador", mappedBy="grupo" , cascade={"all"}, orphanRemoval=true)
      **/
     private $indicadores;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="Application\Sonata\UserBundle\Entity\Group", mappedBy="indicadores")
+     **/
+    private $gruposUsuarios;
 
     /**
      * Constructor
@@ -151,5 +156,38 @@ class GrupoIndicadores
     public function __toString()
     {
         return $this->nombre;
+    }
+
+    /**
+     * Add gruposUsuarios
+     *
+     * @param \Application\Sonata\UserBundle\Entity\Group $gruposUsuarios
+     * @return GrupoIndicadores
+     */
+    public function addGruposUsuario(\Application\Sonata\UserBundle\Entity\Group $gruposUsuarios)
+    {
+        $this->gruposUsuarios[] = $gruposUsuarios;
+    
+        return $this;
+    }
+
+    /**
+     * Remove gruposUsuarios
+     *
+     * @param \Application\Sonata\UserBundle\Entity\Group $gruposUsuarios
+     */
+    public function removeGruposUsuario(\Application\Sonata\UserBundle\Entity\Group $gruposUsuarios)
+    {
+        $this->gruposUsuarios->removeElement($gruposUsuarios);
+    }
+
+    /**
+     * Get gruposUsuarios
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getGruposUsuarios()
+    {
+        return $this->gruposUsuarios;
     }
 }
