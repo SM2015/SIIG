@@ -63,6 +63,16 @@ class User extends BaseUser
     {
         return $this->id;
     }
+    
+    /**
+     * Set id
+     *
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+    
     /**
      * @var \Doctrine\Common\Collections\Collection
      */

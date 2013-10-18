@@ -41,9 +41,9 @@ class GrupoIndicadores
     private $indicadores;
     
     /**
-     * @ORM\ManyToMany(targetEntity="Application\Sonata\UserBundle\Entity\Group", mappedBy="indicadores")
+     * @ORM\ManyToMany(targetEntity="Application\Sonata\UserBundle\Entity\Group", mappedBy="salas")
      **/
-    private $gruposUsuarios;
+    private $grupos;
 
     /**
      * Constructor

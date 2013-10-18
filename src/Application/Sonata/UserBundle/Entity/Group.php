@@ -41,7 +41,7 @@ class Group extends BaseGroup
     protected $indicadores;
     
     /**
-     * @ORM\ManyToMany(targetEntity="MINSAL\IndicadoresBundle\Entity\GrupoIndicadores", inversedBy="gruposUsuarios")
+     * @ORM\ManyToMany(targetEntity="MINSAL\IndicadoresBundle\Entity\GrupoIndicadores", inversedBy="grupos")
      * @ORM\OrderBy({"nombre" = "ASC"})
      **/
     protected $salas;
