@@ -39,31 +39,61 @@ class FichaTecnicaAdminController extends Controller
         }
         $categorias = $em->getRepository("IndicadoresBundle:ClasificacionTecnica")->findBy(array('clasificacionUso' => $clasificacionUsoPorDefecto));
 
-        $usuarioSalas = $usuario->getGruposIndicadores();
+        //Salas por usuario
+        $usuarioSalas = array();
+        if (($usuario->hasRole('ROLE_SUPER_ADMIN'))){
+           foreach ($em->getRepository("IndicadoresBundle:GrupoIndicadores")->findAll() as $sala) {
+                $usuarioSalas[$sala->getId()] = $sala;
+            } 
+        }else{
+           foreach ($usuario->getGruposIndicadores() as $sala) {
+                $usuarioSalas[$sala->getGrupoIndicadores()->getId()] = $sala->getGrupoIndicadores();
+            } 
+        }
+        //Salas asignadas al grupo al que pertenece el usuario
+        foreach ($usuario->getGroups() as $grp){
+            foreach ($grp->getSalas() as $sala){
+                $usuarioSalas[$sala->getId()] = $sala;
+            }
+        }
+        
         $i = 0;
         $salas = array();
         foreach ($usuarioSalas as $sala) {
-            $salas[$i]['datos_sala'] = $sala->getGrupoIndicadores();
+            $salas[$i]['datos_sala'] = $sala;
             $salas[$i]['indicadores_sala'] = $em->getRepository('IndicadoresBundle:GrupoIndicadores')
-                    ->getIndicadoresSala($sala->getGrupoIndicadores());
+                    ->getIndicadoresSala($sala);
             $i++;
         }
 
+        //Indicadores asignados por usuario
         $usuarioIndicadores = ($usuario->hasRole('ROLE_SUPER_ADMIN')) ?
                 $em->getRepository("IndicadoresBundle:FichaTecnica")->findAll() :
                 $usuario->getIndicadores();
+        //Indicadores asignadas al grupo al que pertenece el usuario
+        $indicadoresPorGrupo = array();
+        foreach ($usuario->getGroups() as $grp){            
+            foreach ($grp->getIndicadores() as $indicadores_grupo){
+                $indicadoresPorGrupo[] = $indicadores_grupo;
+            }
+        }
+        
         $indicadores_por_usuario = array();
         $indicadores_clasificados = array();
         foreach ($usuarioIndicadores as $ind) {
             $indicadores_por_usuario[] = $ind->getId();
         }
-
+        
+        foreach ($indicadoresPorGrupo as $ind){
+            $indicadores_por_usuario[] = $ind->getId();
+        }
+        
         $categorias_indicador = array();
         foreach ($categorias as $cat) {
             $categorias_indicador[$cat->getId()]['cat'] = $cat;
             $categorias_indicador[$cat->getId()]['indicadores'] = array();
-            $indicares_por_categoria = $cat->getIndicadores();
-            foreach ($indicares_por_categoria as $ind) {
+            $indicadores_por_categoria = $cat->getIndicadores();
+            foreach ($indicadores_por_categoria as $ind) {
                 if (in_array($ind->getId(), $indicadores_por_usuario)) {
                     $categorias_indicador[$cat->getId()]['indicadores'][] = $ind;
                     $indicadores_clasificados[] = $ind->getId();
@@ -73,6 +103,11 @@ class FichaTecnicaAdminController extends Controller
 
         $indicadores_no_clasificados = array();
         foreach ($usuarioIndicadores as $ind) {
+            if (!in_array($ind->getId(), $indicadores_clasificados)) {
+                $indicadores_no_clasificados[] = $ind;
+            }
+        }
+        foreach ($indicadoresPorGrupo as $ind) {
             if (!in_array($ind->getId(), $indicadores_clasificados)) {
                 $indicadores_no_clasificados[] = $ind;
             }

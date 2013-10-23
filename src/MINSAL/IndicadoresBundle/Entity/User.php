@@ -25,7 +25,7 @@ class User extends BaseUser
      * @ORM\OneToMany(targetEntity="UsuarioGrupoIndicadores", mappedBy="usuario", cascade={"all"}, orphanRemoval=true)
      **/
     protected $gruposIndicadores;
-
+    
      /**
       * @ORM\ManyToMany(targetEntity="FichaTecnica", inversedBy="usuariosFavoritos")
       * @ORM\JoinTable(name="usuario_indicadores_favoritos",
@@ -63,6 +63,16 @@ class User extends BaseUser
     {
         return $this->id;
     }
+    
+    /**
+     * Set id
+     *
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+    
     /**
      * @var \Doctrine\Common\Collections\Collection
      */

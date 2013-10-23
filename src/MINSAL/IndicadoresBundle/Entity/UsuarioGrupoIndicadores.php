@@ -103,4 +103,9 @@ class UsuarioGrupoIndicadores
     {
         return $this->usuario;
     }
+    
+    public function __toString()
+    {
+        return $this->grupoIndicadores->getNombre();
+    }
 }

@@ -148,6 +148,11 @@ class FichaTecnica
      * @ORM\ManyToMany(targetEntity="User", mappedBy="indicadores")
      **/
     private $usuarios;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="Application\Sonata\UserBundle\Entity\Group", mappedBy="indicadores")
+     **/
+    private $gruposUsuarios;
 
     /**
      * @ORM\ManyToMany(targetEntity="User", mappedBy="favoritos")
@@ -776,5 +781,38 @@ class FichaTecnica
     public function getUsuarios()
     {
         return $this->usuarios;
+    }
+
+    /**
+     * Add gruposUsuarios
+     *
+     * @param \Application\Sonata\UserBundle\Entity\Group $gruposUsuarios
+     * @return FichaTecnica
+     */
+    public function addGruposUsuario(\Application\Sonata\UserBundle\Entity\Group $gruposUsuarios)
+    {
+        $this->gruposUsuarios[] = $gruposUsuarios;
+    
+        return $this;
+    }
+
+    /**
+     * Remove gruposUsuarios
+     *
+     * @param \Application\Sonata\UserBundle\Entity\Group $gruposUsuarios
+     */
+    public function removeGruposUsuario(\Application\Sonata\UserBundle\Entity\Group $gruposUsuarios)
+    {
+        $this->gruposUsuarios->removeElement($gruposUsuarios);
+    }
+
+    /**
+     * Get gruposUsuarios
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getGruposUsuarios()
+    {
+        return $this->gruposUsuarios;
     }
 }

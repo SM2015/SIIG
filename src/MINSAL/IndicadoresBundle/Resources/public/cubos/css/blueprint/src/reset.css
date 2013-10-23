@@ -19,6 +19,9 @@ fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td,
 article, aside, dialog, figure, footer, header,
 hgroup, nav, section {
+
+/* Este codigo causa que se quede colgado Firefox/IceWeasel	
+	
   margin: 0;
   padding: 0;
   border: 0;
@@ -26,7 +29,7 @@ hgroup, nav, section {
   font-style: inherit;
   font-size: 100%;
   font-family: inherit;
-  vertical-align: baseline;
+  vertical-align: baseline; */
 }
 
 /* This helps to make newer HTML5 elements behave like DIVs in older browers */ 
