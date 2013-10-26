@@ -147,3 +147,7 @@ input.valores_filtro{
 .dropdown-menu li a {
     cursor: pointer;
 }
+
+div.popover-content, div.popover-title{
+    font-size : 9pt !important;
+}

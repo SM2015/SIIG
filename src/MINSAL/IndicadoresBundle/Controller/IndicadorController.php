@@ -70,6 +70,7 @@ class IndicadorController extends Controller
             $resp['rangos'] = $rangos_alertas;
             $resp['formula'] = $fichaTec->getFormula();
             $resp['dimensiones'] = $dimensiones;
+            $resp['ultima_lectura'] = date('d/m/Y', $fichaTec->getUltimaLectura()->getTimestamp());
             $resp['resultado'] = 'ok';
         } else {
             $resp['resultado'] = 'error';
