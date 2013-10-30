@@ -205,6 +205,9 @@
         <service id="indicadores.guardar_registro_origen_dato" class="MINSAL\IndicadoresBundle\Consumer\GuardarRegistroOrigenDatoConsumer">
             <argument type="service" id="doctrine.orm.entity_manager" />
         </service>
+        <service id="sonata.admin.orm.filter.type.string" class="MINSAL\IndicadoresBundle\Filter\StringFilter">
+            <tag name="sonata.admin.filter.type" alias="doctrine_orm_string" />
+        </service>
         
     </services>
 </container>
