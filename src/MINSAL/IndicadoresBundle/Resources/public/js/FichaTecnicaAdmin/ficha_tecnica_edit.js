@@ -20,8 +20,8 @@ $(document).ready(function() {
     });
 
     //Al seleccionar una variable pasarla al campo de la fórmula
-    $('ul[id$="_variables"] input[type=checkbox]').change(function() {
-        var variable = $.trim($(this).next('span').html()).match(/(\([A-Z_]{1,}\)$)/g);
+    $('ul[id$="_variables"] input[type=checkbox]').change(function() {        
+        var variable = $.trim($(this).next('span').html()).match(/(\([0-9A-Z_]+\)$)/g);        
         variable = variable[0].replace('(','{').replace(')','}');        
         
         if ($(this).is(':checked'))
