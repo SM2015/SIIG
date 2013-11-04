@@ -391,7 +391,7 @@ return $result;
 /** Toma el ID de un indicador para crear Schema de Mondrian y lo agrega las fuentes de datos de Pentaho.
      * @Route("/indicador/{id}/mondrian", name="indicador_mondrian", options={"expose"=true})
      */
-    public function indicadorMondrian()
+       public function indicadorMondrian()
     {
 	$em = $this->getDoctrine()->getManager();
         $req = $this->getRequest();
@@ -419,6 +419,7 @@ return $result;
 	fclose($fh);
 	$formula = str_replace(' ', '', $indicador->getFormula());
         preg_match_all('/\{([\w]+)\}/', $formula, $vars_formula);
+	$formula=strtolower($formula);
 	$formula=str_replace('{','[Measures].[', $formula);
 	$formula=str_replace('}',']', $formula);
 
@@ -426,8 +427,8 @@ return $result;
                  "\n<Table name='tmp_ind_".$util->slug($indicador->getNombre())."' schema='public'></Table>".
     		$dims;	
 	foreach ($vars_formula[1] as $myvar){
-			$datos=$datos."\n<Measure name='".$myvar.
-			"' column='".$myvar."' formatString='#' aggregator='sum'></Measure>";
+			$datos=$datos."\n<Measure name='".strtolower($myvar).
+			"' column='".strtolower($myvar)."' formatString='#' aggregator='sum'></Measure>";
 		}
 	
     	$datos=$datos."\n <CalculatedMember name='Valor (".$indicador->getUnidadMedida().")'".
@@ -437,7 +438,6 @@ return $result;
 	fwrite($fh,$this->formatXML("\n<Schema name='Indicador ".$req->get('id')."'>\n ".$base_cubo.$datos)); 
         fclose($fh);
 	$pentahoMondrian=$this->container->getParameter('carpeta_pentaho_mondrian').'/indicador'.$req->get('id').'.mondrian.xml';
- 	shell_exec('cp '.$schemaFile .' '. $pentahoMondrian);
        
 
 	$pentahoResource=$this->get('kernel')->getRootDir().'/mondrian/datasources.siig';
@@ -445,7 +445,7 @@ return $result;
 	$node=$xml->xpath('//Catalogs');
 	$catalog=$node[0]->addChild('Catalog');
 	$catalog->addAttribute('name','Indicador '.$req->get('id'));
-	$catalog->addChild('DataSourceInfo','Provider=mondrian;DataSource=Minsal');
+	$catalog->addChild('DataSourceInfo','Provider=mondrian;DataSource='.$this->container->getParameter('conexion_bd_pentaho'));
 	$catalog->addChild('Definition',$schemaFile);
 
 	$fh = fopen($pentahoResource, 'w'); 
@@ -455,4 +455,4 @@ return $result;
 	$em->flush(); 
 	return new Response($cubo?'Se creo nuevo esquema':'No es posible crear cubo');	
   }//end function
-}//end class	
+}//end class
