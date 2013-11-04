@@ -23,12 +23,7 @@ class CargarOrigenDatoConsumer implements ConsumerInterface
         $idOrigen = $msg['id_origen_dato'];
         $origenDato = $em->find('IndicadoresBundle:OrigenDatos', $idOrigen);
 
-        // Recuperar el nombre y significado de los campos del origen de datos
-        $campos_sig = array();
-        $campos = $origenDato->getCampos();
-        foreach ($campos as $campo) {
-            $campos_sig[$campo->getNombre()] = $campo->getSignificado()->getCodigo();
-        }
+        $campos_sig = $msg['campos_significados'];
 
         $fecha = new \DateTime("now");
         $ahora = $fecha->format('Y-m-d H:i:s');

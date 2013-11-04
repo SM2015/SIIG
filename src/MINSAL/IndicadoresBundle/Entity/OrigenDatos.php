@@ -94,7 +94,7 @@ class OrigenDatos
      * @ORM\Column(name="campos_fusionados", type="text", nullable=true)
      */
     private $camposFusionados;
-
+    
     /**
      * @ORM\ManyToMany(targetEntity="OrigenDatos")
      * @ORM\JoinTable(name="origen_datos_fusiones",
