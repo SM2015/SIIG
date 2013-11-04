@@ -391,7 +391,7 @@ return $result;
 /** Toma el ID de un indicador para crear Schema de Mondrian y lo agrega las fuentes de datos de Pentaho.
      * @Route("/indicador/{id}/mondrian", name="indicador_mondrian", options={"expose"=true})
      */
-       public function indicadorMondrian()
+    public function indicadorMondrian()
     {
 	$em = $this->getDoctrine()->getManager();
         $req = $this->getRequest();
@@ -438,7 +438,9 @@ return $result;
 	fwrite($fh,$this->formatXML("\n<Schema name='Indicador ".$req->get('id')."'>\n ".$base_cubo.$datos)); 
         fclose($fh);       
 
-	$pentahoResource=$this->container->getParameter('carpeta_siig_mondrian').'/datasources.siig';
+	$pentahoResource=$this->container->getParameter('carpeta_siig_mondrian').
+		$this->container->getParameter('listado_metadata');
+
 	$xml= simplexml_load_file($pentahoResource);
 	$node=$xml->xpath('//Catalogs');
 	$catalog=$node[0]->addChild('Catalog');
