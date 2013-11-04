@@ -13,12 +13,32 @@ namespace Application\Sonata\UserBundle\Admin\Model;
 
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\UserBundle\Model\UserInterface;
-use Doctrine\ORM\EntityRepository;
+use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\UserBundle\Admin\Model\UserAdmin as BaseAdmin;
 
 class UserAdmin extends BaseAdmin
 {
 
+    /**
+     * {@inheritdoc}
+     */
+    protected function configureListFields(ListMapper $listMapper)
+    {
+        $listMapper
+            ->addIdentifier('username')
+            ->add('email')
+            ->add('groups')
+            ->add('enabled', null, array('editable' => true))
+            ->add('locked', null, array('editable' => true))
+            ->add('createdAt')
+        ;
+        /*
+        if ($this->isGranted('ROLE_ALLOWED_TO_SWITCH')) {
+            $listMapper
+                ->add('impersonating', 'string', array('template' => 'SonataUserBundle:Admin:Field/impersonating.html.twig'))
+            ;
+        }*/
+    }
     /**
      * {@inheritdoc}
      */
