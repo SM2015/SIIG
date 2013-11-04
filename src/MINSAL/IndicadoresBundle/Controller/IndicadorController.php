@@ -456,5 +456,3 @@ return $result;
 	return new Response($cubo?'Se creo nuevo esquema':'No es posible crear cubo');	
   }//end function
 }//end class	
-
-}
