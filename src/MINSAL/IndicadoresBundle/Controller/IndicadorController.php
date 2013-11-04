@@ -436,11 +436,9 @@ return $result;
 
 	$fh = fopen($schemaFile, 'w');
 	fwrite($fh,$this->formatXML("\n<Schema name='Indicador ".$req->get('id')."'>\n ".$base_cubo.$datos)); 
-        fclose($fh);
-	$pentahoMondrian=$this->container->getParameter('carpeta_pentaho_mondrian').'/indicador'.$req->get('id').'.mondrian.xml';
-       
+        fclose($fh);       
 
-	$pentahoResource=$this->get('kernel')->getRootDir().'/mondrian/datasources.siig';
+	$pentahoResource=$this->container->getParameter('carpeta_siig_mondrian').'/datasources.siig';
 	$xml= simplexml_load_file($pentahoResource);
 	$node=$xml->xpath('//Catalogs');
 	$catalog=$node[0]->addChild('Catalog');
