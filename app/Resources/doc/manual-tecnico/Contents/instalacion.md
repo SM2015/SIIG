@@ -346,7 +346,7 @@ Crear una nueva carpeta de trabajo de Mondrian, esta carpeta debe estar accesibl
 
 El nombre de la carpeta es arbitrario, se puede usar cualquier otro nombre y ajustar le valor correspondiente dentro app/config/parameters.yml
 
-Copiar la estructura base para crear nuevos cubos. El codito fuente del SIIG contiene la estructura base para crear nuevos cubos en el archivo : src/MINSAL/IndicadoresBundle/Resources/public/cubos/BASE_CUBO.txt
+Una vez creada la neuva carpeta, debemos copiar la estructura base para crear nuevos cubos. El codito fuente del SIIG contiene la estructura base para crear nuevos cubos en el archivo : src/MINSAL/IndicadoresBundle/Resources/public/cubos/BASE_CUBO.txt
 Este archivo básicamente lista las dimensiones que estarán disponibles a la hora de crear un nuevo cubo. Para este archivo lo copiaremos en nuestra nueva carpeta de trabajo de Mondrian:
 
 ~~~
@@ -367,7 +367,7 @@ El nombre datasources.siig  es arbitrario, se puede usar cualquier otro nombre y
 
 --------------------------------------------------------
 
-Los archivos generados que describen cubos puede ser editados usando la aplicación Mondrian Schema Workbench disponible aquí:
+Si se desea, los archivos generados que describen cubos puede ser editados usando la aplicación Mondrian Schema Workbench disponible aquí:
 
 http://sourceforge.net/projects/mondrian/files/schema%20workbench/
  
