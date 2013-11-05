@@ -48,8 +48,7 @@ En esta opción definiremos el contenedor de Reglas de transformación, debemos 
 
 ![Diccionario de transformación] (images/diccionario_transformacion.png)
 
-##Regla de transforma
-ción
+##Regla de transformación
 Una regla de transformación, se utilizará para convertir un valor en otro, esto con el objetivo de que si algunos orígenes de datos se refieren a un mismo campo pero con valores diferente con la transformación de uno de ellos se pueda hacer que estos valores sean iguales en ambos orígenes de datos.
 Por ejemplo, supongamos que tenemos dos origenes de datos que contienen el campo sexo, en un origen se utilizan los valores **Hombre** y **Mujer**; y en el otro origen de datos se utiliza **M** y **F**, para poder procesar estos orígenes de datos en un mismo indicador vamos a crear una regla que transforme **Hombre** a **H**. Por el momento solo se dispone de la regla **Igual**
 

@@ -140,8 +140,17 @@ class OrigenDatosAdminController extends Controller
                 $origenDato = $em->find('IndicadoresBundle:OrigenDatos', $origen);
             else
                 $origenDato = $origen;
-
-            $msg = array('id_origen_dato' => $origen, 'sql' => $origenDato->getSentenciaSql());
+            
+            // Recuperar el nombre y significado de los campos del origen de datos
+            $campos_sig = array();
+            $campos = $origenDato->getCampos();
+            foreach ($campos as $campo) {
+                $campos_sig[$campo->getNombre()] = $campo->getSignificado()->getCodigo();
+            }
+            
+            $msg = array('id_origen_dato' => $origen, 
+                        'sql' => $origenDato->getSentenciaSql(),
+                        'campos_significados' => $campos_sig);
 
             $ahora = new \DateTime("now");
             foreach ($origenDato->getVariables() as $var) {

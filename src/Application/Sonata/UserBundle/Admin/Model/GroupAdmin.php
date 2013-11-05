@@ -44,4 +44,16 @@ class GroupAdmin extends BaseAdmin
             }
         }
     }
+    
+    public function getTemplate($name)
+    {
+        switch ($name) {
+            case 'edit':
+                return 'IndicadoresBundle:CRUD:group-edit.html.twig';
+                break;
+            default:
+                return parent::getTemplate($name);
+                break;
+        }
+    }
 }

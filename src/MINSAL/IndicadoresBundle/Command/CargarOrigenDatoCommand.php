@@ -58,8 +58,17 @@ class CargarOrigenDatoCommand extends ContainerAwareCommand
                 // Recuperar los orígenes de datos asociados a las variables del indicador
                 foreach ($ind->getVariables() as $var) {
                     $origenDato = $var->getOrigenDatos();
-
-                    $msg = array('id_origen_dato' => $origenDato->getId(), 'sql'=> $origenDato->getSentenciaSql());
+                    // Recuperar el nombre y significado de los campos del origen de datos
+                    $campos_sig = array();
+                    $campos = $origenDato->getCampos();
+                    foreach ($campos as $campo) {
+                        $campos_sig[$campo->getNombre()] = $campo->getSignificado()->getCodigo();
+                    }
+                    
+                    $msg = array('id_origen_dato' => $origenDato->getId(), 
+                                'sql'=> $origenDato->getSentenciaSql(),
+                                'campos_significados' => $campos_sig
+                                );
 
                     $carga_directa = $origenDato->getEsCatalogo();
                     // No mandar a la cola de carga los que son catálogos, Se cargarán directamente

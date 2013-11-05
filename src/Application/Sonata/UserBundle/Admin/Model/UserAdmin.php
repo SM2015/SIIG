@@ -13,7 +13,7 @@ namespace Application\Sonata\UserBundle\Admin\Model;
 
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\UserBundle\Model\UserInterface;
-use Doctrine\ORM\EntityRepository;
+use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\UserBundle\Admin\Model\UserAdmin as BaseAdmin;
 
 class UserAdmin extends BaseAdmin
@@ -22,19 +22,43 @@ class UserAdmin extends BaseAdmin
     /**
      * {@inheritdoc}
      */
+    protected function configureListFields(ListMapper $listMapper)
+    {
+        $listMapper
+            ->addIdentifier('username')
+            ->add('email')
+            ->add('groups')
+            ->add('enabled', null, array('editable' => true))
+            ->add('locked', null, array('editable' => true))
+            ->add('createdAt')
+        ;
+        /*
+        if ($this->isGranted('ROLE_ALLOWED_TO_SWITCH')) {
+            $listMapper
+                ->add('impersonating', 'string', array('template' => 'SonataUserBundle:Admin:Field/impersonating.html.twig'))
+            ;
+        }*/
+    }
+    /**
+     * {@inheritdoc}
+     */
     protected function configureFormFields(FormMapper $formMapper)
     {
+        $acciones = explode('/', $this->getRequest()->server->get("REQUEST_URI"));
+        $accion = array_pop($acciones);
+        $pass_requerido = ($accion == 'create') ? true : false;
+        
         $formMapper
                 ->with('General')
                     ->add('id','hidden')
                     ->add('username')
                     ->add('email')
-                    ->add('plainPassword', 'text', array('required' => false))
+                    ->add('plainPassword', 'text', array('required' => $pass_requerido))
                 ->end()
                 ->with('Groups')
                     ->add('groups', 'sonata_type_model', array('required' => false, 'expanded' => true, 'multiple' => true))
                 ->end()
-                ->with('Profile')
+                ->with($this->getTranslator()->trans('_perfil_'))
                     ->add('dateOfBirth', 'birthday', array('required' => false))
                     ->add('firstname', null, array('required' => false))
                     ->add('lastname', null, array('required' => false))
@@ -53,14 +77,14 @@ class UserAdmin extends BaseAdmin
                     ->add('timezone', 'timezone', array('required' => false))
                     ->add('phone', null, array('required' => false))
                 ->end()
-                ->with('Social')
+                /*->with('Social')
                     ->add('facebookUid', null, array('required' => false))
                     ->add('facebookName', null, array('required' => false))
                     ->add('twitterUid', null, array('required' => false))
                     ->add('twitterName', null, array('required' => false))
                     ->add('gplusUid', null, array('required' => false))
                     ->add('gplusName', null, array('required' => false))
-                ->end()
+                ->end()*/
         ;
 
         if ($this->getSubject() && !$this->getSubject()->hasRole('ROLE_SUPER_ADMIN')) {
@@ -69,7 +93,8 @@ class UserAdmin extends BaseAdmin
                         ->add('realRoles', 'sonata_security_roles', array(
                             'expanded' => true,
                             'multiple' => true,
-                            'required' => false
+                            'required' => false,
+                            'label' => $this->getTranslator()->trans('_roles_')
                         ))
                         ->add('locked', null, array('required' => false))
                         ->add('expired', null, array('required' => false))
@@ -79,12 +104,12 @@ class UserAdmin extends BaseAdmin
             ;
         }
 
-        $formMapper
-                ->with('Security')
+        /*$formMapper
+                ->with($this->getTranslator()->trans('_seguridad_'))
                 ->add('token', null, array('required' => false))
                 ->add('twoStepVerificationCode', null, array('required' => false))
                 ->end()
-        ;
+        ;*/
 
         if ($this->getSubject() && !$this->getSubject()->hasRole('ROLE_SUPER_ADMIN')) {
             $acciones = explode('/', $this->getRequest()->server->get("REQUEST_URI"));
@@ -116,7 +141,7 @@ class UserAdmin extends BaseAdmin
     {
         switch ($name) {
             case 'edit':
-                return 'IndicadoresBundle:CRUD:user_dato-edit.html.twig';
+                return 'IndicadoresBundle:CRUD:user-edit.html.twig';
                 break;
             default:
                 return parent::getTemplate($name);

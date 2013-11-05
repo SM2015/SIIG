@@ -254,6 +254,8 @@ javascript:
   no_mas_niveles: 'No hay más niveles para descender'
   no_graficos_asignados: 'No ha asignado los tipos de gráficos permitidos a los significados de campo'
   recargar_origen: 'Recargar información de origen de datos'
+  ultima_lectura: 'Fecha de última lectura'
+  ultima_lectura_exp: 'Formato: dd/mm/aaaa. Se toma la fecha más antigua en que se realizó la última lectura de cada origen de datos asociado al indicador.'
 
 validacion:
   requerido: Este dato es requerido
@@ -319,3 +321,6 @@ _ultima_actualizacion_: Última actualización
 _no_conexion_configurada_: No existe una conexión configurada
 _salas_situacionales_: Salas situacionales
 _indicadores_y_salas_: Indicadores y Salas
+_roles_: Roles
+_perfil_: Perfil
+_seguridad_: Seguridad

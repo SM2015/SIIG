@@ -253,6 +253,8 @@ javascript:
   no_mas_niveles: 'No more levels to descend'
   no_graficos_asignados: 'No assigned graph types allowed to field meanings'
   recargar_origen: 'Reload data source information'
+  ultima_lectura: 'Last reading date'
+  ultima_lectura_exp: 'Format: dd/mm/yyyy. Take the earliest date that was the last reading of each data source associated with the indicator.'
 
 validacion:
   requerido: This field is required
@@ -317,3 +319,6 @@ _ultima_actualizacion_: Last updated
 _no_conexion_configurada_: There is no connection configured
 _salas_situacionales_: 'Situation Rooms'
 _indicadores_y_salas_: Indicators and Rooms
+_roles_: Roles
+_perfil_: Profile
+_seguridad_: Security

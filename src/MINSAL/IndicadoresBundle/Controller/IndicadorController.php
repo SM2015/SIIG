@@ -70,6 +70,20 @@ class IndicadorController extends Controller
             $resp['rangos'] = $rangos_alertas;
             $resp['formula'] = $fichaTec->getFormula();
             $resp['dimensiones'] = $dimensiones;
+                        
+            //Verificar que se tiene la más antigua de las últimas lecturas de los orígenes
+            //de datos del indicador
+            $ultima_lectura = new \DateTime("NOW");;
+            foreach($fichaTec->getVariables() as $var){
+                $fecha_lectura = $em->getRepository('IndicadoresBundle:OrigenDatos')->getUltimaActualizacion($var->getOrigenDatos());
+                if ($fecha_lectura < $ultima_lectura){
+                    $ultima_lectura = $fecha_lectura;
+                }                
+            }            
+            $fichaTec->setUltimaLectura(new \DateTime($ultima_lectura));
+            $em->flush();
+            
+            $resp['ultima_lectura'] = date('d/m/Y', $fichaTec->getUltimaLectura()->getTimestamp());
             $resp['resultado'] = 'ok';
         } else {
             $resp['resultado'] = 'error';

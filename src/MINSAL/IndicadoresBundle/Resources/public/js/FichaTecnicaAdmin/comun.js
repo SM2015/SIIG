@@ -444,7 +444,9 @@ function dibujarControles(zona, datos) {
     }
     $('#' + zona + ' .controles').append(opciones);
     $('#' + zona + ' .controles').append(opciones_dimension);
-
+    $('#' + zona + ' .controles').append('<a id="'+zona+'_ultima_lectura" data-placement="bottom" data-toggle="popover" class="btn-small btn pull-right" href="#" >'+datos.ultima_lectura+'</a>');
+    $('#'+zona+'_ultima_lectura').popover({title: trans.ultima_lectura, content: trans.ultima_lectura_exp});
+    
     $('#' + zona + ' .max_y').change(function() {
         dibujarGraficoPrincipal(zona, $('#' + zona + ' .tipo_grafico_principal').val());
     });
@@ -489,9 +491,7 @@ function dibujarControles(zona, datos) {
             "bJQueryUI": true,
             "sDom": '<"H"Tfr>t<"F"ip>',
             "oTableTools": {
-                //"sSwfPath": "/bundles/indicadores/js/DataTables/media/swf/copy_csv_xls_pdf.swf",
-                "sSwfPath": "http://cdnjs.cloudflare.com/ajax/libs/zeroclipboard/1.1.7/ZeroClipboard.swf",
-                //
+                "sSwfPath": "/bundles/indicadores/js/DataTables/media/swf/copy_csv_xls_pdf.swf",
                 "aButtons": [
                     {
                         "sExtends": "collection",
