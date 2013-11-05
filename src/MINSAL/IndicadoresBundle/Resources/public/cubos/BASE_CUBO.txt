@@ -1,0 +1,108 @@
+ <Dimension visible="true" highCardinality="false" name="Departamento">
+    <Hierarchy name="Departamento" visible="true" hasAll="true" primaryKey="id">
+      <Table name="ctl_departamento" schema="public">
+      </Table>
+      <Level name="Departamento" visible="true" column="descripcion" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+    <Hierarchy name="Digestyc" visible="true" hasAll="true" primaryKey="id">
+      <Table name="ctl_departamento" schema="public">
+      </Table>
+      <Level name="Digestyc" visible="true" column="digestyc" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+    <Hierarchy name="Gis" visible="true" hasAll="true" primaryKey="id">
+      <Table name="ctl_departamento" schema="public">
+      </Table>
+      <Level name="Gis" visible="true" column="gis" type="Numeric" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension visible="true" highCardinality="false" name="Municipio">
+    <Hierarchy name="Municipio" visible="true" hasAll="true" primaryKey="id">
+      <Table name="ctl_municipio" schema="public">
+      </Table>
+      <Level name="Municipio" visible="true" column="descripcion" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension visible="true" highCardinality="false" name="Region">
+    <Hierarchy name="Region" visible="true" hasAll="true" primaryKey="id">
+      <Table name="ctl_regiones" schema="public">
+      </Table>
+      <Level name="Region" visible="true" column="descripcion" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension visible="true" highCardinality="false" name="Area">
+    <Hierarchy name="Area" visible="true" hasAll="true" primaryKey="inicial">
+      <Table name="ctl_area" schema="public">
+      </Table>
+      <Level name="Area" visible="true" column="descripcion" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension visible="true" highCardinality="false" name="Genero">
+    <Hierarchy name="Genero" visible="true" hasAll="true" primaryKey="inicial">
+      <Table name="ctl_sexo" schema="public">
+      </Table>
+      <Level name="Genero" visible="true" column="descripcion" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension visible="true" highCardinality="false" name="Sibasi">
+    <Hierarchy name="Sibasi" visible="true" hasAll="true" primaryKey="id">
+      <Table name="ctl_sibasi" schema="public">
+      </Table>
+      <Level name="Sibasi" visible="true" column="descripcion" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension visible="true" highCardinality="false" name="Tiempo">
+    <Hierarchy name="Anio" visible="true" hasAll="true" primaryKey="fecha">
+      <Table name="ctl_tiempo" schema="public">
+      </Table>
+      <Level name="Anio" visible="true" column="anio" type="Numeric" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+    <Hierarchy name="Mes" visible="true" hasAll="true" primaryKey="fecha">
+      <Table name="ctl_tiempo" schema="public">
+      </Table>
+      <Level name="Mes" visible="true" column="mes" type="Numeric" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="Mesanio" visible="true" column="mesanio" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="Finmes" visible="true" column="finmes" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+    <Hierarchy name="Feriadoelsalvador" visible="true" hasAll="true" primaryKey="fecha">
+      <Table name="ctl_tiempo" schema="public">
+      </Table>
+      <Level name="Feriadoelsalvador" visible="true" column="feriadoelsalvador" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+    <Hierarchy name="Periodo" visible="true" hasAll="true" primaryKey="fecha">
+      <Table name="ctl_tiempo" schema="public">
+      </Table>
+      <Level name="Periodo" visible="true" column="periodo" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+    <Hierarchy name="Semanaaniocalendario" visible="true" hasAll="true" primaryKey="fecha">
+      <Table name="ctl_tiempo" schema="public">
+      </Table>
+      <Level name="Semanaaniocalendario" visible="true" column="semanaaniocalendario" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="Semanacalendario" visible="true" column="semanacalendario" type="Numeric" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="Findesemana" visible="true" column="findesemana" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+    <Hierarchy name="Trimestre" visible="true" hasAll="true" primaryKey="fecha">
+      <Table name="ctl_tiempo" schema="public">
+      </Table>
+      <Level name="Trimestre" visible="true" column="trimestre" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="Trimestreanio" visible="true" column="trimestreanio" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
