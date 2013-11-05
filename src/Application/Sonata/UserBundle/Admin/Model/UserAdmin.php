@@ -44,12 +44,16 @@ class UserAdmin extends BaseAdmin
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
+        $acciones = explode('/', $this->getRequest()->server->get("REQUEST_URI"));
+        $accion = array_pop($acciones);
+        $pass_requerido = ($accion == 'create') ? true : false;
+        
         $formMapper
                 ->with('General')
                     ->add('id','hidden')
                     ->add('username')
                     ->add('email')
-                    ->add('plainPassword', 'text', array('required' => false))
+                    ->add('plainPassword', 'text', array('required' => $pass_requerido))
                 ->end()
                 ->with('Groups')
                     ->add('groups', 'sonata_type_model', array('required' => false, 'expanded' => true, 'multiple' => true))
