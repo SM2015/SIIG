@@ -50,8 +50,10 @@ $ curl -s https://getcomposer.org/installer | php
 ~~~
 $ php composer.phar install
 ~~~
-Al finalizar la instalación, se solicitará los parámetros de conexión a la base de datos, se deben ingresar los 
-valores correspondientes. Más adelante, Configuración de PosgreSQL se muestra un ejemplo de cómo crear un usuario de la base de datos para utilizarlo en el siig
+Al finalizar la instalación, se solicitará los parámetros de conexión a la base de datos, 
+se deben ingresar los valores correspondientes. Más adelante, en la sección "Configuración de PosgreSQL" 
+se muestra un ejemplo de cómo crear un usuario de la base de datos para utilizarlo en el Siig. Ademas en la sección 
+"Configuración de Mondrian" se explica el significad de las variables: carpeta_siig_mondrian, conexion_bd_pentaho y listado_metadata.
 
 ## Configuración
 
