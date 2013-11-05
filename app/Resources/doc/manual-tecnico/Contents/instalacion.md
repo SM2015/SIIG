@@ -327,9 +327,9 @@ driver: org.postgres.Driver
 URL: jdbc:postgresql://localhost:5432/NOMRE_BASE_DE_DATOS
 ~~~
 
-Asegurese de probar la conexión usando el botón "Test/Probar" al pie de esta misma ventana. Finalmente guarde sus cambios y detener la conolsa de administracion:
+El nombre de la conexion es arbitrario, se puede usar cualquier nombre, no olvide ajustar el valor correspondiente dentro de app/config/parameters.yml
 
-El nombre de la conexion es arbitrario, se puede usar cualquier nombre, no olvide ajustar el valor correspondiente dentro app/config/parameters.yml
+Asegurese de probar la conexión usando el botón "Test/Probar" al pie de esta misma ventana. Finalmente guarde sus cambios y detenga la conolsa de administracion:
 
 ~~~
 ./stop-pac.sh
