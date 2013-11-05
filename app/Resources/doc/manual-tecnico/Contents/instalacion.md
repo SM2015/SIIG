@@ -283,9 +283,12 @@ El archivo comprimido del servidor de Pentaho (biserver-ce-X.X-estable.tar) cont
 - biserver-ce, la plataforma sobre la cual se instalaran nuevas aplicaciones visibles a los usuarios, accesible por el puerto 8080
 - aministration-console, la interfaz de administración del servidor que permite manejar cuentas de usuario, roles y conexiones a bases de datos, accesible desde el puerto 8099.   
 
-Cada uno de estos dos servicios tiene su script de inicio correspondiente y credenciales por defecto. A continuación eliminaremos el sistema de seguridad interno de Pentaho, para que no pida credenciales y así  facilitar la integración con el resto del sistema SIIG. Estos cambios afectan ambos servicios: la plataforma de Pentaho y la consola de administración. Para eliminar el uso de credenciales basta seguir las instrucciones del manual oficial de Pentaho:
+Cada uno de estos dos servicios tiene su script de inicio correspondiente y credenciales por defecto. El sistema de seguridad interno de Pentaho (credenciales de usuario y sesiones) son independientes del SIIG.  Para facilitar la integración con el resto del sistema SIIG, a continuación eliminaremos el sistema de seguridad interno de Pentaho. Estos cambios afectan ambos servicios: la plataforma de Pentaho y la consola de administración.  Para no comprometer la seguridad del sistema,  es recomendable asegurarnos de  Pentaho solamente responda a peticiones del SIIG e ignore cualquier otra conexión usando un corta fuegos externo. 
+
+Para eliminar el uso de credenciales basta seguir las instrucciones del manual oficial de Pentaho:
 
 http://wiki.pentaho.com/display/ServerDoc2x/Removing+Security
+
 
 Luego de hacer esos cambios estamos listos para iniciar el servidor:  
 ~~~
@@ -331,34 +334,46 @@ Asegurese de probar la conexión usando el botón "Test/Probar" al pie de esta m
 ~~~
 
 ### Configuración  de Mondrian
+
 Ahora que Pentaho ya puede conectarse a nuestra base datos, procederemos a configurar el servicio de Mondrian para la gestión de cubos OLAP. Para esto es necesario: 
 
-- Crear un archivo para definir nuestro cubo OLAP. Mondrian conoce estos archivos como ‘schemas’ y puede ser creado usando la siguiente plantilla: 
+Crear una nueva carpeta de trabajo de Mondrian, esta carpeta debe estar accesible y tener permisos de escritura para  le usuario de Apache (www-data en Debian).  El SIIG generara automáticamente nuevos cubos y  los guardara como archivos XML dentro de esta carpeta.
 
-https://github.com/erodriguez-minsal/SIIG/wiki/PlantillaIndicadorOLAP
+~~~
+~# mkdir app/modrian
+~# chown –R www-data app/mondrian
+~~~
 
-Alternativamente el mismo archivo puede ser editado/creado  usando la aplicación Mondrian Schema Workbench disponible aquí:
+El nombre de la carpeta es arbitrario, se puede usar cualquier otro nombre y ajustar le valor correspondiente dentro app/config/parameters.yml
+
+Copiar la estructura base para crear nuevos cubos. El codito fuente del SIIG contiene la estructura base para crear nuevos cubos en el archivo : src/MINSAL/IndicadoresBundle/Resources/public/cubos/BASE_CUBO.txt
+Este archivo básicamente lista las dimensiones que estarán disponibles a la hora de crear un nuevo cubo. Para este archivo lo copiaremos en nuestra nueva carpeta de trabajo de Mondrian:
+
+~~~
+~# cp src/MINSAL/IndicadoresBundle/Resources/public/cubos/BASE_CUBO.txt app/mondrian/base_cubo.txt
+~~~
+
+Por ultimo modificaremos la configuración inicial de Mondrian dentro de Pentaho para que busque nuevos cubos en la carpeta de trabajo que acábanos de crear. Mondrian guarda un listado de los cubos disponibles en el archivo datasources.xml,  con los siguientes comandos crearemos una version de este archivo que apunta a un nuevo archivo  dentro de nuestra carpeta de trabajo.
+
+~~~
+~# mv  pentaho/biserver-ce/pentaho-solutions/system/olap/datasources.xml  pentaho/biserver-ce/pentaho-solutions/system/olap/datasources_original
+
+~# cp  pentaho/biserver-ce/pentaho-solutions/system/olap/datasources_original siig/app/mondrian/datasources.siig
+
+~# ln siig/app/mondrian/datasources.siig pentaho/biserver-ce/pentaho-solutions/system/olap/datasources.xml
+~~~
+
+El nombre datasources.siig  es arbitrario, se puede usar cualquier otro nombre y ajustar le valor correspondiente dentro app/config/parameters.yml
+
+--------------------------------------------------------
+
+Los archivos generados que describen cubos puede ser editados usando la aplicación Mondrian Schema Workbench disponible aquí:
 
 http://sourceforge.net/projects/mondrian/files/schema%20workbench/
-
-Finalmente guardamos el archivo de la siguiente forma:
-
-Biserver-ce/pentaho-solutions/admin/resources/metadata/NOMBRE_CUBO.mondrian.xml
-
-- Y Agregamos el nuevo cubo al listado de cubos de Mondrian. Este listado esta descrito en le archivo:
-biserver-ce/pentaho-solutions/system/olap/datasources.xml
-
-En este archivo cada cubo esta definido de la siguiente forma:
-~~~
- <Catalog name="NOMBRE_CUBO"> 
-        <DataSourceInfo>Provider=mondrian;DataSource=NOMBRE_CONN_BD</DataSourceInfo>  
-        <Definition>solution:admin/resources/metadata/NOMBRE_CUBO.mondrian.xml</Definition> 
-      </Catalog>
-~~~
-
- Este listado puede incluir varios cubos, por cada cubo que se agregue al sistema habrá que crear su archivo/esquema correspondiente y agregarlo a este listado.
-Alternativamente, la aplicación Mondrian Workbench, puede generar el esquema del cubo y luego publicarlo/agregarlo a este listado por nosostros.
  
+Alternativamente, la aplicación Mondrian Workbench, puede generar el esquema del cubo y luego publicarlo/agregarlo a este listado por nosotros.
+ 
+
  
 ### Instalar SAIKU
 Para poder manipular visualmente los cubos que hemos creado usaremos SAIKU. Esta es una aplicación que permite hacer consultas al cubo y mostrar resultados usando peticiones REST y AJAX. SIKU procesa la respuesta devuelta por Pentaho en formato JSON para generar representaciones visuales de los datos. Para saber mas cerca de SAIKU puede visitar:
