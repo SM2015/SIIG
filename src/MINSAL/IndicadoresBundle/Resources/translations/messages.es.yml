@@ -23,10 +23,10 @@ categoria_indicador: 'Categoría de Indicadores'
 categoria: 'Categoría'
 alertas: 'Alertas'
 indicador: 'Indicador'
-limite_inferior: 'Valor'
-limite_superior: 'Límite superior'
+limite_inferior: 'Limite inferior'
+limite_superior: 'Limite superior'
 color: 'Color'
-indicador_alertas: 'Alertas de indicador'
+indicador_alertas-eTAB: 'Alertas de indicador'
 comentario: 'Comentario'
 elija_al_menos_una_variable: 'Debe elegir al menos una variable'
 campos_indicador: Dimensiones del indicador
@@ -36,11 +36,11 @@ favoritos: 'Favoritos'
 
 
 
-'clasificacion_tecnica' : 'Clasificación Técnica'
+'clasificacion_tecnica-eTAB' : 'Clasificación Técnica'
 'Clasificacion Tecnica List': 'Clasificación Técnica - Listado'
 'Clasificacion Tecnica Delete': 'Clasificación Técnica - Borrar'
 
-significado_campo: Significado de campos
+significado_campo-eTAB: Significado de campos
 nombre_campo: Nombre del campo
 significado: Significado
 
@@ -52,40 +52,40 @@ significado: Significado
 'User List': 'Usuarios'
 'User Delete': 'Borrar usuario'
 'User Edit': 'Editar usuario'
-'usuario_indicadores': 'Usuarios de indicadores'
+'usuario_indicadores-eTAB': 'Usuarios de indicadores'
 'nombre_usuario': Usuario
 
-'responsable_datos': 'Responsable Datos'
+'responsable_datos-eTAB': 'Responsable Datos'
 'Responsable Dato List': 'Responsable de Dato - Listado'
 'Responsable Dato Delete': 'Responsable de Dato - Borrar'
 'Responsable Dato Create': 'Responsable de Dato - Crear'
 'Responsable Dato Edit': 'Responsable de Dato - Editar'
 
-'fuente_datos' : 'Fuente Datos'
+'fuente_datos-eTAB' : 'Fuente Datos'
 'Fuente Dato List': 'Fuente de Dato - Listado'
 'Fuente Dato Delete': 'Fuente de Dato - Borrar'
 'Fuente Dato Create': 'Fuente de Dato - Crear'
 'Fuente Dato Edit': 'Fuente de Dato - Editar'
 
-'responsable_indicador': 'Responsable Indicador'
+'responsable_indicador-eTAB': 'Responsable Indicador'
 'Responsable Indicador List': 'Responsable de Indicador - Listado'
 'Responsable Indicador Delete': 'Responsable de Indicador - Borrar'
 'Responsable Indicador Create': 'Responsable de Indicador - Crear'
 'Responsable Indicador Edit': 'Responsable de Indicador - Editar'
 
-'clasificacion_privacidad': 'Clasificación de privacidad'
+'clasificacion_privacidad-eTAB': 'Clasificación de privacidad'
 'Clasificacion Privacidad List': 'Clasificación de Privacidad - Listado'
 'Clasificacion Privacidad Delete': 'Clasificación de Privacidad - Borrar'
 'Clasificacion Privacidad Create': 'Clasificación de Privacidad - Crear'
 'Clasificacion Privacidad Edit': 'Clasificación de Privacidad - Editar'
 
-'clasificacion_nivel': 'Clasificación Según Nivel'
+'clasificacion_nivel-eTAB': 'Clasificación Según Nivel'
 'Clasificacion Nivel List': 'Clasificación Según Nivel - Listado'
 'Clasificacion Nivel Delete': 'Clasificación Según Nivel - Borrar'
 'Clasificacion Nivel Create': 'Clasificación Según Nivel - Crear'
 'Clasificacion Nivel Edit': 'Clasificación Según Nivel - Editar'
 
-'clasificacion_uso': 'Clasificación Según Uso'
+'clasificacion_uso-eTAB': 'Clasificación Según Uso'
 'Clasificacion Uso List': 'Clasificación Según Uso - Listado'
 'Clasificacion Uso Delete': 'Clasificación Según Uso - Borrar'
 'Clasificacion Uso Create': 'Clasificación Según Uso - Crear'
@@ -119,7 +119,7 @@ significado: Significado
 'Indicador Alertas Edit': 'Alertas Indicador - Editar'
 'es_acumulado': 'Es un indicador acumulado'
 
-conexion_bd : 'Conexión a Base de Datos'
+conexion_bd-eTAB : 'Conexión a Base de Datos'
 nombre_conexion : 'Nombre de la conexión'
 nombre_base_datos: 'Nombre de la base de datos'
 motor: 'Motor de base de datos'
@@ -146,7 +146,7 @@ iniciales: 'Iniciales'
 confiabilidad: 'Confiabilidad (%)'
 solo_select: 'La consulta solo puede contener sentencias SELECT, no puede contener sentencias UPDATE, DELETE, INSERT o CREATE'
 formulas_indicadores: 'Fórmulas de indicadores'
-variables: 'Variables'
+variables-eTAB: 'Variable de Dato'
 
 nombre_indicador: 'Nombre del Indicador'
 tema: 'Tema'
@@ -154,7 +154,7 @@ concepto: 'Concepto'
 objetivo: 'Objetivo'
 uso: 'Uso'
 definicion_operativa: 'Definición Operativa'
-ficha_tecnica: 'Ficha Técnica'
+ficha_tecnica-eTAB: 'Ficha Técnica'
 unidad_medida: 'Unidad de medida'
 periodicidad: 'Periodicidad'
 estandar_nacional: 'Estándar Nacional'
@@ -175,11 +175,12 @@ origen_fusionado: 'Origen fusionado'
 datos_origen_fusionado: 'Datos del origen fusionado'
 
 sonata_user: 'Usuarios y grupos'
-catalogos: 'Catálogos'
-origen_datos: 'Orígenes de datos'
-indicadores: 'Indicadores'
+catalogos: 'eTAB-Catálogos'
+origen_datos: 'eTAB-Orígenes de datos'
+indicadores: 'eTAB-Indicadores'
+indicadorestes: 'TES-Menú'
 origen_no_configurado: 'Origen de datos no válido, debe configurar todos sus campos, edite el origen de datos para realizar la configuración.'
-origen_dato: 'Origen de datos'
+origen_dato-eTAB: 'Origen de datos'
 error: 'Error'
 es_catalogo: 'Es Catálogo'
 datos_generales: 'Datos Generales'
@@ -230,7 +231,7 @@ javascript:
   max_indicador: 'Máximo valor del indicador'
   max_rango_alertas: 'Máximo valor de alertas'
   ocultar_listado_indicadores: 'Ocultar listado de indicadores'
-  mostrar_listado_indicadores: 'Mostrar listado de indicadores'
+  mostrar_listado_indicadores: 'Mostrar listado de indicadores'  
   agregar_favorito: 'Marcar como favorito'
   quitar_favoritos: 'Quitar de favoritos'
   ver_ficha_tecnica: 'Ver ficha Técnica'
@@ -239,7 +240,7 @@ javascript:
   descargar_grafico: 'Descargar Gráfico'
   opciones: 'Opciones'
   ver_sql: 'Ver SQL'
-  diccionario_transformacion: 'Diccionario de transformación'
+  diccionario_transformacion-eTAB: 'Diccionario de transformación'
   elija_diccionario: 'Elija un diccionario'
   quitar_indicador: 'Quitar indicador'
   columnas: 'Columnas'
@@ -272,13 +273,13 @@ tablero:
   tipo_grafico_principal: Tipo de gráfico principal
   tipo_grafico_secundario: Tipo de gráfico secundario
 
-
+  
 _no_clasificados_ : 'Sin clasificacion'
 _interpretacion_ : 'Interpretación'
 _nivel_de_usuario_ : 'Nivel de usuario'
 _observacion_ : 'Observación'
 
-_colores_alertas_ : 'Colores - Alertas'
+_colores_alertas_-eTAB : 'Colores - Alertas'
 'Alerta List': 'Colores - Listado'
 'Alerta Delete': 'Colores - Borrar'
 'Alerta Create': 'Colores - Crear'
@@ -301,7 +302,7 @@ _origen_x_: 'Origen X'
 _origen_y_: 'Origen Y'
 _diccionario_aplicado_: 'diccionario de transformación aplicado'
 _regla_: Regla
-_regla_transformacion_: 'Regla de transformación'
+_regla_transformacion_-eTAB: 'Regla de transformación'
 _transformacion_: 'Transformación'
 _cubos_: 'Cubos OLAP'
 _datos_generales_: 'Datos generales'
@@ -309,12 +310,12 @@ _dimensiones_:  'Dimensiones'
 _debe_guardar_para_ver_dimensiones_: 'Debe guardar para ver las dimensiones del indicador'
 _por_: 'por'
 _ocultar/mostrar_menu_principal_: 'Mostrar/Ocultar Menú principal'
-_campo_calculado_: 'Campo calculado'
+_campo_calculado_-eTAB: 'Campo calculado'
 _campos_utilizables_en_campos_calculados_: 'Campos utilizables en la fórmula'
 _variable_no_campo_: 'Ha utilizado una variable que no es parte de los campos del origen de datos'
-_exportar_: 'Exportar'
+_exportar_: 'Exportar' 
 _tipos_graficos_: Tipos de gráficos permitidos
-change_password.flash.success: 'Contraseña ha sido cambiada con éxito'
+change_password.flash.success: 'Contraseña ha sido cambiada con éxito'  
 _cambiar_clave_: Cambiar clave de acceso
 _ver_ficha_: Ver Ficha Técnica
 _ultima_actualizacion_: Última actualización
@@ -324,3 +325,10 @@ _indicadores_y_salas_: Indicadores y Salas
 _roles_: Roles
 _perfil_: Perfil
 _seguridad_: Seguridad
+
+maximizar: 'Maximizar'
+teclaescape: 'Presione Escape para salir'
+
+gender_unknown: 'DESCONOCIDO'
+gender_male: 'MASCULINO'
+gender_female: 'FEMENINO'

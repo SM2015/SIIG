@@ -148,9 +148,70 @@ class OrigenDatosAdminController extends Controller
                 $campos_sig[$campo->getNombre()] = $campo->getSignificado()->getCodigo();
             }
             
+            if($origenDato->getActualizacionIncremental()) {
+                $limites = NULL;
+
+                // Obtener todos los campos del origen de datos
+                // es necesario para la carga incremental
+                $objsCampos = $origenDato->getCampos();
+                $ordenTiempo = $this->container->getParameter('tiempo');
+                $campos = array();
+
+                foreach($objsCampos as $campo) {
+                    $campos[$campo->getSignificado()->getCodigo()] = $campo->getNombre();
+                }
+
+                $maxCampoSuperior = '';
+                $maxCampoInferior = '';
+
+                foreach ($ordenTiempo as $tiempo) {
+                    if(empty($maxCampoSuperior)) {
+                        if(array_key_exists($tiempo, $campos)) {
+                            $maxCampoSuperior = $tiempo;//$campos[$tiempo];
+                        }
+                    }
+
+                    if(array_key_exists($tiempo, $campos)) {
+                        $maxCampoInferior = $tiempo;//$campos[$tiempo];
+                    }
+                }
+
+                $sql = 'SELECT 
+                            MAX(CAST (datos->\''.$maxCampoSuperior.'\' AS INTEGER)) AS val_superior,
+                            MAX(CAST (datos->\''.$maxCampoInferior.'\' AS INTEGER)) AS val_inferior
+                        FROM fila_origen_dato WHERE id_origen_dato = '.$origen;
+
+                $result = $this->getDoctrine()->getManager()->getConnection()->executeQuery($sql)->fetchAll();
+
+                if(!empty($result)) {
+                    $maxValorSuperior = $result[0]['val_superior'];
+                    $maxValorInferior = $result[0]['val_inferior'];
+
+                    if($maxCampoSuperior == 'anio' && $maxCampoInferior == 'id_mes' && $maxValorInferior == 12) {
+                        //$maxValorSuperior++;
+                        $maxValorInferior = 0;
+                    }
+
+                    if($maxCampoSuperior == $maxCampoInferior) {
+                        $maxCampoInferior = null;
+                        $maxValorInferior = null;
+                    }
+
+                    $limites = array(
+                        'campoSuperior'=>$maxCampoSuperior,
+                        'valorSuperior'=>$maxValorSuperior,
+                        'campoInferior'=>$maxCampoInferior,
+                        'valorInferior'=>$maxValorInferior,
+                    );
+                }
+            }
+            
             $msg = array('id_origen_dato' => $origen, 
                         'sql' => $origenDato->getSentenciaSql(),
-                        'campos_significados' => $campos_sig);
+                        'campos_significados' => $campos_sig,
+                        'es_incremental'=>$origenDato->getActualizacionIncremental(),
+                        'campos' => $campos,
+                        'limites' => $limites);
 
             $ahora = new \DateTime("now");
             foreach ($origenDato->getVariables() as $var) {

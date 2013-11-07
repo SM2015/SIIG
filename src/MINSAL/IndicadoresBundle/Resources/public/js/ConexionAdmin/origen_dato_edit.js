@@ -12,6 +12,7 @@ $(document).ready(function() {
         $('#btn_probar_sentencia').after("<span id='resultado_probar_consulta'></span>");
 
         $('#btn_probar_sentencia').click(function() {
+        	$('#resultado_probar_consulta').html("<div style='margin-left:-65%; margin-top:-25px;'><img id='cargador' src='/bundles/indicadores/images/ajax-loader.gif'/></div>");
             /* A cada nombre de campo se le agrega como prefijo el id que se está usando 
              * para el formulario, lo quitaré para que sea más fácil de manipular del lado del servidor
              */
@@ -32,6 +33,10 @@ $(document).ready(function() {
 
             $.post(Routing.generate('origen_dato_conexion_probar_sentencia'), datos + '&conexiones_todas=' + conexiones_todas, function(resp) {
                 $('#resultado_probar_consulta').html(resp.mensaje);
+            	if (resp.mensaje == null)
+            		$('#resultado_probar_consulta').html('<span style="color: red">Error al ejecutar la consulta, verificar los datos de conexión.</span>');
+            	else
+        		{
 
                 // Los encabezados de la fila
                 $('#datos').append("<TR id='fila_enc'></TR>");
@@ -46,6 +51,7 @@ $(document).ready(function() {
                         $('#fila' + indice).append("<TD>" + campo + "</TD>");
                     });
                 });
+        		}
 
             }, 'json');
 

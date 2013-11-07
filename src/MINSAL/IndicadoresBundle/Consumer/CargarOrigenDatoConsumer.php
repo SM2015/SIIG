@@ -5,6 +5,7 @@ namespace MINSAL\IndicadoresBundle\Consumer;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use MINSAL\IndicadoresBundle\Entity\ReporteActualizacion;
 
 class CargarOrigenDatoConsumer implements ConsumerInterface
 {
@@ -22,6 +23,7 @@ class CargarOrigenDatoConsumer implements ConsumerInterface
 
         $idOrigen = $msg['id_origen_dato'];
         $origenDato = $em->find('IndicadoresBundle:OrigenDatos', $idOrigen);
+        $nombre_conexion = null;
 
         $campos_sig = $msg['campos_significados'];
 
@@ -40,27 +42,46 @@ class CargarOrigenDatoConsumer implements ConsumerInterface
                 if ($cnx->getIdMotor()->getCodigo() != 'pdo_dblib') {
                     $sql = $msg['sql'];
                     while ($leidos >= $tamanio) {
-                        $sql_aux = $sql . ' LIMIT ' . $tamanio . ' OFFSET ' . $i * $tamanio;
+                        $where = '';
+                        if(!empty($msg['limites']['valorSuperior']) || !empty($msg['limites']['valorInferior'])) {
+                            $where = 'WHERE 1=1 ';
+
+                            if(!empty($msg['limites']['valorSuperior']))
+                                $where .= ' AND '.$msg['limites']['campoSuperior'].'>'.$msg['limites']['valorSuperior'];
+                            
+                            if(!empty($msg['limites']['valorInferior'])) {
+                                $where .= ' OR ('.$msg['limites']['campoSuperior'].'='.$msg['limites']['valorSuperior'].' AND '
+                                        .$msg['limites']['campoInferior'].'>'.$msg['limites']['valorInferior'].')';
+                            }
+                        }
+
+                        $sql_aux = 'SELECT * FROM (' . $sql . ') AS sqlOriginal '.$where.
+                                ' LIMIT ' . $tamanio . ' OFFSET ' . $i * $tamanio;
+
+                        echo $sql_aux;
+                        print_r($msg);
+                        /*die();*/
 
                         $datos = $em->getRepository('IndicadoresBundle:OrigenDatos')->getDatos($sql_aux, $cnx);
 
-                        $this->enviarDatos($idOrigen, $datos, $campos_sig, $ahora, $nombre_conexion);
+                        $this->enviarDatos($idOrigen, $datos, $campos_sig, $ahora, $nombre_conexion, $msg);
                         $leidos = count($datos);
                         $i++;
                     }
                 } else {
                     $datos = $em->getRepository('IndicadoresBundle:OrigenDatos')->getDatos($msg['sql'], $cnx);
-                    $this->enviarDatos($idOrigen, $datos, $campos_sig, $ahora, $nombre_conexion);
+                    $this->enviarDatos($idOrigen, $datos, $campos_sig, $ahora, $nombre_conexion, $msg);
                 }
             }
         } else {
             $datos = $em->getRepository('IndicadoresBundle:OrigenDatos')->getDatos(null, null, $origenDato->getAbsolutePath());
-            $this->enviarDatos($idOrigen, $datos, $campos_sig, $ahora, $nombre_conexion);
+            $this->enviarDatos($idOrigen, $datos, $campos_sig, $ahora, $nombre_conexion, $msg);
         }
         //Después de enviados todos los registros para guardar, mandar mensaje para borrar los antiguos
         $msg_guardar = array('id_origen_dato' => $idOrigen,
             'method' => 'DELETE',
-            'ultima_lectura' => $ahora
+            'ultima_lectura' => $ahora,
+            'es_incremental' => $msg['es_incremental']
         );
         $this->container->get('old_sound_rabbit_mq.guardar_registro_producer')
                 ->publish(serialize($msg_guardar));
@@ -94,7 +115,8 @@ class CargarOrigenDatoConsumer implements ConsumerInterface
                         'method' => 'PUT',
                         'datos' => $datos_a_enviar,
                         'ultima_lectura' => $ultima_lectura,
-                        'num_msj' => $ii++);
+                        'num_msj' => $ii++,
+                        'es_incremental' => $msg['es_incremental']);
                     $this->container->get('old_sound_rabbit_mq.guardar_registro_producer')
                             ->publish(serialize($msg_guardar));
                     unset($datos_a_enviar);
@@ -110,7 +132,8 @@ class CargarOrigenDatoConsumer implements ConsumerInterface
                 'method' => 'PUT',
                 'datos' => $datos_a_enviar,
                 'ultima_lectura' => $ultima_lectura,
-                'num_msj' => $ii++);
+                'num_msj' => $ii++,
+                'es_incremental' => $msg['es_incremental']);
             $this->container->get('old_sound_rabbit_mq.guardar_registro_producer')
                     ->publish(serialize($msg_guardar));
         }

@@ -3,4 +3,74 @@
 {% block javascripts %}
     {{ parent() }}
 <script src="{{ asset('bundles/indicadores/js/UserAdmin/edit.js') }}" type="text/javascript"></script>
+<script src="{{ asset('bundles/indicadores/js/jquery/jquery-ui/js/jquery.ui.core.js') }}"></script>
+<script src="{{ asset('bundles/indicadores/js/jquery/jquery-ui/js/jquery.ui.datepicker.js') }}"></script>
+<style>
+.CalendarClass img
+{
+	margin-top: -15px;
+}
+.CalendarClass
+{
+	width: 465px;
+}
+</style>
+	<script>
+	$(function() {
+		// se obtiene el uniqid que genera en auto symfony al create
+		var uniqid = $("[class=form-horizontal]").attr("action").split('=');
+		// se obtiene el id del campo dateOfBirth
+		var idcontrol = uniqid[1] + '_dateOfBirth';
+		// se ocultan los 3 combos del dateOfBirth
+		document.getElementById(uniqid[1]+"_dateOfBirth_day").style.display="none";
+		document.getElementById(uniqid[1]+"_dateOfBirth_month").style.display="none";
+		document.getElementById(uniqid[1]+"_dateOfBirth_year").style.display="none";
+		// se agrega el input text calendar
+		$("#"+idcontrol).append("<div class='CalendarClass'><input type='text' id='dob' readonly='true' /></div>");
+		// logica del datetimepicker
+		var g=new Date();
+		$("#dob").datepicker({
+			changeMonth: true,
+			changeYear: true,
+			duration:"fast",
+			dateFormat: 'dd/mm/yy',
+			constrainInput: true,
+			firstDay: 1,
+			closeText: 'X',
+			showOn: 'button',
+			buttonImage: "{{ asset('bundles/indicadores/images/calendar.gif') }}",
+			buttonImageOnly: true,
+			buttonText: 'Clic para seleccionar una fecha',
+			yearRange: '1900:'+g.getFullYear(),
+			showButtonPanel: false,
+			prevText: '<Ant',
+	      	nextText: 'Sig>',
+			monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+			monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+			dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+			dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+			onSelect: function(dateText, inst){
+				// al seleccionar una fecha en el calendar se posicionan esos valores en los 3 combos
+				// para que el guardado y lectura sea transparente para el symfony 
+				$("#"+uniqid[1]+"_dateOfBirth_day option[value="+dateText.split('/')[0]*1+"]").attr("selected",true);
+				$("#"+uniqid[1]+"_dateOfBirth_month option[value="+dateText.split('/')[1]*1+"]").attr("selected",true);
+				$("#"+uniqid[1]+"_dateOfBirth_year option[value="+dateText.split('/')[2]+"]").attr("selected",true);
+			}			
+		});
+		// se llena el input text del calendar con los valores seleccionados de los 3 combos (para updates)
+		// agregar ceros a la izquierda como corresponda
+		var dia = $("#"+uniqid[1]+"_dateOfBirth_day").val();
+		if (dia != '')
+		{
+			var mes = $("#"+uniqid[1]+"_dateOfBirth_month").val();
+			if (dia.length == 1)
+				dia = "0"+dia;
+			if (mes.length == 1)
+				mes = "0"+mes;
+			$("#dob").val(dia+"/"+mes+"/"+$("#"+uniqid[1]+"_dateOfBirth_year").val());
+		}
+	});
+	</script>
 {% endblock %}
+
+ 

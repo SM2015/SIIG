@@ -74,6 +74,38 @@ class SignificadoCampoAdmin extends Admin
                     ->addViolation($this->getTranslator()->trans('no_catalogo_y_describir_catalogo'))
                     ->end();
         }
+        
+        $piecesURL = explode("/", $_SERVER['REQUEST_URI']);
+        $pieceAction = $piecesURL[count($piecesURL) - 1]; // create or update
+        $pieceId = $piecesURL[count($piecesURL) - 2]; // id/edit
+         
+        $obj = new \MINSAL\IndicadoresBundle\Entity\SignificadoCampo;
+         
+        $rowsRD = $this->getModelManager()->findBy('IndicadoresBundle:SignificadoCampo',
+        		array('codigo' => $object->getCodigo()));
+        
+        if (strpos($pieceAction,'create') !== false) // entra cuando es ALTA
+        {
+        	if (count($rowsRD) > 0){
+        		$errorElement
+        		->with('codigo')
+        		->addViolation($this->getTranslator()->trans('registro existente, no se puede duplicar'))
+        		->end();
+        	}
+        }
+        else // entra cuando es EDICION
+        {
+        	if (count($rowsRD) > 0){
+        		$obj = $rowsRD[0];
+        		if ($obj->getId() != $pieceId)
+        		{
+        			$errorElement
+        			->with('codigo')
+        			->addViolation($this->getTranslator()->trans('registro existente, no se puede duplicar'))
+        			->end();
+        		}
+        	}
+        }
     }
 
     public function setRepository($repository)

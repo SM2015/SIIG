@@ -22,10 +22,10 @@ categoria_indicador: "Indicator's Category"
 categoria: 'Category'
 alertas: 'Alerts'
 indicador: 'Indicator'
-limite_inferior: 'Value'
+limite_inferior: 'Lower limit'
 limite_superior: 'Upper Limit'
 color: 'Color'
-indicador_alertas: "Indicator's alerts"
+indicador_alertas-eTAB: "Indicator's alerts"
 comentario: 'Comment'
 elija_al_menos_una_variable: 'At least one variable must be selected'
 campos_indicador: Dimensions for this indicator
@@ -35,11 +35,11 @@ favoritos: 'Favourites'
 
 
 
-'clasificacion_tecnica' : 'Technical Classification'
+'clasificacion_tecnica-eTAB' : 'Technical Classification'
 'Clasificacion Tecnica List': 'Technical Classification - Listing'
 'Clasificacion Tecnica Delete': "Technical Classification - Delete"
 
-significado_campo: Meaning of fields
+significado_campo-eTAB: Meaning of fields
 nombre_campo: Name of field
 significado: Meaning
 
@@ -51,40 +51,40 @@ significado: Meaning
 'User List': 'User List'
 'User Delete': 'User Delete'
 'User Edit': 'User Edit'
-'usuario_indicadores': 'Indicators user'
+'usuario_indicadores-eTAB': 'Indicators user'
 'nombre_usuario': User
 
-'responsable_datos': 'Data Manager'
+'responsable_datos-eTAB': 'Data Manager'
 'Responsable Dato List': 'Data Manager - Listing'
 'Responsable Dato Delete': 'Data Manager - Delete'
 'Responsable Dato Create': 'Data Manager - Create'
 'Responsable Dato Edit': 'Data Manager - Edit'
 
-'fuente_datos' : 'Data Source'
+'fuente_datos-eTAB' : 'Data Source'
 'Fuente Dato List': 'Data Source  - Listing'
 'Fuente Dato Delete': 'Data Source  - Delete'
 'Fuente Dato Create': 'Data Source  - Create'
 'Fuente Dato Edit': 'Data Source  - Edit'
 
-'responsable_indicador': 'Indicator Manager'
+'responsable_indicador-eTAB': 'Indicator Manager'
 'Responsable Indicador List': 'Indicator Manager- Listing'
 'Responsable Indicador Delete': 'Indicator Manager- Delete'
 'Responsable Indicador Create': 'Indicator Manager - Create'
 'Responsable Indicador Edit': 'Indicator Manager - Edit'
 
-'clasificacion_privacidad': 'Privacy Classification'
+'clasificacion_privacidad-eTAB': 'Privacy Classification'
 'Clasificacion Privacidad List': 'Privacy Classification - Listing'
 'Clasificacion Privacidad Delete': 'Privacy Classification - Delete'
 'Clasificacion Privacidad Create': 'Privacy Classification - Create'
 'Clasificacion Privacidad Edit': 'Privacy Classification - Edit'
 
-'clasificacion_nivel': 'Secondary Level Classification'
+'clasificacion_nivel-eTAB': 'Secondary Level Classification'
 'Clasificacion Nivel List': 'Secondary Level Classification - Listing'
 'Clasificacion Nivel Delete': 'Secondary Level Classification - Delete'
 'Clasificacion Nivel Create': 'Secondary Level Classification - Create'
 'Clasificacion Nivel Edit': 'Secondary Level Classification - Edit'
 
-'clasificacion_uso': 'Usage Classification'
+'clasificacion_uso-eTAB': 'Usage Classification'
 'Clasificacion Uso List': 'Usage Classification - Listing'
 'Clasificacion Uso Delete': 'Usage Classification - Delete'
 'Clasificacion Uso Create': 'Usage Classification - Create'
@@ -118,7 +118,7 @@ significado: Meaning
 'Indicador Alertas Edit': 'Indicator Warnings - Edit'
 'es_acumulado': 'It is a cumulative indicator'
 
-conexion_bd : 'Database connection'
+conexion_bd-eTAB : 'Database connection'
 nombre_conexion : 'Connection name'
 nombre_base_datos: 'Database name'
 motor: 'Database server'
@@ -145,7 +145,7 @@ iniciales: 'Initials'
 confiabilidad: 'Reliability (%)'
 solo_select: "SQL Statement can only contain  a 'SELECT' keyword, it can not contain UPDATE, DELETE, INSERT or CREATE"
 formulas_indicadores: 'Indicator Formulas'
-variables: 'Variables'
+variables-eTAB: 'Data variable'
 
 nombre_indicador: 'Indicator Name'
 tema: 'Topic'
@@ -153,7 +153,7 @@ concepto: 'Concept'
 objetivo: 'Objective'
 uso: 'Usage'
 definicion_operativa: 'Working Definition'
-ficha_tecnica: 'Technical Profile'
+ficha_tecnica-eTAB: 'Technical Profile'
 unidad_medida: 'Measurment/Units'
 periodicidad: 'Periodicity'
 estandar_nacional: 'National Standard'
@@ -174,11 +174,12 @@ origen_fusionado: 'Merged source'
 datos_origen_fusionado: 'Merged source data'
 
 sonata_user: 'Users and Groups'
-catalogos: 'Catalogs'
-origen_datos: 'Data Sources'
-indicadores: 'Indicators'
+catalogos: 'eTAB-Catalogs'
+origen_datos: 'eTAB-Data Sources'
+indicadores: 'eTAB-Indicators'
+indicadorestes: 'TES-Menu'
 origen_no_configurado: ' Data source is not valid, all fields must be set, edit data source to complete missing fields'
-origen_dato: 'Data source'
+origen_dato-eTAB: 'Data source'
 error: 'Error'
 es_catalogo: 'Is Catalog'
 datos_generales: 'Basic Info'
@@ -238,7 +239,7 @@ javascript:
   descargar_grafico: 'Download Chart'
   opciones: 'Options'
   ver_sql: 'View SQL'
-  diccionario_transformacion: 'Transformation Dictionary'
+  diccionario_transformacion-eTAB: 'Transformation Dictionary'
   elija_diccionario: 'Choose a dictionary'
   quitar_indicador: 'Remove indicator'
   columnas: 'Columns'
@@ -249,7 +250,7 @@ javascript:
   _nada_encontrado_ : 'Nothing found - sorry'
   _mostrando_n_de_n_: 'Showing _START_ to _END_ of _TOTAL_ records'
   _mostrando_0_ : 'Showing 0 to 0 of 0 records'
-  _filtrados_de_ : '(filtered from _MAX_ total records)'
+  _filtrados_de_ : '(filtered from _MAX_ total records)'  
   no_mas_niveles: 'No more levels to descend'
   no_graficos_asignados: 'No assigned graph types allowed to field meanings'
   recargar_origen: 'Reload data source information'
@@ -276,7 +277,7 @@ _interpretacion_ : 'Interpretation'
 _nivel_de_usuario_ : 'User Level'
 _observacion_ : 'Observation'
 
-_colores_alertas_ : 'Warnings - Colors'
+_colores_alertas_-eTAB : 'Warnings - Colors'
 'Alerta List': 'Colors - List'
 'Alerta Delete': 'Colors - Delete'
 'Alerta Create': 'Colors - Create'
@@ -299,7 +300,7 @@ _origen_x_: 'X Origin'
 _origen_y_: 'Y Origin'
 _diccionario_aplicado_: 'transformation dictionary applied '
 _regla_: Rule
-_regla_transformacion_: 'Transformation rule'
+_regla_transformacion_-eTAB: 'Transformation rule'
 _transformacion_: 'Transformation'
 _cubos_: 'OLAP cubes'
 _datos_generales_: 'General data'
@@ -307,7 +308,7 @@ _dimensiones_:  'Dimensions'
 _debe_guardar_para_ver_dimensiones_: 'You must save to watch dimensions of the indicator'
 _por_: 'by'
 _ocultar/mostrar_menu_principal_: 'Show/Hide Main menu'
-_campo_calculado_: 'Calculated Field'
+_campo_calculado_-eTAB: 'Calculated Field'
 _campos_utilizables_en_campos_calculados_: 'Usable fields in the formula '
 _variable_no_campo_: 'You have used a variable that doesnt belong to the fields in the data source'
 _exportar_: 'Export'
@@ -322,3 +323,10 @@ _indicadores_y_salas_: Indicators and Rooms
 _roles_: Roles
 _perfil_: Profile
 _seguridad_: Security
+
+maximizar: 'Maximize'
+teclaescape: 'Press Escape to Exit'
+
+gender_unknown: 'UNKNOWN'
+gender_male: 'MALE'
+gender_female: 'FEMALE'>>>>>>> .r40

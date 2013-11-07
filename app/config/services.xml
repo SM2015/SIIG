@@ -9,7 +9,7 @@
             <tag name="sonata.admin" 
                  manager_type="orm" 
                  group="catalogos" 
-                 label="responsable_datos"
+                 label="responsable_datos-eTAB"
             />
             <argument />
             <argument>MINSAL\IndicadoresBundle\Entity\ResponsableDato</argument>
@@ -21,7 +21,7 @@
             <tag name="sonata.admin" 
                  manager_type="orm" 
                  group="catalogos" 
-                 label="fuente_datos"
+                 label="fuente_datos-eTAB"
             />
             <argument />
             <argument>MINSAL\IndicadoresBundle\Entity\FuenteDato</argument>
@@ -33,7 +33,7 @@
             <tag name="sonata.admin" 
                  manager_type="orm" 
                  group="catalogos" 
-                 label="responsable_indicador"
+                 label="responsable_indicador-eTAB"
             />
             <argument />
             <argument>MINSAL\IndicadoresBundle\Entity\ResponsableIndicador</argument>
@@ -45,7 +45,7 @@
             <tag name="sonata.admin" 
                  manager_type="orm" 
                  group="catalogos" 
-                 label="clasificacion_tecnica"
+                 label="clasificacion_tecnica-eTAB"
             />
             <argument />
             <argument>MINSAL\IndicadoresBundle\Entity\ClasificacionTecnica</argument>
@@ -57,7 +57,7 @@
             <tag name="sonata.admin" 
                  manager_type="orm" 
                  group="catalogos" 
-                 label="clasificacion_privacidad"
+                 label="clasificacion_privacidad-eTAB"
             />
             <argument />
             <argument>MINSAL\IndicadoresBundle\Entity\ClasificacionPrivacidad</argument>
@@ -69,7 +69,7 @@
             <tag name="sonata.admin" 
                  manager_type="orm" 
                  group="catalogos" 
-                 label="clasificacion_nivel"
+                 label="clasificacion_nivel-eTAB"
             />
             <argument />
             <argument>MINSAL\IndicadoresBundle\Entity\ClasificacionNivel</argument>
@@ -81,7 +81,7 @@
             <tag name="sonata.admin" 
                  manager_type="orm" 
                  group="catalogos" 
-                 label="clasificacion_uso"
+                 label="clasificacion_uso-eTAB"
             />
             <argument />
             <argument>MINSAL\IndicadoresBundle\Entity\ClasificacionUso</argument>
@@ -92,7 +92,7 @@
             <tag name="sonata.admin" 
                  manager_type="orm" 
                  group="catalogos" 
-                 label="significado_campo"
+                 label="significado_campo-eTAB"
             />
             <argument />
             <argument>MINSAL\IndicadoresBundle\Entity\SignificadoCampo</argument>
@@ -103,7 +103,7 @@
             <tag name="sonata.admin" 
                  manager_type="orm" 
                  group="catalogos" 
-                 label="_colores_alertas_"
+                 label="_colores_alertas_-eTAB"
             />
             <argument />
             <argument>MINSAL\IndicadoresBundle\Entity\Alerta</argument>
@@ -114,7 +114,7 @@
             <tag name="sonata.admin" 
                  manager_type="orm" 
                  group="origen_datos" 
-                 label="conexion_bd"
+                 label="conexion_bd-eTAB"
             />
             <argument />
             <argument>MINSAL\IndicadoresBundle\Entity\Conexion</argument>
@@ -125,7 +125,7 @@
             <tag name="sonata.admin"
                  manager_type="orm" 
                  group="origen_datos" 
-                 label="origen_dato"
+                 label="origen_dato-eTAB"
             />    
             <argument />            
             <argument>MINSAL\IndicadoresBundle\Entity\OrigenDatos</argument>
@@ -136,7 +136,7 @@
             <tag name="sonata.admin"
                  manager_type="orm" 
                  group="origen_datos" 
-                 label="javascript.diccionario_transformacion"
+                 label="javascript.diccionario_transformacion-eTAB"
             />    
             <argument />            
             <argument>MINSAL\IndicadoresBundle\Entity\Diccionario</argument>
@@ -147,7 +147,7 @@
             <tag name="sonata.admin"
                  manager_type="orm" 
                  group="origen_datos" 
-                 label="_regla_transformacion_"
+                 label="_regla_transformacion_-eTAB"
             />    
             <argument />            
             <argument>MINSAL\IndicadoresBundle\Entity\ReglaTransformacion</argument>
@@ -158,7 +158,7 @@
             <tag name="sonata.admin"
                  manager_type="orm" 
                  group="origen_datos" 
-                 label="_campo_calculado_"
+                 label="_campo_calculado_-eTAB"
             />    
             <argument />            
             <argument>MINSAL\IndicadoresBundle\Entity\Campo</argument>
@@ -169,7 +169,7 @@
             <tag name="sonata.admin"
                  manager_type="orm" 
                  group="indicadores" 
-                 label="variables"
+                 label="variables-eTAB"
             />
             <argument />
             <argument>MINSAL\IndicadoresBundle\Entity\VariableDato</argument>
@@ -181,7 +181,7 @@
             <tag name="sonata.admin"
                  manager_type="orm" 
                  group="indicadores" 
-                 label="ficha_tecnica"
+                 label="ficha_tecnica-eTAB"
             />
             <argument />
             <argument>MINSAL\IndicadoresBundle\Entity\FichaTecnica</argument>
@@ -192,7 +192,7 @@
             <tag name="sonata.admin"
                  manager_type="orm" 
                  group="indicadores" 
-                 label="indicador_alertas"
+                 label="indicador_alertas-eTAB"
             />
             <argument />
             <argument>MINSAL\IndicadoresBundle\Entity\IndicadorAlertas</argument>

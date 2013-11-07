@@ -4,6 +4,7 @@ namespace MINSAL\IndicadoresBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use MINSAL\IndicadoresBundle\Validator as CustomAssert;
 
 /**
  * MINSAL\IndicadoresBundle\Entity\FichaTecnica
@@ -26,6 +27,11 @@ class FichaTecnica
      * @var string $nombre
      *
      * @ORM\Column(name="nombre", type="string", length=150, nullable=false)
+     * @Assert\Length(
+     *      min = "3",
+     *      max = "150"
+     * )
+	 * @CustomAssert\AlphanumericPlus()
      */
     private $nombre;
 
@@ -33,6 +39,11 @@ class FichaTecnica
      * @var string $tema
      *
      * @ORM\Column(name="tema", type="text", nullable=false)
+     * @Assert\Length(
+     *      min = "3",
+     *      max = "150"
+     * )
+	 * @CustomAssert\AlphanumericPlus()
      */
     private $tema;
 

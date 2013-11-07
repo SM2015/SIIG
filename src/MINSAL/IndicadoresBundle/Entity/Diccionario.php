@@ -3,6 +3,7 @@
 namespace MINSAL\IndicadoresBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use MINSAL\IndicadoresBundle\Validator as CustomAssert;
 
 /**
  * MINSAL\IndicadoresBundle\Entity\Diccionario
@@ -25,6 +26,7 @@ class Diccionario
      * @var string $codigo
      *
      * @ORM\Column(name="codigo", type="string", length=20, nullable=false)
+     * @CustomAssert\OnlyAlphanumeric()
      */
     private $codigo;
 
@@ -32,6 +34,7 @@ class Diccionario
      * @var string $descripcion
      *
      * @ORM\Column(name="descripcion", type="string", length=200, nullable=false)
+     * @CustomAssert\AlphanumericPlus()
      */
     private $descripcion;
 

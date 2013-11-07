@@ -69,6 +69,20 @@ function crearGraficoObj(zona, tipo) {
         grafico = new graficoLineas(zona, datasetPrincipal);
     else if (tipo == 'mapa')
         grafico = new graficoMapa(zona, datasetPrincipal);
+    else if (tipo == 'gauge')
+	{
+    	if (datasetPrincipal[1] != null)
+    	grafico = new graficoColumnas(zona, datasetPrincipal);
+    	else
+        grafico = new graficoGauge(zona, datasetPrincipal);
+	}
+    else if (tipo == 'lineargauge' /*termometro*/)
+    {
+    	if (datasetPrincipal[1] != null)
+    	grafico = new graficoColumnas(zona, datasetPrincipal);
+    	else
+        grafico = new graficoTermometro(zona, datasetPrincipal);
+    }
 
     return grafico;
 }
@@ -446,6 +460,79 @@ function dibujarControles(zona, datos) {
     $('#' + zona + ' .controles').append(opciones_dimension);
     $('#' + zona + ' .controles').append('<a id="'+zona+'_ultima_lectura" data-placement="bottom" data-toggle="popover" class="btn-small btn pull-right" href="#" >'+datos.ultima_lectura+'</a>');
     $('#'+zona+'_ultima_lectura').popover({title: trans.ultima_lectura, content: trans.ultima_lectura_exp});
+    
+   //EDITADO PARA EL BOTON DE MAXIMIZAR
+   /////////
+   opciones_maximizar = '<button class="btn btn-info dropdown-toggle" data-toggle="dropdown" title="' 
+  	 + trans.maximizar + '" id="'+ zona +'_maximizar">' +    '<i class="icon-zoom-in" id= "'
+  	 + zona +'_icon_maximizar"> </i></button>'
+      	
+  $('#' + zona + ' .controles').append(opciones_maximizar);
+  
+   $('#' + zona + '_maximizar').click(function(){
+  	if ($('#' + zona + '_icon_maximizar').hasClass('icon-zoom-out'))
+  		{
+  		   minimizar(zona,contenedor);
+  		}
+  	else
+  		{
+  			var tecla = (event.keyCode) ? event.keyCode : event.which ;
+	   		if (tecla != 27){
+		   		$('#' + zona + '_icon_maximizar').removeClass('icon-zoom-in');
+		   		$('#' + zona + '_icon_maximizar').addClass('icon-zoom-out');
+		   		
+		   		contenedor = document.createElement('div');
+		   		$(contenedor).attr('alt',$('#' + zona).index());
+		   		$(contenedor).css({'position':'absolute','left':'0px','top':'0px','zIndex':'9999' ,'width':'100%','height':'100%','background-color':'#F4F3FA','display':'none'});
+		   		$(contenedor).attr('id','contenedor_maximizado');
+		   		$(contenedor).append($('#' + zona));
+		   		
+		   		scapemsg = document.createElement('div');
+		   		$(scapemsg).css({'position':'absolute',
+		   						'right':'15px',
+		   						'-webkit-border-radius': '10px',
+		   					    'border-radius': '10px',
+		   					    'background-color': 'rgba(200, 200, 200, .5)',		   					 
+		   					    'color': 'rgba(133, 133, 123, .5)',
+		   					    'padding':'10px',
+		   					    'font-color':'black',
+		   					    'font-size':'18px',
+		   					    'font-weight':'bold',
+		   						'top':'15px'});
+		   		
+		   		$(scapemsg).html(trans.teclaescape);
+		   		$(contenedor).append(scapemsg);
+		   		
+		   		$(document.body).append($(contenedor));
+		   		$(contenedor).fadeIn('slow',function(){
+		   			$('#' + zona).animate({height:$(document).height()-20 , width: $(document).width()-20});
+		       //     dibujarGrafico(zona, $('#' + zona + ' .dimensiones').val());
+		   		});
+	   		}
+  		}
+  });
+
+  $(document.body).keyup(function(){
+	   var tecla = (event.keyCode) ? event.keyCode : event.which ;
+	   if (tecla == 27){
+		      minimizar(zona,contenedor)
+		   }
+  })
+  
+  function minimizar(zona,contenedor){
+ 		$('#' + zona + '_icon_maximizar').removeClass('icon-zoom-out');
+  		$('#' + zona + '_icon_maximizar').addClass('icon-zoom-in');		
+  		posicion = $(contenedor).attr('alt');
+  		if (posicion == 0)
+  		$('.area_grafico').eq(posicion).before($('#' + zona));
+  		else
+  		$('.area_grafico').eq(posicion - 1).after($('#' + zona));
+  		$('#contenedor_maximizado').remove();
+  		$('#' + zona).animate({height:370 , width: 370});
+  }
+  
+  /////////
+  /////////
     
     $('#' + zona + ' .max_y').change(function() {
         dibujarGraficoPrincipal(zona, $('#' + zona + ' .tipo_grafico_principal').val());

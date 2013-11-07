@@ -1,0 +1,80 @@
+        /*ESTILOS PARA EL GAUGE LINEAL (TERMOMETRO)*/
+        
+        .unselectable {
+            -moz-user-select: -moz-none;
+            -khtml-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* css formats for the gauge */
+        .gauge .domain {
+            stroke-width: 2px;
+            stroke: #000;
+        }
+
+        .gauge .tick line {
+            stroke: #000;
+            stroke-width: 2px;
+        }
+        
+        .gauge line {
+            stroke: #000;
+        }
+
+        .gauge .arc, .gauge .cursor {
+            opacity: 0;
+        }
+
+        .gauge .major {
+            fill: #000;
+            font-size: 20px;
+            font-family: 'Play', verdana, sans-serif;
+            font-weight: normal;
+        }
+        
+        .gauge .indicator {
+            stroke: blue;
+            fill: #000;
+            stroke-width: 4px;
+        }
+
+        /* css formats for the segment display */
+        .segdisplay .on {
+            fill: #000;
+
+        }
+
+        .segdisplay .off {
+            fill: #000000;
+            opacity: 0.05;
+        }
+        
+        .gauge{
+        height:100px;
+        }
+        
+                .lineargauge {
+            font-size: 12px;
+        }
+        
+        /*ESTILOS PARA EL GAUGE LINEAL (TERMOMETRO)*/
+
+        .lineargauge .axis path,
+        .lineargauge .axis line {
+            fill: none;
+            stroke: #ddd;
+        }
+
+        .lineargauge .lane, .lineargauge .cursor {
+            opacity: 0;
+        }
+
+        .lineargauge .tick {
+            fill: #ddd;
+        }
+
+        .lineargauge .major {
+            stroke-width: 2;
+        }

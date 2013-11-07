@@ -4,6 +4,7 @@ namespace MINSAL\IndicadoresBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use MINSAL\IndicadoresBundle\Validator as CustomAssert;
 
 /**
  * MINSAL\IndicadoresBundle\Entity\ResponsableDato
@@ -26,6 +27,7 @@ class ResponsableDato
      * @var string $establecimiento
      *
      * @ORM\Column(name="establecimiento", type="string", length=100, nullable=false)
+     * @CustomAssert\AlphanumericPlus()
      */
     private $establecimiento;
 
@@ -33,6 +35,7 @@ class ResponsableDato
      * @var string $contacto
      *
      * @ORM\Column(name="contacto", type="string", length=100, nullable=false)
+     * @CustomAssert\AlphanumericPlus()
      */
     private $contacto;
 
@@ -40,7 +43,7 @@ class ResponsableDato
      * @var string $correo
      *
      * @ORM\Column(name="correo", type="string", length=50, nullable=false)
-     * @Assert\Email()
+     * @CustomAssert\ValidMail()
      */
     private $correo;
 
@@ -48,6 +51,7 @@ class ResponsableDato
      * @var string $telefono
      *
      * @ORM\Column(name="telefono", type="string", length=15, nullable=false)
+     * @CustomAssert\AlphanumericPlus()
      */
     private $telefono;
 
@@ -55,6 +59,7 @@ class ResponsableDato
      * @var string $cargo
      *
      * @ORM\Column(name="cargo", type="string", length=50, nullable=false)
+     * @CustomAssert\AlphanumericPlus()
      */
     private $cargo;
 

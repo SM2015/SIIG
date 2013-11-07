@@ -3,6 +3,8 @@
 namespace MINSAL\IndicadoresBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use MINSAL\IndicadoresBundle\Validator as CustomAssert;
 
 /**
  * MINSAL\IndicadoresBundle\Entity\SignificadoCampo
@@ -25,6 +27,7 @@ class SignificadoCampo
      * @var string $descripcion
      *
      * @ORM\Column(name="descripcion", type="string", length=200, nullable=false)
+     * @CustomAssert\AlphanumericPlus()
      */
     private $descripcion;
 
@@ -32,6 +35,7 @@ class SignificadoCampo
      * @var string $codigo
      *
      * @ORM\Column(name="codigo", type="string", length=40, nullable=false)
+     * @CustomAssert\OnlyAlphanumeric()
      */
     private $codigo;
 
@@ -60,6 +64,7 @@ class SignificadoCampo
      * @var string $escala
      *
      * @ORM\Column(name="escala", type="float", nullable=true)
+     * @Assert\Type(type="float")
      */
     private $escala;
 
@@ -67,6 +72,7 @@ class SignificadoCampo
      * @var string $origen_x
      *
      * @ORM\Column(name="origen_x", type="float", nullable=true)
+     * @Assert\Type(type="float")
      */
     private $origenX;
 
@@ -74,6 +80,7 @@ class SignificadoCampo
      * @var string $origen_y
      *
      * @ORM\Column(name="origen_y", type="float", nullable=true)
+     * @Assert\Type(type="float")
      */
     private $origenY;
 

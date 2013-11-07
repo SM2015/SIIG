@@ -4,6 +4,7 @@ namespace MINSAL\IndicadoresBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use MINSAL\IndicadoresBundle\Validator as CustomAssert;
 
 /**
  * MINSAL\IndicadoresBundle\Entity\OrigenDatos
@@ -27,6 +28,7 @@ class OrigenDatos
      * @var string $nombre
      *
      * @ORM\Column(name="nombre", type="string", length=100, nullable=false)
+     * @CustomAssert\OnlyAlphanumeric()
      */
     private $nombre;
 
@@ -96,6 +98,35 @@ class OrigenDatos
     private $camposFusionados;
     
     /**
+     * @var int $ventana
+     *
+     * @ORM\Column(name="ventana", type="integer", nullable=true)
+     */
+    private $ventana;
+
+    /**
+     * @var boolean $actualizacionIncremental
+     *
+     * @ORM\Column(name="actualizacion_incremental", type="boolean", nullable=true)
+     */
+    private $actualizacionIncremental;
+
+    /**
+     *
+     * @var periodicidad
+     *
+     * @ORM\ManyToOne(targetEntity="Periodos")
+     * @ORM\JoinColumn(name="id_periodicidad", referencedColumnName="id")
+     * @ORM\OrderBy({"descripcion" = "ASC"})
+     **/
+    private $periodicidad;
+
+    /**
+     * @ORM\OneToMany(targetEntity="ReporteActualizacion", mappedBy="origenDatos")
+     * */
+    private $reporteActualizaciones;
+    
+    /**
      * @ORM\ManyToMany(targetEntity="OrigenDatos")
      * @ORM\JoinTable(name="origen_datos_fusiones",
      *      joinColumns={@ORM\JoinColumn(name="id_origen_dato", referencedColumnName="id")},
@@ -119,6 +150,7 @@ class OrigenDatos
         $this->fusiones = new \Doctrine\Common\Collections\ArrayCollection();
         $this->conexiones = new \Doctrine\Common\Collections\ArrayCollection();
         $this->esCatalogo = false;
+	$this->actualizacionIncremental = false;
     }
 
     public function getAbsolutePath()
@@ -318,6 +350,92 @@ class OrigenDatos
     public function getCamposFusionados()
     {
         return $this->camposFusionados;
+    }
+    
+    /**
+    * Set ventana
+     *
+     * @param int $ventana
+     * @return OrigenDatos
+     */
+    public function setVentana($ventana) {
+        $this->ventana = $ventana;
+
+        return $this;
+    }
+
+    /**
+     * Get ventana
+     *
+     * @return int
+     */
+    public function getVentana() {
+        return $this->ventana;
+    }
+
+    /**
+     * Set actualizacionIncremental
+     *
+     * @param boolean $actualizacionIncremental
+     * @return OrigenDatos
+     */
+    public function setActualizacionIncremental($actualizacionIncremental) {
+        $this->actualizacionIncremental = $actualizacionIncremental;
+
+        return $this;
+    }
+
+    /**
+     * Get actualizacionIncremental
+     *
+     * @return boolean
+     */
+    public function getActualizacionIncremental() {
+        return $this->actualizacionIncremental;
+    }
+
+    /**
+     * Set periodicidad
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\Periodos $periodicidad
+     * @return OrigenDatos
+     */
+    public function setPeriodicidad(\MINSAL\IndicadoresBundle\Entity\Periodos $periodicidad = null)
+    {
+        $this->periodicidad = $periodicidad;
+
+        return $this;
+    }
+
+    /**
+     * Get periodicidad
+     *
+     * @return \MINSAL\IndicadoresBundle\Entity\Periodos
+     */
+    public function getPeriodicidad()
+    {
+        return $this->periodicidad;
+    }
+
+    /**
+     * Add reporteActualizaciones
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\ReporteActualizacion $reporteActualizaciones
+     * @return OrigenDatos
+     */
+    public function addReporteActualizaciones(\MINSAL\IndicadoresBundle\Entity\ReporteActualizacion $reporteActualizaciones) {
+        $this->reporteActualizaciones[] = $reporteActualizaciones;
+
+        return $this;
+    }
+
+    /**
+     * Get reporteActualizaciones
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getReporteActualizaciones() {
+        return $this->reporteActualizaciones;
     }
 
     /**

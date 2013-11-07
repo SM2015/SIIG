@@ -3,6 +3,7 @@
 namespace MINSAL\IndicadoresBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use MINSAL\IndicadoresBundle\Validator as CustomAssert;
 
 /**
  * MINSAL\IndicadoresBundle\Entity\Campo
@@ -25,6 +26,7 @@ class Campo
      * @var string $nombre
      *
      * @ORM\Column(name="nombre", type="string", length=100, nullable=false)
+     * @CustomAssert\OnlyAlphanumeric()
      */
     private $nombre;
 

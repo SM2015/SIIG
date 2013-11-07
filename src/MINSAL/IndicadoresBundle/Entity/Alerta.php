@@ -3,6 +3,7 @@
 namespace MINSAL\IndicadoresBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use MINSAL\IndicadoresBundle\Validator as CustomAssert;
 
 /**
  * MINSAL\IndicadoresBundle\Entity\Alerta
@@ -25,6 +26,7 @@ class Alerta
      * @var string $codigo
      *
      * @ORM\Column(name="codigo", type="string", length=30, nullable=false)
+     * @CustomAssert\ValidHTMLcolor()
      */
     private $codigo;
 
@@ -32,6 +34,7 @@ class Alerta
      * @var string $color
      *
      * @ORM\Column(name="color", type="string", length=50, nullable=false)
+     * @CustomAssert\OnlyAlphanumeric()
      */
     private $color;
 

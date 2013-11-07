@@ -3,6 +3,7 @@
 namespace MINSAL\IndicadoresBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use MINSAL\IndicadoresBundle\Validator as CustomAssert;
 
 /**
  * MINSAL\IndicadoresBundle\Entity\ReglaTransformacion
@@ -32,6 +33,7 @@ class ReglaTransformacion
      * @var string $limiteInferior
      *
      * @ORM\Column(name="limite_inferior", type="string", length=100, nullable=false)
+     * @CustomAssert\OnlyAlphanumeric()
      */
     private $limiteInferior;
 
@@ -46,6 +48,7 @@ class ReglaTransformacion
      * @var string $transformacion
      *
      * @ORM\Column(name="transformacion", type="string", length=100, nullable=false)
+     * @CustomAssert\OnlyAlphanumeric()
      */
     private $transformacion;
 

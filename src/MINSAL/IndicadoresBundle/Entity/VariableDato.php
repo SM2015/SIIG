@@ -4,6 +4,7 @@ namespace MINSAL\IndicadoresBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use MINSAL\IndicadoresBundle\Validator as CustomAssert;
 
 /**
  * MINSAL\IndicadoresBundle\Entity\VariableDato
@@ -26,6 +27,11 @@ class VariableDato
      * @var string $nombre
      *
      * @ORM\Column(name="nombre", type="string", length=200, nullable=false)
+     * @Assert\Length(
+     *      min = "3",
+     *      max = "200"
+     * )
+	 * @CustomAssert\AlphanumericPlus()
      */
     private $nombre;
 
@@ -45,6 +51,11 @@ class VariableDato
      * @var string $iniciales
      *
      * @ORM\Column(name="iniciales", type="string", nullable=false)
+     * @Assert\Length(
+     *      min = "3",
+     *      max = "200"
+     * )
+	 * @CustomAssert\AlphanumericPlus()
      */
     private $iniciales;
 

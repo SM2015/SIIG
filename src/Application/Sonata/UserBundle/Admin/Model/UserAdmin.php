@@ -15,9 +15,13 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\UserBundle\Model\UserInterface;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\UserBundle\Admin\Model\UserAdmin as BaseAdmin;
+use Sonata\AdminBundle\Validator\ErrorElement;
 
 class UserAdmin extends BaseAdmin
 {
+	protected $formOptions = array(
+			'validation_groups' => array()
+	);
 
     /**
      * {@inheritdoc}
@@ -44,16 +48,16 @@ class UserAdmin extends BaseAdmin
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
-        $acciones = explode('/', $this->getRequest()->server->get("REQUEST_URI"));
-        $accion = array_pop($acciones);
-        $pass_requerido = ($accion == 'create') ? true : false;
+    	$piecesURL = explode("/", $_SERVER['REQUEST_URI']);
+    	$pieceAction = $piecesURL[count($piecesURL) - 1]; // create or update
+    	$pass_requerido = (strpos($pieceAction,'create') !== false) ? true : false;
         
         $formMapper
                 ->with('General')
                     ->add('id','hidden')
                     ->add('username')
                     ->add('email')
-                    ->add('plainPassword', 'text', array('required' => $pass_requerido))
+                    ->add('plainPassword', 'password', array('required' => $pass_requerido))
                 ->end()
                 ->with('Groups')
                     ->add('groups', 'sonata_type_model', array('required' => false, 'expanded' => true, 'multiple' => true))
@@ -66,9 +70,9 @@ class UserAdmin extends BaseAdmin
                     ->add('biography', 'text', array('required' => false))
                     ->add('gender', 'choice', array(
                         'choices' => array(
-                            UserInterface::GENDER_UNKNOWN => 'gender_unknown',
-                            UserInterface::GENDER_FEMALE => 'gender_female',
-                            UserInterface::GENDER_MAN => 'gender_male',
+                            UserInterface::GENDER_UNKNOWN => $this->getTranslator()->trans('gender_unknown'),
+                            UserInterface::GENDER_FEMALE => $this->getTranslator()->trans('gender_female'),
+                            UserInterface::GENDER_MAN => $this->getTranslator()->trans('gender_male'),
                         ),
                         'required' => true,
                         'translation_domain' => $this->getTranslationDomain()
@@ -136,7 +140,41 @@ class UserAdmin extends BaseAdmin
         }
         
     }
-        
+    /**
+     * {@inheritdoc}
+     */
+    public function validate(ErrorElement $errorElement, $object)
+    {
+    	$errorElement
+	    	->with('username')
+	    	->addConstraint(new \MINSAL\IndicadoresBundle\Validator\OnlyAlphanumeric())
+	    	->assertLength(array('max' => 8))
+	    	->end()
+	    	->with('email')
+	    	->addConstraint(new \MINSAL\IndicadoresBundle\Validator\ValidMail())
+	    	->end()
+    	;
+    	 
+    	// use the validator to validate the value
+    	$errorList = $this->getValidator()->validate($object, array('Profile'));
+    	for ($i = 0; $i<count($errorList); $i++)
+    	{
+    		if ($errorList[$i]->getMessageTemplate() == 'fos_user.email.already_used')
+    		{
+	        	$errorElement
+	        		->with('email')
+	        		->addViolation($errorList[$i]->getMessage())
+	        		->end();
+    		}
+    		else
+    		{
+    			$errorElement
+    			->with('username')
+    			->addViolation($errorList[$i]->getMessage())
+    			->end();
+    		}
+    	}    	
+    }
     public function getTemplate($name)
     {
         switch ($name) {

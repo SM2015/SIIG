@@ -25,6 +25,9 @@ class OrigenDatosAdmin extends Admin
                 ->with($this->getTranslator()->trans('datos_generales'), array('collapsed' => false))
                 ->add('nombre', null, array('label' => $this->getTranslator()->trans('nombre')))
                 ->add('descripcion', null, array('label' => $this->getTranslator()->trans('descripcion'), 'required' => false))
+                ->add('periodicidad', null, array('label' => 'Periodicidad de actualización'))
+                ->add('actualizacionIncremental', null, array('attr' => array('label' => '¿Es actualización incremental?')))
+                ->add('ventana', null, array('attr' => array('label' => 'Ventana de actualización', 'min'=>'0')))
                 ->end()
         ;
         if ($esFusionado == false)

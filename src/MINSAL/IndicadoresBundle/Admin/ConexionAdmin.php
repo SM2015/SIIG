@@ -5,6 +5,7 @@ namespace MINSAL\IndicadoresBundle\Admin;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
+use Sonata\AdminBundle\Validator\ErrorElement;
 use Sonata\AdminBundle\Form\FormMapper;
 
 class ConexionAdmin extends Admin
@@ -35,9 +36,9 @@ class ConexionAdmin extends Admin
                 ))
                 ->add('nombreBaseDatos', null, array('label' => $this->getTranslator()->trans('nombre_base_datos')))
                 ->add('comentario', 'textarea', array('label' => $this->getTranslator()->trans('comentario'), 'required' => false))
-                ->setHelps(array(
+                /*->setHelps(array(
                     'telefono' => $this->getTranslator()->trans('Formato XXXX-XXXX')
-                ))
+                ))*/
         ;
     }
 

@@ -57,8 +57,11 @@ input.valores_filtro{
     background-color: #F4F3FA;
 }
 
+.area_grafico {border: 1px gray dashed; }
 
-
+.zona_actual{
+    border: 1.5px solid green;
+}
 
 #menu_sala.affix{
     top: 0px;

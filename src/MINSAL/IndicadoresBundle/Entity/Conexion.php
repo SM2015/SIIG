@@ -3,6 +3,8 @@
 namespace MINSAL\IndicadoresBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use MINSAL\IndicadoresBundle\Validator as CustomAssert;
 
 /**
  * MINSAL\IndicadoresBundle\Entity\Conexion
@@ -25,6 +27,7 @@ class Conexion
      * @var string $nombreConexion
      *
      * @ORM\Column(name="nombre_conexion", type="string", length=100, nullable=false)
+     * @CustomAssert\OnlyAlphanumeric()
      */
     private $nombreConexion;
 
@@ -39,6 +42,7 @@ class Conexion
      * @var string $ip
      *
      * @ORM\Column(name="ip", type="string", length=15, nullable=false)
+     * @CustomAssert\CustomIp()
      */
     private $ip;
 
@@ -46,6 +50,7 @@ class Conexion
      * @var string $usuario
      *
      * @ORM\Column(name="usuario", type="string", length=25, nullable=false)
+     * @CustomAssert\OnlyAlphanumeric()
      */
     private $usuario;
 
@@ -60,6 +65,7 @@ class Conexion
      * @var string $nombreBaseDatos
      *
      * @ORM\Column(name="nombre_base_datos", type="string", length=50, nullable=false)
+     * @CustomAssert\OnlyAlphanumeric()
      */
     private $nombreBaseDatos;
 
@@ -67,6 +73,7 @@ class Conexion
      * @var string $puerto
      *
      * @ORM\Column(name="puerto", type="string", length=5, nullable=true)
+     * @Assert\Type(type="integer")
      */
     private $puerto;
 

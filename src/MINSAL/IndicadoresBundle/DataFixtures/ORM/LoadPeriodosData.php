@@ -19,6 +19,9 @@ class LoadPeriodosData extends AbstractFixture implements OrderedFixtureInterfac
         $datos[4]['campos'] = array('Codigo'=>'m','Descripcion'=>'Mensual');
         $datos[5]['campos'] = array('Codigo'=>'sm','Descripcion'=>'Semanal');
         $datos[6]['campos'] = array('Codigo'=>'d','Descripcion'=>'Diario');
+        $datos[7]['campos'] = array('Codigo'=>'b','Descripcion'=>'Bimestral');
+        $datos[8]['campos'] = array('Codigo'=>'q','Descripcion'=>'Quincenal');
+        $datos[9]['campos'] = array('Codigo'=>'c','Descripcion'=>'Cuatrimestral');
 
         $master = new LoadMaster();
         $master->save($datos, $manager, $this);

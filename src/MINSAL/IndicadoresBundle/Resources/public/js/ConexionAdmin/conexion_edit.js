@@ -8,6 +8,7 @@ $(document).ready(function() {
     $('#btn_probar_conexion').after("<span id='resultado_probar_conexion'></span>");
 
     $('#btn_probar_conexion').click(function() {
+    	$('#resultado_probar_conexion').html("<div style='margin-left:-65%; margin-top:-25px;'><img id='cargador' src='/bundles/indicadores/images/ajax-loader.gif'/></div>");
         /* A cada nombre de campo se le agrega como prefijo el id que se está usando 
          * para el formulario, lo quitaré para que sea más fácil de manipular del lado del servidor
          */

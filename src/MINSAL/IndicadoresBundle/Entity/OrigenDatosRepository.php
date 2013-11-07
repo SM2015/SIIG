@@ -127,6 +127,7 @@ class OrigenDatosRepository extends EntityRepository
                         if (!empty($fix_datos[$k][$nombre_campos[$indice]]))
                             $todosNULL = false;
                     }
+                    // Eliminar filas que contienen todos sus campos nulos
                     if ($todosNULL)
                         unset($fix_datos[$k]);
                 }

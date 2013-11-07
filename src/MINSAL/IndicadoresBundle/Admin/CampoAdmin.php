@@ -8,6 +8,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Validator\ErrorElement;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Route\RouteCollection;
 
 class CampoAdmin extends Admin
 {
@@ -81,6 +82,38 @@ class CampoAdmin extends Admin
 
     public function validate(ErrorElement $errorElement, $object)
     {
+        $piecesURL = explode("/", $_SERVER['REQUEST_URI']);
+    	$pieceAction = $piecesURL[count($piecesURL) - 1]; // create or update
+    	$pieceId = $piecesURL[count($piecesURL) - 2]; // id/edit
+    	
+    	$obj = new \MINSAL\IndicadoresBundle\Entity\Campo;
+    	
+    	$rowsRD = $this->getModelManager()->findBy('IndicadoresBundle:Campo',
+    			array('nombre' => $object->getNombre()));
+    	 
+    	if (strpos($pieceAction,'create') !== false) // entra cuando es ALTA
+    	{
+    		if (count($rowsRD) > 0){
+    			$errorElement
+    			->with('nombre')
+    			->addViolation($this->getTranslator()->trans('registro existente, no se puede duplicar'))
+    			->end();
+    		}
+    	}
+    	else // entra cuando es EDICION
+    	{
+    		if (count($rowsRD) > 0){
+    			$obj = $rowsRD[0];
+    			if ($obj->getId() != $pieceId)
+    			{
+    				$errorElement
+    				->with('nombre')
+    				->addViolation($this->getTranslator()->trans('registro existente, no se puede duplicar'))
+    				->end();
+    			}
+    		}
+    	}
+        
         $vars_formula = array();
         $formula = str_replace(' ', '', $object->getFormula());
         preg_match_all('/(\{[\w]+\})/', $formula, $vars_formula);

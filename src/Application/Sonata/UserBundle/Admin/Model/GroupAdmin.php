@@ -14,9 +14,13 @@ namespace Application\Sonata\UserBundle\Admin\Model;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\UserBundle\Admin\Model\GroupAdmin as BaseAdmin;
+use Sonata\AdminBundle\Validator\ErrorElement;
 
 class GroupAdmin extends BaseAdmin
 {    
+	protected $formOptions = array(
+			'validation_groups' => array()
+	);
     /**
      * {@inheritdoc}
      */
@@ -43,6 +47,38 @@ class GroupAdmin extends BaseAdmin
                 ;
             }
         }
+    }
+    /**
+     * {@inheritdoc}
+     */
+    public function validate(ErrorElement $errorElement, $object)
+    {
+       	$errorElement
+	    	->with('name')
+	    	->addConstraint(new \MINSAL\IndicadoresBundle\Validator\OnlyAlphanumeric())
+	    	->assertLength(array('max' => 8))
+	    	->end()
+    	;
+    	 
+    	// use the validator to validate the value
+    	$errorList = $this->getValidator()->validate($object, array('Profile'));
+    	for ($i = 0; $i<count($errorList); $i++)
+    	{
+    		if ($errorList[$i]->getMessageTemplate() == 'fos_user.group.blank')
+    		{
+	        	$errorElement
+	        		->with('name')
+	        		->addViolation($this->getTranslator()->trans('registro existente, no se puede duplicar'))
+	        		->end();
+    		}
+    		else
+    		{
+    			$errorElement
+    			->with('username')
+    			->addViolation($errorList[$i]->getMessage())
+    			->end();
+    		}
+    	}    	
     }
     
     public function getTemplate($name)
