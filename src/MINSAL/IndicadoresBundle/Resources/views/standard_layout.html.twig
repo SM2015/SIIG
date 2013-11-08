@@ -178,7 +178,7 @@ file that was distributed with this source code.
                                                 </ul>
 											{% endif %}
                                             </li>
-                                        /*
+                                        {#
                                             {% set display = (group.roles is empty or is_granted('ROLE_SUPER_ADMIN') ) %}
                                             {% for role in group.roles if not display %}
                                                 {% set display = is_granted(role)%}
@@ -202,7 +202,7 @@ file that was distributed with this source code.
                                                 </ul>
                                             </li>
                                             {% endif %}
-                                        /*
+                                        #}
                                         {% endfor %}
                                     {% endif %}
                                 {% endblock %}
