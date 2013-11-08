@@ -9,5 +9,8 @@ composer.phar
 composer.lock
 *~
 nbproject/
+.settings
+.buildpath
+.project
 
 app/config/parameters.yml
