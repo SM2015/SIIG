@@ -40,7 +40,7 @@ file that was distributed with this source code.
             <link rel="stylesheet" href="{{ asset('bundles/sonataadmin/css/colors.css') }}" type="text/css" media="all" />
 
             <link rel="stylesheet" href="{{ asset('bundles/indicadores/css/custom_layout.css') }}" type="text/css" media="all" />
-
+            <link rel="stylesheet" href="{{ asset('bundles/indicadores/css/FichaTecnicaAdmin/tablero.css') }}" type="text/css" media="all" />            
         {% endblock %}
 
         {% block javascripts %}
@@ -136,6 +136,49 @@ file that was distributed with this source code.
                                     {#{% if app.security.token and is_granted('ROLE_SONATA_ADMIN') %}#}
                                     {% if app.security.token  %}
                                         {% for group in admin_pool.dashboardgroups %}
+                                            <li class="dropdown">
+											{% if is_granted('ROLE_ETAB') %}
+                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ group.label|trans }} <span class="caret"></span></a>
+                                                <ul class="dropdown-menu">
+                                                    {% for admin in group.items %}
+                                                        {% if admin.hasroute('list') and admin.isGranted('LIST') and '-eTAB' in admin.label %}
+                                                            <li><a href="{{ admin.generateUrl('list')}}">{{ admin.label|trans }}</a></li>
+                                                        {% endif %}
+                                                        {% if admin.hasroute('tablero') and (is_granted('ROLE_SONATA_ADMIN') or is_granted('ROLE_USER_TABLERO')) %}
+                                                            <li><a href="{{ admin.generateUrl('tablero')}}">{{ 'indicador_tablero'|trans }}</a></li>
+                                                        {% endif %}
+                                                        {% if admin.hasroute('cubos') and (is_granted('ROLE_SONATA_ADMIN') or is_granted('ROLE_USER_CUBOS')) %}
+                                                            <li><a href="{{ admin.generateUrl('cubos')}}">{{ '_cubos_'|trans }}</a></li>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </ul>
+											{% elseif is_granted('ROLE_TES') %}
+                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ group.label|trans }} <span class="caret"></span></a>
+                                                <ul class="dropdown-menu">
+                                                    {% for admin in group.items %}
+                                                        {% if admin.hasroute('list') and admin.isGranted('LIST') and '-TES' in admin.label %}
+                                                            <li><a href="{{ admin.generateUrl('list')}}">{{ admin.label|trans }}</a></li>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </ul>
+											{% else %}
+                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ group.label|trans }} <span class="caret"></span></a>
+                                                <ul class="dropdown-menu">
+                                                    {% for admin in group.items %}
+                                                        {% if admin.hasroute('list') and admin.isGranted('LIST') %}
+                                                            <li><a href="{{ admin.generateUrl('list')}}">{{ admin.label|trans }}</a></li>
+                                                        {% endif %}
+                                                        {% if admin.hasroute('tablero') and (is_granted('ROLE_SONATA_ADMIN') or is_granted('ROLE_USER_TABLERO')) %}
+                                                            <li><a href="{{ admin.generateUrl('tablero')}}">{{ 'indicador_tablero'|trans }}</a></li>
+                                                        {% endif %}
+                                                        {% if admin.hasroute('cubos') and (is_granted('ROLE_SONATA_ADMIN') or is_granted('ROLE_USER_CUBOS')) %}
+                                                            <li><a href="{{ admin.generateUrl('cubos')}}">{{ '_cubos_'|trans }}</a></li>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </ul>
+											{% endif %}
+                                            </li>
+                                        /*
                                             {% set display = (group.roles is empty or is_granted('ROLE_SUPER_ADMIN') ) %}
                                             {% for role in group.roles if not display %}
                                                 {% set display = is_granted(role)%}
@@ -159,6 +202,7 @@ file that was distributed with this source code.
                                                 </ul>
                                             </li>
                                             {% endif %}
+                                        /*
                                         {% endfor %}
                                     {% endif %}
                                 {% endblock %}
@@ -224,6 +268,9 @@ file that was distributed with this source code.
                 {% endif %}
 
                 <div class="content {{ _side_menu is not empty ? ' span10' : 'span12' }}">
+<div id="div_carga" class='affix'>
+    <img id="cargador" src="{{ asset('bundles/indicadores/images/ajax-loader.gif') }}"/>
+</div>
                     {% block sonata_admin_content %}
 
                         {% if _preview is not empty %}

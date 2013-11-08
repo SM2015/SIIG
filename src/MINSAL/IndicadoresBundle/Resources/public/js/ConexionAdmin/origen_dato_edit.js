@@ -11,8 +11,15 @@ $(document).ready(function() {
         $('div .form-actions').after('<div ><table border=1 align=center id="datos" ></table></div>')
         $('#btn_probar_sentencia').after("<span id='resultado_probar_consulta'></span>");
 
+        jQuery(document).ajaxStart(function() {
+            $('#div_carga').show();
+        }).ajaxStop(function() {
+            $('#div_carga').hide();
+        });
+        
         $('#btn_probar_sentencia').click(function() {
-        	$('#resultado_probar_consulta').html("<div style='margin-left:-65%; margin-top:-25px;'><img id='cargador' src='/bundles/indicadores/images/ajax-loader.gif'/></div>");
+        	jQuery.event.trigger("ajaxStart");
+        	//$('#resultado_probar_consulta').html("<div style='margin-left:-65%; margin-top:-25px;'><img id='cargador' src='/bundles/indicadores/images/ajax-loader.gif'/></div>");
             /* A cada nombre de campo se le agrega como prefijo el id que se está usando 
              * para el formulario, lo quitaré para que sea más fácil de manipular del lado del servidor
              */
@@ -32,6 +39,7 @@ $(document).ready(function() {
             $('#datos').html('');
 
             $.post(Routing.generate('origen_dato_conexion_probar_sentencia'), datos + '&conexiones_todas=' + conexiones_todas, function(resp) {
+            	jQuery.event.trigger("ajaxStop");
                 $('#resultado_probar_consulta').html(resp.mensaje);
             	if (resp.mensaje == null)
             		$('#resultado_probar_consulta').html('<span style="color: red">Error al ejecutar la consulta, verificar los datos de conexión.</span>');
