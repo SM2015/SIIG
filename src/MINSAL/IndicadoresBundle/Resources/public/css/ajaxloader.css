@@ -1,0 +1,23 @@
+#div_carga{    
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    /* Para CSS3 */
+    background: rgba(98, 135, 167, .4);
+    /* IE8*/
+    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#886287a7', endColorstr='#886287a7');
+    /* anteriores a IE8 */
+    -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#886287a7', endColorstr='#886287a7');
+
+    display:none;
+    z-index:10000;
+}
+#cargador{
+    position:absolute;
+    top:50%;
+    left: 50%;
+    margin-top: -25px;
+    margin-left: -25px;
+}
