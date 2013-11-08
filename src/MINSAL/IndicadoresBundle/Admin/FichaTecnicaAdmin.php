@@ -30,6 +30,7 @@ class FichaTecnicaAdmin extends Admin
                 ->add('concepto', null, array('label' => $this->getTranslator()->trans('concepto')))
                 ->add('unidadMedida', null, array('label' => $this->getTranslator()->trans('unidad_medida')))
                 ->add('esAcumulado', null, array('label' => $this->getTranslator()->trans('es_acumulado')))
+                ->add('esPublico', null, array('label' => $this->getTranslator()->trans('es_publico')))
                 ->add('variables', null, array('label' => $this->getTranslator()->trans('variables'), 'expanded' => true))
                 ->add('formula', null, array('label' => $this->getTranslator()->trans('formula'),
                     'help' => $this->getTranslator()->trans('ayuda_ingreso_formula')
@@ -76,6 +77,7 @@ class FichaTecnicaAdmin extends Admin
                 ->add('concepto', null, array('label' => $this->getTranslator()->trans('concepto')))
                 ->add('unidadMedida', null, array('label' => $this->getTranslator()->trans('unidad_medida')))
                 ->add('esAcumulado', null, array('label' => $this->getTranslator()->trans('es_acumulado')))
+                ->add('esPublico', null, array('label' => $this->getTranslator()->trans('es_publico')))
                 ->add('variables', null, array('label' => $this->getTranslator()->trans('variables'), 'expanded' => true))
                 ->add('formula', null, array('label' => $this->getTranslator()->trans('formula')))
                 ->add('clasificacionTecnica', null, array('label' => $this->getTranslator()->trans('clasificacion_tecnica'),
