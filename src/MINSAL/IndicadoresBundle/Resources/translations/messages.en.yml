@@ -240,6 +240,7 @@ javascript:
   opciones: 'Options'
   ver_sql: 'View SQL'
   diccionario_transformacion-eTAB: 'Transformation Dictionary'
+  diccionario_transformacion: 'Transformation Dictionary'
   elija_diccionario: 'Choose a dictionary'
   quitar_indicador: 'Remove indicator'
   columnas: 'Columns'

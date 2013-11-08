@@ -16,6 +16,7 @@ class LoadAlertaData extends AbstractFixture implements OrderedFixtureInterface
         $datos[1]['campos'] = array('codigo'=>'green', 'Color'=>'Verde');
         $datos[2]['campos'] = array('codigo'=>'orange', 'Color'=>'Naranja');
         $datos[3]['campos'] = array('codigo'=>'red', 'Color'=>'Rojo');
+        $datos[4]['campos'] = array('codigo'=>'black', 'Color'=>'Negro');
 
         $master = new LoadMaster();
         $master->save($datos, $manager, $this);

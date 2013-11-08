@@ -78,7 +78,7 @@ class GuardarRegistroOrigenDatoConsumer implements ConsumerInterface
                 $reporteActualizacion->setFecha(new \DateTime('now'));
                 $reporteActualizacion->setReporte($exc->getMessage());
                 $reporteActualizacion->setOrigenDatos($origenDatos);
-                $reporteActualizacion->setEstatusAct($this->em->find('IndicadoresBundle:EstatusActualizacion', );
+                //$reporteActualizacion->setEstatusAct($this->em->find('IndicadoresBundle:EstatusActualizacion', );
                 
                 return false;
             }

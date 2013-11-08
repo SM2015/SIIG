@@ -39,6 +39,11 @@ class LoadSignificadoCampoData extends AbstractFixture implements OrderedFixture
         $datos[23]['campos'] = array('Codigo'=>'descripcion','Descripcion'=>'Descripción', 'UsoEnCatalogo'=>true);
         $datos[24]['campos'] = array('Codigo'=>'otro','Descripcion'=>'Otro significado', 'UsoEnCatalogo'=>true);
 
+        $datos[25]['campos'] = array('Codigo'=>'id_estado','Descripcion'=>'Identificador Estado');
+        $datos[26]['campos'] = array('Codigo'=>'id_institucion','Descripcion'=>'Identificador Institucion');
+        $datos[27]['campos'] = array('Codigo'=>'id_jurisdiccion','Descripcion'=>'Identificador Jurisdiccion');
+
+
         $master = new LoadMaster();
         $master->save($datos, $manager, $this);
     }

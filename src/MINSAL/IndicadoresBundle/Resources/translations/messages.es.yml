@@ -241,6 +241,7 @@ javascript:
   opciones: 'Opciones'
   ver_sql: 'Ver SQL'
   diccionario_transformacion-eTAB: 'Diccionario de transformación'
+  diccionario_transformacion: 'Diccionario de transformación'
   elija_diccionario: 'Elija un diccionario'
   quitar_indicador: 'Quitar indicador'
   columnas: 'Columnas'
