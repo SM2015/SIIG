@@ -3,7 +3,7 @@ namespace MINSAL\IndicadoresBundle\DataFixtures\ORM;
 
 use Doctrine\Common\Persistence\ObjectManager;
 
-class LoadMasterData
+class LoadMaster
 {
     public function save(array $datos, ObjectManager $manager, $class_obj)
     {
