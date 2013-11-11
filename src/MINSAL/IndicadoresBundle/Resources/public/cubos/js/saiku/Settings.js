@@ -19,9 +19,10 @@
  */
 var Settings = {
     VERSION: "Saiku 2.5",
+    CARPETA_SIIG: "Minsal", //esta carpeta debe existir en bi-server/pentaho-solutions/
     BIPLUGIN: true,
-USERNAME: 'joe',
-PASSWORD:'password',
+    USERNAME: 'joe',
+    PASSWORD:'password',
     BASE_URL: "",
     TOMCAT_WEBAPP: "/saiku",
     REST_MOUNT_POINT: "/rest/saiku/",
