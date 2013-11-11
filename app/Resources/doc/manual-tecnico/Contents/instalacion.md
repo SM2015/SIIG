@@ -405,6 +405,20 @@ Reiniciar Pentaho:
 # ./start-pentaho.sh
 ~~~
 
+Saiku permite guardar las busquedas y graficos que se elaboren para poder usarlas posteriormente. A continuacion crearemos la carpeta de trabajo que 
+usara Saiku para almacenar busquedas. Esta nueva carpeta debera ser creada dentro 'pentaho-solutions/', el nombre que elijamos se fijara en el archivo Settings.js.
+
+~~~~
+~# mkdir bi-server/prentaho-solutions/TablasyGraficosSaiku
+~# nano  src/MINSAL/IndicadoresBundle/Resources/public/cubos/js/saiku/Settings.js
+~~~
+
+var Settings = {
+    VERSION: "Saiku 2.5",
+    BIPLUGIN: false,
+    CARPETA_SIIG: "TablasyGraficosSaiku", ....
+
+
 ### Modificar Apache: URL del SIIG apuntando a SAIKU 
 
 Para enmascarar le URL de Pentaho debemos activar el proxy de Apache para esto debemos activar un par de módulos de Apache:  
@@ -425,9 +439,7 @@ Luego editamos la seccion VirtualHost dentro de /etc/apache2/sites-enabled/000-d
 
 
 
-En este punto ya tenemos SAIKU disponible como una URL del SIIG en: 
-
-http://localhost/admin/minsal/indicadores/saiku/
+En este punto ya tenemos SAIKU disponible desde el menu principal del SIIG, en la opcion Indicadores->Cubos OLAP. 
 
 
 El servidor OLAP/Mondrian puede ser consultado a traves de SAIKU usando su API HTTP/REST. Esta API permite obtener informacion sobre 
