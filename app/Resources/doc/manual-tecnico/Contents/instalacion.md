@@ -405,19 +405,18 @@ Reiniciar Pentaho:
 # ./start-pentaho.sh
 ~~~
 
-Saiku permite guardar las busquedas y graficos que se elaboren para poder usarlas posteriormente. A continuacion crearemos la carpeta de trabajo que 
-usara Saiku para almacenar busquedas. Esta nueva carpeta debera ser creada dentro 'pentaho-solutions/', el nombre que elijamos se fijara en el archivo Settings.js.
+Saiku permite guardar las busquedas y graficos en una carpeta de trabajo para poder usarlas posteriormente. A continuacion crearemos la carpeta de trabajo que 
+usara Saiku para almacenar busquedas. Esta nueva carpeta debera ser creada dentro de 'pentaho-solutions/', el nombre que elijamos se fijara en el archivo Settings.js.
 
 ~~~~
 ~# mkdir bi-server/prentaho-solutions/TablasyGraficosSaiku
 ~# nano  src/MINSAL/IndicadoresBundle/Resources/public/cubos/js/saiku/Settings.js
-~~~
 
 var Settings = {
     VERSION: "Saiku 2.5",
     BIPLUGIN: false,
     CARPETA_SIIG: "TablasyGraficosSaiku", ....
-
+~~~
 
 ### Modificar Apache: URL del SIIG apuntando a SAIKU 
 
