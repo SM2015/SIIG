@@ -7,6 +7,18 @@ use MINSAL\IndicadoresBundle\Entity\FichaTecnica;
 
 class FichaTecnicaRepository extends EntityRepository
 {
+	
+    public function getIndicadoresPublicos() {
+        $em = $this->getEntityManager();                
+        
+        $dql = "SELECT i.id as idIndicador,i.nombre as nombreIndicador
+                    FROM IndicadoresBundle:FichaTecnica i
+                    WHERE i.esPublico = true";
+        $query = $em->createQuery($dql);
+        
+        return $query->getArrayResult();
+    }
+	
     public function crearIndicador(FichaTecnica $fichaTecnica, $dimension = null, $filtros = null)
     {
         $em = $this->getEntityManager();
@@ -310,6 +322,35 @@ class FichaTecnicaRepository extends EntityRepository
         $nombre_indicador = $util->slug($fichaTecnica->getNombre());
         $tabla_indicador = 'tmp_ind_' . $nombre_indicador;
 
+	    //Obtener los nombres de columnas para crear los rangos
+	    //de fechas de los datos
+    	try 
+    	{
+	        $rangocolumnas = $this->getEntityManager()->getConnection()->executeQuery("SELECT a.attname AS nombrecampo 
+			FROM pg_class c, pg_attribute a 
+			WHERE a.attrelid = c.oid and a.attnum > 0 
+			AND c.relname='".$tabla_indicador."' and a.attname in ('anio','mes')")->fetchAll();
+        } catch (\PDOException $e) {
+            return $e->getMessage();
+        } catch (\Doctrine\DBAL\DBALException $e) {
+            return $e->getMessage();
+        }
+        
+        $camposrangos = "";
+        if (count($rangocolumnas)>0)
+        {
+	        if (count($rangocolumnas)>=1)
+	        	$camposrangos .= "min(anio) as min_anio, max(anio) as max_anio, ";
+	        if (count($rangocolumnas)==2)
+	        	$camposrangos .= "min(mes) as min_mes, max(mes) as max_mes, ";
+        }
+        $colstemp = array();
+        foreach ($rangocolumnas as $col)
+        {
+        	array_push($colstemp, $col['nombrecampo']);
+        }
+        ////
+        
         //Verificar si es un catálogo
         $rel_catalogo = '';
         $otros_campos = '';
@@ -324,7 +365,7 @@ class FichaTecnicaRepository extends EntityRepository
             $grupo_extra = ', B.id ';
         }
 
-        $sql = "SELECT $dimension AS category, $otros_campos $variables_query, round(($formula)::numeric,2) AS measure
+        $sql = "SELECT $camposrangos $dimension AS category, $otros_campos $variables_query, round(($formula)::numeric,2) AS measure
             FROM $tabla_indicador A" . $rel_catalogo;
         $sql .= ' WHERE 1=1 ' . $evitar_div_0;
         if ($filtro_registros != null) {

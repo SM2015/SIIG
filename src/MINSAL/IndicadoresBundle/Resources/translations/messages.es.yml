@@ -333,3 +333,9 @@ teclaescape: 'Presione Escape para salir'
 gender_unknown: 'DESCONOCIDO'
 gender_male: 'MASCULINO'
 gender_female: 'FEMENINO'
+
+de: 'De'
+a: 'A'
+indicadorespublicos: 'Indicadores Publicos'
+
+lbllenguaje: 'Idioma'

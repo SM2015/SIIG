@@ -330,4 +330,10 @@ teclaescape: 'Press Escape to Exit'
 
 gender_unknown: 'UNKNOWN'
 gender_male: 'MALE'
-gender_female: 'FEMALE'>>>>>>> .r40
+gender_female: 'FEMALE'
+
+de: 'From'
+a: 'To'
+indicadorespublicos: 'Public Indicators'
+
+lbllenguaje: 'Language'

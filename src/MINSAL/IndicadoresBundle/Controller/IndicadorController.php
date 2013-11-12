@@ -469,4 +469,34 @@ return $result;
 	$em->flush(); 
 	return new Response($cubo?'Se creo nuevo esquema':'No es posible crear cubo');	
   }//end function
+ 
+    /////metodos de acceso publico para los indicadores
+    /**
+    * @Route("/indicador/dimensiones/public/{id}", name="indicador_dimensiones_public", options={"expose"=true})
+    */
+    public function getDimensionesPublic(FichaTecnica $fichaTec) {
+		$em = $this->getDoctrine()->getManager();
+		if ($fichaTec)
+		{
+			if ($fichaTec->getEsPublico())
+				return $this->getDimensiones($fichaTec);
+			else 
+				return null;
+		}
+    }
+
+    /**
+    * @Route("/indicador/datos/public/{id}/{dimension}", name="indicador_datos_public", options={"expose"=true})
+    */
+    public function getDatosPublic(FichaTecnica $fichaTec, $dimension) {
+    	$em = $this->getDoctrine()->getManager();
+		if ($fichaTec)
+		{
+			if ($fichaTec->getEsPublico())
+				return $this->getDatos($fichaTec, $dimension);
+			else 
+				return null;
+		}
+    }
+  
 }//end class

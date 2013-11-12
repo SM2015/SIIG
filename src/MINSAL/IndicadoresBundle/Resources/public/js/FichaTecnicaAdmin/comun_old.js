@@ -30,11 +30,6 @@ function colores_alertas(zona, indice, i) {
 }
 
 function dibujarGraficoPrincipal(zona, tipo) {
-	//en el caso de que se recuperen tipos de graficos null
-	//se asignan directamente a tipo columnas
-	if (tipo == null)
-		tipo = "columnas";
-	
     $('#' + zona + ' .dimension').html($('#' + zona + ' .dimensiones option:selected').html());
     cerrarMenus();
     var grafico = crearGraficoObj(zona, tipo);
@@ -192,27 +187,6 @@ function dibujarGrafico(zona, dimension) {
             {id: $('#' + zona + ' .titulo_indicador').attr('data-id'), dimension: dimension}),
     {filtro: filtro, ver_sql: false},
     function(resp) {
-    	    	
-    	///////crear la cadena con el rango de datos
-    	////
-    	mensajerango = "";
-    	val = resp.datos[0];
-	    if (val.min_anio != undefined)
-	    {
-	    	if (val.min_mes == undefined)
-	    		mensajerango += " ["+trans.de+" "+val.min_anio;
-	    	else
-	    		mensajerango += " [" + trans.de + " 01/"+("0" + val.min_mes).slice(-2)+"/"+val.min_anio;
-	    	
-	    	val = resp.datos[resp.datos.length-1];
-	    	if (val.min_mes == undefined)
-	    		mensajerango += " "+trans.a+" "+val.max_anio+"] ";
-	    	else
-	    		mensajerango += " "+trans.a+" 01/"+("0" + val.max_mes).slice(-2)+"/"+val.max_anio+"] ";
-	    	
-	    	$('#' + zona + ' .titulo_indicador').html($('#' + zona + ' .titulo_indicador').attr('nombre') + mensajerango);
-	    }
-    	
         var datos = JSON.stringify(resp.datos);
         $('#' + zona).attr('datasetPrincipal_bk', datos);
         if ($('#' + zona).attr('orden') !== undefined
@@ -353,11 +327,8 @@ function construir_tabla_datos(zona, datos) {
 }
 
 function dibujarControles(zona, datos) {
-	//////agregar un nuevo atributo con el nombre del indicador
-	////
     $('#' + zona + ' .titulo_indicador').html(datos.nombre_indicador)
             .attr('data-unidad-medida', datos.unidad_medida)
-            .attr('nombre', datos.nombre_indicador)
             .attr('formula', datos.formula)
             .attr('data-id', datos.id_indicador)
             .attr('filtro-elementos', '')
@@ -387,22 +358,13 @@ function dibujarControles(zona, datos) {
     var filtro_posicion = trans.filtro_posicion + " " + trans.desde +
             "<INPUT class='valores_filtro filtro_desde' type='text' length='5' value=''> " + trans.hasta +
             "<INPUT class='valores_filtro filtro_hasta' type='text' length='5' value=''> ";
-    
-    /////quitar el filtro por posicion
-    filtro_posicion = "";
-    //////agregar filtros por fecha
-    var filtro_fecha = trans.filtro_posicion + " " + trans.desde +
-    "<INPUT class='valores_filtro fecha_desde' id='fechainicio' type='text' length='10' value='' readonly>" + trans.hasta +
-    "<INPUT class='valores_filtro fecha_hasta' id='fechafin' type='text' length='10' value='' readonly>";
-     
     var opciones_dimension = '<div class="btn-group dropdown sobre_div">' +
             '<button class="btn btn-info dropdown-toggle" data-toggle="dropdown" title="' + trans.dimension_opciones + '">' +
             '<i class="icon-check"></i>' +
             '</button>' +
             '<ul class="opciones_dimension dropdown-menu" role="menu" >' +
             '<li><A >' + combo_dimensiones + '</A></li>' +
-            //cambiar filtro_posicion por filtro_fecha
-            '<li ><A >' + filtro_fecha + '</A></li>' +
+            '<li ><A >' + filtro_posicion + '</A></li>' +
             '<li class="lista_datos_dimension"></li>' +
             '</ul>' +
             '</div>';
@@ -431,7 +393,7 @@ function dibujarControles(zona, datos) {
             '</button>' +
             '<ul class="dropdown-menu" role="menu" >' +
             '<li><label>&nbsp;</label></li>' +
-            //'<li><A class="zoom">Zoom <i class="icon-zoom-in"></i></A></li>' +
+            '<li><A class="zoom">Zoom <i class="icon-zoom-in"></i></A></li>' +
             '<li><A >' + combo_ordenar_por_medida + '</A></li>' +
             '<li><A >' + combo_ordenar_por_dimension + '</A></li>' +
             '<li><A >' + combo_tipo_grafico + '</A></li>'
@@ -498,11 +460,6 @@ function dibujarControles(zona, datos) {
     $('#' + zona + ' .controles').append(opciones_dimension);
     $('#' + zona + ' .controles').append('<a id="'+zona+'_ultima_lectura" data-placement="bottom" data-toggle="popover" class="btn-small btn pull-right" href="#" >'+datos.ultima_lectura+'</a>');
     $('#'+zona+'_ultima_lectura').popover({title: trans.ultima_lectura, content: trans.ultima_lectura_exp});
-    
-    ////agregar los calendarios
-    ////
-    $('#fechainicio').datepicker({ altField: "#fechainicio"});
-    $('#fechafin').datepicker({ altField: "#fechafin"});
     
    //EDITADO PARA EL BOTON DE MAXIMIZAR
    /////////
@@ -607,9 +564,9 @@ function dibujarControles(zona, datos) {
         alternar_favorito(zona, $(this).attr('data-indicador'));
         cerrarMenus();
     });
-//    $('#' + zona + ' .zoom').click(function() {
-//        $('#' + zona ).toggleClass('zona_maximizada');
-//    });
+    $('#' + zona + ' .zoom').click(function() {
+        $('#' + zona ).toggleClass('zona_maximizada');
+    });
     $('#' + zona + ' .quitar_indicador').click(function() {
         limpiarZona2(zona);
     });

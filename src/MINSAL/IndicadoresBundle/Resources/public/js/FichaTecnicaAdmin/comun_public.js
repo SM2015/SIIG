@@ -188,11 +188,10 @@ function dibujarGrafico(zona, dimension) {
     if (dimension === null)
         return;
     var filtro = $('#' + zona + ' .filtros_dimensiones').attr('data');
-    $.getJSON(Routing.generate('indicador_datos',
-            {id: $('#' + zona + ' .titulo_indicador').attr('data-id'), dimension: dimension}),
+    $.getJSON('../indicador/datos/public/'+$('#' + zona + ' .titulo_indicador').attr('data-id')+'/'+dimension,
     {filtro: filtro, ver_sql: false},
     function(resp) {
-    	    	
+    	
     	///////crear la cadena con el rango de datos
     	////
     	mensajerango = "";
@@ -394,7 +393,7 @@ function dibujarControles(zona, datos) {
     var filtro_fecha = trans.filtro_posicion + " " + trans.desde +
     "<INPUT class='valores_filtro fecha_desde' id='fechainicio' type='text' length='10' value='' readonly>" + trans.hasta +
     "<INPUT class='valores_filtro fecha_hasta' id='fechafin' type='text' length='10' value='' readonly>";
-     
+ 
     var opciones_dimension = '<div class="btn-group dropdown sobre_div">' +
             '<button class="btn btn-info dropdown-toggle" data-toggle="dropdown" title="' + trans.dimension_opciones + '">' +
             '<i class="icon-check"></i>' +
@@ -785,8 +784,7 @@ function limpiarZona2(zona) {
 function recuperarDimensiones(id_indicador, datos) {
     var zona_g = $('DIV.zona_actual').attr('id');
     limpiarZona(zona_g);
-    $.getJSON(
-            Routing.generate('indicador_dimensiones', {id: id_indicador}),
+    $.getJSON('../indicador/dimensiones/public/'+id_indicador,
     function(resp) {
         //Construir el campo con las dimensiones disponibles
 
