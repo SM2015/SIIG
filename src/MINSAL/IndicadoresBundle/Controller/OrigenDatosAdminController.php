@@ -6,7 +6,7 @@ use Sonata\AdminBundle\Controller\CRUDController as Controller;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use MINSAL\IndicadoresBundle\Entity\OrigenDatos;
-use MINSAL\IndicadoresBundle\Entity\Campo;
+use MINSAL\IndicadoresBundle\Entity\ReporteActualizacion;
 
 //use Symfony\Component\Console\Input\ArrayInput;
 
@@ -167,12 +167,12 @@ class OrigenDatosAdminController extends Controller
                 foreach ($ordenTiempo as $tiempo) {
                     if(empty($maxCampoSuperior)) {
                         if(array_key_exists($tiempo, $campos)) {
-                            $maxCampoSuperior = $tiempo;//$campos[$tiempo];
+                            $maxCampoSuperior = $campos[$tiempo];
                         }
                     }
 
                     if(array_key_exists($tiempo, $campos)) {
-                        $maxCampoInferior = $tiempo;//$campos[$tiempo];
+                        $maxCampoInferior = $campos[$tiempo];
                     }
                 }
 
@@ -210,7 +210,6 @@ class OrigenDatosAdminController extends Controller
                         'sql' => $origenDato->getSentenciaSql(),
                         'campos_significados' => $campos_sig,
                         'es_incremental'=>$origenDato->getActualizacionIncremental(),
-                        'campos' => $campos,
                         'limites' => $limites);
 
             $ahora = new \DateTime("now");
@@ -227,7 +226,29 @@ class OrigenDatosAdminController extends Controller
                 if ($mess !== true) {
                     $this->addFlash('sonata_flash_error', $mess);
 
+                    // Crear el registro para el reporte de actualizacion
+                    $reporteActualizacion = new ReporteActualizacion;
+
+                    $reporteActualizacion->setOrigenDatos($origenDato);
+                    $reporteActualizacion->setEstatusAct($em->find('IndicadoresBundle:EstatusActualizacion', 2));
+                    $reporteActualizacion->setFecha(new \DateTime('now'));
+                    $reporteActualizacion->setReporte($mess);
+
+                    $em->persist($reporteActualizacion);
+                    $em->flush();
+
                     return new RedirectResponse($this->admin->generateUrl('list', $this->admin->getFilterParameters()));
+                } else {
+                    // Crear el registro para el reporte de actualizacion
+                    $reporteActualizacion = new ReporteActualizacion;
+
+                    $reporteActualizacion->setOrigenDatos($origenDato);
+                    $reporteActualizacion->setEstatusAct($em->find('IndicadoresBundle:EstatusActualizacion', 1));
+                    $reporteActualizacion->setFecha(new \DateTime('now'));
+                    $reporteActualizacion->setReporte('Actualizacion correcta');
+
+                    $em->persist($reporteActualizacion);
+                    $em->flush();
                 }
             } else
                 $this->get('old_sound_rabbit_mq.cargar_origen_datos_producer')

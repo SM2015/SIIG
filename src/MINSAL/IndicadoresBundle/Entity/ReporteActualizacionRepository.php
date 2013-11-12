@@ -12,9 +12,12 @@ class ReporteActualizacionRepository extends EntityRepository {
         $em = $this->getEntityManager();
 
         $result = $em->getConnection()->executeQuery('SELECT MAX(fecha) AS ultima_actualizacion FROM reporte_actualizacion WHERE '.
-                                       'id_origen_datos='.$idOrigenDatos.' AND id_estatus_act=1')->getSingleResult();
+                                       'id_origen_datos='.$idOrigenDatos.' AND id_estatus_act=1')->fetch();
 
-        print_r($result);
+        if($result['ultima_actualizacion'] == '')
+            return null;
+        else
+            return new \DateTime($result['ultima_actualizacion']);
     }
 
 }

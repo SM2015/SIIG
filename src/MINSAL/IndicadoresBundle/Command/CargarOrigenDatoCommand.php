@@ -7,6 +7,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use MINSAL\IndicadoresBundle\Entity\ReporteActualizacion;
 
 class CargarOrigenDatoCommand extends ContainerAwareCommand {
 
@@ -25,19 +26,17 @@ class CargarOrigenDatoCommand extends ContainerAwareCommand {
         $origenesDatos = $em->getRepository('IndicadoresBundle:OrigenDatos')->findAll();
 
         foreach ($origenesDatos as $origenDato) {
-            $ultima_lectura = $em->getRepository('IndicadoresBundle:OrigenDatos')->getUltimaActualizacion($origenDato);
+            $ultima_lectura = $em->getRepository('IndicadoresBundle:ReporteActualizacion')->getUltimaActualizacion($origenDato->getId());
 
             if ($ultima_lectura == null)
                 $dif = 1; // No se ha realizado carga de datos antes, mandar a cargarlos
             else {
-                //print_r($ultima_lectura);
                 // Agregar a la ultima lectura la ventana de actualizacion
                 if($origenDato->getVentana()) {
-                    //echo $origenDato->getVentana().PHP_EOL;
                     $days = $origenDato->getVentana()==1 ? 'day' : 'days';
                     $ultima_lectura->add(date_interval_create_from_date_string($origenDato->getVentana().' '.$days));
                 }
-
+                
                 if ($origenDato->getPeriodicidad() != null)
                     $periocidad = $origenDato->getPeriodicidad()->getCodigo();
                 else $periocidad='d';
@@ -65,106 +64,109 @@ class CargarOrigenDatoCommand extends ContainerAwareCommand {
                     $dif = $dif_dias / 365; //Anual?
                 else
                     $dif = 1; // No tiene periocidad, cargarlo
-
-                //echo 'Ahora: '.$ahora->format('Y-m-d H:i:s').' Fecha: '.$ultima_lectura->format('Y-m-d H:i:s').' - Periodicidad: '.$periocidad.' - Dif: '.$dif.PHP_EOL;
             }
-
-            //$dif = 1;
+            
             if ($dif >= 1) {
-                //Es necesaria realizar la carga de datos
-                // Recuperar los orígenes de datos asociados a las variables del indicador                
-                //foreach ($ind->getVariables() as $var) {
-                    //$origenDato = $var->getOrigenDatos();
-                    $campos = null;
+                // Recuperar el nombre y significado de los campos del origen de datos
+                $campos_sig = array();
+                $campos = $origenDato->getCampos();
+                foreach ($campos as $campo) {
+                    $campos_sig[$campo->getNombre()] = $campo->getSignificado()->getCodigo();
+                }
+                
+                $campos = null;
+                $limites = null;
+
+                if($origenDato->getActualizacionIncremental()) {
                     $limites = null;
 
-                    if($origenDato->getActualizacionIncremental()) {
-                        $limites = null;
+                    // Obtener todos los campos del origen de datos
+                    // es necesario para la carga incremental
+                    $objsCampos = $origenDato->getCampos();
+                    $ordenTiempo = $this->getContainer()->getParameter('tiempo');
+                    $campos = array();
 
-                        // Obtener todos los campos del origen de datos
-                        // es necesario para la carga incremental
-                        $objsCampos = $origenDato->getCampos();
-                        $ordenTiempo = $this->getContainer()->getParameter('tiempo');
-                        $campos = array();
+                    foreach($objsCampos as $campo) {
+                        $campos[$campo->getSignificado()->getCodigo()] = $campo->getNombre();
+                    }
 
-                        foreach($objsCampos as $campo) {
-                            $campos[$campo->getSignificado()->getCodigo()] = $campo->getNombre();
-                        }
+                    $maxCampoSuperior = '';
+                    $maxCampoInferior = '';
 
-                        //print_r($campos);
-
-                        $maxCampoSuperior = '';
-                        $maxCampoInferior = '';
-
-                        foreach ($ordenTiempo as $tiempo) {
-                            //echo $tiempo.PHP_EOL;
-                            if(empty($maxCampoSuperior)) {
-                                if(array_key_exists($tiempo, $campos)) {
-                                    $maxCampoSuperior = $tiempo;//$campos[$tiempo];
-                                }
-                            }
-
+                    foreach ($ordenTiempo as $tiempo) {
+                        if(empty($maxCampoSuperior)) {
                             if(array_key_exists($tiempo, $campos)) {
-                                $maxCampoInferior = $tiempo;//$campos[$tiempo];
+                                $maxCampoSuperior = $campos[$tiempo];
                             }
                         }
 
-                        $sql = 'SELECT
-                                    MAX(CAST (datos->\''.$maxCampoSuperior.'\' AS INTEGER)) AS val_superior,
-                                    MAX(CAST (datos->\''.$maxCampoInferior.'\' AS INTEGER)) AS val_inferior
-                                FROM fila_origen_dato WHERE id_origen_dato = '.$origenDato->getId();
-
-                        $result = $em->getConnection()->executeQuery($sql)->fetchAll();
-
-                        if(!empty($result)) {
-                            $maxValorSuperior = $result[0]['val_superior'];
-                            $maxValorInferior = $result[0]['val_inferior'];
-
-                            // Si el mes superior es 12 entonces tomamos datos del siguiente año
-                            if($maxCampoSuperior == 'anio' && $maxCampoInferior == 'id_mes' && $maxValorInferior == 12) {
-                                //$maxValorSuperior++;
-                                $maxValorInferior = 0;
-                            }
-
-                            if($maxCampoSuperior == $maxCampoInferior) {
-                                $maxCampoInferior = null;
-                                $maxValorInferior = null;
-                            }
-
-                            $limites = array(
-                                'campoSuperior'=>$maxCampoSuperior,
-                                'valorSuperior'=>$maxValorSuperior,
-                                'campoInferior'=>$maxCampoInferior,
-                                'valorInferior'=>$maxValorInferior,
-                            );
+                        if(array_key_exists($tiempo, $campos)) {
+                            $maxCampoInferior = $campos[$tiempo];
                         }
                     }
 
-                    $msg = array('id_origen_dato' => $origenDato->getId(), 
-                                'sql'=> $origenDato->getSentenciaSql(),
-                                'es_incremental'=>$origenDato->getActualizacionIncremental(),
-                                'campos' => $campos,
-                                'limites' => $limites,
-                            );
+                    $sql = 'SELECT
+                                MAX(CAST (datos->\''.$maxCampoSuperior.'\' AS INTEGER)) AS val_superior,
+                                MAX(CAST (datos->\''.$maxCampoInferior.'\' AS INTEGER)) AS val_inferior
+                            FROM fila_origen_dato WHERE id_origen_dato = '.$origenDato->getId();
 
-                    $carga_directa = $origenDato->getEsCatalogo();
+                    $result = $em->getConnection()->executeQuery($sql)->fetchAll();
 
-                    //if($origenDato->getActualizacionIncremental())
-                    //    print_r($msg);
+                    if(!empty($result)) {
+                        $maxValorSuperior = $result[0]['val_superior'];
+                        $maxValorInferior = $result[0]['val_inferior'];
 
-                    /*if(!empty($limites))
-                        die();*/
-                    // No mandar a la cola de carga los que son catálogos, Se cargarán directamente
-                    if ($carga_directa)
-                        $em->getRepository('IndicadoresBundle:OrigenDatos')->cargarCatalogo($origenDato);
-                    else
-                        $this->getContainer()->get('old_sound_rabbit_mq.cargar_origen_datos_producer')
-                                ->publish(serialize($msg));
+                        // Si el mes superior es 12 entonces tomamos datos del siguiente año
+                        if($maxCampoSuperior == 'anio' && $maxCampoInferior == 'id_mes' && $maxValorInferior == 12) {
+                            $maxValorInferior = 0;
+                        }
 
-                    // La ultima actualizacion la establece el GuardarRegistroOrigenDatoConsumer
-                    // lo guarda como un ReporteActualizacion
-                    //$ind->setUltimaLectura($ahora);
-                //}
+                        if($maxCampoSuperior == $maxCampoInferior) {
+                            $maxCampoInferior = null;
+                            $maxValorInferior = null;
+                        }
+
+                        $limites = array(
+                            'campoSuperior'=>$maxCampoSuperior,
+                            'valorSuperior'=>$maxValorSuperior,
+                            'campoInferior'=>$maxCampoInferior,
+                            'valorInferior'=>$maxValorInferior,
+                        );
+                    }
+                }
+
+                $msg = array('id_origen_dato' => $origenDato->getId(), 
+                            'sql'=> $origenDato->getSentenciaSql(),
+                            'es_incremental'=>$origenDato->getActualizacionIncremental(),
+                            'campos_significados' => $campos_sig,
+                            'limites' => $limites,
+                        );
+
+                $carga_directa = $origenDato->getEsCatalogo();
+
+                // No mandar a la cola de carga los que son catálogos, Se cargarán directamente
+                if ($carga_directa) {
+                    $respuesta = $em->getRepository('IndicadoresBundle:OrigenDatos')->cargarCatalogo($origenDato);
+                    $reporteActualizacion = new ReporteActualizacion;
+                    $reporteActualizacion->setOrigenDatos($origenDato);
+                    $reporteActualizacion->setFecha(new \DateTime('now'));
+
+                    if ($respuesta !== true) {
+                        // Crear el registro para el reporte de actualizacion
+                        $reporteActualizacion->setEstatusAct($em->find('IndicadoresBundle:EstatusActualizacion', 2));
+                        $reporteActualizacion->setReporte($respuesta);
+                    } else {
+                        // Crear el registro para el reporte de actualizacion
+                        $reporteActualizacion->setEstatusAct($em->find('IndicadoresBundle:EstatusActualizacion', 1));
+                        $reporteActualizacion->setReporte('Actualizacion correcta');
+                    }
+
+                    $em->persist($reporteActualizacion);
+                    $em->flush();
+                }
+                else
+                    $this->getContainer()->get('old_sound_rabbit_mq.cargar_origen_datos_producer')
+                            ->publish(serialize($msg));
             }
         }
         $em->flush();

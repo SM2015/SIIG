@@ -94,11 +94,14 @@ class OrigenDatosRepository extends EntityRepository
                     }
                 }
             } catch (\PDOException $e) {
-                return false;
+                throw new \Exception($e->getMessage());
+                //return false;
             } catch (\Exception $e) {
-                return false;
+                throw new \Exception($e->getMessage());
+                //return false;
             } catch (DBAL\DBALException $e) {
-                return false;
+                throw new \Exception($e->getMessage());
+                //return false;
             }
         } else {
             $reader = new Excel();
@@ -229,16 +232,6 @@ class OrigenDatosRepository extends EntityRepository
         }
 
         return $result;
-    }
-    
-    public function getUltimaActualizacion(OrigenDatos $origenDato){
-        $sql = 'SELECT MAX(ultima_lectura) as ultima_lectura FROM fila_origen_dato WHERE id_origen_dato = :id_origen_dato';
-        $sth = $this->_em->getConnection()->prepare($sql);
-
-        $sth->execute(array(':id_origen_dato' => $id = $origenDato->getId()));
-        
-        return ($sth->fetch(\PDO::FETCH_ASSOC)['ultima_lectura']);
-        
     }
 
 }

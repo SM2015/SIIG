@@ -1,6 +1,7 @@
 parameters:
   indicador_cache_consulta: 3600 # segundos
   # Arreglo utilizado en el proceso de carga incremental
+  # Cada uno es un codigo de un significado de campo que representa la temporalidad
   tiempo: {1:anio, 2:semestre, 3:cuatrimestre, 4:trimestre, 5:bimestre, 6:id_mes, 7:quincena, 8:semana}
 imports:
     - { resource: parameters.yml }
