@@ -13,3 +13,14 @@ parameters:
     secret: 295125e6c66ab2a1038b62ad3c910733510
     database_path: null
     archivo_vitacora: %kernel.logs_dir%/minsal.log
+    
+    ##Variables de Saiku  
+# Carpeta de Esquemas generados por el Siig para Pentaho  
+    carpeta_siig_mondrian: '%kernel.root_dir%/mondrian/'
+
+# Nombre de Conexion de Base de Datos dentro de Pentaho
+    conexion_bd_pentaho: 'Minsal'
+
+# Archivo que lista esquemas existentes y su conexion 
+# Este archivo debe estar ligado al fichero ../pentaho-solutions/system/olap/datasources.xml
+    listado_metadata: 'datasources.siig'
