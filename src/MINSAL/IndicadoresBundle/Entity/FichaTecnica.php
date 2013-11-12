@@ -107,6 +107,13 @@ class FichaTecnica
      * @ORM\Column(name="es_acumulado", type="boolean", nullable=true)
      */
     private $esAcumulado;
+    
+    /**
+     * @var string $esPublico
+     *
+     * @ORM\Column(name="es_publico", type="boolean", nullable=true)
+     */    
+    private $esPublico;
 
     /**
      * @var datetime ultimaLectura
@@ -648,6 +655,29 @@ class FichaTecnica
     public function getEsAcumulado()
     {
         return $this->esAcumulado;
+    }
+    
+    /**
+     * Set esPublico
+     *
+     * @param boolean $esPublico
+     * @return FichaTecnica
+     */
+    public function setEsPublico($esPublico)
+    {
+        $this->esPublico = $esPublico;
+    
+        return $this;
+    }
+
+    /**
+     *  Get esPublico
+     *
+     * @return boolean 
+     */
+    public function getEsPublico()
+    {
+        return $this->esPublico;
     }
 
     /**
