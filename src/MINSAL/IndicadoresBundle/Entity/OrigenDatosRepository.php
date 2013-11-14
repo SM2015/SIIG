@@ -239,8 +239,9 @@ class OrigenDatosRepository extends EntityRepository
         $sth = $this->_em->getConnection()->prepare($sql);
 
         $sth->execute(array(':id_origen_dato' => $id = $origenDato->getId()));
+        $respuesta = $sth->fetch(\PDO::FETCH_ASSOC);
         
-        return ($sth->fetch(\PDO::FETCH_ASSOC));
+        return ($respuesta['ultima_lectura']);
         
     }
 
