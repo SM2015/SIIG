@@ -233,5 +233,4 @@ class OrigenDatosRepository extends EntityRepository
 
         return $result;
     }
-
 }
