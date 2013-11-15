@@ -325,13 +325,11 @@
 
         <script type="text/x-jquery-tmpl" id="template-repository-objects">
             <% _.each( repoObjects, function( entry ) { %>
-              <%if ((entry.path).indexOf(Settings.CARPETA_SIIG)>-1) {%>
-                <% if( entry.type === 'FOLDER') { %>
+              <%if ((entry.path).indexOf(Settings.CARPETA_SIIG)>-1) { if( entry.type === 'FOLDER') { %>
                    <%= _.template($("#template-repository-folder").html())({ entry: entry }) %>
                 <% } else { %>
                     <%= _.template($("#template-repository-file").html())({ entry: entry }) %>
-                <% } %>
-                <%}%>
+                <% } }%>
             <% } ); %>
         </script>
         
