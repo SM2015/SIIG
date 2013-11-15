@@ -24,7 +24,7 @@ class FichaTecnicaRepository extends EntityRepository
         $em = $this->getEntityManager();
         $ahora = new \DateTime('NOW');
         $util = new \MINSAL\IndicadoresBundle\Util\Util();
-        $nombre_indicador = $util->slug($fichaTecnica->getNombre());
+        $nombre_indicador = $fichaTecnica->getId();
 
         //Verificar si existe la tabla
         $existe = true;
@@ -259,7 +259,7 @@ class FichaTecnicaRepository extends EntityRepository
     {
         $sql = '';
         $util = new \MINSAL\IndicadoresBundle\Util\Util();
-        $nombre_indicador = $util->slug($fichaTecnica->getNombre());
+        $nombre_indicador = $fichaTecnica->getId();
         $campos = str_replace("'", '', $fichaTecnica->getCamposIndicador());
         $formula = $fichaTecnica->getFormula();
 
@@ -319,7 +319,7 @@ class FichaTecnicaRepository extends EntityRepository
         }
         $variables_query = trim($variables_query, ', ');
 
-        $nombre_indicador = $util->slug($fichaTecnica->getNombre());
+        $nombre_indicador = $fichaTecnica->getId();
         $tabla_indicador = 'tmp_ind_' . $nombre_indicador;
 
 	    //Obtener los nombres de columnas para crear los rangos

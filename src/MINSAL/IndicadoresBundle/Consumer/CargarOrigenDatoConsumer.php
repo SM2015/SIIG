@@ -60,9 +60,6 @@ class CargarOrigenDatoConsumer implements ConsumerInterface
                             $sql_aux = 'SELECT * FROM (' . $sql . ') AS sqlOriginal '.$where.
                                     ' LIMIT ' . $tamanio . ' OFFSET ' . $i * $tamanio;
 
-                            echo $sql_aux;
-                            print_r($msg);
-                            /*die();*/
                             $datos = $em->getRepository('IndicadoresBundle:OrigenDatos')->getDatos($sql_aux, $cnx);
 
                             $this->enviarDatos($idOrigen, $datos, $campos_sig, $ahora, $nombre_conexion, $msg);
