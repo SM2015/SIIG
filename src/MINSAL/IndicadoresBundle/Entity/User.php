@@ -6,7 +6,6 @@ use Sonata\UserBundle\Entity\BaseUser as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\GroupInterface;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
