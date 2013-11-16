@@ -227,6 +227,7 @@ class FichaTecnicaAdmin extends Admin
     {
         $this->crearCamposIndicador($fichaTecnica);
         //$this->repository->crearTablaIndicador($fichaTecnica);
+             $this->crearCuboMondrian($fichaTecnica);
     }
 
     public function prePersist($fichaTecnica)
