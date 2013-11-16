@@ -220,6 +220,7 @@ class FichaTecnicaAdmin extends Admin
     {
         $this->crearCamposIndicador($fichaTecnica);
         //$this->repository->crearTablaIndicador();
+        $this->crearCuboMondrian($fichaTecnica);
     }
 
     public function postUpdate($fichaTecnica)
@@ -314,4 +315,100 @@ class FichaTecnicaAdmin extends Admin
             );
         }
     }
+/* Ordena codigo XML para facilitar su lectura
+ $xml_str= Cadena XML sin indentar*/
+
+public function formatXML($xml_str){
+$xml_str = preg_replace('/(>)(<)(\/*)/', "$1\n$2$3", $xml_str);
+    $token      = strtok($xml_str, "\n");
+    $result     = '';
+    $pad        = 0; 
+    $matches    = array();
+    while ($token !== false) : 
+        if (preg_match('/.+<\/\w[^>]*>$/', $token, $matches)) : 
+          $indent=0;
+        elseif (preg_match('/^<\/\w/', $token, $matches)) :
+          $pad--;
+          $indent = 0;
+        elseif (preg_match('/^<\w[^>]*[^\/]>.*$/', $token, $matches)) :
+          $indent=1;
+        else :
+          $indent = 0; 
+        endif;
+        $line    = str_pad($token, strlen($token)+$pad, ' ', STR_PAD_LEFT);
+        $result .= $line . "\n";
+        $token   = strtok("\n");
+        $pad    += $indent;
+    endwhile; 
+return $result;
+}
+
+/* Toma una Ficha Tecnica para obtener el ID de indicador, crea un 
+ Schema de Mondrian y lo agrega las fuentes de datos de Pentaho. El nuevo
+esquema de Mondrian es usado por Saiku.
+*/
+    public function crearCuboMondrian(FichaTecnica $fichaTecnica)
+    { 
+	$em = $this->getConfigurationPool()->getContainer()->get('doctrine')->getManager();
+	$util = new \MINSAL\IndicadoresBundle\Util\Util();
+        $campos= str_replace("'", '',$fichaTecnica->getCamposIndicador());
+	$dims='';
+	$cubo=false;	
+	foreach (explode(",",$campos) as $cosa){
+	 	if (strstr($cosa,'id_')){
+	  	  $sig = $em->getRepository('IndicadoresBundle:SignificadoCampo')->findOneBy(array('codigo'=>trim($cosa)));
+		  $catalogo = $sig->getCatalogo();
+		  if($catalogo!=''){
+			$dims=$dims."\n<DimensionUsage source='".ucfirst(substr(trim($cosa),3)).
+			"' name='".ucfirst(substr(trim($cosa),3))."' visible='true' ".
+			"foreignKey='".trim($cosa)."' highCardinality='false'/>";
+			$cubo=true;
+			}
+		}
+     	} 
+       if ($cubo){
+       $schemaFile=$this->getConfigurationPool()->getContainer()->getParameter('carpeta_siig_mondrian').'/indicador'.$fichaTecnica->getId('id').'.mondrian.xml';
+	$fh=fopen($this->getConfigurationPool()->getContainer()->getParameter('carpeta_siig_mondrian').'/cubo_base.txt','r');
+	$base_cubo= fread($fh, filesize($this->getConfigurationPool()->getContainer()->getParameter('carpeta_siig_mondrian').'/cubo_base.txt'));
+	fclose($fh);
+	$formula = str_replace(' ', '', $fichaTecnica->getFormula());
+        preg_match_all('/\{([\w]+)\}/', $formula, $vars_formula);
+	$formula=strtolower($formula);
+	$formula=str_replace('{','[Measures].[', $formula);
+	$formula=str_replace('}',']', $formula);
+
+	$datos= "\n<Cube name='".$fichaTecnica->getNombre()."' visible='true' cache='true' enabled='true'>".
+                 "\n<Table name='tmp_ind_".$util->slug($fichaTecnica->getNombre())."' schema='public'></Table>".
+    		$dims;	
+	foreach ($vars_formula[1] as $myvar){
+			$datos=$datos."\n<Measure name='".strtolower($myvar).
+			"' column='".strtolower($myvar)."' formatString='#' aggregator='sum'></Measure>";
+		}
+	
+    	$datos=$datos."\n <CalculatedMember name='Valor (".$fichaTecnica->getUnidadMedida().")'".
+		" formula='".$formula."' dimension='Measures' visible='true'></CalculatedMember>\n</Cube>\n</Schema>";
+
+	$fh = fopen($schemaFile, 'w');
+	fwrite($fh,$this->formatXML("\n<Schema name='Indicador ".$fichaTecnica->getId()."'>\n ".$base_cubo.$datos)); 
+        fclose($fh);       
+
+	$pentahoResource=$this->getConfigurationPool()->getContainer()->getParameter('carpeta_siig_mondrian').
+		$this->getConfigurationPool()->getContainer()->getParameter('listado_metadata');
+
+	$xml= simplexml_load_file($pentahoResource);
+	$node=$xml->xpath('//Catalogs');
+	$catalog=$node[0]->addChild('Catalog');
+	$catalog->addAttribute('name','Indicador '.$fichaTecnica->getId('id'));
+	$catalog->addChild('DataSourceInfo','Provider=mondrian;DataSource='.
+			$this->getConfigurationPool()->getContainer()->getParameter('conexion_bd_pentaho'));
+	$catalog->addChild('Definition',$schemaFile);
+
+	$fh = fopen($pentahoResource, 'w'); 
+	fwrite($fh, $this->formatXML($xml->asXML())); 
+        fclose($fh);
+	}
+	$em->flush(); 
+	//return new Response($cubo?'Se creo nuevo esquema':'No es posible crear cubo');	
+    }
+
 }
