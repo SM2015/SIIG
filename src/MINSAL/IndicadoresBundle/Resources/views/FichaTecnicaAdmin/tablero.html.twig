@@ -31,50 +31,213 @@
 <div id="div_carga" class='affix'>
     <img id="cargador" src="{{ asset('bundles/indicadores/images/ajax-loader.gif') }}"/>
 </div>
-
-{% if is_mobile() %}
-    {% include 'IndicadoresBundle:FichaTecnicaAdmin:menu_tablero_mobile.html.twig' %}
-{% else %}
+<div class="marco-sala">
+{# {% if is_mobile() %} #}
+    {#{% include 'IndicadoresBundle:FichaTecnicaAdmin:menu_tablero_mobile.html.twig' %}#}
+{#{% else %} #}
     {% include 'IndicadoresBundle:FichaTecnicaAdmin:menu_tablero.html.twig' %}
-{% endif %}
+{#{% endif %}#}
 
-<div id='nombre_sala2' ></div>
-<div class="content" id="sala" >
-    <div class="area_grafico zona_actual" id='grafico_1' >
-        <DIV class= 'titulo'><span class='titulo_indicador'></span>
-            <span>({{'_por_'|trans}} <span class='dimension' ></span>)</span>
-        </DIV>
-        <h6 class='filtros_dimensiones'></h6>
-        <div class='controles btn-toolbar'></div>
-        <div class="row-fluid info" ></div>
-        <div class="row-fluid row_grafico" >
-            <div class="grafico" ></div>
+
+    <div id='nombre_sala2' ></div>
+    <div class="tab-content">        
+        <div class="content tab-pane" id="opciones_sala">
+            <div class="accordion" id="accordion1">
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#collapse1">
+                            {{'_acciones_'|trans}}
+                        </a>
+                    </div>
+                     <div id="collapse1" class="accordion-body collapse in">
+                        <div class="accordion-inner">
+                            <ul class="dropdown-menu dropdown-menu-visible" role="menu" >
+                                <li><A id='agregar_fila' >{{'_agregar_area_grafico_'|trans}}</a></li>
+                                <li><A id='quitar_indicador' >{{'_quitar_indicador_'|trans}}</a></li>
+                                <li><!-- Button to trigger modal -->
+                                    <a href="#myModal" data-toggle="modal">{{'_guardar_sala_'|trans}}</a>
+                                </li>
+                                <li><a id="aCollapseOne" href="#" >
+                                    {{'_ocultar/mostrar_menu_principal_'|trans}}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#collapse2">
+                            {{'_clasificacion_indicadores_'|trans}}
+                        </a>
+                    </div>
+                     <div id="collapse2" class="accordion-body collapse">
+                        <div class="accordion-inner">
+                            <ul class="dropdown-menu dropdown-menu-visible" role="menu" >
+                                {% for clasificacion in clasificacionUso %}
+                                    {% if clasificacion.codigo == app.user.clasificacionUso.codigo|default('') %}
+                                        <li class='active'><A >{{clasificacion.descripcion}}</a></li>
+                                    {% else %}
+                                        <li ><a href='{{url('change_clasificacion_uso',{codigo_clasificacion:clasificacion.codigo})}}'>{{clasificacion.descripcion}}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#collapse3">
+                            {{'_salas_'|trans}}
+                        </a>
+                    </div>
+                    <div id="collapse3" class="accordion-body collapse">
+                       <div class="accordion-inner">
+                           <ul id='listado-salas' class="dropdown-menu dropdown-menu-visible" role="menu" >
+                               {% for sala in salas %}
+                                   <li sala-id='{{sala.datos_sala.id}}'><A sala-id='{{sala.datos_sala.id}}' sala-nombre='{{sala.datos_sala.nombre}}' class='salas-id' data="{{sala.indicadores_sala|json_encode()}}">{{sala.datos_sala.nombre}}</A></li>
+                               {% endfor %}
+                           </ul>                            
+                       </div>
+                    </div>
+                </div>                
+                
+                
+            </div>
         </div>
-    </div>
-    <div class="area_grafico" id='grafico_2' >
-        <DIV class= 'titulo'><span class='titulo_indicador'></span>
-            <span>({{'_por_'|trans}} <span class='dimension' ></span>)</span>
-        </DIV>
-        <h6 class='filtros_dimensiones'></h6>
-        <div class='controles btn-toolbar'></div>
-        <div class="row-fluid info" ></div>
-        <div class="row-fluid row_grafico" >
-            <div class="grafico" ></div>
+        <div class="content tab-pane active" id="sala" >
+            <div class="area_grafico zona_actual" id='grafico_1' >
+                <DIV class= 'titulo'><span class='titulo_indicador'></span>
+                    <span>({{'_por_'|trans}} <span class='dimension' ></span>)</span>
+                </DIV>
+                <h6 class='filtros_dimensiones'></h6>
+                <div class='controles btn-toolbar'></div>
+                <div class="row-fluid info" ></div>
+                <div class="row-fluid row_grafico" >
+                    <div class="grafico" ></div>
+                </div>
+            </div>
+            <div class="area_grafico" id='grafico_2' >
+                <DIV class= 'titulo'><span class='titulo_indicador'></span>
+                    <span>({{'_por_'|trans}} <span class='dimension' ></span>)</span>
+                </DIV>
+                <h6 class='filtros_dimensiones'></h6>
+                <div class='controles btn-toolbar'></div>
+                <div class="row-fluid info" ></div>
+                <div class="row-fluid row_grafico" >
+                    <div class="grafico" ></div>
+                </div>
+            </div>
+            <div class="area_grafico" id='grafico_3' >
+                <DIV class= 'titulo'><span class='titulo_indicador'></span>
+                    <span>({{'_por_'|trans}} <span class='dimension' ></span>)</span>
+                </DIV>
+                <h6 class='filtros_dimensiones'></h6>
+                <div class='controles btn-toolbar'></div>
+                <div class="row-fluid info" ></div>
+                <div class="row-fluid row_grafico" >
+                    <div class="grafico" ></div>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="area_grafico" id='grafico_3' >
-        <DIV class= 'titulo'><span class='titulo_indicador'></span>
-            <span>({{'_por_'|trans}} <span class='dimension' ></span>)</span>
-        </DIV>
-        <h6 class='filtros_dimensiones'></h6>
-        <div class='controles btn-toolbar'></div>
-        <div class="row-fluid info" ></div>
-        <div class="row-fluid row_grafico" >
-            <div class="grafico" ></div>
+        <div class="content tab-pane" id="listado_indicadores" >
+            <div class="accordion" id="accordion2">
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse4">
+                            {{"favoritos"|trans}} (<span id='cantidad_favoritos'>{{app.user.favoritos|length}}</span>)
+                        </a>
+                    </div>
+                     <div id="collapse4" class="accordion-body collapse in">
+                        <div class="accordion-inner">
+                            <ul class="dropdown-menu dropdown-menu-visible" id='listado-favoritos'>
+                                {% for indicador in app.user.favoritos %}
+                                <li ><A id='fav-{{indicador.id}}' class='indicador'
+                                        data-id='{{indicador.id}}'
+                                        data-unidad-medida='{{indicador.unidadMedida}}'>
+                                                {{indicador.nombre}}
+                                    </A>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>                
+                {% for categoria in categorias %}
+                    {% if categoria.indicadores|length > 0 %}
+                        <div class="accordion-group">
+                            <div class="accordion-heading">
+                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapsecat{{categoria.cat.id}}">
+                                    {{categoria.cat.descripcion}} ({{categoria.indicadores|length}})
+                                </a>
+                            </div>
+                             <div id="collapsecat{{categoria.cat.id}}" class="accordion-body collapse">
+                                 <div class="accordion-inner">
+                                     <ul class="dropdown-menu dropdown-menu-visible" >
+                                        {% for indicador in categoria.indicadores %}
+                                        <li ><A id='{{indicador.id}}' class='indicador'
+                                                data-id='{{indicador.id}}'
+                                                data-unidad-medida='{{indicador.unidadMedida}}'>
+                                                                {{indicador.nombre}}
+                                            </A>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                 </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                
+                {% if indicadores_no_clasificados|length > 0 %}
+                    <div class="accordion-group">
+                        <div class="accordion-heading">
+                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseNC">
+                                {{"_no_clasificados_"|trans}} (<span id='cantidad_no_clasificados'>{{indicadores_no_clasificados|length}}</span>)
+                            </a>
+                        </div>
+                         <div id="collapseNC" class="accordion-body collapse">
+                             <div class="accordion-inner">
+                                 <ul class="dropdown-menu dropdown-menu-visible" >
+                                    {% for indicador in indicadores_no_clasificados %}
+                                        <li ><A id='{{indicador.id}}' class='indicador'
+                                                data-id='{{indicador.id}}'
+                                                data-unidad-medida='{{indicador.unidadMedida}}'>
+                                                            {{indicador.nombre}}
+                                            </A>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                             </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="content tab-pane" id="social">
+            <div class="span3" >
+                <form id="compartir_frm">
+                    <fieldset>
+                      <legend>{{'javascript._compartir_sala_'|trans}}</legend>
+                      <div id="usuarios_sala"></div>
+                    </fieldset>
+                </form> 
+            </div>
+            <div class="span6 comentarios" >
+                <div id="chat">                    
+                    <form id="chat-form">
+                        <fieldset>
+                            <legend>{{'_comentarios_'|trans}}</legend>
+                            <textarea name="chat-mensaje" id="chat-form-mensaje" required="true"></textarea>
+                            <button type="submit" class="btn btn-primary">{{'_enviar_'|trans}}</button>
+                      </fieldset>
+                    </form>
+                    <div id="chat-mensajes"></div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-
 <!-- Modal -->
 <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-header">
@@ -85,6 +248,7 @@
     <div class="modal-body">
         <label for="nombre_sala">{{'_nombre_sala_'|trans}}</label>
         <textarea id='nombre_sala' id-sala='' rows="3" style="width: 90%"></textarea>
+        <input type="checkbox" value="1" name="guardar_como" id="guardar_como">{{'_guardar_como_'|trans}}
         <span class='info' id='info_sala'></span>
     </div>
 

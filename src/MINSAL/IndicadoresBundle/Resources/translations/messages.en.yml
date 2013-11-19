@@ -255,6 +255,9 @@ javascript:
   recargar_origen: 'Reload data source information'
   ultima_lectura: 'Last reading date'
   ultima_lectura_exp: 'Format: dd/mm/yyyy. Take the earliest date that was the last reading of each data source associated with the indicator.'
+  _compartir_sala_: 'Share room'
+  _nombre_sala_: "Room's name"
+  _no_sala_: 'No active room'
 
 validacion:
   requerido: This field is required
@@ -322,3 +325,9 @@ _indicadores_y_salas_: Indicators and Rooms
 _roles_: Roles
 _perfil_: Profile
 _seguridad_: Security
+_graficos_: Graphs
+_acciones_: Actions
+_social_: Social
+_comentarios_: Comments
+_enviar_: Send
+_guardar_como_: Save as

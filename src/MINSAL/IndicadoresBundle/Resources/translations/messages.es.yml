@@ -256,6 +256,9 @@ javascript:
   recargar_origen: 'Recargar información de origen de datos'
   ultima_lectura: 'Fecha de última lectura'
   ultima_lectura_exp: 'Formato: dd/mm/aaaa. Se toma la fecha más antigua en que se realizó la última lectura de cada origen de datos asociado al indicador.'
+  _compartir_sala_: 'Compartir sala'
+  _nombre_sala_: 'Nombre de la sala'
+  _no_sala_: 'No hay sala activa'
 
 validacion:
   requerido: Este dato es requerido
@@ -324,3 +327,9 @@ _indicadores_y_salas_: Indicadores y Salas
 _roles_: Roles
 _perfil_: Perfil
 _seguridad_: Seguridad
+_graficos_: Gráficos
+_acciones_: Acciones
+_social_: Social
+_comentarios_: Comentarios
+_enviar_: Enviar
+_guardar_como_: Guardar como
