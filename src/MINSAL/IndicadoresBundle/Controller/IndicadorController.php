@@ -498,5 +498,19 @@ return $result;
 				return null;
 		}
     }
+    
+    /**
+    * @Route("/publico", name="indicador_tablero_public", options={"expose"=true})
+    */
+    public function publicdashboardAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $indicadores = $em->getRepository("IndicadoresBundle:FichaTecnica")->getIndicadoresPublicos();        
+
+        return $this->render('IndicadoresBundle:FichaTecnicaAdmin:tablero_public.html.twig', array(
+                    'indicadores' => $indicadores,
+                ));
+    }
   
 }//end class
