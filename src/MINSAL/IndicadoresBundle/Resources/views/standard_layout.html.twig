@@ -147,9 +147,9 @@ file that was distributed with this source code.
                                                         {% if admin.hasroute('tablero') and (is_granted('ROLE_SONATA_ADMIN') or is_granted('ROLE_USER_TABLERO')) %}
                                                             <li><a href="{{ admin.generateUrl('tablero')}}">{{ 'indicador_tablero'|trans }}</a></li>
                                                         {% endif %}
-                                                        {% if admin.hasroute('cubos') and (is_granted('ROLE_SONATA_ADMIN') or is_granted('ROLE_USER_CUBOS')) %}
+                                                        {#{% if admin.hasroute('cubos') and (is_granted('ROLE_SONATA_ADMIN') or is_granted('ROLE_USER_CUBOS')) %}
                                                             <li><a href="{{ admin.generateUrl('cubos')}}">{{ '_cubos_'|trans }}</a></li>
-                                                        {% endif %}
+                                                        {% endif %}#}
                                                     {% endfor %}
                                                 </ul>
 											{% elseif is_granted('ROLE_TES') %}
@@ -171,9 +171,9 @@ file that was distributed with this source code.
                                                         {% if admin.hasroute('tablero') and (is_granted('ROLE_SONATA_ADMIN') or is_granted('ROLE_USER_TABLERO')) %}
                                                             <li><a href="{{ admin.generateUrl('tablero')}}">{{ 'indicador_tablero'|trans }}</a></li>
                                                         {% endif %}
-                                                        {% if admin.hasroute('cubos') and (is_granted('ROLE_SONATA_ADMIN') or is_granted('ROLE_USER_CUBOS')) %}
+                                                        {#{% if admin.hasroute('cubos') and (is_granted('ROLE_SONATA_ADMIN') or is_granted('ROLE_USER_CUBOS')) %}
                                                             <li><a href="{{ admin.generateUrl('cubos')}}">{{ '_cubos_'|trans }}</a></li>
-                                                        {% endif %}
+                                                        {% endif %}#}
                                                     {% endfor %}
                                                 </ul>
 											{% endif %}
