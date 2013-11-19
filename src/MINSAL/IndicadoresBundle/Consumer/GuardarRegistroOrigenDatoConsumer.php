@@ -138,11 +138,11 @@ class GuardarRegistroOrigenDatoConsumer implements ConsumerInterface
                 }
 
                 $ahora = new \DateTime("now");
-            foreach ($origenDato->getVariables() as $var) {
-                foreach ($var->getIndicadores() as $ind) {
-                    $ind->setUltimaLectura($ahora);
+                foreach ($origenDatos->getVariables() as $var) {
+                    foreach ($var->getIndicadores() as $ind) {
+                        $ind->setUltimaLectura($ahora);
+                    }
                 }
-            }
             } catch (\Exception $exc) {
                 $origenDatos = $this->em->find('IndicadoresBundle:OrigenDatos', $msg['id_origen_dato']);
 

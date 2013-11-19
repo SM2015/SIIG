@@ -160,22 +160,26 @@ class OrigenDatosAdminController extends Controller
                 foreach($objsCampos as $campo) {
                     $campos[$campo->getSignificado()->getCodigo()] = $campo->getNombre();
                 }
-
+                
                 $maxCampoSuperior = '';
                 $maxCampoInferior = '';
+                $sqlCampoSuperior = '';
+                $sqlCampoInferior = '';
 
                 foreach ($ordenTiempo as $tiempo) {
                     if(empty($maxCampoSuperior)) {
                         if(array_key_exists($tiempo, $campos)) {
-                            $maxCampoSuperior = $campos[$tiempo];
+                            $maxCampoSuperior = $tiempo;
+                            $sqlCampoSuperior = $campos[$tiempo];
                         }
                     }
 
                     if(array_key_exists($tiempo, $campos)) {
-                        $maxCampoInferior = $campos[$tiempo];
+                        $maxCampoInferior = $tiempo;
+                        $sqlCampoInferior = $campos[$tiempo];
                     }
                 }
-
+                
                 $sql = 'SELECT 
                             MAX(CAST (datos->\''.$maxCampoSuperior.'\' AS INTEGER)) AS val_superior,
                             MAX(CAST (datos->\''.$maxCampoInferior.'\' AS INTEGER)) AS val_inferior
@@ -198,9 +202,9 @@ class OrigenDatosAdminController extends Controller
                     }
 
                     $limites = array(
-                        'campoSuperior'=>$maxCampoSuperior,
+                        'campoSuperior'=>$sqlCampoSuperior,
                         'valorSuperior'=>$maxValorSuperior,
-                        'campoInferior'=>$maxCampoInferior,
+                        'campoInferior'=>$sqlCampoInferior,
                         'valorInferior'=>$maxValorInferior,
                     );
                 }

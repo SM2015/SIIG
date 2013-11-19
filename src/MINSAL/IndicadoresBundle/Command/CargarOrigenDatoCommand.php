@@ -92,16 +92,20 @@ class CargarOrigenDatoCommand extends ContainerAwareCommand {
 
                     $maxCampoSuperior = '';
                     $maxCampoInferior = '';
+                    $sqlCampoSuperior = '';
+                    $sqlCampoInferior = '';
 
                     foreach ($ordenTiempo as $tiempo) {
                         if(empty($maxCampoSuperior)) {
                             if(array_key_exists($tiempo, $campos)) {
-                                $maxCampoSuperior = $campos[$tiempo];
+                                $maxCampoSuperior = $tiempo;
+                                $sqlCampoSuperior = $campos[$tiempo];
                             }
                         }
 
                         if(array_key_exists($tiempo, $campos)) {
-                            $maxCampoInferior = $campos[$tiempo];
+                            $maxCampoInferior = $tiempo;
+                            $sqlCampoInferior = $campos[$tiempo];
                         }
                     }
 
@@ -127,9 +131,9 @@ class CargarOrigenDatoCommand extends ContainerAwareCommand {
                         }
 
                         $limites = array(
-                            'campoSuperior'=>$maxCampoSuperior,
+                            'campoSuperior'=>$sqlCampoSuperior,
                             'valorSuperior'=>$maxValorSuperior,
-                            'campoInferior'=>$maxCampoInferior,
+                            'campoInferior'=>$sqlCampoInferior,
                             'valorInferior'=>$maxValorInferior,
                         );
                     }
