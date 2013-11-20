@@ -68,7 +68,8 @@ class FichaTecnicaAdminController extends Controller
 
         //Indicadores asignados por usuario
         $usuarioIndicadores = ($usuario->hasRole('ROLE_SUPER_ADMIN')) ?
-                $em->getRepository("IndicadoresBundle:FichaTecnica")->findAll() :
+                //$em->getRepository("IndicadoresBundle:FichaTecnica")->findAll() :
+                $this->get('doctrine')->getManager()->createQuery('SELECT c FROM IndicadoresBundle:FichaTecnica c ORDER BY c.nombre ASC')->getResult() :
                 $usuario->getIndicadores();
         //Indicadores asignadas al grupo al que pertenece el usuario
         $indicadoresPorGrupo = array();
