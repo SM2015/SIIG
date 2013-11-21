@@ -66,7 +66,7 @@ $(document).ready(function() {
 
     $('#quitar_indicador').click(function() {
         limpiarZona2($('DIV.zona_actual').attr('id'));
-        moverAGraficoActua();
+        moverAGraficoActual();
     });
 
     function ver_ficha_tecnica(id_indicador) {
@@ -84,7 +84,9 @@ $(document).ready(function() {
 
     function sala_agregar_fila() {
         var cant = $('DIV.area_grafico').length;
-        var html = '<div class="area_grafico" id="grafico_' + parseInt(cant + 1) + '" >' +
+        $('.zona_actual').removeClass('zona_actual');
+        
+        var html = '<div class="area_grafico zona_actual" id="grafico_' + parseInt(cant + 1) + '" >' +
                 "<DIV class= 'titulo'><span class='titulo_indicador '></span>" +
                 "<span>(" + trans.por + " <span class='dimension' ></span>)</span>" +
                 '</DIV>' +
@@ -96,10 +98,13 @@ $(document).ready(function() {
                 '</div>' +
                 '</DIV>';
 
+        
         $('#sala').append(html);
         $('DIV.area_grafico').click(function() {
             zona_elegir(this);
         });
+        
+        moverAGraficoActual();
     }
 
     $('#guardar_sala').click(function() {

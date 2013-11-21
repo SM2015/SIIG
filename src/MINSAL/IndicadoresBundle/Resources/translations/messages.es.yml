@@ -259,6 +259,7 @@ javascript:
   _compartir_sala_: 'Compartir sala'
   _nombre_sala_: 'Nombre de la sala'
   _no_sala_: 'No hay sala activa'
+  _tipo_grafico_desconocido_: 'Tipo de gráfico desconocido'
 
 validacion:
   requerido: Este dato es requerido

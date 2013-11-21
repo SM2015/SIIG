@@ -258,6 +258,7 @@ javascript:
   _compartir_sala_: 'Share room'
   _nombre_sala_: "Room's name"
   _no_sala_: 'No active room'
+  _tipo_grafico_desconocido_: 'Chart type unknown'
 
 validacion:
   requerido: This field is required
