@@ -91,7 +91,7 @@ class FichaTecnicaAdmin extends Admin
                 ->add('observacion', 'string', array('label' => $this->getTranslator()->trans('_observacion_')))
                 ->add('alertas', 'sonata_type_collection', array(
                     'label' => $this->getTranslator()->trans('alertas'),
-                    'required' => true,'by_reference' => false), array(
+                    'required' => true), array(
                     'edit' => 'inline',
                     'inline' => 'table',
                     'sortable' => 'position'

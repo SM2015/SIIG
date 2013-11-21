@@ -58,7 +58,7 @@ $(document).ready(function() {
     }
     
     $('div[id$=_alertas]').on('sonata.add_element', function(event) {
-        $('div[id$=_alertas] table tr:last select[id$=_color]').css('width','150px');
-        $('div[id$=_alertas] table tr:last textarea[id$=_comentario]').css('width','350px');
+        $('div[id$=_alertas] select[id$=_color]').css('width','150px');
+        $('div[id$=_alertas] textarea[id$=_comentario]').css('width','350px');
     });
 });
