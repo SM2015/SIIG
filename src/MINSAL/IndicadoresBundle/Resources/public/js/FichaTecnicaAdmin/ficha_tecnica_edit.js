@@ -56,7 +56,9 @@ $(document).ready(function() {
 
         $campos.html(campos_nvo_orden.substring(0, campos_nvo_orden.length - 1));
     }
-
-
+    
+    $('div[id$=_alertas]').on('sonata.add_element', function(event) {
+        $('div[id$=_alertas] table tr:last select[id$=_color]').css('width','150px');
+        $('div[id$=_alertas] table tr:last textarea[id$=_comentario]').css('width','350px');
+    });
 });
-

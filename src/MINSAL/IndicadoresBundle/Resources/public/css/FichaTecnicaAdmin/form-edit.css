@@ -9,16 +9,6 @@ DIV.field-container table.table-bordered{
     width: 60%
 }
 
-TD[class$="alertas-indicador"]{
-    display: none;
-}
-TH:contains('Indicador'){
-    display: none;
-}
-DIV.field-container thead th:nth-child(2){
-    display: none;
-}
-
 TD[class$="alertas-color"] {
     width: 200px;
 }
