@@ -48,6 +48,7 @@ class ClasificacionTecnica
 
     /**
      * @ORM\ManyToMany(targetEntity="FichaTecnica", mappedBy="clasificacionTecnica")
+     * @ORM\OrderBy({"nombre" = "ASC"})
      **/
     private $indicadores;
 

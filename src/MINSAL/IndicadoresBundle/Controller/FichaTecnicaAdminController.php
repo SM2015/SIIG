@@ -42,7 +42,7 @@ class FichaTecnicaAdminController extends Controller
         //Salas por usuario
         $usuarioSalas = array();
         if (($usuario->hasRole('ROLE_SUPER_ADMIN'))){
-           foreach ($em->getRepository("IndicadoresBundle:GrupoIndicadores")->findAll() as $sala) {
+            foreach ($em->createQuery('SELECT g FROM IndicadoresBundle:GrupoIndicadores g ORDER BY g.nombre ASC')->getResult() as $sala) {
                 $usuarioSalas[$sala->getId()] = $sala;
             } 
         }else{
