@@ -198,16 +198,40 @@
             <argument>MINSAL\IndicadoresBundle\Entity\IndicadorAlertas</argument>
             <argument>SonataAdminBundle:CRUD</argument>
             <call method="setMaxPerPage"><argument>%admin_max_per_page_number%</argument></call>
-        </service>     
+        </service>
+        <service id="sonata.admin.usuario_indicadores" class="MINSAL\IndicadoresBundle\Admin\UserIndicatorsAdmin">
+            <tag name="sonata.admin"
+                 manager_type="orm" 
+                 group="indicadores" 
+                 label="usuario_indicadores-eTAB"
+            />
+            <argument />
+            <argument>MINSAL\IndicadoresBundle\Entity\User</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+            <call method="setMaxPerPage"><argument>%admin_max_per_page_number%</argument></call>
+        </service>
+		
+		<service id="sonata.admin.boletin" class="MINSAL\IndicadoresBundle\Admin\BoletinAdmin">
+            <tag name="sonata.admin"
+                 manager_type="orm" 
+                 group="sonata_user" 
+                 label="Boletin"
+            />
+            <argument />
+            <argument>MINSAL\IndicadoresBundle\Entity\Boletin</argument>
+            <argument>IndicadoresBundle:Correo</argument>
+            <call method="setMaxPerPage"><argument>%admin_max_per_page_number%</argument></call>
+        </service>
+		
         <service id="indicadores.cargar_origen_datos_servicio" class="MINSAL\IndicadoresBundle\Consumer\CargarOrigenDatoConsumer">            
             <argument type="service" id="service_container" />            
         </service>
         <service id="indicadores.guardar_registro_origen_dato" class="MINSAL\IndicadoresBundle\Consumer\GuardarRegistroOrigenDatoConsumer">
             <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="service_container" />            
         </service>
-        <service id="sonata.admin.orm.filter.type.string" class="MINSAL\IndicadoresBundle\Filter\StringFilter">
+		<service id="sonata.admin.orm.filter.type.string" class="MINSAL\IndicadoresBundle\Filter\StringFilter">
             <tag name="sonata.admin.filter.type" alias="doctrine_orm_string" />
-        </service>
-        
+         </service>        
     </services>
 </container>

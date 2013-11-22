@@ -33,8 +33,6 @@ nombre_archivo_mapa: Map's image file name
 cerrar_sesion: 'Logout'
 favoritos: 'Favourites'
 
-
-
 'clasificacion_tecnica-eTAB' : 'Technical Classification'
 'Clasificacion Tecnica List': 'Technical Classification - Listing'
 'Clasificacion Tecnica Delete': "Technical Classification - Delete"
@@ -112,10 +110,10 @@ significado: Meaning
 'Ficha Tecnica Create': 'Technical profile - Create'
 'Ficha Tecnica Edit': 'Technical profile - Edit'
 
-'Indicador Alertas List': 'Indicator Warnings - Listing'
-'Indicador Alertas Delete': 'Indicator Warnings - Delete'
-'Indicador Alertas Create': 'Indicator Warnings - Create'
-'Indicador Alertas Edit': 'Indicator Warnings - Edit'
+'Indicador Alertas List': "Indicator's Alerts - Listing"
+'Indicador Alertas Delete': "Indicator's Alerts - Delete"
+'Indicador Alertas Create': "Indicator's Alerts - Create"
+'Indicador Alertas Edit': "Indicator's Alerts - Edit"
 'es_acumulado': 'It is a cumulative indicator'
 
 conexion_bd-eTAB : 'Database connection'
@@ -219,7 +217,7 @@ javascript:
   cambiar_dimension: 'Dimension options'
   ordenar: 'Sorting'
   filtrar_por_elemento: 'Filter by element'
-  alertas_indicador: 'Indicator warnings'
+  alertas_indicador: "Indicator's Alerts"
   color: 'Color'
   limite_inf: 'Lower limit'
   limite_sup: 'Upper limit'
@@ -240,7 +238,6 @@ javascript:
   opciones: 'Options'
   ver_sql: 'View SQL'
   diccionario_transformacion-eTAB: 'Transformation Dictionary'
-  diccionario_transformacion: 'Transformation Dictionary'
   elija_diccionario: 'Choose a dictionary'
   quitar_indicador: 'Remove indicator'
   columnas: 'Columns'
@@ -254,9 +251,6 @@ javascript:
   _filtrados_de_ : '(filtered from _MAX_ total records)'  
   no_mas_niveles: 'No more levels to descend'
   no_graficos_asignados: 'No assigned graph types allowed to field meanings'
-  recargar_origen: 'Reload data source information'
-  ultima_lectura: 'Last reading date'
-  ultima_lectura_exp: 'Format: dd/mm/yyyy. Take the earliest date that was the last reading of each data source associated with the indicator.'
 
 validacion:
   requerido: This field is required
@@ -316,24 +310,38 @@ _exportar_: 'Export'
 _tipos_graficos_: Graph types allowed
 change_password.flash.success: 'Password has been successfully changed'
 _cambiar_clave_: Change password
-_ver_ficha_: See technical profile
-_ultima_actualizacion_: Last updated
-_no_conexion_configurada_: There is no connection configured
-_salas_situacionales_: 'Situation Rooms'
-_indicadores_y_salas_: Indicators and Rooms
-_roles_: Roles
-_perfil_: Profile
-_seguridad_: Security
-
+'Barras': 'Bars'
+'Pastel': 'Pie'
+'Lineas': 'Line'
+'Columnas': 'Columns'
+'Mapa': 'Map'
+'Termometro': 'Thermometer'
+'Odometro': 'Odometer'
+'crear_pivote': 'create_pivot'
+'Diccionario List': 'Dictionary Listing'
+'Regla Transformacion List': 'Rule Transformation Listing'
+'javascript.diccionario_transformacion': 'Transformation Dictionary'
+'Campo List': 'Calculated Field Listing'
+'origen_dato': 'data_source'
+'responsable_datos': 'manager_source'
+'fuente_datos': 'data_source'
+'clasificacion_tecnica': 'classification_technique'
+'Nombre': 'Name'
+'Tema': 'Topic'
+'Concepto': 'Concept'
+'Unidad Medida': 'Unit of Measure'
+'Es Acumulado': 'is Accumulated'
+'Clasificacion Privacidad': 'Privacy Ranking'
+'Periodo': 'Period'
+'Confiabilidad': 'Reliability'
+'Observacion': 'Observation'
+'Campos Indicador': 'fields Indicator'
 maximizar: 'Maximize'
 teclaescape: 'Press Escape to Exit'
-
-gender_unknown: 'UNKNOWN'
-gender_male: 'MALE'
-gender_female: 'FEMALE'
-
-de: 'From'
-a: 'To'
-indicadorespublicos: 'Public Indicators'
-
-lbllenguaje: 'Language'
+Boletin: Bulletin
+'Boletin List': 'Bulletin Listing'
+sala: Room
+grupo: Group
+enviar: Send
+creado: Created
+actualizado: Updated

@@ -1,0 +1,16 @@
+{% extends 'IndicadoresBundle::standard_layout.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}    
+{% endblock %}
+
+{% block content %}
+	{{ parent() }}  
+	{% if error %}
+    	<div class="alert alert-error">{{ error }}</div>
+	{%endif%}
+	{% if bien %}
+    	<div class="alert alert-success">{{ bien }}</div>
+	{%endif%}
+{% endblock %}    
+
