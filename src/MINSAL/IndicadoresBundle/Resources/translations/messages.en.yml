@@ -259,6 +259,7 @@ javascript:
   _nombre_sala_: "Room's name"
   _no_sala_: 'No active room'
   _tipo_grafico_desconocido_: 'Chart type unknown'
+  _no_areas_grafico_: No areas available to graph
 
 validacion:
   requerido: This field is required

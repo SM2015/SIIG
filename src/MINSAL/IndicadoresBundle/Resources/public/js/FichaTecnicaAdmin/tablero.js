@@ -52,8 +52,12 @@ $(document).ready(function() {
     $("#sala").disableSelection();
 
     $('A.indicador').click(function() {
-        dibujarIndicador($(this).attr('data-id'));
-        moverAGraficoActual();
+        if ($('DIV.zona_actual').attr('id') !== undefined){        
+            dibujarIndicador($(this).attr('data-id'));
+            moverAGraficoActual();
+        } else {
+            alert(trans._no_areas_grafico_);
+        }        
     });
 
     function dibujarIndicador(id_indicador) {
