@@ -230,8 +230,8 @@ class FichaTecnicaAdmin extends Admin
 
     public function prePersist($fichaTecnica)
     {
-        $this->crearCamposIndicador($fichaTecnica);
         $this->setAlertas($fichaTecnica);
+        $this->crearCamposIndicador($fichaTecnica);        
     }
 
     public function setAlertas($fichaTecnica)
@@ -248,8 +248,8 @@ class FichaTecnicaAdmin extends Admin
 
     public function preUpdate($fichaTecnica)
     {
+        $this->setAlertas($fichaTecnica);       
         $this->crearCamposIndicador($fichaTecnica);
-        $this->setAlertas($fichaTecnica);
     }
 
     public function crearCamposIndicador(FichaTecnica $fichaTecnica)
