@@ -129,8 +129,7 @@ $(document).ready(function() {
                 $('#' + $(this).attr('id') + ' .capa_dimension_valores input:checked').each(function() {
                     elementos.push($(this).val());
                 });
-
-                datos.id_indicador = $(this).children('.titulo_indicador').attr('data-id');
+                datos.id_indicador = $(this).find('.titulo_indicador').attr('data-id');
                 datos.filtros = $(this).children('.filtros_dimensiones').attr('data');
                 datos.filtro_desde = $('#' + $(this).attr('id') + ' .filtro_desde').val();
                 datos.filtro_hasta = $('#' + $(this).attr('id') + ' .filtro_hasta').val();
