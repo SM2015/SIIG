@@ -17,9 +17,14 @@ class IndicadorAlertasAdmin extends Admin
 
     protected function configureFormFields(FormMapper $formMapper)
     {
+        if($this->getRequest()->get('_sonata_admin') == 'sonata.admin.indicador_alertas') {
+            $formMapper
+                ->add('indicador', null, array('label' => $this->getTranslator()->trans('indicador')));
+        }
+        
         $formMapper
-                ->add('indicador', null, array('label' => $this->getTranslator()->trans('indicador')))
-                ->add('limiteInferior', null, array('label' => $this->getTranslator()->trans('limite_inferior'),
+                //->add('indicador', null, array('label' => $this->getTranslator()->trans('indicador')))
+                ->add('limiteInferior', null, array('label' => $this->getTranslator()->trans('_alerta_limite_inferior_'),
                     'required'=>true))
                 ->add('limiteSuperior', null, array('label' => $this->getTranslator()->trans('limite_superior'),
                     'required'=>true))

@@ -339,3 +339,5 @@ a: 'A'
 indicadorespublicos: 'Indicadores Publicos'
 
 lbllenguaje: 'Idioma'
+
+_alerta_limite_inferior_: 'Límite inferior'

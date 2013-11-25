@@ -337,3 +337,5 @@ a: 'To'
 indicadorespublicos: 'Public Indicators'
 
 lbllenguaje: 'Language'
+
+_alerta_limite_inferior_: 'Lower limit'
