@@ -1,8 +1,5 @@
 parameters:
   indicador_cache_consulta: 3600 # segundos
-  # Arreglo utilizado en el proceso de carga incremental
-  # Cada uno es un codigo de un significado de campo que representa la temporalidad
-  tiempo: {1:anio, 2:semestre, 3:cuatrimestre, 4:trimestre, 5:bimestre, 6:id_mes, 7:quincena, 8:semana}
 imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
@@ -40,7 +37,7 @@ assetic:
         #closure:
         #    jar: %kernel.root_dir%/Resources/java/compiler.jar
         #yui_css:
-        #    jar: %kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar    
+        #    jar: %kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar
 
 # Doctrine Configuration
 doctrine:
@@ -116,7 +113,7 @@ sonata_admin:
         show:    SonataAdminBundle:CRUD:show.html.twig
         edit:    IndicadoresBundle:CRUD:edit.html.twig
         # se personalizó la plantilla de borrar
-        #delete:  IndicadoresBundle:CRUD:delete.html.twig        
+        delete:  IndicadoresBundle:CRUD:delete.html.twig        
         list_block: IndicadoresBundle:Block:block_admin_list.html.twig
                 
         
@@ -124,7 +121,6 @@ fos_user:
     db_driver:        orm # can be orm or odm
     firewall_name:    main
     user_class:       MINSAL\IndicadoresBundle\Entity\User
-
     group:
         group_class:  Application\Sonata\UserBundle\Entity\Group
 
@@ -140,18 +136,18 @@ sonata_user:
     class:
         user:         MINSAL\IndicadoresBundle\Entity\User
         group:        Application\Sonata\UserBundle\Entity\Group
-    
-    admin:                  # Admin Classes
+
+    admin: # Admin Classes
         user:
-            class:          Application\Sonata\UserBundle\Admin\Entity\UserAdmin
+            class:    Application\Sonata\UserBundle\Admin\Entity\UserAdmin
         group:
-            class:          Application\Sonata\UserBundle\Admin\Entity\GroupAdmin
+            class:    Application\Sonata\UserBundle\Admin\Entity\GroupAdmin
     profile:  # Profile Form (firstname, lastname, etc ...)
         form:
             type:               sonata_user_profile
             handler:            sonata.user.profile.form.handler.default
             name:               sonata_user_profile_form
-            validation_groups:  [Profile]
+            validation_groups:  [Profile]		
             
 sonata_doctrine_orm_admin:
     templates:
@@ -208,7 +204,6 @@ services:
         class: Monolog\Handler\StreamHandler
         arguments: [%archivo_vitacora%, 200] #definido en Parameters.yml
 
-
 #Fr3d_LDAP
 fr3d_ldap:
     driver:
@@ -224,9 +219,13 @@ fr3d_ldap:
 #   service:
 #       user_manager: fos_user.user_manager          # Overrides default user manager
 #       ldap_manager: fr3d_ldap.ldap_manager.default # Overrides default ldap manager
-            
-mobile_detect:
-    redirect:
-        mobile: ~
-        tablet: ~
-    switch_device_view: ~
+
+swiftmailer:
+    transport:  gmail
+    #encryption: ssl
+    #auth_mode:  login
+    #host:      smtp.gmail.com
+    username:  ehlhihehchehrh@gmail.com
+    password:  contraseña
+    #spool:     { type: memory }
+    #disable_delivery:  true

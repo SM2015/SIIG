@@ -1,0 +1,102 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Boletin</title>
+<style>
+#imgheader{display:block;border:none;width:850px;height:85px;}
+#imgfooter{display:block;border:none;width:850px;height:410px;}
+.datos
+{
+    text-transform: uppercase;
+    font-weight: bold;
+
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f1902c), color-stop(100%, #FFAC59));
+    background-image: -webkit-linear-gradient(bottom, #f1902c 0%, #FFAC59 100%);
+    background-image: -moz-linear-gradient(bottom, #f1902c 0%, #ffac59 100%);
+    background-image: -o-linear-gradient(bottom, #f1902c 0%, #FFAC59 100%);
+    background-image: -ms-linear-gradient(bottom, #f1902c 0%, #FFAC59 100%);
+    background-image: linear-gradient(bottom, #f1902c 0%, #FFAC59 100%);
+	filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0,StartColorStr='#f1902c',EndColorStr='#FFAC59');
+
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+	-o-border-radius: 3px;
+	-ms-border-radius: 3px;
+    border-radius: 3px;
+    border: 1px solid #CCC;
+	padding-top:4px;
+	padding-bottom:4px;
+	width:850px;
+	font-size:16px;
+}
+.cr
+{
+	color:#0081C2;
+}
+.cl
+{
+	color:#5DB95D;
+}
+.info
+{
+    font-weight: bold;
+
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #F3F3F3), color-stop(100%, #FFF));
+    background-image: -webkit-linear-gradient(bottom, #F3F3F3 0%, #FFF 100%);
+    background-image: -moz-linear-gradient(bottom, #F3F3F3 0%, #FFF 100%);
+    background-image: -o-linear-gradient(bottom, #F3F3F3 0%, #FFF 100%);
+    background-image: -ms-linear-gradient(bottom, #F3F3F3 0%, #FFF 100%);
+    background-image: linear-gradient(bottom, #F3F3F3 0%, #FFF 100%);
+	filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0,StartColorStr='#F3F3F3',EndColorStr='#ffffff');
+
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+	-o-border-radius: 3px;
+	-ms-border-radius: 3px;
+    border-radius: 3px;
+    border: 1px solid #CCC;
+	padding-top:4px;
+	padding-bottom:4px;
+	width:850px;
+}
+</style>
+</head>
+
+<body>
+<img id='imgheader' src='logo_salud.png' />
+
+{% for dat in array %}
+	<h1>Estimado(a) usuario(a): {{ dat.username }}</h1>
+    <div class="datos">
+       <span class="cr">Nombre:</span> <span class="cl"> {{ dat.nombre }} {{ dat.apellido }}</span><br />
+       <span class="cr">Correo:</span> <span class="cl"> {{ dat.email }}</span>
+       <hr>
+    </div>
+{% endfor %}
+
+{% for data in dato %}
+    <div class="info">
+    Se le informa que hay un nuevo indicador en el tablero de sistema eTAB para el grupo {{ data.grupo }}
+    <br /><span class="cr">Sala:</span> <span class="cl"> {{ data.sala }}</span><br />
+ 
+    <br /><span class="cr">Ruta:</span> <span class="cl"> <a href="http://localhost/etab_811/web/app_dev.php/admin/minsal/indicadores/token/{{ data.sala }}/{{ data.token }}">
+	http://localhost/etab_811/web/app_dev.php/admin/minsal/indicadores/token/{{ data.sala }}/{{ data.token }}</a></span>
+	<hr>
+    </div>
+
+{% endfor %}
+<img id='imgfooter' src='boletin.fw.png' />
+<table style='width:850px; margin-top:5px; color:#000; text-shadow: 0px 2px 2px #A7C6F6;'>
+  <tr>
+    <td align='left'>
+    <p class='pf' align="justify">
+    No responda este correo electrónico, ya que no estamos controlando esta bandeja de entrada. Para comunicarse con nosotros, 
+    inicie sesión en su cuenta y haga clic en «Contáctenos» en la parte inferior de cualquier página.
+    Copyright © 2013. Todos los derechos reservados.
+	</p>
+	</td>
+  </tr>
+  
+</table>
+</body>
+</html>

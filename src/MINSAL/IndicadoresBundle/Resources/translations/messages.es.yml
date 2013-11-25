@@ -341,3 +341,11 @@ indicadorespublicos: 'Indicadores Publicos'
 lbllenguaje: 'Idioma'
 
 _alerta_limite_inferior_: 'Límite inferior'
+
+Boletin: Boletin
+'Boletin List': 'Lista de Boletines'
+sala: Sala
+grupo: Grupo
+enviar: Enviar
+creado: Creado
+actualizado: Actualizado
