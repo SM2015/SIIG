@@ -1,5 +1,8 @@
 parameters:
   indicador_cache_consulta: 3600 # segundos
+  # Arreglo utilizado en el proceso de carga incremental
+  # Cada uno es un codigo de un significado de campo que representa la temporalidad
+  tiempo: {1:anio, 2:semestre, 3:cuatrimestre, 4:trimestre, 5:bimestre, 6:id_mes, 7:quincena, 8:semana}
 imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
@@ -113,7 +116,7 @@ sonata_admin:
         show:    SonataAdminBundle:CRUD:show.html.twig
         edit:    IndicadoresBundle:CRUD:edit.html.twig
         # se personalizó la plantilla de borrar
-        delete:  IndicadoresBundle:CRUD:delete.html.twig        
+        #delete:  IndicadoresBundle:CRUD:delete.html.twig        
         list_block: IndicadoresBundle:Block:block_admin_list.html.twig
                 
         
@@ -219,6 +222,12 @@ fr3d_ldap:
 #   service:
 #       user_manager: fos_user.user_manager          # Overrides default user manager
 #       ldap_manager: fr3d_ldap.ldap_manager.default # Overrides default ldap manager
+
+mobile_detect:
+    redirect:
+        mobile: ~
+        tablet: ~
+    switch_device_view: ~
 
 swiftmailer:
     transport:  gmail

@@ -199,7 +199,7 @@
             <argument>SonataAdminBundle:CRUD</argument>
             <call method="setMaxPerPage"><argument>%admin_max_per_page_number%</argument></call>
         </service>
-        <service id="sonata.admin.usuario_indicadores" class="MINSAL\IndicadoresBundle\Admin\UserIndicatorsAdmin">
+<!--        <service id="sonata.admin.usuario_indicadores" class="MINSAL\IndicadoresBundle\Admin\UserIndicatorsAdmin">
             <tag name="sonata.admin"
                  manager_type="orm" 
                  group="indicadores" 
@@ -209,7 +209,7 @@
             <argument>MINSAL\IndicadoresBundle\Entity\User</argument>
             <argument>SonataAdminBundle:CRUD</argument>
             <call method="setMaxPerPage"><argument>%admin_max_per_page_number%</argument></call>
-        </service>
+        </service>-->
 		
 		<service id="sonata.admin.boletin" class="MINSAL\IndicadoresBundle\Admin\BoletinAdmin">
             <tag name="sonata.admin"
