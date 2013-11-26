@@ -370,7 +370,7 @@ esquema de Mondrian es usado por Saiku.
        if ($cubo){
        $schemaFile=$this->getConfigurationPool()->getContainer()->getParameter('carpeta_siig_mondrian').'/indicador'.$fichaTecnica->getId('id').'.mondrian.xml';
 	$fh=fopen($this->getConfigurationPool()->getContainer()->getParameter('carpeta_siig_mondrian').'/base_cubo.txt','r');
-	$base_cubo= fread($fh, filesize($this->getConfigurationPool()->getContainer()->getParameter('carpeta_siig_mondrian').'/cubo_base.txt'));
+	$base_cubo= fread($fh, filesize($this->getConfigurationPool()->getContainer()->getParameter('carpeta_siig_mondrian').'/base_cubo.txt'));
 	fclose($fh);
 	$formula = str_replace(' ', '', $fichaTecnica->getFormula());
         preg_match_all('/\{([\w]+)\}/', $formula, $vars_formula);
