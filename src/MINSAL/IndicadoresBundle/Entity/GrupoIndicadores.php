@@ -190,4 +190,37 @@ class GrupoIndicadores
     {
         return $this->gruposUsuarios;
     }
+
+    /**
+     * Add grupos
+     *
+     * @param \Application\Sonata\UserBundle\Entity\Group $grupos
+     * @return GrupoIndicadores
+     */
+    public function addGrupo(\Application\Sonata\UserBundle\Entity\Group $grupos)
+    {
+        $this->grupos[] = $grupos;
+    
+        return $this;
+    }
+
+    /**
+     * Remove grupos
+     *
+     * @param \Application\Sonata\UserBundle\Entity\Group $grupos
+     */
+    public function removeGrupo(\Application\Sonata\UserBundle\Entity\Group $grupos)
+    {
+        $this->grupos->removeElement($grupos);
+    }
+
+    /**
+     * Get grupos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getGrupos()
+    {
+        return $this->grupos;
+    }
 }

@@ -27,6 +27,14 @@ class UsuarioGrupoIndicadores
      * @ORM\Id
      */
     private $usuario;
+    
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="usuario_asigno_id", referencedColumnName="id")
+     * El usuario que asigno la sala a otro usuario
+     */
+    private $usuarioAsigno;
 
     /**
      * @var string $esDuenio
@@ -107,5 +115,28 @@ class UsuarioGrupoIndicadores
     public function __toString()
     {
         return $this->grupoIndicadores->getNombre();
+    }
+
+    /**
+     * Set usuarioAsigno
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\User $usuarioAsigno
+     * @return UsuarioGrupoIndicadores
+     */
+    public function setUsuarioAsigno(\MINSAL\IndicadoresBundle\Entity\User $usuarioAsigno)
+    {
+        $this->usuarioAsigno = $usuarioAsigno;
+    
+        return $this;
+    }
+
+    /**
+     * Get usuarioAsigno
+     *
+     * @return \MINSAL\IndicadoresBundle\Entity\User 
+     */
+    public function getUsuarioAsigno()
+    {
+        return $this->usuarioAsigno;
     }
 }
