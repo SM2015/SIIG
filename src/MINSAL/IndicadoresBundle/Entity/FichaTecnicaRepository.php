@@ -337,20 +337,39 @@ class FichaTecnicaRepository extends EntityRepository
         }
         
         $camposrangos = "";
+        $filtroporfecha = "";
         if (count($rangocolumnas)>0)
         {
-	        if (count($rangocolumnas)>=1)
-	        	$camposrangos .= "min(anio) as min_anio, max(anio) as max_anio, ";
-	        if (count($rangocolumnas)==2)
-	        	$camposrangos .= "min(mes) as min_mes, max(mes) as max_mes, ";
+            if (count($rangocolumnas)>=1)
+            {
+                if ($filtrofecha == null)
+                {
+                    $camposrangos .= "min(anio) as min_anio, max(anio) as max_anio, ";
+                }else
+                {
+                    $filtroporfecha .= " and anio between ".$filtrofecha['aniomin']." and ".$filtrofecha['aniomax'];
+                    $camposrangos .= $filtrofecha['aniomin']." as min_anio, ".$filtrofecha['aniomax']." as max_anio, ";
+                }
+            }
+            if (count($rangocolumnas)==2)
+            {
+                if ($filtrofecha == null)
+                {
+                    $camposrangos .= "min(mes) as min_mes, max(mes) as max_mes, ";
+                }
+                else
+                {
+                    $filtroporfecha .= " and cast(concat('01-',mes,'-',anio) as date) between cast(concat('01-','".$filtrofecha['mesmin']."','-','".$filtrofecha['aniomin']."') as date) and cast(concat('01-','".$filtrofecha['mesmax']."','-','".$filtrofecha['aniomax']."') as date)";
+                    $camposrangos .= $filtrofecha['mesmin']." as min_mes, ".$filtrofecha['mesmax']." as max_mes, ";
+                }
+            }
         }
         $colstemp = array();
         foreach ($rangocolumnas as $col)
         {
         	array_push($colstemp, $col['nombrecampo']);
         }
-        ////
-        
+                
         //Verificar si es un catálogo
         $rel_catalogo = '';
         $otros_campos = '';
@@ -367,7 +386,7 @@ class FichaTecnicaRepository extends EntityRepository
 
         $sql = "SELECT $camposrangos $dimension AS category, $otros_campos $variables_query, round(($formula)::numeric,2) AS measure
             FROM $tabla_indicador A" . $rel_catalogo;
-        $sql .= ' WHERE 1=1 ' . $evitar_div_0;
+        $sql .= ' WHERE 1=1 ' . $evitar_div_0 . $filtroporfecha;
         if ($filtro_registros != null) {
             foreach ($filtro_registros as $campo => $valor) {
                 //Si el filtro es un catálogo, buscar su id correspondiente
@@ -383,9 +402,12 @@ class FichaTecnicaRepository extends EntityRepository
                 $sql .= " AND A." . $campo . " = '$valor' ";
             }
         }
-        $sql .= "
+        /*$sql .= "
             GROUP BY $dimension $grupo_extra
             HAVING (($formula)::numeric) > 0
+            ORDER BY $dimension";*/
+        $sql .= "            
+            GROUP BY $dimension $grupo_extra            
             ORDER BY $dimension";
         try {
             if ($ver_sql == true)

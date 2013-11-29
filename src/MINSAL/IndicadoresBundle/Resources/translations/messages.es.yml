@@ -349,3 +349,5 @@ grupo: Grupo
 enviar: Enviar
 creado: Creado
 actualizado: Actualizado
+
+filtro_fecha : 'Filtro por Fecha'

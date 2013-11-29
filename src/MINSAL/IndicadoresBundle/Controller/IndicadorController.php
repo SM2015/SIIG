@@ -104,7 +104,8 @@ class IndicadorController extends Controller
         $resp = array();
         $filtro = $this->getRequest()->get('filtro');
         $verSql = ($this->getRequest()->get('ver_sql') == 'true') ? true : false;
-
+        $fechas = $this->getRequest()->get('filtrofecha');
+        
         if ($filtro == null or $filtro == '')
             $filtros = null;
         else {
@@ -122,7 +123,7 @@ class IndicadorController extends Controller
         $fichaRepository = $em->getRepository('IndicadoresBundle:FichaTecnica');
 
         $fichaRepository->crearIndicador($fichaTec, $dimension, $filtros);
-        $resp['datos'] = $fichaRepository->calcularIndicador($fichaTec, $dimension, $filtros, $verSql);
+        $resp['datos'] = $fichaRepository->calcularIndicador($fichaTec, $dimension, $filtros, $verSql, $fechas);
         $response = new Response(json_encode($resp));
         if ($this->get('kernel')->getEnvironment() != 'dev')
             $response->setMaxAge($this->container->getParameter('indicador_cache_consulta'));
@@ -472,30 +473,55 @@ return $result;
  
     /////metodos de acceso publico para los indicadores
     /**
-    * @Route("/indicador/dimensiones/public/{id}", name="indicador_dimensiones_public", options={"expose"=true})
+    * @Route("/indicador/dimensiones/public/{id}/{token}/{sala}", name="indicador_dimensiones_public", options={"expose"=true})
     */
-    public function getDimensionesPublic(FichaTecnica $fichaTec) {
+    public function getDimensionesPublic(FichaTecnica $fichaTec,$token,$sala) {
 		$em = $this->getDoctrine()->getManager();
 		if ($fichaTec)
 		{
 			if ($fichaTec->getEsPublico())
 				return $this->getDimensiones($fichaTec);
-			else 
-				return null;
+			else
+			{
+				settype($sala,"integer");
+				$sa = $em->getRepository('IndicadoresBundle:Boletin')->getRuta($sala,$token);
+				if ($sa)
+				{
+					if ($sa != "Error")
+						return $this->getDimensiones($fichaTec);
+					else
+						//return $this->redirect($this->generateUrl('_inicio'));
+						return new Response();
+				}
+				else 
+					//return $this->redirect($this->generateUrl('_inicio'));
+					return new Response();
+			} 
 		}
     }
 
     /**
-    * @Route("/indicador/datos/public/{id}/{dimension}", name="indicador_datos_public", options={"expose"=true})
+    * @Route("/indicador/datos/public/{id}/{dimension}/{token}/{sala}", name="indicador_datos_public", options={"expose"=true})
     */
-    public function getDatosPublic(FichaTecnica $fichaTec, $dimension) {
+    public function getDatosPublic(FichaTecnica $fichaTec, $dimension,$token,$sala) {
     	$em = $this->getDoctrine()->getManager();
 		if ($fichaTec)
 		{
 			if ($fichaTec->getEsPublico())
 				return $this->getDatos($fichaTec, $dimension);
 			else 
-				return null;
+			{
+				$sa = $em->getRepository('IndicadoresBundle:Boletin')->getRuta($sala,$token);
+				if ($sa)
+				{
+					if ($sa != "Error")
+						return $this->getDatos($fichaTec, $dimension);
+					else
+						return $this->redirect($this->generateUrl('_inicio'));
+				}
+				else
+					return $this->redirect($this->generateUrl('_inicio'));
+			}
 		}
     }
     
@@ -511,6 +537,19 @@ return $result;
         return $this->render('IndicadoresBundle:FichaTecnicaAdmin:tablero_public.html.twig', array(
                     'indicadores' => $indicadores,
                 ));
+    }
+    
+    public function checkToken($token)
+    {
+    	$em = $this->getDoctrine()->getManager();
+    	$sa = $em->getRepository('IndicadoresBundle:Boletin')->getRuta($sala,$token);
+		if (!$sa)
+			if ($sa == "Error")
+				return false;
+			else 
+				return true;
+		else 
+		return false; 
     }
   
 }//end class

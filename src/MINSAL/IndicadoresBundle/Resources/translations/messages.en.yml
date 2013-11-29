@@ -357,3 +357,5 @@ grupo: Group
 enviar: Send
 creado: Created
 actualizado: Updated
+
+filtro_fecha : 'Filter by Date'
