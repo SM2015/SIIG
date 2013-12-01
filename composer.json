@@ -43,7 +43,9 @@
 	"knplabs/knp-snappy-bundle": "dev-master",
         
         "mobiledetect/mobiledetectlib": "dev-master",
-        "suncat/mobile-detect-bundle": "dev-master"
+        "suncat/mobile-detect-bundle": "dev-master",
+        "jms/serializer-bundle": "dev-master",
+        "friendsofsymfony/rest-bundle": "1.1.*"
     },
     "scripts": {
         "post-install-cmd": [
