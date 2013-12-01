@@ -173,7 +173,12 @@ function dibujarGrafico(zona, dimension) {
     if (dimension === null)
         return;
     var filtro = $('#' + zona + ' .filtros_dimensiones').attr('data');
-    $.getJSON(Routing.generate('indicador_datos',
+    /*
+     * $.getJSON('http://siig.localhost/app_dev.php/api/indicador/'+
+            $('#' + zona + ' .titulo_indicador').attr('data-id')+
+            '/'+dimension,            
+     */
+    $.getJSON(Routing.generate('get_indicador',
             {id: $('#' + zona + ' .titulo_indicador').attr('data-id'), dimension: dimension}),
     {filtro: filtro, ver_sql: false},
     function(resp) {
