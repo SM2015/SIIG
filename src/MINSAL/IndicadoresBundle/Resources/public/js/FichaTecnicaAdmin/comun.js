@@ -33,10 +33,7 @@ function dibujarGraficoPrincipal(zona, tipo) {
     $('#' + zona + ' .dimension').html($('#' + zona + ' .dimensiones option:selected').html());
     cerrarMenus();
     var grafico = crearGraficoObj(zona, tipo);
-    if (grafico === false){
-        alert(trans._tipo_grafico_desconocido_ + tipo);
-        return;
-    }
+    
     $('#' + zona + ' .titulo').show();
     grafico.dibujar();
     aplicarFormato();
@@ -66,14 +63,12 @@ function crearGraficoObj(zona, tipo) {
     var datasetPrincipal = JSON.parse($('#' + zona).attr('datasetPrincipal'));
     if (tipo == 'pastel')
         grafico = new graficoPastel(zona, datasetPrincipal);
-    else if (tipo == 'columnas')
-        grafico = new graficoColumnas(zona, datasetPrincipal);
     else if (tipo == 'lineas')
         grafico = new graficoLineas(zona, datasetPrincipal);
     else if (tipo == 'mapa')
         grafico = new graficoMapa(zona, datasetPrincipal);
     else
-        return false;
+        grafico = new graficoColumnas(zona, datasetPrincipal);
     return grafico;
 }
 function ascenderNivelDimension(zona, nivel) {
