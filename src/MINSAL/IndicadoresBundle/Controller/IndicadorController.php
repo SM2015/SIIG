@@ -73,10 +73,10 @@ class IndicadorController extends Controller
                         
             //Verificar que se tiene la más antigua de las últimas lecturas de los orígenes
             //de datos del indicador
-            $ultima_lectura = new \DateTime("NOW");;
+            $ultima_lectura = null;
             foreach($fichaTec->getVariables() as $var){
                 $fecha_lectura = $em->getRepository('IndicadoresBundle:OrigenDatos')->getUltimaActualizacion($var->getOrigenDatos());
-                if ($fecha_lectura > $ultima_lectura){
+                if ($fecha_lectura > $ultima_lectura or $ultima_lectura == null){
                     $ultima_lectura = $fecha_lectura;
                 }                
             }            
