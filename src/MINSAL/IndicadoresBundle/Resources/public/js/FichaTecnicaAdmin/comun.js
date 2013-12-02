@@ -173,6 +173,7 @@ function dibujarGrafico(zona, dimension) {
             $('#' + zona + ' .titulo_indicador').attr('data-id')+
             '/'+dimension,            
      */
+    //Hace uso del servicio web REST en la ruta get_indicador
     $.getJSON(Routing.generate('get_indicador',
             {id: $('#' + zona + ' .titulo_indicador').attr('data-id'), dimension: dimension}),
     {filtro: filtro, ver_sql: false},

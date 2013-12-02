@@ -15,8 +15,8 @@ class IndicadorRESTController extends Controller
     
 
     /**
-     * @param string $fichaTec Id of the thread
-     * @param mixed $dimension Id of the comment
+     * @param integer $fichaTec
+     * @param string $dimension
      * @Get("/indicador/{id}/{dimension}", options={"expose"=true})
      * @Rest\View
      */
@@ -24,12 +24,15 @@ class IndicadorRESTController extends Controller
     {
         $response = new Response();
         
+        // crea una respuesta con una cabecera ETag y Last-Modified
+        // para determinar si se debe calcular el indicador u obtener de la caché
+        // para el modo de desarrollo (dev) nunca tomar de caché
         $response->setETag($fichaTec->getId());
-        $response->setLastModified($fichaTec->getUltimaLectura());
+        $response->setLastModified(($this->get('kernel')->getEnvironment() == 'dev') ? new \DateTime('NOW') : $fichaTec->getUltimaLectura() );
     
         $response->setPublic();
         // verifica que la respuesta no se ha modificado para la petición dada
-        if ($response->isNotModified($this->getRequest()) and $this->get('kernel')->getEnvironment() != 'dev') {
+        if ($response->isNotModified($this->getRequest())) {
             // devuelve inmediatamente la respuesta 304 de la caché
             return $response;
         } else {
@@ -57,10 +60,6 @@ class IndicadorRESTController extends Controller
             $resp['datos'] = $fichaRepository->calcularIndicador($fichaTec, $dimension, $filtros, $verSql);
         
             $response->setContent(json_encode($resp));
-            //Duración de la caché puesta en un año ya que antes se verifica si 
-            //se han leido nuevos datos en el indicador, de ser así se actualiza
-            // sin tomar en cuenta el valor de un año
-            $response->setSharedMaxAge(31556926);
             
             return $response;            
         }
