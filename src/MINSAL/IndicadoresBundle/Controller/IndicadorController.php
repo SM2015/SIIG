@@ -76,7 +76,7 @@ class IndicadorController extends Controller
             $ultima_lectura = new \DateTime("NOW");;
             foreach($fichaTec->getVariables() as $var){
                 $fecha_lectura = $em->getRepository('IndicadoresBundle:OrigenDatos')->getUltimaActualizacion($var->getOrigenDatos());
-                if ($fecha_lectura < $ultima_lectura){
+                if ($fecha_lectura > $ultima_lectura){
                     $ultima_lectura = $fecha_lectura;
                 }                
             }            
