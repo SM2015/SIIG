@@ -26,7 +26,7 @@ class ClasificacionPrivacidad
      * @var string $codigo
      *
      * @ORM\Column(name="codigo", type="string", length=15, nullable=false)
-     * @CustomAssert\OnlyAlphanumeric()
+     * @CustomAssert\OnlyAlphanumeric(message="OnlyAlphanumeric.Message")
      */
     private $codigo;
 
@@ -34,7 +34,7 @@ class ClasificacionPrivacidad
      * @var string $descripcion
      *
      * @ORM\Column(name="descripcion", type="string", length=50, nullable=false)
-     * @CustomAssert\AlphanumericPlus()
+     * @CustomAssert\AlphanumericPlus(message="AlphanumericPlus.Message")
      */
     private $descripcion;
 
@@ -42,7 +42,7 @@ class ClasificacionPrivacidad
      * @var string $comentario
      *
      * @ORM\Column(name="comentario", type="text", nullable=true)
-     * @CustomAssert\AlphanumericPlus()
+     * @CustomAssert\AlphanumericPlus(message="AlphanumericPlus.Message")
      */
     private $comentario;
 

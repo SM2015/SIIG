@@ -33,7 +33,7 @@ class ReglaTransformacion
      * @var string $limiteInferior
      *
      * @ORM\Column(name="limite_inferior", type="string", length=100, nullable=false)
-     * @CustomAssert\OnlyAlphanumeric()
+     * @CustomAssert\OnlyAlphanumeric(message="OnlyAlphanumeric.Message")
      */
     private $limiteInferior;
 
@@ -48,7 +48,7 @@ class ReglaTransformacion
      * @var string $transformacion
      *
      * @ORM\Column(name="transformacion", type="string", length=100, nullable=false)
-     * @CustomAssert\OnlyAlphanumeric()
+     * @CustomAssert\OnlyAlphanumeric(message="OnlyAlphanumeric.Message")
      */
     private $transformacion;
 

@@ -27,7 +27,7 @@ class SignificadoCampo
      * @var string $descripcion
      *
      * @ORM\Column(name="descripcion", type="string", length=200, nullable=false)
-     * @CustomAssert\AlphanumericPlus()
+     * @CustomAssert\AlphanumericPlus(message="AlphanumericPlus.Message")
      */
     private $descripcion;
 
@@ -35,7 +35,7 @@ class SignificadoCampo
      * @var string $codigo
      *
      * @ORM\Column(name="codigo", type="string", length=40, nullable=false)
-     * @CustomAssert\OnlyAlphanumeric()
+     * @CustomAssert\OnlyAlphanumeric(message="OnlyAlphanumeric.Message")
      */
     private $codigo;
 
@@ -85,7 +85,7 @@ class SignificadoCampo
     private $origenY;
 
     /**
-     * @ORM\ManyToMany(targetEntity="TipoGrafico", inversedBy="significados", cascade={"remove", "persist"})
+     * @ORM\ManyToMany(targetEntity="TipoGrafico", inversedBy="significados", cascade={"persist"})
      * @ORM\JoinTable(name="significados_tipos_graficos")
      * */
     private $tiposGraficos;

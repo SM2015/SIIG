@@ -146,13 +146,17 @@ class UserAdmin extends BaseAdmin
      */
     public function validate(ErrorElement $errorElement, $object)
     {
+    	$onlyAlphanumeric = new \MINSAL\IndicadoresBundle\Validator\OnlyAlphanumeric();
+    	$onlyAlphanumeric->message = "OnlyAlphanumeric.Message";
+    	$validMail = new \MINSAL\IndicadoresBundle\Validator\ValidMail();
+    	$validMail->message = "ValidMail.Message";
     	$errorElement
 	    	->with('username')
-	    	->addConstraint(new \MINSAL\IndicadoresBundle\Validator\OnlyAlphanumeric())
+	    	->addConstraint($onlyAlphanumeric)
 	    	->assertLength(array('max' => 8))
 	    	->end()
 	    	->with('email')
-	    	->addConstraint(new \MINSAL\IndicadoresBundle\Validator\ValidMail())
+	    	->addConstraint($validMail)
 	    	->end()
     	;
     	 
