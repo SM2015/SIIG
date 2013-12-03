@@ -27,7 +27,7 @@ class ResponsableDato
      * @var string $establecimiento
      *
      * @ORM\Column(name="establecimiento", type="string", length=100, nullable=false)
-     * @CustomAssert\AlphanumericPlus()
+     * @CustomAssert\AlphanumericPlus(message="AlphanumericPlus.Message")
      */
     private $establecimiento;
 
@@ -35,7 +35,7 @@ class ResponsableDato
      * @var string $contacto
      *
      * @ORM\Column(name="contacto", type="string", length=100, nullable=false)
-     * @CustomAssert\AlphanumericPlus()
+     * @CustomAssert\AlphanumericPlus(message="AlphanumericPlus.Message")
      */
     private $contacto;
 
@@ -43,7 +43,7 @@ class ResponsableDato
      * @var string $correo
      *
      * @ORM\Column(name="correo", type="string", length=50, nullable=false)
-     * @CustomAssert\ValidMail()
+* @CustomAssert\ValidMail(message="ValidHTMLcolor.Message")
      */
     private $correo;
 
@@ -51,7 +51,7 @@ class ResponsableDato
      * @var string $telefono
      *
      * @ORM\Column(name="telefono", type="string", length=15, nullable=false)
-     * @CustomAssert\AlphanumericPlus()
+     * @CustomAssert\AlphanumericPlus(message="AlphanumericPlus.Message")
      */
     private $telefono;
 
@@ -59,7 +59,7 @@ class ResponsableDato
      * @var string $cargo
      *
      * @ORM\Column(name="cargo", type="string", length=50, nullable=false)
-     * @CustomAssert\AlphanumericPlus()
+     * @CustomAssert\AlphanumericPlus(message="AlphanumericPlus.Message")
      */
     private $cargo;
 

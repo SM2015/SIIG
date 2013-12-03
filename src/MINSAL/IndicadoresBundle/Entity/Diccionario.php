@@ -26,7 +26,7 @@ class Diccionario
      * @var string $codigo
      *
      * @ORM\Column(name="codigo", type="string", length=20, nullable=false)
-     * @CustomAssert\OnlyAlphanumeric()
+     * @CustomAssert\OnlyAlphanumeric(message="OnlyAlphanumeric.Message")
      */
     private $codigo;
 
@@ -34,7 +34,7 @@ class Diccionario
      * @var string $descripcion
      *
      * @ORM\Column(name="descripcion", type="string", length=200, nullable=false)
-     * @CustomAssert\AlphanumericPlus()
+     * @CustomAssert\AlphanumericPlus(message="AlphanumericPlus.Message")
      */
     private $descripcion;
 
