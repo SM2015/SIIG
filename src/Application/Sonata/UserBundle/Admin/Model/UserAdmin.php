@@ -14,6 +14,7 @@ namespace Application\Sonata\UserBundle\Admin\Model;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\UserBundle\Model\UserInterface;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\UserBundle\Admin\Model\UserAdmin as BaseAdmin;
 use Sonata\AdminBundle\Validator\ErrorElement;
 
@@ -186,5 +187,14 @@ class UserAdmin extends BaseAdmin
                 break;
         }
     }
-
+    
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    {
+        $datagridMapper
+            ->add('username')
+            ->add('locked')
+            ->add('email')
+            ->add('Groups')
+        ;
+    }
 }
