@@ -234,7 +234,9 @@ swiftmailer:
     #encryption: ssl
     #auth_mode:  login
     #host:      smtp.gmail.com
-    username:  ehlhihehchehrh@gmail.com
-    password:  contraseña
+    username:  boletin.dev.test@gmail.com
+    password:  Boletin@test
     #spool:     { type: memory }
     #disable_delivery:  true
+    #schiapassm2015@gmail.com
+    #bit@2013 (B mayuscula o minuscula)

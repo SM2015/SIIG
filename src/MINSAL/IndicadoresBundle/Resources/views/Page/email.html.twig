@@ -79,8 +79,8 @@
     Se le informa que hay un nuevo indicador en el tablero de sistema eTAB para el grupo {{ data.grupo }}
     <br /><span class="cr">Sala:</span> <span class="cl"> {{ data.sala }}</span><br />
  
-    <br /><span class="cr">Ruta:</span> <span class="cl"> <a href="http://localhost/etab_811/web/app_dev.php/admin/minsal/indicadores/token/{{ data.sala }}/{{ data.token }}">
-	http://localhost/etab_811/web/app_dev.php/admin/minsal/indicadores/token/{{ data.sala }}/{{ data.token }}</a></span>
+    <br /><span class="cr">Ruta:</span> <span class="cl"> <a href="{{ app.request.getSchemeAndHttpHost() }}{{ app.request.getBaseURL() }}/publico/boletin/{{ data.sala }}/{{ data.token }}">
+	{{ app.request.getSchemeAndHttpHost() }}{{ app.request.getBaseURL() }}/publico/boletin/{{ data.sala }}/{{ data.token }}</a></span>
 	<hr>
     </div>
 
