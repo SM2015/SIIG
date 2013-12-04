@@ -111,7 +111,7 @@ $(document).ready(function() {
                         "<TH>" + trans.nombre_campo + "</TH>" +
                         "<TH>" + trans.tipo + "</TH>" +
                         "<TH>" + trans.significado + "</TH>" +
-                        "<TH>" + trans.diccionario_transformacion + "</TH>" +
+                        //"<TH>" + trans.diccionario_transformacion + "</TH>" +
                         "<TH>" + trans.datos_muestra + "</TH>" +
                         "</TR></THEAD>" +
                         "<TBODY id='datos_body'></TBODY>");
@@ -124,9 +124,9 @@ $(document).ready(function() {
                             "<TD>" +
                             "<SELECT class='significado' data-significado_codigo='" + resp.campos[valor]['significado_codigo'] + "' id='significado_variable__" + id + "' title='" + trans.elija_significado_dato + "' >" + significado_datos + "</SELECT>" +
                             "</TD>" +
-                            "<TD>" +
+                            /*"<TD>" +
                             "<SELECT class='diccionario' id='diccionario__" + id + "' >" + diccionarios + "</SELECT>" +
-                            "</TD>" +
+                            "</TD>" +*/
                             "<TD id='datos_ejemplo_campo__" + id + "'>" +
                             resp.datos[valor] +
                             "</TD>" +
