@@ -80,4 +80,9 @@ class ConexionAdmin extends Admin
         }
     }
 
+    public function getExportFields()
+    {
+    	return array('id', 'nombreConexion', 'idMotor', 'puerto', 'instancia', 'ip', 'usuario', 'nombreBaseDatos', 'comentario');
+    }
+    
 }

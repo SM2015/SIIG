@@ -201,4 +201,9 @@ class UserAdmin extends BaseAdmin
             ->add('Groups')
         ;
     }
+    
+    public function getExportFields()
+    {
+    	return array('id', 'username', 'email', 'groups', 'enabled', 'locked', 'createdAt');
+    }
 }

@@ -80,5 +80,10 @@ class BoletinAdmin extends Admin
                 break;
         }
     }    
+    
+    public function getExportFields()
+    {
+    	return array('id', 'nombre', 'sala', 'grupo', 'creado', 'actualizado');
+    }
 }
 ?>
