@@ -349,6 +349,7 @@ indicadorespublicos: 'Public Indicators'
 lbllenguaje: 'Language'
 
 _alerta_limite_inferior_: 'Lower limit'
+_regresar_menu_principal_: Return to main menu
 
 Boletin: Bulletin
 'Boletin List': 'Bulletin Listing'

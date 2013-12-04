@@ -257,6 +257,9 @@
             </trans-unit><trans-unit id="68">
                 <source>ValidMail.Message</source>
                 <target>La cadena no es un correo electrónico válido.</target>
+            </trans-unit><trans-unit id="69">
+                <source>fos_user.password.mismatch</source>
+                <target>Los campos de la nueva contraseña no coinciden.</target>
             </trans-unit>        </body>
     </file>
 </xliff>

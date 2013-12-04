@@ -1,0 +1,28 @@
+{#
+
+This file is part of the Sonata package.
+
+(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+#}
+
+{% extends 'IndicadoresBundle::standard_layout.html.twig' %}
+
+{% block content %}
+    <div class="span10">
+        {% for message in app.session.flashbag.get('fos_user_success') %}
+            <div class="alert alert-success">
+                {{ message|trans({}, "FOSUserBundle") }}
+            </div>
+        {% endfor %}
+        {% for message in app.session.flashbag.get('sonata_user_success') %}
+            <div class="alert alert-success">
+                {{ message|trans({}, "SonataUserBundle") }}
+            </div>
+        {% endfor %}
+        <A href="{{ path('_inicio') }}">{{'_regresar_menu_principal_'|trans}}</A>
+    </div>
+{% endblock %}
