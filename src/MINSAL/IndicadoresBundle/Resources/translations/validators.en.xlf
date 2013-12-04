@@ -293,6 +293,9 @@
             </trans-unit><trans-unit id="77">
                 <source>ValidMail.Message</source>
                 <target>The string is not a valid email account.</target>
+            </trans-unit><trans-unit id="78">
+                <source>fos_user.password.mismatch</source>
+                <target>Password mismatch.</target>
             </trans-unit>      </body>
     </file>
 </xliff>
