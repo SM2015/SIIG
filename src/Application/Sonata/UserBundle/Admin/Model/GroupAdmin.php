@@ -94,4 +94,9 @@ class GroupAdmin extends BaseAdmin
                 break;
         }
     }
+    
+    public function getExportFields()
+    {
+    	return array('id', 'name', 'roles');
+    }
 }
