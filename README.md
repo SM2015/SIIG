@@ -13,4 +13,4 @@ nacional de información de salud.
 * [Documento de análisis y requerimientos](https://github.com/rigosv/SIIG/tree/master/app/Resources/doc/analisis-y-requerimientos/Contents) [pdf](https://github.com/rigosv/SIIG/blob/master/app/Resources/doc/analisis-y-requerimientos/Output/print/book.pdf?raw=true)
 * [Manual técnico](https://github.com/rigosv/SIIG/tree/master/app/Resources/doc/manual-tecnico/Contents) [pdf](https://github.com/rigosv/SIIG/blob/master/app/Resources/doc/manual-tecnico/Output/print/book.pdf?raw=true)
 * [Manual de usuario](https://github.com/rigosv/SIIG/tree/master/app/Resources/doc/manual-de-usuario/Contents) [pdf](https://github.com/rigosv/SIIG/blob/master/app/Resources/doc/manual-de-usuario/Output/print/book.pdf?raw=true)
-* [Manual operativo para el registro de Orígenes de Datos] (https://github.com/erodriguez-minsal/SIIG/tree/chiapas/app/Resources/doc/Manual-Operativo-Registro-Origenes-Datos.pdf)
+* [Manual operativo para el registro de Orígenes de Datos] (https://github.com/erodriguez-minsal/SIIG/tree/chiapas/app/Resources/doc/Manual-Operativo-Registro-Origenes-Datos.pdf?raw=true)
