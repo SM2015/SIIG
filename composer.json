@@ -25,13 +25,14 @@
         "knplabs/knp-menu-bundle":"1.1.2",
         
         "sonata-project/cache-bundle": "dev-master",
+        "sonata-project/core-bundle": "dev-master",
         "sonata-project/admin-bundle": "dev-master",
         "sonata-project/doctrine-orm-admin-bundle": "dev-master",
         "sonata-project/block-bundle": "dev-master",
         "sonata-project/easy-extends-bundle": "dev-master",
         "sonata-project/user-bundle": "dev-master",
         
-	
+        	
         "simplethings/entity-audit-bundle": "dev-master",
 	"friendsofsymfony/user-bundle": "v1.3.2",
         "friendsofsymfony/jsrouting-bundle": "dev-master",
