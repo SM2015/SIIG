@@ -25,7 +25,7 @@ class Alerta
     /**
      * @var string $codigo
      *
-     * @ORM\Column(name="codigo", type="string", length=30, nullable=false)
+     * @ORM\Column(name="codigo", type="string", length=50, nullable=false)
 	 * @CustomAssert\ValidHTMLcolor(message="ValidHTMLcolor.Message")
      */
     private $codigo;

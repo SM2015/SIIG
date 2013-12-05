@@ -26,7 +26,7 @@ class SignificadoCampo
     /**
      * @var string $descripcion
      *
-     * @ORM\Column(name="descripcion", type="string", length=200, nullable=false)
+     * @ORM\Column(name="descripcion", type="string", length=150, nullable=false)
      * @CustomAssert\AlphanumericPlus(message="AlphanumericPlus.Message")
      */
     private $descripcion;
@@ -34,7 +34,7 @@ class SignificadoCampo
     /**
      * @var string $codigo
      *
-     * @ORM\Column(name="codigo", type="string", length=40, nullable=false)
+     * @ORM\Column(name="codigo", type="string", length=50, nullable=false)
      * @CustomAssert\OnlyAlphanumeric(message="OnlyAlphanumeric.Message")
      */
     private $codigo;

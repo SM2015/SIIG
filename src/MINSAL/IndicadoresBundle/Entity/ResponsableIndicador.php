@@ -26,7 +26,7 @@ class ResponsableIndicador
     /**
      * @var string $establecimiento
      *
-     * @ORM\Column(name="establecimiento", type="string", length=100, nullable=false)
+     * @ORM\Column(name="establecimiento", type="string", length=200, nullable=false)
      * @CustomAssert\AlphanumericPlus(message="AlphanumericPlus.Message")
      */
     private $establecimiento;
@@ -42,7 +42,7 @@ class ResponsableIndicador
     /**
      * @var string $correo
      *
-     * @ORM\Column(name="correo", type="string", length=50, nullable=false)
+     * @ORM\Column(name="correo", type="string", length=100, nullable=false)
 * @CustomAssert\ValidMail(message="ValidHTMLcolor.Message")
      */
     private $correo;
@@ -50,7 +50,7 @@ class ResponsableIndicador
     /**
      * @var string $telefono
      *
-     * @ORM\Column(name="telefono", type="string", length=15, nullable=false)
+     * @ORM\Column(name="telefono", type="string", length=50, nullable=false)
      * @CustomAssert\AlphanumericPlus(message="AlphanumericPlus.Message")
      */
     private $telefono;
@@ -58,7 +58,7 @@ class ResponsableIndicador
     /**
      * @var string $cargo
      *
-     * @ORM\Column(name="cargo", type="string", length=50, nullable=false)
+     * @ORM\Column(name="cargo", type="string", length=200, nullable=false)
      * @CustomAssert\AlphanumericPlus(message="AlphanumericPlus.Message")
      */
     private $cargo;
