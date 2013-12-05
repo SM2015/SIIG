@@ -442,7 +442,7 @@ function dibujarControles(zona, datos) {
             ' ><i class="icon-briefcase"></i> ' + trans.ver_ficha_tecnica + '</A></li>' +
             '<li><A class="ver_tabla_datos" ><i class="icon-list-alt" ></i> ' + trans.tabla_datos + ' </A></li>' +
             '<li><A class="ver_sql" ><i class="icon-eye-open" ></i> ' + trans.ver_sql + ' </A></li>' +
-           // '<li><A class="ver_imagen" ><i class="icon-picture"></i> ' + trans.descargar_grafico + '</A></li>' +
+            //'<li><A class="ver_imagen" ><i class="icon-picture"></i> ' + trans.descargar_grafico + '</A></li>' +
             '<li><A class="quitar_indicador" ><i class="icon-remove-sign"></i> ' + trans.quitar_indicador + '</A></li>' +
             '<li><A class="agregar_como_favorito" data-indicador="' + datos.id_indicador + '" >';
     if ($('#fav-' + datos.id_indicador).length === 0)
@@ -562,7 +562,7 @@ function dibujarControles(zona, datos) {
       	
   $('#' + zona + ' .controles').append(opciones_maximizar);
   
-   $('#' + zona + '_maximizar').click(function(){
+   $('#' + zona + '_maximizar').click(function(event){
   	if ($('#' + zona + '_icon_maximizar').hasClass('icon-zoom-out'))
   		{
   		   minimizar(zona,contenedor);
@@ -605,7 +605,7 @@ function dibujarControles(zona, datos) {
   		}
   });
 
-  $(document.body).keyup(function(){
+  $(document.body).keyup(function(event){
 	   var tecla = (event.keyCode) ? event.keyCode : event.which ;
 	   if (tecla == 27){
 		      minimizar(zona,contenedor)
@@ -716,11 +716,13 @@ function dibujarControles(zona, datos) {
     });
 
     $('#' + zona + ' .ver_imagen').click(function() {
-        var html = '<H5 style="text-align:center;">' + $('#' + zona + ' .titulo_indicador').html() +
+        var svg = $('<div>').append($('#' + zona + ' svg g').clone()).html();
+        
+        var html = '<H5 style="text-align:center; font-size: 20px;">' + $('#' + zona + ' .titulo_indicador').html() +
                 ' (por ' + $('#' + zona + ' .dimension').html() + ')</H5>' +
-                '<H6 >' + $('#' + zona + ' .filtros_dimensiones').html() + '</H6>' +
-                '<svg id="ChartPlot" width="95%" viewBox="-5 0 450 360" preserveAspectRatio="none">' + d3.select('#' + zona + ' svg').html() + '"</svg>' +
-                $('#sql').html('<canvas id="canvasGrp" width="400" height="350"></canvas>');
+                '<H6 style="font-size: 20px;">' + $('#' + zona + ' .filtros_dimensiones').html() + '</H6>' +
+                '<svg id="ChartPlot" width="95%" viewBox="-5 0 450 360" preserveAspectRatio="none" height="350" style="font-size: 20px;">' + svg + '</svg>';
+        $('#sql').html('<canvas id="canvasGrp" width="400" height="350" style="font-size: 20px;"></canvas>');
 
         var canvas = document.getElementById("canvasGrp");
 
