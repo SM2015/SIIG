@@ -76,7 +76,7 @@ security:
         - { path: ^/admin/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/logout$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/login-check$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/publico$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/publico, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/indicador/datos/public/, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/indicador/dimensiones/public/, role: IS_AUTHENTICATED_ANONYMOUSLY }
         # -> end
