@@ -667,7 +667,7 @@ function dibujarControles(zona, datos) {
             "bJQueryUI": true,
             "sDom": '<"H"Tfr>t<"F"ip>',
             "oTableTools": {
-                "sSwfPath": "/bundles/indicadores/js/DataTables/media/swf/copy_csv_xls_pdf.swf",
+                "sSwfPath": sSwfPath,
                 "aButtons": [
                     {
                         "sExtends": "collection",
@@ -746,7 +746,7 @@ console.log(html);
                 "bInfo": false,
                 "iDisplayLength": 30,
                 "oTableTools": {
-                    "sSwfPath": "/bundles/indicadores/js/DataTables/media/swf/copy_csv_xls_pdf.swf",
+                    "sSwfPath": sSwfPath,
                     "aButtons": [
                         {
                             "sExtends": "collection",
