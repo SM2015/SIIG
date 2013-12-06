@@ -28,6 +28,8 @@ framework:
 twig:
     debug:            %kernel.debug%
     strict_variables: %kernel.debug%
+    globals:
+        webRoot: 'http://etab_git:8080/web'
 
 # Assetic Configuration
 assetic:

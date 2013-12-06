@@ -200,7 +200,7 @@ function dibujarGrafico(zona, dimension) {
         filtrofecha = {mesmin : min[1],aniomin : min[0],mesmax:max[1],aniomax:max[0]};
     }
         
-    $.getJSON(getRootWebSitePath()+'/indicador/datos/public/'+$('#' + zona + ' .titulo_indicador').attr('data-id')+'/'+dimension+'/'+ruta_sala_publica,
+    $.getJSON(webRoot+'/indicador/datos/public/'+$('#' + zona + ' .titulo_indicador').attr('data-id')+'/'+dimension+'/'+ruta_sala_publica,
     {filtro: filtro, ver_sql: false, filtrofecha : filtrofecha},
     function(resp) {
     	
@@ -701,7 +701,7 @@ function dibujarControles(zona, datos) {
         var filtro = $('#' + zona + ' .filtros_dimensiones').attr('data');
         var dimension = $('#' + zona + ' .dimensiones').val();
 
-        $.getJSON(getRootWebSitePath()+'/indicador/datos/'+$('#' + zona + ' .titulo_indicador').attr('data-id') + "/"+ dimension,
+        $.getJSON(webRoot+'/indicador/datos/'+$('#' + zona + ' .titulo_indicador').attr('data-id') + "/"+ dimension,
         {filtro: filtro, ver_sql: true},
         function(resp) {
             $('#myModalLabel2').html($('#' + zona + ' .titulo_indicador').html());
@@ -730,7 +730,7 @@ console.log(html);
     });
 
     $('#' + zona + ' .ver_ficha_tecnica').click(function() {
-        $.get(getRootWebSitePath()+'/indicador/'+$('#' + zona + ' .titulo_indicador').attr('data-id')+'/ficha',
+        $.get(webRoot+'/indicador/'+$('#' + zona + ' .titulo_indicador').attr('data-id')+'/ficha',
         function(resp) {
             $('#myModalLabel2').html($('#' + zona + ' .titulo_indicador').html());
             $('#sql').html(resp);
@@ -831,20 +831,11 @@ function limpiarZona2(zona) {
     $('#' + zona + ' .controlesDimension').html('');
     $('#' + zona + ' .titulo').hide();
 }
-function getRootWebSitePath()
-{
-    var _location = document.location.toString();
-    var applicationNameIndex = _location.indexOf('/', _location.indexOf('://') + 3);
-    var applicationName = _location.substring(0, applicationNameIndex) + '/';
-    var webFolderIndex = _location.indexOf('/', _location.indexOf(applicationName) + applicationName.length);
-    var webFolderFullPath = _location.substring(0, webFolderIndex);
-    return webFolderFullPath;
-}
 
 function recuperarDimensiones(id_indicador, datos) {
 	var zona_g = $('DIV.zona_actual').attr('id');
     limpiarZona(zona_g);
-    $.getJSON(getRootWebSitePath()+'/indicador/dimensiones/public/'+id_indicador+'/'+ruta_sala_publica,
+    $.getJSON(webRoot+'/indicador/dimensiones/public/'+id_indicador+'/'+ruta_sala_publica,
     function(resp) {
         //Construir el campo con las dimensiones disponibles
 
