@@ -86,7 +86,7 @@ class Boletin
 		$this->setToken($valor);
     }
 	/**
-     * @ORM\preUpdate
+     * @ORM\PreUpdate
      */
     public function setUpdatedValue()
     {
