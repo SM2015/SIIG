@@ -26,7 +26,7 @@ class Campo
      * @var string $nombre
      *
      * @ORM\Column(name="nombre", type="string", length=100, nullable=false)
-     * @CustomAssert\OnlyAlphanumeric()
+     * @CustomAssert\OnlyAlphanumeric(message="OnlyAlphanumeric.Message")
      */
     private $nombre;
 

@@ -31,7 +31,7 @@ class VariableDato
      *      min = "3",
      *      max = "200"
      * )
-	 * @CustomAssert\AlphanumericPlus()
+     * @CustomAssert\AlphanumericPlus(message="AlphanumericPlus.Message")
      */
     private $nombre;
 
@@ -55,7 +55,7 @@ class VariableDato
      *      min = "3",
      *      max = "200"
      * )
-	 * @CustomAssert\AlphanumericPlus()
+     * @CustomAssert\AlphanumericPlus(message="AlphanumericPlus.Message")
      */
     private $iniciales;
 

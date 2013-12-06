@@ -4,6 +4,7 @@ namespace MINSAL\IndicadoresBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 use MINSAL\IndicadoresBundle\Validator as CustomAssert;
 
 /**
@@ -28,7 +29,7 @@ class OrigenDatos
      * @var string $nombre
      *
      * @ORM\Column(name="nombre", type="string", length=100, nullable=false)
-     * @CustomAssert\AlphanumericPlus()
+     * @CustomAssert\AlphanumericPlus(message="AlphanumericPlus.Message")
      */
     private $nombre;
 
@@ -60,7 +61,13 @@ class OrigenDatos
      * @ORM\Column(name="archivo_nombre", type="string", length=100, nullable=true)
      */
     protected $archivoNombre;
-    public $file;
+    /**
+     * @Assert\File(
+	 *     maxSize = "1024k",
+	 *     mimeTypes = {"application/vnd.oasis.opendocument.text","application/vnd.ms-excel","application/vnd.openxmlformats-officedocument.spreadsheetml.sheet","text/plain"},
+	 *     mimeTypesMessage = "Please upload a valid file")
+     */
+	 public $file;
 
     /**
      * @var string $esFusionado

@@ -27,7 +27,7 @@ class Conexion
      * @var string $nombreConexion
      *
      * @ORM\Column(name="nombre_conexion", type="string", length=100, nullable=false)
-     * @CustomAssert\OnlyAlphanumeric()
+     * @CustomAssert\OnlyAlphanumeric(message="OnlyAlphanumeric.Message")
      */
     private $nombreConexion;
 
@@ -42,7 +42,7 @@ class Conexion
      * @var string $ip
      *
      * @ORM\Column(name="ip", type="string", length=40, nullable=false)
-     * @CustomAssert\CustomIp()
+     * @CustomAssert\CustomIp(message="CustomIp.Message")
      */
     private $ip;
 
@@ -50,7 +50,7 @@ class Conexion
      * @var string $usuario
      *
      * @ORM\Column(name="usuario", type="string", length=25, nullable=false)
-     * @CustomAssert\OnlyAlphanumeric()
+     * @CustomAssert\OnlyAlphanumeric(message="OnlyAlphanumeric.Message")
      */
     private $usuario;
 
@@ -65,7 +65,7 @@ class Conexion
      * @var string $nombreBaseDatos
      *
      * @ORM\Column(name="nombre_base_datos", type="string", length=50, nullable=false)
-     * @CustomAssert\OnlyAlphanumeric()
+     * @CustomAssert\OnlyAlphanumeric(message="OnlyAlphanumeric.Message")
      */
     private $nombreBaseDatos;
 

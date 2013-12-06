@@ -31,7 +31,7 @@ class FichaTecnica
      *      min = "3",
      *      max = "150"
      * )
-	 * @CustomAssert\AlphanumericPlus()
+     * @CustomAssert\AlphanumericPlus(message="AlphanumericPlus.Message")
      */
     private $nombre;
 
@@ -43,7 +43,7 @@ class FichaTecnica
      *      min = "3",
      *      max = "150"
      * )
-	 * @CustomAssert\AlphanumericPlus()
+     * @CustomAssert\AlphanumericPlus(message="AlphanumericPlus.Message")
      */
     private $tema;
 

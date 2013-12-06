@@ -53,9 +53,11 @@ class GroupAdmin extends BaseAdmin
      */
     public function validate(ErrorElement $errorElement, $object)
     {
+    	$onlyAlphanumeric = new \MINSAL\IndicadoresBundle\Validator\OnlyAlphanumeric();
+    	$onlyAlphanumeric->message = "OnlyAlphanumeric.Message";
        	$errorElement
 	    	->with('name')
-	    	->addConstraint(new \MINSAL\IndicadoresBundle\Validator\OnlyAlphanumeric())
+	    	->addConstraint($onlyAlphanumeric)
 	    	->assertLength(array('max' => 8))
 	    	->end()
     	;
@@ -91,5 +93,10 @@ class GroupAdmin extends BaseAdmin
                 return parent::getTemplate($name);
                 break;
         }
+    }
+    
+    public function getExportFields()
+    {
+    	return array('id', 'name', 'roles');
     }
 }

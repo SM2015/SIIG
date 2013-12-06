@@ -124,14 +124,14 @@ class OrigenDatosAdmin extends Admin
             'label' => $this->trans('action_load_data'),
             'ask_confirmation' => false // If true, a confirmation will be asked before performing the action
         );
-        $actions['merge'] = array(
+        /*$actions['merge'] = array(
             'label' => $this->trans('action_merge'),
             'ask_confirmation' => true // If true, a confirmation will be asked before performing the action
         );
         $actions['crear_pivote'] = array(
-            'label' => $this->trans('_crear_pivote_'),
+            'label' => $this->trans('crear_pivote'),
             'ask_confirmation' => true // If true, a confirmation will be asked before performing the action
-        );
+        );*/
 
         return $actions;
     }

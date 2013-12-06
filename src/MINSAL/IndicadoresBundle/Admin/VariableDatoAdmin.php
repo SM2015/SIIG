@@ -79,4 +79,8 @@ class VariableDatoAdmin extends Admin
         $actions['delete'] = null;
     }
 
+    public function getExportFields()
+    {
+    	return array('id', 'nombre', 'iniciales', 'idFuenteDato', 'idResponsableDato', 'confiabilidad', 'origenDatos', 'comentario');
+    }
 }

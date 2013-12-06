@@ -341,6 +341,7 @@ indicadorespublicos: 'Indicadores Publicos'
 lbllenguaje: 'Idioma'
 
 _alerta_limite_inferior_: 'Límite inferior'
+_regresar_menu_principal_: Regresar al men� principal
 
 Boletin: Boletin
 'Boletin List': 'Lista de Boletines'
@@ -349,3 +350,5 @@ grupo: Grupo
 enviar: Enviar
 creado: Creado
 actualizado: Actualizado
+
+filtro_fecha : 'Filtro por Fecha'

@@ -14,6 +14,7 @@ namespace Application\Sonata\UserBundle\Admin\Model;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\UserBundle\Model\UserInterface;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\UserBundle\Admin\Model\UserAdmin as BaseAdmin;
 use Sonata\AdminBundle\Validator\ErrorElement;
 
@@ -145,13 +146,17 @@ class UserAdmin extends BaseAdmin
      */
     public function validate(ErrorElement $errorElement, $object)
     {
+    	$onlyAlphanumeric = new \MINSAL\IndicadoresBundle\Validator\OnlyAlphanumeric();
+    	$onlyAlphanumeric->message = "OnlyAlphanumeric.Message";
+    	$validMail = new \MINSAL\IndicadoresBundle\Validator\ValidMail();
+    	$validMail->message = "ValidMail.Message";
     	$errorElement
 	    	->with('username')
-	    	->addConstraint(new \MINSAL\IndicadoresBundle\Validator\OnlyAlphanumeric())
+	    	->addConstraint($onlyAlphanumeric)
 	    	->assertLength(array('max' => 8))
 	    	->end()
 	    	->with('email')
-	    	->addConstraint(new \MINSAL\IndicadoresBundle\Validator\ValidMail())
+	    	->addConstraint($validMail)
 	    	->end()
     	;
     	 
@@ -186,5 +191,19 @@ class UserAdmin extends BaseAdmin
                 break;
         }
     }
-
+    
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    {
+        $datagridMapper
+            ->add('username')
+            ->add('locked')
+            ->add('email')
+            ->add('Groups')
+        ;
+    }
+    
+    public function getExportFields()
+    {
+    	return array('id', 'username', 'email', 'groups', 'enabled', 'locked', 'createdAt');
+    }
 }

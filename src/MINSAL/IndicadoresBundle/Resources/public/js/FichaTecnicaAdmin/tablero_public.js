@@ -1,4 +1,6 @@
-
+	//para cargas de los indicadores
+    var ruta_sala_publica = '0/0';
+    
 $(document).ready(function() {
     // *****************
     //Con esto se verifica el comportamiento del area de gráfico
@@ -139,11 +141,16 @@ $(document).ready(function() {
     });
 
     $('.salas-id').click(function() {
-        $('#nombre_sala').attr('id-sala', $(this).attr('sala-id'));
-        $('#nombre_sala').val($(this).attr('sala-nombre'));
-        $('#nombre_sala2').html('<h4>Nombre de sala: ' + $(this).attr('sala-nombre') + '</h4>');
+        mostrarGraficos(this);
+    }); 
+    
+    function mostrarGraficos(sala)
+    {
+        $('#nombre_sala').attr('id-sala', $(sala).attr('sala-id'));
+        $('#nombre_sala').val($(sala).attr('sala-nombre'));
+        $('#nombre_sala2').html('<h4>Nombre de sala: ' + $(sala).attr('sala-nombre') + '</h4>');
 
-        var graficos = JSON.parse($(this).attr('data'));
+        var graficos = JSON.parse($(sala).attr('data'));
         var max_id = graficos.length;
 
         $('#sala').html('');
@@ -157,6 +164,15 @@ $(document).ready(function() {
             $('#grafico_' + (i+1)).addClass('zona_actual');
             recuperarDimensiones(graficos[i].idIndicador, null);
         }
-    }); 
+    }
+    
+    //para cargas de los indicadores
+      
+    if ($('#sala_publica').length > 0)
+	{
+		obj = $('#sala_publica');
+		ruta_sala_publica = $(obj).attr('sala-token') + '/' + $(obj).attr('sala-id');
+		mostrarGraficos(obj);
+	}
     
 });

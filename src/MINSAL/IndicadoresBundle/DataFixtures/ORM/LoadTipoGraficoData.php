@@ -16,7 +16,7 @@ class LoadTipoGraficoData extends AbstractFixture implements OrderedFixtureInter
         $datos[1]['campos'] = array('Codigo'=>'columnas','Descripcion'=>'Columnas');
         $datos[2]['campos'] = array('Codigo'=>'pastel','Descripcion'=>'Pastel');
         $datos[3]['campos'] = array('Codigo'=>'lineas','Descripcion'=>'Lineas');
-        $datos[4]['campos'] = array('Codigo'=>'mapa','Descripcion'=>'Mapa');
+        //$datos[4]['campos'] = array('Codigo'=>'mapa','Descripcion'=>'Mapa');
         $datos[5]['campos'] = array('Codigo'=>'gauge','Descripcion'=>'Odometro');
         $datos[6]['campos'] = array('Codigo'=>'lineargauge','Descripcion'=>'Termometro');
 

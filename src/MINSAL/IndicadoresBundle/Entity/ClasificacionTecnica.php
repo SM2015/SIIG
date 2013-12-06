@@ -25,16 +25,16 @@ class ClasificacionTecnica
     /**
      * @var string $codigo
      *
-     * @ORM\Column(name="codigo", type="string", length=15, nullable=false)
-     * @CustomAssert\OnlyAlphanumeric()
+     * @ORM\Column(name="codigo", type="string", length=50, nullable=false)
+     * @CustomAssert\OnlyAlphanumeric(message="OnlyAlphanumeric.Message")
      */
     private $codigo;
 
     /**
      * @var string $descripcion
      *
-     * @ORM\Column(name="descripcion", type="string", length=50, nullable=false)
-     * @CustomAssert\AlphanumericPlus()
+     * @ORM\Column(name="descripcion", type="string", length=150, nullable=false)
+     * @CustomAssert\AlphanumericPlus(message="AlphanumericPlus.Message")
      */
     private $descripcion;
 
@@ -42,7 +42,7 @@ class ClasificacionTecnica
      * @var string $comentario
      *
      * @ORM\Column(name="comentario", type="text", nullable=true)
-     * @CustomAssert\AlphanumericPlus()
+     * @CustomAssert\AlphanumericPlus(message="AlphanumericPlus.Message")
      */
     private $comentario;
 
