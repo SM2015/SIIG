@@ -296,6 +296,9 @@
             </trans-unit><trans-unit id="78">
                 <source>fos_user.password.mismatch</source>
                 <target>Password mismatch.</target>
+            </trans-unit><trans-unit id="79">
+                <source>AssertFile.Message</source>
+                <target>Please upload a valid file.</target>
             </trans-unit>      </body>
     </file>
 </xliff>

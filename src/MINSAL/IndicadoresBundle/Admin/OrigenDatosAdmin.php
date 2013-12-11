@@ -87,7 +87,6 @@ class OrigenDatosAdmin extends Admin
                         ->addViolation($this->getTranslator()->trans('validacion.sentencia_o_archivo_no_ambas'))
                         ->end();
             }
-            echo count($object->getConexiones());
             if ($object->getSentenciaSql() != '' and count($object->getConexiones()) == 0) {
                 $errorElement->with('conexiones')
                         ->addViolation($this->getTranslator()->trans('validacion.requerido'))

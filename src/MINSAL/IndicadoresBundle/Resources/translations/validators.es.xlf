@@ -260,6 +260,9 @@
             </trans-unit><trans-unit id="69">
                 <source>fos_user.password.mismatch</source>
                 <target>Los campos de la nueva contraseña no coinciden.</target>
+            </trans-unit><trans-unit id="70">
+                <source>AssertFile.Message</source>
+                <target>Favor de subir un archivo con extensión válida.</target>
             </trans-unit>        </body>
     </file>
 </xliff>
