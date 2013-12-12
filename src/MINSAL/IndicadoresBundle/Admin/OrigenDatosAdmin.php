@@ -61,7 +61,7 @@ class OrigenDatosAdmin extends Admin
         $listMapper
                 ->addIdentifier('nombre', null, array('label' => $this->getTranslator()->trans('nombre')))
                 ->add('descripcion', null, array('label' => $this->getTranslator()->trans('descripcion')))
-                ->add('esFusionado', null, array('label' => $this->getTranslator()->trans('fusion.es_fusionado')))
+                //->add('esFusionado', null, array('label' => $this->getTranslator()->trans('fusion.es_fusionado')))
                 ->add('esCatalogo', null, array('label' => $this->getTranslator()->trans('es_catalogo')))
                 ->add('sentenciaSql', null, array('label' => $this->getTranslator()->trans('sentencia_sql'),
                     'template'=>'IndicadoresBundle:CRUD:list_sentencia_sql.html.twig'))
@@ -87,7 +87,6 @@ class OrigenDatosAdmin extends Admin
                         ->addViolation($this->getTranslator()->trans('validacion.sentencia_o_archivo_no_ambas'))
                         ->end();
             }
-            echo count($object->getConexiones());
             if ($object->getSentenciaSql() != '' and count($object->getConexiones()) == 0) {
                 $errorElement->with('conexiones')
                         ->addViolation($this->getTranslator()->trans('validacion.requerido'))

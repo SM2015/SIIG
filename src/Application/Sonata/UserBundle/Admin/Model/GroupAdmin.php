@@ -99,4 +99,9 @@ class GroupAdmin extends BaseAdmin
     {
     	return array('id', 'name', 'roles');
     }
+    
+    public function getBatchActions()
+    {
+    	return array();
+    }
 }

@@ -9,7 +9,7 @@ class AlphanumericPlusValidator extends ConstraintValidator
 	public function validate($value, Constraint $constraint)
 	{
 		if(!empty($value)){
-			if (!preg_match('/^[a-zA-Za0-9 áéíóúüÁÉÍÓÚÜ\'ñÑ.,\r\n_%]+$/', utf8_decode($value), $matches)) {
+			if (!preg_match('/^[a-zA-Za0-9 Ã¡Ã©Ã­Ã³ÃºÃ¼ÃÃ‰ÃÃ“ÃšÃœ\'Ã±Ã‘.,\r\n_\-%]+$/', utf8_decode($value), $matches)) {
 				$this->context->addViolation($constraint->message, array('%string%' => $value));
 			}
 		}

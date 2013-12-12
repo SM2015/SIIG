@@ -65,7 +65,7 @@ class OrigenDatos
      * @Assert\File(
 	 *     maxSize = "1024k",
 	 *     mimeTypes = {"application/vnd.oasis.opendocument.text","application/vnd.ms-excel","application/vnd.openxmlformats-officedocument.spreadsheetml.sheet","text/plain"},
-	 *     mimeTypesMessage = "Please upload a valid file")
+	 *     mimeTypesMessage = "AssertFile.Message")
      */
 	 public $file;
 
