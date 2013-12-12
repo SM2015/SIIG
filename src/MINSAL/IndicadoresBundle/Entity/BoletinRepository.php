@@ -24,7 +24,7 @@ class BoletinRepository extends EntityRepository
     {							
 		$stmt = $this->getEntityManager()
 		->getConnection()
-		->prepare("SELECT * FROM boletin b left join grupo_indicadores s on s.id=b.sala where b.token='$token' and s.nombre='$sala'");
+		->prepare("SELECT * FROM boletin b left join grupo_indicadores s on s.id=b.sala where b.token='$token' and ".((gettype($sala) == 'integer') ? "s.id=".$sala :  "s.nombre='".$sala."'"));
 		$stmt->execute();
 		$result= $stmt->fetchAll();
 		
