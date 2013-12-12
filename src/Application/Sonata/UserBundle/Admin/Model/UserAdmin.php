@@ -206,4 +206,9 @@ class UserAdmin extends BaseAdmin
     {
     	return array('id', 'username', 'email', 'groups', 'enabled', 'locked', 'createdAt');
     }
+    
+    public function getBatchActions()
+    {
+    	return array();
+    }
 }
