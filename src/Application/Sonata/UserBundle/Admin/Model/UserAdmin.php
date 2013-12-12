@@ -198,7 +198,7 @@ class UserAdmin extends BaseAdmin
             ->add('username')
             ->add('locked')
             ->add('email')
-            ->add('Groups')
+            ->add('groups')
         ;
     }
     
