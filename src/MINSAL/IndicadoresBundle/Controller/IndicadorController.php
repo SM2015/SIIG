@@ -511,16 +511,19 @@ return $result;
 				return $this->getDatos($fichaTec, $dimension);
 			else 
 			{
+                            settype($sala,"integer");
 				$sa = $em->getRepository('IndicadoresBundle:Boletin')->getRuta($sala,$token);
 				if ($sa)
 				{
 					if ($sa != "Error")
 						return $this->getDatos($fichaTec, $dimension);
 					else
-						return $this->redirect($this->generateUrl('_inicio'));
+						//return $this->redirect($this->generateUrl('_inicio'));
+                                            return new Response();
 				}
 				else
-					return $this->redirect($this->generateUrl('_inicio'));
+					//return $this->redirect($this->generateUrl('_inicio'));
+                                    return new Response();
 			}
 		}
     }
