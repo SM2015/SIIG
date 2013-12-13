@@ -10,9 +10,9 @@ nacional de información de salud.
 
 # [Documentación](https://github.com/erodriguez-minsal/SIIG/tree/chiapas/app/Resources/doc)
 
-* [Manual de instalación](https://github.com/erodriguez-minsal/SIIG/tree/chiapas/app/Resources/doc/app/Resources/doc/manual-tecnico/Contents/instalacion.md)
+* [Manual de instalación](https://github.com/erodriguez-minsal/SIIG/blob/chiapas/app/Resources/doc/manual-tecnico/Contents/instalacion.md)
 
-* [Documento de análisis y requerimientos](https://github.com/erodriguez-minsal/SIIG/tree/chiapas/app/Resources/doc/analisis-y-requerimientos/Contents) [pdf](https://github.com/rigosv/SIIG/blob/chiapas/app/Resources/doc/analisis-y-requerimientos/Output/print/book.pdf?raw=true)
+* [Documento de análisis y requerimientos](https://github.com/erodriguez-minsal/SIIG/tree/chiapas/app/Resources/doc/analisis-y-requerimientos/Contents) [pdf](https://github.com/erodriguez-minsal/SIIG/blob/chiapas/app/Resources/doc/analisis-y-requerimientos/Output/print/book.pdf?raw=true)
 
 * [Manual técnico](https://github.com/erodriguez-minsal/SIIG/tree/chiapas/app/Resources/doc/manual-tecnico/Contents) [pdf](https://github.com/erodriguez-minsal/SIIG/blob/chiapas/app/Resources/doc/manual-tecnico/Output/print/book.pdf?raw=true)
 
