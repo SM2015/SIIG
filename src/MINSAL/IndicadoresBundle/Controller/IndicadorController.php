@@ -551,5 +551,16 @@ return $result;
 		else 
 		return false; 
     }
+	
+	public function group_reloadAction($token=NULL,$valor=NULL)
+    { 
+    	$em = $this->getDoctrine()->getManager();
+    	$sa = $em->getRepository('IndicadoresBundle:Boletin')->getGroup();
+		
+		return $this->render('IndicadoresBundle:Page:group.html.twig', array(
+				'group' => $sa,
+				'token' => $token,
+				'valor' => $valor));	
+    }
   
 }//end class

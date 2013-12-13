@@ -2,6 +2,12 @@ _inicio:
     pattern:  /
     defaults: { _controller: SonataAdminBundle:Core:dashboard }
 
+group_show:
+    pattern:  /migroup/{token}/{valor}
+    defaults: { _controller: IndicadoresBundle:Indicador:group_reload }
+    requirements:
+        _method:  GET
+
 indicadores:
     resource: "@IndicadoresBundle/Controller/"
     type:     annotation

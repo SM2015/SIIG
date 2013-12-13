@@ -39,6 +39,17 @@ class BoletinRepository extends EntityRepository
 		}
 		return $result;
 	}
+	
+	public function getGroup()
+    {							
+		$stmt = $this->getEntityManager()
+		->getConnection()
+		->prepare("SELECT * FROM fos_user_group ");
+		$stmt->execute();
+		$result= $stmt->fetchAll();
+		
+		return $result;
+	}
 	public function duracion(\DateTime $dateTime)
     {
         $delta = time() - $dateTime->getTimestamp();
