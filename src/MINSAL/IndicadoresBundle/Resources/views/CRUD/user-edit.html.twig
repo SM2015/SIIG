@@ -69,7 +69,41 @@
 				mes = "0"+mes;
 			$("#dob").val(dia+"/"+mes+"/"+$("#"+uniqid[1]+"_dateOfBirth_year").val());
 		}
+		$("#field_container_"+uniqid[1]+"_groups").append("<div id='micontenido'><input type='button' id='miboton' value='&nbsp; &nbsp; Refrescar Lista' class='btn btn-small' style='margin-left:10px; margin-top:5px'></div>");
+		$("#miboton").click(function(e){
+		    
+			var checkboxes = $( "#"+uniqid[1]+"_groups li" ).length;
+			var cont="0";
+			for (var x=0; x < checkboxes; x++) {
+				if(document.getElementById(uniqid[1]+"_groups_"+x))
+			 	{
+					if(document.getElementById(uniqid[1]+"_groups_"+x).checked)
+			  		cont = cont + document.getElementById(uniqid[1]+"_groups_"+x).value + "_";
+			 	}
+			}
+			
+			var url="{{path('_inicio')}}migroup/"+uniqid[1]+"/"+cont;
+			$.ajax({
+			type: "GET",
+			url: url,
+			})
+			.done(function(dato)
+			{
+				$("#field_widget_"+uniqid[1]+"_groups").html(dato);
+			});
+		});
+		/*var url=$(".sonata-ba-action").attr("href");
+		//$(".sonata-ba-action").attr("href","");
+		//$(".sonata-ba-action").attr("onclick","");
+		$(".sonata-ba-action").click(function(e){
+			var $dialog = $('#micontenido').dialog({ autoOpen: false, modal: true, title: "Some title" }); 
+			$dialog.dialog('open'); 
+alert(url);
+			return false;
+		});*/
+		
 	});
+	
 	</script>
 {% endblock %}
 

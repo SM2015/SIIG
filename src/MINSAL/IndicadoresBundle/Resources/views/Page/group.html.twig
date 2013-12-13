@@ -1,0 +1,8 @@
+<ul id="{{ token }}_groups" class="unstyled span5">
+	{% for data in group %}		
+		{% set che='' %}
+		{% if data.id in valor %} {% set che='checked' %} {% endif %}
+		<li><label><input type="checkbox" {{ che }} id="{{ token }}_groups_{{ loop.index }}" name="{{ token }}[groups][]" value="{{ data.id }}"><span> {{ data.name }} 
+		</span></label></li>
+	{% endfor %}
+</ul>
