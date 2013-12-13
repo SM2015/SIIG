@@ -33,20 +33,21 @@ Aquí se puede modificar los datos personales del usuario: Nombre, apellidos, se
 
 ###Administración
 
-En está opción se puede especificar el estado de la cuenta (desabilitada, expirada, etc) y los roles/permisos del usuario , los cuales se corresponden con cada opción del menú más la acción que se puede realizar.
+En está opción se puede especificar el estado de la cuenta (deshabilitada, expirada, etc) y los roles/permisos del usuario , los cuales se corresponden con cada opción del menú más la acción que se puede realizar.
 Por ejemplo: RESPONSABLE_DATO_CREATE le dará permiso para crear un elemento de la opción del menú Responsable Datos
 
 ![Usuario - Administración](images/usuario_administracion.png)
 
-Atributo |	Significado previsto 
---|--
-VIEW 	| Cuando le es permitido a alguien ver el objeto.
-EXPORT 	| Tiene disponibles las opciones de exportar el listado de objetos
-EDIT 	| Cuando le es permitido a alguien hacer cambios al objeto.
-CREATE 	| Cuando a alguien se le permite crear el objeto.
-DELETE 	| Cuando a alguien se le permite eliminar el objeto.
-OPERATOR | Cuando le es permitido a alguien realizar todas las acciones anteriores.
-MASTER 	| Cuando le es permitido a alguien realizar todas las acciones anteriores, y además tiene permitido conceder cualquiera de los permisos anteriores a otros.
+
+| Atributo | Significado previsto |
+| -- | --:|
+| VIEW 	| Cuando le es permitido a alguien ver el objeto. |
+| EXPORT 	| Tiene disponibles las opciones de exportar el listado de objetos |
+| EDIT 	| Cuando le es permitido a alguien hacer cambios al objeto. |
+| CREATE 	| Cuando a alguien se le permite crear el objeto. |
+| DELETE 	| Cuando a alguien se le permite eliminar el objeto. |
+| OPERATOR | Cuando le es permitido a alguien realizar todas las acciones anteriores. |
+| MASTER 	| Cuando le es permitido a alguien realizar todas las acciones anteriores, y además tiene permitido conceder cualquiera de los permisos anteriores a otros. |
 
 Además se dispone de roles generales.
 Rol  | Significado
@@ -61,7 +62,6 @@ ROLE_USER_CUBOS | Activa la opción Cubos OLAP del menú Ficha Técnica
 
 Por medio de esta opción se le asignan los indicadores y salas que tendrá disponibles el usuario en el trablero
 ![Usuario - Indicadores y Salas](images/usuario_indicadores_salas.png)
-
 
 
 

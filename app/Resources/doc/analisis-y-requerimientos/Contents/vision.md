@@ -28,5 +28,4 @@ Una primera versión del sistema sistema estará disponible a finales de Diciemb
 
 ## Limitaciones
 
-
 La calidad de los datos que se suban al sistema no puede ser garantizada. Esto podría crear errores de análisis y problemas de ejecución de la aplicación.

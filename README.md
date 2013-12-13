@@ -8,9 +8,14 @@ partir de la información administrativa producida por el sistema estatal y
 nacional de información de salud.
 
 
-# [Documentación](https://github.com/rigosv/SIIG/tree/master/app/Resources/doc)
-* [Manual de instalación](https://github.com/rigosv/SIIG/blob/master/app/Resources/doc/manual-tecnico/Contents/instalacion.md)
-* [Documento de análisis y requerimientos](https://github.com/rigosv/SIIG/tree/master/app/Resources/doc/analisis-y-requerimientos/Contents) [pdf](https://github.com/rigosv/SIIG/blob/master/app/Resources/doc/analisis-y-requerimientos/Output/print/book.pdf?raw=true)
-* [Manual técnico](https://github.com/rigosv/SIIG/tree/master/app/Resources/doc/manual-tecnico/Contents) [pdf](https://github.com/rigosv/SIIG/blob/master/app/Resources/doc/manual-tecnico/Output/print/book.pdf?raw=true)
-* [Manual de usuario](https://github.com/rigosv/SIIG/tree/master/app/Resources/doc/manual-de-usuario/Contents) [pdf](https://github.com/rigosv/SIIG/blob/master/app/Resources/doc/manual-de-usuario/Output/print/book.pdf?raw=true)
-* [Manual operativo para el registro de Orígenes de Datos] (https://github.com/erodriguez-minsal/SIIG/raw/chiapas/app/Resources/doc/manual-de-usuario/Output/print/Manual-Operativo-Registro-Origenes-Datos.pdf)
+# [Documentación](https://github.com/erodriguez-minsal/SIIG/tree/chiapas/app/Resources/doc)
+
+* [Manual de instalación](https://github.com/erodriguez-minsal/SIIG/tree/chiapas/app/Resources/doc/app/Resources/doc/manual-tecnico/Contents/instalacion.md)
+
+* [Documento de análisis y requerimientos](https://github.com/erodriguez-minsal/SIIG/tree/chiapas/app/Resources/doc/analisis-y-requerimientos/Contents) [pdf](https://github.com/rigosv/SIIG/blob/chiapas/app/Resources/doc/analisis-y-requerimientos/Output/print/book.pdf?raw=true)
+
+* [Manual técnico](https://github.com/erodriguez-minsal/SIIG/tree/chiapas/app/Resources/doc/manual-tecnico/Contents) [pdf](https://github.com/erodriguez-minsal/SIIG/blob/chiapas/app/Resources/doc/manual-tecnico/Output/print/book.pdf?raw=true)
+
+* [Manual de usuario](https://github.com/erodriguez-minsal/SIIG/tree/chiapas/app/Resources/doc/manual-de-usuario/Contents) [pdf](https://github.com/erodriguez-minsal/SIIG/blob/chiapas/app/Resources/doc/manual-de-usuario/Output/print/book.pdf?raw=true)
+
+* [Manual operativo para el registro de Orígenes de Datos](https://github.com/erodriguez-minsal/SIIG/raw/chiapas/app/Resources/doc/manual-de-usuario/Output/print/Manual-Operativo-Registro-Origenes-Datos.pdf)

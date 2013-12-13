@@ -40,16 +40,16 @@ Esto se logra usando un esquema de datos generico EAV (entidad-atributo-valor).
 El manejo de esquemas EAV es implementado de diferentes formas para diferentes gestores de bases de datos,el Tablero eTAB usa la implementación de Postgres la cual crea un tipo especial de dato llamado HSTORE.
 
 ### Servidor Web
-[Apache2] (http://www.apache.org)
+[Apache2](http://www.apache.org)
 
 Apache es un servidor Web de código abierto, se ha realizado sobre Apache versión 2.2
 
 ### Framework de desarrollo/Servidor
-[PHP] (http://www.php.net)
+[PHP](http://www.php.net)
 
-[Symfony] (http://symfony.com/)
+[Symfony](http://symfony.com/)
 
-[GitHub] (https://github.com/)
+[GitHub](https://github.com/)
 
 El lenguaje que se ha utilizado es PHP 5.3.18 dentro de una estructura de desarrollo MVC manejada  Symfony versión 2.4
 Cada mimbro del equipo de desarrollo usa un aplicativo diferente para escribir/modificar el código fuente. Los mas populares popular es Netbeans(version libre para PHP) y Nano. 
