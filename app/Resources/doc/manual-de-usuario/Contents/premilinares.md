@@ -20,14 +20,14 @@ Pasos alternos:
 1. Nombre del usuario actual y la opción para salir.
 1. Logo/Imagen principal
 1. Menú principal, se mostrarán las opciones de acuerdo al perfil del usuario
-1. Barra de navegación. Contrendrá las opciones en las cuales se ha ingresado
+1. Barra de navegación. Contendrá las opciones en las cuales se ha ingresado
 1. Área de trabajo
 
 ## Listado
 La mayoría de interfaces se componen de un listado, desde la cual podemos realizar las siguientes acciones:
 
 1. Crear un nuevo elemento
-1. Seleccionar un elemento para Editar/Borar
+1. Seleccionar un elemento para Editar/Borrar
 1. Cambiar el orden del listado
 1. Aplicar filtros
 1. Exportar los datos del listado
@@ -52,7 +52,7 @@ Si se está editando un elemento existente dispondremos de los siguientes botone
 
 1. Actualizar. Guarda los cambios realizados y mantiene el formulario abierto para poder realizar más modificaciones.
 1. Actualizar y cerrar. Guarda los cambios y vuelve al listado.
-1. Borrar. Permite elimitar el elemento actual, se pedirá confirmación de la acción.
+1. Borrar. Permite eliminar el elemento actual, se pedirá confirmación de la acción.
 
 ![Editar - Acciones](images/botones_editar.png)
 

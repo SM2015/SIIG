@@ -7,6 +7,7 @@ build/
 vendor
 composer.phar
 composer.lock
+!app/Resources/doc/manual-tecnico/Contents/composer.lock
 *~
 nbproject/
 .settings

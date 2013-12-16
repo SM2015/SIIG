@@ -96,11 +96,9 @@ El Siguiente Diccionario de Datos y Diagrama ER describen la estructura del alma
   
   Esta tabla es usada por: 
   
-  
-  
   <ul>
       <li><a href="#indicador_alertas">indicador_alertas</a>  hace referencia la campo (id)</li>
-    </UL>
+    </ul>
   
 
   <h3>2. campo<a name="campo"></a></h3>
@@ -1912,16 +1910,16 @@ El Siguiente Diccionario de Datos y Diagrama ER describen la estructura del alma
     </tr>
   </table>
   
-    Esta tabla depende de:
+  Esta tabla depende de:
     
-    <ul>
-      <li> <a href="#ficha_tecnica">ficha_tecnica</a> por medio de  (id_indicador)</li>
-      <li> <a href="#fos_user_user">fos_user_user</a> por medio de  (id_usuario)</li>
-    </ul>
+  <ul>
+    <li> <a href="#ficha_tecnica">ficha_tecnica</a> por medio de  (id_indicador)</li>
+    <li> <a href="#fos_user_user">fos_user_user</a> por medio de  (id_usuario)</li>
+  </ul>
   
 
 
-  <h3>29. variable_dato<a name="variable_dato"></a></h3>
+  <h3>30. variable_dato<a name="variable_dato"></a></h3>
 
 
   <table class="tableDefinition" width="100%">
@@ -2009,4 +2007,4 @@ El Siguiente Diccionario de Datos y Diagrama ER describen la estructura del alma
   Esta tabla es usada por: 
   <ul>
       <li> <a href="#ficha_tecnica_variable_dato">ficha_tecnica_variable_dato</a>  hace referencia la campo (id)</li>
-    </ul><h3>
+    </ul>
