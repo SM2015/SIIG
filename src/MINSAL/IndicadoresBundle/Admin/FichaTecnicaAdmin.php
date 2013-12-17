@@ -219,13 +219,16 @@ class FichaTecnicaAdmin extends Admin
     public function postPersist($fichaTecnica)
     {
         $this->crearCamposIndicador($fichaTecnica);
-        //$this->repository->crearTablaIndicador();
+        //$this->repository->crearTablaIndicador()
+	$this->crearCuboMondrian($fichaTecnica);
+	$this->crearPentahoCDA($fichaTecnica);
+
     }
 
     public function postUpdate($fichaTecnica)
     {
-        $this->crearCamposIndicador($fichaTecnica);
-        //$this->repository->crearTablaIndicador($fichaTecnica);
+       $this->crearCamposIndicador($fichaTecnica);
+	$this->crearCuboMondrian($fichaTecnica);
     }
 
     public function prePersist($fichaTecnica)
@@ -314,4 +317,328 @@ class FichaTecnicaAdmin extends Admin
             );
         }
     }
+
+/* Ordena codigo XML para facilitar su lectura
+ $xml_str= Cadena XML sin indentar*/
+
+public function formatXML($xml_str){
+$xml_str = preg_replace('/(>)(<)(\/*)/', "$1\n$2$3", $xml_str);
+    $token      = strtok($xml_str, "\n");
+    $result     = '';
+    $pad        = 0; 
+    $matches    = array();
+    while ($token !== false) : 
+        if (preg_match('/.+<\/\w[^>]*>$/', $token, $matches)) : 
+          $indent=0;
+        elseif (preg_match('/^<\/\w/', $token, $matches)) :
+          $pad--;
+          $indent = 0;
+        elseif (preg_match('/^<\w[^>]*[^\/]>.*$/', $token, $matches)) :
+          $indent=1;
+        else :
+          $indent = 0; 
+        endif;
+        $line    = str_pad($token, strlen($token)+$pad, ' ', STR_PAD_LEFT);
+        $result .= $line . "\n";
+        $token   = strtok("\n");
+        $pad    += $indent;
+    endwhile; 
+return $result;
+}
+
+/* Toma una Ficha Tecnica para obtener el ID de indicador, crea un 
+ Schema de Mondrian y lo agrega las fuentes de datos de Pentaho. El nuevo
+esquema de Mondrian es usado por Saiku.
+*/
+    public function crearCuboMondrian(FichaTecnica $fichaTecnica)
+    { 
+	$em = $this->getConfigurationPool()->getContainer()->get('doctrine')->getManager();
+	$util = new \MINSAL\IndicadoresBundle\Util\Util();
+        $campos= str_replace("'", '',$fichaTecnica->getCamposIndicador());
+	$dims='';
+	$cubo=false;	
+	foreach (explode(",",$campos) as $cosa){
+	 	if (strstr($cosa,'id_')){
+	  	  $sig = $em->getRepository('IndicadoresBundle:SignificadoCampo')->findOneBy(array('codigo'=>trim($cosa)));
+		  $catalogo = $sig->getCatalogo();
+		  if($catalogo!=''){
+			$dims=$dims."\n<DimensionUsage source='".ucfirst(substr(trim($cosa),3)).
+			"' name='".ucfirst(substr(trim($cosa),3))."' visible='true' ".
+			"foreignKey='".trim($cosa)."' highCardinality='false'/>";
+			$cubo=true;
+			}
+		}
+     	} 
+       if ($cubo){
+       $schemaFile=$this->getConfigurationPool()->getContainer()->getParameter('carpeta_siig_mondrian').'/indicador'.$fichaTecnica->getId('id').'.mondrian.xml';
+	$fh=fopen($this->getConfigurationPool()->getContainer()->getParameter('carpeta_siig_mondrian').'/cubo_base.txt','r');
+	$base_cubo= fread($fh, filesize($this->getConfigurationPool()->getContainer()->getParameter('carpeta_siig_mondrian').'/cubo_base.txt'));
+	fclose($fh);
+	$formula = str_replace(' ', '', $fichaTecnica->getFormula());
+        preg_match_all('/\{([\w]+)\}/', $formula, $vars_formula);
+	$formula=strtolower($formula);
+	$formula=str_replace('{','[Measures].[', $formula);
+	$formula=str_replace('}',']', $formula);
+
+	$datos= "\n<Cube name='".$fichaTecnica->getNombre()."' visible='true' cache='true' enabled='true'>".
+                 "\n<Table name='tmp_ind_".$util->slug($fichaTecnica->getNombre())."' schema='public'></Table>".
+    		$dims;	
+	foreach ($vars_formula[1] as $myvar){
+			$datos=$datos."\n<Measure name='".strtolower($myvar).
+			"' column='".strtolower($myvar)."' formatString='#' aggregator='sum'></Measure>";
+		}
+	
+    	$datos=$datos."\n <CalculatedMember name='Valor (".$fichaTecnica->getUnidadMedida().")'".
+		" formula='".$formula."' dimension='Measures' visible='true'></CalculatedMember>\n</Cube>\n</Schema>";
+
+	$fh = fopen($schemaFile, 'w');
+	fwrite($fh,$this->formatXML("\n<Schema name='Indicador ".$fichaTecnica->getId()."'>\n ".$base_cubo.$datos)); 
+        fclose($fh);       
+
+	$pentahoResource=$this->getConfigurationPool()->getContainer()->getParameter('carpeta_siig_mondrian').
+		$this->getConfigurationPool()->getContainer()->getParameter('listado_metadata');
+
+	$xml= simplexml_load_file($pentahoResource);
+	$node=$xml->xpath('//Catalogs');
+	$catalog=$node[0]->addChild('Catalog');
+	$catalog->addAttribute('name','Indicador '.$fichaTecnica->getId('id'));
+	$catalog->addChild('DataSourceInfo','Provider=mondrian;DataSource='.
+			$this->getConfigurationPool()->getContainer()->getParameter('conexion_bd_pentaho'));
+	$catalog->addChild('Definition',$schemaFile);
+
+	$fh = fopen($pentahoResource, 'w'); 
+	fwrite($fh, $this->formatXML($xml->asXML())); 
+        fclose($fh);
+	}
+	$em->flush(); 
+    }
+
+ public function crearPentahoCDA(FichaTecnica $fichaTecnica)
+    {	
+	//crear archivo solo en caso que no exista.
+	$CDAFile=$this->getConfigurationPool()->getContainer()->getParameter('carpeta_pentaho_cda').
+	"indicador".$fichaTecnica->getId().".cda";
+
+	if (!file_exists($CDAFile))  {    
+        $em = $this->getConfigurationPool()->getContainer()->get('doctrine')->getManager();
+        $util = new \MINSAL\IndicadoresBundle\Util\Util();
+        $campos= explode(",",str_replace("'", '',$fichaTecnica->getCamposIndicador()));
+        $campos=array_map('trim',$campos);
+                    
+       $formula = str_replace(' ', '', $fichaTecnica->getFormula());
+        $tabla="tmp_ind_".$util->slug($fichaTecnica->getNombre());
+ 
+        $queries=$this->crearPentahoCDAQueries($campos,$tabla,$formula);
+	$this->crearPentahoCDAArchivo($queries,$fichaTecnica->getId());
+
+        $em->flush();}
+ }
+
+
+ public function crearPentahoCDAArchivo($queries,$id){
+
+        $datos= "<?xml version='1.0' encoding='utf-8'?><CDADescriptor>   
+		 <DataSources> <Connection id='1' type='sql.jdbc'>
+            	<Driver>org.postgresql.Driver</Driver>
+		<Url>jdbc:postgresql://localhost:5432/".
+		$this->getConfigurationPool()->getContainer()->getParameter('database_name')."</Url>
+            <User>".$this->getConfigurationPool()->getContainer()->getParameter('database_user')."</User>
+            <Pass>".$this->getConfigurationPool()->getContainer()->getParameter('database_password')."</Pass>
+        </Connection>
+    </DataSources>";
+        foreach ($queries as $q){
+		$datos=$datos."<DataAccess id='".$q['id']."' connection='1' type='sql' access='public' cache='true' cacheDuration='300'>
+        		<Name>".$q['titulo']."</Name> <Query>".$q['sql']."</Query><Parameters>
+            		<Parameter name='anio' type='Integer' default='2013'/>  </Parameters>
+    			</DataAccess>";
+                }        
+
+	$datos=$datos."</CDADescriptor>";
+
+	$CDAFile=$this->getConfigurationPool()->getContainer()->getParameter('carpeta_pentaho_cda')."indicador".$id.".cda";
+        $fh = fopen($CDAFile, 'w');
+        fwrite($fh,$this->formatXML($datos));
+        fclose($fh);
+ } 
+
+ public function crearPentahoCDAQueries($campos,$tabla,$formula){
+
+        preg_match_all('/\{([\w]+)\}/', $formula, $vars_formula);
+        $formula=strtolower($formula);
+        $formula_agregada=str_replace('{','sum(', str_replace('}',')', $formula));
+        $formula=str_replace('{',' ', str_replace('}',' ', $formula));
+	$queries=array();
+
+ //Busqueda para generar listado de Anios
+  if (in_array('anio', $campos)){
+	$sql_text='select distinct anio from '.$tabla;
+	$where_sql=" WHERE aa.anio::int=!anio} ";
+	} else {
+	$sql_text='select false';
+	$where_sql='';	}
+
+	$q=array(
+	'id' =>'anios', 
+	'titulo'=>'Anios disponibles | sin_grafico',
+	'sql'=>htmlspecialchars($sql_text));
+	array_push($queries,$q);	
+
+//Busqueda para generar datos por departamento
+  if (in_array('id_departamento', $campos)){
+	$sql=array();
+	 foreach ($vars_formula[1] as $myvar){
+                        $sql_text="to_char(sum(".$myvar."),'999,999') as ".$myvar;
+			array_push($sql,$sql_text);
+                }
+        $q=array(
+	'id'=>'1',
+        'titulo'=>'Datos por departamento | tabla',
+        'sql'=>"select  bb.abreviatura as departamento,".implode(",",$sql).
+	",to_char(round(".$formula_agregada.",2),'999.99%') as porcentaje
+        FROM ".$tabla." aa   INNER JOIN ctl_departamento bb ON aa.id_departamento = bb.id
+        ".$where_sql."  group by bb.abreviatura order by porcentaje asc;");
+
+	$q['sql']= htmlspecialchars(str_replace('!','${', $q['sql']));
+
+        array_push($queries,$q);
+        }
+
+ //Busqueda para generar datos por Departamento agrupados por Edad
+if ((in_array('id_departamento', $campos))&&(in_array('edad', $campos))){
+        $q=array(
+        'id' =>'2',
+        'titulo'=>'Distribucion por grupo de Edades | barras',
+        'sql'=>"select dept as eje_x,  sum(case when  edad<10 then valor else 0 end)  as 'Menores de 10',
+   sum(case when edad>=10 and edad<20 then valor else 0 end)  as 'Entre 10 y 20',
+ sum(case when edad>=20 and edad<30 then valor else 0 end)  as 'Entre  20 y 30' ,
+ sum(case when edad>=30 and edad<40 then valor else 0 end)  as 'Entre  30 y 40' , 
+ sum(case when edad>=40 and edad<50 then valor else 0 end)  as 'Entre  40 y 50' ,
+ sum(case when edad>=50 and edad<60 then valor else 0 end)  as 'Entre  50 y 60',
+  sum(case when edad>=60  then valor else 0 end)  as 'Mayores de 60' 
+from ( SELECT ".$formula_agregada." as valor,edad,ctl_departamento.abreviatura AS dept 
+FROM ".$tabla." aa INNER JOIN ctl_departamento ON aa.id_departamento = ctl_departamento.id
+ ".$where_sql." group by dept, edad order by dept ) boo group by dept; ");
+        $q['sql']= str_replace('!','${', $q['sql']);
+        $q['sql']= htmlspecialchars(str_replace("'",'"', $q['sql']));
+
+        array_push($queries,$q);
+        }
+
+ //Busqueda para generar datos por Departamento agrupados por Diagnostico
+if ((in_array('id_departamento', $campos))&&(in_array('id_diagnostico', $campos))){
+        $q=array(
+        'id' =>'3',
+        'titulo'=>'Distribucion por Diagnostico | barras',
+        'sql'=>"select dept as eje_x,  sum(case when diag='I60.9' then valor else 0 end) as *Hemorragia subaracnoidea*,
+sum(case when diag='I67.8' then valor else 0 end) as *Enfermedades cerebrovasculares*,
+sum(case when diag='I64' then valor else 0 end) as *Accidente vascular encefálico age*,
+sum(case when diag='I67.9' then valor else 0 end) as *Enfermedad cerebrovascula*,
+sum(case when diag='I61.9' then valor else 0 end) as *Hemorragia intraencefálac*
+ from ( SELECT ".$formula_agregada." as valor,cc.id as diag,bb.abreviatura AS dept 
+ FROM ".$tabla." aa INNER JOIN ctl_departamento bb
+ ON aa.id_departamento = bb.id INNER JOIN ctl_cie10 cc ON aa.id_diagnostico=cc.id 
+".$where_sql." and cc.id IN (select  id_diagnostico from ".$tabla." group by id_diagnostico
+ having count(id_diagnostico)>50 limit 5)group by dept,cc.id)foo group by dept; ");
+        $q['sql']= str_replace('!','${', $q['sql']);
+        $q['sql']=htmlspecialchars(str_replace("*",'"', $q['sql']));
+
+        array_push($queries,$q);
+        }
+
+
+//Busqueda para generar datos por Departamento agrupados por area
+  if ((in_array('id_departamento', $campos))&&(in_array('area', $campos))){
+        $sql=array();
+         foreach ($vars_formula[1] as $myvar){
+                        $sql_text="aa.".$myvar;
+                        array_push($sql,$sql_text);
+                }
+        $q=array(
+        'id'=>'4',
+        'titulo'=>'Datos por Departamento y Area | barras',
+        'sql'=>"Select dept as eje_x,  sum(case when area='Rural' then porcentaje end)  as Rural,
+			sum(case when area='Urbano' then porcentaje end) as Urbano
+			 from ( SELECT round(".$formula_agregada.",2) as porcentaje,dept,area
+    			from (SELECT ctl_departamento.abreviatura AS dept,".implode(",",$sql).
+			",ctl_area.descripcion as area FROM ".$tabla." aa  
+		    	 INNER JOIN ctl_departamento ON aa.id_departamento = ctl_departamento.id
+     			INNER JOIN ctl_area ON aa.area = ctl_area.inicial
+			".$where_sql." ) as foo group by dept, area order by dept) yy group by dept;");
+        $q['sql']= htmlspecialchars(str_replace('!','${', $q['sql']));
+        array_push($queries,$q);
+        }
+
+//Busqueda para generar datos por Departamento agrupados por genero
+  if ((in_array('id_departamento', $campos))&&(in_array('genero', $campos))){
+        $sql=array();
+         foreach ($vars_formula[1] as $myvar){
+                        $sql_text="aa.".$myvar;
+                        array_push($sql,$sql_text);
+                }
+        $q=array(
+        'id'=>'5',
+        'titulo'=>'Datos por Departamento y Genero | barras',
+        'sql'=>"Select dept as eje_x,  sum(case when sex='M' then porcentaje end)  as Mujer,
+sum(case when sex='F' then porcentaje end) as Hombre
+ from ( SELECT round(".$formula_agregada.",2) as porcentaje, dept, sex
+    from (SELECT ctl_departamento.abreviatura AS dept,".implode(",",$sql). ",ctl_sexo.inicial as sex
+FROM ".$tabla." aa  
+     INNER JOIN ctl_departamento ON aa.id_departamento = ctl_departamento.id
+     INNER JOIN ctl_sexo ON aa.genero = ctl_sexo.inicial
+".$where_sql." ) as foo group by dept, sex order by dept) yy group by dept;" );
+        $q['sql']= htmlspecialchars(str_replace('!','${', $q['sql']));
+        array_push($queries,$q);
+        }
+
+//Busqueda para generar resumen estadistico
+  if (in_array('id_municipio', $campos)){
+        $q=array(
+	'id'=>'resumen',
+        'titulo'=>'Resumen Estadistico | sin_grafico',
+        'sql'=>"(select  'n_registros' as nombre,count(*) as val
+ FROM ".$tabla." aa            
+ INNER JOIN ctl_municipio bb ON aa.id_municipio = bb.id  ".$where_sql." )
+  
+UNION
+  
+(select  'conteo_moda' as nombre, count(porcentaje) as val from 
+    (select round(".$formula_agregada.",1) as porcentaje,
+bb.descripcion as municipio  
+ FROM ".$tabla." aa            
+ INNER JOIN ctl_municipio bb ON aa.id_municipio = bb.id ".$where_sql."     
+ group by bb.descripcion) boo group by boo.porcentaje order by val desc limit 1)
+ 
+UNION
+  
+(select  'moda' as nombre, kk.porcentaje as val from
+                    (select count(boo.porcentaje) as conteo,boo.porcentaje from  
+                         (select round(".$formula_agregada.",1) as porcentaje,
+                         bb.descripcion as municipio  
+                         FROM ".$tabla." aa            
+                         INNER JOIN ctl_municipio bb ON aa.id_municipio = bb.id     
+                         ".$where_sql."  group by bb.descripcion) boo 
+                         group by boo.porcentaje order by conteo desc limit 1)kk
+) 
+
+UNION
+ 
+(select 'desv_std' as nombre,round(stddev_pop(porcentaje),2) as val 
+ from (select round(".$formula_agregada.",0) as porcentaje   
+ FROM ".$tabla." aa            
+ INNER JOIN ctl_municipio bb ON aa.id_municipio = bb.id     
+ ".$where_sql."  group by bb.descripcion order by porcentaje asc )boo)
+
+UNION
+(select 'promedio' as nombre, round(avg(porcentaje),2) as val 
+ from (select round(".$formula_agregada.",0) as porcentaje 
+ FROM ".$tabla." aa            
+ INNER JOIN ctl_municipio bb ON aa.id_municipio = bb.id ".$where_sql."     
+  group by bb.descripcion order by porcentaje asc )boo)");
+$q['sql']= htmlspecialchars(str_replace('!','${', $q['sql']));
+   array_push($queries,$q);
+        }
+ return $queries;
+   //    echo "<pre>".var_dump($queries)."</pre>";
+	exit;
+     }
 }
