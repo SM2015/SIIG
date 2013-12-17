@@ -13,8 +13,6 @@
     fill: steelblue;
 }
 
-
-
 #div_carga{    
     position: fixed;
     top:0;
@@ -151,6 +149,60 @@ input.valores_filtro{
 div.popover-content, div.popover-title{
     font-size : 9pt !important;
 }
+
+.marco-sala {
+    background-color: #FFFFFF;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px 4px 4px 4px;
+    margin: 15px 0;
+    padding: 39px 19px 14px;
+    position: relative;
+}
+.marco-sala:after {
+    background-color: #FFB709;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px 0 4px 0;
+
+    content: attr(data-content);
+    font-size: 12px;
+    font-weight: bold;
+    left: -1px;
+    padding: 3px 7px;
+    position: absolute;
+    top: -1px;
+}
+
+.dropdown-menu-visible{
+    display: block; position: static; margin-bottom: 5px; *width: 180px;
+}
+
+#chat-mensajes {
+  overflow: auto;
+  max-height: 150px;
+}
+
+.usuariosSala{
+    margin-bottom: 4px !important;
+    overflow: auto;
+    max-height: 200px;
+}
+
+.mensaje-sala{
+    width: 100%;
+    border: 1px solid #D8DFEA;
+    background-color: #EDEFF4;
+        
+}
+.chat-usuario{
+    color: #3B6EC6;
+}
+
+.chat-fecha{
+    color: #838384;
+}
+#chat-form-mensaje{
+    width: 80% !important;
+}}
 
 div.datos {
   font: 10px sans-serif;

@@ -374,32 +374,4 @@ class IndicadorController extends Controller
         $em->flush();
         return new Response();
     }
-    /* Ordena codigo XML para facilitar su lectura
- $xml_str= Cadena XML sin indentar
-*/
-public function formatXML($xml_str){
-$xml_str = preg_replace('/(>)(<)(\/*)/', "$1\n$2$3", $xml_str);
-    $token      = strtok($xml_str, "\n");
-    $result     = '';
-    $pad        = 0; 
-    $matches    = array();
-    while ($token !== false) : 
-        if (preg_match('/.+<\/\w[^>]*>$/', $token, $matches)) : 
-          $indent=0;
-        elseif (preg_match('/^<\/\w/', $token, $matches)) :
-          $pad--;
-          $indent = 0;
-        elseif (preg_match('/^<\w[^>]*[^\/]>.*$/', $token, $matches)) :
-          $indent=1;
-        else :
-          $indent = 0; 
-        endif;
-        $line    = str_pad($token, strlen($token)+$pad, ' ', STR_PAD_LEFT);
-        $result .= $line . "\n";
-        $token   = strtok("\n");
-        $pad    += $indent;
-    endwhile; 
-return $result;
-}
-
 }//end class

@@ -18,6 +18,14 @@
       </Level>
     </Hierarchy>
   </Dimension>
+  <Dimension visible="true" highCardinality="false" name="Diagnostico">
+    <Hierarchy name="Diagnostico" visible="true" hasAll="true" primaryKey="id">
+      <Table name="ctl_cie10" schema="public">
+      </Table>
+      <Level name="Region" visible="true" column="descripcion" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
   <Dimension visible="true" highCardinality="false" name="Municipio">
     <Hierarchy name="Municipio" visible="true" hasAll="true" primaryKey="id">
       <Table name="ctl_municipio" schema="public">

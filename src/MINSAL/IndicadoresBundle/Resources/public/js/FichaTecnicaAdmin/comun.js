@@ -33,7 +33,10 @@ function dibujarGraficoPrincipal(zona, tipo) {
     $('#' + zona + ' .dimension').html($('#' + zona + ' .dimensiones option:selected').html());
     cerrarMenus();
     var grafico = crearGraficoObj(zona, tipo);
-
+    if (grafico === false){
+        alert(trans._tipo_grafico_desconocido_ + tipo);
+        return;
+    }
     $('#' + zona + ' .titulo').show();
     grafico.dibujar();
     aplicarFormato();
@@ -69,7 +72,8 @@ function crearGraficoObj(zona, tipo) {
         grafico = new graficoLineas(zona, datasetPrincipal);
     else if (tipo == 'mapa')
         grafico = new graficoMapa(zona, datasetPrincipal);
-
+    else
+        return false;
     return grafico;
 }
 function ascenderNivelDimension(zona, nivel) {
@@ -96,7 +100,7 @@ function ascenderNivelDimension(zona, nivel) {
         }
     });
 
-    //El primer elemento 
+    //El primer elemento d
     $('#' + zona + ' .dimensiones').children('option[value="' + primero + '"]').attr('selected', 'selected');
 
     $filtro.html(ruta);

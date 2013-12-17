@@ -56,7 +56,14 @@ $(document).ready(function() {
 
         $campos.html(campos_nvo_orden.substring(0, campos_nvo_orden.length - 1));
     }
-
-
+    
+    alertas_aplicar_estilos();
+    $('div[id$=_alertas]').on('sonata.add_element', function(event) {
+        alertas_aplicar_estilos();
+    });
+    
+    function alertas_aplicar_estilos(){
+        $('div[id$=_alertas] select[id$=_color]').css('width','150px');
+        $('div[id$=_alertas] textarea[id$=_comentario]').css('width','350px');
+    }
 });
-
