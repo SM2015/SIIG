@@ -17,7 +17,7 @@ class IndicadorRESTController extends Controller
     /**
      * @param integer $fichaTec
      * @param string $dimension
-     * @Get("/indicador/{id}/{dimension}", options={"expose"=true})
+     * @Get("/data/{id}/{dimension}", options={"expose"=true})
      * @Rest\View
      */
     public function getIndicadorAction(FichaTecnica $fichaTec, $dimension)
