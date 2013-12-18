@@ -202,4 +202,44 @@ div.popover-content, div.popover-title{
 }
 #chat-form-mensaje{
     width: 80% !important;
+}}
+
+div.datos {
+  font: 10px sans-serif;
 }
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.bar {
+  fill: steelblue;
+}
+
+.grafico {
+  font: 10px sans-serif;
+}
+.grafico table{
+  font: 12px sans-serif;
+}
+div#datos table{
+ font: 14px sans-serif;
+}
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.bar {
+  fill: steelblue;
+}
+
+.x.axis path {
+  display: none;
+}
+

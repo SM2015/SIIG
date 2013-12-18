@@ -24,3 +24,6 @@ parameters:
 # Archivo que lista esquemas existentes y su conexion 
 # Este archivo debe estar ligado al fichero ../pentaho-solutions/system/olap/datasources.xml
     listado_metadata: 'datasources.siig'
+
+# Carpeta para guardar las busquedas usadas para generar reportes usando Pentaho CDA
+    carpeta_pentaho_cda: '/home/siig/pentaho/pentaho-solutions/reportes'

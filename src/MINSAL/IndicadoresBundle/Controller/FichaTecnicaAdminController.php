@@ -131,10 +131,31 @@ class FichaTecnicaAdminController extends Controller
     */
     public function reporteAction() {
 
-        $id = $this->getRequest()->get('id');
-        $reporte= "http://etab.salud.gob.sv:8080/pentaho/content/reporting/reportviewer/report.html?solution=reportes&path=&name=indicador".$id.".prpt";
+       /* $reporte= "http://etab.salud.gob.sv:8080/pentaho/content/reporting/reportviewer/report.html?solution=reportes&path=&name=indicador".$id.".prpt";
         return new RedirectResponse($reporte);
-        
+      */
+
+        $req = $this->getRequest();
+	 $em = $this->getDoctrine()->getManager();
+         $id = $this->getRequest()->get('id');
+	 $indicador = $em->find('IndicadoresBundle:FichaTecnica', $id);
+		$vars=array();
+            foreach($indicador->getVariables() as $var){
+		$lectura = $em->getRepository('IndicadoresBundle:OrigenDatos')->getUltimaActualizacion($var->getOrigenDatos());
+		array_push($vars,array('lectura'=>$lectura,'valor'=>$var->getIniciales().": ".$var->getNombre()));
+            }            
+	$CDAFile=$this->admin->getConfigurationPool()->getContainer()->getParameter('carpeta_pentaho_cda')."indicador".$id.".cda";
+
+	if(!file_exists($CDAFile)){
+		$this->admin->crearPentahoCDA($indicador);}
+	
+        $em->flush();
+        return $this->render('IndicadoresBundle:FichaTecnicaAdmin:reporte.html.twig',
+		array('id'=>$id, 'nombre'=>$indicador->getNombre(),
+                        'inter'=>$indicador->getConcepto(),
+                        'tema'=>$indicador->getTema(),
+			'vars'=>$vars,
+			'fecha'=>date("Y-m-d H:i")));
         } 
 
 
