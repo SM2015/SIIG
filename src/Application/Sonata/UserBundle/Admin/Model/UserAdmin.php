@@ -54,6 +54,7 @@ class UserAdmin extends BaseAdmin
                     ->add('username')
                     ->add('email')
                     ->add('plainPassword', 'text', array('required' => $pass_requerido))
+                    ->add('agencia', null, array('label' => $this->getTranslator()->trans('_agencia_')))
                 ->end()
                 ->with('Groups')
                     ->add('groups', 'sonata_type_model', array('required' => false, 'expanded' => true, 'multiple' => true))

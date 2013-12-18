@@ -13,10 +13,10 @@ class LoadTipoGraficoData extends AbstractFixture implements OrderedFixtureInter
     public function load(ObjectManager $manager)
     {
         $datos = array();
-        $datos[1]['campos'] = array('Codigo'=>'column','Descripcion'=>'Columnas');
-        $datos[2]['campos'] = array('Codigo'=>'pie','Descripcion'=>'Pastel');
-        $datos[3]['campos'] = array('Codigo'=>'line','Descripcion'=>'Lineas');
-        $datos[4]['campos'] = array('Codigo'=>'map','Descripcion'=>'Mapa');
+        $datos[1]['campos'] = array('Codigo'=>'columnas','Descripcion'=>'Columnas');
+        $datos[2]['campos'] = array('Codigo'=>'pastes','Descripcion'=>'Pastel');
+        $datos[3]['campos'] = array('Codigo'=>'lineas','Descripcion'=>'Lineas');
+        $datos[4]['campos'] = array('Codigo'=>'mapa','Descripcion'=>'Mapa');
 
         $master = new LoadMaster();
         $master->save($datos, $manager, $this);

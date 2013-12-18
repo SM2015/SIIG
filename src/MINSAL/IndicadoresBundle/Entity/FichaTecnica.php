@@ -173,6 +173,15 @@ class FichaTecnica
     * @ORM\OneToMany(targetEntity="GrupoIndicadoresIndicador", mappedBy="indicador", cascade={"all"}, orphanRemoval=true)
     */
     private $grupos;
+    
+    /**
+     *
+     * @var agencia
+     *
+     * @ORM\ManyToOne(targetEntity="Agencia")
+     * @ORM\OrderBy({"codigo" = "ASC"})
+     **/
+    private $agencia;
 
     /**
      * Get id
@@ -814,5 +823,28 @@ class FichaTecnica
     public function getGruposUsuarios()
     {
         return $this->gruposUsuarios;
+    }
+
+    /**
+     * Set agencia
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\Agencia $agencia
+     * @return FichaTecnica
+     */
+    public function setAgencia(\MINSAL\IndicadoresBundle\Entity\Agencia $agencia = null)
+    {
+        $this->agencia = $agencia;
+
+        return $this;
+    }
+
+    /**
+     * Get agencia
+     *
+     * @return \MINSAL\IndicadoresBundle\Entity\Agencia 
+     */
+    public function getAgencia()
+    {
+        return $this->agencia;
     }
 }

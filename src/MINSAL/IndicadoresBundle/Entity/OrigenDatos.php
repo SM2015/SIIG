@@ -3,14 +3,12 @@
 namespace MINSAL\IndicadoresBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * MINSAL\IndicadoresBundle\Entity\OrigenDatos
  *
  * @ORM\Table(name="origen_datos")
  * @ORM\Entity(repositoryClass="MINSAL\IndicadoresBundle\Entity\OrigenDatosRepository")
- * @UniqueEntity(fields="sentenciaSql", message="La sentencia SQL ya fue utilizada")
  */
 class OrigenDatos
 {

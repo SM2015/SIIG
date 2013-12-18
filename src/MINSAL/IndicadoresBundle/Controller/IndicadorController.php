@@ -73,10 +73,10 @@ class IndicadorController extends Controller
                         
             //Verificar que se tiene la más antigua de las últimas lecturas de los orígenes
             //de datos del indicador
-            $ultima_lectura = new \DateTime("NOW");;
+            $ultima_lectura = null;
             foreach($fichaTec->getVariables() as $var){
                 $fecha_lectura = $em->getRepository('IndicadoresBundle:OrigenDatos')->getUltimaActualizacion($var->getOrigenDatos());
-                if ($fecha_lectura < $ultima_lectura){
+                if ($fecha_lectura > $ultima_lectura or $ultima_lectura == null){
                     $ultima_lectura = $fecha_lectura;
                 }                
             }            
@@ -92,40 +92,6 @@ class IndicadorController extends Controller
         if ($this->get('kernel')->getEnvironment() != 'dev') {
             $response->setMaxAge($this->container->getParameter('indicador_cache_consulta'));
         }
-
-        return $response;
-    }
-
-    /**
-     * @Route("/indicador/datos/{id}/{dimension}", name="indicador_datos", options={"expose"=true})
-     */
-    public function getDatos(FichaTecnica $fichaTec, $dimension)
-    {
-        $resp = array();
-        $filtro = $this->getRequest()->get('filtro');
-        $verSql = ($this->getRequest()->get('ver_sql') == 'true') ? true : false;
-
-        if ($filtro == null or $filtro == '')
-            $filtros = null;
-        else {
-
-            $filtrObj = json_decode($filtro);
-            foreach ($filtrObj as $f) {
-                $filtros_dimensiones[] = $f->codigo;
-                $filtros_valores[] = $f->valor;
-            }
-            $filtros = array_combine($filtros_dimensiones, $filtros_valores);
-        }
-
-        $em = $this->getDoctrine()->getManager();
-
-        $fichaRepository = $em->getRepository('IndicadoresBundle:FichaTecnica');
-
-        $fichaRepository->crearIndicador($fichaTec, $dimension, $filtros);
-        $resp['datos'] = $fichaRepository->calcularIndicador($fichaTec, $dimension, $filtros, $verSql);
-        $response = new Response(json_encode($resp));
-        if ($this->get('kernel')->getEnvironment() != 'dev')
-            $response->setMaxAge($this->container->getParameter('indicador_cache_consulta'));
 
         return $response;
     }

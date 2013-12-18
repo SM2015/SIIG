@@ -139,6 +139,19 @@ class FichaTecnicaAdmin extends Admin
 
     public function validate(ErrorElement $errorElement, $object)
     {
+        //Verificar que el usuario tiene una agencia asignada
+        $usuario = $this->getConfigurationPool()
+                ->getContainer()
+                ->get('security.context')
+                ->getToken()
+                ->getUser();
+        if ($usuario->getAgencia() == null){
+            $errorElement
+                        ->with('nombre')
+                        ->addViolation($this->getTranslator()->trans('_usuario_no_agencia_'))
+                        ->end();
+        }
+
         //Verificar que todos los campos esten configurados
         foreach ($object->getVariables() as $variable) {
             $campos_no_configurados = $this->getModelManager()
@@ -229,13 +242,23 @@ class FichaTecnicaAdmin extends Admin
     {
         $this->crearCamposIndicador($fichaTecnica);
         //$this->repository->crearTablaIndicador($fichaTecnica);
-             $this->crearCuboMondrian($fichaTecnica);
+        $this->crearCuboMondrian($fichaTecnica);
     }
 
     public function prePersist($fichaTecnica)
     {
         $this->setAlertas($fichaTecnica);
-        $this->crearCamposIndicador($fichaTecnica);        
+        $this->crearCamposIndicador($fichaTecnica);   
+        
+        /*
+         * La agencia del indicador será la agencia del usuario que lo crea
+         */
+        $usuario = $this->getConfigurationPool()
+                ->getContainer()
+                ->get('security.context')
+                ->getToken()
+                ->getUser();
+        $fichaTecnica->setAgencia($usuario->getAgencia());
     }
 
     public function setAlertas($fichaTecnica)
@@ -293,6 +316,8 @@ class FichaTecnicaAdmin extends Admin
     }
 
     /**
+     * Cambiar la forma en que muestra el listado de indicadores, 
+     * si es un usuario normal solo le muestra los indicadores que tenga asignados
      * @return \Sonata\AdminBundle\Datagrid\ProxyQueryInterface
      */
     public function createQuery($context = 'list')

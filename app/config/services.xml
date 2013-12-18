@@ -5,6 +5,18 @@
         <parameter key="admin_max_per_page_number">10</parameter>
     </parameters>
     <services>
+        <service id="sonata.admin.agencia" class="MINSAL\IndicadoresBundle\Admin\AgenciaAdmin">
+            <tag name="sonata.admin" 
+                 manager_type="orm" 
+                 group="catalogos" 
+                 label="_agencia_"
+            />
+            <argument />
+            <argument>MINSAL\IndicadoresBundle\Entity\Agencia</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+            <call method="setMaxPerPage"><argument>%admin_max_per_page_number%</argument></call>
+        </service>
+        
         <service id="sonata.admin.responsable_dato" class="MINSAL\IndicadoresBundle\Admin\ResponsableDatoAdmin">
             <tag name="sonata.admin" 
                  manager_type="orm" 

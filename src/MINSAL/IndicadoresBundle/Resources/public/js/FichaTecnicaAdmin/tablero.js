@@ -224,7 +224,7 @@ $(document).ready(function() {
         return false;
     });
 
-    $("#chat-mensajes").unbind("ajaxStart ajaxStop");
+    //$("#chat-mensajes").unbind("ajaxStart ajaxStop");
 
     function cargarMensajes() {
         if ($('.marco-sala').attr('id-sala')) {
@@ -261,6 +261,7 @@ $(document).ready(function() {
                     $('#chat-mensajes').append(data);   // Añadir el nuevo mensaje al final
                     setScroll();
                 }
+                ajax_states();
             });
         }
     }, 60000);

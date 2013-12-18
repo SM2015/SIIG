@@ -28,7 +28,7 @@ class FichaTecnicaAdminController extends Controller
     public function tableroAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $clasificacionUso = $em->getRepository("IndicadoresBundle:ClasificacionUso")->findAll();
+        $clasificacionUso = $em->getRepository("IndicadoresBundle:ClasificacionUso")->findBy(array(), array('descripcion'=> 'ASC'));
 
         //Luego agregar un método para obtener la clasificacion de uso por defecto del usuario
         $usuario = $this->getUser();
@@ -42,7 +42,7 @@ class FichaTecnicaAdminController extends Controller
         //Salas por usuario
         $usuarioSalas = array();
         if (($usuario->hasRole('ROLE_SUPER_ADMIN'))){
-           foreach ($em->getRepository("IndicadoresBundle:GrupoIndicadores")->findAll() as $sala) {
+           foreach ($em->getRepository("IndicadoresBundle:GrupoIndicadores")->findBy(array(), array('nombre'=> 'ASC')) as $sala) {
                 $usuarioSalas[$sala->getId()] = $sala;
             } 
         }else{
@@ -68,7 +68,7 @@ class FichaTecnicaAdminController extends Controller
 
         //Indicadores asignados por usuario
         $usuarioIndicadores = ($usuario->hasRole('ROLE_SUPER_ADMIN')) ?
-                $em->getRepository("IndicadoresBundle:FichaTecnica")->findAll() :
+                $em->getRepository("IndicadoresBundle:FichaTecnica")->findBy(array(), array('nombre'=>'ASC')) :
                 $usuario->getIndicadores();
         //Indicadores asignadas al grupo al que pertenece el usuario
         $indicadoresPorGrupo = array();

@@ -53,6 +53,15 @@ class User extends BaseUser
      * @ORM\OrderBy({"codigo" = "ASC"})
      **/
     private $clasificacionUso;
+    
+    /**
+     *
+     * @var agencia
+     *
+     * @ORM\ManyToOne(targetEntity="Agencia")
+     * @ORM\OrderBy({"codigo" = "ASC"})
+     **/
+    private $agencia;
 
     /**
      * Get id
@@ -241,5 +250,28 @@ class User extends BaseUser
     public function getIndicadores()
     {
         return $this->indicadores;
+    }
+
+    /**
+     * Set agencia
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\Agencia $agencia
+     * @return User
+     */
+    public function setAgencia(\MINSAL\IndicadoresBundle\Entity\Agencia $agencia = null)
+    {
+        $this->agencia = $agencia;
+
+        return $this;
+    }
+
+    /**
+     * Get agencia
+     *
+     * @return \MINSAL\IndicadoresBundle\Entity\Agencia 
+     */
+    public function getAgencia()
+    {
+        return $this->agencia;
     }
 }

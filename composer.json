@@ -7,16 +7,16 @@
     "require": {
         "php": ">=5.3.3",
         
-        "symfony/symfony": "2.3.*",        
-        "doctrine/orm": ">=2.2.3,<2.4-dev",
-        "doctrine/doctrine-bundle": "1.2.*",        
-        "twig/extensions": "1.0.*",
-        "symfony/assetic-bundle": "2.3.*",
-        "symfony/swiftmailer-bundle": "2.3.*",
-        "symfony/monolog-bundle": "2.3.*",
-        "sensio/distribution-bundle": "2.3.*",
-        "sensio/framework-extra-bundle": "2.3.*",
-        "sensio/generator-bundle": "2.3.*",
+        "symfony/symfony": "~2.4",
+        "doctrine/orm": "~2.2,>=2.2.3",
+        "doctrine/doctrine-bundle": "~1.2",
+        "twig/extensions": "~1.0",
+        "symfony/assetic-bundle": "~2.3",
+        "symfony/swiftmailer-bundle": "~2.3",
+        "symfony/monolog-bundle": "~2.4",
+        "sensio/distribution-bundle": "~2.3",
+        "sensio/framework-extra-bundle": "~2.3",
+        "sensio/generator-bundle": "~2.3",
         "incenteev/composer-parameter-handler": "~2.0",
         
         "doctrine/data-fixtures": "dev-master",
@@ -25,13 +25,14 @@
         "knplabs/knp-menu-bundle":"1.1.2",
         
         "sonata-project/cache-bundle": "dev-master",
+        "sonata-project/core-bundle": "dev-master",
         "sonata-project/admin-bundle": "dev-master",
         "sonata-project/doctrine-orm-admin-bundle": "dev-master",
         "sonata-project/block-bundle": "dev-master",
         "sonata-project/easy-extends-bundle": "dev-master",
         "sonata-project/user-bundle": "dev-master",
         
-	
+        	
         "simplethings/entity-audit-bundle": "dev-master",
 	"friendsofsymfony/user-bundle": "v1.3.2",
         "friendsofsymfony/jsrouting-bundle": "dev-master",
@@ -43,7 +44,9 @@
 	"knplabs/knp-snappy-bundle": "dev-master",
         
         "mobiledetect/mobiledetectlib": "dev-master",
-        "suncat/mobile-detect-bundle": "dev-master"
+        "suncat/mobile-detect-bundle": "dev-master",
+        "jms/serializer-bundle": "dev-master",
+        "friendsofsymfony/rest-bundle": "1.1.*"
     },
     "scripts": {
         "post-install-cmd": [
@@ -61,7 +64,7 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
         ]
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "beta",
     "extra": {
         "symfony-app-dir": "app",
         "symfony-web-dir": "web",
@@ -69,7 +72,7 @@
             "file": "app/config/parameters.yml"
         },
         "branch-alias": {
-            "dev-master": "2.3-dev"
+            "dev-master": "2.4-dev"
         },
 	"symfony-assets-install": "symlink"
     }

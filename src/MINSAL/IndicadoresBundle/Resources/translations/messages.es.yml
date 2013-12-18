@@ -255,11 +255,10 @@ javascript:
   no_graficos_asignados: 'No ha asignado los tipos de gráficos permitidos a los significados de campo'
   recargar_origen: 'Recargar información de origen de datos'
   ultima_lectura: 'Fecha de última lectura'
-  ultima_lectura_exp: 'Formato: dd/mm/aaaa. Se toma la fecha más antigua en que se realizó la última lectura de cada origen de datos asociado al indicador.'
+  ultima_lectura_exp: 'Formato: dd/mm/aaaa. Se toma la fecha más reciente en que se realizó la última lectura de cada origen de datos asociado al indicador.'
   _compartir_sala_: 'Compartir sala'
   _nombre_sala_: 'Nombre de la sala'
   _no_sala_: 'No hay sala activa'
-  _tipo_grafico_desconocido_: 'Tipo de gráfico desconocido'
   _no_areas_grafico_: No hay áreas disponibles para gráficar
 
 validacion:
@@ -336,3 +335,6 @@ _comentarios_: Comentarios
 _enviar_: Enviar
 _guardar_como_: Guardar como
 _alerta_limite_inferior_: 'Límite inferior'
+_regresar_menu_principal_: Regresar al menú principal
+_agencia_: Agencia
+_usuario_no_agencia_: El usuario actual no tiene asignada una Agencia

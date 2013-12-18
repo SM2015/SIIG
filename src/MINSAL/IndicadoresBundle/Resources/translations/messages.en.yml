@@ -254,11 +254,10 @@ javascript:
   no_graficos_asignados: 'No assigned graph types allowed to field meanings'
   recargar_origen: 'Reload data source information'
   ultima_lectura: 'Last reading date'
-  ultima_lectura_exp: 'Format: dd/mm/yyyy. Take the earliest date that was the last reading of each data source associated with the indicator.'
+  ultima_lectura_exp: 'Format: dd/mm/yyyy. Take the most recent date that was the last reading of each data source associated with the indicator.'
   _compartir_sala_: 'Share room'
   _nombre_sala_: "Room's name"
   _no_sala_: 'No active room'
-  _tipo_grafico_desconocido_: 'Chart type unknown'
   _no_areas_grafico_: No areas available to graph
 
 validacion:
@@ -334,3 +333,6 @@ _comentarios_: Comments
 _enviar_: Send
 _guardar_como_: Save as
 _alerta_limite_inferior_: 'Lower limit'
+_regresar_menu_principal_: Return to main menu
+_agencia_: Agency
+_usuario_no_agencia_: The current user is not assigned to an Agency
