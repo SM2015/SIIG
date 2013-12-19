@@ -9,13 +9,13 @@ $(document).ready(function() {
 crearReporte();
 });       
 
-function crearReporte(){
 /*Asumimos que en el listado de busquedas existe:
 dataAccessId=anios-> cantidad de anios disponibles
 dataAccessId=resumen ->Resumen estadistico de los datos 
 Las demas busquedas(QN)seran distribuidos dependiendo en tipo
 de grafico especificado en el nombre de la busqueda: el valor despues de '|'  
 */
+function crearReporte(){
 
 var queries=[] 
  listarBusquedas().done(function(data) {
@@ -63,16 +63,14 @@ if ($.trim(query.tipo)=='tabla'){
         $('#g'+query.id+anio).append(data);});}
     else{ 
         // pedir datos en JSON, Crear Grafico
-        getDatos(iid,anio,query.id).done(function(data){
+        getDatos(iid,anio,query.id,'json').done(function(data){
                 grafico_colAgrupadas('#g'+query.id+anio,data);  });
         }
 
 	}));
      	contenido= contenido +'</tr></table>';	
 
-//	getDatos(iid,anio,3).done(function(data){
- //   $('#g1'+anio).append(data);});
-return contenido + '<br/><hr><br/>';
+	return contenido + '<br/><hr><br/>';
 }
 
 function doEncabezado(anio){
@@ -93,7 +91,7 @@ function doResumen(anio){
         return $.get(myurl);
 }
 
-function getDatos(iid,anio,qid,tipo='json'){
+function getDatos(iid,anio,qid,tipo){
    myurl='/reportes/doQuery?path=siig/indicador'+iid+
         '.cda&dataAccessId='+qid+'&paramanio='+anio+'&outputType='+tipo;
        return $.get(myurl);
