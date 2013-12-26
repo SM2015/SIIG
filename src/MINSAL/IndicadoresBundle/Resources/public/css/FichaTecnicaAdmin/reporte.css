@@ -1,0 +1,50 @@
+div.datos {
+  font: 10px sans-serif;
+}
+
+.axis.columnas path,
+.axis.columnas line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.bar {
+  fill: steelblue;
+}
+
+.grafico {
+  font: 10px sans-serif;
+}                                                               
+.grafico table{
+  font: 12px sans-serif;
+}
+div#datos table{
+ font: 14px sans-serif;
+}
+
+.bar {
+  fill: steelblue;
+}
+
+.x.axis.columnas path {
+  display: none;
+}
+
+
+axis.lineas path,
+.axis.lineas line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.x.axis.lineas path {
+  display: none;
+}
+
+.line.lineas {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 2.5px;
+}
