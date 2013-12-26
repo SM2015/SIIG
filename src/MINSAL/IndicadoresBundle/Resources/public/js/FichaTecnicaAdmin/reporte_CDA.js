@@ -58,16 +58,22 @@ function doAnio(anio,queries){
 		if ((key>0)&&((key-1) % 2 === 0)){
 		contenido=contenido + '</tr><tr>';	}
 if ($.trim(query.tipo)=='tabla'){
-        //pedir datos en forma de tabla
-        getDatos(iid,anio,query.id,'html').done(function(data){
-        $('#g'+query.id+anio).append(data);});}
-    else{ 
-        // pedir datos en JSON, Crear Grafico
-        getDatos(iid,anio,query.id,'json').done(function(data){
-                grafico_colAgrupadas('#g'+query.id+anio,data);  });
-        }
+                 //pedir datos en forma de tabla
+                 getDatos(iid,anio,query.id,'html').done(function(data){
+                 $('#g'+query.id+anio).append(data);});}
 
-	}));
+         if ($.trim(query.tipo)=='barras'){
+                 // pedir datos en JSON, Crear Grafico
+                 getDatos(iid,anio,query.id,'json').done(function(data){
+                grafico_colAgrupadas('#g'+query.id+anio,data);  });
+                }
+        if ($.trim(query.tipo)=='lineas'){
+                // pedir datos en JSON, Crear Grafico
+         getDatos(iid,anio,query.id,'json').done(function(data){
+                        grafico_multiLineas('#g'+query.id+anio,data);  });
+           }
+       }));
+
      	contenido= contenido +'</tr></table>';	
 
 	return contenido + '<br/><hr><br/>';
