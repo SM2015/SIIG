@@ -34,7 +34,7 @@ var line = d3.svg.line()
     .x(function(d) { return x(d.fecha); })
     .y(function(d) { return y(d.temperature); });
 
-var svg = d3.select("body").append("svg")
+var svg = d3.select(ubicacion).append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
   .append("g")
@@ -75,7 +75,7 @@ console.log(JSON.stringify(data[0]));
   ]);
 
   svg.append("g")
-      .attr("class", "x axis")
+      .attr("class", "x axis lineas")
       .attr("transform", "translate(0," + height + ")")
       .call(xAxis)
    .selectAll("text")
@@ -87,7 +87,7 @@ console.log(JSON.stringify(data[0]));
                 });
 
   svg.append("g")
-      .attr("class", "y axis")
+      .attr("class", "y axis lineas")
       .call(yAxis)
     .append("text")
       .attr("transform", "rotate(-90)")
@@ -99,10 +99,10 @@ console.log(JSON.stringify(data[0]));
   var city = svg.selectAll(".city")
       .data(valores)
     .enter().append("g")
-      .attr("class", "city");
+      .attr("class", "cities");
 
   city.append("path")
-      .attr("class", "line")
+      .attr("class", "line lineas")
       .attr("d", function(d) { return line(d.values); })
       .style("stroke", function(d) { return color(d.name); });
 
@@ -114,4 +114,3 @@ console.log(JSON.stringify(data[0]));
       .text(function(d) { return d.name; });
 
 }
-
