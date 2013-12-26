@@ -536,8 +536,6 @@ if ((in_array('id_departamento', $campos))&&(in_array('edad', $campos))){
         'sql'=>"select dept as eje_x,  sum(case when  edad<10 then valor else 0 end)  as 'Menores de 10',
    sum(case when edad>=10 and edad<20 then valor else 0 end)  as 'Entre 10 y 20',
  sum(case when edad>=20 and edad<30 then valor else 0 end)  as 'Entre  20 y 30' ,
- sum(case when edad>=30 and edad<40 then valor else 0 end)  as 'Entre  30 y 40' , 
- sum(case when edad>=40 and edad<50 then valor else 0 end)  as 'Entre  40 y 50' ,
  sum(case when edad>=50 and edad<60 then valor else 0 end)  as 'Entre  50 y 60',
   sum(case when edad>=60  then valor else 0 end)  as 'Mayores de 60' 
 from ( SELECT ".$formula_agregada." as valor,edad,ctl_departamento.abreviatura AS dept 
@@ -556,8 +554,6 @@ if ((in_array('id_departamento', $campos))&&(in_array('id_diagnostico', $campos)
         'titulo'=>'Distribucion por Diagnostico | barras',
         'sql'=>"select dept as eje_x,  sum(case when diag='I60.9' then valor else 0 end) as *Hemorragia subaracnoidea*,
 sum(case when diag='I67.8' then valor else 0 end) as *Enfermedades cerebrovasculares*,
-sum(case when diag='I64' then valor else 0 end) as *Accidente vascular encefálico age*,
-sum(case when diag='I67.9' then valor else 0 end) as *Enfermedad cerebrovascula*,
 sum(case when diag='I61.9' then valor else 0 end) as *Hemorragia intraencefálac*
  from ( SELECT ".$formula_agregada." as valor,cc.id as diag,bb.abreviatura AS dept 
  FROM ".$tabla." aa INNER JOIN ctl_departamento bb
@@ -614,7 +610,24 @@ FROM ".$tabla." aa
         $q['sql']= htmlspecialchars(str_replace('!','${', $q['sql']));
         array_push($queries,$q);
         }
-
+        
+//Busqueda para generar datos por Variables agrupados por mes
+  if ((in_array('mes', $campos))&&(in_array('anio', $campos))){
+        $sql=array();
+         foreach ($vars_formula[1] as $myvar){
+                        $sql_text=" sum(aa.".$myvar.") as ".$myvar;
+                        array_push($sql,$sql_text);
+                }  
+        $q=array(
+        'id'=>'6',
+        'titulo'=>'Datos por Variable y Mes | lineas',
+        'sql'=>" select (anio::text || lpad(mes::text, 2, '0') || '01') as fecha, ".
+        implode(",",$sql). " FROM ".$tabla." aa  ".$where_sql."  group by
+        (anio::text || lpad(mes::text, 2, '0') || '01') order by fecha asc;");
+        $q['sql']= htmlspecialchars(str_replace('!','${', $q['sql']));
+        array_push($queries,$q);
+        }
+               
 //Busqueda para generar resumen estadistico
   if (in_array('id_municipio', $campos)){
         $q=array(
