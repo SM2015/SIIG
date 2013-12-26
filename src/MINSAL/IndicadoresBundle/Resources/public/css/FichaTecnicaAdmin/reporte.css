@@ -16,7 +16,7 @@ div.datos {
 .grafico {
   font: 10px sans-serif;
 }                                                               
-.grafico table{
+.grafico table,text{
   font: 12px sans-serif;
 }
 div#datos table{
@@ -32,7 +32,7 @@ div#datos table{
 }
 
 
-axis.lineas path,
+.axis.lineas path,
 .axis.lineas line {
   fill: none;
   stroke: #000;
