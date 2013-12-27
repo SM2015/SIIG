@@ -537,7 +537,7 @@ if ((in_array('id_departamento', $campos))&&(in_array('edad', $campos))){
    sum(case when edad>=10 and edad<20 then valor else 0 end)  as 'Entre 10 y 20',
  sum(case when edad>=20 and edad<30 then valor else 0 end)  as 'Entre  20 y 30' ,
   sum(case when edad>=30 and edad<40 then valor else 0 end)  as 'Entre  30 y 40' ,
-   sum(case when edad>=40 and edad<50 then valor else 0 end)  as 'Entre  40 y 50' 
+   sum(case when edad>=40 and edad<50 then valor else 0 end)  as 'Entre  40 y 50', 
  sum(case when edad>=50 and edad<60 then valor else 0 end)  as 'Entre  50 y 60',
   sum(case when edad>=60  then valor else 0 end)  as 'Mayores de 60' 
 from ( SELECT ".$formula_agregada." as valor,edad,ctl_departamento.abreviatura AS dept 
