@@ -496,7 +496,7 @@ esquema de Mondrian es usado por Saiku.
 
  //Busqueda para generar listado de Anios
   if (in_array('anio', $campos)){
-	$sql_text='select distinct anio from '.$tabla;
+	$sql_text='select distinct anio from '.$tabla.' order by anio desc';
 	$where_sql=" WHERE aa.anio::int=!anio} ";
 	} else {
 	$sql_text='select false';
