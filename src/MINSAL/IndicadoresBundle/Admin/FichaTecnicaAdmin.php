@@ -629,21 +629,26 @@ FROM ".$tabla." aa
         }
                
 //Busqueda para generar resumen estadistico
+   $catalogo='';	
   if (in_array('id_municipio', $campos)){
+$catalogo='municipio';}
+  if (in_array('id_departamento', $campos)){
+$catalogo='departamento';}
+  if ($catalogo!=''){
         $q=array(
 	'id'=>'resumen',
         'titulo'=>'Resumen Estadistico | sin_grafico',
         'sql'=>"(select  'n_registros' as nombre,count(*) as val
  FROM ".$tabla." aa            
- INNER JOIN ctl_municipio bb ON aa.id_municipio = bb.id  ".$where_sql." )
+ INNER JOIN ctl_".$catalogo." bb ON aa.id_".$catalogo." = bb.id  ".$where_sql." )
   
 UNION
   
 (select  'conteo_moda' as nombre, count(porcentaje) as val from 
     (select round(".$formula_agregada.",1) as porcentaje,
-bb.descripcion as municipio  
+bb.descripcion as ".$catalogo."  
  FROM ".$tabla." aa            
- INNER JOIN ctl_municipio bb ON aa.id_municipio = bb.id ".$where_sql."     
+ INNER JOIN ctl_".$catalogo." bb ON aa.id_".$catalogo." = bb.id ".$where_sql."     
  group by bb.descripcion) boo group by boo.porcentaje order by val desc limit 1)
  
 UNION
@@ -651,9 +656,9 @@ UNION
 (select  'moda' as nombre, kk.porcentaje as val from
                     (select count(boo.porcentaje) as conteo,boo.porcentaje from  
                          (select round(".$formula_agregada.",1) as porcentaje,
-                         bb.descripcion as municipio  
+                         bb.descripcion as ".$catalogo."  
                          FROM ".$tabla." aa            
-                         INNER JOIN ctl_municipio bb ON aa.id_municipio = bb.id     
+                         INNER JOIN ctl_".$catalogo." bb ON aa.id_".$catalogo." = bb.id     
                          ".$where_sql."  group by bb.descripcion) boo 
                          group by boo.porcentaje order by conteo desc limit 1)kk
 ) 
@@ -663,20 +668,19 @@ UNION
 (select 'desv_std' as nombre,round(stddev_pop(porcentaje),2) as val 
  from (select round(".$formula_agregada.",0) as porcentaje   
  FROM ".$tabla." aa            
- INNER JOIN ctl_municipio bb ON aa.id_municipio = bb.id     
+ INNER JOIN ctl_".$catalogo." bb ON aa.id_".$catalogo." = bb.id     
  ".$where_sql."  group by bb.descripcion order by porcentaje asc )boo)
 
 UNION
 (select 'promedio' as nombre, round(avg(porcentaje),2) as val 
  from (select round(".$formula_agregada.",0) as porcentaje 
  FROM ".$tabla." aa            
- INNER JOIN ctl_municipio bb ON aa.id_municipio = bb.id ".$where_sql."     
+ INNER JOIN ctl_".$catalogo." bb ON aa.id_".$catalogo." = bb.id ".$where_sql."     
   group by bb.descripcion order by porcentaje asc )boo)");
 $q['sql']= htmlspecialchars(str_replace('!','${', $q['sql']));
    array_push($queries,$q);
         }
  return $queries;
-   //    echo "<pre>".var_dump($queries)."</pre>";
-	exit;
+
      }
 }
