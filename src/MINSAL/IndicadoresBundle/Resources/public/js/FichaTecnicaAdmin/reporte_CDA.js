@@ -53,7 +53,7 @@ function doAnio(anio,queries){
 	contenido= contenido +'<table><tr>';
         $.each(queries,(function(key,query){
 		contenido = contenido +'<td><div id=g'+query.id+anio+
-				' class=grafico><b>'+query.titulo+'</b></div></td>';
+				' class=grafico><b>'+query.titulo+'</b></br></div></td>';
 		//crear nueva fila
 		if ((key>0)&&((key-1) % 2 === 0)){
 		contenido=contenido + '</tr><tr>';	}
