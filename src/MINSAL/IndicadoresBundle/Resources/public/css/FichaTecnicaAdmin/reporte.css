@@ -13,9 +13,6 @@ div.datos {
   fill: steelblue;
 }
 
-.grafico {
-  font: 10px sans-serif;
-}                                                               
 .grafico table,text{
   font: 12px sans-serif;
 }
