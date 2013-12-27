@@ -632,7 +632,7 @@ FROM ".$tabla." aa
                
     
     //Busqueda para generar datos por Municipio
-  if (in_array('id_municipio', $campos){
+  if (in_array('id_municipio', $campos)){
         $q=array(
         'id'=>'7',
         'titulo'=>'Municipios con mas casos | tabla',
