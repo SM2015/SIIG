@@ -637,7 +637,8 @@ FROM ".$tabla." aa
         'id'=>'7',
         'titulo'=>'Municipios con mas casos | tabla',
         'sql'=>"Select bb.descripcion as municipio, ".$formula_agregada. " as casos FROM ".$tabla.
-        " aa  ".$where_sql."  group  by bb.descripcion order by casos desc limit 12;" );
+        " aa INNER JOIN ctl_municipio bb on aa.id_municipio=bb.id 
+        ".$where_sql."  group  by bb.descripcion order by casos desc limit 12;" );
         $q['sql']= htmlspecialchars(str_replace('!','${', $q['sql']));
         array_push($queries,$q);
         }
