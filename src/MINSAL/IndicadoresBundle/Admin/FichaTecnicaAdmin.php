@@ -630,6 +630,19 @@ FROM ".$tabla." aa
         array_push($queries,$q);
         }
                
+    
+    //Busqueda para generar datos por Municipio
+  if (in_array('id_municipio', $campos){
+        $q=array(
+        'id'=>'7',
+        'titulo'=>'Municipios con mas casos | tabla',
+        'sql'=>"Select bb.descripcion as municipio, ".$formula_ageregada. " as casos FROM ".$tabla.
+        " aa  ".$where_sql."  group  by bb.descripcion order by casos desc limit 12;" );
+        $q['sql']= htmlspecialchars(str_replace('!','${', $q['sql']));
+        array_push($queries,$q);
+        }
+    
+               
 //Busqueda para generar resumen estadistico
    $catalogo='';	
   if (in_array('id_municipio', $campos)){
