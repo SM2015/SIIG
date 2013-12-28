@@ -636,7 +636,7 @@ FROM ".$tabla." aa
         $q=array(
         'id'=>'7',
         'titulo'=>'Municipios con mas casos | tabla',
-        'sql'=>"Select bb.descripcion as municipio, ".$formula_agregada. " as casos FROM ".$tabla.
+        'sql'=>"Select bb.descripcion as municipio, round(".$formula_agregada. ",1) as promedio FROM ".$tabla.
         " aa INNER JOIN ctl_municipio bb on aa.id_municipio=bb.id 
         ".$where_sql."  group  by bb.descripcion order by casos desc limit 12;" );
         $q['sql']= htmlspecialchars(str_replace('!','${', $q['sql']));
@@ -660,7 +660,7 @@ FROM ".$tabla." aa
                    
                   UNION
                     
-                  (select  'moda' as nombre, kk.valor as val from
+                  (select  'moda' as nombre, round(kk.valor,1) as val from
                        (select count(boo.valor) as conteo,boo.valor from  
                           (select ".$formula." as valor  FROM ".$tabla." aa            
                            ".$where_sql."   ) boo 
