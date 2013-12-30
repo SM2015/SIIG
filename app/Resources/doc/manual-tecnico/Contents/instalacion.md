@@ -430,8 +430,8 @@ Luego editamos la seccion VirtualHost dentro de /etc/apache2/sites-enabled/000-d
 
 ```
 <Location /admin/minsal/indicadores/saiku/>
-      ProxyPass http://localhost:8080/pentaho/content/saiku/
-      ProxyPassReverse http://localhost:8080/pentaho/content/saiku/
+      ProxyPass http://MISERVIDOR:8080/pentaho/content/saiku/
+      ProxyPassReverse http://MISERVIDOR:8080/pentaho/content/saiku/
       SetEnv proxy-chain-auth
     </Location>
 ```
@@ -467,6 +467,16 @@ El listado de Ficha Técnica incluye un botón Mostrar Reporte que carga el repo
 Pentaho Community Data Access es un mecanismo del servidor de Pentaho que permite crear búsquedas SQL y servirlas a través de un servicio HTTP/REST en formatos JSON, HTML y XML.
 
 Los archivos CDA están guardados en formato XML y contienen un conjunto de  búsquedas SQL que estarán disponibles a través del servicio REST durante la creación de reportes. Una vez el SIIG genera el archivo ‘indicadorX.cda’ inicial el administrador del sistema puede modificar, eliminar o agregar las búsquedas SQL contenidas en este archivo para modificar/mejorar un reporte.
+
+La generacion de reportes se logra a travez de consultas Web al servidor de Pentaho, para crear la ruta de estas consultas debemos agregar la siguiente seccion en la configuracion de Apache:
+
+~~~
+<Location /reportes/>
+      ProxyPass http://MISERVIDOR:8080/pentaho/content/cda/
+      ProxyPassReverse http://MISERVIDOR:8080/pentaho/content/cda/
+      SetEnv proxy-chain-auth
+</Location>
+~~~
 
  La ubicación de los archivos CDA esta definida dentro de app/aparmeters.yml en la variable carpeta_pentaho_cda. Esta carpeta debe existir dentro biserver/pentaho-solutions y tener los permisos necesarios para que Symfony pueda crear archivos CDA. 
 
