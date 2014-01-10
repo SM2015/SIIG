@@ -210,6 +210,8 @@ function dibujarGrafico(zona, dimension) {
     	////
     	mensajerango = "";
     	val = resp.datos[0];
+        if (val !=undefined)
+        {
 	    if (val.min_anio != undefined)
 	    {
 	    	if (val.min_mes == undefined)
@@ -239,23 +241,28 @@ function dibujarGrafico(zona, dimension) {
 	        $('#filtro_por_fecha'+zona).attr("disabled","disabled"); 
 	    }
     	
-        var datos = JSON.stringify(resp.datos);
-        $('#' + zona).attr('datasetPrincipal_bk', datos);
-        if ($('#' + zona).attr('orden') !== undefined
-                && $('#' + zona).attr('orden') !== null
-                && $('#' + zona).attr('orden') !== '')
-        {
-            if ($('#' + zona).attr('orden-aplicado') !== 'true') {
-                var ordenobj = JSON.parse($('#' + zona).attr('orden'));
-                datos = JSON.stringify(ordenarArreglo(resp.datos, ordenobj[0].tipo, ordenobj[0].modo));
-                $('DIV.zona_actual').attr('orden-aplicado', 'true');
+            var datos = JSON.stringify(resp.datos);
+            $('#' + zona).attr('datasetPrincipal_bk', datos);
+            if ($('#' + zona).attr('orden') !== undefined
+                    && $('#' + zona).attr('orden') !== null
+                    && $('#' + zona).attr('orden') !== '')
+            {
+                if ($('#' + zona).attr('orden-aplicado') !== 'true') {
+                    var ordenobj = JSON.parse($('#' + zona).attr('orden'));
+                    datos = JSON.stringify(ordenarArreglo(resp.datos, ordenobj[0].tipo, ordenobj[0].modo));
+                    $('DIV.zona_actual').attr('orden-aplicado', 'true');
+                }
             }
+
+            $('#' + zona).attr('datasetPrincipal', datos);
+
+            dibujarGraficoPrincipal(zona, $('#' + zona + ' .tipo_grafico_principal').val());
+            controles_filtros(zona);
         }
-
-        $('#' + zona).attr('datasetPrincipal', datos);
-
-        dibujarGraficoPrincipal(zona, $('#' + zona + ' .tipo_grafico_principal').val());
-        controles_filtros(zona);
+        else
+        {
+            alert("No se encontraron datos con ese filtro");
+        }
     });
 
 }
@@ -442,7 +449,7 @@ function dibujarControles(zona, datos) {
             ' ><i class="icon-briefcase"></i> ' + trans.ver_ficha_tecnica + '</A></li>' +
             '<li><A class="ver_tabla_datos" ><i class="icon-list-alt" ></i> ' + trans.tabla_datos + ' </A></li>' +
             '<li><A class="ver_sql" ><i class="icon-eye-open" ></i> ' + trans.ver_sql + ' </A></li>' +
-            //'<li><A class="ver_imagen" ><i class="icon-picture"></i> ' + trans.descargar_grafico + '</A></li>' +
+           // '<li><A class="ver_imagen" ><i class="icon-picture"></i> ' + trans.descargar_grafico + '</A></li>' +
             '<li><A class="quitar_indicador" ><i class="icon-remove-sign"></i> ' + trans.quitar_indicador + '</A></li>' +
             '<li><A class="agregar_como_favorito" data-indicador="' + datos.id_indicador + '" >';
     if ($('#fav-' + datos.id_indicador).length === 0)
@@ -562,7 +569,7 @@ function dibujarControles(zona, datos) {
       	
   $('#' + zona + ' .controles').append(opciones_maximizar);
   
-   $('#' + zona + '_maximizar').click(function(event){
+   $('#' + zona + '_maximizar').click(function(){
   	if ($('#' + zona + '_icon_maximizar').hasClass('icon-zoom-out'))
   		{
   		   minimizar(zona,contenedor);
@@ -605,7 +612,7 @@ function dibujarControles(zona, datos) {
   		}
   });
 
-  $(document.body).keyup(function(event){
+  $(document.body).keyup(function(){
 	   var tecla = (event.keyCode) ? event.keyCode : event.which ;
 	   if (tecla == 27){
 		      minimizar(zona,contenedor)
@@ -671,7 +678,7 @@ function dibujarControles(zona, datos) {
             "bJQueryUI": true,
             "sDom": '<"H"Tfr>t<"F"ip>',
             "oTableTools": {
-                "sSwfPath": sSwfPath,
+                "sSwfPath": "/bundles/indicadores/js/DataTables/media/swf/copy_csv_xls_pdf.swf",
                 "aButtons": [
                     {
                         "sExtends": "collection",
@@ -716,13 +723,11 @@ function dibujarControles(zona, datos) {
     });
 
     $('#' + zona + ' .ver_imagen').click(function() {
-        var svg = $('<div>').append($('#' + zona + ' svg g').clone()).html();
-        
-        var html = '<H5 style="text-align:center; font-size: 20px;">' + $('#' + zona + ' .titulo_indicador').html() +
+        var html = '<H5 style="text-align:center;">' + $('#' + zona + ' .titulo_indicador').html() +
                 ' (por ' + $('#' + zona + ' .dimension').html() + ')</H5>' +
-                '<H6 style="font-size: 20px;">' + $('#' + zona + ' .filtros_dimensiones').html() + '</H6>' +
-                '<svg id="ChartPlot" width="95%" viewBox="-5 0 450 360" preserveAspectRatio="none" height="350" style="font-size: 20px;">' + svg + '</svg>';
-        $('#sql').html('<canvas id="canvasGrp" width="400" height="350" style="font-size: 20px;"></canvas>');
+                '<H6 >' + $('#' + zona + ' .filtros_dimensiones').html() + '</H6>' +
+                '<svg id="ChartPlot" width="95%" viewBox="-5 0 450 360" preserveAspectRatio="none">' + d3.select('#' + zona + ' svg').html() + '"</svg>' +
+                $('#sql').html('<canvas id="canvasGrp" width="400" height="350"></canvas>');
 
         var canvas = document.getElementById("canvasGrp");
 
@@ -749,7 +754,7 @@ function dibujarControles(zona, datos) {
                 "bInfo": false,
                 "iDisplayLength": 30,
                 "oTableTools": {
-                    "sSwfPath": sSwfPath,
+                    "sSwfPath": "/bundles/indicadores/js/DataTables/media/swf/copy_csv_xls_pdf.swf",
                     "aButtons": [
                         {
                             "sExtends": "collection",

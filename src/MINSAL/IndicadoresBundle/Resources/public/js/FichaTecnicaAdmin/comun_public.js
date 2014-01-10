@@ -208,6 +208,8 @@ function dibujarGrafico(zona, dimension) {
     	////
     	mensajerango = "";
     	val = resp.datos[0];
+        if (val !=undefined)
+        {
 	    if (val.min_anio != undefined)
 	    {
 	    	if (val.min_mes == undefined)
@@ -236,23 +238,28 @@ function dibujarGrafico(zona, dimension) {
 	        //$('#fechafin'+zona).datepicker("option", "disabled", true);
 	        $('#filtro_por_fecha'+zona).attr("disabled","disabled"); 
 	    }
-        var datos = JSON.stringify(resp.datos);
-        $('#' + zona).attr('datasetPrincipal_bk', datos);
-        if ($('#' + zona).attr('orden') !== undefined
-                && $('#' + zona).attr('orden') !== null
-                && $('#' + zona).attr('orden') !== '')
-        {
-            if ($('#' + zona).attr('orden-aplicado') !== 'true') {
-                var ordenobj = JSON.parse($('#' + zona).attr('orden'));
-                datos = JSON.stringify(ordenarArreglo(resp.datos, ordenobj[0].tipo, ordenobj[0].modo));
-                $('DIV.zona_actual').attr('orden-aplicado', 'true');
+            var datos = JSON.stringify(resp.datos);
+            $('#' + zona).attr('datasetPrincipal_bk', datos);
+            if ($('#' + zona).attr('orden') !== undefined
+                    && $('#' + zona).attr('orden') !== null
+                    && $('#' + zona).attr('orden') !== '')
+            {
+                if ($('#' + zona).attr('orden-aplicado') !== 'true') {
+                    var ordenobj = JSON.parse($('#' + zona).attr('orden'));
+                    datos = JSON.stringify(ordenarArreglo(resp.datos, ordenobj[0].tipo, ordenobj[0].modo));
+                    $('DIV.zona_actual').attr('orden-aplicado', 'true');
+                }
             }
+
+            $('#' + zona).attr('datasetPrincipal', datos);
+
+            dibujarGraficoPrincipal(zona, $('#' + zona + ' .tipo_grafico_principal').val());
+            controles_filtros(zona);
         }
-
-        $('#' + zona).attr('datasetPrincipal', datos);
-
-        dibujarGraficoPrincipal(zona, $('#' + zona + ' .tipo_grafico_principal').val());
-        controles_filtros(zona);
+        else
+        {
+            alert("No se encontraron datos con ese filtro");
+        }
     });
 
 }
@@ -281,7 +288,10 @@ function aplicarFiltro(zona) {
     $('#' + zona + ' .capa_dimension_valores input:checked').each(function() {
         elementos += $(this).val() + '&';
     });
-    $.post(Routing.generate('indicador_datos_filtrar'),
+    $.getJSON(webRoot+'/indicador/filtrar/datos/public',
+      //  {filtro: filtro, ver_sql: true},
+        
+    //$.post(Routing.generate('indicador_datos_filtrar'),
             {datos: datasetPrincipal, desde: $('#' + zona + ' .filtro_desde').val(), hasta: $('#' + zona + ' .filtro_hasta').val(),
                 elementos: elementos},
     function(resp) {
@@ -667,7 +677,7 @@ function dibujarControles(zona, datos) {
             "bJQueryUI": true,
             "sDom": '<"H"Tfr>t<"F"ip>',
             "oTableTools": {
-                "sSwfPath": sSwfPath,
+                "sSwfPath": "/bundles/indicadores/js/DataTables/media/swf/copy_csv_xls_pdf.swf",
                 "aButtons": [
                     {
                         "sExtends": "collection",
@@ -719,7 +729,7 @@ function dibujarControles(zona, datos) {
                 $('#sql').html('<canvas id="canvasGrp" width="400" height="350"></canvas>');
         
         //html = $('#'+zona + ' .grafico').html();
-console.log(html);
+//console.log(html);
         var canvas = document.getElementById("canvasGrp");
 
         rasterizeHTML.drawHTML('<H5 style="text-align:center;">' + $('#' + zona + ' .titulo_indicador').html() +
@@ -746,7 +756,7 @@ console.log(html);
                 "bInfo": false,
                 "iDisplayLength": 30,
                 "oTableTools": {
-                    "sSwfPath": sSwfPath,
+                    "sSwfPath": "/bundles/indicadores/js/DataTables/media/swf/copy_csv_xls_pdf.swf",
                     "aButtons": [
                         {
                             "sExtends": "collection",

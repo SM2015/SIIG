@@ -79,6 +79,7 @@ security:
         - { path: ^/publico, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/indicador/datos/public/, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/indicador/dimensiones/public/, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/indicador/filtrar/datos/public, role: IS_AUTHENTICATED_ANONYMOUSLY }
         # -> end
 
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }

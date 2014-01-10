@@ -168,6 +168,45 @@ class IndicadorController extends Controller
 
         return $response;
     }
+    
+
+    /**
+     * @Route("/indicador/filtrar/datos/public", name="indicador_datos_filtrar_public", options={"expose"=true})
+     */
+    public function getDatosFiltradosPublico()
+    {
+        $desde = $this->getRequest()->get('desde');
+        $hasta = $this->getRequest()->get('hasta');
+        $datos = $this->getRequest()->get('datos');
+        $elementos = $this->getRequest()->get('elementos');   
+        
+        // Adecuar el arreglo para luego ordenarlo
+        $datos_aux = array();
+
+        if ($elementos != '') {
+            $elementos = trim($elementos, '&');
+            $datos_a_mostrar = explode('&', $elementos);
+            foreach ($datos as $k => $fila)
+                if (in_array($fila['category'], $datos_a_mostrar)) {
+                    $datos_aux[] = $fila;
+                }
+        } else {
+            $max = count($datos);
+            $hasta = ($hasta == '' or $hasta > $max) ? $max : $hasta;
+            $desde = ($desde == '' or $desde <= 0) ? 0 : $desde - 1;
+
+            $cantidad = $hasta - $desde;
+            $datos_aux = array_slice($datos, $desde, $cantidad, true);
+        }
+
+        $resp['datos'] = $datos_aux;
+        $response = new Response(json_encode($resp));
+
+        if ($this->get('kernel')->getEnvironment() != 'dev')
+            $response->setMaxAge($this->container->getParameter('indicador_cache_consulta'));
+
+        return $response;
+    }    
 
     /**
      * @Route("/indicador/datos/mapa", name="indicador_datos_mapa", options={"expose"=true})
