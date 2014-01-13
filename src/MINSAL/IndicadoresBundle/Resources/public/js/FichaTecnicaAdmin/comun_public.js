@@ -282,6 +282,10 @@ function ordenarDatos(zona, ordenar_por, modo_orden) {
 }
 
 function aplicarFiltro(zona) {
+    
+    //datasetPrincipal = datasetPrincipal_bk;
+    $('#' + zona).attr('datasetPrincipal', $('#' + zona).attr('datasetPrincipal_bk'));
+    
     var elementos = '';
     var datasetPrincipal = JSON.parse($('#' + zona).attr('datasetPrincipal'));
 
