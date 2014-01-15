@@ -205,7 +205,7 @@ Se creará el usuario dueño de la base de datos, las opciones utilizadas depend
 
 <blockquote>
 <p># su postgres</p>
-<p>$ createuser -d -S  -R -P admin;</p>
+<p>$ createuser -d -s -R -P admin;</p>
 </blockquote>
 
 Al finalizar presionar la combinación Ctrl+D 2 veces para regresar al usuario siig y continuar con la instalación.
