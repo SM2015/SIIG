@@ -25,7 +25,7 @@ security:
 
     encoders:
         FOS\UserBundle\Model\UserInterface: sha512
-        AcmeBundle\Acme\User\LdapUser: plaintext
+        #AcmeBundle\Acme\User\LdapUser: plaintext
         
     
 # La configuracion actual busca al usuario en la base local, luego en LDAP
@@ -36,7 +36,7 @@ security:
             switch_user:        true
             context:            user
             pattern:            /admin(.*)
-            fr3d_ldap:           ~
+            #fr3d_ldap:           ~
             form_login:
                 login_path:     /admin/login
                 use_forward:    false
@@ -55,7 +55,7 @@ security:
             switch_user:        true
             context:            user
             pattern:            .*
-            fr3d_ldap:           ~
+            #fr3d_ldap:           ~
             form_login:
                 login_path:     /admin/login
                 use_forward:    false
