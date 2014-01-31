@@ -9,13 +9,13 @@ $(document).ready(function() {
 crearReporte();
 });       
 
-function crearReporte(){
 /*Asumimos que en el listado de busquedas existe:
 dataAccessId=anios-> cantidad de anios disponibles
 dataAccessId=resumen ->Resumen estadistico de los datos 
 Las demas busquedas(QN)seran distribuidos dependiendo en tipo
 de grafico especificado en el nombre de la busqueda: el valor despues de '|'  
 */
+function crearReporte(){
 
 var queries=[] 
  listarBusquedas().done(function(data) {
@@ -53,26 +53,30 @@ function doAnio(anio,queries){
 	contenido= contenido +'<table><tr>';
         $.each(queries,(function(key,query){
 		contenido = contenido +'<td><div id=g'+query.id+anio+
-				' class=grafico><b>'+query.titulo+'</b></div></td>';
+				' class=grafico><b>'+query.titulo+'</b></br></div></td>';
 		//crear nueva fila
 		if ((key>0)&&((key-1) % 2 === 0)){
 		contenido=contenido + '</tr><tr>';	}
 if ($.trim(query.tipo)=='tabla'){
-        //pedir datos en forma de tabla
-        getDatos(iid,anio,query.id,'html').done(function(data){
-        $('#g'+query.id+anio).append(data);});}
-    else{ 
-        // pedir datos en JSON, Crear Grafico
-        getDatos(iid,anio,query.id).done(function(data){
-                grafico_colAgrupadas('#g'+query.id+anio,data);  });
-        }
+                 //pedir datos en forma de tabla
+                 getDatos(iid,anio,query.id,'html').done(function(data){
+                 $('#g'+query.id+anio).append(data);});}
 
-	}));
+         if ($.trim(query.tipo)=='barras'){
+                 // pedir datos en JSON, Crear Grafico
+                 getDatos(iid,anio,query.id,'json').done(function(data){
+                grafico_colAgrupadas('#g'+query.id+anio,data);  });
+                }
+        if ($.trim(query.tipo)=='lineas'){
+                // pedir datos en JSON, Crear Grafico
+         getDatos(iid,anio,query.id,'json').done(function(data){
+                        grafico_multiLineas('#g'+query.id+anio,data);  });
+           }
+       }));
+
      	contenido= contenido +'</tr></table>';	
 
-//	getDatos(iid,anio,3).done(function(data){
- //   $('#g1'+anio).append(data);});
-return contenido + '<br/><hr><br/>';
+	return contenido + '<br/><hr><br/>';
 }
 
 function doEncabezado(anio){
@@ -93,7 +97,7 @@ function doResumen(anio){
         return $.get(myurl);
 }
 
-function getDatos(iid,anio,qid,tipo='json'){
+function getDatos(iid,anio,qid,tipo){
    myurl='/reportes/doQuery?path=siig/indicador'+iid+
         '.cda&dataAccessId='+qid+'&paramanio='+anio+'&outputType='+tipo;
        return $.get(myurl);

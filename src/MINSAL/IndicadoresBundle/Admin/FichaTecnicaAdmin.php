@@ -496,7 +496,7 @@ esquema de Mondrian es usado por Saiku.
 
  //Busqueda para generar listado de Anios
   if (in_array('anio', $campos)){
-	$sql_text='select distinct anio from '.$tabla;
+	$sql_text='select distinct anio from '.$tabla.' order by anio desc';
 	$where_sql=" WHERE aa.anio::int=!anio} ";
 	} else {
 	$sql_text='select false';
@@ -536,8 +536,8 @@ if ((in_array('id_departamento', $campos))&&(in_array('edad', $campos))){
         'sql'=>"select dept as eje_x,  sum(case when  edad<10 then valor else 0 end)  as 'Menores de 10',
    sum(case when edad>=10 and edad<20 then valor else 0 end)  as 'Entre 10 y 20',
  sum(case when edad>=20 and edad<30 then valor else 0 end)  as 'Entre  20 y 30' ,
- sum(case when edad>=30 and edad<40 then valor else 0 end)  as 'Entre  30 y 40' , 
- sum(case when edad>=40 and edad<50 then valor else 0 end)  as 'Entre  40 y 50' ,
+  sum(case when edad>=30 and edad<40 then valor else 0 end)  as 'Entre  30 y 40' ,
+   sum(case when edad>=40 and edad<50 then valor else 0 end)  as 'Entre  40 y 50', 
  sum(case when edad>=50 and edad<60 then valor else 0 end)  as 'Entre  50 y 60',
   sum(case when edad>=60  then valor else 0 end)  as 'Mayores de 60' 
 from ( SELECT ".$formula_agregada." as valor,edad,ctl_departamento.abreviatura AS dept 
@@ -556,8 +556,6 @@ if ((in_array('id_departamento', $campos))&&(in_array('id_diagnostico', $campos)
         'titulo'=>'Distribucion por Diagnostico | barras',
         'sql'=>"select dept as eje_x,  sum(case when diag='I60.9' then valor else 0 end) as *Hemorragia subaracnoidea*,
 sum(case when diag='I67.8' then valor else 0 end) as *Enfermedades cerebrovasculares*,
-sum(case when diag='I64' then valor else 0 end) as *Accidente vascular encefálico age*,
-sum(case when diag='I67.9' then valor else 0 end) as *Enfermedad cerebrovascula*,
 sum(case when diag='I61.9' then valor else 0 end) as *Hemorragia intraencefálac*
  from ( SELECT ".$formula_agregada." as valor,cc.id as diag,bb.abreviatura AS dept 
  FROM ".$tabla." aa INNER JOIN ctl_departamento bb
@@ -614,56 +612,73 @@ FROM ".$tabla." aa
         $q['sql']= htmlspecialchars(str_replace('!','${', $q['sql']));
         array_push($queries,$q);
         }
-
-//Busqueda para generar resumen estadistico
+        
+//Busqueda para generar datos por Variables agrupados por mes
+  if ((in_array('mes', $campos))&&(in_array('anio', $campos))){
+        $sql=array();
+         foreach ($vars_formula[1] as $myvar){
+                        $sql_text=" sum(aa.".$myvar.") as ".$myvar;
+                        array_push($sql,$sql_text);
+                }  
+        $q=array(
+        'id'=>'6',
+        'titulo'=>'Datos por Variable y Mes | lineas',
+        'sql'=>" select (anio::text || lpad(mes::text, 2, '0') || '01') as fecha, ".
+        implode(",",$sql). " FROM ".$tabla." aa  ".$where_sql."  group by
+        (anio::text || lpad(mes::text, 2, '0') || '01') order by fecha asc;");
+        $q['sql']= htmlspecialchars(str_replace('!','${', $q['sql']));
+        array_push($queries,$q);
+        }
+               
+    
+    //Busqueda para generar datos por Municipio
   if (in_array('id_municipio', $campos)){
+        $q=array(
+        'id'=>'7',
+        'titulo'=>'Municipios con mas casos | tabla',
+        'sql'=>"Select bb.descripcion as municipio, round(".$formula_agregada. ",1) as promedio FROM ".$tabla.
+        " aa INNER JOIN ctl_municipio bb on aa.id_municipio=bb.id 
+        ".$where_sql."  group  by bb.descripcion order by promedio desc limit 12;" );
+        $q['sql']= htmlspecialchars(str_replace('!','${', $q['sql']));
+        array_push($queries,$q);
+        }
+    
+               
+//Busqueda para generar resumen estadistico
+//Busqueda para generar resumen estadistico
         $q=array(
 	'id'=>'resumen',
         'titulo'=>'Resumen Estadistico | sin_grafico',
         'sql'=>"(select  'n_registros' as nombre,count(*) as val
- FROM ".$tabla." aa            
- INNER JOIN ctl_municipio bb ON aa.id_municipio = bb.id  ".$where_sql." )
-  
-UNION
-  
-(select  'conteo_moda' as nombre, count(porcentaje) as val from 
-    (select round(".$formula_agregada.",1) as porcentaje,
-bb.descripcion as municipio  
- FROM ".$tabla." aa            
- INNER JOIN ctl_municipio bb ON aa.id_municipio = bb.id ".$where_sql."     
- group by bb.descripcion) boo group by boo.porcentaje order by val desc limit 1)
- 
-UNION
-  
-(select  'moda' as nombre, kk.porcentaje as val from
-                    (select count(boo.porcentaje) as conteo,boo.porcentaje from  
-                         (select round(".$formula_agregada.",1) as porcentaje,
-                         bb.descripcion as municipio  
-                         FROM ".$tabla." aa            
-                         INNER JOIN ctl_municipio bb ON aa.id_municipio = bb.id     
-                         ".$where_sql."  group by bb.descripcion) boo 
-                         group by boo.porcentaje order by conteo desc limit 1)kk
-) 
-
-UNION
- 
-(select 'desv_std' as nombre,round(stddev_pop(porcentaje),2) as val 
- from (select round(".$formula_agregada.",0) as porcentaje   
- FROM ".$tabla." aa            
- INNER JOIN ctl_municipio bb ON aa.id_municipio = bb.id     
- ".$where_sql."  group by bb.descripcion order by porcentaje asc )boo)
-
-UNION
-(select 'promedio' as nombre, round(avg(porcentaje),2) as val 
- from (select round(".$formula_agregada.",0) as porcentaje 
- FROM ".$tabla." aa            
- INNER JOIN ctl_municipio bb ON aa.id_municipio = bb.id ".$where_sql."     
-  group by bb.descripcion order by porcentaje asc )boo)");
-$q['sql']= htmlspecialchars(str_replace('!','${', $q['sql']));
+                   FROM ".$tabla." aa  ".$where_sql."   )
+                    
+                  UNION
+                    
+                  (select  'conteo_moda' as nombre, count(valor) as val from 
+                    (select ".$formula." as valor FROM ".$tabla." aa  ".$where_sql." )boo
+			  group by boo.valor order by val desc limit 1)
+                   
+                  UNION
+                    
+                  (select  'moda' as nombre, round(kk.valor,1) as val from
+                       (select count(boo.valor) as conteo,boo.valor from  
+                          (select ".$formula." as valor  FROM ".$tabla." aa            
+                           ".$where_sql."   ) boo 
+                    group by boo.valor order by conteo desc limit 1)kk  ) 
+                  UNION
+                   
+                  (select 'desv_std' as nombre,round(stddev_pop(valor),2) as val 
+                   from (select ".$formula." as valor  FROM ".$tabla." aa            
+                    order by valor asc )boo )
+                 
+		 UNION
+                  (select 'promedio' as nombre, round(avg(valor),2) as val 
+                   from (select ".$formula." as valor             FROM ".$tabla." aa            
+               ".$where_sql."     order by valor asc )boo)");
+        $q['sql']= htmlspecialchars(str_replace('!','${', $q['sql']));
    array_push($queries,$q);
-        }
+        
  return $queries;
-   //    echo "<pre>".var_dump($queries)."</pre>";
-	exit;
+
      }
 }

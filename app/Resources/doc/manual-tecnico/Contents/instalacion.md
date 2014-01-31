@@ -430,8 +430,8 @@ Luego editamos la seccion VirtualHost dentro de /etc/apache2/sites-enabled/000-d
 
 ```
 <Location /admin/minsal/indicadores/saiku/>
-      ProxyPass http://localhost:8080/pentaho/content/saiku/
-      ProxyPassReverse http://localhost:8080/pentaho/content/saiku/
+      ProxyPass http://MISERVIDOR:8080/pentaho/content/saiku/
+      ProxyPassReverse http://MISERVIDOR:8080/pentaho/content/saiku/
       SetEnv proxy-chain-auth
     </Location>
 ```
@@ -449,44 +449,71 @@ http://dev.analytical-labs.com/saiku/serverdocs/
  
 ### 4.5 Generación de Reportes 
  
-Los reportes son generados usando el servidor de análisis Pentaho.
-Cada indicador puede tener un reporte individual que incluye menúes de selección, gráficos, texto y tablas de datos según se requiera. 
-Debido a que los requerimientos de análisis y presentación varían entre indicadores, estos reportes deben ser diseñados y publicados manualmente por el administrador del sistema. 
-Los reportes existentes están disponibles desde  el menú del SIIG en administración->Indicadores->Ficha Tecnica (http://SIIG/admin/minsal/indicadores/fichatecnica/list).
+Los reportes son generados usando el servidor de análisis Pentaho. Cada indicador puede tener un reporte individual que incluye gráficos, texto y tablas de datos según se requiera. El sistema SIIG genera de forma automática un reporte inicial para cada indicador, sin embargo debido a que los requerimientos de análisis y presentación varían entre indicadores, estos reportes deben ser revisados y modificados manualmente por el administrador del sistema. Los reportes están disponibles desde el menú del SIIG en administración->Indicadores->Ficha Técnica. 
 
-El listado de Ficha Tecnica incluye un botón Mostrar Reporte que carga el reporte para el indicador correspondiente usando los datos disponibles mas recientes. 
-Todos los indicadores en el listado tienen el botón 'Mostrar Reporte', sin embargo solo los reportes creados y publicados por el administrador del sistema están disponibles.
+El listado de Ficha Técnica incluye un botón Mostrar Reporte que carga el reporte para el indicador correspondiente usando los datos mas recientes. El proceso que el SIIG utiliza para generar y mostrar el reporte es el siguiente:
 
-El proceso para crear y publicar reportes incluye:
+1.	Verificar si existe el archivo para generar el reporte correspondiente en ‘[ruta de reportes]/indicadorX.cda’. 
 
-1. Fijar clave para la publicación de contenidos al editar el archivo:
+2.	Si no existe el archivo, crear archivo indicadorX.cda en base a los campos y variables disponibles en el indicador
 
-~~~ 
-pentaho-solutions/system/publisher_config.xml 
+3.	Si existe el archivo, usar JQuery para procesar las búsquedas SQL existentes dentro del archivo ‘indicadorX.cda’, y procesar los resultados para crear gráficos
 
-para modificar esta linea
+4.	Combinar los gráficos y mostrar reporte en el navegador, desde donde puede imprimirse o ser guardado localmente.
 
-<publisher-password>NUEVA_CLAVE</publisher-password>
-~~~
 
-2. Crear Reporte para el Indicador deseado usando la aplicación de Reportes de Pentaho. Esta aplicación debe ser instalada en la terminal del administrador del sistema y puede ser descargada en:
-http://reporting.pentaho.com/report_designer.php
+####Sobre archivos CDA de Pentaho
 
-Una guía completa sobre el diseño de reportes usando esta aplicación esta disponible en:
+Pentaho Community Data Access es un mecanismo del servidor de Pentaho que permite crear búsquedas SQL y servirlas a través de un servicio HTTP/REST en formatos JSON, HTML y XML.
 
-http://wiki.pentaho.com/display/Reporting/01.+Creating+Your+First+Report
+Los archivos CDA están guardados en formato XML y contienen un conjunto de  búsquedas SQL que estarán disponibles a través del servicio REST durante la creación de reportes. Una vez el SIIG genera el archivo ‘indicadorX.cda’ inicial el administrador del sistema puede modificar, eliminar o agregar las búsquedas SQL contenidas en este archivo para modificar/mejorar un reporte.
 
-Los reportes pueden ser creados y editados de forma local, y una vez terminados pueden ser publicados en el servidor de Pentaho. Al publicar un reporte, este inmediatamente esta disponible para el sistema SIIG. Si es necesario modificar un reporte existente, la modificación debe hacerse en forma local y luego publicar la nueva version del reporte . 
-
-3. Publicar reporte. Al seleccionar el la opción publicar, aparece un ventana que nos pide elegir una carpeta en la cual se publicara el reporte. Para que pueda ser encontrada por el SIIG, asegurese de guardar todos sus reportes en  una carpeta llamada 'reportes'.  Si esta carpeta no existe puede crearla al momento de guardar su primer reporte usando el botón 'Nueva Carpeta'.  
-
-Una vez dentro de la carpeta 'reportes' deberá asignar un nombre de archivo (Ejem: indicador15.prpt), un titulo e ingresar la clave de publicación que se fijo en el primer paso. 
+La generacion de reportes se logra a travez de consultas Web al servidor de Pentaho, para crear la ruta de estas consultas debemos agregar la siguiente seccion en la configuracion de Apache:
 
 ~~~
-NOTA: El SIIG  esta configurado para leer reportes tales como: reportes/indicadorX.prpt 
-Por esto, si el reporte es publicado en una carpeta diferente o si el nombre 
-asignado al archivo es diferente, no podrá ser leido por el SIIG. 
+<Location /reportes/>
+      ProxyPass http://MISERVIDOR:8080/pentaho/content/cda/
+      ProxyPassReverse http://MISERVIDOR:8080/pentaho/content/cda/
+      SetEnv proxy-chain-auth
+</Location>
 ~~~
+
+ La ubicación de los archivos CDA esta definida dentro de app/aparmeters.yml en la variable carpeta_pentaho_cda. Esta carpeta debe existir dentro biserver/pentaho-solutions y tener los permisos necesarios para que Symfony pueda crear archivos CDA. 
+
+~~~
+Para asignar permisos : 
+setfacl -R -m u:www-data:rwx -m u:`whoami`:rwx [capeta_pentaho_cda]
+~~~
+
+#### Modificar las búsquedas SQL 
+Para evitar conflictos con las etiquetas XML, el codigo SQL dentro del archivo CDA ha sido modificado usando la función PHP htmlspecialchars(). Este requisito aplica para cualquier modificación que se haga en el código SQL.   Si fuese necesario, antes de modificar código puede usarse la función PHP htmlspecialchars_decode(). 
+Cada búsqueda contiene un ID numérico único dentro del archivo CDA que se usa en las llamas REST/JQuery. El titulo de cada búsqueda se usara para el grafico correspondiente dentro del reporte. La sección titulo además contiene el nombre del tipo de grafico que se usara (barras, líneas o tabla de datos). 
+
+Para graficar correctamente los datos los resultados de la búsqueda SQL deben ajustarse de la siguiente manera:
+
+Barras: eje_x, valor_a,[valor_b],[valor_c],etc. Donde eje_x es un valor tipo texto/string que contiene las etiquetas del eje X . [Valor_x]  son valores numericos que usaran como series del grafico, cada serie se etiquetara con el nombre de la columna. 
+
+Líneas: fecha, valor_a,[valor_b],[valor_c],etc. Donde fecha es un valor en tipo texto/string en formato YYYYMMDD que se usara para calcular las etiquetas del eje X. [Valor_x]  son valores numéricos que usaran como series del grafico, cada serie se etiquetara con el nombre de la columna. 
+
+Tabla de datos: formato libre.
+
+Existen dos búsquedas especiales con ID no numérico:
+
+ID=anios: Esta búsqueda regresa los años disponibles en el indicador si existen.
+
+ID=resumen: Esta búsqueda calcula valores estadísticos de los datos, los resultados se muestran en el encabezado del reporte.
+
+####Modificar la Apariencia de los Reportes
+
+El logo del SIIG es usado en el encabezado del reporte, la imagen de este logo puede ser modificada en: /src/MINSAL/IndicadoresBundle/Resources/public/images/logo_salud.png 
+
+La hoja de estilo del reporte puede ser modificada en: src/MINSAL/IndicadoresBundle/Resources/public/css/FichaTecnicaAdmin/reporte.css
+
+Finalmente, la estructura del reporte puede ser modificada en:
+src/MINSAL/IndicadoresBundle/Resources/views/FichaTecnicaAdmin/reporte.html.twig
+
+
+
 
 ## Instalación de librería wkhtmltopdf
 [wkhtmltopdf](http://code.google.com/p/wkhtmltopdf/) Es una utilidad de línea de comando para convertir html a pdf

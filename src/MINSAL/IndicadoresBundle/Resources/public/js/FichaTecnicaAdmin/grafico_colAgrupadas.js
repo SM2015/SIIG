@@ -60,7 +60,7 @@ var data=datos.map(function(dat,ii){
 //console.log('Ydomain'+y.domain());
  
 svg.append("g")
-      .attr("class", "x axis")
+      .attr("class", "x axis columnas")
       .attr("transform", "translate(0," + height + ")")
       .call(xAxis)
    .selectAll("text")	
@@ -72,7 +72,7 @@ svg.append("g")
                 });	
 
   svg.append("g")
-      .attr("class", "y axis")
+      .attr("class", "y axis columnas")
       .call(yAxis)
     .append("text")
       .attr("y", -10)
