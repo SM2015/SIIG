@@ -6,7 +6,7 @@
     },
     "require": {
         "php": ">=5.3.3",
-        
+                
         "symfony/symfony": "~2.4",
         "doctrine/orm": "~2.2,>=2.2.3",
         "doctrine/doctrine-bundle": "~1.2",
@@ -42,8 +42,7 @@
         "oldsound/rabbitmq-bundle": "*",
         "fr3d/ldap-bundle": "2.0.*@dev",
 	"knplabs/knp-snappy-bundle": "dev-master",
-        
-        "mobiledetect/mobiledetectlib": "dev-master",
+                
         "suncat/mobile-detect-bundle": "dev-master",
         "jms/serializer-bundle": "dev-master",
         "friendsofsymfony/rest-bundle": "1.1.*"
