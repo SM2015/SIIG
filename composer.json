@@ -24,6 +24,7 @@
         
         "knplabs/knp-menu-bundle":"1.1.2",
         
+        "sonata-project/cache": "dev-master",
         "sonata-project/cache-bundle": "dev-master",
         "sonata-project/core-bundle": "dev-master",
         "sonata-project/admin-bundle": "dev-master",
