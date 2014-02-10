@@ -129,13 +129,15 @@ class OrigenDatosAdminController extends Controller
         //Mardar a la cola de carga de datos cada origen seleccionado
         $parameterBag = $this->get('request')->request;
         $em = $this->getDoctrine()->getManager();
-
-        if (!$parameterBag->get('all_elements'))
-            $selecciones = $parameterBag->get('idx');
-        else
+        
+        if (!$parameterBag->get('all_elements')){
+            $selecciones = (is_array ($idx)) ? $idx : $parameterBag->get('idx');
+        }
+        else{
             $selecciones = $em->getRepository('IndicadoresBundle:OrigenDatos')->findAll();
+        }
+        
         foreach ($selecciones as $origen) {
-
             if (!$parameterBag->get('all_elements'))
                 $origenDato = $em->find('IndicadoresBundle:OrigenDatos', $origen);
             else
