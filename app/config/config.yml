@@ -102,7 +102,14 @@ sonata_admin:
     security:
         handler: sonata.admin.security.handler.role
     title: ' '
-    title_logo: /bundles/indicadores/images/logo_salud.png
+    title_logo: /bundles/indicadores/images/logo_salud.png                    
+    
+    options:        
+        confirm_exit:   false # disable confirmation when quitting with unsaved changes
+
+    # set to true to persist filter settings per admin module in the user's session
+    persist_filters: false
+    
     templates:
         # default global templates
         layout:  IndicadoresBundle::standard_layout.html.twig
@@ -188,7 +195,7 @@ services:
         arguments: [%locale%]
         tags:
             -  { name: kernel.event_subscriber }
-
+    
     monolog.processor.siig:
         class: MINSAL\IndicadoresBundle\FormatoVitacora
         arguments:  ["@service_container"]

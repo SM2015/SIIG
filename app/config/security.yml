@@ -34,7 +34,7 @@ security:
             switch_user:        true
             context:            user
             pattern:            /admin(.*)
-            fr3d_ldap:           ~
+            #fr3d_ldap:           ~
             form_login:
                 login_path:     /admin/login
                 use_forward:    false
@@ -53,7 +53,7 @@ security:
             switch_user:        true
             context:            user
             pattern:            .*
-            fr3d_ldap:           ~
+            #fr3d_ldap:           ~
             form_login:
                 login_path:     /admin/login
                 use_forward:    false
