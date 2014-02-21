@@ -127,6 +127,11 @@ class FichaTecnicaAdmin extends Admin
         ;
     }
 
+	// Para que siempre muestre la opción del menú principal donde se escuentra la ficha
+    public function showIn($context) {
+        return true;
+    }
+ 
     public function getBatchActions()
     {
         $actions = array();
