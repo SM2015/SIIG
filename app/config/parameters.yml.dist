@@ -14,16 +14,23 @@ parameters:
     database_path: null
     archivo_vitacora: %kernel.logs_dir%/minsal.log
     
+    #Configuración de la sala
+    graficos_por_fila: 3
+    ancho_area_grafico: 370
+    alto_area_grafico: 370
+    titulo_sala_tamanio_fuente: 12
+    ocultar_menu_principal: 0
+    
     ##Variables de Saiku  
-# Carpeta de Esquemas generados por el Siig para Pentaho  
+    # Carpeta de Esquemas generados por el Siig para Pentaho  
     carpeta_siig_mondrian: '%kernel.root_dir%/mondrian/'
 
-# Nombre de Conexion de Base de Datos dentro de Pentaho
+    # Nombre de Conexion de Base de Datos dentro de Pentaho
     conexion_bd_pentaho: 'Minsal'
 
-# Archivo que lista esquemas existentes y su conexion 
-# Este archivo debe estar ligado al fichero ../pentaho-solutions/system/olap/datasources.xml
+    # Archivo que lista esquemas existentes y su conexion 
+    # Este archivo debe estar ligado al fichero ../pentaho-solutions/system/olap/datasources.xml
     listado_metadata: 'datasources.siig'
 
-# Carpeta para guardar las busquedas usadas para generar reportes usando Pentaho CDA
+    # Carpeta para guardar las busquedas usadas para generar reportes usando Pentaho CDA
     carpeta_pentaho_cda: '/home/siig/pentaho/pentaho-solutions/reportes'

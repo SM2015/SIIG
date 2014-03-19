@@ -38,7 +38,19 @@
     {% include 'IndicadoresBundle:FichaTecnicaAdmin:menu_tablero.html.twig' %}
 {#{% endif %}#}
 
-
+    {# sección de configuración #}    
+    <input type="hidden" value="{{confTablero.ocultar_menu_principal}}" id="ocultar_menu_principal">
+    
+    <style>
+        .area_grafico { 
+            width: {{confTablero.ancho_area_grafico}}px; 
+            height: {{confTablero.ancho_area_grafico}}px; 
+        }
+        .marco-sala:after {
+            font-size: {{confTablero.titulo_sala_tamanio_fuente}}pt;
+        }
+    </style>
+    
     <div id='nombre_sala2' ></div>
     <div class="tab-content">        
         <div class="content tab-pane" id="opciones_sala">
@@ -106,7 +118,8 @@
             </div>
         </div>
         <div class="content tab-pane active" id="sala" >
-            <div class="area_grafico zona_actual" id='grafico_1' >
+            {% for i in 1..confTablero.graficos_por_fila%}
+            <div class="area_grafico {% if i==1 %} zona_actual {% endif%}" id='grafico_{{i}}' >
                 <DIV class= 'titulo'><span class='titulo_indicador'></span>
                     <span>({{'_por_'|trans}} <span class='dimension' ></span>)</span>
                 </DIV>
@@ -117,28 +130,8 @@
                     <div class="grafico" ></div>
                 </div>
             </div>
-            <div class="area_grafico" id='grafico_2' >
-                <DIV class= 'titulo'><span class='titulo_indicador'></span>
-                    <span>({{'_por_'|trans}} <span class='dimension' ></span>)</span>
-                </DIV>
-                <h6 class='filtros_dimensiones'></h6>
-                <div class='controles btn-toolbar'></div>
-                <div class="row-fluid info" ></div>
-                <div class="row-fluid row_grafico" >
-                    <div class="grafico" ></div>
-                </div>
-            </div>
-            <div class="area_grafico" id='grafico_3' >
-                <DIV class= 'titulo'><span class='titulo_indicador'></span>
-                    <span>({{'_por_'|trans}} <span class='dimension' ></span>)</span>
-                </DIV>
-                <h6 class='filtros_dimensiones'></h6>
-                <div class='controles btn-toolbar'></div>
-                <div class="row-fluid info" ></div>
-                <div class="row-fluid row_grafico" >
-                    <div class="grafico" ></div>
-                </div>
-            </div>
+            {% endfor %}
+            
         </div>
         <div class="content tab-pane" id="listado_indicadores" >
             <div class="accordion" id="accordion2">

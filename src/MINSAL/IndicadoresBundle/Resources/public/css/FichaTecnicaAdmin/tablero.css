@@ -68,9 +68,7 @@ input.valores_filtro{
 
 .area_grafico { 
     margin: 3px 12px 3px 0; 
-    float: left; 
-    width: 370px; 
-    height: 370px; 
+    float: left;     
     overflow-y: auto;
     border: 1px gray dashed; 
 }
@@ -139,7 +137,7 @@ input.valores_filtro{
 #tool_actions{
     display: none;
 }
-.navbar-inner {
+.anavbar-inner {
     min-height: 0px !important;
 }
 .dropdown-menu li a {
@@ -163,8 +161,7 @@ div.popover-content, div.popover-title{
     border: 1px solid #DDDDDD;
     border-radius: 4px 0 4px 0;
 
-    content: attr(data-content);
-    font-size: 12px;
+    content: attr(data-content);    
     font-weight: bold;
     left: -1px;
     padding: 3px 7px;
@@ -202,4 +199,4 @@ div.popover-content, div.popover-title{
 }
 #chat-form-mensaje{
     width: 80% !important;
-}}
+}
