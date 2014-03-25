@@ -168,11 +168,7 @@ function dibujarGrafico(zona, dimension) {
     if (dimension === null)
         return;
     var filtro = $('#' + zona + ' .filtros_dimensiones').attr('data');
-    /*
-     * $.getJSON('http://siig.localhost/app_dev.php/api/indicador/'+
-            $('#' + zona + ' .titulo_indicador').attr('data-id')+
-            '/'+dimension,            
-     */
+    
     //Hace uso del servicio web REST en la ruta get_indicador
     $.getJSON(Routing.generate('get_indicador',
             {id: $('#' + zona + ' .titulo_indicador').attr('data-id'), dimension: dimension}),
@@ -529,9 +525,9 @@ function dibujarControles(zona, datos) {
     $('#' + zona + ' .ver_sql').click(function() {
         var filtro = $('#' + zona + ' .filtros_dimensiones').attr('data');
         var dimension = $('#' + zona + ' .dimensiones').val();
-
-        $.getJSON(Routing.generate('indicador_ver_sql',
-                {id: $('#' + zona + ' .titulo_indicador').attr('data-id'), dimension: dimension}),
+        
+        $.getJSON(Routing.generate('get_indicador',
+            {id: $('#' + zona + ' .titulo_indicador').attr('data-id'), dimension: dimension}),
         {filtro: filtro, ver_sql: true},
         function(resp) {
             $('#myModalLabel2').html($('#' + zona + ' .titulo_indicador').html());

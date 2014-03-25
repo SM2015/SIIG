@@ -31,7 +31,10 @@ $(document).ready(function() {
         e.preventDefault();
         $(this).tab('show');
     });
-    $('#collapseOne').toggle();
+
+    if ($('#ocultar_menu_principal').val() == 1){
+        $('#collapseOne').toggle();
+    }
     $('#aCollapseOne').click(function() {
         $('#collapseOne').toggle();
     });

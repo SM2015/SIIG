@@ -112,11 +112,18 @@ class FichaTecnicaAdminController extends Controller
                 $indicadores_no_clasificados[] = $ind;
             }
         }
+        $confTablero = array('graficos_por_fila' => $this->container->getParameter('graficos_por_fila'),
+                            'ancho_area_grafico' => $this->container->getParameter('ancho_area_grafico'),
+                            'alto_area_grafico'=> $this->container->getParameter('alto_area_grafico'),
+                            'titulo_sala_tamanio_fuente'=> $this->container->getParameter('titulo_sala_tamanio_fuente'),
+                            'ocultar_menu_principal'=> $this->container->getParameter('ocultar_menu_principal'),          
+                            );
 
         return $this->render('IndicadoresBundle:FichaTecnicaAdmin:tablero.html.twig', array(
                     'categorias' => $categorias_indicador,
                     'clasificacionUso' => $clasificacionUso,
                     'salas' => $salas,
+                    'confTablero' =>$confTablero,
                     'indicadores_no_clasificados' => $indicadores_no_clasificados
         ));
     }
