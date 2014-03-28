@@ -336,3 +336,7 @@ _alerta_limite_inferior_: 'Lower limit'
 _regresar_menu_principal_: Return to main menu
 _agencia_: Agency
 _usuario_no_agencia_: The current user is not assigned to an Agency
+_titulo_:  Title
+_descripcion_: Description
+_archivo_: File
+_imagen_: Image
