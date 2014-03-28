@@ -338,3 +338,7 @@ _alerta_limite_inferior_: 'Límite inferior'
 _regresar_menu_principal_: Regresar al menú principal
 _agencia_: Agencia
 _usuario_no_agencia_: El usuario actual no tiene asignada una Agencia
+_titulo_:  Título
+_descripcion_: Descripción
+_archivo_: Archivo
+_imagen_: Imagen

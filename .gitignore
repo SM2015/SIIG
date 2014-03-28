@@ -1,5 +1,5 @@
 web/bundles/
-web/uploads/origen_datos/*
+web/uploads/*
 app/bootstrap.php.cache
 app/cache/*
 app/logs/*

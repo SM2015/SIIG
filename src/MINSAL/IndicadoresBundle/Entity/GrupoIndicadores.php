@@ -3,6 +3,8 @@
 namespace MINSAL\IndicadoresBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Vlabs\MediaBundle\Annotation\Vlabs;
 
 /**
  * MINSAL\IndicadoresBundle\Entity\GrupoIndicadores
@@ -44,6 +46,13 @@ class GrupoIndicadores
      * @ORM\ManyToMany(targetEntity="Application\Sonata\UserBundle\Entity\Group", mappedBy="salas")
      **/
     private $grupos;
+    
+    /**
+    *
+    * @ORM\OneToMany(targetEntity="Imagen", mappedBy="sala" , cascade={"persist", "remove"}, orphanRemoval=true))    
+    *     
+    */
+    private $imagenes;
 
     /**
      * Constructor
@@ -222,5 +231,38 @@ class GrupoIndicadores
     public function getGrupos()
     {
         return $this->grupos;
+    }
+
+    /**
+     * Add imagenes
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\Image $imagenes
+     * @return GrupoIndicadores
+     */
+    public function addImagene(\MINSAL\IndicadoresBundle\Entity\Imagen $imagenes)
+    {
+        $this->imagenes[] = $imagenes;
+
+        return $this;
+    }
+
+    /**
+     * Remove imagenes
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\Image $imagenes
+     */
+    public function removeImagene(\MINSAL\IndicadoresBundle\Entity\Imagen $imagenes)
+    {
+        $this->imagenes->removeElement($imagenes);
+    }
+
+    /**
+     * Get imagenes
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getImagenes()
+    {
+        return $this->imagenes;
     }
 }
