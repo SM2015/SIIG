@@ -1,0 +1,62 @@
+#container {
+    width: 80%;
+    position: fixed; 
+    bottom: 0;
+    display: none;        
+}
+
+#carousel {
+    margin: 0 auto;
+}
+#carousel img {
+    border: 0 none;
+}
+
+#pages {
+    width: 69px;
+    height: 18px;
+    margin: 5px auto 0 auto;
+}
+
+#ui-carousel-next, #ui-carousel-prev{
+    background: url("/bundles/indicadores/js/ryrych-rcarousel/examples/images/arrow-left.png") no-repeat scroll center center #FFFFFF;
+    display: block;
+    height: 30px;
+    position: absolute;
+    bottom: 0;
+    width: 60px;
+    z-index: 100;
+}
+#ui-carousel-next {
+    background-image: url("/bundles/indicadores/js/ryrych-rcarousel/examples/images/arrow-right.png");
+    right: 0;
+}
+#ui-carousel-prev {
+    left: 160;
+}
+#ui-carousel-close {
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAMAAAAMCGV4AAAAllBMVEXDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PExMTPz8/Q0NDR0dHT09Pb29vc3Nzf39/h4eHi4uLj4+P6+vr7+/v8/Pz9/f3///+Nh2QuAAAAIXRSTlMABgwPGBswMzk8QktRV4SKjZOWmaKlq7TAxszb3urt+fy1vNEpAAAAiklEQVQIHUXBBxKCQBREwRFzDqjoGh+C2YV//8u5Sll2S0E/dof1tKdKM6GyqCto7PjZRJIS/mbSELgXOSd/BzpKIH1ZefVWpDDTHsi8mZVnwImPi5ndCLbaAZk3M58Bay0h9VbeSvMpjDUAHj4jL55AW1rxN5fU2PLjIgVRzNdxVFOlGzvnJi0Fb1XNGBHA9uQOAAAAAElFTkSuQmCC");
+    background-position: 13px 11px;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    display: block;
+    height: 40px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 40px;
+}
+#ui-carousel-next > span, #ui-carousel-prev > span {
+    display: none;
+}
+#show-carousel{
+    background-color: #F7F7F7;
+    background-image: -moz-linear-gradient(center top , #E4E4E4, #FFFFFF);
+    border-radius: 0 16px 0;
+    bottom: 0;
+    display: none;
+    padding: 5px 5px 0;
+    position: fixed;
+    left: 0;
+    z-index: 6000000;
+}

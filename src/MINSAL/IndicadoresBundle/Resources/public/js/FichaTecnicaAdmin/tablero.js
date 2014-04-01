@@ -1,4 +1,3 @@
-
 $(document).ready(function() {
     // *****************
     //Con esto se verifica el comportamiento del area de gráfico
@@ -32,15 +31,15 @@ $(document).ready(function() {
         $(this).tab('show');
     });
 
-    if ($('#ocultar_menu_principal').val() == 1){
+    if ($('#ocultar_menu_principal').val() == 1) {
         $('#collapseOne').toggle();
     }
     $('#aCollapseOne').click(function() {
         $('#collapseOne').toggle();
     });
 
-    
-    function ajax_states(){
+
+    function ajax_states() {
         $(document).bind("ajaxStart.mine", function() {
             $('#div_carga').show();
         });
@@ -53,14 +52,14 @@ $(document).ready(function() {
         handle: '.titulo',
     });
     $("#sala").disableSelection();
-
+        
     $('A.indicador').click(function() {
-        if ($('DIV.zona_actual').attr('id') !== undefined){        
+        if ($('DIV.zona_actual').attr('id') !== undefined) {
             dibujarIndicador($(this).attr('data-id'));
             moverAGraficoActual();
         } else {
             alert(trans._no_areas_grafico_);
-        }        
+        }
     });
 
     function dibujarIndicador(id_indicador) {
@@ -92,7 +91,7 @@ $(document).ready(function() {
     function sala_agregar_fila() {
         var cant = $('DIV.area_grafico').length;
         $('.zona_actual').removeClass('zona_actual');
-        
+
         var html = '<div class="area_grafico zona_actual" id="grafico_' + parseInt(cant + 1) + '" >' +
                 "<DIV class= 'titulo'><span class='titulo_indicador '></span>" +
                 "<span>(" + trans.por + " <span class='dimension' ></span>)</span>" +
@@ -105,12 +104,12 @@ $(document).ready(function() {
                 '</div>' +
                 '</DIV>';
 
-        
+
         $('#sala').append(html);
         $('DIV.area_grafico').click(function() {
             zona_elegir(this);
         });
-        
+
         moverAGraficoActual();
     }
 
@@ -194,9 +193,10 @@ $(document).ready(function() {
         $('#myTab a:first').tab('show');
         $('#listado-salas li').removeClass('active');
         $('li[sala-id="' + $('.marco-sala').attr('id-sala') + '"]').addClass('active');
-        
+
         cargarMensajes();
         cargarUsuarios();
+        cargarImagenes();
     });
 
     function moverAGraficoActual() {
@@ -233,21 +233,21 @@ $(document).ready(function() {
         if ($('.marco-sala').attr('id-sala')) {
             $('#chat-mensajes').load(
                     Routing.generate('sala_get_comentarios', {idSala: $('.marco-sala').attr('id-sala')}), {vez: 1},
-            function(response, status, xhr) {                
-                setScroll();                
+            function(response, status, xhr) {
+                setScroll();
             });
         }
     }
-    
-    function cargarUsuarios(){
+
+    function cargarUsuarios() {
         if ($('.marco-sala').attr('id-sala')) {
             $('#usuarios_sala').load(
                     Routing.generate('sala_get_usuarios', {idSala: $('.marco-sala').attr('id-sala')}),
             function(response, status, xhr) {
-                $('.usuariosSala').change(function(){
+                $('.usuariosSala').change(function() {
                     var accion = ($(this).is(':checked')) ? 'agregar' : 'borrar';
-                    $.get(Routing.generate('sala_set_usuario', 
-                        {id: $('.marco-sala').attr('id-sala'), id_usuario: $(this).val(), accion: accion}
+                    $.get(Routing.generate('sala_set_usuario',
+                            {id: $('.marco-sala').attr('id-sala'), id_usuario: $(this).val(), accion: accion}
                     ));
                 });
             });
@@ -260,7 +260,7 @@ $(document).ready(function() {
         if ($('.marco-sala').attr('id-sala')) {
             $(document).unbind(".mine");
             $.post(Routing.generate('sala_get_comentarios', {idSala: $('.marco-sala').attr('id-sala')}), {vez: 2}, function(data) {
-                if (data != ''){                    
+                if (data != '') {
                     $('#chat-mensajes').append(data);   // Añadir el nuevo mensaje al final
                     setScroll();
                 }

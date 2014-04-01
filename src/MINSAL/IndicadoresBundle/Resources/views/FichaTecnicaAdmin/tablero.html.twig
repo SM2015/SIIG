@@ -3,28 +3,36 @@
 {% extends 'IndicadoresBundle::standard_layout.html.twig' %}
 {% block stylesheets %}
     {{ parent() }}
-<link rel="stylesheet" href="{{ asset('bundles/indicadores/css/FichaTecnicaAdmin/tablero.css') }}" type="text/css" media="all" />
-<link rel="stylesheet" href="{{ asset('bundles/indicadores/js/DataTables/media/css/jquery.dataTables.css') }}" type="text/css" media="all" />
-<link rel="stylesheet" href="{{ asset('bundles/indicadores/js/DataTables/media/css/TableTools.css') }}" type="text/css" media="all" />
+    <link rel="stylesheet" href="{{ asset('bundles/indicadores/css/FichaTecnicaAdmin/tablero.css') }}" type="text/css" media="all" />
+    <link rel="stylesheet" href="{{ asset('bundles/indicadores/js/DataTables/media/css/jquery.dataTables.css') }}" type="text/css" media="all" />
+    <link rel="stylesheet" href="{{ asset('bundles/indicadores/js/DataTables/media/css/TableTools.css') }}" type="text/css" media="all" />
+    <link rel="stylesheet" href="{{ asset('bundles/indicadores/js/ryrych-rcarousel/widget/css/rcarousel.css') }}" type="text/css" media="all" />
+    <link rel="stylesheet" href="{{ asset('bundles/indicadores/js/ryrych-rcarousel/examples/rlightbox/css/lightbox.css') }}" type="text/css" media="all" />
+    <link rel="stylesheet" href="{{ asset('bundles/indicadores/css/FichaTecnicaAdmin/carrusel.css') }}" type="text/css" media="all" />
+
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-<script src="{{ asset('bundles/indicadores/js/d3.v2.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('bundles/indicadores/js/affix.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/indicadores/js/d3.v2.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/indicadores/js/affix.min.js') }}" type="text/javascript"></script>
 
-<script src="{{ asset('bundles/indicadores/js/FichaTecnicaAdmin/comun.js') }}" type="text/javascript"></script>
-<script src="{{ asset('bundles/indicadores/js/FichaTecnicaAdmin/grafico_pastel.js') }}" type="text/javascript"></script>
-<script src="{{ asset('bundles/indicadores/js/FichaTecnicaAdmin/grafico_columnas.js') }}" type="text/javascript"></script>
-<script src="{{ asset('bundles/indicadores/js/FichaTecnicaAdmin/grafico_lineas.js') }}" type="text/javascript"></script>
-<script src="{{ asset('bundles/indicadores/js/FichaTecnicaAdmin/grafico_mapa.js') }}" type="text/javascript"></script>
-<script src="{{ asset('bundles/indicadores/js/FichaTecnicaAdmin/tablero.js') }}" type="text/javascript"></script>
-<script src="{{ asset('bundles/indicadores/js/bridge_draggable_touch.js') }}" type="text/javascript"></script>
-<script src="{{ asset('bundles/indicadores/js/jquery.ui.touch-punch.js') }}" type="text/javascript"></script>
-<script src="{{ asset('bundles/indicadores/js/rasterizeHTML.allinone.js') }}" type="text/javascript"></script>
-<script src="{{ asset('bundles/indicadores/js/DataTables/jquery.dataTables.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('bundles/indicadores/js/DataTables/ZeroClipboard.js') }}" type="text/javascript"></script>
-<script src="{{ asset('bundles/indicadores/js/DataTables/TableTools.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/indicadores/js/FichaTecnicaAdmin/comun.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/indicadores/js/FichaTecnicaAdmin/grafico_pastel.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/indicadores/js/FichaTecnicaAdmin/grafico_columnas.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/indicadores/js/FichaTecnicaAdmin/grafico_lineas.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/indicadores/js/FichaTecnicaAdmin/grafico_mapa.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/indicadores/js/FichaTecnicaAdmin/tablero.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/indicadores/js/bridge_draggable_touch.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/indicadores/js/jquery.ui.touch-punch.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/indicadores/js/rasterizeHTML.allinone.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/indicadores/js/DataTables/jquery.dataTables.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/indicadores/js/DataTables/ZeroClipboard.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/indicadores/js/DataTables/TableTools.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/indicadores/js/ryrych-rcarousel/widget/lib/jquery.ui.rcarousel.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/indicadores/js/ryrych-rcarousel/examples/rlightbox/lib/jquery.ui.rlightbox.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/indicadores/js/FichaTecnicaAdmin/carrusel.js') }}" type="text/javascript"></script>
+    
 {% endblock %}
 
 {% block content %}
@@ -263,5 +271,24 @@
     <div class="modal-footer">
         <button class="btn" data-dismiss="modal" aria-hidden="true">{{'_cerrar_'|trans}}</button>
     </div>
+</div>
+
+<div id="container" >
+    <div id="wrapper">
+        <div id="carousel"></div>            
+        <a id="ui-carousel-prev" href="#" style="opacity: 1;">
+            <span>prev</span>
+        </a>
+        <a id="ui-carousel-next" href="#" style="opacity: 1;">
+            <span>next</span>
+        </a>
+    </div>
+    <a id="ui-carousel-close" href="#" style="opacity: 1;" >        
+    </a>
+</div>
+<div id="show-carousel">
+    <a id="ui-carousel-show" href="#" style="opacity: 1;" >
+        <span>{{'_mostrar_cinta_'|trans}}</span>
+    </a>
 </div>
 {% endblock %}

@@ -12,13 +12,12 @@ use MINSAL\IndicadoresBundle\Entity\User;
 use MINSAL\IndicadoresBundle\Entity\GrupoIndicadores;
 use MINSAL\IndicadoresBundle\Entity\UsuarioGrupoIndicadores;
 
-class IndicadorController extends Controller
-{
+class IndicadorController extends Controller {
+
     /**
      * @Route("/profile/show", name="fos_user_profile_show")
      */
-    public function raiz()
-    {
+    public function raiz() {
         $this->get('session')->getFlashBag()->add(
                 'notice', 'change_password.flash.success'
         );
@@ -29,8 +28,7 @@ class IndicadorController extends Controller
     /**
      * @Route("/indicador/dimensiones/{id}", name="indicador_dimensiones", options={"expose"=true})
      */
-    public function getDimensiones(FichaTecnica $fichaTec)
-    {
+    public function getDimensiones(FichaTecnica $fichaTec) {
         $resp = array();
         $em = $this->getDoctrine()->getManager();
 
@@ -70,19 +68,19 @@ class IndicadorController extends Controller
             $resp['rangos'] = $rangos_alertas;
             $resp['formula'] = $fichaTec->getFormula();
             $resp['dimensiones'] = $dimensiones;
-                        
+
             //Verificar que se tiene la más antigua de las últimas lecturas de los orígenes
             //de datos del indicador
             $ultima_lectura = null;
-            foreach($fichaTec->getVariables() as $var){
+            foreach ($fichaTec->getVariables() as $var) {
                 $fecha_lectura = $em->getRepository('IndicadoresBundle:OrigenDatos')->getUltimaActualizacion($var->getOrigenDatos());
-                if ($fecha_lectura > $ultima_lectura or $ultima_lectura == null){
+                if ($fecha_lectura > $ultima_lectura or $ultima_lectura == null) {
                     $ultima_lectura = $fecha_lectura;
-                }                
-            }            
+                }
+            }
             $fichaTec->setUltimaLectura(new \DateTime($ultima_lectura));
             $em->flush();
-            
+
             $resp['ultima_lectura'] = date('d/m/Y', $fichaTec->getUltimaLectura()->getTimestamp());
             $resp['resultado'] = 'ok';
         } else {
@@ -99,8 +97,7 @@ class IndicadorController extends Controller
     /**
      * @Route("/indicador/datos/filtrar", name="indicador_datos_filtrar", options={"expose"=true})
      */
-    public function getDatosFiltrados()
-    {
+    public function getDatosFiltrados() {
         $desde = $this->getRequest()->get('desde');
         $hasta = $this->getRequest()->get('hasta');
         $datos = $this->getRequest()->get('datos');
@@ -137,8 +134,7 @@ class IndicadorController extends Controller
     /**
      * @Route("/indicador/datos/mapa", name="indicador_datos_mapa", options={"expose"=true})
      */
-    public function getMapaAction()
-    {
+    public function getMapaAction() {
         $em = $this->getDoctrine()->getManager();
         $dimension = $this->getRequest()->get('dimension');
         $tipo_peticion = $this->getRequest()->get('tipo_peticion');
@@ -172,8 +168,7 @@ class IndicadorController extends Controller
     /**
      * @Route("/indicador/{_locale}/change", name="change_locale")
      */
-    public function changeLocaleAction($_locale)
-    {
+    public function changeLocaleAction($_locale) {
         $request = $this->getRequest();
         //$this->get('session')->set('_locale', $_locale);
         return $this->redirect($request->headers->get('referer'));
@@ -183,8 +178,7 @@ class IndicadorController extends Controller
      * @Route("/tablero/usuario/change/{codigo_clasificacion}", name="change_clasificacion_uso", options={"expose"=true})
      * @ParamConverter("clasificacion", options={"mapping": {"codigo_clasificacion": "codigo"}})
      */
-    public function changeClasificacionUsoAction(ClasificacionUso $clasificacion)
-    {
+    public function changeClasificacionUsoAction(ClasificacionUso $clasificacion) {
         $request = $this->getRequest();
         $em = $this->getDoctrine()->getManager();
         $usuario = $this->getUser();
@@ -198,8 +192,7 @@ class IndicadorController extends Controller
     /**
      * @Route("/indicador/favorito", name="indicador_favorito", options={"expose"=true})
      */
-    public function indicadorFavorito()
-    {
+    public function indicadorFavorito() {
         $em = $this->getDoctrine()->getManager();
         $req = $this->getRequest();
 
@@ -216,13 +209,11 @@ class IndicadorController extends Controller
 
         return new Response();
     }
-    
 
     /**
      * @Route("/indicador/{id}/ficha", name="get_indicador_ficha", options={"expose"=true})
      */
-    public function getFichaAction(FichaTecnica $fichaTec)
-    {
+    public function getFichaAction(FichaTecnica $fichaTec) {
         $admin = $this->get('sonata.admin.ficha');
 
         $admin->setSubject($fichaTec);
@@ -241,8 +232,7 @@ class IndicadorController extends Controller
     /**
      * @Route("/sala/guardar", name="sala_guardar", options={"expose"=true})
      */
-    public function guardarSala()
-    {
+    public function guardarSala() {
         $em = $this->getDoctrine()->getManager();
         $req = $this->getRequest();
         $resp = array();
@@ -311,26 +301,45 @@ class IndicadorController extends Controller
 
         return new Response(json_encode($resp));
     }
-    
+
     /**
      * @Route("/usuario/{id}/sala/{id_sala}/{accion}", name="usuario_asignar_sala", options={"expose"=true})
      * @ParamConverter("sala", class="IndicadoresBundle:GrupoIndicadores", options={"id" = "id_sala"})
      */
-    public function asignarSala(User $usuario, GrupoIndicadores $sala, $accion){
-        
+    public function asignarSala(User $usuario, GrupoIndicadores $sala, $accion) {
+
         $em = $this->getDoctrine()->getManager();
-        if ($accion=='add'){
+        if ($accion == 'add') {
             $salaUsuario = new UsuarioGrupoIndicadores();
             $salaUsuario->setUsuario($usuario);
             $salaUsuario->setGrupoIndicadores($sala);
             $em->persist($salaUsuario);
-        }  else {
+        } else {
             $salaUsuario = $em->getRepository('IndicadoresBundle:UsuarioGrupoIndicadores')
                     ->findOneBy(array('usuario' => $usuario,
-                                    'grupoIndicadores' => $sala));
+                'grupoIndicadores' => $sala));
             $em->remove($salaUsuario);
-        }        
+        }
         $em->flush();
         return new Response();
     }
-}//end class
+
+    /**
+     * @Route("/sala/get_imagenes/{id}/", name="sala_get_imagenes", options={"expose"=true})
+     */
+    public function getImagenesSala(GrupoIndicadores $Sala) {
+        $imagenes = $Sala->getImagenes();
+
+        $ret = '';
+        foreach ($imagenes as $img) {
+            $ret .= '<a href="/'.$img->getWebPath().'" class="lb_gallery"><img src="/'.$img->getWebPath().'" /></a>';
+        }
+
+        $response = new Response($ret);
+
+        return $response;
+    }
+
+}
+
+//end class
