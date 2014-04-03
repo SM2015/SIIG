@@ -302,6 +302,7 @@ class FichaTecnicaAdmin extends Admin
         $collection->add('cubos');
         $collection->add('reporte', 
         $this->getRouterIdParameter().'/reporte');
+        $collection->add('pivotTable');
 
     }
 
