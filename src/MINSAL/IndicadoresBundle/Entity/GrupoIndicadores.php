@@ -35,6 +35,12 @@ class GrupoIndicadores
      * @ORM\OneToMany(targetEntity="UsuarioGrupoIndicadores", mappedBy="grupoIndicadores" , cascade={"all"}, orphanRemoval=true)
      **/
     private $usuarios;
+    
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     * @ORM\OneToMany(targetEntity="SalaAcciones", mappedBy="sala" , cascade={"all"}, orphanRemoval=true)
+     **/
+    private $acciones;
 
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
@@ -264,5 +270,38 @@ class GrupoIndicadores
     public function getImagenes()
     {
         return $this->imagenes;
+    }
+
+    /**
+     * Add acciones
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\SalaAcciones $acciones
+     * @return GrupoIndicadores
+     */
+    public function addAccione(\MINSAL\IndicadoresBundle\Entity\SalaAcciones $acciones)
+    {
+        $this->acciones[] = $acciones;
+
+        return $this;
+    }
+
+    /**
+     * Remove acciones
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\SalaAcciones $acciones
+     */
+    public function removeAccione(\MINSAL\IndicadoresBundle\Entity\SalaAcciones $acciones)
+    {
+        $this->acciones->removeElement($acciones);
+    }
+
+    /**
+     * Get acciones
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getAcciones()
+    {
+        return $this->acciones;
     }
 }

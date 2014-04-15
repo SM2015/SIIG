@@ -197,6 +197,7 @@ $(document).ready(function() {
         cargarMensajes();
         cargarUsuarios();
         cargarImagenes();
+        cargarAcciones();
     });
 
     function moverAGraficoActual() {
@@ -235,6 +236,17 @@ $(document).ready(function() {
                     Routing.generate('sala_get_comentarios', {idSala: $('.marco-sala').attr('id-sala')}), {vez: 1},
             function(response, status, xhr) {
                 setScroll();
+            });
+        }
+    }
+    
+    function cargarAcciones() {
+        if ($('.marco-sala').attr('id-sala')) {            
+            var url = Routing.generate('sala_acciones_custom_list', {id: $('.marco-sala').attr('id-sala'),
+                        _sonata_admin: 'sonata.admin.sala_acciones'});
+            $('#acciones_sala').load(url, 
+            function(response, status, xhr) {
+                //alert(response);
             });
         }
     }
