@@ -1,0 +1,128 @@
+.background {
+    fill: none;
+    pointer-events: all;
+}
+
+#states {
+    fill: #aaa;
+    stroke: #fff;
+    stroke-width: 1.5px;
+}
+
+#states .active {
+    fill: steelblue;
+}
+
+#div_carga{    
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    /* Para CSS3 */
+    background: rgba(98, 135, 167, .4);
+    /* IE8*/
+    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#886287a7', endColorstr='#886287a7');
+    /* anteriores a IE8 */
+    -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#886287a7', endColorstr='#886287a7');
+
+    display:none;
+    z-index:10000;
+}
+
+#cargador{
+    position:absolute;
+    top:50%;
+    left: 50%;
+    margin-top: -25px;
+    margin-left: -25px;
+}
+
+.dropdown-menu-visible{
+    display: block; position: static; margin-bottom: 5px; *width: 180px;
+}
+@media only screen and (min-device-width : 1024px) {
+    .forcheckbox{
+        background-color: #ABA6A6;
+        color: white;
+        font-weight: bold;
+        width: 80%;
+        border-radius: 1em 1em 1em 1em;
+        line-height:  30px;
+        display: block  !important;
+        padding-left: 10px;
+    }
+    input[type=checkbox]
+    {
+        /* Double-sized Checkboxes */
+        -ms-transform: scale(1.5); /* IE */
+        -moz-transform: scale(1.5); /* FF */
+        -webkit-transform: scale(1.5); /* Safari and Chrome */
+        -o-transform: scale(1.5); /* Opera */
+        margin-right: 10px;
+        margin-left: 10px;
+    }
+}
+@media only screen and (max-device-width : 1024px) {
+    .span6{
+        width: 48.8% !important;
+        float: left !important;
+    }
+    input[type=checkbox]
+    {
+        /* Double-sized Checkboxes */
+        -ms-transform: scale(2); /* IE */
+        -moz-transform: scale(2); /* FF */
+        -webkit-transform: scale(2); /* Safari and Chrome */
+        -o-transform: scale(2); /* Opera */
+        margin-right: 10px;
+        margin-left: 10px;
+    }
+}
+
+#tool_actions{
+    display: none;
+}
+.navbar-inner {
+    min-height: 0px !important;
+}
+.dropdown-menu li a {
+    cursor: pointer;
+}
+
+div.popover-content, div.popover-title{
+    font-size : 9pt !important;
+}
+
+.marco-sala {
+    background-color: #FFFFFF;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px 4px 4px 4px;
+    margin: 15px 0;
+    padding: 39px 19px 14px;
+    position: relative;
+}
+.marco-sala:after {
+    background-color: #FFB709;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px 0 4px 0;
+
+    content: attr(data-content);
+    font-size: 12px;
+    font-weight: bold;
+    left: -1px;
+    padding: 3px 7px;
+    position: absolute;
+    top: -1px;
+}
+
+.label-info{
+    background-color: transparent;
+    color: black;
+    font-weight: normal;
+       
+}
+.pvtFilteredAttribute{
+    color: green;
+    font-weight: bold;
+}
