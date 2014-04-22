@@ -254,7 +254,7 @@ $(document).ready(function() {
             var url = Routing.generate('sala_acciones_custom_list', {id: $('.marco-sala').attr('id-sala'),
                 _sonata_admin: 'sonata.admin.sala_acciones'});
             var sala = $('.marco-sala').attr('data-content').split(': ');
-            alert(sala[1]);
+            
             $('#acciones_sala').load(url,
                     function(response, status, xhr) {
                         $('#acciones_sala table').dataTable({
