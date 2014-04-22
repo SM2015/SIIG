@@ -1,8 +1,10 @@
 #container {
-    width: 80%;
+    width: 97%;
     position: fixed; 
     bottom: 0;
     display: none;        
+    border-radius: 16px 16px 0px;
+    background-image: -moz-linear-gradient(center top , #81BEF7, #FFFFFF);
 }
 
 #carousel {
@@ -19,7 +21,7 @@
 }
 
 #ui-carousel-next, #ui-carousel-prev{
-    background: url("/bundles/indicadores/js/ryrych-rcarousel/examples/images/arrow-left.png") no-repeat scroll center center #FFFFFF;
+    background: url("/bundles/indicadores/js/ryrych-rcarousel/examples/images/arrow-left.png") no-repeat scroll center center ;
     display: block;
     height: 30px;
     position: absolute;
