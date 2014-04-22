@@ -492,7 +492,7 @@ function dibujarControles(zona, datos) {
             "bJQueryUI": true,
             "sDom": '<"H"Tfr>t<"F"ip>',
             "oTableTools": {
-                "sSwfPath": "/bundles/indicadores/js/DataTables/media/swf/copy_csv_xls_pdf.swf",
+                "sSwfPath": sSwfPath,
                 "aButtons": [
                     {
                         "sExtends": "collection",
@@ -510,13 +510,7 @@ function dibujarControles(zona, datos) {
                     }
                 ]
             },
-            "oLanguage": {
-                "sLengthMenu": "Display _MENU_ records per page",
-                "sZeroRecords": trans.nada_encontrado,
-                "sInfo": trans.mostrando_n_de_n,
-                "sInfoEmpty": trans.mostrando_0,
-                "sInfoFiltered": trans.filtrados_de
-            }
+            "oLanguage": oLanguage
         });
         $('#myModal2').modal('show');
         //cerrarMenus();
@@ -568,7 +562,7 @@ function dibujarControles(zona, datos) {
                 "bInfo": false,
                 "iDisplayLength": 30,
                 "oTableTools": {
-                    "sSwfPath": "/bundles/indicadores/js/DataTables/media/swf/copy_csv_xls_pdf.swf",
+                    "sSwfPath": sSwfPath,
                     "aButtons": [
                         {
                             "sExtends": "collection",

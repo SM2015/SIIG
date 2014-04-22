@@ -1,3 +1,12 @@
+//Variables de configuración de datables
+var sSwfPath = "/bundles/indicadores/js/DataTables/media/swf/copy_csv_xls_pdf.swf";
+var oLanguage = {
+    "sLengthMenu": "Display _MENU_ records per page",
+    "sZeroRecords": trans.nada_encontrado,
+    "sInfo": trans.mostrando_n_de_n,
+    "sInfoEmpty": trans.mostrando_0,
+    "sInfoFiltered": trans.filtrados_de
+};
 $(document).ready(function() {
     // *****************
     //Con esto se verifica el comportamiento del area de gráfico
@@ -52,7 +61,7 @@ $(document).ready(function() {
         handle: '.titulo',
     });
     $("#sala").disableSelection();
-        
+
     $('A.indicador').click(function() {
         if ($('DIV.zona_actual').attr('id') !== undefined) {
             dibujarIndicador($(this).attr('data-id'));
@@ -239,15 +248,40 @@ $(document).ready(function() {
             });
         }
     }
-    
+
     function cargarAcciones() {
-        if ($('.marco-sala').attr('id-sala')) {            
+        if ($('.marco-sala').attr('id-sala')) {
             var url = Routing.generate('sala_acciones_custom_list', {id: $('.marco-sala').attr('id-sala'),
-                        _sonata_admin: 'sonata.admin.sala_acciones'});
-            $('#acciones_sala').load(url, 
-            function(response, status, xhr) {
-                //alert(response);
-            });
+                _sonata_admin: 'sonata.admin.sala_acciones'});
+            var sala = $('.marco-sala').attr('data-content').split(': ');
+            alert(sala[1]);
+            $('#acciones_sala').load(url,
+                    function(response, status, xhr) {
+                        $('#acciones_sala table').dataTable({
+                            "bJQueryUI": true,
+                            "sDom": '<"H"Tfr>t<"F"ip>',
+                            "oTableTools": {
+                                "sSwfPath": sSwfPath,
+                                "aButtons": [
+                                    {
+                                        "sExtends": "collection",
+                                        "sButtonText": trans.exportar,
+                                        "aButtons": [{
+                                                "sExtends": "csv",
+                                                "sTitle": sala[1]
+                                            }, {
+                                                "sExtends": "xls",
+                                                "sTitle": sala[1]
+                                            }, {
+                                                "sExtends": "pdf",
+                                                "sTitle": sala[1]
+                                            }]
+                                    }
+                                ]
+                            },
+                            "oLanguage": oLanguage
+                        });
+                    });
         }
     }
 
