@@ -112,7 +112,7 @@ class FichaTecnicaAdminController extends Controller
                 $usuarioSalas[$sala->getId()] = $sala;
             }
         }
-        
+                        
         $i = 0;
         $salas = array();
         foreach ($usuarioSalas as $sala) {
@@ -123,11 +123,19 @@ class FichaTecnicaAdminController extends Controller
         }
 
         $datos = $this->getListadoIndicadores();
+        
+        $confTablero = array('graficos_por_fila' => $this->container->getParameter('graficos_por_fila'),
+                            'ancho_area_grafico' => $this->container->getParameter('ancho_area_grafico'),
+                            'alto_area_grafico'=> $this->container->getParameter('alto_area_grafico'),
+                            'titulo_sala_tamanio_fuente'=> $this->container->getParameter('titulo_sala_tamanio_fuente'),
+                            'ocultar_menu_principal'=> $this->container->getParameter('ocultar_menu_principal'),          
+                            );
 
         return $this->render('IndicadoresBundle:FichaTecnicaAdmin:tablero.html.twig', array(
                     'categorias' => $datos['categorias'],
                     'clasificacionUso' => $datos['clasficacion_uso'],
                     'salas' => $salas,
+                    'confTablero' =>$confTablero,
                     'indicadores_no_clasificados' => $datos['indicadores_no_clasificados']
         ));
     }
