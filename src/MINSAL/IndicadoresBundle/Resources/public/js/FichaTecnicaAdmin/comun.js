@@ -33,7 +33,7 @@ function dibujarGraficoPrincipal(zona, tipo) {
     $('#' + zona + ' .dimension').html($('#' + zona + ' .dimensiones option:selected').html());
     cerrarMenus();
     var grafico = crearGraficoObj(zona, tipo);
-    
+
     $('#' + zona + ' .titulo').show();
     grafico.dibujar();
     aplicarFormato();
@@ -60,13 +60,21 @@ function aplicarFormato() {
 }
 function crearGraficoObj(zona, tipo) {
     var grafico;
-    var datasetPrincipal = JSON.parse($('#' + zona).attr('datasetPrincipal'));
+    var datasetPrincipal = JSON.parse($('#' + zona).attr('datasetPrincipal'));    
     if (tipo == 'pastel')
         grafico = new graficoPastel(zona, datasetPrincipal);
     else if (tipo == 'lineas')
         grafico = new graficoLineas(zona, datasetPrincipal);
     else if (tipo == 'mapa')
         grafico = new graficoMapa(zona, datasetPrincipal);
+    else if (tipo == 'gauge')
+    {
+        grafico = new graficoGauge(zona, datasetPrincipal);
+    }
+    else if (tipo == 'lineargauge' /*termometro*/)
+    {
+        grafico = new graficoTermometro(zona, datasetPrincipal);
+    }
     else
         grafico = new graficoColumnas(zona, datasetPrincipal);
     return grafico;
@@ -168,7 +176,7 @@ function dibujarGrafico(zona, dimension) {
     if (dimension === null)
         return;
     var filtro = $('#' + zona + ' .filtros_dimensiones').attr('data');
-    
+
     //Hace uso del servicio web REST en la ruta get_indicador
     $.getJSON(Routing.generate('get_indicador',
             {id: $('#' + zona + ' .titulo_indicador').attr('data-id'), dimension: dimension}),
@@ -243,18 +251,18 @@ function controles_filtros(zona) {
     });
     lista_datos_dimension += '</DIV>';
 
-    $('#' + zona + ' .lista_datos_dimension').html(lista_datos_dimension);       
-    
+    $('#' + zona + ' .lista_datos_dimension').html(lista_datos_dimension);
+
     // Corrige un error de bootstrap para permitir usar controles dentro de un dropdown
     $('.dropdown-menu SELECT, .dropdown-menu LABEL, .dropdown-menu INPUT').click(function(event) {
         $(this).focus();
         event.stopPropagation();
-    });    
+    });
     //Corrige un error de bootstrap para que funcione un menu dropdown en tabletas
     $('body').on('touchstart.dropdown', '.dropdown-menu', function(e) {
         e.stopPropagation();
-    }); 
-    
+    });
+
     $('#' + zona + ' .aplicar_filtro').click(function() {
         aplicarFiltro(zona);
     });
@@ -361,7 +369,7 @@ function dibujarControles(zona, datos) {
             '<i class="icon-cog"></i>' +
             '</button>' +
             '<ul class="dropdown-menu" role="menu" >' +
-            '<li><A class="ver_ficha_tecnica" ' + 
+            '<li><A class="ver_ficha_tecnica" ' +
             ' ><i class="icon-briefcase"></i> ' + trans.ver_ficha_tecnica + '</A></li>' +
             '<li><A class="ver_tabla_datos" ><i class="icon-list-alt" ></i> ' + trans.tabla_datos + ' </A></li>' +
             '<li><A class="ver_sql" ><i class="icon-eye-open" ></i> ' + trans.ver_sql + ' </A></li>' +
@@ -445,9 +453,9 @@ function dibujarControles(zona, datos) {
     }
     $('#' + zona + ' .controles').append(opciones);
     $('#' + zona + ' .controles').append(opciones_dimension);
-    $('#' + zona + ' .controles').append('<a id="'+zona+'_ultima_lectura" data-placement="bottom" data-toggle="popover" class="btn-small btn pull-right" href="#" >'+datos.ultima_lectura+'</a>');
-    $('#'+zona+'_ultima_lectura').popover({title: trans.ultima_lectura, content: trans.ultima_lectura_exp});
-    
+    $('#' + zona + ' .controles').append('<a id="' + zona + '_ultima_lectura" data-placement="bottom" data-toggle="popover" class="btn-small btn pull-right" href="#" >' + datos.ultima_lectura + '</a>');
+    $('#' + zona + '_ultima_lectura').popover({title: trans.ultima_lectura, content: trans.ultima_lectura_exp});
+
     $('#' + zona + ' .max_y').change(function() {
         dibujarGraficoPrincipal(zona, $('#' + zona + ' .tipo_grafico_principal').val());
     });
@@ -479,7 +487,7 @@ function dibujarControles(zona, datos) {
         cerrarMenus();
     });
     $('#' + zona + ' .zoom').click(function() {
-        $('#' + zona ).toggleClass('zona_maximizada');
+        $('#' + zona).toggleClass('zona_maximizada');
     });
     $('#' + zona + ' .quitar_indicador').click(function() {
         limpiarZona2(zona);
@@ -519,9 +527,9 @@ function dibujarControles(zona, datos) {
     $('#' + zona + ' .ver_sql').click(function() {
         var filtro = $('#' + zona + ' .filtros_dimensiones').attr('data');
         var dimension = $('#' + zona + ' .dimensiones').val();
-        
+
         $.getJSON(Routing.generate('get_indicador',
-            {id: $('#' + zona + ' .titulo_indicador').attr('data-id'), dimension: dimension}),
+                {id: $('#' + zona + ' .titulo_indicador').attr('data-id'), dimension: dimension}),
         {filtro: filtro, ver_sql: true},
         function(resp) {
             $('#myModalLabel2').html($('#' + zona + ' .titulo_indicador').html());
