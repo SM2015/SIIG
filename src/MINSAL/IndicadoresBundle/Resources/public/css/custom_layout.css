@@ -1,3 +1,9 @@
+select, input{
+        height:  30px !important;
+    }
+input:not(.btn):not(#username):not(#password), textarea {
+    width: 40.1709%;
+}    
 @media only screen and (max-device-width : 1024px) {
     .dropdown-menu li  a{
         line-height: 45px !important;
@@ -16,10 +22,7 @@
         border-radius: 1em 1em 1em 1em;
         line-height:  40px;
         display: block  !important;
-    }
-    select, input{
-        height:  40px;
-    }
+    }    
     
     #collapseOne.in.collapse{
         overflow: visible;
@@ -102,4 +105,13 @@
         .sonata-bc div.connection {
             width: auto !important;
         }
+}
+
+#collapseOne{
+    background-color: green;
+    background-image: linear-gradient(to bottom, #FFFFFF, #F2F2F2);
+    background-repeat: repeat-x;
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
+    border-width: 0 0 1px;
+    
 }

@@ -127,7 +127,7 @@ ip: 'IP address'
 usuario: 'User'
 Clave: 'Password'
 instancia: 'Instance'
-Repetir clave: 'Re type password'
+_repetir_clave_: 'Re type password'
 claves_no_coinciden: 'Passwords do not match'
 probar_conexion: 'Test Connection'
 conexion_error: 'Connection Error'
@@ -347,3 +347,7 @@ _usuario_: User
 _observaciones_: Observations
 _responsables_: Responsibles
 _tabla_pivote_: Pivot table
+
+title_user_authentication: Authentication
+security.login.username: User
+security.login.password: Password

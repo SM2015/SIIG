@@ -28,7 +28,7 @@
         "sonata-project/cache-bundle": "dev-master",
         "sonata-project/datagrid-bundle": "2.2.*@dev",
         "sonata-project/core-bundle": "dev-master",
-        "sonata-project/admin-bundle": "dev-master",
+        "sonata-project/admin-bundle": "~2.3@dev",
         "sonata-project/doctrine-orm-admin-bundle": "dev-master",
         "sonata-project/block-bundle": "dev-master",
         "sonata-project/easy-extends-bundle": "dev-master",

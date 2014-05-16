@@ -128,7 +128,7 @@ ip: 'Dirección IP'
 usuario: 'Usuario'
 Clave: 'Clave'
 instancia: 'Instancia'
-Repetir clave: 'Repetir Clave'
+_repetir_clave_: 'Repetir Clave'
 claves_no_coinciden: 'Las claves ingresadas no son iguales'
 probar_conexion: 'Probar Conexión'
 conexion_error: 'Error en la conexión'
@@ -349,3 +349,7 @@ _usuario_: Usuario
 _observaciones_: Observaciones
 _responsables_: Responsables
 _tabla_pivote_: Tabla dinámica
+
+title_user_authentication: Autenticación
+security.login.username: Usuario
+security.login.password: Clave

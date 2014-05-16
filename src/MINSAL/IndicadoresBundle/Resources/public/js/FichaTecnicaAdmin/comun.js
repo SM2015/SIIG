@@ -242,9 +242,9 @@ function aplicarFiltro(zona) {
 function controles_filtros(zona) {
     var datasetPrincipal = JSON.parse($('#' + zona).attr('datasetPrincipal'));
 
-    var lista_datos_dimension = '<DIV class="filtro_elementos"><input type="button" class="btn aplicar_filtro" value="' + trans.filtrar + '"/>' +
-            '<input type="button" class="btn quitar_filtro" value="' + trans.quitar_filtro + '"/></DIV>';
-    lista_datos_dimension += '<DIV class="capa_dimension_valores span12" >' + trans.filtrar_por_elemento + '<BR>';
+    var lista_datos_dimension = '<DIV class="filtro_elementos"><input type="button" class="btn btn-info aplicar_filtro" value="' + trans.filtrar + '"/>' +
+            '<input type="button" class="btn btn-info quitar_filtro" value="' + trans.quitar_filtro + '"/></DIV>';
+    lista_datos_dimension += '<DIV class="capa_dimension_valores col-md-12" >' + trans.filtrar_por_elemento + '<BR>';
     $.each(datasetPrincipal, function(i, dato) {
         lista_datos_dimension += '<label class="forcheckbox" for="categorias_a_mostrar' + zona + i + '" ><input type="checkbox" id="categorias_a_mostrar' + zona + i + '" ' +
                 'name="categorias_a_mostrar[]" value="' + dato.category + '" /> ' + dato.category + '</label>';
@@ -355,7 +355,7 @@ function dibujarControles(zona, datos) {
             "<INPUT class='valores_filtro filtro_hasta' type='text' length='5' value=''> ";
     var opciones_dimension = '<div class="btn-group dropdown sobre_div">' +
             '<button class="btn btn-info dropdown-toggle" data-toggle="dropdown" title="' + trans.dimension_opciones + '">' +
-            '<i class="icon-check"></i>' +
+            '<span class="glyphicon glyphicon-check"></span>' +
             '</button>' +
             '<ul class="opciones_dimension dropdown-menu" role="menu" >' +
             '<li><A >' + combo_dimensiones + '</A></li>' +
@@ -366,29 +366,29 @@ function dibujarControles(zona, datos) {
 
     var opciones = '<div class="btn-group dropdown sobre_div">' +
             '<button class="btn btn-info dropdown-toggle" data-toggle="dropdown" title="' + trans.opciones + '">' +
-            '<i class="icon-cog"></i>' +
+            '<span class="glyphicon glyphicon-cog"></span>' +
             '</button>' +
             '<ul class="dropdown-menu" role="menu" >' +
-            '<li><A class="ver_ficha_tecnica" ' +
-            ' ><i class="icon-briefcase"></i> ' + trans.ver_ficha_tecnica + '</A></li>' +
-            '<li><A class="ver_tabla_datos" ><i class="icon-list-alt" ></i> ' + trans.tabla_datos + ' </A></li>' +
-            '<li><A class="ver_sql" ><i class="icon-eye-open" ></i> ' + trans.ver_sql + ' </A></li>' +
-            '<li><A class="ver_imagen" ><i class="icon-picture"></i> ' + trans.descargar_grafico + '</A></li>' +
-            '<li><A class="quitar_indicador" ><i class="icon-remove-sign"></i> ' + trans.quitar_indicador + '</A></li>' +
+            '<li><A class="ver_ficha_tecnica">' +
+            '<span class="glyphicon glyphicon-briefcase"></span> ' + trans.ver_ficha_tecnica + '</A></li>' +
+            '<li><A class="ver_tabla_datos" ><span class="glyphicon glyphicon-list-alt" ></span> ' + trans.tabla_datos + ' </A></li>' +
+            '<li><A class="ver_sql" ><span class="glyphicon glyphicon-eye-open" ></span> ' + trans.ver_sql + ' </A></li>' +
+            '<li><A class="ver_imagen" ><span class="glyphicon glyphicon-picture"></span> ' + trans.descargar_grafico + '</A></li>' +
+            '<li><A class="quitar_indicador" ><span class="glyphicon glyphicon-remove-sign"></span> ' + trans.quitar_indicador + '</A></li>' +
             '<li><A class="agregar_como_favorito" data-indicador="' + datos.id_indicador + '" >';
     if ($('#fav-' + datos.id_indicador).length === 0)
-        opciones += '<i class="icon-star"></i> ' + trans.agregar_favorito + '</A></li>';
+        opciones += '<span class="glyphicon glyphicon-star"></span> ' + trans.agregar_favorito + '</A></li>';
     else
-        opciones += '<i class="icon-star-empty"></i> ' + trans.quitar_favoritos + '</A></li>';
+        opciones += '<span class="glyphicon glyphicon-star-empty"></span> ' + trans.quitar_favoritos + '</A></li>';
     opciones += '</ul>' +
             '</div>';
     var opciones_indicador = '<div class="btn-group sobre_div">' +
             '<button class="btn btn-info dropdown-toggle" data-toggle="dropdown" title="' + trans.opciones_grafico + '">' +
-            '<i class="icon-signal"></i>' +
+            '<span class="glyphicon glyphicon-stats"></span>' +
             '</button>' +
             '<ul class="dropdown-menu" role="menu" >' +
             '<li><label>&nbsp;</label></li>' +
-            '<li><A class="zoom">Zoom <i class="icon-zoom-in"></i></A></li>' +
+            '<li><A class="zoom">Zoom <span class="glyphicon glyphicon-zoom-in"></span></A></li>' +
             '<li><A >' + combo_ordenar_por_medida + '</A></li>' +
             '<li><A >' + combo_ordenar_por_dimension + '</A></li>' +
             '<li><A >' + combo_tipo_grafico + '</A></li>'
@@ -453,7 +453,7 @@ function dibujarControles(zona, datos) {
     }
     $('#' + zona + ' .controles').append(opciones);
     $('#' + zona + ' .controles').append(opciones_dimension);
-    $('#' + zona + ' .controles').append('<a id="' + zona + '_ultima_lectura" data-placement="bottom" data-toggle="popover" class="btn-small btn pull-right" href="#" >' + datos.ultima_lectura + '</a>');
+    $('#' + zona + ' .controles').append('<a id="' + zona + '_ultima_lectura" data-placement="bottom" data-toggle="popover" class="btn-small btn-warning pull-right" href="#" >' + datos.ultima_lectura + '</a>');
     $('#' + zona + '_ultima_lectura').popover({title: trans.ultima_lectura, content: trans.ultima_lectura_exp});
 
     $('#' + zona + ' .max_y').change(function() {
