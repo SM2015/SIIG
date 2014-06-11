@@ -17,7 +17,7 @@
             <call method="setMaxPerPage"><argument>%admin_max_per_page_number%</argument></call>
         </service>
         
-        <service id="sonata.admin.agencia" class="MINSAL\IndicadoresBundle\Admin\ImagenAdmin">
+        <service id="sonata.admin.imagen" class="MINSAL\IndicadoresBundle\Admin\ImagenAdmin">
             <tag name="sonata.admin" 
                  manager_type="orm" 
                  group="catalogos" 

@@ -71,7 +71,15 @@ class Imagen
 
         return $this;
     }
-
+    
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="usuario_id", referencedColumnName="id")
+     */
+    private $usuario;
+    
+    
     /**
      * Get path
      *
@@ -242,5 +250,28 @@ class Imagen
         // get rid of the __DIR__ so it doesn't screw up
         // when displaying uploaded doc/image in the view.
         return 'uploads/documents';
+    }
+
+    /**
+     * Set usuario
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\User $usuario
+     * @return Imagen
+     */
+    public function setUsuario(\MINSAL\IndicadoresBundle\Entity\User $usuario = null)
+    {
+        $this->usuario = $usuario;
+
+        return $this;
+    }
+
+    /**
+     * Get usuario
+     *
+     * @return \MINSAL\IndicadoresBundle\Entity\User 
+     */
+    public function getUsuario()
+    {
+        return $this->usuario;
     }
 }

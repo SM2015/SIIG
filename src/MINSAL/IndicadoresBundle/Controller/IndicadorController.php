@@ -327,8 +327,13 @@ class IndicadorController extends Controller {
     /**
      * @Route("/sala/get_imagenes/{id}/", name="sala_get_imagenes", options={"expose"=true})
      */
-    public function getImagenesSala(GrupoIndicadores $Sala) {
-        $imagenes = $Sala->getImagenes();
+    public function getImagenesSala(GrupoIndicadores $sala) {
+        $em = $this->getDoctrine()->getManager();
+        $usuario = $this->getUser();
+      
+        $imagenes = $em->getRepository("IndicadoresBundle:Imagen")
+                        ->findBy(array('sala'=>$sala, 
+                            'usuario'=>$usuario));        
 
         $ret = '';
         foreach ($imagenes as $img) {

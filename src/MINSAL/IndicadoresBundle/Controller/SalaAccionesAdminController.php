@@ -15,6 +15,13 @@ class SalaAccionesAdminController extends Controller
      */
     public function customListAction(GrupoIndicadores $sala)
     {        
+        $em = $this->getDoctrine()->getManager();
+        $usuario = $this->getUser();
+      
+        $acciones = $em->getRepository("IndicadoresBundle:SalaAcciones")
+                        ->findBy(array('sala'=>$sala, 
+                            'usuario'=>$usuario), 
+                                array('fecha'=> 'ASC'));
         
         $resp = '<table class="table table-bordered table-striped">
                     <thead>
@@ -26,8 +33,8 @@ class SalaAccionesAdminController extends Controller
                             <TH>Responsables</TH>
                         </tr>
                     </thead>
-                    <tbody>';
-        foreach ($sala->getAcciones() as $acc){
+                    <tbody>';                
+        foreach ($acciones as $acc){
             $resp .=  '<TR>'.
                             '<TD>'.$acc->getFecha()->format('d/m/Y H:i').'</TD>'.
                             '<TD>'.$acc->getUsuario().'</TD>'.
