@@ -117,7 +117,6 @@ está el proyecto y luego ejecutar
  $ setfacl -R -m u:www-data:rwx -m u:`whoami`:rwx app/cache app/logs web/uploads
  $ setfacl -dR -m u:www-data:rwx -m u:`whoami`:rwx app/cache app/logs web/uploads
 ~~~
-* Modificar nombre_usuario por un usuario del sistema con que se modificará el código fuente
 
 ### Verificar la configuración
 Entra a la siguiente dirección desde el navegador http://siig.localhost/config.php 
