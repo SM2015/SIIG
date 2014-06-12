@@ -64,7 +64,7 @@ con los parámetros más adecuados: ip, dominio, configuración en el DNS, etc.
 ####Configurar un VirtualHost
 Creamos el archivo para la definición del VirtualHost
 ~~~
- # nano /etc/apache2/sites-available/siig.localhost
+ # nano /etc/apache2/sites-available/siig.localhost.conf
 ~~~
 El contenido será similar a esto:
 ~~~
