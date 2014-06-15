@@ -7,47 +7,47 @@
     "require": {
         "php": ">=5.3.3",
                 
-        "symfony/symfony": "v2.5.0",
-        "doctrine/orm": "v2.4.3",
-        "doctrine/doctrine-bundle": "v1.2.0",
-        "twig/extensions": "v1.0.1",
-        "symfony/assetic-bundle": "v2.3.0",
-        "symfony/swiftmailer-bundle": "v2.3.7",
-        "symfony/monolog-bundle": "v2.6.0",
-        "sensio/distribution-bundle": "v2.3.4",
-        "sensio/framework-extra-bundle": "v2.3.4",
-        "sensio/generator-bundle": "v2.3.4",
-        "incenteev/composer-parameter-handler": "v2.1.0",
+        "symfony/symfony": "~2.4",
+        "doctrine/orm": "~2.2,>=2.2.3",
+        "doctrine/doctrine-bundle": "1.2.0",
+        "twig/extensions": "~1.0",
+        "symfony/assetic-bundle": "~2.3",
+        "symfony/swiftmailer-bundle": "~2.3",
+        "symfony/monolog-bundle": "~2.4",
+        "sensio/distribution-bundle": "~2.3",
+        "sensio/framework-extra-bundle": "~2.3",
+        "sensio/generator-bundle": "~2.3",
+        "incenteev/composer-parameter-handler": "~2.0",
         
-        "doctrine/data-fixtures": "v1.0.0",
-        "doctrine/doctrine-fixtures-bundle": "v2.2.0",
+        "doctrine/data-fixtures": "dev-master",
+        "doctrine/doctrine-fixtures-bundle": "dev-master",
         
         "knplabs/knp-menu-bundle":"1.1.2",
         
-        "sonata-project/cache": "v1.0.3",
-        "sonata-project/cache-bundle": "v2.1.7",
+        "sonata-project/cache": "dev-master",
+        "sonata-project/cache-bundle": "dev-master",
         "sonata-project/datagrid-bundle": "2.2.*@dev",
-        "sonata-project/core-bundle": "v2.2.6",
-        "sonata-project/admin-bundle": "dev-master#f3e49a32cdb354667b0693f1d893e96d80c69526",
-        "sonata-project/doctrine-orm-admin-bundle": "v2.2.7",
-        "sonata-project/block-bundle": "v2.2.11",
-        "sonata-project/easy-extends-bundle": "v2.1.6",
-        "sonata-project/user-bundle": "v2.2.4",
+        "sonata-project/core-bundle": "dev-master",
+        "sonata-project/admin-bundle": "~2.3@dev",
+        "sonata-project/doctrine-orm-admin-bundle": "dev-master",
+        "sonata-project/block-bundle": "dev-master",
+        "sonata-project/easy-extends-bundle": "dev-master",
+        "sonata-project/user-bundle": "dev-master",
         
         	
-        "simplethings/entity-audit-bundle": "v0.6",
+        "simplethings/entity-audit-bundle": "dev-master",
 	"friendsofsymfony/user-bundle": "v1.3.3",
-        "friendsofsymfony/jsrouting-bundle": "v1.5.3",
+        "friendsofsymfony/jsrouting-bundle": "dev-master",
         
-        "os/excel-bundle": "v2.1",
+        "os/excel-bundle": "dev-master",
         "videlalvaro/php-amqplib": "dev-master",
-        "oldsound/rabbitmq-bundle": "v1.0.0",
+        "oldsound/rabbitmq-bundle": "*",
         "fr3d/ldap-bundle": "2.0.*@dev",
-	"knplabs/knp-snappy-bundle": "v1.2",
+	"knplabs/knp-snappy-bundle": "dev-master",
                 
-        "suncat/mobile-detect-bundle": "0.9.*",
-        "jms/serializer-bundle": "v0.13.0",
-        "friendsofsymfony/rest-bundle": "1.1.0"
+        "suncat/mobile-detect-bundle": "dev-master",
+        "jms/serializer-bundle": "dev-master",
+        "friendsofsymfony/rest-bundle": "1.1.*"
     },
     "scripts": {
         "post-install-cmd": [
@@ -65,7 +65,7 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
         ]
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "beta",
     "extra": {
         "symfony-app-dir": "app",
         "symfony-web-dir": "web",
