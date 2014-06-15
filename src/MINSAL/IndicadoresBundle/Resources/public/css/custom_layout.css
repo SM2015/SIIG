@@ -1,7 +1,3 @@
-select, input{
-        height:  30px !important;
-    }
-
 @media only screen and (max-device-width : 1024px) {
     .dropdown-menu li  a{
         line-height: 45px !important;
