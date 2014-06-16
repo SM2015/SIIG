@@ -104,7 +104,7 @@ class OrigenDatosRepository extends EntityRepository
             $reader = new Excel();
             try {
                 $reader->loadFile($ruta_archivo);
-                $datos_aux = $reader->getSheet()->toArray(null, false, false, false);
+                $datos_aux = $reader->getSheet()->toArray($nullValue = null, $calculateFormulas = true, $formatData = false, $returnCellRef = false);
                 $nombre_campos = array_values(array_shift($datos_aux));
 
                 // Buscar por columnas que tengan null en el título

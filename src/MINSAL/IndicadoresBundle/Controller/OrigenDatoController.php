@@ -239,7 +239,7 @@ class OrigenDatoController extends Controller
                 $reader = new Excel();
                 try {
                     $reader->loadFile($origenDato->getAbsolutePath());
-                    $datos = $reader->getSheet()->toArray($nullValue = null, $calculateFormulas = false, $formatData = false, $returnCellRef = false);
+                    $datos = $reader->getSheet()->toArray($nullValue = null, $calculateFormulas = true, $formatData = false, $returnCellRef = false);
                     $resultado['nombre_campos'] = array_values(array_shift($datos));
 
                     // Buscar por columnas que tengan null en el título
