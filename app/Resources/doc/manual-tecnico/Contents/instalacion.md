@@ -29,10 +29,10 @@ $ cd /var/www
 ~~~
 
 ### Obtener el código fuente
-Puedes descargarlo desde: https://github.com/erodriguez-minsal/SIIG/tarball/master o clonar el repositorio
+Puedes descargarlo desde: https://github.com/SM2015/SIIG/tarball/master o clonar el repositorio
 
 ~~~
-$ git clone https://github.com/erodriguez-minsal/SIIG.git siig
+$ git clone -b v1.0.0 https://github.com/SM2015/SIIG.git siig
 ~~~
 
 A partir de este punto todos los comandos se deben ejecutar dentro de la carpeta en que se ha descargado el código fuente
