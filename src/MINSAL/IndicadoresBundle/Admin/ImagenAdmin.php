@@ -6,6 +6,7 @@ use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 
 class ImagenAdmin extends Admin
 {
@@ -60,6 +61,38 @@ class ImagenAdmin extends Admin
             default:
                 return parent::getTemplate($name);
                 break;
+        }
+    }
+    
+    public function prePersist($salaAcciones){        
+        $usuario = $this->getConfigurationPool()
+                ->getContainer()
+                ->get('security.context')
+                ->getToken()
+                ->getUser();
+        
+        $salaAcciones->setUsuario($usuario);
+    }
+    
+     /**
+     * Cambiar la forma en que muestra el listado de imágenes de sala,
+     * si es un usuario normal solo le muestra las imágenes que ha ingresado
+     * @return \Sonata\AdminBundle\Datagrid\ProxyQueryInterface
+     */
+    public function createQuery($context = 'list')
+    {
+        $query = parent::createQuery($context);
+        $usuario = $this->getConfigurationPool()
+                ->getContainer()
+                ->get('security.context')
+                ->getToken()
+                ->getUser();
+        if ($usuario->hasRole('ROLE_SUPER_ADMIN')) {
+                return new ProxyQuery($query->where('1=1'));
+        } else {
+            return new ProxyQuery(
+                    $query->where($query->getRootAlias() . '.usuario = '.$usuario->getId())
+            );
         }
     }
 }

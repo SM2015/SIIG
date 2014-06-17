@@ -25,8 +25,7 @@ class FichaTecnicaAdminController extends Controller
         return parent::createAction();
     }
 
-    public function tableroAction()
-    {
+    public function getListadoIndicadores(){
         $em = $this->getDoctrine()->getManager();
         $clasificacionUso = $em->getRepository("IndicadoresBundle:ClasificacionUso")->findBy(array(), array('descripcion'=> 'ASC'));
 
@@ -38,34 +37,7 @@ class FichaTecnicaAdminController extends Controller
             $clasificacionUsoPorDefecto = $clasificacionUso[0];
         }
         $categorias = $em->getRepository("IndicadoresBundle:ClasificacionTecnica")->findBy(array('clasificacionUso' => $clasificacionUsoPorDefecto));
-
-        //Salas por usuario
-        $usuarioSalas = array();
-        if (($usuario->hasRole('ROLE_SUPER_ADMIN'))){
-           foreach ($em->getRepository("IndicadoresBundle:GrupoIndicadores")->findBy(array(), array('nombre'=> 'ASC')) as $sala) {
-                $usuarioSalas[$sala->getId()] = $sala;
-            } 
-        }else{
-           foreach ($usuario->getGruposIndicadores() as $sala) {
-                $usuarioSalas[$sala->getGrupoIndicadores()->getId()] = $sala->getGrupoIndicadores();
-            } 
-        }
-        //Salas asignadas al grupo al que pertenece el usuario
-        foreach ($usuario->getGroups() as $grp){
-            foreach ($grp->getSalas() as $sala){
-                $usuarioSalas[$sala->getId()] = $sala;
-            }
-        }
         
-        $i = 0;
-        $salas = array();
-        foreach ($usuarioSalas as $sala) {
-            $salas[$i]['datos_sala'] = $sala;
-            $salas[$i]['indicadores_sala'] = $em->getRepository('IndicadoresBundle:GrupoIndicadores')
-                    ->getIndicadoresSala($sala);
-            $i++;
-        }
-
         //Indicadores asignados por usuario
         $usuarioIndicadores = ($usuario->hasRole('ROLE_SUPER_ADMIN')) ?
                 $em->getRepository("IndicadoresBundle:FichaTecnica")->findBy(array(), array('nombre'=>'ASC')) :
@@ -112,6 +84,46 @@ class FichaTecnicaAdminController extends Controller
                 $indicadores_no_clasificados[] = $ind;
             }
         }
+        $resp= array('categorias' =>$categorias_indicador, 
+                       'clasficacion_uso' => $clasificacionUso, 
+                        'indicadores_no_clasificados' => $indicadores_no_clasificados);
+        
+        return $resp;
+    }
+    public function tableroAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $usuario = $this->getUser();
+        
+        //Salas por usuario
+        $usuarioSalas = array();
+        if (($usuario->hasRole('ROLE_SUPER_ADMIN'))){
+           foreach ($em->getRepository("IndicadoresBundle:GrupoIndicadores")->findBy(array(), array('nombre'=> 'ASC')) as $sala) {
+                $usuarioSalas[$sala->getId()] = $sala;
+            } 
+        }else{
+           foreach ($usuario->getGruposIndicadores() as $sala) {
+                $usuarioSalas[$sala->getGrupoIndicadores()->getId()] = $sala->getGrupoIndicadores();
+            } 
+        }
+        //Salas asignadas al grupo al que pertenece el usuario
+        foreach ($usuario->getGroups() as $grp){
+            foreach ($grp->getSalas() as $sala){
+                $usuarioSalas[$sala->getId()] = $sala;
+            }
+        }
+                        
+        $i = 0;
+        $salas = array();
+        foreach ($usuarioSalas as $sala) {
+            $salas[$i]['datos_sala'] = $sala;
+            $salas[$i]['indicadores_sala'] = $em->getRepository('IndicadoresBundle:GrupoIndicadores')
+                    ->getIndicadoresSala($sala);
+            $i++;
+        }
+
+        $datos = $this->getListadoIndicadores();
+        
         $confTablero = array('graficos_por_fila' => $this->container->getParameter('graficos_por_fila'),
                             'ancho_area_grafico' => $this->container->getParameter('ancho_area_grafico'),
                             'alto_area_grafico'=> $this->container->getParameter('alto_area_grafico'),
@@ -120,17 +132,28 @@ class FichaTecnicaAdminController extends Controller
                             );
 
         return $this->render('IndicadoresBundle:FichaTecnicaAdmin:tablero.html.twig', array(
-                    'categorias' => $categorias_indicador,
-                    'clasificacionUso' => $clasificacionUso,
+                    'categorias' => $datos['categorias'],
+                    'clasificacionUso' => $datos['clasficacion_uso'],
                     'salas' => $salas,
                     'confTablero' =>$confTablero,
-                    'indicadores_no_clasificados' => $indicadores_no_clasificados
+                    'indicadores_no_clasificados' => $datos['indicadores_no_clasificados']
         ));
     }
 
     public function CubosAction()
     {
         return $this->render('IndicadoresBundle:FichaTecnicaAdmin:cubos.html.twig', array());
+    }
+    
+    public function PivotTableAction()
+    {        
+        $datos = $this->getListadoIndicadores();
+        
+        return $this->render('IndicadoresBundle:FichaTecnicaAdmin:pivotTable.html.twig', array(
+                    'categorias' => $datos['categorias'],
+                    'clasificacionUso' => $datos['clasficacion_uso'],
+                    'indicadores_no_clasificados' => $datos['indicadores_no_clasificados']
+        ));
     }
     
     /*

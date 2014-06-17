@@ -102,10 +102,11 @@ sonata_admin:
     security:
         handler: sonata.admin.security.handler.role
     title: ' '
-    title_logo: /bundles/indicadores/images/logo_salud.png                    
+    title_logo: /bundles/indicadores/images/logo_salud.png    
     
     options:        
         confirm_exit:   false # disable confirmation when quitting with unsaved changes
+        form_type: 'horizontal'
 
     # set to true to persist filter settings per admin module in the user's session
     persist_filters: false
@@ -116,7 +117,7 @@ sonata_admin:
         ajax:    SonataAdminBundle::ajax_layout.html.twig
 
         # default actions templates, should extend a global templates
-        list:    IndicadoresBundle:CRUD:list.html.twig
+        #list:    IndicadoresBundle:CRUD:list.html.twig
         show:    SonataAdminBundle:CRUD:show.html.twig
         edit:    IndicadoresBundle:CRUD:edit.html.twig
         # se personalizó la plantilla de borrar

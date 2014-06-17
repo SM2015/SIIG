@@ -272,6 +272,28 @@ class FichaTecnicaRepository extends EntityRepository
         return $sql;
     }
 
+    /**
+     * Devuelve los datos del indicador sin procesar la fórmula
+     * esto será utilizado en la tabla dinámica
+     */
+    public function getDatosIndicador(FichaTecnica $fichaTecnica){
+        $util = new \MINSAL\IndicadoresBundle\Util\Util();
+        
+        $nombre_indicador = $util->slug($fichaTecnica->getNombre());
+        $tabla_indicador = 'tmp_ind_' . $nombre_indicador;
+        
+        $sql = "SELECT *
+            FROM $tabla_indicador A";                
+
+        try {                        
+            return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
+        } catch (\PDOException $e) {
+            return $e->getMessage();
+        } catch (\Doctrine\DBAL\DBALException $e) {
+            return $e->getMessage();
+        }
+    }
+
     public function calcularIndicador(FichaTecnica $fichaTecnica, $dimension, $filtro_registros = null, $ver_sql = false)
     {
         $util = new \MINSAL\IndicadoresBundle\Util\Util();

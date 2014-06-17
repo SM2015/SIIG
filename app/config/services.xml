@@ -17,7 +17,7 @@
             <call method="setMaxPerPage"><argument>%admin_max_per_page_number%</argument></call>
         </service>
         
-        <service id="sonata.admin.agencia" class="MINSAL\IndicadoresBundle\Admin\ImagenAdmin">
+        <service id="sonata.admin.imagen" class="MINSAL\IndicadoresBundle\Admin\ImagenAdmin">
             <tag name="sonata.admin" 
                  manager_type="orm" 
                  group="catalogos" 
@@ -223,6 +223,17 @@
             <argument>SonataAdminBundle:CRUD</argument>
             <call method="setMaxPerPage"><argument>%admin_max_per_page_number%</argument></call>
         </service>     
+        <service id="sonata.admin.sala_acciones" class="MINSAL\IndicadoresBundle\Admin\SalaAccionesAdmin">
+            <tag name="sonata.admin"
+                 manager_type="orm" 
+                 group="indicadores" 
+                 label="_sala_acciones_"
+            />
+            <argument />
+            <argument>MINSAL\IndicadoresBundle\Entity\SalaAcciones</argument>
+            <argument>IndicadoresBundle:SalaAccionesAdmin</argument>
+            <call method="setMaxPerPage"><argument>%admin_max_per_page_number%</argument></call>
+        </service>
         <service id="indicadores.cargar_origen_datos_servicio" class="MINSAL\IndicadoresBundle\Consumer\CargarOrigenDatoConsumer">            
             <argument type="service" id="service_container" />            
         </service>

@@ -59,6 +59,44 @@ class IndicadorRESTController extends Controller {
             return $response;
         }
     }
+    
+    /**
+     * Obtener los datos del indicador sin aplicar la fórmula ni filtros
+     * @param integer $fichaTec
+     * @param string $dimension
+     * @Get("/rest-service/data/{id}", options={"expose"=true})
+     * @Rest\View
+     */
+    public function getDatosIndicadorAction(FichaTecnica $fichaTec) {
+        $response = new Response();
+
+        // crea una respuesta con una cabecera ETag y Last-Modified
+        // para determinar si se debe calcular el indicador u obtener de la caché
+        // para el modo de desarrollo (dev) nunca tomar de caché
+        $response->setETag($fichaTec->getId().'_datos');
+        $response->setLastModified(($this->get('kernel')->getEnvironment() == 'dev') ? new \DateTime('NOW') : $fichaTec->getUltimaLectura() );
+
+        $response->setPublic();
+        // verifica que la respuesta no se ha modificado para la petición dada
+        if ($response->isNotModified($this->getRequest())) {
+            // devuelve inmediatamente la respuesta 304 de la caché
+            return $response;
+        } else {
+            $resp = array();            
+
+            $em = $this->getDoctrine()->getManager();
+
+            $fichaRepository = $em->getRepository('IndicadoresBundle:FichaTecnica');
+
+            $fichaRepository->crearIndicador($fichaTec);
+            $resp = $fichaRepository->getDatosIndicador($fichaTec);
+            $respj = json_encode($resp);
+
+            $response->setContent($respj);
+
+            return $response;
+        }
+    }
 
     /**
      * @Get("/rest-service/indicadores", options={"expose"=true})

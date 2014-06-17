@@ -129,15 +129,18 @@ $(document).ready(function() {
 
 
                 /*No debe haber dos campos con el mismo significado
-                 Si se elije un significado se debe desactivar esa opcion de los demas
+                 Si se elige un significado se debe desactivar esa opcion de los demas
                  Excepto si el origen es catálogo, en ese caso no se podrá repetir
                  pk y descripcion
                  */
                 $('SELECT.significado').each(function() {
-                    if (resp.es_catalogo == false || (resp.es_catalogo && ($(this).attr('data-significado_codigo') == 'pk' || $(this).attr('data-significado_codigo') == 'descripcion')))
-                        $('SELECT.significado').not(this)
+                    if (resp.es_catalogo == false || (resp.es_catalogo && ($(this).attr('data-significado_codigo') == 'pk' || $(this).attr('data-significado_codigo') == 'descripcion'))){
+                        if(this.value) { // Si tiene significado de campo seleccionado
+                            $('SELECT.significado').not(this)
                                 .children('option[value=' + this.value + ']')
-                                .attr('disabled', true)
+                                .attr('disabled', true);
+                        }
+                    }
                 });
 
                 $('SELECT.significado').click(function() {

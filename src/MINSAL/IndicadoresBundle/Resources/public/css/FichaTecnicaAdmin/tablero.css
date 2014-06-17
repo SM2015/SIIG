@@ -1,4 +1,4 @@
-.background {
+f.background {
     fill: none;
     pointer-events: all;
 }
@@ -39,7 +39,6 @@
 }
 .capa_dimension_valores{
     max-height: 150px;
-    width: 50%;    
     overflow: auto;  
     display: inline;
 }
@@ -199,4 +198,12 @@ div.popover-content, div.popover-title{
 }
 #chat-form-mensaje{
     width: 80% !important;
+}
+
+.content{
+    padding: 0px 10px;
+}
+
+.dropdown-menu > li > a:hover {
+  color: inherit;
 }
