@@ -9,6 +9,14 @@
     stroke-width: 1.5px;
 }
 
+.pvtRows .label {
+    display: block !important; 
+}
+
+.pvtUnused li{
+    display:inline-block; margin-right: 12px;padding:3px 0;
+}
+
 #states .active {
     fill: steelblue;
 }
