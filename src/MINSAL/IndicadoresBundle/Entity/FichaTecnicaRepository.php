@@ -280,35 +280,47 @@ class FichaTecnicaRepository extends EntityRepository {
         $tabla_indicador = 'tmp_ind_' . $nombre_indicador;
 
         $campos = array();
+        $campos_grp = array();
         $campos_indicador = explode(',', str_replace(' ', '', $fichaTecnica->getCamposIndicador()));
         $rel_catalogos = '';
         $catalogo_x = 66; //código ascci de B
-        foreach ($campos_indicador as $c) {            
+        foreach ($campos_indicador as $c) {
             $significado = $this->getEntityManager()->getRepository('IndicadoresBundle:SignificadoCampo')
                     ->findOneBy(array('codigo' => $c));
             $catalogo = $significado->getCatalogo();
             if ($catalogo != '') {
                 $letra_catalogo = chr($catalogo_x++);
                 $rel_catalogos .= " INNER JOIN  $catalogo $letra_catalogo  ON (A.$c::text = $letra_catalogo.id::text) ";
-                $campos[] = $letra_catalogo.'.descripcion AS '.  str_replace('id_', '', $c);
+                $campos[] = $letra_catalogo . '.descripcion AS ' . str_replace('id_', '', $c);
+                $campos_grp[] = $letra_catalogo . '.descripcion';
             } else {
                 $campos[] = $c;
+                $campos_grp[] = $c;
             }
         }
-        
+
         //Recuperar las variables
+        $vars = array();
         $variables = array();
         $formula = strtolower($fichaTecnica->getFormula());
-        preg_match_all('/\{[a-z0-9\_]{1,}\}/', strtolower($formula), $variables, PREG_SET_ORDER);
-        foreach ($variables as $var){
+        preg_match_all('/\{[a-z0-9\_]{1,}\}/', strtolower($formula), $vars, PREG_SET_ORDER);
+        if (strripos($formula, 'avg') !== false) {
+            $oper = 'AVG';
+        } else {
+            $oper = 'SUM';
+        }
+        foreach ($vars as $var) {
             $v = str_replace(array('{', '}'), array('', ''), $var[0]);
-            $campos[] = $v. ' AS __'. $v . '__';
+            $variables[] = $oper.'('.$v . ') AS __' . $v . '__';
         }
 
         $campos = implode(', ', $campos);
-        $sql = "SELECT $campos
+        $variables = implode(', ', $variables);
+        $campos_grp = implode(', ', $campos_grp);
+        $sql = "SELECT $campos, $variables
             FROM $tabla_indicador A 
-                $rel_catalogos";
+                $rel_catalogos
+            GROUP BY $campos_grp    ";
 
         try {
             return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
@@ -332,6 +344,9 @@ class FichaTecnicaRepository extends EntityRepository {
         if ($acumulado) {
             $formula = str_replace(array('{', '}'), array('MAX(', ')'), $formula);
             $oper = 'MAX';
+        } if (strripos($formula, 'avg') !== false) {
+            $formula = str_replace(array('{', '}'), array('(', ')'), $formula);
+            $oper = 'AVG';
         } else
             $formula = str_replace(array('{', '}'), array('SUM(', ')'), $formula);
 
