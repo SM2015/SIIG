@@ -4,7 +4,7 @@ $(document).ready(function() {
         e.preventDefault();
         $(this).tab('show');
     });
-    function ajax_states(){
+    function ajax_states() {
         $(document).bind("ajaxStart.mine", function() {
             $('#div_carga').show();
         });
@@ -16,18 +16,19 @@ $(document).ready(function() {
     $('A.indicador').click(function() {
         var id_indicador = $(this).attr('id');
         var nombre_indicador = $(this).html();
-        var derivers = $.pivotUtilities.derivers;
-        
-        delete $.pivotUtilities.renderers['Heatmap'] ;
+        //var derivers = $.pivotUtilities.derivers;
+
+        delete $.pivotUtilities.renderers['Heatmap'];
         delete $.pivotUtilities.renderers['Row Heatmap'];
         delete $.pivotUtilities.renderers['Col Heatmap'];
-        
+
         var renderers = $.extend($.pivotUtilities.renderers,
                 $.pivotUtilities.gchart_renderers);
 
         $.getJSON(Routing.generate('get_datos_indicador', {id: id_indicador}), function(mps) {
             $("#output").pivotUI(mps, {
-                renderers: renderers
+                renderers: renderers,
+                menuLimit: 500                
             });
             $('.marco-sala').attr('data-content', nombre_indicador);
             $('#myTab a:first').tab('show');
