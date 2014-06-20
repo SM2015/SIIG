@@ -5,10 +5,9 @@ namespace MINSAL\IndicadoresBundle\Entity;
 use Doctrine\ORM\EntityRepository;
 use MINSAL\IndicadoresBundle\Entity\FichaTecnica;
 
-class FichaTecnicaRepository extends EntityRepository
-{
-    public function crearIndicador(FichaTecnica $fichaTecnica, $dimension = null, $filtros = null)
-    {
+class FichaTecnicaRepository extends EntityRepository {
+
+    public function crearIndicador(FichaTecnica $fichaTecnica, $dimension = null, $filtros = null) {
         $em = $this->getEntityManager();
         $ahora = new \DateTime('NOW');
         $util = new \MINSAL\IndicadoresBundle\Util\Util();
@@ -26,7 +25,7 @@ class FichaTecnicaRepository extends EntityRepository
             if ($fichaTecnica->getUltimaLectura() < $fichaTecnica->getUpdatedAt())
                 return true;
         }
-                
+
         $campos = str_replace("'", '', $fichaTecnica->getCamposIndicador());
 
         $tablas_variables = array();
@@ -170,8 +169,7 @@ class FichaTecnicaRepository extends EntityRepository
         }
     }
 
-    public function crearIndicadorAcumulado(FichaTecnica $fichaTecnica, $dimension, $filtros = null)
-    {
+    public function crearIndicadorAcumulado(FichaTecnica $fichaTecnica, $dimension, $filtros = null) {
         $em = $this->getEntityManager();
         $campos = str_replace("'", '', $fichaTecnica->getCamposIndicador());
         $tablas_variables = array();
@@ -243,8 +241,7 @@ class FichaTecnicaRepository extends EntityRepository
         $em->getConnection()->exec($sql);
     }
 
-    public function crearTablaIndicador(FichaTecnica $fichaTecnica, $tablas_variables)
-    {
+    public function crearTablaIndicador(FichaTecnica $fichaTecnica, $tablas_variables) {
         $sql = '';
         $util = new \MINSAL\IndicadoresBundle\Util\Util();
         $nombre_indicador = $util->slug($fichaTecnica->getNombre());
@@ -276,16 +273,44 @@ class FichaTecnicaRepository extends EntityRepository
      * Devuelve los datos del indicador sin procesar la fórmula
      * esto será utilizado en la tabla dinámica
      */
-    public function getDatosIndicador(FichaTecnica $fichaTecnica){
+    public function getDatosIndicador(FichaTecnica $fichaTecnica) {
         $util = new \MINSAL\IndicadoresBundle\Util\Util();
-        
+
         $nombre_indicador = $util->slug($fichaTecnica->getNombre());
         $tabla_indicador = 'tmp_ind_' . $nombre_indicador;
-        
-        $sql = "SELECT *
-            FROM $tabla_indicador A";                
 
-        try {                        
+        $campos = array();
+        $campos_indicador = explode(',', str_replace(' ', '', $fichaTecnica->getCamposIndicador()));
+        $rel_catalogos = '';
+        $catalogo_x = 66; //código ascci de B
+        foreach ($campos_indicador as $c) {            
+            $significado = $this->getEntityManager()->getRepository('IndicadoresBundle:SignificadoCampo')
+                    ->findOneBy(array('codigo' => $c));
+            $catalogo = $significado->getCatalogo();
+            if ($catalogo != '') {
+                $letra_catalogo = chr($catalogo_x++);
+                $rel_catalogos .= " INNER JOIN  $catalogo $letra_catalogo  ON (A.$c::text = $letra_catalogo.id::text) ";
+                $campos[] = $letra_catalogo.'.descripcion AS '.  str_replace('id_', '', $c);
+            } else {
+                $campos[] = $c;
+            }
+        }
+        
+        //Recuperar las variables
+        $variables = array();
+        $formula = strtolower($fichaTecnica->getFormula());
+        preg_match_all('/\{[a-z0-9\_]{1,}\}/', strtolower($formula), $variables, PREG_SET_ORDER);
+        foreach ($variables as $var){
+            $v = str_replace(array('{', '}'), array('', ''), $var[0]);
+            $campos[] = $v. ' AS __'. $v . '__';
+        }
+
+        $campos = implode(', ', $campos);
+        $sql = "SELECT $campos
+            FROM $tabla_indicador A 
+                $rel_catalogos";
+
+        try {
             return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
         } catch (\PDOException $e) {
             return $e->getMessage();
@@ -294,8 +319,7 @@ class FichaTecnicaRepository extends EntityRepository
         }
     }
 
-    public function calcularIndicador(FichaTecnica $fichaTecnica, $dimension, $filtro_registros = null, $ver_sql = false)
-    {
+    public function calcularIndicador(FichaTecnica $fichaTecnica, $dimension, $filtro_registros = null, $ver_sql = false) {
         $util = new \MINSAL\IndicadoresBundle\Util\Util();
         $acumulado = $fichaTecnica->getEsAcumulado();
         $formula = strtolower($fichaTecnica->getFormula());
@@ -379,9 +403,8 @@ class FichaTecnicaRepository extends EntityRepository
             return $e->getMessage();
         }
     }
-    
-    public function crearCamposIndicador(FichaTecnica $fichaTecnica)
-    {
+
+    public function crearCamposIndicador(FichaTecnica $fichaTecnica) {
         $em = $this->_em;
         //Recuperar las variables
         $variables = $fichaTecnica->getVariables();
