@@ -102,3 +102,10 @@ div.popover-content, div.popover-title{
     color: green;
     font-weight: bold;
 }
+
+#myModal2 .modal-dialog{
+    position: relative;
+    background: none ;
+    border: none;
+    box-shadow: none;
+}

@@ -351,3 +351,5 @@ _tabla_pivote_: Pivot table
 title_user_authentication: Authentication
 security.login.username: User
 security.login.password: Password
+_exportar_tabla_datos_: Export data table
+_exportar_grafico_: Export graph

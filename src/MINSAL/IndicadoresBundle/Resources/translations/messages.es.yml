@@ -353,3 +353,5 @@ _tabla_pivote_: Tabla dinámica
 title_user_authentication: Autenticación
 security.login.username: Usuario
 security.login.password: Clave
+_exportar_tabla_datos_: Exportar Tabla de datos
+_exportar_grafico_: Exportar gráfico

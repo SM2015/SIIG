@@ -12,23 +12,45 @@
     <script src="{{ asset('bundles/indicadores/js/FichaTecnicaAdmin/pivotTable.js') }}" type="text/javascript"></script>
     <script src="{{ asset('bundles/indicadores/js/pivotTable/pivot.js') }}" type="text/javascript"></script>
     <script src="{{ asset('bundles/indicadores/js/pivotTable/gcharts_renderers.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/indicadores/js/rasterizeHTML.allinone.js') }}" type="text/javascript"></script>
 {% endblock %}
 
 {% block content %}
 <div id="div_carga" class='affix'>
     <img id="cargador" src="{{ asset('bundles/indicadores/images/ajax-loader.gif') }}"/>
 </div>
-<div class="marco-sala">
+<div class="marco-sala" id="marco-sala">    
     <ul class="nav nav-tabs" id="myTab">
-        <li class="active"><a href="#output">{{'_tabla_pivote_'|trans}}</a></li>    
-        <li><a href="#listado_indicadores">{{"indicadores"|trans}}</a></li>
+        <li ><a href="#tab1">{{'_tabla_pivote_'|trans}}</a></li>    
+        <li class="active"><a href="#listado_indicadores">{{"indicadores"|trans}}</a></li>
     </ul>
 
     <div id='nombre_sala2' ></div>
-    <div class="tab-content">        
-        <div class="content tab-pane active" id="output" >            
+    <div class="tab-content">                
+        <div class="content tab-pane" id="tab1" >
+            <button id='export' class="btn btn-success" title="{{'_exportar_tabla_datos_'|trans}}"><span class="glyphicon glyphicon-list-alt"></span></button>
+            <button id='export_grp' class="btn btn-success" title="{{'_exportar_grafico_'|trans}}"><span class="glyphicon glyphicon-picture"></span> </button>  
+            <div id="output" ></div>
         </div>
         {% include 'IndicadoresBundle:FichaTecnicaAdmin:listado_indicadores.html.twig'%}
+    </div>
+</div>
+<div id="myModal2" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel2"></h3>
+            </div>
+
+            <div class="modal-body">
+                <span class='info' id='sql'></span>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-info" data-dismiss="modal" aria-hidden="true">{{'_cerrar_'|trans}}</button>
+            </div>
+        </div>
     </div>
 </div>
 

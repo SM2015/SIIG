@@ -439,7 +439,7 @@
       return input(addRecord);
     } else if ($.isArray(input)) {
       if ($.isArray(input[0])) {
-        _results = [];
+          _results = [];
         for (i in input) {
           if (!__hasProp.call(input, i)) continue;
           compactRecord = input[i];
@@ -457,7 +457,7 @@
         }
         return _results;
       } else {
-        _results1 = [];
+          _results1 = [];
         for (_i = 0, _len = input.length; _i < _len; _i++) {
           record = input[_i];
           _results1.push(addRecord(record));
@@ -903,12 +903,13 @@
         axisValues[x] = {};
       }
       forEachRecord(input, opts.derivedAttributes, function(record) {
-        var v, _base, _results;
+        var v, _base, _results, record_;
         _results = [];
-        for (k in record) {
-          if (!__hasProp.call(record, k)) continue;
-          v = record[k];
-          if (!(opts.filter(record))) {
+        record_ = record;
+        for (k in record_) {
+          if (!__hasProp.call(record_, k)) continue;
+          v = record_[k];
+          if (!(opts.filter(record_))) {
             continue;
           }
           if (v == null) {

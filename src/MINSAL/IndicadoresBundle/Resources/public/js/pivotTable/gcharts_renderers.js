@@ -86,6 +86,11 @@
         chartType: chartType,
         options: options
       });
+      // Wait for the chart to finish drawing before calling the getImageURI() method.
+      google.visualization.events.addListener(wrapper, 'ready', function () {
+        chart_div = document.getElementById('sql');
+        chart_div.innerHTML = '<img src="' + wrapper.getChart().getImageURI() + '">';
+      });
       wrapper.draw(result[0]);
       result.bind("dblclick", function() {
         var editor;
