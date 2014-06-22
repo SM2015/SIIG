@@ -515,12 +515,12 @@ src/MINSAL/IndicadoresBundle/Resources/views/FichaTecnicaAdmin/reporte.html.twig
 
 
 ## Instalación de librería wkhtmltopdf
-[wkhtmltopdf](http://code.google.com/p/wkhtmltopdf/) Es una utilidad de línea de comando para convertir html a pdf
+[wkhtmltopdf](http://wkhtmltopdf.org) Es una utilidad de línea de comando para convertir html a pdf
 
-1. Descargar wkhtmltopdf desde http://code.google.com/p/wkhtmltopdf/downloads/list elegir la versión adecuada al sistema operativo
-2. Descomprimir. Ej.: tar xjf wkhtmltopdf-0.11.0_rc1-static-amd64.tar.bz2
-3. Mover y renombrar el archivo: mv wkhtmltopdf-amd64 /usr/bin/wkhtmltopdf
-4. Dar permisos de ejecución: chmod +x /usr/bin/wkhtmltopdf
+1. Descargar wkhtmltopdf desde http://wkhtmltopdf.org/downloads.html elegir la versión adecuada al sistema operativo
+2. Descomprimir. Ej.: tar xjf wkhtmltox-linux-amd64_0.12.0-03c001d.tar.xz
+3. Copiar el archivo (como root): cp wkhtmltox/bin/wkhtmltopdf /usr/bin/wkhtmltopdf
+4. Dar permisos de ejecución (como root): chmod +x /usr/bin/wkhtmltopdf
 
 
 ## OPCIONAL: Validación de Usarios desde directorios LDAP
