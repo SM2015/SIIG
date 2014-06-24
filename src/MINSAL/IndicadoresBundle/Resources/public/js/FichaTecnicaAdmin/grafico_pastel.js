@@ -63,10 +63,18 @@ graficoPastel = function(ubicacion, datos, color_grafico, categoryChoosen) {
             return d.data.category + ": " + d.data.measure;
         });
 
+        if ($('#sala_default').val()==0){
+            var duracion = 1000;
+            var retraso = 20;
+        }else {
+            var duracion = 0;
+            var retraso = 0;
+        }
+        
         d3.selectAll("g.slice").selectAll("path")
                 .transition()
-                .duration(750)
-                .delay(10)
+                .duration(duracion)
+                .delay(retraso)
                 .attr("stroke", "white")
                 .attr("stroke-width", 1.5)
                 .attr("d", arcFinal)

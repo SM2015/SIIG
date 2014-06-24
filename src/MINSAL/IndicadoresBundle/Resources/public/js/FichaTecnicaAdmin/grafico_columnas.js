@@ -68,6 +68,13 @@ graficoColumnas = function(ubicacion, datos, colorChosen, categoryChoosen) {
                 .attr("transform", "translate(" + margin.left + "," + (margin.top + height + 5) + ")")
                 .call(xAxis);
         
+        if ($('#sala_default').val()==0){
+            var duracion = 1000;
+            var retraso = 20;
+        }else {
+            var duracion = 0;
+            var retraso = 0;
+        }
         plot.selectAll("rect")
                 .data(currentDatasetChart)
                 .enter()
@@ -75,9 +82,9 @@ graficoColumnas = function(ubicacion, datos, colorChosen, categoryChoosen) {
                 .attr("stroke", 'black')
                 .attr("stroke-width", '2px')
                 .attr("x", function(d, i) {
-            return xScale(d.category);
-        })
-                .transition().duration(1000).delay(20)
+                    return xScale(d.category);
+                })
+                .transition().duration(duracion).delay(retraso)
                 .attr("width", xScale.rangeBand())
                 .attr("y", function(d) {
             return yScale(parseFloat(d.measure));
@@ -110,10 +117,15 @@ graficoColumnas = function(ubicacion, datos, colorChosen, categoryChoosen) {
                 return d.category;
             })).copy();
 
-        var transition = svg.transition().duration(750),
-                delay = function(d, i) {
-            return i * 40;
-        };
+        if ($('#sala_default').val()==0){
+            var transition = svg.transition().duration(750);
+            var delay = function(d, i) {
+                return i * 40;
+            };
+        }else { 
+            var transition = svg.transition().duration(0);
+            var delay = 0;
+        }
         
         transition.selectAll("#"+ubicacion+" rect")
                 .delay(delay)
