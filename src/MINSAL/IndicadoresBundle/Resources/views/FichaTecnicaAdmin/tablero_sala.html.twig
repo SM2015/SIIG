@@ -1,0 +1,51 @@
+<div class="marco-sala">
+    <script>
+        var indicadoresDimensiones = new Array();
+        var indicadoresDatos = new Array();
+        {% for ind in indicadoresDimensiones %}
+            indicadoresDimensiones[{{ ind.id }}] = JSON.parse('{{ind.dimensiones|raw}}');
+            indicadoresDatos[{{ ind.id }}] = JSON.parse('{{ind.datos|raw}}');
+        {% endfor %}    
+    </script>
+        
+    {# sección de configuración #}    
+    <input type="hidden" value="{{confTablero.ocultar_menu_principal}}" id="ocultar_menu_principal" />
+    <input type="hidden" value="{{id_sala|default(0)}}" id="sala_default" />
+    
+    <style>
+        .area_grafico { 
+            width: 300px; 
+            height: 300px; 
+        }
+        .marco-sala:after {
+            font-size: 12pt;
+            width: 100%;
+        }
+    </style>
+    <div id='nombre_sala2' ></div>
+    <div class=""><BR>
+        <div class="" id="sala" >
+            {% for i in 1..confTablero.graficos_por_fila%}
+            <div class="area_grafico {% if i==1 %} zona_actual {% endif%}" id='grafico_{{i}}' >
+                <DIV class= 'titulo'><span class='titulo_indicador'></span>
+                    <span>({{'_por_'|trans}} <span class='dimension' ></span>)</span>
+                </DIV>
+                <h6 class='filtros_dimensiones'></h6>
+                <div class='controles btn-toolbar'></div>
+                <div class="row-fluid info" ></div>
+                <div class="row-fluid row_grafico" >
+                    <div class="grafico" ></div>
+                </div>
+            </div>
+            {% endfor %}
+            
+        </div>      
+    </div>
+    <div style="display: none">
+        <ul id='listado-salas'  >
+            {% for sala in salas %}
+                <li sala-id='{{sala.datos_sala.id}}'><A sala-id='{{sala.datos_sala.id}}' sala-nombre='{{sala.datos_sala.nombre}}' class='salas-id' data="{{sala.indicadores_sala|json_encode()}}">{{sala.datos_sala.nombre}}</A></li>
+            {% endfor %}
+        </ul>                            
+    </div>
+</div>
