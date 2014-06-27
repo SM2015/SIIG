@@ -15,6 +15,7 @@
         .area_grafico { 
             width: {{confTablero.ancho_area_grafico}}px; 
             height: {{confTablero.ancho_area_grafico}}px; 
+            page-break-inside: avoid;
         }
         .marco-sala:after {
             font-size: {{confTablero.titulo_sala_tamanio_fuente}}pt;
@@ -95,12 +96,15 @@
                         </h4>
                     </div>                                        
                     <div id="collapse3" class="panel-collapse collapse">
-                       <div class="panel-body">
-                           <ul id='listado-salas' class="dropdown-menu dropdown-menu-visible" role="menu" >
-                               {% for sala in salas %}
-                                   <li sala-id='{{sala.datos_sala.id}}'><A sala-id='{{sala.datos_sala.id}}' sala-nombre='{{sala.datos_sala.nombre}}' class='salas-id' data="{{sala.indicadores_sala|json_encode()}}">{{sala.datos_sala.nombre}}</A></li>
-                               {% endfor %}
-                           </ul>                            
+                       <div class="panel-body">                           
+                               {% for sala in salas %}                                   
+                                       <A sala-id='{{sala.datos_sala.id}}' sala-nombre='{{sala.datos_sala.nombre}}' class='salas-id' data="{{sala.indicadores_sala|json_encode()}}">{{sala.datos_sala.nombre}}</A>
+                                       <A href="{{url('tablero_sala', {sala: sala.datos_sala.id, _sonata_admin: 'sonata.admin.ficha'})}}">
+                                            <button class="btn btn-success btn-xs " type="button" >
+                                                {{'_reporte_sala_'|trans}}
+                                            </button>
+                                        </A><BR/>
+                               {% endfor %}                           
                        </div>
                     </div>
                 </div>                

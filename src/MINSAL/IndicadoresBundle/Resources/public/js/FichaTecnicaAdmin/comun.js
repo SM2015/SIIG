@@ -60,7 +60,7 @@ function aplicarFormato() {
 }
 function crearGraficoObj(zona, tipo) {
     var grafico;
-    var datasetPrincipal = JSON.parse($('#' + zona).attr('datasetPrincipal'));    
+    var datasetPrincipal = JSON.parse($('#' + zona).attr('datasetPrincipal'));
     if (tipo == 'pastel')
         grafico = new graficoPastel(zona, datasetPrincipal);
     else if (tipo == 'lineas')
@@ -176,31 +176,39 @@ function dibujarGrafico(zona, dimension) {
     if (dimension === null)
         return;
     var filtro = $('#' + zona + ' .filtros_dimensiones').attr('data');
+    var id_indicador  = $('#' + zona + ' .titulo_indicador').attr('data-id');
+    
+    if ($('#sala_default').val()==0){ 
+        //Hace uso del servicio web REST en la ruta get_indicador
+        $.getJSON(Routing.generate('get_indicador',
+                {id: id_indicador, dimension: dimension}),
+                {filtro: filtro, ver_sql: false},
+        function(resp) {
+            procesarDibujarGrafico(resp, zona);
+        });
+    } else {        
+        procesarDibujarGrafico(indicadoresDatos[id_indicador], zona);
+    }
+}
 
-    //Hace uso del servicio web REST en la ruta get_indicador
-    $.getJSON(Routing.generate('get_indicador',
-            {id: $('#' + zona + ' .titulo_indicador').attr('data-id'), dimension: dimension}),
-    {filtro: filtro, ver_sql: false},
-    function(resp) {
-        var datos = JSON.stringify(resp.datos);
-        $('#' + zona).attr('datasetPrincipal_bk', datos);
-        if ($('#' + zona).attr('orden') !== undefined
-                && $('#' + zona).attr('orden') !== null
-                && $('#' + zona).attr('orden') !== '')
-        {
-            if ($('#' + zona).attr('orden-aplicado') !== 'true') {
-                var ordenobj = JSON.parse($('#' + zona).attr('orden'));
-                datos = JSON.stringify(ordenarArreglo(resp.datos, ordenobj[0].tipo, ordenobj[0].modo));
-                $('DIV.zona_actual').attr('orden-aplicado', 'true');
-            }
+function procesarDibujarGrafico(resp, zona) {
+    var datos = JSON.stringify(resp.datos);
+    $('#' + zona).attr('datasetPrincipal_bk', datos);
+    if ($('#' + zona).attr('orden') !== undefined
+            && $('#' + zona).attr('orden') !== null
+            && $('#' + zona).attr('orden') !== '')
+    {
+        if ($('#' + zona).attr('orden-aplicado') !== 'true') {
+            var ordenobj = JSON.parse($('#' + zona).attr('orden'));
+            datos = JSON.stringify(ordenarArreglo(resp.datos, ordenobj[0].tipo, ordenobj[0].modo));
+            $('DIV.zona_actual').attr('orden-aplicado', 'true');
         }
+    }
 
-        $('#' + zona).attr('datasetPrincipal', datos);
+    $('#' + zona).attr('datasetPrincipal', datos);
 
-        dibujarGraficoPrincipal(zona, $('#' + zona + ' .tipo_grafico_principal').val());
-        controles_filtros(zona);
-    });
-
+    dibujarGraficoPrincipal(zona, $('#' + zona + ' .tipo_grafico_principal').val());
+    controles_filtros(zona);
 }
 
 function ordenarDatos(zona, ordenar_por, modo_orden) {
@@ -530,7 +538,7 @@ function dibujarControles(zona, datos) {
 
         $.getJSON(Routing.generate('get_indicador',
                 {id: $('#' + zona + ' .titulo_indicador').attr('data-id'), dimension: dimension}),
-        {filtro: filtro, ver_sql: true},
+                {filtro: filtro, ver_sql: true},
         function(resp) {
             $('#myModalLabel2').html($('#' + zona + ' .titulo_indicador').html());
             $('#sql').html(resp.datos);
@@ -555,40 +563,40 @@ function dibujarControles(zona, datos) {
     $('#' + zona + ' .ver_ficha_tecnica').click(function() {
         $.get(Routing.generate('get_indicador_ficha',
                 {id: $('#' + zona + ' .titulo_indicador').attr('data-id')}),
-        function(resp) {
-            $('#myModalLabel2').html($('#' + zona + ' .titulo_indicador').html());
-            $('#sql').html(resp);
-            //Dejar solo el código html de la tabla, quitar todo lo demás
+                function(resp) {
+                    $('#myModalLabel2').html($('#' + zona + ' .titulo_indicador').html());
+                    $('#sql').html(resp);
+                    //Dejar solo el código html de la tabla, quitar todo lo demás
 
-            $('#sql').html('<table>' + $('#sql table').html() + '</table>');
-            $('#sql .sonata-ba-view-title').remove();
-            $('#sql table').append('<thead><TR><TH>Campo</TH><TH>Descripcion</TH></TR></thead>');
-            $('#sql table').dataTable({
-                "bFilter": false,
-                "bSort": false,
-                "sDom": '<"H"T>',
-                "bInfo": false,
-                "iDisplayLength": 30,
-                "oTableTools": {
-                    "sSwfPath": sSwfPath,
-                    "aButtons": [
-                        {
-                            "sExtends": "collection",
-                            "sButtonText": trans.exportar,
-                            "aButtons": [{
-                                    "sExtends": "xls",
-                                    "sTitle": $('#' + zona + ' .titulo_indicador').html()
-                                }, {
-                                    "sExtends": "pdf",
-                                    "sTitle": $('#' + zona + ' .titulo_indicador').html()
-                                }]
-                        }
-                    ]
-                },
-            });
-            $('#sql .DTTT_container').css('float', 'left');
-            $('#myModal2').modal('show');
-        }, 'html');
+                    $('#sql').html('<table>' + $('#sql table').html() + '</table>');
+                    $('#sql .sonata-ba-view-title').remove();
+                    $('#sql table').append('<thead><TR><TH>Campo</TH><TH>Descripcion</TH></TR></thead>');
+                    $('#sql table').dataTable({
+                        "bFilter": false,
+                        "bSort": false,
+                        "sDom": '<"H"T>',
+                        "bInfo": false,
+                        "iDisplayLength": 30,
+                        "oTableTools": {
+                            "sSwfPath": sSwfPath,
+                            "aButtons": [
+                                {
+                                    "sExtends": "collection",
+                                    "sButtonText": trans.exportar,
+                                    "aButtons": [{
+                                            "sExtends": "xls",
+                                            "sTitle": $('#' + zona + ' .titulo_indicador').html()
+                                        }, {
+                                            "sExtends": "pdf",
+                                            "sTitle": $('#' + zona + ' .titulo_indicador').html()
+                                        }]
+                                }
+                            ]
+                        },
+                    });
+                    $('#sql .DTTT_container').css('float', 'left');
+                    $('#myModal2').modal('show');
+                }, 'html');
     });
 }
 
@@ -658,48 +666,56 @@ function limpiarZona2(zona) {
 function recuperarDimensiones(id_indicador, datos) {
     var zona_g = $('DIV.zona_actual').attr('id');
     limpiarZona(zona_g);
-    $.getJSON(
+    
+    if ($('#sala_default').val()==0){
+        $.getJSON(
             Routing.generate('indicador_dimensiones', {id: id_indicador}),
-    function(resp) {
-        //Construir el campo con las dimensiones disponibles
+            function(resp) {
+                procesarDimensiones(resp, datos, zona_g);
+            });
+    } else {
+        procesarDimensiones(indicadoresDimensiones[id_indicador], datos, zona_g);
+    }
+}
 
-        if (resp.resultado === 'ok') {
-            if (resp.dimensiones == '') {
-                alert(trans.no_graficos_asignados);
-            } else {
-                dibujarControles(zona_g, resp);
-                if (datos !== null) {
-                    if (JSON.stringify(datos.filtro) !== '""') {
-                        var $filtro = $('#' + zona_g + ' .filtros_dimensiones');
-                        $filtro.attr('data', datos.filtro);
-                        filtro_obj = jQuery.parseJSON($filtro.attr('data'));
-                        var ruta = filtroRuta(filtro_obj);
-                        $filtro.html(ruta);
+function procesarDimensiones(resp, datos, zona_g) {
+    //Construir el campo con las dimensiones disponibles
 
-                        for (i = 0; i < filtro_obj.length; i++) {
-                            $('#' + zona_g + ' .dimensiones')
-                                    .children('option[value=' + filtro_obj[i].codigo + ']')
-                                    .remove();
-                        }
+    if (resp.resultado === 'ok') {
+        if (resp.dimensiones == '') {
+            alert(trans.no_graficos_asignados);
+        } else {
+            dibujarControles(zona_g, resp);
+            if (datos !== null) {
+                if (JSON.stringify(datos.filtro) !== '""') {
+                    var $filtro = $('#' + zona_g + ' .filtros_dimensiones');
+                    $filtro.attr('data', datos.filtro);
+                    filtro_obj = jQuery.parseJSON($filtro.attr('data'));
+                    var ruta = filtroRuta(filtro_obj);
+                    $filtro.html(ruta);
 
-                        $('#' + zona_g + ' .filtros_dimensiones A').click(function() {
-                            ascenderNivelDimension(zona_g, $(this).attr('data'));
-                        });
+                    for (i = 0; i < filtro_obj.length; i++) {
+                        $('#' + zona_g + ' .dimensiones')
+                                .children('option[value=' + filtro_obj[i].codigo + ']')
+                                .remove();
                     }
-                    $('#' + zona_g + ' .titulo_indicador').attr('data-id', datos.idIndicador);
-                    $('#' + zona_g).attr('orden', datos.orden);
-                    $('#' + zona_g).attr('orden-aplicado', 'false');
-                    $('#' + zona_g + ' .dimensiones').val(datos.dimension);
-                    $('#' + zona_g + ' .filtro_desde').val(datos.filtroPosicionDesde);
-                    $('#' + zona_g + ' .filtro_hasta').val(datos.filtroPosicionHasta);
-                    $('#' + zona_g + ' .titulo_indicador').attr('filtro-elementos', datos.filtroElementos);
-                    $('#' + zona_g + ' .tipo_grafico_principal').val(datos.tipoGrafico);
-                }
-                dibujarGrafico(zona_g, $('#' + zona_g + ' .dimensiones').val());
-            }
-        }
 
-    });
+                    $('#' + zona_g + ' .filtros_dimensiones A').click(function() {
+                        ascenderNivelDimension(zona_g, $(this).attr('data'));
+                    });
+                }
+                $('#' + zona_g + ' .titulo_indicador').attr('data-id', datos.idIndicador);
+                $('#' + zona_g).attr('orden', datos.orden);
+                $('#' + zona_g).attr('orden-aplicado', 'false');
+                $('#' + zona_g + ' .dimensiones').val(datos.dimension);
+                $('#' + zona_g + ' .filtro_desde').val(datos.filtroPosicionDesde);
+                $('#' + zona_g + ' .filtro_hasta').val(datos.filtroPosicionHasta);
+                $('#' + zona_g + ' .titulo_indicador').attr('filtro-elementos', datos.filtroElementos);
+                $('#' + zona_g + ' .tipo_grafico_principal').val(datos.tipoGrafico);
+            }
+            dibujarGrafico(zona_g, $('#' + zona_g + ' .dimensiones').val());
+        }
+    }
 }
 
 function ordenarArreglo(datos, ordenar_por, modo_orden) {

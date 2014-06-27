@@ -40,6 +40,16 @@ $(document).ready(function() {
         $(this).tab('show');
     });
 
+    if ($('#sala_default').val() != 0) {
+        //Mostar solo la sala, quitar los demás controles
+        $('#user-menu').remove();
+        $('#menu_principal').remove();
+                
+        var sala_default = $('#sala_default').val();
+        cargarSala($('A[sala-id='+sala_default+']'));
+        $('DIV.controles').hide();
+    }
+    
     if ($('#ocultar_menu_principal').val() == 1) {
         $('#collapseOne').toggle();
     }
@@ -172,14 +182,18 @@ $(document).ready(function() {
 
         });
     });
-
+    
     $('.salas-id').click(function() {
-        $('.marco-sala').attr('id-sala', $(this).attr('sala-id'));
-        $('.marco-sala').attr('data-content', trans._nombre_sala_ + ': ' + $(this).attr('sala-nombre'));
-        $('#nombre_sala').attr('id-sala', $(this).attr('sala-id'));
-        $('#nombre_sala').html($(this).attr('sala-nombre'));
+        cargarSala(this);
+    });
+    
+    function cargarSala(obj){
+        $('.marco-sala').attr('id-sala', $(obj).attr('sala-id'));
+        $('.marco-sala').attr('data-content', trans._nombre_sala_ + ': ' + $(obj).attr('sala-nombre'));
+        $('#nombre_sala').attr('id-sala', $(obj).attr('sala-id'));
+        $('#nombre_sala').html($(obj).attr('sala-nombre'));
 
-        var graficos = JSON.parse($(this).attr('data'));
+        var graficos = JSON.parse($(obj).attr('data'));
         var max_id = 0;
         for (i = 0; i < graficos.length; i++) {
             if (parseInt(graficos[i].posicion) > max_id)
@@ -197,17 +211,19 @@ $(document).ready(function() {
             $('DIV.zona_actual').removeClass('zona_actual');
             $('#grafico_' + graficos[i].posicion).addClass('zona_actual');
 
-            recuperarDimensiones(graficos[i].idIndicador, graficos[i]);
+            recuperarDimensiones(graficos[i].idIndicador, graficos[i]);                        
         }
         $('#myTab a:first').tab('show');
         $('#listado-salas li').removeClass('active');
         $('li[sala-id="' + $('.marco-sala').attr('id-sala') + '"]').addClass('active');
 
-        cargarMensajes();
-        cargarUsuarios();
-        cargarImagenes();
-        cargarAcciones();
-    });
+        if ($('#sala_default').val()==0){
+            cargarMensajes();
+            cargarUsuarios();
+            cargarImagenes();
+            cargarAcciones();
+        }
+    }
 
     function moverAGraficoActual() {
         $('#myTab a:first').tab('show');
@@ -300,19 +316,28 @@ $(document).ready(function() {
         }
     }
 
-
-    // Le indicamos cargar los mensajes cada minuto
-    setInterval(function() {
-        if ($('.marco-sala').attr('id-sala')) {
-            $(document).unbind(".mine");
-            $.post(Routing.generate('sala_get_comentarios', {idSala: $('.marco-sala').attr('id-sala')}), {vez: 2}, function(data) {
-                if (data != '') {
-                    $('#chat-mensajes').append(data);   // Añadir el nuevo mensaje al final
-                    setScroll();
-                }
-                ajax_states();
+    if ($('#sala_default').val()==0){
+        // Le indicamos cargar los mensajes cada minuto
+        setInterval(function() {
+            if ($('.marco-sala').attr('id-sala')) {
+                $(document).unbind(".mine");
+                $.post(Routing.generate('sala_get_comentarios', {idSala: $('.marco-sala').attr('id-sala')}), {vez: 2}, function(data) {
+                    if (data != '') {
+                        $('#chat-mensajes').append(data);   // Añadir el nuevo mensaje al final
+                        setScroll();
+                    }
+                    ajax_states();
+                });
+            }
+        }, 60000);
+    }
+    
+    $('#getSalaPDF').click(function(){
+       var url = Routing.generate('tablero_sala', {sala: 1,
+                _sonata_admin: 'sonata.admin.ficha'});
+        $.post(url, function(data) {
+                
             });
-        }
-    }, 60000);
+    });
 
 });

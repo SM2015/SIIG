@@ -28,7 +28,7 @@ class IndicadorController extends Controller {
     /**
      * @Route("/indicador/dimensiones/{id}", name="indicador_dimensiones", options={"expose"=true})
      */
-    public function getDimensiones(FichaTecnica $fichaTec) {
+    public function getDimensionesAction(FichaTecnica $fichaTec) {
         $resp = array();
         $em = $this->getDoctrine()->getManager();
 
@@ -330,7 +330,7 @@ class IndicadorController extends Controller {
     public function getImagenesSala(GrupoIndicadores $sala) {
         $em = $this->getDoctrine()->getManager();
         $usuario = $this->getUser();
-      
+
         $imagenes = $em->getRepository("IndicadoresBundle:Imagen")
                         ->findBy(array('sala'=>$sala, 
                             'usuario'=>$usuario));        

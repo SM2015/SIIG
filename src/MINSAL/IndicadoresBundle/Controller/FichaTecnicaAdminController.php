@@ -5,6 +5,7 @@ namespace MINSAL\IndicadoresBundle\Controller;
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 //use Symfony\Component\Console\Input\ArrayInput;
 
 class FichaTecnicaAdminController extends Controller
@@ -90,11 +91,35 @@ class FichaTecnicaAdminController extends Controller
         
         return $resp;
     }
-    public function tableroAction()
+    
+    /**
+     * @Route("/tablero/sala/{sala}", name="tablero_sala", options={"expose"=true})
+     */
+    public function tableroSalaAction($sala){
+        $html = $this->tableroAction($sala);
+        
+        
+        $html = str_replace(array('href="/bundles', 'src="/bundles', 'src="/app_dev.php'), 
+                array('href="http://siig.localhost/bundles', 'src="http://siig.localhost/bundles',
+                    'src="http://siig.localhost/app_dev.php'), $html);
+        
+        //return new Response($html);
+        return new Response(
+            $this->get('knp_snappy.pdf')->getOutputFromHtml($html), 200, array(
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => 'attachment; filename="file.pdf"'
+                )
+        );
+        
+    }
+    
+    public function tableroAction($sala_default = null)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();        
         $usuario = $this->getUser();
         
+        $sala_default = ($sala_default == null)?  0: $sala_default;
+
         //Salas por usuario
         $usuarioSalas = array();
         if (($usuario->hasRole('ROLE_SUPER_ADMIN'))){
@@ -113,13 +138,30 @@ class FichaTecnicaAdminController extends Controller
             }
         }
                         
-        $i = 0;
         $salas = array();
         foreach ($usuarioSalas as $sala) {
-            $salas[$i]['datos_sala'] = $sala;
-            $salas[$i]['indicadores_sala'] = $em->getRepository('IndicadoresBundle:GrupoIndicadores')
+            $salas[$sala->getId()]['datos_sala'] = $sala;
+            $salas[$sala->getId()]['indicadores_sala'] = $em->getRepository('IndicadoresBundle:GrupoIndicadores')
                     ->getIndicadoresSala($sala);
-            $i++;
+        }
+        
+        // si hay una sala por defecto recuperar toda la información de los
+        // indicadores contenidos en esta.
+        if ($sala_default != 0){
+            $indicadoresDimensiones = array();
+                        
+            foreach ($salas[$sala_default]['indicadores_sala'] as $ind){                
+                $req_dimensiones = $this->forward('IndicadoresBundle:Indicador:getDimensiones', array('id' => $ind['idIndicador']));
+                $req_datos = $this->forward('IndicadoresBundle:IndicadorREST:getIndicador', 
+                        array('id' => $ind['idIndicador'],
+                            'dimension'=> $ind['dimension'],
+                            'filtro'=> $ind['filtro'],
+                            'ver_sql'=>false)
+                        );
+                $indicadoresDimensiones[$ind['idIndicador']]['id'] = $ind['idIndicador'];
+                $indicadoresDimensiones[$ind['idIndicador']]['dimensiones'] =  $req_dimensiones->getContent();
+                $indicadoresDimensiones[$ind['idIndicador']]['datos'] =  $req_datos->getContent();
+            }            
         }
 
         $datos = $this->getListadoIndicadores();
@@ -135,7 +177,9 @@ class FichaTecnicaAdminController extends Controller
                     'categorias' => $datos['categorias'],
                     'clasificacionUso' => $datos['clasficacion_uso'],
                     'salas' => $salas,
+                    'id_sala' =>$sala_default,
                     'confTablero' =>$confTablero,
+                    'indicadoresDimensiones' => $indicadoresDimensiones,
                     'indicadores_no_clasificados' => $datos['indicadores_no_clasificados']
         ));
     }
