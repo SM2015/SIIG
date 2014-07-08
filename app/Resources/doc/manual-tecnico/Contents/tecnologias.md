@@ -25,6 +25,7 @@ Estos incluyen:
 * RabbitMQ: Servidor de Mensajería
 * EasyBook: Generador de documentos en formato PDF
 * Bootstrap: Framework para interfaces de usuario
+* PivotTable.js: Librería para crear tabla pivote
 
 ### Gestor de base de datos
 [PostgreSQL] (http://www.postgresql.org/)
@@ -86,3 +87,8 @@ Saiku es una aplicacion de JAVA que oferece una interfaz escrita en JQuery para 
 
 ### Documentación
 La mayoría de la documentación ha sido escrita en formato markdown y se ha utilizado [easybook](http://easybook-project.org/) para la gen
+
+### Tabla pivote
+Se utiliza la librería PivotTable.js, la cual permite crear tablas pivotes a través
+de una interfaz sencilla similar a la de las hojas de cálculo, su código y documentación
+puede consultarse desde la página de su creador [PivotTable.js] (http://nicolas.kruchten.com/pivottable/examples/)
