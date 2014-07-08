@@ -103,6 +103,9 @@ div.popover-content, div.popover-title{
     font-weight: bold;
 }
 
+.pvtFilterBox {
+    top: 130px !important;
+}
 #myModal2 .modal-dialog{
     position: relative;
     background: none ;

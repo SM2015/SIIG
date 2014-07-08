@@ -36,8 +36,9 @@ $(document).ready(function() {
         $.getJSON(Routing.generate('get_datos_indicador', {id: id_indicador}), function(mps) {
             $("#output").pivotUI(mps, {
                 renderers: renderers,
-                menuLimit: 500                
-            });
+                menuLimit: 500,
+                unusedAttrsVertical: false
+            }, false, 'es');
             $('#marco-sala').attr('data-content', nombre_indicador);
             $('#myTab a:first').tab('show');
         });
