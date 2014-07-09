@@ -400,14 +400,13 @@ El Script preguntara si queremos instalar todas las librerías, incluyendo el pa
 
 Reiniciar Pentaho:
 ~~~
-# ./stop-pentaho.sh  
+# ./stop-pentaho.sh
 # ./start-pentaho.sh
 ~~~
 
-Saiku permite guardar las busquedas y graficos en una carpeta de trabajo para poder usarlas posteriormente. A continuacion crearemos la carpeta de trabajo que 
-usara Saiku para almacenar busquedas. Esta nueva carpeta debera ser creada dentro de 'pentaho-solutions/', el nombre que elijamos se fijara en el archivo Settings.js.
+Saiku permite guardar las busquedas y graficos en una carpeta de trabajo para poder usarlas posteriormente. A continuacion crearemos la carpeta de trabajo que usará Saiku para almacenar busquedas. Esta nueva carpeta debera ser creada dentro de 'pentaho-solutions/', el nombre que elijamos se fijara en el archivo Settings.js.
 
-~~~~
+~~~
 ~# mkdir bi-server/prentaho-solutions/TablasyGraficosSaiku
 ~# nano  src/MINSAL/IndicadoresBundle/Resources/public/cubos/js/saiku/Settings.js
 
@@ -417,12 +416,12 @@ var Settings = {
     CARPETA_SIIG: "TablasyGraficosSaiku", ....
 ~~~
 
-### Modificar Apache: URL del SIIG apuntando a SAIKU 
+### Modificar Apache: URL del SIIG apuntando a SAIKU
 
-Para enmascarar le URL de Pentaho debemos activar el proxy de Apache para esto debemos activar un par de módulos de Apache:  
+Para enmascarar le URL de Pentaho debemos activar el proxy de Apache para esto debemos activar un par de módulos de Apache:
 
 ~~~
-#a2enmod proxy proxy_http
+ #a2enmod proxy proxy_http
 ~~~
 
 Luego editamos la seccion VirtualHost dentro de /etc/apache2/sites-enabled/000-default:

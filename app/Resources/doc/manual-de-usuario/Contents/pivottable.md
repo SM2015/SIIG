@@ -13,13 +13,15 @@ El siguiente punto es arrastrar los atributos deseados y soltarlos en las áreas
 ![Filtro de atributos](images/pivot_table5.png)
 
 Algunos de los tipos de resultado que se puede usar:
-* Tabla
-* Tabla con gráfico de barra
-* Gráfico de línea
-* Gráfico de barra
-* Gráfico de área
+
+- Tabla
+- Tabla con gráfico de barra
+- Gráfico de línea
+- Gráfico de barra
+- Gráfico de área
 
 Entre las funciones de agregación tenemos:
+
 * Contar
 * Suma
 * Suma entera
