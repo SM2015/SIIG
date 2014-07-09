@@ -1,4 +1,4 @@
-# ETL #
+# ETL
 El bloque ETL (Extract Transform Load) es la sección dónde se configuran los orígenes de datos y se obtiene la información de ellos.
 Contamos con las siguientes opciones en el menú principal:
 
@@ -38,27 +38,27 @@ Por otro lado, si en lugar del nombre tiene la llave foránea deberá colocar co
 
 ![Origen de datos configurado](images/origen_dato_configurar2.png)
 
-### Carga de tablas catálogos 
-El formulario de origen de datos además permite crear tablas catálogos (cuyas llaves se utilizarán como llaves foráneas en los orígenes de datos normales). Alternativamente las tablas catálogo pueden ser gestionadas con algún programa especializado para el manejo de bases de datos, esto es así puesto que cada implementación del Sistema de Indicadores puede tener diferentes catálogos. 
-Cada catálogo permite asociar y analizar la información que se suba al sistema de distintas formas. Así por ejemplo si contamos con un catálogo de departamentos  (tabla ctl_depatamento) y dentro de este  catálogo están las columnas población, región  será posible filtrar y desplegar información para cada registro  sobre departamentos sus poblaciones y  la región a la que pertenecen. 
+### Carga de tablas catálogos
+El formulario de origen de datos además permite crear tablas catálogos (cuyas llaves se utilizarán como llaves foráneas en los orígenes de datos normales). Alternativamente las tablas catálogo pueden ser gestionadas con algún programa especializado para el manejo de bases de datos, esto es así puesto que cada implementación del Sistema de Indicadores puede tener diferentes catálogos.
+Cada catálogo permite asociar y analizar la información que se suba al sistema de distintas formas. Así por ejemplo si contamos con un catálogo de departamentos  (tabla ctl_depatamento) y dentro de este  catálogo están las columnas población, región  será posible filtrar y desplegar información para cada registro  sobre departamentos sus poblaciones y  la región a la que pertenecen.
 Entre más catálogos se utilicen, habrán mas posibilidades para analizar y presentar los datos. Es responsabilidad del administrador en cada implementación garantizar la gestión de las tablas catálogos.
 
 ##Diccionario de transformación
 En esta opción definiremos el contenedor de Reglas de transformación, debemos especificar el código y la descripción que indique el objetivo del diccionario ya las reglas que contrendrá
 
-![Diccionario de transformación] (images/diccionario_transformacion.png)
+![Diccionario de transformación](images/diccionario_transformacion.png)
 
 ##Regla de transformación
 Una regla de transformación, se utilizará para convertir un valor en otro, esto con el objetivo de que si algunos orígenes de datos se refieren a un mismo campo pero con valores diferente con la transformación de uno de ellos se pueda hacer que estos valores sean iguales en ambos orígenes de datos.
 Por ejemplo, supongamos que tenemos dos origenes de datos que contienen el campo sexo, en un origen se utilizan los valores **Hombre** y **Mujer**; y en el otro origen de datos se utiliza **M** y **F**, para poder procesar estos orígenes de datos en un mismo indicador vamos a crear una regla que transforme **Hombre** a **H**. Por el momento solo se dispone de la regla **Igual**
 
-![Regla de transformación] (images/regla_transformacion.png)
+![Regla de transformación](images/regla_transformacion.png)
 
 
 ##Campo Calculado
 Dentro de un origen de datos podemos agregar un campo que se obtenga a partir de otros campos del mismo origen, esto es útil principalmente para orígenes de datos que son Pivote, para los otros orígenes de datos se recomienda que el campo cálculado se obtenga desde la fuente de datos (hoja de cálculo, base de datos, etc)
 
-![Regla de transformación] (images/campo_calculado.png)
+![Regla de transformación](images/campo_calculado.png)
 
 Al elegir el origen de datos se recuperarán los campos de éste, los cuales podemos utilizar en la fórmula del campo calculado para los cual damos clic sobre el nombre del campo para que sea agregado. Además debemos especificar el significado del campo calculado
 

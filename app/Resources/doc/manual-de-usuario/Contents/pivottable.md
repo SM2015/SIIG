@@ -1,24 +1,14 @@
-# Tabla Pivote #
-La función básica de la tabla pivote es convertir un conjunto de datos en una tabla
-resumen. Se puede manipular la tabla resumen utilizando su interfaz de usuario que permite 
-arrastrar y soltar los campos en la disposición deseada y convirtiéndola en una 
-tabla pivote, muy similar a la que se encuentra en las hojas de cálculo.
-Además se puede utilizar gráficos para representar los datos en la tabla, generando
-un gráfico pivote.
+# Tabla Pivote
+La función básica de la tabla pivote es convertir un conjunto de datos en una tabla resumen. Se puede manipular la tabla resumen utilizando su interfaz de usuario que permite arrastrar y soltar los campos en la disposición deseada y convirtiéndola en una tabla pivote, muy similar a la que se encuentra en las hojas de cálculo.
+Además se puede utilizar gráficos para representar los datos en la tabla, generando un gráfico pivote.
 
 ## Descripción de la interfáz de usuario
-Se dispone de dos secciones principales, una donde se elige el indicador, cuyos
-datos se desean cargar a la tabla pivote, y la sección que nos permitirá ver y
-manipular esta tabla.
+Se dispone de dos secciones principales, una donde se elige el indicador, cuyos datos se desean cargar a la tabla pivote, y la sección que nos permitirá ver y manipular esta tabla.
 La siguiente figura muestra la interfaz inicial de la tabla pivote
 
 ![Tabla pivote](images/pivot_table1.png)
 
-El siguiente punto es arrastrar los atributos deseados y soltarlos en las áreas
-filas y columnas, según se requiera. Por defecto se utiliza una tabla como tipo
-de resultado y contar como función de agregación. Además cada atributo puede ser 
-filtrado a través dando clic en el triángulo al lado del nombre de cada atributo, 
-la interfaz para filtrar será similar a la mostrada a la imagen:
+El siguiente punto es arrastrar los atributos deseados y soltarlos en las áreas filas y columnas, según se requiera. Por defecto se utiliza una tabla como tipo de resultado y contar como función de agregación. Además cada atributo puede ser filtrado a través dando clic en el triángulo al lado del nombre de cada atributo, la interfaz para filtrar será similar a la mostrada a la imagen:
 
 ![Filtro de atributos](images/pivot_table5.png)
 
