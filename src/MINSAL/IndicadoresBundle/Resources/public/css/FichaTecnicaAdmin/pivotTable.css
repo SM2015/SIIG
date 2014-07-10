@@ -106,7 +106,7 @@ div.popover-content, div.popover-title{
 .pvtFilterBox {
     top: 130px !important;
 }
-#myModal2 .modal-dialog{
+#myModal2 .modal-dialog, #fichaTecnica .modal-dialog{
     position: relative;
     background: none ;
     border: none;

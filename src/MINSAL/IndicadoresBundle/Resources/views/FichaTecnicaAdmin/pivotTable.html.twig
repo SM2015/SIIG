@@ -31,6 +31,7 @@
         <div class="content tab-pane" id="tab1" >
             <button id='export' class="btn btn-success" title="{{'_exportar_tabla_datos_'|trans}}"><span class="glyphicon glyphicon-list-alt"></span></button>
             <button id='export_grp' class="btn btn-success" title="{{'_exportar_grafico_'|trans}}"><span class="glyphicon glyphicon-picture"></span> </button>  
+            <button id='ver_ficha' class="btn btn-success" title="{{'ver_ficha_tecnica'|trans}}"><span class="glyphicon glyphicon-briefcase"></span> </button>  
             <div id="output" ></div>
         </div>
         {% include 'IndicadoresBundle:FichaTecnicaAdmin:listado_indicadores.html.twig'%}
@@ -54,5 +55,23 @@
         </div>
     </div>
 </div>
+<div id="fichaTecnica" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="fichaTecnicaTitle" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content span12">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="fichaTecnicaTitle"></h3>
+            </div>
+
+            <div class="modal-body">
+                <span class='info' id='fichaTecnicaContent'></span>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-info" data-dismiss="modal" aria-hidden="true">{{'_cerrar_'|trans}}</button>
+            </div>
+        </div>
+    </div>
+</div>            
 
 {% endblock %}

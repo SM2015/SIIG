@@ -1,4 +1,6 @@
+var idIndicadorActivo;
 google.load("visualization", "1", {packages: ["corechart", "charteditor"]});
+
 $(document).ready(function() {
     $('#myTab a').click(function(e) {
         e.preventDefault();
@@ -21,18 +23,29 @@ $(document).ready(function() {
         $('#myModalLabel2').html(trans.guardar_imagen);
         $('#myModal2').modal('show');
     });
+    
+    $('#ver_ficha').click(function() {
+        if (idIndicadorActivo != null){ 
+            $.get(Routing.generate('get_indicador_ficha',
+                    {id: idIndicadorActivo}),
+                    function(resp) {
+                        resp.replace('span12', 'span10');
+                        $('#fichaTecnicaContent').html(resp);
+                        $('#fichaTecnicaContent').html('<table>' + $('#fichaTecnicaContent table').html() + '</table>');
+                        $('#fichaTecnica').modal('show');
+                    });
+        }
+    });
+    
     $('A.indicador').click(function() {
         var id_indicador = $(this).attr('id');
         var nombre_indicador = $(this).html();
         //var derivers = $.pivotUtilities.derivers;
 
-        delete $.pivotUtilities.renderers['Heatmap'];
-        delete $.pivotUtilities.renderers['Row Heatmap'];
-        delete $.pivotUtilities.renderers['Col Heatmap'];
-
         var renderers = $.extend($.pivotUtilities.renderers,
                 $.pivotUtilities.gchart_renderers);
-
+                
+        
         $.getJSON(Routing.generate('get_datos_indicador', {id: id_indicador}), function(mps) {
             $("#output").pivotUI(mps, {
                 renderers: renderers,
@@ -41,6 +54,7 @@ $(document).ready(function() {
             }, false, 'es');
             $('#marco-sala').attr('data-content', nombre_indicador);
             $('#myTab a:first').tab('show');
+            idIndicadorActivo = id_indicador;
         });
     });
 });
