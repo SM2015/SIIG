@@ -202,7 +202,7 @@ $(document).ready(function() {
 
         $('#sala').html('');
 
-        var filas = Math.ceil(max_id / 3);
+        //var filas = Math.ceil(max_id / 3);
         for (i = 1; i <= max_id; i++) {
             sala_agregar_fila();
         }
@@ -211,7 +211,7 @@ $(document).ready(function() {
             $('DIV.zona_actual').removeClass('zona_actual');
             $('#grafico_' + graficos[i].posicion).addClass('zona_actual');
 
-            recuperarDimensiones(graficos[i].idIndicador, graficos[i]);                        
+            recuperarDimensiones(graficos[i].idIndicador, graficos[i]);                    
         }
         $('#myTab a:first').tab('show');
         $('#listado-salas li').removeClass('active');
@@ -332,8 +332,8 @@ $(document).ready(function() {
         }, 60000);
     }
     
-    $('#getSalaPDF').click(function(){
-       var url = Routing.generate('tablero_sala', {sala: 1,
+    $('#getSalaPDF').click(function(){       
+        var url = Routing.generate('tablero_sala', {sala: 1,
                 _sonata_admin: 'sonata.admin.ficha'});
         $.post(url, function(data) {
                 
