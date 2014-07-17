@@ -99,9 +99,12 @@ class FichaTecnicaAdminController extends Controller
         $html = $this->tableroAction($sala);
         
         
+        $http = ($_SERVER['HTTPS'] == null or $_SERVER['HTTPS'] == 'off') ? 'http' : 'https';
+        
         $html = str_replace(array('href="/bundles', 'src="/bundles', 'src="/app_dev.php'), 
-                array('href="http://siig.localhost/bundles', 'src="http://siig.localhost/bundles',
-                    'src="http://siig.localhost/app_dev.php'), $html);
+                array('href="'.$http.'://'.$_SERVER['HTTP_HOST'].'/bundles', 
+                    'src="'.$http.'://'.$_SERVER['HTTP_HOST'].'/bundles',
+                    'src="'.$http.'://'.$_SERVER['HTTP_HOST'].'/app_dev.php'), $html);
         
         //return new Response($html);
         return new Response(

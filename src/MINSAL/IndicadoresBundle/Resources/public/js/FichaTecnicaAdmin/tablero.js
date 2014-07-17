@@ -129,7 +129,7 @@ $(document).ready(function() {
             zona_elegir(this);
         });
 
-        moverAGraficoActual();
+        if ($('#sala_default').val()==0){  moverAGraficoActual() };
     }
 
     $('#guardar_sala').click(function() {
@@ -203,16 +203,25 @@ $(document).ready(function() {
         $('#sala').html('');
 
         //var filas = Math.ceil(max_id / 3);
-        for (i = 1; i <= max_id; i++) {
+        var num_pag = 1;
+        var num_gra = 0;
+        for (var i = 1; i <= max_id; i++) {
+            num_gra++;
             sala_agregar_fila();
+            if ((num_gra == 12) || (num_gra == 6 && num_pag > 1) ){
+                num_pag++;
+                num_gra = 0;
+                $('#sala').append('<DIV CLASS="salto"></DIV>');
+            }            
         }
-
-        for (i = 0; i < graficos.length; i++) {
+               
+        for (var num_gra = 0; num_gra < graficos.length; num_gra++) {
             $('DIV.zona_actual').removeClass('zona_actual');
-            $('#grafico_' + graficos[i].posicion).addClass('zona_actual');
+            $('#grafico_' + graficos[num_gra].posicion).addClass('zona_actual');
 
-            recuperarDimensiones(graficos[i].idIndicador, graficos[i]);                    
+            recuperarDimensiones(graficos[num_gra].idIndicador, graficos[num_gra]);            
         }
+
         $('#myTab a:first').tab('show');
         $('#listado-salas li').removeClass('active');
         $('li[sala-id="' + $('.marco-sala').attr('id-sala') + '"]').addClass('active');
