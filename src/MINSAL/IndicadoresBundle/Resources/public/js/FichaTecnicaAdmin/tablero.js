@@ -205,14 +205,20 @@ $(document).ready(function() {
         //var filas = Math.ceil(max_id / 3);
         var num_pag = 1;
         var num_gra = 0;
+        var estilo='';
         for (var i = 1; i <= max_id; i++) {
             num_gra++;
             sala_agregar_fila();
-            if ((num_gra == 12) || (num_gra == 6 && num_pag > 1) ){
-                num_pag++;
-                num_gra = 0;
-                $('#sala').append('<DIV CLASS="salto"></DIV>');
-            }            
+            if ($('#sala_default').val()!=0){
+                if ((num_gra == 12) || (num_gra == 6 && num_pag > 1) ){
+                    num_pag++;
+                    num_gra = 0;
+                    estilo = (num_pag > 1) ? 'salto2': 'salto';                  
+
+                    $('#sala').append('<DIV CLASS="'+estilo+'"></DIV>');
+
+                }
+            }
         }
                
         for (var num_gra = 0; num_gra < graficos.length; num_gra++) {
