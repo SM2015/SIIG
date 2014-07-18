@@ -112,8 +112,8 @@ $(document).ready(function() {
         $('.zona_actual').removeClass('zona_actual');
 
         var html = '<div class="area_grafico zona_actual" id="grafico_' + parseInt(cant + 1) + '" >' +
-                "<DIV class= 'titulo'><span class='titulo_indicador '></span>" +
-                "<span>(" + trans.por + " <span class='dimension' ></span>)</span>" +
+                "<DIV class= 'titulo'><h5><span class='titulo_indicador '></span>" +
+                "<span>(" + trans.por + " <span class='dimension' ></span>)</span></h5>" +
                 '</DIV>' +
                 '<h6 class="filtros_dimensiones"></h6>' +
                 '<div class="controles btn-toolbar"></div>' +
@@ -216,7 +216,6 @@ $(document).ready(function() {
                     estilo = (num_pag > 1) ? 'salto2': 'salto';                  
 
                     $('#sala').append('<DIV CLASS="'+estilo+'"></DIV>');
-
                 }
             }
         }
@@ -227,7 +226,7 @@ $(document).ready(function() {
 
             recuperarDimensiones(graficos[num_gra].idIndicador, graficos[num_gra]);            
         }
-
+        
         $('#myTab a:first').tab('show');
         $('#listado-salas li').removeClass('active');
         $('li[sala-id="' + $('.marco-sala').attr('id-sala') + '"]').addClass('active');
@@ -237,6 +236,8 @@ $(document).ready(function() {
             cargarUsuarios();
             cargarImagenes();
             cargarAcciones();
+        } else {
+            $('.area_grafico').css('height', '290');
         }
     }
 

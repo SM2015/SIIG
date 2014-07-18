@@ -92,8 +92,9 @@ function ascenderNivelDimension(zona, nivel) {
             nuevo_filtro[i] = obj;
             if (i == nivel)
                 ruta += obj.etiqueta + ': ' + obj.valor;
-            else
+            else{                
                 ruta += '<A data="' + i + '">' + obj.etiqueta + ': ' + obj.valor + '</A> / ';
+            }
         }
         else {
             // Los que estén a la derecha del seleccionado deben volver al control de dimensiones                        
