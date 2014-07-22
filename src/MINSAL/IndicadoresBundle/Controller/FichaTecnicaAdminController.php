@@ -97,7 +97,8 @@ class FichaTecnicaAdminController extends Controller
      */
     public function tableroSalaAction($sala){
         $html = $this->tableroAction($sala);
-        
+        $html = preg_replace("/HTTP.+/","",$html);
+        $html = preg_replace("/Cache.+/","",$html);        
         
         $http = ($_SERVER['HTTPS'] == null or $_SERVER['HTTPS'] == 'off') ? 'http' : 'https';
         
@@ -106,7 +107,7 @@ class FichaTecnicaAdminController extends Controller
                     'src="'.$http.'://'.$_SERVER['HTTP_HOST'].'/bundles',
                     'src="'.$http.'://'.$_SERVER['HTTP_HOST'].'/app_dev.php'), $html);
         
-        return new Response($html);
+        //return new Response($html);
         return new Response(
             $this->get('knp_snappy.pdf')->getOutputFromHtml($html), 200, array(
                 'Content-Type' => 'application/pdf',
