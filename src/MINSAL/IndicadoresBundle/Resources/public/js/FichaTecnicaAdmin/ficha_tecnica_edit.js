@@ -1,3 +1,6 @@
+window.SONATA_CONFIG = {
+    USE_ICHECK: false
+};
 $(document).ready(function() {
     // id que se está usando para los nombres de los formularios (es aleatorio)
     var $campos = $('textarea[id$="_camposIndicador"]');
