@@ -18,7 +18,7 @@ class GrupoIndicadoresRepository extends EntityRepository
 
         $dql = "SELECT i.filtro, i.dimension, i.posicion, i.tipoGrafico, i.orden,
                     f.id as idIndicador, i.filtroPosicionDesde, i.filtroPosicionHasta,
-                    i.filtroElementos
+                    i.filtroElementos, i.vista
                     FROM IndicadoresBundle:GrupoIndicadoresIndicador i
                     JOIN i.indicador f
                     WHERE

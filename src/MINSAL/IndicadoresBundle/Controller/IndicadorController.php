@@ -268,6 +268,11 @@ class IndicadorController extends Controller {
                     if (property_exists($grafico, 'orden')) {
                         $indG->setOrden($grafico->orden);
                     }
+                    if (property_exists($grafico, 'vista')) {
+                        $indG->setVista($grafico->vista);
+                    } else {
+                        $indG->setVista('grafico');
+                    }
                     $indG->setTipoGrafico($grafico->tipo_grafico);
                     $indG->setGrupo($grupoIndicadores);
 

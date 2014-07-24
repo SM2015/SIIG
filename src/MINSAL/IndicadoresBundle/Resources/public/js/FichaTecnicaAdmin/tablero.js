@@ -158,6 +158,10 @@ $(document).ready(function() {
                 datos.dimension = $('#' + $(this).attr('id') + ' .dimensiones').val();
                 datos.tipo_grafico = $('#' + $(this).attr('id') + ' .tipo_grafico_principal').val();
                 datos.orden = $(this).attr('orden');
+                if ($(this).find('.titulo_indicador').attr('vista') != null)
+                    datos.vista = $(this).find('.titulo_indicador').attr('vista');
+                else 
+                    datos.vista = 'grafico';
                 datos.posicion = posicion;
                 arreglo_indicadores[i] = datos;
                 i++;
@@ -224,7 +228,7 @@ $(document).ready(function() {
             $('DIV.zona_actual').removeClass('zona_actual');
             $('#grafico_' + graficos[num_gra].posicion).addClass('zona_actual');
 
-            recuperarDimensiones(graficos[num_gra].idIndicador, graficos[num_gra]);            
+            recuperarDimensiones(graficos[num_gra].idIndicador, graficos[num_gra]);
         }
         
         $('#myTab a:first').tab('show');

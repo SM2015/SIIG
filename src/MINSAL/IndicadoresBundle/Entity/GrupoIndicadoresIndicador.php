@@ -83,6 +83,13 @@ class GrupoIndicadoresIndicador
      * @ORM\Column(name="tipo_grafico", type="string", length=50, nullable=false)
      */
     private $tipoGrafico;
+    
+    /**
+     * @var string $vista
+     *
+     * @ORM\Column(name="vista", type="string", length=20, nullable=true)
+     */
+    private $vista;
 
     /**
      * @var string $orden
@@ -329,5 +336,28 @@ class GrupoIndicadoresIndicador
     public function getFiltroElementos()
     {
         return $this->filtroElementos;
+    }
+
+    /**
+     * Set vista
+     *
+     * @param string $vista
+     * @return GrupoIndicadoresIndicador
+     */
+    public function setVista($vista)
+    {
+        $this->vista = $vista;
+
+        return $this;
+    }
+
+    /**
+     * Get vista
+     *
+     * @return string 
+     */
+    public function getVista()
+    {
+        return $this->vista;
     }
 }
