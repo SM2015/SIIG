@@ -302,7 +302,7 @@ function cerrarMenus() {
 }
 
 function construir_tabla_datos(zona, datos) {
-    var tabla_datos = '<TABLE class="table" >';
+    var tabla_datos = '<TABLE class="table table-striped table-condensed" >';
     $.each(datos, function(i, fila) {
         if (i === 0) {
             // Los nombres de los campos

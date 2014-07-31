@@ -355,3 +355,5 @@ security.login.password: Password
 _exportar_tabla_datos_: Export data table
 _exportar_grafico_: Export graph
 _reporte_sala_: Room Report
+_reporte_: Report
+_mostrar_reporte_: Show Report

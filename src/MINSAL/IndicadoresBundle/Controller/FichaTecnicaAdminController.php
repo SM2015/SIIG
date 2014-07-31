@@ -96,7 +96,34 @@ class FichaTecnicaAdminController extends Controller
      * @Route("/tablero/sala/{sala}", name="tablero_sala", options={"expose"=true})
      */
     public function tableroSalaAction($sala){
-        $html = $this->tableroAction($sala);
+        $req = $this->getRequest();
+        $em = $this->getDoctrine()->getManager();
+        
+        $info_indicador = '';
+        if ( $req->get('indicador') != null){
+            //Se está cargando el reporte de la sala como reporte asociado
+            //a un indicadores, recuperar el indicador para mostrar 
+            //información adicional
+            
+            $id = $req->get('indicador');
+            $indicador = $em->find('IndicadoresBundle:FichaTecnica', $id);
+            $info_indicador .= '<BR/></BR/>'
+                    . '<DIV class="panel panel-info " >'
+                        . '<div class="panel-heading">Interpretación</div>'
+                        . '<div class="panel-body">' . $indicador->getTema() . '</DIV>'
+                    . '</DIV>'
+                    . '<DIV class="panel panel-info " >'
+                        . '<div class="panel-heading">Concepto</div>'
+                        . '<div class="panel-body">' . $indicador->getConcepto() . '</DIV>'
+                    . '</DIV>'
+                    . '<DIV class="panel panel-info " >'
+                        . '<div class="panel-heading">Observaciones</div>'
+                        . '<div class="panel-body">' . $indicador->getObservacion() . '</DIV>'
+                    . '</div>'
+                    ;
+        }
+        
+        $html = $this->tableroAction($sala);        
         $html = preg_replace("/HTTP.+/","",$html);
         $html = preg_replace("/Cache.+/","",$html);        
         
@@ -106,12 +133,12 @@ class FichaTecnicaAdminController extends Controller
                 array('href="'.$http.'://'.$_SERVER['HTTP_HOST'].'/bundles', 
                     'src="'.$http.'://'.$_SERVER['HTTP_HOST'].'/bundles',
                     'src="'.$http.'://'.$_SERVER['HTTP_HOST'].'/app_dev.php'), $html);
-        
+        $html .= $info_indicador;
         //return new Response($html);
         return new Response(
             $this->get('knp_snappy.pdf')->getOutputFromHtml($html), 200, array(
                 'Content-Type' => 'application/pdf',
-                'Content-Disposition' => 'attachment; filename="file.pdf"'
+                'Content-Disposition' => 'attachment; filename="reporte.pdf"'
                 )
         );
         

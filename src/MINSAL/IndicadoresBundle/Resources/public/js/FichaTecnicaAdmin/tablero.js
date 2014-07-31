@@ -44,12 +44,12 @@ $(document).ready(function() {
         //Mostar solo la sala, quitar los demás controles
         $('#user-menu').remove();
         $('#menu_principal').remove();
-                
+
         var sala_default = $('#sala_default').val();
-        cargarSala($('A[sala-id='+sala_default+']'));
+        cargarSala($('A[sala-id=' + sala_default + ']'));
         $('DIV.controles').hide();
     }
-    
+
     if ($('#ocultar_menu_principal').val() == 1) {
         $('#collapseOne').toggle();
     }
@@ -129,7 +129,9 @@ $(document).ready(function() {
             zona_elegir(this);
         });
 
-        if ($('#sala_default').val()==0){  moverAGraficoActual() };
+        if ($('#sala_default').val() == 0) {
+            moverAGraficoActual()
+        }        
     }
 
     $('#guardar_sala').click(function() {
@@ -160,7 +162,7 @@ $(document).ready(function() {
                 datos.orden = $(this).attr('orden');
                 if ($(this).find('.titulo_indicador').attr('vista') != null)
                     datos.vista = $(this).find('.titulo_indicador').attr('vista');
-                else 
+                else
                     datos.vista = 'grafico';
                 datos.posicion = posicion;
                 arreglo_indicadores[i] = datos;
@@ -172,8 +174,8 @@ $(document).ready(function() {
         datos_sala.nombre = $('#nombre_sala').val();
         datos_sala.id = $('#nombre_sala').attr('id-sala');
         datos_sala.datos_indicadores = arreglo_indicadores;
-
-        $.getJSON(Routing.generate('sala_guardar'), {datos: JSON.stringify(datos_sala)},
+        
+        $.post(Routing.generate('sala_guardar'), {datos: JSON.stringify(datos_sala)},
         function(resp) {
             if (resp.estado === 'ok') {
                 $('#nombre_sala').attr('id-sala', resp.id_sala);
@@ -184,14 +186,14 @@ $(document).ready(function() {
                 $('#info_sala').html('_error_guardar_sala_').addClass('error');
             }
 
-        });
+        }, 'json');
     });
-    
+
     $('.salas-id').click(function() {
         cargarSala(this);
     });
-    
-    function cargarSala(obj){
+
+    function cargarSala(obj) {
         $('.marco-sala').attr('id-sala', $(obj).attr('sala-id'));
         $('.marco-sala').attr('data-content', trans._nombre_sala_ + ': ' + $(obj).attr('sala-nombre'));
         $('#nombre_sala').attr('id-sala', $(obj).attr('sala-id'));
@@ -209,33 +211,33 @@ $(document).ready(function() {
         //var filas = Math.ceil(max_id / 3);
         var num_pag = 1;
         var num_gra = 0;
-        var estilo='';
+        var estilo = '';
         for (var i = 1; i <= max_id; i++) {
             num_gra++;
             sala_agregar_fila();
-            if ($('#sala_default').val()!=0){
-                if ((num_gra == 12) || (num_gra == 6 && num_pag > 1) ){
+            if ($('#sala_default').val() != 0) {
+                if ((num_gra == 12) || (num_gra == 6 && num_pag > 1)) {
                     num_pag++;
                     num_gra = 0;
-                    estilo = (num_pag > 1) ? 'salto2': 'salto';                  
+                    estilo = (num_pag > 1) ? 'salto2' : 'salto';
 
-                    $('#sala').append('<DIV CLASS="'+estilo+'"></DIV>');
+                    $('#sala').append('<DIV CLASS="' + estilo + '"></DIV>');
                 }
             }
         }
-               
+
         for (var num_gra = 0; num_gra < graficos.length; num_gra++) {
             $('DIV.zona_actual').removeClass('zona_actual');
             $('#grafico_' + graficos[num_gra].posicion).addClass('zona_actual');
 
             recuperarDimensiones(graficos[num_gra].idIndicador, graficos[num_gra]);
         }
-        
+
         $('#myTab a:first').tab('show');
         $('#listado-salas li').removeClass('active');
         $('li[sala-id="' + $('.marco-sala').attr('id-sala') + '"]').addClass('active');
 
-        if ($('#sala_default').val()==0){
+        if ($('#sala_default').val() == 0) {
             cargarMensajes();
             cargarUsuarios();
             cargarImagenes();
@@ -290,7 +292,7 @@ $(document).ready(function() {
             var url = Routing.generate('sala_acciones_custom_list', {id: $('.marco-sala').attr('id-sala'),
                 _sonata_admin: 'sonata.admin.sala_acciones'});
             var sala = $('.marco-sala').attr('data-content').split(': ');
-            
+
             $('#acciones_sala').load(url,
                     function(response, status, xhr) {
                         $('#acciones_sala table').dataTable({
@@ -325,18 +327,18 @@ $(document).ready(function() {
         if ($('.marco-sala').attr('id-sala')) {
             $('#usuarios_sala').load(
                     Routing.generate('sala_get_usuarios', {idSala: $('.marco-sala').attr('id-sala')}),
-            function(response, status, xhr) {
-                $('.usuariosSala').change(function() {
-                    var accion = ($(this).is(':checked')) ? 'agregar' : 'borrar';
-                    $.get(Routing.generate('sala_set_usuario',
-                            {id: $('.marco-sala').attr('id-sala'), id_usuario: $(this).val(), accion: accion}
-                    ));
-                });
-            });
+                    function(response, status, xhr) {
+                        $('.usuariosSala').change(function() {
+                            var accion = ($(this).is(':checked')) ? 'agregar' : 'borrar';
+                            $.get(Routing.generate('sala_set_usuario',
+                                    {id: $('.marco-sala').attr('id-sala'), id_usuario: $(this).val(), accion: accion}
+                            ));
+                        });
+                    });
         }
     }
 
-    if ($('#sala_default').val()==0){
+    if ($('#sala_default').val() == 0) {
         // Le indicamos cargar los mensajes cada minuto
         setInterval(function() {
             if ($('.marco-sala').attr('id-sala')) {
@@ -351,13 +353,4 @@ $(document).ready(function() {
             }
         }, 60000);
     }
-    
-    $('#getSalaPDF').click(function(){       
-        var url = Routing.generate('tablero_sala', {sala: 1,
-                _sonata_admin: 'sonata.admin.ficha'});
-        $.post(url, function(data) {
-                
-            });
-    });
-
 });

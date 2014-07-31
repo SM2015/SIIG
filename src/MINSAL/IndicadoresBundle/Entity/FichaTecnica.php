@@ -126,6 +126,16 @@ class FichaTecnica
      * @ORM\OrderBy({"descripcion" = "ASC"})
      **/
     private $periodo;
+    
+    /**
+     *
+     * @var periodo
+     *
+     * @ORM\ManyToOne(targetEntity="GrupoIndicadores")
+     * @ORM\JoinColumn(name="id_sala_reporte", referencedColumnName="id")
+     * @ORM\OrderBy({"descripcion" = "ASC"})
+     **/
+    private $reporte;
 
     /**
     * @var \Doctrine\Common\Collections\ArrayCollection
@@ -846,5 +856,28 @@ class FichaTecnica
     public function getAgencia()
     {
         return $this->agencia;
+    }
+
+    /**
+     * Set reporte
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\GrupoIndicadores $reporte
+     * @return FichaTecnica
+     */
+    public function setReporte(\MINSAL\IndicadoresBundle\Entity\GrupoIndicadores $reporte = null)
+    {
+        $this->reporte = $reporte;
+
+        return $this;
+    }
+
+    /**
+     * Get reporte
+     *
+     * @return \MINSAL\IndicadoresBundle\Entity\GrupoIndicadores 
+     */
+    public function getReporte()
+    {
+        return $this->reporte;
     }
 }
