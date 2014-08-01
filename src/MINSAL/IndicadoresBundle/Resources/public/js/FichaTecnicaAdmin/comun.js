@@ -56,7 +56,7 @@ function aplicarFormato() {
             .attr('font-size', '9pt');
     d3.selectAll(".background").attr('fill', 'none');
 
-    d3.selectAll(".x g text").attr("transform", "rotate(45)").attr('x', 7).attr('y', 10).attr('text-anchor', 'start');
+    d3.selectAll(".x g text").attr("transform", "rotate(45)").attr('x', 43).attr('y', 8).attr('text-anchor', 'start');
 }
 function crearGraficoObj(zona, tipo) {
     var grafico;

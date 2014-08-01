@@ -19,7 +19,10 @@
         }
         .marco-sala:after {
             font-size: {{confTablero.titulo_sala_tamanio_fuente}}pt;
-        }        
+        }
+        .table {
+            font-size: 9pt;
+        }
     </style>    
     <div id='nombre_sala2' ></div>
     <div class="tab-content">        
@@ -91,7 +94,7 @@
                     <div class="panel-heading">
                         <h4 class="panel-title">
                           <a data-toggle="collapse" data-parent="#accordion1" href="#collapse3">
-                            {{'_salas_'|trans}}
+                            {{'_salas_'|trans}} <span class="badge" >{{salas|length}}</span>
                           </a>
                         </h4>
                     </div>                                        
