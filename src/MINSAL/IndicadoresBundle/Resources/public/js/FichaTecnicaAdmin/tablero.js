@@ -8,32 +8,32 @@ var oLanguage = {
     "sInfoFiltered": trans.filtrados_de
 };
 $(document).ready(function() {
-    // *****************
-    //Con esto se verifica el comportamiento del area de gráfico
-    //Si se despliega algún menú dentro del gráfico se modifica un atributo
-    //ccs para que se muestre correctamente se regresa a su modo normal cuando el menú se cierra
-    //para esto fue necesario reescribir unos métodos de jQuery
-    (function() {
-        var methods = ["addClass", "toggleClass", "removeClass"]; //métodos a sobreescribir
-        $.map(methods, function(method) {
-            var originalMethod = $.fn[ method ];
-            $.fn[ method ] = function() {
-                var result = originalMethod.apply(this, arguments); // Execute the original method.                
-                myfunction(this); // call your function                
-                return result; // return the original result
-            };
-        });
-    })();
+        // *****************
+        //Con esto se verifica el comportamiento del area de gráfico
+        //Si se despliega algún menú dentro del gráfico se modifica un atributo
+        //ccs para que se muestre correctamente se regresa a su modo normal cuando el menú se cierra
+        //para esto fue necesario reescribir unos métodos de jQuery
+        (function() {
+            var methods = ["addClass", "toggleClass", "removeClass"]; //métodos a sobreescribir
+            $.map(methods, function(method) {
+                var originalMethod = $.fn[ method ];
+                $.fn[ method ] = function() {
+                    var result = originalMethod.apply(this, arguments); // Execute the original method.                
+                    myfunction(this); // call your function                
+                    return result; // return the original result
+                };
+            });
+        })();
 
-    function myfunction(obj) {
-        if ($(obj).hasClass('sobre_div'))
-            if ($(obj).hasClass('open'))
-                $('.zona_actual').css('overflow-y', 'visible');
-            else
-                $('.area_grafico').filter(function() {
-                    return $(this).css('overflow-y') === 'visible';
-                }).css('overflow-y', 'auto');
-    }
+        function myfunction(obj) {
+            if ($(obj).hasClass('sobre_div'))
+                if ($(obj).hasClass('open'))
+                    $('.zona_actual').css('overflow-y', 'visible');
+                else
+                    $('.area_grafico').filter(function() {
+                        return $(this).css('overflow-y') === 'visible';
+                    }).css('overflow-y', 'auto');
+        }
     // *****************
     $('#myTab a').click(function(e) {
         e.preventDefault();
@@ -66,11 +66,14 @@ $(document).ready(function() {
             $('#div_carga').hide();
         });
     }
-    ajax_states();
-    $("#sala").sortable({
-        handle: '.titulo',
-    });
-    $("#sala").disableSelection();
+    
+    if ($('#sala_default').val() == 0) {
+        ajax_states();
+        $("#sala").sortable({
+            handle: '.titulo',
+        });
+        $("#sala").disableSelection();
+    }
 
     $('A.indicador').click(function() {
         if ($('DIV.zona_actual').attr('id') !== undefined) {
