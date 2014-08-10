@@ -47,7 +47,9 @@
                 
         "suncat/mobile-detect-bundle": "0.9.*",
         "jms/serializer-bundle": "v0.13.0",
-        "friendsofsymfony/rest-bundle": "1.1.0"
+        "friendsofsymfony/rest-bundle": "1.1.0",
+        "snc/redis-bundle": "1.1.x-dev",
+        "predis/predis": "0.8.x-dev"
     },
     "scripts": {
         "post-install-cmd": [
