@@ -31,7 +31,7 @@ class IndicadorController extends Controller {
     public function getDimensionesAction(FichaTecnica $fichaTec) {
         $resp = array();
         $em = $this->getDoctrine()->getManager();
-
+        
         if ($fichaTec) {
             $resp['nombre_indicador'] = $fichaTec->getNombre();
             $resp['id_indicador'] = $fichaTec->getId();
@@ -85,7 +85,7 @@ class IndicadorController extends Controller {
             $resp['resultado'] = 'ok';
         } else {
             $resp['resultado'] = 'error';
-        }
+        }        
         $response = new Response(json_encode($resp));
         if ($this->get('kernel')->getEnvironment() != 'dev') {
             $response->setMaxAge($this->container->getParameter('indicador_cache_consulta'));
