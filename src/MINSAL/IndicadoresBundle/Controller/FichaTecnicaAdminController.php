@@ -113,6 +113,10 @@ class FichaTecnicaAdminController extends Controller {
                     $ult_fecha = $indicador->getUltimaLectura();
                 }
             }
+            //Comparar con la fecha de actualización de la sala
+            $ult_fecha = ($ult_fecha > $salaObj->getUpdatedAt()) ? $ult_fecha : $salaObj->getUpdatedAt();
+            
+            //Recuperar la última fecha en que se construyó el informe
             $st = $redis->get('sala_time_' . $sala);
             $dt = new \DateTime($st);
             $recalcular = ($ult_fecha > $dt) ? true : false;

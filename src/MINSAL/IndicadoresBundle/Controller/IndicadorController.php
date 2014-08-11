@@ -252,6 +252,8 @@ class IndicadorController extends Controller {
             }
 
             $grupoIndicadores->setNombre($sala->nombre);
+            $ahora = new \DateTime('NOW');
+            $grupoIndicadores->setUpdatedAt($ahora);
 
             foreach ($sala->datos_indicadores as $grafico) {
                 if (!empty($grafico->id_indicador)) {
