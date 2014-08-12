@@ -100,9 +100,10 @@ class FichaTecnicaAdminController extends Controller {
         $redis = $this->container->get('snc_redis.default');
 
         $recalcular = true;
-
+        $tipo_reporte = ($request->get('indicador') != null) ? 'indicador': 'sala';
+        
         //Verificar si existe la información de la sala almacenada en caché
-        if ($redis->get('sala_time_' . $sala) != null) {
+        if ($redis->get('sala_time_'.$tipo_reporte.'_' . $sala) != null) {
             //Verificar la fecha de la última actualización
             $ult_fecha = new \DateTime("2000-07-08 11:14:15.638276");
             $salaObj = $em->getRepository("IndicadoresBundle:GrupoIndicadores")->find($sala);
@@ -117,11 +118,12 @@ class FichaTecnicaAdminController extends Controller {
             $ult_fecha = ($ult_fecha > $salaObj->getUpdatedAt()) ? $ult_fecha : $salaObj->getUpdatedAt();
             
             //Recuperar la última fecha en que se construyó el informe
-            $st = $redis->get('sala_time_' . $sala);
-            $dt = new \DateTime($st);
+            $st = $redis->get('sala_time_'. $tipo_reporte.'_'. $sala);
+            $dt = new \DateTime();
+            $dt->setTimestamp($st);
             $recalcular = ($ult_fecha > $dt) ? true : false;
         }
-
+        $recalcular=true;        
         if ($recalcular) {
             $html = $this->tableroAction($sala);
             $info_indicador = '';
@@ -145,8 +147,9 @@ class FichaTecnicaAdminController extends Controller {
                 ;
             }
 
-            $html = preg_replace("/HTTP.+/", "", $html);
+            $html = preg_replace("/HTTP.+/", "", $html);            
             $html = preg_replace("/Cache.+/", "", $html);
+            $html = preg_replace("/Date.+/", "", $html);
 
             $http = 'http';
             if (array_key_exists('HTTPS', $_SERVER)) {
@@ -160,7 +163,8 @@ class FichaTecnicaAdminController extends Controller {
             $html = $this->get('knp_snappy.pdf')->getOutputFromHtml($html);
 
             $redis->set('sala_' . $sala, $html);
-            $redis->set('sala_time_' . $sala, time());
+            $redis->set('sala_'. $tipo_reporte.'_'. $sala, $html);
+            $redis->set('sala_time_' .$tipo_reporte.'_'. $sala, time());
         } else {
             $html = $redis->get('sala_' . $sala);
         }
