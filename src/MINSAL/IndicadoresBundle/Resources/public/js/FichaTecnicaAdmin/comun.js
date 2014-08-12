@@ -380,7 +380,7 @@ function dibujarControles(zona, datos) {
             '<ul class="dropdown-menu" role="menu" >' +
             '<li><A class="ver_ficha_tecnica">' +
             '<span class="glyphicon glyphicon-briefcase"></span> ' + trans.ver_ficha_tecnica + '</A></li>' +
-            '<li><A class="cambiar_vista" ><span class="glyphicon glyphicon-list-alt" ></span> ' + trans._cambiar_vista_ + ' </A></li>' +
+            '<li><A class="cambiar_vista" ><span class="glyphicon glyphicon-refresh" ></span> ' + trans._cambiar_vista_ + ' </A></li>' +
             '<li><A class="ver_tabla_datos" ><span class="glyphicon glyphicon-list-alt" ></span> ' + trans.tabla_datos + ' </A></li>' +
             '<li><A class="ver_sql" ><span class="glyphicon glyphicon-eye-open" ></span> ' + trans.ver_sql + ' </A></li>' +
             '<li><A class="ver_imagen" ><span class="glyphicon glyphicon-picture"></span> ' + trans.descargar_grafico + '</A></li>' +
