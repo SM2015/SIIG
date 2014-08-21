@@ -12,6 +12,7 @@ class FichaTecnicaRepository extends EntityRepository {
         $ahora = new \DateTime('NOW');
         $util = new \MINSAL\IndicadoresBundle\Util\Util();
         $nombre_indicador = $util->slug($fichaTecnica->getNombre());
+        $formula = strtoupper($fichaTecnica->getFormula());
 
         //Verificar si existe la tabla
         $existe = true;
@@ -21,10 +22,10 @@ class FichaTecnicaRepository extends EntityRepository {
         } catch (\Doctrine\DBAL\DBALException $e) {
             $existe = false;
         }
-        if ($fichaTecnica->getUpdatedAt() != '' and $fichaTecnica->getUltimaLectura() != '' and $existe == true and $acumulado == false) {
+        /*if ($fichaTecnica->getUpdatedAt() != '' and $fichaTecnica->getUltimaLectura() != '' and $existe == true and $acumulado == false) {
             if ($fichaTecnica->getUltimaLectura() < $fichaTecnica->getUpdatedAt())
                 return true;
-        }
+        }*/
 
         $campos = str_replace("'", '', $fichaTecnica->getCamposIndicador());
 
@@ -135,11 +136,17 @@ class FichaTecnicaRepository extends EntityRepository {
                 $campos_calculados = '';
             //Obtener solo los datos que se pueden procesar en el indicador
             $sql .= "DROP TABLE IF EXISTS $tabla" . "_var; ";
-            $sql .= "SELECT  $campos, SUM(calculo::numeric) AS  $tabla $campos_calculados
-                INTO TEMP  $tabla" . "_var
+            //Obtener el operador de la variable
+            $oper_ = explode('{'.$variable->getIniciales().'}', str_replace(' ', '', $formula));
+            $tieneOperadores = preg_match('/([A-Z]+)\($/', $oper_[0], $coincidencias, PREG_OFFSET_CAPTURE);
+            
+            $oper = ($tieneOperadores) ? $coincidencias[1][0] : 'SUM';
+            
+            $sql .= "SELECT  $campos, $oper(calculo::numeric) AS  $tabla $campos_calculados
+                INTO  TEMP $tabla" . "_var
                 FROM $tabla
                 GROUP BY $campos $campos_calculados_nombre
-                HAVING  SUM(calculo::numeric) > 0
+                HAVING  $oper(calculo::numeric) > 0
                     ;";
 
             //aplicar transformaciones si las hubieran
@@ -304,12 +311,13 @@ class FichaTecnicaRepository extends EntityRepository {
         $variables = array();
         $formula = strtolower($fichaTecnica->getFormula());
         preg_match_all('/\{[a-z0-9\_]{1,}\}/', strtolower($formula), $vars, PREG_SET_ORDER);
-        if (strripos($formula, 'avg') !== false) {
-            $oper = 'AVG';
-        } else {
-            $oper = 'SUM';
-        }
+        
         foreach ($vars as $var) {
+            $oper_ = explode($var[0], $formula);
+            $tieneOperadores = preg_match('/([A-Z]+)\($/', $oper_[0], $coincidencias, PREG_OFFSET_CAPTURE);
+            
+            $oper = ($tieneOperadores) ? $coincidencias[1][0] : 'SUM';
+            
             $v = str_replace(array('{', '}'), array('', ''), $var[0]);
             $variables[] = $oper.'('.$v . ') AS __' . $v . '__';
         }
@@ -334,21 +342,26 @@ class FichaTecnicaRepository extends EntityRepository {
     public function calcularIndicador(FichaTecnica $fichaTecnica, $dimension, $filtro_registros = null, $ver_sql = false) {
         $util = new \MINSAL\IndicadoresBundle\Util\Util();
         $acumulado = $fichaTecnica->getEsAcumulado();
-        $formula = strtolower($fichaTecnica->getFormula());
+        $formula = str_replace(' ', '',strtolower($fichaTecnica->getFormula()));
 
         //Recuperar las variables
         $variables = array();
         preg_match_all('/\{[a-z0-9\_]{1,}\}/', strtolower($formula), $variables, PREG_SET_ORDER);
 
-        $oper = 'SUM';
+        /*$oper = 'SUM';
         if ($acumulado) {
             $formula = str_replace(array('{', '}'), array('MAX(', ')'), $formula);
             $oper = 'MAX';
-        } if (strripos($formula, 'avg') !== false) {
-            $formula = str_replace(array('{', '}'), array('(', ')'), $formula);
-            $oper = 'AVG';
-        } else
-            $formula = str_replace(array('{', '}'), array('SUM(', ')'), $formula);
+        }
+        //Si no existe ningún función de agregación se utilizará SUM por defecto
+        /*else{
+            str_replace(array('avg(', 'max(', 'sum(', 'min(', 'count('), array(''), $formula, $count);
+            if($count == 0){
+                $formula = str_replace(array('{', '}'), array('SUM(', ')'), $formula);
+            } else {
+                $formula = str_replace(array('{', '}'), array('(', ')'), $formula);
+            }
+        }*/
 
         $denominador = explode('/', $fichaTecnica->getFormula());
         $evitar_div_0 = '';
@@ -363,7 +376,15 @@ class FichaTecnicaRepository extends EntityRepository {
         // Formar la cadena con las variables para ponerlas en la consulta
         $variables_query = '';
         foreach ($variables as $var) {
+            $oper_ = explode($var[0], $formula);
+            $tieneOperadores = preg_match('/([A-Za-z]+)\($/', $oper_[0], $coincidencias, PREG_OFFSET_CAPTURE);
+            
+            $oper = ($tieneOperadores) ? $coincidencias[1][0] : 'SUM';
+            
             $v = str_replace(array('{', '}'), array('', ''), $var[0]);
+            
+            $formula = str_replace($var[0], (($oper=='SUM')?$oper:'').str_replace(array('{','}'), array('(', ')'),$var[0]), $formula);
+            
             $variables_query .= " $oper($v) as $v, ";
         }
         $variables_query = trim($variables_query, ', ');

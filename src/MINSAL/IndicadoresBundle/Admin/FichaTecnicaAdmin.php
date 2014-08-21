@@ -203,7 +203,12 @@ class FichaTecnicaAdmin extends Admin
 
             // ******** Verificar si matematicamente la fórmula es correcta
             // 1) Sustituir las variables por valores aleatorios entre 1 y 100
-            $formula_check = $formula;
+            // Quitar las palabras permitidas
+            $formula_check = str_replace(
+                    array('AVG', 'MAX', 'MIN', 'SUM', 'COUNT'), 
+                    array('', '', '', '', ''), 
+                    strtoupper($object->getFormula())
+                    );
             $formula_valida = true;
             $result = '';
             foreach ($vars_formula[0] as $var) {
