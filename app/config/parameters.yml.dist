@@ -17,7 +17,7 @@ parameters:
     #Configuración de la sala
     graficos_por_fila: 3
     ancho_area_grafico: 370
-    alto_area_grafico: 370
+    alto_area_grafico: 400
     titulo_sala_tamanio_fuente: 12
     ocultar_menu_principal: 0
     

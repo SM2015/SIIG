@@ -38,7 +38,7 @@ $(document).ready(function() {
     $('#myTab a').click(function(e) {
         e.preventDefault();
         $(this).tab('show');
-    });
+    });       
 
     if ($('#sala_default').val() != 0) {
         //Mostar solo la sala, quitar los demás controles
@@ -48,6 +48,9 @@ $(document).ready(function() {
         var sala_default = $('#sala_default').val();
         cargarSala($('A[sala-id=' + sala_default + ']'));
         $('DIV.controles').hide();
+    }else {        
+        //Activar los filtros de búsqueda
+        $("#FiltroNoClasificados").searchFilter({ targetSelector: ".indicador", charCount: 2});
     }
 
     if ($('#ocultar_menu_principal').val() == 1) {
@@ -75,13 +78,10 @@ $(document).ready(function() {
         $("#sala").disableSelection();
     }
 
-    $('A.indicador').click(function() {
-        if ($('DIV.zona_actual').attr('id') !== undefined) {
-            dibujarIndicador($(this).attr('data-id'));
-            moverAGraficoActual();
-        } else {
-            alert(trans._no_areas_grafico_);
-        }
+    $('A.indicador').click(function() {        
+        sala_agregar_fila();        
+        dibujarIndicador($(this).attr('data-id'));
+        moverAGraficoActual();
     });
 
     function dibujarIndicador(id_indicador) {
@@ -114,15 +114,17 @@ $(document).ready(function() {
         var cant = $('DIV.area_grafico').length;
         $('.zona_actual').removeClass('zona_actual');
 
-        var html = '<div class="area_grafico zona_actual" id="grafico_' + parseInt(cant + 1) + '" >' +
-                "<DIV class= 'titulo'><h5><span class='titulo_indicador '></span>" +
+        var html = '<div class="area_grafico zona_actual panel panel-success" id="grafico_' + parseInt(cant + 1) + '" >' +
+                "<DIV class= 'titulo panel-heading'><h5><span class='titulo_indicador '></span>" +
                 "<span>(" + trans.por + " <span class='dimension' ></span>)</span></h5>" +
                 '</DIV>' +
+                '<div class="panel-body">'+
                 '<h6 class="filtros_dimensiones"></h6>' +
                 '<div class="controles btn-toolbar"></div>' +
                 '<div class="row-fluid info" ></div>' +
                 '<div class="row-fluid row_grafico" >' +
                 '<div class="grafico" ></div>' +
+                '</div>' +
                 '</div>' +
                 '</DIV>';
 

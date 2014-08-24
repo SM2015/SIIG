@@ -635,11 +635,11 @@ function alternar_favorito(zona, id_indicador) {
         $('#li_fav-' + id_indicador).remove();
     } else {
         $('#' + zona + ' .agregar_como_favorito').html('<i class=" icon-star-empty"></i>' + trans.quitar_favoritos);
-        $('#listado-favoritos').append("<li id='li_fav-" + id_indicador + "'><A data-id='" + id_indicador + "' " +
+        $('#listado-favoritos').append("<A data-id='" + id_indicador + "' " +
                 "id='fav-" + id_indicador + "' " +
                 "data-unidad-medida='" + $('#' + zona + ' .titulo_indicador').attr('data-unidad-medida') + "'>" +
                 $('#' + zona + ' .titulo_indicador').html() +
-                "</A></li>");
+                "</A>");
 
         $('#fav-' + id_indicador).click(function() {
             $('#' + zona + ' .controles').html('');

@@ -22,10 +22,10 @@ class FichaTecnicaRepository extends EntityRepository {
         } catch (\Doctrine\DBAL\DBALException $e) {
             $existe = false;
         }
-        /*if ($fichaTecnica->getUpdatedAt() != '' and $fichaTecnica->getUltimaLectura() != '' and $existe == true and $acumulado == false) {
+        if ($fichaTecnica->getUpdatedAt() != '' and $fichaTecnica->getUltimaLectura() != '' and $existe == true and $acumulado == false) {
             if ($fichaTecnica->getUltimaLectura() < $fichaTecnica->getUpdatedAt())
                 return true;
-        }*/
+        }
 
         $campos = str_replace("'", '', $fichaTecnica->getCamposIndicador());
 

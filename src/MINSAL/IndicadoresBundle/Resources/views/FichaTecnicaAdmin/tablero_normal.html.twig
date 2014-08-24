@@ -14,7 +14,7 @@
     <style>
         .area_grafico { 
             width: {{confTablero.ancho_area_grafico}}px; 
-            height: {{confTablero.ancho_area_grafico}}px; 
+            height: {{confTablero.alto_area_grafico}}px; 
         }
         .marco-sala:after {
             font-size: {{confTablero.titulo_sala_tamanio_fuente}}pt;
@@ -26,92 +26,30 @@
     <div id='nombre_sala2' ></div>
     <div class="tab-content">        
         <div class="content tab-pane" id="sala" >
-            {% for i in 1..confTablero.graficos_por_fila%}
-            <div class="area_grafico {% if i==1 %} zona_actual {% endif%}" id='grafico_{{i}}' >
-                <DIV class= 'titulo'><span class='titulo_indicador'></span>
-                    <span>({{'_por_'|trans}} <span class='dimension' ></span>)</span>
-                </DIV>
-                <h6 class='filtros_dimensiones'></h6>
-                <div class='controles btn-toolbar'></div>
-                <div class="row-fluid info" ></div>
-                <div class="row-fluid row_grafico" >
-                    <div class="grafico" ></div>
-                </div>
-            </div>
-            {% endfor %}
-            
         </div>
         <div class="content tab-pane" id="opciones_sala">
             <div class="panel-group" id="accordion1">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                          <a data-toggle="collapse" data-parent="#accordion1" href="#collapse1">
-                            {{'_acciones_'|trans}}
-                          </a>
-                        </h4>
-                    </div>
-                     <div id="collapse1" class="panel-collapse collapse in">
-                        <div class="panel-body">
-                            <ul class="dropdown-menu dropdown-menu-visible" role="menu" >
-                                <li><A id='agregar_fila' >{{'_agregar_area_grafico_'|trans}}</a></li>
-                                <li><A id='quitar_indicador' >{{'_quitar_indicador_'|trans}}</a></li>
-                                <li><!-- Button to trigger modal -->
-                                    <a href="#myModal" data-toggle="modal">{{'_guardar_sala_'|trans}}</a>
-                                </li>
-                                <li><a id="aCollapseOne" href="#" >
-                                    {{'_ocultar/mostrar_menu_principal_'|trans}}
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                          <a data-toggle="collapse" data-parent="#accordion1" href="#collapse2">
-                            {{'_clasificacion_indicadores_'|trans}}
-                          </a>
-                        </h4>
-                    </div>                    
-                     <div id="collapse2" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            <ul class="dropdown-menu dropdown-menu-visible" role="menu" >
-                                {% for clasificacion in clasificacionUso %}
-                                    {% if clasificacion.codigo == app.user.clasificacionUso.codigo|default('') %}
-                                        <li class='active'><A >{{clasificacion.descripcion}}</a></li>
-                                    {% else %}
-                                        <li ><a href='{{url('change_clasificacion_uso',{codigo_clasificacion:clasificacion.codigo})}}'>{{clasificacion.descripcion}}</a></li>
-                                    {% endif %}
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                          <a data-toggle="collapse" data-parent="#accordion1" href="#collapse3">
-                            {{'_salas_'|trans}} <span class="badge" >{{salas|length}}</span>
-                          </a>
-                        </h4>
-                    </div>                                        
-                    <div id="collapse3" class="panel-collapse collapse">
-                       <div class="panel-body">                           
-                               {% for sala in salas %}                                   
-                                       <A sala-id='{{sala.datos_sala.id}}' sala-nombre='{{sala.datos_sala.nombre}}' class='salas-id' data="{{sala.indicadores_sala|json_encode()}}">{{sala.datos_sala.nombre}}</A>
-                                       <A href="{{url('tablero_sala', {sala: sala.datos_sala.id, _sonata_admin: 'sonata.admin.ficha'})}}">
-                                            <button class="btn btn-success btn-xs " type="button" >
-                                                {{'_reporte_sala_'|trans}}
-                                            </button>
-                                        </A><BR/>
-                               {% endfor %}                           
-                       </div>
-                    </div>
-                </div>                
-                
-                
+                <div class="btn-group">
+                    <a class='btn btn-success' role="button" href="#myModal" data-toggle="modal">
+                        <span class="glyphicon glyphicon-save"></span>
+                        {{'_guardar_sala_'|trans}}
+                    </a>
+                    <a class='btn btn-success' role="button" id="aCollapseOne" href="#" >
+                        <span class="glyphicon glyphicon-transfer"></span>
+                        {{'_ocultar/mostrar_menu_principal_'|trans}}
+                    </a>
+                </div><br/><br/>                                
+                <ul class='list-group'>
+                    {% for sala in salas %}                                   
+                        <li class='list-group-item'><A class='salas-id ' sala-id='{{sala.datos_sala.id}}' sala-nombre='{{sala.datos_sala.nombre}}'  data="{{sala.indicadores_sala|json_encode()}}">{{sala.datos_sala.nombre}}</A>
+                        <A href="{{url('tablero_sala', {sala: sala.datos_sala.id, _sonata_admin: 'sonata.admin.ficha'})}}">
+                             <button class="btn btn-info btn-bg " type="button" title='{{'_reporte_sala_'|trans}}'>
+                                   <span class="glyphicon glyphicon-file"></span>                                                
+                             </button>
+                         </A>
+                           </li>
+                    {% endfor %}
+                </ul>
             </div>
         </div>        
         {% include 'IndicadoresBundle:FichaTecnicaAdmin:listado_indicadores.html.twig'%}
