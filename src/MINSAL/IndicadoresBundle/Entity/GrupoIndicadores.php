@@ -29,6 +29,13 @@ class GrupoIndicadores
      * @ORM\Column(name="nombre", type="string", length=50, nullable=false)
      */
     private $nombre;
+    
+    /**
+     * @var datetime $updatedAt
+     *
+     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
+     */
+    private $updatedAt;
 
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
@@ -303,5 +310,28 @@ class GrupoIndicadores
     public function getAcciones()
     {
         return $this->acciones;
+    }
+
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt
+     * @return GrupoIndicadores
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime 
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
     }
 }

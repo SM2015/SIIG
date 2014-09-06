@@ -1,0 +1,45 @@
+<div class="marco-sala">
+    <script>
+        var indicadoresDimensiones = new Array();
+        var indicadoresDatos = new Array();
+        {% for ind in indicadoresDimensiones %}
+            indicadoresDimensiones[{{ ind.id }}] = JSON.parse('{{ind.dimensiones|raw}}');
+            indicadoresDatos[{{ ind.id }}] = JSON.parse('{{ind.datos|raw}}');
+        {% endfor %}    
+    </script>
+        
+    {# sección de configuración #}    
+    <input type="hidden" value="{{confTablero.ocultar_menu_principal}}" id="ocultar_menu_principal" />
+    <input type="hidden" value="{{id_sala|default(0)}}" id="sala_default" />
+    
+    <style>
+        .area_grafico { 
+            width: 300px; 
+            height: 300px; 
+            overflow-y: hidden;
+        }
+        .marco-sala:after {
+            font-size: 12pt;
+            width: 100%;
+        }
+        body, .right-side, .content, #collapseOne, html{
+            background-color: white !important;
+        }
+        html, body{
+            min-height: 100px !important;
+        }
+        .area_grafico, .zona_actual{ border: none;}
+        .table {font-size: 6pt;}
+    </style>
+    <div id='nombre_sala2' ></div>
+    <div class="main-contaniner">
+        <div class="" id="sala" ></div>        
+    </div>
+    <div style="display: none">
+        <ul id='listado-salas'  >
+            {% for sala in salas %}
+                <li sala-id='{{sala.datos_sala.id}}'><A sala-id='{{sala.datos_sala.id}}' sala-nombre='{{sala.datos_sala.nombre}}' class='salas-id' data="{{sala.indicadores_sala|json_encode()}}">{{sala.datos_sala.nombre}}</A></li>
+            {% endfor %}
+        </ul>                            
+    </div>
+</div>

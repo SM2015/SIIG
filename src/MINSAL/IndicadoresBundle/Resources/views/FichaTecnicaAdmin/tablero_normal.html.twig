@@ -1,0 +1,145 @@
+
+{% block content %}
+<div class="marco-sala">
+{# {% if is_mobile() %} #}
+    {#{% include 'IndicadoresBundle:FichaTecnicaAdmin:menu_tablero_mobile.html.twig' %}#}
+{#{% else %} #}
+    {% include 'IndicadoresBundle:FichaTecnicaAdmin:menu_tablero.html.twig' %}
+{#{% endif %}#}
+
+    {# sección de configuración #}    
+    <input type="hidden" value="{{confTablero.ocultar_menu_principal}}" id="ocultar_menu_principal" />
+    <input type="hidden" value="{{id_sala|default(0)}}" id="sala_default" />
+    
+    <style>
+        .area_grafico { 
+            width: {{confTablero.ancho_area_grafico}}px; 
+            height: {{confTablero.alto_area_grafico}}px; 
+        }
+        .marco-sala:after {
+            font-size: {{confTablero.titulo_sala_tamanio_fuente}}pt;
+        }
+        .table {
+            font-size: 9pt;
+        }
+    </style>    
+    <div id='nombre_sala2' ></div>
+    <div class="tab-content">        
+        <div class="content tab-pane" id="sala" >
+        </div>
+        <div class="content tab-pane" id="opciones_sala">
+            <div class="panel-group" id="accordion1">
+                <div class="btn-group">
+                    <a class='btn btn-success' role="button" href="#myModal" data-toggle="modal">
+                        <span class="glyphicon glyphicon-save"></span>
+                        {{'_guardar_sala_'|trans}}
+                    </a>
+                    <a class='btn btn-success' role="button" id="aCollapseOne" href="#" >
+                        <span class="glyphicon glyphicon-transfer"></span>
+                        {{'_ocultar/mostrar_menu_principal_'|trans}}
+                    </a>
+                </div><br/><br/>                                
+                <ul class='list-group'>
+                    {% for sala in salas %}                                   
+                        <li class='list-group-item'>
+                            <A href="{{url('tablero_sala', {sala: sala.datos_sala.id, _sonata_admin: 'sonata.admin.ficha'})}}">
+                                <button class="btn btn-info btn-bg " type="button" title='{{'_reporte_sala_'|trans}}'>
+                                      <span class="glyphicon glyphicon-file"></span>                                                
+                                </button>
+                            </A>
+                            <A class='salas-id ' sala-id='{{sala.datos_sala.id}}' sala-nombre='{{sala.datos_sala.nombre}}'  data="{{sala.indicadores_sala|json_encode()}}">{{sala.datos_sala.nombre}}</A>                            
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>        
+        {% include 'IndicadoresBundle:FichaTecnicaAdmin:listado_indicadores.html.twig'%}
+        <div class="content tab-pane" id="social">
+            <div class='row'>
+            <div class="col-md-3" >
+                <form id="compartir_frm">
+                    <fieldset>
+                      <legend>{{'javascript._compartir_sala_'|trans}}</legend>
+                      <div id="usuarios_sala"></div>
+                    </fieldset>
+                </form> 
+            </div>
+            <div class="col-md-6 comentarios" >
+                <div id="chat">                    
+                    <form id="chat-form">
+                        <fieldset>
+                            <legend>{{'_comentarios_'|trans}}</legend>
+                            <textarea name="chat-mensaje" id="chat-form-mensaje" required="true"></textarea>
+                            <button type="submit" class="btn btn-primary">{{'_enviar_'|trans}}</button>
+                      </fieldset>
+                    </form>
+                    <div id="chat-mensajes"></div>
+                </div>
+            </div>
+            </div>
+        </div>
+        <div id="acciones_sala" class="content tab-pane" ></div>
+    </div>
+</div>
+<!-- Modal -->
+<div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel">{{'_sala_situacional_'|trans}}</h3>
+            </div>      
+            <div class="modal-body">
+                <label for="nombre_sala">{{'_nombre_sala_'|trans}}</label>
+                <textarea id='nombre_sala' id-sala='' rows="3" style="width: 90%"></textarea>
+                <BR/>
+                <input type="checkbox" value="1" name="guardar_como" id="guardar_como">{{'_guardar_como_'|trans}}
+                <span class='info' id='info_sala'></span>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">{{'_cerrar_'|trans}}</button>
+                <button id='guardar_sala' class="btn btn-primary">{{'_guardar_cambios_'|trans}}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="myModal2" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel2"></h3>
+            </div>
+
+            <div class="modal-body">
+                <span class='info' id='sql'></span>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-info" data-dismiss="modal" aria-hidden="true">{{'_cerrar_'|trans}}</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="acciones_sala" ></div>
+<div id="container" >
+    <div id="wrapper">
+        <div id="carousel"></div>            
+        <a id="ui-carousel-prev" href="#" >
+            <span>prev</span>
+        </a>
+        <a id="ui-carousel-next" href="#" >
+            <span>next</span>
+        </a>
+    </div>
+    <a id="ui-carousel-close" href="#" style="opacity: 1;" >        
+    </a>
+</div>
+<div id="show-carousel">
+    <a id="ui-carousel-show" href="#" style="opacity: 1;" >
+        <span>{{'_mostrar_cinta_'|trans}}</span>
+    </a>
+</div>
+{% endblock %}

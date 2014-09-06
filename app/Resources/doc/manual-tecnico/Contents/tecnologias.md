@@ -25,6 +25,8 @@ Estos incluyen:
 * RabbitMQ: Servidor de Mensajería
 * EasyBook: Generador de documentos en formato PDF
 * Bootstrap: Framework para interfaces de usuario
+* PivotTable.js: Librería para crear tabla pivote
+* Redis: Motor de base de datos en memoria.
 
 ### Gestor de base de datos
 [PostgreSQL] (http://www.postgresql.org/)
@@ -86,3 +88,16 @@ Saiku es una aplicacion de JAVA que oferece una interfaz escrita en JQuery para 
 
 ### Documentación
 La mayoría de la documentación ha sido escrita en formato markdown y se ha utilizado [easybook](http://easybook-project.org/) para la gen
+
+### Tabla pivote
+Se utiliza la librería PivotTable.js, la cual permite crear tablas pivotes a través
+de una interfaz sencilla similar a la de las hojas de cálculo, su código y documentación
+puede consultarse desde la página de su creador [PivotTable.js] (http://nicolas.kruchten.com/pivottable/examples/)
+
+### Redis
+[Redis](http://redis.io/) es un motor de base de datos en memoria, basado en el almacenamiento en tablas de 
+hashes (clave/valor) pero que opcionalmente puede ser usada como una base de datos durable o persistente.
+Se utilizará como memoria caché de consultas de Doctrine y también para almacenar informes, los cuales se ejecutarán
+y realizarán las consultas normales cuando se carguen por primera vez o cuando se hayan actualizados algunos de sus datos, 
+y se guardará el resultado en Redis; para futuras peticiones a esos informes se tomarán de lo almacenado
+en Redis lo cual es mucho más rápido.

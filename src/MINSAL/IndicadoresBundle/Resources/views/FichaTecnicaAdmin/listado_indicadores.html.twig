@@ -1,50 +1,71 @@
-        <div class="content tab-pane" id="listado_indicadores" >
+        {% set clasificacion_seleccionada = ''%}
+        <div class="content tab-pane active" id="listado_indicadores" >            
+            <div class="btn-group">
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+                            {{'_clasificacion_indicadores_'|trans}}
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            {% for clasificacion in clasificacionUso %}
+                                {% if clasificacion.codigo == app.user.clasificacionUso.codigo|default('') %}
+                                    <li class='active'><A >{{clasificacion.descripcion}}</a></li>
+                                    {% set clasificacion_seleccionada =  clasificacion.descripcion %}
+                                {% else %}
+                                    <li ><a href='{{url('change_clasificacion_uso',{codigo_clasificacion:clasificacion.codigo})}}'>{{clasificacion.descripcion}}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <input type="text" class="form-control" value="{{clasificacion_seleccionada}}" readonly />
+                    
+                    <div class="input-group-addon btn-success btn"><span class="glyphicon glyphicon-search"></span></div>
+                    <input class="form-control" type="search" id='FiltroNoClasificados' placeholder="{{'_buscar_indicador_'|trans}}...">
+                </div>                
+            </div><br/><br/>
             <div class="panel-group" id="accordion2">
-                <div class="panel panel-default">
+                <div class="panel panel-default panel-info">
                     <div class="panel-heading">
                         <h4 class="panel-title">
                           <a data-toggle="collapse" data-parent="#accordion2" href="#collapse4">
-                                {{"favoritos"|trans}} (<span id='cantidad_favoritos'>{{app.user.favoritos|length}}</span>)
+                                {{"favoritos"|trans}} <span class="badge" id='cantidad_favoritos'>{{app.user.favoritos|length}}</span>
                           </a>
                         </h4>
-                    </div>                    
-                     <div id="collapse4" class="panel-collapse collapse in">
-                        <div class="accordion-inner">
-                            <ul class="dropdown-menu dropdown-menu-visible" id='listado-favoritos'>
+                    </div>
+                    <div class="panel-body">
+                        <div id="collapse4" class="panel-collapse collapse in">
+                            <div class="accordion-inner list-group" id='listado-favoritos'>
                                 {% for indicador in app.user.favoritos %}
-                                <li ><A id='fav-{{indicador.id}}' class='indicador'
-                                        data-id='{{indicador.id}}'
-                                        data-unidad-medida='{{indicador.unidadMedida}}'>
-                                                {{indicador.nombre}}
-                                    </A>
-                                </li>
+                                <A id='fav-{{indicador.id}}' class='indicador list-group-item'
+                                    data-id='{{indicador.id}}'
+                                    data-unidad-medida='{{indicador.unidadMedida}}'>
+                                            {{indicador.nombre}}
+                                </A>                                
                                 {% endfor %}
-                            </ul>
+                            </div>
                         </div>
                     </div>
                 </div>                
                 {% for categoria in categorias %}
                     {% if categoria.indicadores|length > 0 %}
-                        <div class="panel panel-default">
+                        <div class="panel panel-default panel-info">
                             <div class="panel-heading">
                                 <h4 class="panel-title">
                                   <a data-toggle="collapse" data-parent="#accordion2" href="#collapsecat{{categoria.cat.id}}">
-                                        {{categoria.cat.descripcion}} ({{categoria.indicadores|length}})
+                                      {{categoria.cat.descripcion}} <span class="badge" >({{categoria.indicadores|length}})</span>
                                   </a>
                                 </h4>
                             </div>                            
                              <div id="collapsecat{{categoria.cat.id}}" class="panel-collapse collapse">
-                                 <div class="accordion-inner">
-                                     <ul class="dropdown-menu dropdown-menu-visible" >
-                                        {% for indicador in categoria.indicadores %}
-                                        <li ><A id='{{indicador.id}}' class='indicador'
-                                                data-id='{{indicador.id}}'
-                                                data-unidad-medida='{{indicador.unidadMedida}}'>
-                                                                {{indicador.nombre}}
-                                            </A>
-                                        </li>
-                                        {% endfor %}
-                                    </ul>
+                                 <div class="accordion-inner list-group">
+                                    {% for indicador in categoria.indicadores %}
+                                    <A id='{{indicador.id}}' class='indicador list-group-item'
+                                            data-id='{{indicador.id}}'
+                                            data-unidad-medida='{{indicador.unidadMedida}}'>
+                                                            {{indicador.nombre}}
+                                        </A>
+                                    {% endfor %}
                                  </div>
                             </div>
                         </div>
@@ -52,27 +73,26 @@
                 {% endfor %}
                 
                 {% if indicadores_no_clasificados|length > 0 %}
-                    <div class="panel panel-default">
+                    <div class="panel panel-default panel-info">
                         <div class="panel-heading">
                                 <h4 class="panel-title">
                                   <a data-toggle="collapse" data-parent="#accordion2" href="#collapseNC">
-                                        {{"_no_clasificados_"|trans}} (<span id='cantidad_no_clasificados'>{{indicadores_no_clasificados|length}}</span>)
+                                        {{"_no_clasificados_"|trans}} <span class="badge" id='cantidad_no_clasificados'>{{indicadores_no_clasificados|length}}</span>
                                   </a>
                                 </h4>
-                        </div>                        
-                         <div id="collapseNC" class="accordion-body collapse">
-                             <div class="accordion-inner">
-                                 <ul class="dropdown-menu dropdown-menu-visible" >
-                                    {% for indicador in indicadores_no_clasificados %}
-                                        <li ><A id='{{indicador.id}}' class='indicador'
-                                                data-id='{{indicador.id}}'
-                                                data-unidad-medida='{{indicador.unidadMedida}}'>
-                                                            {{indicador.nombre}}
-                                            </A>
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                             </div>
+                        </div>  
+                        <div class="panel-body">
+                            <div id="collapseNC" class="accordion-body collapse">                                
+                                <div class="accordion-inner list-group">
+                                {% for indicador in indicadores_no_clasificados %}
+                                    <A class='indicador list-group-item' id='{{indicador.id}}' 
+                                            data-id='{{indicador.id}}'
+                                            data-unidad-medida='{{indicador.unidadMedida}}'>
+                                                        {{indicador.nombre}}
+                                    </A>
+                                {% endfor %}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 {% endif %}

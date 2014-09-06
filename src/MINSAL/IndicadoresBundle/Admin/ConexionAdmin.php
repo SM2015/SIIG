@@ -7,20 +7,19 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 
-class ConexionAdmin extends Admin
-{
+class ConexionAdmin extends Admin {
+
     protected $datagridValues = array(
         '_page' => 1, // Display the first page (default = 1)
         '_sort_order' => 'ASC', // Descendant ordering (default = 'ASC')
         '_sort_by' => 'nombreBaseDatos' // name of the ordered field (default = the model id field, if any)
     );
 
-    protected function configureFormFields(FormMapper $formMapper)
-    {
+    protected function configureFormFields(FormMapper $formMapper) {
         $formMapper
                 ->add('nombreConexion', null, array('label' => $this->getTranslator()->trans('nombre_conexion')))
                 ->add('idMotor', null, array('label' => $this->getTranslator()->trans('motor'),
-                    'required'=>true))
+                    'required' => true))
                 ->add('puerto', null, array('label' => $this->getTranslator()->trans('puerto'), 'required' => false))
                 ->add('instancia', null, array('label' => $this->getTranslator()->trans('instancia'), 'required' => false))
                 ->add('ip', null, array('label' => $this->getTranslator()->trans('ip')))
@@ -34,23 +33,18 @@ class ConexionAdmin extends Admin
                     'second_options' => array('label' => 'Repetir clave'),
                 ))
                 ->add('nombreBaseDatos', null, array('label' => $this->getTranslator()->trans('nombre_base_datos')))
-                ->add('comentario', 'textarea', array('label' => $this->getTranslator()->trans('comentario'), 'required' => false))
-                ->setHelps(array(
-                    'telefono' => $this->getTranslator()->trans('Formato XXXX-XXXX')
-                ))
+                ->add('comentario', 'textarea', array('label' => $this->getTranslator()->trans('comentario'), 'required' => false))                
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
-    {
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper) {
         $datagridMapper
                 ->add('nombreConexion', null, array('label' => $this->getTranslator()->trans('nombre_conexion')))
                 ->add('idMotor', null, array('label' => $this->getTranslator()->trans('motor')))
         ;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
-    {
+    protected function configureListFields(ListMapper $listMapper) {
         $listMapper
                 ->addIdentifier('nombreConexion', null, array('label' => $this->getTranslator()->trans('nombre_conexion')))
                 ->add('idMotor', null, array('label' => $this->getTranslator()->trans('motor')))
@@ -61,14 +55,16 @@ class ConexionAdmin extends Admin
         ;
     }
 
-    public function getBatchActions()
-    {
+    public function getBatchActions() {
         $actions = parent::getBatchActions();
         $actions['delete'] = null;
     }
 
-    public function getTemplate($name)
-    {
+    public function getExportFields() {
+        return array('nombreConexion', 'idMotor', 'ip', 'nombreBaseDatos', 'comentario', 'puerto', 'usuario');
+    }
+
+    public function getTemplate($name) {
         switch ($name) {
             case 'edit':
                 return 'IndicadoresBundle:CRUD:conexion-edit.html.twig';

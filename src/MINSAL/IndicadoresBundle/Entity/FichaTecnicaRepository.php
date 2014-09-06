@@ -5,14 +5,14 @@ namespace MINSAL\IndicadoresBundle\Entity;
 use Doctrine\ORM\EntityRepository;
 use MINSAL\IndicadoresBundle\Entity\FichaTecnica;
 
-class FichaTecnicaRepository extends EntityRepository
-{
-    public function crearIndicador(FichaTecnica $fichaTecnica, $dimension = null, $filtros = null)
-    {
+class FichaTecnicaRepository extends EntityRepository {
+
+    public function crearIndicador(FichaTecnica $fichaTecnica, $dimension = null, $filtros = null) {
         $em = $this->getEntityManager();
         $ahora = new \DateTime('NOW');
         $util = new \MINSAL\IndicadoresBundle\Util\Util();
         $nombre_indicador = $util->slug($fichaTecnica->getNombre());
+        $formula = strtoupper($fichaTecnica->getFormula());
 
         //Verificar si existe la tabla
         $existe = true;
@@ -26,7 +26,7 @@ class FichaTecnicaRepository extends EntityRepository
             if ($fichaTecnica->getUltimaLectura() < $fichaTecnica->getUpdatedAt())
                 return true;
         }
-                
+
         $campos = str_replace("'", '', $fichaTecnica->getCamposIndicador());
 
         $tablas_variables = array();
@@ -136,11 +136,17 @@ class FichaTecnicaRepository extends EntityRepository
                 $campos_calculados = '';
             //Obtener solo los datos que se pueden procesar en el indicador
             $sql .= "DROP TABLE IF EXISTS $tabla" . "_var; ";
-            $sql .= "SELECT  $campos, SUM(calculo::numeric) AS  $tabla $campos_calculados
-                INTO TEMP  $tabla" . "_var
+            //Obtener el operador de la variable
+            $oper_ = explode('{'.$variable->getIniciales().'}', str_replace(' ', '', $formula));
+            $tieneOperadores = preg_match('/([A-Z]+)\($/', $oper_[0], $coincidencias, PREG_OFFSET_CAPTURE);
+            
+            $oper = ($tieneOperadores) ? $coincidencias[1][0] : 'SUM';
+            
+            $sql .= "SELECT  $campos, $oper(calculo::numeric) AS  $tabla $campos_calculados
+                INTO  TEMP $tabla" . "_var
                 FROM $tabla
                 GROUP BY $campos $campos_calculados_nombre
-                HAVING  SUM(calculo::numeric) > 0
+                HAVING  $oper(calculo::numeric) > 0
                     ;";
 
             //aplicar transformaciones si las hubieran
@@ -170,8 +176,7 @@ class FichaTecnicaRepository extends EntityRepository
         }
     }
 
-    public function crearIndicadorAcumulado(FichaTecnica $fichaTecnica, $dimension, $filtros = null)
-    {
+    public function crearIndicadorAcumulado(FichaTecnica $fichaTecnica, $dimension, $filtros = null) {
         $em = $this->getEntityManager();
         $campos = str_replace("'", '', $fichaTecnica->getCamposIndicador());
         $tablas_variables = array();
@@ -243,8 +248,7 @@ class FichaTecnicaRepository extends EntityRepository
         $em->getConnection()->exec($sql);
     }
 
-    public function crearTablaIndicador(FichaTecnica $fichaTecnica, $tablas_variables)
-    {
+    public function crearTablaIndicador(FichaTecnica $fichaTecnica, $tablas_variables) {
         $sql = '';
         $util = new \MINSAL\IndicadoresBundle\Util\Util();
         $nombre_indicador = $util->slug($fichaTecnica->getNombre());
@@ -276,16 +280,57 @@ class FichaTecnicaRepository extends EntityRepository
      * Devuelve los datos del indicador sin procesar la fórmula
      * esto será utilizado en la tabla dinámica
      */
-    public function getDatosIndicador(FichaTecnica $fichaTecnica){
+    public function getDatosIndicador(FichaTecnica $fichaTecnica) {
         $util = new \MINSAL\IndicadoresBundle\Util\Util();
-        
+
         $nombre_indicador = $util->slug($fichaTecnica->getNombre());
         $tabla_indicador = 'tmp_ind_' . $nombre_indicador;
-        
-        $sql = "SELECT *
-            FROM $tabla_indicador A";                
 
-        try {                        
+        $campos = array();
+        $campos_grp = array();
+        $campos_indicador = explode(',', str_replace(' ', '', $fichaTecnica->getCamposIndicador()));
+        $rel_catalogos = '';
+        $catalogo_x = 66; //código ascci de B
+        foreach ($campos_indicador as $c) {
+            $significado = $this->getEntityManager()->getRepository('IndicadoresBundle:SignificadoCampo')
+                    ->findOneBy(array('codigo' => $c));
+            $catalogo = $significado->getCatalogo();
+            if ($catalogo != '') {
+                $letra_catalogo = chr($catalogo_x++);
+                $rel_catalogos .= " INNER JOIN  $catalogo $letra_catalogo  ON (A.$c::text = $letra_catalogo.id::text) ";
+                $campos[] = $letra_catalogo . '.descripcion AS ' . str_replace('id_', '', $c);
+                $campos_grp[] = $letra_catalogo . '.descripcion';
+            } else {
+                $campos[] = $c;
+                $campos_grp[] = $c;
+            }
+        }
+
+        //Recuperar las variables
+        $vars = array();
+        $variables = array();
+        $formula = strtolower($fichaTecnica->getFormula());
+        preg_match_all('/\{[a-z0-9\_]{1,}\}/', strtolower($formula), $vars, PREG_SET_ORDER);
+        
+        foreach ($vars as $var) {
+            $oper_ = explode($var[0], $formula);
+            $tieneOperadores = preg_match('/([A-Z]+)\($/', $oper_[0], $coincidencias, PREG_OFFSET_CAPTURE);
+            
+            $oper = ($tieneOperadores) ? $coincidencias[1][0] : 'SUM';
+            
+            $v = str_replace(array('{', '}'), array('', ''), $var[0]);
+            $variables[] = $oper.'('.$v . ') AS __' . $v . '__';
+        }
+
+        $campos = implode(', ', $campos);
+        $variables = implode(', ', $variables);
+        $campos_grp = implode(', ', $campos_grp);
+        $sql = "SELECT $campos, $variables
+            FROM $tabla_indicador A 
+                $rel_catalogos
+            GROUP BY $campos_grp    ";
+
+        try {
             return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
         } catch (\PDOException $e) {
             return $e->getMessage();
@@ -294,22 +339,29 @@ class FichaTecnicaRepository extends EntityRepository
         }
     }
 
-    public function calcularIndicador(FichaTecnica $fichaTecnica, $dimension, $filtro_registros = null, $ver_sql = false)
-    {
+    public function calcularIndicador(FichaTecnica $fichaTecnica, $dimension, $filtro_registros = null, $ver_sql = false) {
         $util = new \MINSAL\IndicadoresBundle\Util\Util();
         $acumulado = $fichaTecnica->getEsAcumulado();
-        $formula = strtolower($fichaTecnica->getFormula());
+        $formula = str_replace(' ', '',strtolower($fichaTecnica->getFormula()));
 
         //Recuperar las variables
         $variables = array();
         preg_match_all('/\{[a-z0-9\_]{1,}\}/', strtolower($formula), $variables, PREG_SET_ORDER);
 
-        $oper = 'SUM';
+        /*$oper = 'SUM';
         if ($acumulado) {
             $formula = str_replace(array('{', '}'), array('MAX(', ')'), $formula);
             $oper = 'MAX';
-        } else
-            $formula = str_replace(array('{', '}'), array('SUM(', ')'), $formula);
+        }
+        //Si no existe ningún función de agregación se utilizará SUM por defecto
+        /*else{
+            str_replace(array('avg(', 'max(', 'sum(', 'min(', 'count('), array(''), $formula, $count);
+            if($count == 0){
+                $formula = str_replace(array('{', '}'), array('SUM(', ')'), $formula);
+            } else {
+                $formula = str_replace(array('{', '}'), array('(', ')'), $formula);
+            }
+        }*/
 
         $denominador = explode('/', $fichaTecnica->getFormula());
         $evitar_div_0 = '';
@@ -324,7 +376,15 @@ class FichaTecnicaRepository extends EntityRepository
         // Formar la cadena con las variables para ponerlas en la consulta
         $variables_query = '';
         foreach ($variables as $var) {
+            $oper_ = explode($var[0], $formula);
+            $tieneOperadores = preg_match('/([A-Za-z]+)\($/', $oper_[0], $coincidencias, PREG_OFFSET_CAPTURE);
+            
+            $oper = ($tieneOperadores) ? $coincidencias[1][0] : 'SUM';
+            
             $v = str_replace(array('{', '}'), array('', ''), $var[0]);
+            
+            $formula = str_replace($var[0], (($oper=='SUM')?$oper:'').str_replace(array('{','}'), array('(', ')'),$var[0]), $formula);
+            
             $variables_query .= " $oper($v) as $v, ";
         }
         $variables_query = trim($variables_query, ', ');
@@ -379,9 +439,8 @@ class FichaTecnicaRepository extends EntityRepository
             return $e->getMessage();
         }
     }
-    
-    public function crearCamposIndicador(FichaTecnica $fichaTecnica)
-    {
+
+    public function crearCamposIndicador(FichaTecnica $fichaTecnica) {
         $em = $this->_em;
         //Recuperar las variables
         $variables = $fichaTecnica->getVariables();

@@ -260,6 +260,7 @@ javascript:
   _nombre_sala_: 'Nombre de la sala'
   _no_sala_: 'No hay sala activa'
   _no_areas_grafico_: No hay áreas disponibles para gráficar
+  _cambiar_vista_: Cambiar Vista Gráfico/Tabla
 
 validacion:
   requerido: Este dato es requerido
@@ -353,3 +354,9 @@ _tabla_pivote_: Tabla dinámica
 title_user_authentication: Autenticación
 security.login.username: Usuario
 security.login.password: Clave
+_exportar_tabla_datos_: Exportar Tabla de datos
+_exportar_grafico_: Exportar gráfico
+_reporte_sala_: Reporte de sala
+_reporte_: Reporte
+_mostrar_reporte_: Mostrar Reporte
+_buscar_indicador_: Buscar indicador

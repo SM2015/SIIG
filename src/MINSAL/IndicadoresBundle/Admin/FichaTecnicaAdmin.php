@@ -44,6 +44,7 @@ class FichaTecnicaAdmin extends Admin
                 ->add('clasificacionPrivacidad', null, array('label' => $this->getTranslator()->trans('_nivel_de_usuario_'), 'expanded' => true))
                 ->add('periodo', null, array('label' => $this->getTranslator()->trans('periodicidad')))
                 ->add('confiabilidad', null, array('label' => $this->getTranslator()->trans('confiabilidad'), 'required' => false))
+                ->add('reporte', null, array('label' => $this->getTranslator()->trans('_reporte_'), 'required' => false))
                 ->add('observacion', 'textarea', array('label' => $this->getTranslator()->trans('_observacion_'), 'required' => false))
                 ->end()
                 ->with($this->getTranslator()->trans('alertas'))
@@ -202,7 +203,12 @@ class FichaTecnicaAdmin extends Admin
 
             // ******** Verificar si matematicamente la fórmula es correcta
             // 1) Sustituir las variables por valores aleatorios entre 1 y 100
-            $formula_check = $formula;
+            // Quitar las palabras permitidas
+            $formula_check = str_replace(
+                    array('AVG', 'MAX', 'MIN', 'SUM', 'COUNT'), 
+                    array('', '', '', '', ''), 
+                    strtoupper($object->getFormula())
+                    );
             $formula_valida = true;
             $result = '';
             foreach ($vars_formula[0] as $var) {

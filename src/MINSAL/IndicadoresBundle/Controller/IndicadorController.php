@@ -28,10 +28,10 @@ class IndicadorController extends Controller {
     /**
      * @Route("/indicador/dimensiones/{id}", name="indicador_dimensiones", options={"expose"=true})
      */
-    public function getDimensiones(FichaTecnica $fichaTec) {
+    public function getDimensionesAction(FichaTecnica $fichaTec) {
         $resp = array();
         $em = $this->getDoctrine()->getManager();
-
+        
         if ($fichaTec) {
             $resp['nombre_indicador'] = $fichaTec->getNombre();
             $resp['id_indicador'] = $fichaTec->getId();
@@ -85,7 +85,7 @@ class IndicadorController extends Controller {
             $resp['resultado'] = 'ok';
         } else {
             $resp['resultado'] = 'error';
-        }
+        }        
         $response = new Response(json_encode($resp));
         if ($this->get('kernel')->getEnvironment() != 'dev') {
             $response->setMaxAge($this->container->getParameter('indicador_cache_consulta'));
@@ -252,6 +252,8 @@ class IndicadorController extends Controller {
             }
 
             $grupoIndicadores->setNombre($sala->nombre);
+            $ahora = new \DateTime('NOW');
+            $grupoIndicadores->setUpdatedAt($ahora);
 
             foreach ($sala->datos_indicadores as $grafico) {
                 if (!empty($grafico->id_indicador)) {
@@ -267,6 +269,11 @@ class IndicadorController extends Controller {
                     $indG->setPosicion($grafico->posicion);
                     if (property_exists($grafico, 'orden')) {
                         $indG->setOrden($grafico->orden);
+                    }
+                    if (property_exists($grafico, 'vista')) {
+                        $indG->setVista($grafico->vista);
+                    } else {
+                        $indG->setVista('grafico');
                     }
                     $indG->setTipoGrafico($grafico->tipo_grafico);
                     $indG->setGrupo($grupoIndicadores);
@@ -330,7 +337,7 @@ class IndicadorController extends Controller {
     public function getImagenesSala(GrupoIndicadores $sala) {
         $em = $this->getDoctrine()->getManager();
         $usuario = $this->getUser();
-      
+
         $imagenes = $em->getRepository("IndicadoresBundle:Imagen")
                         ->findBy(array('sala'=>$sala, 
                             'usuario'=>$usuario));        

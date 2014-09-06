@@ -51,18 +51,3 @@ Filtrar: Podemos realizar el filtrado de los elementos que se muestran en el gr�
 2. Filtrar por posición, elegimos que posiciones se mostrarán, por ejemplo los primeros 5 elementos, los últimos 10, desde el tercero al 7, etc.
 
 Podemos combinar las diferentes opciones para adecuar el gráfico. Por ejemplo: Si queremos mostrar los 5 elementos con mayor índice, ordenamos el gráfico por indicador y aplicamos un filtro con límite superior 5
-
-
-# Cubos OLAP
-
-El objetivo de los Cubos OLAP es proveer una herramienta para el análisis de los datos del indicador de forma dinámica y que el usuario pueda seleccionar la combinacion de datos que le resulte mas efectiva para analizar la informacion disponible.
-
-El tablero de cubos OLAP se divide en las siguientes áreas:
-
-1. Menu de indicadores/cubos disponibles en el sistema.
-2. Dimensiones disponibles para el indicador seleccionado.
-3. Medidas disponibles para el indicador seleccionado.
-4. Menu de funciones de manipulacion de datos 
-
-![Interfaz de cubos OLAP](images/cubos_olap.png)
-

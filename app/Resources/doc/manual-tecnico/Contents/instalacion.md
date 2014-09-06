@@ -15,7 +15,7 @@ debe ser ejecutado como usuario root y "$" que debe ser ejecutado como un usuari
 
 ~~~
 # apt-get update
-# apt-get install php5 php5-pgsql php5-sqlite sqlite php5-xdebug  php-apc php5-cli php5-xsl php5-intl php5-mcrypt apache2 postgresql acl git-core curl postgresql-contrib php5-ldap php5-mysql php5-sybase php5-json postgresql-contrib
+# apt-get install php5 php5-pgsql php5-sqlite sqlite php5-xdebug  php-apc php5-cli php5-xsl php5-intl php5-mcrypt apache2 postgresql acl git-core curl postgresql-contrib php5-ldap php5-mysql php5-sybase php5-json postgresql-contrib redis-server
 ~~~
 
 ### Crear usuario y directorio de trabajo
@@ -29,10 +29,10 @@ $ cd /var/www
 ~~~
 
 ### Obtener el código fuente
-Puedes descargarlo desde: https://github.com/erodriguez-minsal/SIIG/tarball/master o clonar el repositorio
+Puedes descargarlo desde: https://github.com/SM2015/SIIG/tarball/master o clonar el repositorio
 
 ~~~
-$ git clone https://github.com/erodriguez-minsal/SIIG.git siig
+$ git clone -b v1.0.0 https://github.com/SM2015/SIIG.git siig
 ~~~
 
 A partir de este punto todos los comandos se deben ejecutar dentro de la carpeta en que se ha descargado el código fuente
@@ -400,14 +400,13 @@ El Script preguntara si queremos instalar todas las librerías, incluyendo el pa
 
 Reiniciar Pentaho:
 ~~~
-# ./stop-pentaho.sh  
+# ./stop-pentaho.sh
 # ./start-pentaho.sh
 ~~~
 
-Saiku permite guardar las busquedas y graficos en una carpeta de trabajo para poder usarlas posteriormente. A continuacion crearemos la carpeta de trabajo que 
-usara Saiku para almacenar busquedas. Esta nueva carpeta debera ser creada dentro de 'pentaho-solutions/', el nombre que elijamos se fijara en el archivo Settings.js.
+Saiku permite guardar las busquedas y graficos en una carpeta de trabajo para poder usarlas posteriormente. A continuacion crearemos la carpeta de trabajo que usará Saiku para almacenar busquedas. Esta nueva carpeta debera ser creada dentro de 'pentaho-solutions/', el nombre que elijamos se fijara en el archivo Settings.js.
 
-~~~~
+~~~
 ~# mkdir bi-server/prentaho-solutions/TablasyGraficosSaiku
 ~# nano  src/MINSAL/IndicadoresBundle/Resources/public/cubos/js/saiku/Settings.js
 
@@ -417,12 +416,12 @@ var Settings = {
     CARPETA_SIIG: "TablasyGraficosSaiku", ....
 ~~~
 
-### Modificar Apache: URL del SIIG apuntando a SAIKU 
+### Modificar Apache: URL del SIIG apuntando a SAIKU
 
-Para enmascarar le URL de Pentaho debemos activar el proxy de Apache para esto debemos activar un par de módulos de Apache:  
+Para enmascarar le URL de Pentaho debemos activar el proxy de Apache para esto debemos activar un par de módulos de Apache:
 
 ~~~
-#a2enmod proxy proxy_http
+ #a2enmod proxy proxy_http
 ~~~
 
 Luego editamos la seccion VirtualHost dentro de /etc/apache2/sites-enabled/000-default:
@@ -515,12 +514,12 @@ src/MINSAL/IndicadoresBundle/Resources/views/FichaTecnicaAdmin/reporte.html.twig
 
 
 ## Instalación de librería wkhtmltopdf
-[wkhtmltopdf](http://code.google.com/p/wkhtmltopdf/) Es una utilidad de línea de comando para convertir html a pdf
+[wkhtmltopdf](http://wkhtmltopdf.org) Es una utilidad de línea de comando para convertir html a pdf
 
-1. Descargar wkhtmltopdf desde http://code.google.com/p/wkhtmltopdf/downloads/list elegir la versión adecuada al sistema operativo
-2. Descomprimir. Ej.: tar xjf wkhtmltopdf-0.11.0_rc1-static-amd64.tar.bz2
-3. Mover y renombrar el archivo: mv wkhtmltopdf-amd64 /usr/bin/wkhtmltopdf
-4. Dar permisos de ejecución: chmod +x /usr/bin/wkhtmltopdf
+1. Descargar wkhtmltopdf desde http://wkhtmltopdf.org/downloads.html elegir la versión adecuada al sistema operativo
+2. Descomprimir. Ej.: tar xjf wkhtmltox-linux-amd64_0.12.0-03c001d.tar.xz
+3. Copiar el archivo (como root): cp wkhtmltox/bin/wkhtmltopdf /usr/bin/wkhtmltopdf
+4. Dar permisos de ejecución (como root): chmod +x /usr/bin/wkhtmltopdf
 
 
 ## OPCIONAL: Validación de Usarios desde directorios LDAP

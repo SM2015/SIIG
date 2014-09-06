@@ -257,3 +257,26 @@ fos_rest:
         default_engine: twig
     routing_loader:
         default_format: json
+snc_redis:
+    clients:
+        default:
+            type: predis
+            alias: default
+            dsn: redis://localhost
+        cache:
+            type: predis
+            alias: cache
+            dsn: redis://localhost/1
+            logging: true
+            
+    doctrine:
+        metadata_cache:
+            client: cache
+            entity_manager: default          # the name of your entity_manager connection
+            #document_manager: default        # the name of your document_manager connection
+        result_cache:
+            client: cache
+            entity_manager: [default, read]  # you may specify multiple entity_managers
+        query_cache:
+            client: cache
+            entity_manager: default

@@ -259,6 +259,7 @@ javascript:
   _nombre_sala_: "Room's name"
   _no_sala_: 'No active room'
   _no_areas_grafico_: No areas available to graph
+  _cambiar_vista_: Switch View Graph/Table
 
 validacion:
   requerido: This field is required
@@ -351,3 +352,9 @@ _tabla_pivote_: Pivot table
 title_user_authentication: Authentication
 security.login.username: User
 security.login.password: Password
+_exportar_tabla_datos_: Export data table
+_exportar_grafico_: Export graph
+_reporte_sala_: Room Report
+_reporte_: Report
+_mostrar_reporte_: Show Report
+_buscar_indicador_: Search indicator

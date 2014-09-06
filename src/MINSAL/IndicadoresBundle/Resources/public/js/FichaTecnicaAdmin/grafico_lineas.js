@@ -72,12 +72,19 @@ graficoLineas = function(ubicacion, datos, colorChosen, categoryChoosen) {
                 .attr("d", line)
                 .attr("stroke", 'blue')
                 ;
-
+        if ($('#sala_default').val()==0){
+            var duracion = 1000;
+            var retraso = 20;
+        }else {
+            var duracion = 0;
+            var retraso = 0;
+        }
+        
         plot.selectAll(".dot")
                 .data(currentDatasetChart)
                 .enter().append("circle")
                 .attr("class", "dot")
-                .transition().duration(1000).delay(20)
+                .transition().duration(duracion).delay(retraso)
                 .attr("fill", function(d, i) {
             return colores_alertas(ubicacion, d.measure, i)
         })
@@ -103,10 +110,16 @@ graficoLineas = function(ubicacion, datos, colorChosen, categoryChoosen) {
         var x0 = xScale.domain(datos_ordenados.map(function(d) {
                 return d.category;
             })).copy();        
-        var transition = svg.transition().duration(750),
-            delay = function(d, i) {
-                    return i * 40;
-                };
+        
+        if ($('#sala_default').val()==0){
+            var transition = svg.transition().duration(750);
+            var delay = function(d, i) {
+                return i * 40;
+            };
+        }else { 
+            var transition = svg.transition().duration(0);
+            var delay = 0;
+        }
 
         transition.selectAll(".line").delay(delay).attr("d", line).attr("stroke", 'blue');
         transition.selectAll(".dot").delay(delay).attr("cx", function(d) {

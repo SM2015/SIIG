@@ -54,7 +54,10 @@ input.valores_filtro{
     background-color: #F4F3FA;
 }
 
-
+.salas-id{
+    cursor: pointer;
+    font-size: 12pt;
+}
 
 
 #menu_sala.affix{
@@ -151,8 +154,8 @@ div.popover-content, div.popover-title{
     background-color: #FFFFFF;
     border: 1px solid #DDDDDD;
     border-radius: 4px 4px 4px 4px;
-    margin: 15px 0;
-    padding: 39px 19px 14px;
+    
+    padding: 25px 19px 14px;
     position: relative;
 }
 .marco-sala:after {
@@ -160,7 +163,7 @@ div.popover-content, div.popover-title{
     border: 1px solid #DDDDDD;
     border-radius: 4px 0 4px 0;
 
-    content: attr(data-content);    
+    content: attr(data-content);
     font-weight: bold;
     left: -1px;
     padding: 3px 7px;
@@ -206,4 +209,9 @@ div.popover-content, div.popover-title{
 
 .dropdown-menu > li > a:hover {
   color: inherit;
+}
+
+.indicador{
+    cursor:pointer; 
+    cursor: hand;
 }
