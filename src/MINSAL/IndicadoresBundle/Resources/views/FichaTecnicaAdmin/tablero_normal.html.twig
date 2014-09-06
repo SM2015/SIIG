@@ -41,13 +41,14 @@
                 </div><br/><br/>                                
                 <ul class='list-group'>
                     {% for sala in salas %}                                   
-                        <li class='list-group-item'><A class='salas-id ' sala-id='{{sala.datos_sala.id}}' sala-nombre='{{sala.datos_sala.nombre}}'  data="{{sala.indicadores_sala|json_encode()}}">{{sala.datos_sala.nombre}}</A>
-                        <A href="{{url('tablero_sala', {sala: sala.datos_sala.id, _sonata_admin: 'sonata.admin.ficha'})}}">
-                             <button class="btn btn-info btn-bg " type="button" title='{{'_reporte_sala_'|trans}}'>
-                                   <span class="glyphicon glyphicon-file"></span>                                                
-                             </button>
-                         </A>
-                           </li>
+                        <li class='list-group-item'>
+                            <A href="{{url('tablero_sala', {sala: sala.datos_sala.id, _sonata_admin: 'sonata.admin.ficha'})}}">
+                                <button class="btn btn-info btn-bg " type="button" title='{{'_reporte_sala_'|trans}}'>
+                                      <span class="glyphicon glyphicon-file"></span>                                                
+                                </button>
+                            </A>
+                            <A class='salas-id ' sala-id='{{sala.datos_sala.id}}' sala-nombre='{{sala.datos_sala.nombre}}'  data="{{sala.indicadores_sala|json_encode()}}">{{sala.datos_sala.nombre}}</A>                            
+                        </li>
                     {% endfor %}
                 </ul>
             </div>
