@@ -261,6 +261,7 @@ javascript:
   _no_sala_: 'No hay sala activa'
   _no_areas_grafico_: No hay áreas disponibles para gráficar
   _cambiar_vista_: Cambiar Vista Gráfico/Tabla
+  _error_acciones_vacia_: Debe ingresar alguna acción
 
 validacion:
   requerido: Este dato es requerido
@@ -360,3 +361,4 @@ _reporte_sala_: Reporte de sala
 _reporte_: Reporte
 _mostrar_reporte_: Mostrar Reporte
 _buscar_indicador_: Buscar indicador
+_agregar_accion_: Agregar acción
