@@ -43,7 +43,7 @@ class SalaAccionesAdminController extends Controller
                     <tbody>';                
         foreach ($acciones as $acc){
             $resp .=  '<TR>'.
-                            '<TD>'.$acc->getFecha()->format('d/m/Y H:m:s').'</TD>'.
+                            '<TD data-sort="'.$acc->getFecha()->format('YmdHms').'">'.$acc->getFecha()->format('d/m/Y H:m:s').'</TD>'.
                             '<TD>'.$acc->getUsuario().'</TD>'.
                             '<TD>'.$acc->getAcciones(). '</TD>'.
                             '<TD>'.$acc->getObservaciones() . '</TD>' . 
