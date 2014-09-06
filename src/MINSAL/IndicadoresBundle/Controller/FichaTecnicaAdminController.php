@@ -244,54 +244,7 @@ class FichaTecnicaAdminController extends Controller {
                     'indicadoresDimensiones' => $indicadoresDimensiones,
                     'indicadores_no_clasificados' => $datos['indicadores_no_clasificados']
         ));
-    }
-
-    public function CubosAction() {
-        return $this->render('IndicadoresBundle:FichaTecnicaAdmin:cubos.html.twig', array());
-    }
-
-    public function PivotTableAction() {
-        $datos = $this->getListadoIndicadores();
-
-        return $this->render('IndicadoresBundle:FichaTecnicaAdmin:pivotTable.html.twig', array(
-                    'categorias' => $datos['categorias'],
-                    'clasificacionUso' => $datos['clasficacion_uso'],
-                    'indicadores_no_clasificados' => $datos['indicadores_no_clasificados']
-        ));
-    }
-
-    /*
-      Mostrar Reporte Gerenciales generados por Pentaho
-     */
-
-    public function reporteAction() {
-
-        /* $reporte= "http://etab.salud.gob.sv:8080/pentaho/content/reporting/reportviewer/report.html?solution=reportes&path=&name=indicador".$id.".prpt";
-          return new RedirectResponse($reporte);
-         */
-
-        $req = $this->getRequest();
-        $em = $this->getDoctrine()->getManager();
-        $id = $this->getRequest()->get('id');
-        $indicador = $em->find('IndicadoresBundle:FichaTecnica', $id);
-        $vars = array();
-        foreach ($indicador->getVariables() as $var) {
-            $lectura = $em->getRepository('IndicadoresBundle:OrigenDatos')->getUltimaActualizacion($var->getOrigenDatos());
-            array_push($vars, array('lectura' => $lectura, 'valor' => $var->getIniciales() . ": " . $var->getNombre()));
-        }
-        $CDAFile = $this->admin->getConfigurationPool()->getContainer()->getParameter('carpeta_pentaho_cda') . "indicador" . $id . ".cda";
-
-        if (!file_exists($CDAFile)) {
-            $this->admin->crearPentahoCDA($indicador);
-        }
-
-        $em->flush();
-        return $this->render('IndicadoresBundle:FichaTecnicaAdmin:reporte.html.twig', array('id' => $id, 'nombre' => $indicador->getNombre(),
-                    'inter' => $indicador->getConcepto(),
-                    'tema' => $indicador->getTema(),
-                    'vars' => $vars,
-                    'fecha' => date("Y-m-d H:i")));
-    }
+    }   
 
     public function batchActionVerFicha($idx = null) {
         $parameterBag = $this->get('request')->request;
