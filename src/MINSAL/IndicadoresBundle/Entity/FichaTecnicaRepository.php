@@ -22,7 +22,7 @@ class FichaTecnicaRepository extends EntityRepository {
         } catch (\Doctrine\DBAL\DBALException $e) {
             $existe = false;
         }
-        if ($fichaTecnica->getUpdatedAt() != '' and $fichaTecnica->getUltimaLectura() != '' and $existe == true and $acumulado == false) {
+        if ($fichaTecnica->getUpdatedAt() != '' and $fichaTecnica->getUltimaLectura() != '' and $existe == true) {
             if ($fichaTecnica->getUltimaLectura() < $fichaTecnica->getUpdatedAt())
                 return true;
         }
@@ -161,91 +161,15 @@ class FichaTecnicaRepository extends EntityRepository {
             $tablas_variables[] = $tabla;
         }
 
-        if ($acumulado != true) {
-            $sql .= $this->crearTablaIndicador($fichaTecnica, $tablas_variables);
-        }
         try {
-            $em->getConnection()->exec($sql);
-            if ($acumulado == true)
-                $this->crearIndicadorAcumulado($fichaTecnica, $dimension, $filtros);
+            $sql .= $this->crearTablaIndicador($fichaTecnica, $tablas_variables);
+            $em->getConnection()->exec($sql);            
             $fichaTecnica->setUpdatedAt($ahora);
             $em->persist($fichaTecnica);
             $em->flush();
         } catch (\PDOException $e) {
             return $e->getMessage();
         }
-    }
-
-    public function crearIndicadorAcumulado(FichaTecnica $fichaTecnica, $dimension, $filtros = null) {
-        $em = $this->getEntityManager();
-        $campos = str_replace("'", '', $fichaTecnica->getCamposIndicador());
-        $tablas_variables = array();
-
-        //Cambiar el orden de los campos, los filtros y la dimensión que se esté usando debe estar primero
-        // y serán los campos para realizar la
-        $campos_aux = array();
-        if ($filtros != null) {
-            foreach ($filtros as $campo => $valor)
-                $campos_aux[] = $campo;
-        }
-        $campos_aux[] = $dimension;
-        $campos_condicion = $campos_aux;
-        foreach (explode(', ', $campos) as $c) {
-            if (!in_array($c, $campos_aux))
-                $campos_aux[] = $c;
-        }
-
-        $campos2 = implode(', ', $campos_aux);
-        $sql = 'CREATE TEMP TABLE no_acum(dimension varchar(100)); ';
-        // Hacer coincidir las tablas en las filas que tenga una y la otra no, agregarla
-        // y ponerle 0 para que se acumule
-        foreach ($fichaTecnica->getVariables() as $v) {
-            $tablas = $fichaTecnica->getVariables();
-            $campo_calculo = strtolower($v->getIniciales());
-            $t1 = $campo_calculo . '_var';
-            foreach ($tablas as $t) {
-                if ($v == $t)
-                    continue;
-                $sql .= "
-                    INSERT INTO $t1 ($campos, $campo_calculo)
-                        SELECT $campos, 0 FROM " . strtolower($t->getIniciales()) . "_var
-                            WHERE ($campos) NOT IN (SELECT $campos FROM $t1);
-                                ";
-                //Quitar aquellos grupos que no tengan ningún dato para el grupo según la dimensión
-                $sql .= "INSERT INTO  no_acum SELECT $dimension FROM $t1 GROUP BY $dimension HAVING (SUM($campo_calculo) = 0);  ";
-            }
-        }
-        foreach ($fichaTecnica->getVariables() as $variable) {
-            $tabla = strtolower($variable->getIniciales());
-            $tablas_variables[] = $tabla;
-            //leer la primera fila para determinar el tipo de dato de cada campo
-            $sql2 = "SELECT * FROM $tabla" . '_var';
-            $fila = $em->getConnection()->executeQuery($sql2)->fetch();
-
-            // De acuerdo al tipo de dato será el signo de la relación
-            $condiciones = array();
-            foreach ($fila as $k => $v) {
-                if (in_array($k, $campos_condicion)) {
-                    $signo = (is_numeric($v)) ? '<=' : '=';
-                    $condiciones[$k] = 'TT.' . $k . ' ' . $signo . ' T.' . $k;
-                }
-            }
-            //Crear la tabla acumulada
-            $sql .= "
-                    SELECT $campos2,
-                        (SELECT SUM(TT.$tabla)
-                            FROM $tabla" . "_var TT
-                            WHERE " . implode(' AND ', $condiciones) . "
-                            AND $dimension::varchar(100) NOT IN (SELECT dimension FROM no_acum)
-                        ) AS $tabla
-                    INTO TEMP $tabla" . "_var_acum
-                    FROM $tabla" . "_var T
-                    ORDER BY $campos2 ;
-                    ";
-        }
-        $sql .= $this->crearTablaIndicador($fichaTecnica, $tablas_variables);
-
-        $em->getConnection()->exec($sql);
     }
 
     public function crearTablaIndicador(FichaTecnica $fichaTecnica, $tablas_variables) {
@@ -265,8 +189,6 @@ class FichaTecnicaRepository extends EntityRepository {
         }
 
         $sufijoTablas = 'var';
-        if ($fichaTecnica->getEsAcumulado() == true)
-            $sufijoTablas = 'var_acum';
         $sql .= 'SELECT  ' . $campos . ',' . implode(',', $tablas_variables) .
                 " INTO tmp_ind_" . $nombre_indicador . " FROM  " . array_shift($tablas_variables) . '_' . $sufijoTablas . ' ';
         foreach ($tablas_variables as $tabla) {
@@ -348,21 +270,6 @@ class FichaTecnicaRepository extends EntityRepository {
         $variables = array();
         preg_match_all('/\{[a-z0-9\_]{1,}\}/', strtolower($formula), $variables, PREG_SET_ORDER);
 
-        /*$oper = 'SUM';
-        if ($acumulado) {
-            $formula = str_replace(array('{', '}'), array('MAX(', ')'), $formula);
-            $oper = 'MAX';
-        }
-        //Si no existe ningún función de agregación se utilizará SUM por defecto
-        /*else{
-            str_replace(array('avg(', 'max(', 'sum(', 'min(', 'count('), array(''), $formula, $count);
-            if($count == 0){
-                $formula = str_replace(array('{', '}'), array('SUM(', ')'), $formula);
-            } else {
-                $formula = str_replace(array('{', '}'), array('(', ')'), $formula);
-            }
-        }*/
-
         $denominador = explode('/', $fichaTecnica->getFormula());
         $evitar_div_0 = '';
         $variables_d = array();
@@ -405,10 +312,8 @@ class FichaTecnicaRepository extends EntityRepository {
             $otros_campos = ' B.id AS id_category, ';
             $grupo_extra = ', B.id ';
         }
-
-        $sql = "SELECT $dimension AS category, $otros_campos $variables_query, round(($formula)::numeric,2) AS measure
-            FROM $tabla_indicador A" . $rel_catalogo;
-        $sql .= ' WHERE 1=1 ' . $evitar_div_0;
+        
+        $filtros = '';
         if ($filtro_registros != null) {
             foreach ($filtro_registros as $campo => $valor) {
                 //Si el filtro es un catálogo, buscar su id correspondiente
@@ -421,13 +326,43 @@ class FichaTecnicaRepository extends EntityRepository {
                     $reg = $this->getEntityManager()->getConnection()->executeQuery($sql_ctl)->fetch();
                     $valor = $reg['id'];
                 }
-                $sql .= " AND A." . $campo . " = '$valor' ";
+                $filtros .= " AND A." . $campo . " = '$valor' ";
             }
         }
+        
+        if ($acumulado){
+            $em = $this->getEntityManager();
+            $var_n = array_pop(str_replace(array('{','}'), array('',''), $variables[0]));
+            $var_d = array_pop(str_replace(array('{','}'), array('',''), $variables[1]));
+            $filtros_ = str_replace('A.', 'AA.', $filtros_);
+            
+            //leer la primera fila para determinar el tipo de dato de la dimensión actual
+            $sql2 = "SELECT $dimension FROM $tabla_indicador LIMIT 1";
+            $operador = (is_numeric(array_pop($em->getConnection()->executeQuery($sql2)->fetch()))) ? '<=' : '=';                       
+            
+            $formula = str_replace(
+                    array('SUM('.$var_n.')', 'SUM('.$var_d.')'), 
+                    array("(SELECT SUM(AA.$var_n) FROM $tabla_indicador AA WHERE AA.$dimension $operador A.$dimension $filtros_)",
+                            "(SELECT SUM(DISTINCT AA.$var_d) FROM $tabla_indicador AA WHERE AA.$dimension $operador A.$dimension $filtros_)"), 
+                    $formula
+                    );
+            $variables_query = str_replace(
+                    array('SUM('.$var_n.')', 'SUM('.$var_d.')'), 
+                    array("(SELECT SUM(AA.$var_n) FROM $tabla_indicador AA WHERE AA.$dimension $operador A.$dimension $filtros_)",
+                            "(SELECT SUM(DISTINCT AA.$var_d) FROM $tabla_indicador AA WHERE AA.$dimension $operador A.$dimension $filtros_)"), 
+                    $variables_query
+                    );
+        }
+        
+        $sql = "SELECT $dimension AS category, $otros_campos $variables_query, round(($formula)::numeric,2) AS measure
+            FROM $tabla_indicador A" . $rel_catalogo;
+        $sql .= ' WHERE 1=1 ' . $evitar_div_0 . ' ' . $filtros;
+        
         $sql .= "
-            GROUP BY $dimension $grupo_extra
-            HAVING (($formula)::numeric) > 0
-            ORDER BY $dimension";
+            GROUP BY $dimension $grupo_extra";
+        $sql .= ($acumulado)?'':"HAVING (($formula)::numeric) > 0";
+        $sql .= "ORDER BY $dimension";
+
         try {
             if ($ver_sql == true)
                 return $sql;

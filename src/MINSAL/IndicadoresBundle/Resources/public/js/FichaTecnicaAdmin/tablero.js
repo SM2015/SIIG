@@ -5,7 +5,7 @@ var oLanguage = {
     "sZeroRecords": trans.nada_encontrado,
     "sInfo": trans.mostrando_n_de_n,
     "sInfoEmpty": trans.mostrando_0,
-    "sInfoFiltered": trans.filtrados_de
+    "sInfoFiltered": trans.filtrados_dequ
 };
 $(document).ready(function() {
     // *****************
@@ -92,10 +92,10 @@ $(document).ready(function() {
         sala_agregar_fila();
     });
 
-    $('#quitar_indicador').click(function() {
+    /*$('#quitar_indicador').click(function() {
         limpiarZona2($('DIV.zona_actual').attr('id'));
         moverAGraficoActual();
-    });
+    });*/
 
     function ver_ficha_tecnica(id_indicador) {
         $.get(Routing.generate('get_indicador_ficha', {id: id_indicador}));
