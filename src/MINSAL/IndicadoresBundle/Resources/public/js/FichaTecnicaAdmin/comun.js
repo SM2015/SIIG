@@ -500,7 +500,8 @@ function dibujarControles(zona, datos) {
         $('#' + zona).toggleClass('zona_maximizada');
     });
     $('#' + zona + ' .quitar_indicador').click(function() {
-        limpiarZona2(zona);
+        //limpiarZona2(zona);
+        $('#'+zona).remove();
     });
     $('#' + zona + ' .info').hide();
     $('#' + zona + ' .cambiar_vista').click(function() {       
@@ -660,22 +661,6 @@ function limpiarZona(zona) {
     $('#' + zona).attr('orden', null);
 }
 
-function limpiarZona2(zona) {
-    limpiarZona(zona);
-    $('#' + zona + ' .titulo_indicador')
-            .html('')
-            .attr('data-unidad-medida', '')
-            .attr('formula', '')
-            .attr('rangos_alertas', '')
-            .attr('data-id', '')
-            .attr('data-max_rango', '')
-    $('#' + zona).attr('datasetprincipal', '')
-            .attr('datasetprincipal_bk', '');
-    $('#' + zona + ' .grafico').html('');
-    $('#' + zona + ' .dimension').html('');
-    $('#' + zona + ' .controlesDimension').html('');
-    $('#' + zona + ' .titulo').hide();
-}
 function recuperarDimensiones(id_indicador, datos) {
     var zona_g = $('DIV.zona_actual').attr('id');
     limpiarZona(zona_g);
@@ -700,7 +685,7 @@ function procesarDimensiones(resp, datos, zona_g) {
         } else {
             dibujarControles(zona_g, resp);
             if (datos !== null) {
-                if (JSON.stringify(datos.filtro) !== '""') {
+                if (datos.filtro != null) {
                     var $filtro = $('#' + zona_g + ' .filtros_dimensiones');
                     $filtro.attr('data', datos.filtro);
                     filtro_obj = jQuery.parseJSON($filtro.attr('data'));

@@ -38,7 +38,7 @@ $(document).ready(function() {
     });
     
     $('A.indicador').click(function() {
-        var id_indicador = $(this).attr('id');
+        var id_indicador = $(this).attr('data-id');
         var nombre_indicador = $(this).html();
         //var derivers = $.pivotUtilities.derivers;
 

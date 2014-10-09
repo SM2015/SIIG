@@ -5,40 +5,40 @@ var oLanguage = {
     "sZeroRecords": trans.nada_encontrado,
     "sInfo": trans.mostrando_n_de_n,
     "sInfoEmpty": trans.mostrando_0,
-    "sInfoFiltered": trans.filtrados_de
+    "sInfoFiltered": trans.filtrados_dequ
 };
 $(document).ready(function() {
-        // *****************
-        //Con esto se verifica el comportamiento del area de gráfico
-        //Si se despliega algún menú dentro del gráfico se modifica un atributo
-        //ccs para que se muestre correctamente se regresa a su modo normal cuando el menú se cierra
-        //para esto fue necesario reescribir unos métodos de jQuery
-        (function() {
-            var methods = ["addClass", "toggleClass", "removeClass"]; //métodos a sobreescribir
-            $.map(methods, function(method) {
-                var originalMethod = $.fn[ method ];
-                $.fn[ method ] = function() {
-                    var result = originalMethod.apply(this, arguments); // Execute the original method.                
-                    myfunction(this); // call your function                
-                    return result; // return the original result
-                };
-            });
-        })();
+    // *****************
+    //Con esto se verifica el comportamiento del area de gráfico
+    //Si se despliega algún menú dentro del gráfico se modifica un atributo
+    //ccs para que se muestre correctamente se regresa a su modo normal cuando el menú se cierra
+    //para esto fue necesario reescribir unos métodos de jQuery
+    (function() {
+        var methods = ["addClass", "toggleClass", "removeClass"]; //métodos a sobreescribir
+        $.map(methods, function(method) {
+            var originalMethod = $.fn[ method ];
+            $.fn[ method ] = function() {
+                var result = originalMethod.apply(this, arguments); // Execute the original method.                
+                myfunction(this); // call your function                
+                return result; // return the original result
+            };
+        });
+    })();
 
-        function myfunction(obj) {
-            if ($(obj).hasClass('sobre_div'))
-                if ($(obj).hasClass('open'))
-                    $('.zona_actual').css('overflow-y', 'visible');
-                else
-                    $('.area_grafico').filter(function() {
-                        return $(this).css('overflow-y') === 'visible';
-                    }).css('overflow-y', 'auto');
-        }
+    function myfunction(obj) {
+        if ($(obj).hasClass('sobre_div'))
+            if ($(obj).hasClass('open'))
+                $('.zona_actual').css('overflow-y', 'visible');
+            else
+                $('.area_grafico').filter(function() {
+                    return $(this).css('overflow-y') === 'visible';
+                }).css('overflow-y', 'auto');
+    }
     // *****************
     $('#myTab a').click(function(e) {
         e.preventDefault();
         $(this).tab('show');
-    });       
+    });
 
     if ($('#sala_default').val() != 0) {
         //Mostar solo la sala, quitar los demás controles
@@ -48,9 +48,9 @@ $(document).ready(function() {
         var sala_default = $('#sala_default').val();
         cargarSala($('A[sala-id=' + sala_default + ']'));
         $('DIV.controles').hide();
-    }else {        
+    } else {
         //Activar los filtros de búsqueda
-        $("#FiltroNoClasificados").searchFilter({ targetSelector: ".indicador", charCount: 2});
+        $("#FiltroNoClasificados").searchFilter({targetSelector: ".indicador", charCount: 2});
     }
 
     if ($('#ocultar_menu_principal').val() == 1) {
@@ -69,7 +69,7 @@ $(document).ready(function() {
             $('#div_carga').hide();
         });
     }
-    
+
     if ($('#sala_default').val() == 0) {
         ajax_states();
         $("#sala").sortable({
@@ -78,8 +78,8 @@ $(document).ready(function() {
         $("#sala").disableSelection();
     }
 
-    $('A.indicador').click(function() {        
-        sala_agregar_fila();        
+    $('A.indicador').click(function() {
+        sala_agregar_fila();
         dibujarIndicador($(this).attr('data-id'));
         moverAGraficoActual();
     });
@@ -92,10 +92,10 @@ $(document).ready(function() {
         sala_agregar_fila();
     });
 
-    $('#quitar_indicador').click(function() {
+    /*$('#quitar_indicador').click(function() {
         limpiarZona2($('DIV.zona_actual').attr('id'));
         moverAGraficoActual();
-    });
+    });*/
 
     function ver_ficha_tecnica(id_indicador) {
         $.get(Routing.generate('get_indicador_ficha', {id: id_indicador}));
@@ -118,7 +118,7 @@ $(document).ready(function() {
                 "<DIV class= 'titulo panel-heading'><h5><span class='titulo_indicador '></span>" +
                 "<span>(" + trans.por + " <span class='dimension' ></span>)</span></h5>" +
                 '</DIV>' +
-                '<div class="panel-body">'+
+                '<div class="panel-body">' +
                 '<h6 class="filtros_dimensiones"></h6>' +
                 '<div class="controles btn-toolbar"></div>' +
                 '<div class="row-fluid info" ></div>' +
@@ -136,7 +136,7 @@ $(document).ready(function() {
 
         if ($('#sala_default').val() == 0) {
             moverAGraficoActual()
-        }        
+        }
     }
 
     $('#guardar_sala').click(function() {
@@ -179,7 +179,7 @@ $(document).ready(function() {
         datos_sala.nombre = $('#nombre_sala').val();
         datos_sala.id = $('#nombre_sala').attr('id-sala');
         datos_sala.datos_indicadores = arreglo_indicadores;
-        
+
         $.post(Routing.generate('sala_guardar'), {datos: JSON.stringify(datos_sala)},
         function(resp) {
             if (resp.estado === 'ok') {
@@ -358,4 +358,40 @@ $(document).ready(function() {
             }
         }, 60000);
     }
+    $('#addAction').on('hidden.bs.modal', function (e) {
+        $('#info_accion').hide();
+        $('#acciones_div').removeClass('has-error');
+    });
+    
+    $('#guardar_accion').click(function() {
+        var datos = new Object();
+
+        datos.idSala = $('#nombre_sala').attr('id-sala');
+        datos.acciones = $('#acciones').val();
+        if (datos.acciones == ''){
+            $('#info_accion').html(trans._error_acciones_vacia_);
+            $('#acciones_div').addClass('has-error');
+            $('#info_accion').show();
+            return;
+        }
+        datos.observaciones = $('#observaciones').val();
+        datos.responsables = $('#responsables').val();
+
+        $.post(Routing.generate('accion_guardar', {id:datos.idSala}), {datos: JSON.stringify(datos),
+            _sonata_admin: 'sonata.admin.sala_acciones'},
+        function(resp) {
+            if (resp.estado === 'ok') {                
+                $('#addAction').modal('toggle');
+                cargarAcciones();
+                
+                //limpiar los controles
+                $('#acciones').val('');                
+                $('#observaciones').val('');
+                $('#responsables').val('');
+            }
+            else {
+                $('#info_accion').html('_error_guardar_sala_').addClass('error');
+            }
+        }, 'json');
+    });
 });

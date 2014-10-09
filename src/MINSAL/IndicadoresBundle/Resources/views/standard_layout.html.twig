@@ -144,7 +144,6 @@ file that was distributed with this source code.
                                                 {% for admin in group.items if item_count == 0 %}
                                                     {% if admin.hasroute('list') and admin.isGranted('LIST') 
                                                         or (admin.hasroute('tablero') and is_granted('ROLE_USER_TABLERO'))
-                                                        or (admin.hasroute('cubos') and is_granted('ROLE_USER_CUBOS'))
                                                     %}
                                                         {% set item_count = item_count+1 %}
                                                     {% endif %}
@@ -161,9 +160,6 @@ file that was distributed with this source code.
                                                             {% endif %}
                                                             {% if admin.hasroute('tablero') and (is_granted('ROLE_SONATA_ADMIN') or is_granted('ROLE_USER_TABLERO')) %}
                                                                 <li><a href="{{ admin.generateUrl('tablero')}}">{{ 'indicador_tablero'|trans }}</a></li>
-                                                            {% endif %}
-                                                            {% if admin.hasroute('cubos') and (is_granted('ROLE_SONATA_ADMIN') or is_granted('ROLE_USER_CUBOS')) %}
-                                                                <li><a href="{{ admin.generateUrl('cubos')}}">{{ '_cubos_'|trans }}</a></li>
                                                             {% endif %}
                                                             {% if admin.hasroute('pivotTable') and (is_granted('ROLE_SONATA_ADMIN') or is_granted('ROLE_USER_PIVOT_TABLE')) %}
                                                                 <li><a href="{{ admin.generateUrl('pivotTable')}}">{{ '_tabla_pivote_'|trans }}</a></li>

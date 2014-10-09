@@ -260,6 +260,7 @@ javascript:
   _no_sala_: 'No active room'
   _no_areas_grafico_: No areas available to graph
   _cambiar_vista_: Switch View Graph/Table
+  _error_acciones_vacia_: You must enter an action
 
 validacion:
   requerido: This field is required
@@ -358,3 +359,4 @@ _reporte_sala_: Room Report
 _reporte_: Report
 _mostrar_reporte_: Show Report
 _buscar_indicador_: Search indicator
+_agregar_accion_: Add Action
