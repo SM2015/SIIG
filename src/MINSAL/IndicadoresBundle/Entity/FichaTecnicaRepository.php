@@ -83,6 +83,7 @@ class FichaTecnicaRepository extends EntityRepository {
                 foreach ($significados as $campo) {
                     $sql .= $campo . ' ' . $tipos[$campo] . ', ';
                 }
+                $sql .= 'calculo numeric, ';
             } elseif ($origen->getEsPivote()) {
                 foreach ($campos_piv as $campo => $tipo)
                     $sql .= $campo . ' ' . $tipo . ', ';
