@@ -50,17 +50,21 @@ class OrigenDatoController extends Controller
                     $cnxObj = $this->getDoctrine()->getManager()->find('IndicadoresBundle:Conexion', $cnx);
                     $conn = $this->getConexionGenerica('consulta_sql', $cnxObj);
                     $conexion = $cnxObj->getNombreConexion();
-                    $sql = str_ireplace('FROM', ", '" . $cnxObj->getNombreConexion() . "' AS origen_datos FROM ", $sql);
+                    //$sql = str_ireplace('FROM', ", '" . $cnxObj->getNombreConexion() . "' AS origen_datos FROM ", $sql);
                     if ($this->driver == 'pdo_dblib') {
-                        $sql = str_ireplace('SELECT', 'SELECT TOP 20 ', $sql);
-                        $query = mssql_query($sql, $conn);
+                        $sql_ = 'SELECT * TOP 20 FROM ('. $sql . ') cons';
+                        $query = mssql_query($sql_, $conn);
                         if (mssql_num_rows($query) > 0)
-                            while ($row = mssql_fetch_assoc($query))
+                            while ($row = mssql_fetch_assoc($query)) {
                                 $datos[] = $row;
+                            }
                     } else {
-                        $query = $conn->query($sql . ' LIMIT 20');
-                        if ($query->rowCount() > 0)
-                            $datos = $query->fetchAll();
+                        $query = $conn->query($sql);
+                        $i = 0;
+                        while ($row = $query->fetch() and $i++ < 20) {
+                            $datos[] = $row;
+                        }
+                        
                     }
                     $resultado['estado'] = 'ok';
                     $resultado['mensaje'] = '<span style="color: green">' . $this->get('translator')->trans('sentencia_success') . '</span>';
@@ -217,13 +221,17 @@ class OrigenDatoController extends Controller
                                 $resultado['nombre_campos'] = array_keys($resultado['datos'][0]);
                             }
                         } else {
-                            $query = $conn->query($sentenciaSQL . ' LIMIT 20');
-                            if ($query->rowCount() > 0) {
-                                $resultado['datos'] = $query->fetchAll();
-                                $resultado['nombre_campos'] = array_keys($resultado['datos'][0]);
+                            $query = $conn->query($sentenciaSQL);
+                            
+                            $i = 0; $datos = array();
+                            while ($row = $query->fetch() and $i++ < 20) {
+                                $datos[] = $row;
                             }
+                            $resultado['datos'] = $datos;
+                            $resultado['nombre_campos'] = array_keys($resultado['datos'][0]);                            
                         }
-
+                        $query = $conn->query($sentenciaSQL);
+                                                        
                         $resultado['estado'] = 'ok';
                         $resultado['mensaje'] = '<span style="color: green">' . $this->get('translator')->trans('sentencia_success');
                     } catch (\PDOException $e) {

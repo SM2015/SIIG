@@ -88,10 +88,11 @@ class OrigenDatosRepository extends EntityRepository
                     }
                 } else {
                     $query = $conn->query($sql);
-                    if ($query->rowCount() > 0) {
-                        $datos = $query->fetchAll();
-                        $nombre_campos = array_keys($datos[0]);
+		    while ($row = $query->fetch() ) {
+                        $datos[] = $row;
                     }
+                    $nombre_campos = array_keys($datos[0]);
+		    
                 }
             } catch (\PDOException $e) {
                 return false;
@@ -145,10 +146,15 @@ class OrigenDatosRepository extends EntityRepository
         $em = $this->getEntityManager();
         $nombre_tabla = $origenDato->getNombreCatalogo();
         $campos = $origenDato->getCampos();
+        $campo_descripcion = '';
+        $pk = '';
         //Verificar si existe la tabla
         $sql = "CREATE TABLE IF NOT EXISTS $nombre_tabla (";
         foreach ($campos as $campo) {
             $sql .= $campo->getNombre() . " " . $campo->getTipoCampo()->getCodigo();
+            if ($campo->getSignificado()->getCodigo() == 'descripcion') {
+                $campo_descripcion = $campo->getNombre();
+            }
             if ($campo->getSignificado()->getCodigo() == 'pk') {
                 $sql .= ' PRIMARY KEY ';
                 $pk = $campo->getNombre();
@@ -162,6 +168,8 @@ class OrigenDatosRepository extends EntityRepository
         $sql .= '
                 SELECT * INTO TEMP ' . $nombre_temp . ' FROM ' . $nombre_tabla . ' LIMIT 0;';
         $nombre_campos = implode(", ", array_keys($datos[0]));
+        $nombre_campos = ($campo_descripcion != '') ? str_replace($campo_descripcion, 'descripcion', $nombre_campos) : $nombre_campos;
+        $nombre_campos = ($pk != '') ? str_replace($pk, 'id', $nombre_campos) : $nombre_campos;
 
         $sql .= "
           INSERT INTO $nombre_temp($nombre_campos) VALUES ";
