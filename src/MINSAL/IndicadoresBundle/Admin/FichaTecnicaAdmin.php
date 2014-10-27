@@ -244,13 +244,15 @@ class FichaTecnicaAdmin extends Admin
     {
         $this->crearCamposIndicador($fichaTecnica);
         //$this->repository->crearTablaIndicador()
-
+        $fichaTecnica->setUltimaLectura(new \DateTime("now"));
+        
     }
 
     public function postUpdate($fichaTecnica)
     {
         $this->crearCamposIndicador($fichaTecnica);
         //$this->repository->crearTablaIndicador($fichaTecnica);
+        $fichaTecnica->setUltimaLectura(new \DateTime("now"));
     }
 
     public function prePersist($fichaTecnica)

@@ -35,7 +35,7 @@ class Util
 
         $texto = mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $key, $cadena, MCRYPT_MODE_ECB, $iv);
 
-        return $texto;
+        return trim($texto);
     }
 
     public function validar($dato, $tipo)

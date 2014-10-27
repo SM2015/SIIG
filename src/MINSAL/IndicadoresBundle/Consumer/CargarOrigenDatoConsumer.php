@@ -37,21 +37,21 @@ class CargarOrigenDatoConsumer implements ConsumerInterface
                 $leidos = 10001;
                 $i = 0;
                 $nombre_conexion = $cnx->getNombreConexion();
-                if ($cnx->getIdMotor()->getCodigo() != 'pdo_dblib') {
-                    $sql = $msg['sql'];
-                    while ($leidos >= $tamanio) {
-                        $sql_aux = $sql . ' LIMIT ' . $tamanio . ' OFFSET ' . $i * $tamanio;
-
-                        $datos = $em->getRepository('IndicadoresBundle:OrigenDatos')->getDatos($sql_aux, $cnx);
-
-                        $this->enviarDatos($idOrigen, $datos, $campos_sig, $ahora, $nombre_conexion);
-                        $leidos = count($datos);
-                        $i++;
+                while ($leidos >= $tamanio) {
+                    if ($cnx->getIdMotor()->getCodigo() == 'oci8' or $cnx->getIdMotor()->getCodigo() == 'pdo_dblib') {
+                        $sql_aux = 'SELECT * FROM (' . $sql . ')  sqlOriginal '.
+                            'WHERE ROWNUM >= ' . $i * $tamanio . ' AND ROWNUM < '.  ($tamanio * ($i + 1));
                     }
-                } else {
-                    $datos = $em->getRepository('IndicadoresBundle:OrigenDatos')->getDatos($msg['sql'], $cnx);
+                    else {
+                        $sql_aux = $sql . ' LIMIT ' . $tamanio . ' OFFSET ' . $i * $tamanio;
+                    }
+
+                    $datos = $em->getRepository('IndicadoresBundle:OrigenDatos')->getDatos($sql_aux, $cnx);
+
                     $this->enviarDatos($idOrigen, $datos, $campos_sig, $ahora, $nombre_conexion);
-                }
+                    $leidos = count($datos);
+                    $i++;
+                }                
             }
         } else {
             $datos = $em->getRepository('IndicadoresBundle:OrigenDatos')->getDatos(null, null, $origenDato->getAbsolutePath());
