@@ -1,0 +1,27 @@
+_alineacion_: Alineación
+_ancho_: Ancho
+_ayuda_formula_campo_: "Debe regresar el valor final: 'var result = '; otros campos de la misma fila 'rowdata.codigo_campo'; Ej.: 'var result = (rowdata.salario) * 0.01"
+_ayuda_origen_campo_: 'Cuando el tipo de control sea Cuadro desplegable, se utilizará "origen" para especificar qué valores se mostrarán en el combo, debe estar formado por dos campos (valor y etiqueta), puede ser una consulta SQL o en formato JSON. Ej.: [{"id":"E",  "descripcion": "Enfermera"}, {"id":"M", "descripcion": "Medico"}]'
+_ayuda_origen_pivote_: 'Es una sentencia SQL que recupera registros con dos campos (valor y etiqueta) y se creará un campo de entrada por cada fila del origen pivote. También puede usar formato JSON '
+_ayuda_validacion_campo_: 'Ingrese la condición para ser válido. Usar "value" para referirse al valor del campo dentro de la fórmula. Ej.: value > 0 || value <150'
+_campo_: Campo
+_campos_: Campos
+_catalogos_: Catálogos
+_codigo_: Código
+_configuracion_: Configuración
+_dato_no_valido_: Dato no válido
+_descripcion_: Descripción
+_es_editable_: Editable
+_formato_: Formato
+_formula_: Fórmula
+_formulario_: Formulario
+_grupo_padre_: Grupo padre
+_grupo_columnas_: Grupo Columnas
+_msj_validacion_: Mensaje de validación
+_nombre_: Nombre
+_origen_campo_: Origen campo
+_origen_pivote_: Origen pivote
+_posicion_: Posición
+_regla_validacion_: Regla de validación
+_tipo_control_: Tipo Control
+_tipo_dato_: Tipo Dato

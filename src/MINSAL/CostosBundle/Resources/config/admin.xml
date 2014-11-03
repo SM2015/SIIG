@@ -1,0 +1,48 @@
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="sonata.admin.formulario" class="MINSAL\CostosBundle\Admin\FormularioAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="_configuracion_" label="_formulario_"/>
+            <argument />
+            <argument>MINSAL\CostosBundle\Entity\Formulario</argument>
+            <argument />            
+        </service>
+        <service id="sonata.admin.campo" class="MINSAL\CostosBundle\Admin\CampoAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="_configuracion_" label="_campo_"/>
+            <argument />
+            <argument>MINSAL\CostosBundle\Entity\Campo</argument>
+            <argument />            
+        </service>
+        <service id="sonata.admin.grupoColumnas" class="MINSAL\CostosBundle\Admin\GrupoColumnasAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="_configuracion_" label="_grupo_columnas_"/>
+            <argument />
+            <argument>MINSAL\CostosBundle\Entity\GrupoColumnas</argument>
+            <argument />            
+        </service>
+        <service id="sonata.admin.formato" class="MINSAL\CostosBundle\Admin\FormatoAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="_catalogos_" label="_formato_"/>
+            <argument />
+            <argument>MINSAL\CostosBundle\Entity\Formato</argument>
+            <argument />            
+        </service>
+        <service id="sonata.admin.tipo_control" class="MINSAL\CostosBundle\Admin\TipoControlAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="_catalogos_" label="_tipo_control_"/>
+            <argument />
+            <argument>MINSAL\CostosBundle\Entity\TipoControl</argument>
+            <argument />            
+        </service>
+        <service id="sonata.admin.tipo_dato" class="MINSAL\CostosBundle\Admin\TipoDatoAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="_catalogos_" label="_tipo_dato_"/>
+            <argument />
+            <argument>MINSAL\CostosBundle\Entity\TipoDato</argument>
+            <argument />            
+        </service>
+        <service id="sonata.admin.alineacion" class="MINSAL\CostosBundle\Admin\AlineacionAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="_catalogos_" label="_alineacion_"/>
+            <argument />
+            <argument>MINSAL\CostosBundle\Entity\Alineacion</argument>
+            <argument />            
+        </service>
+    </services>
+</container>

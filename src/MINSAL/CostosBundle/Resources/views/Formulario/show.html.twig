@@ -1,0 +1,137 @@
+{# {% extends 'SonataAdminBundle::standard_layout.html.twig' %} #}
+{% block stylesheets %}    
+    <link rel="stylesheet" href="{{ asset('bundles/costos/js/jqwidgets/styles/jqx.base.css') }}" type="text/css" media="all" />
+{% endblock stylesheets %}
+{% block javascripts %}
+    <script src="{{ asset('bundles/sonataadmin/vendor/jquery/dist/jquery.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxcore.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxdata.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxbuttons.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxscrollbar.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxmenu.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxcheckbox.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxlistbox.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxdropdownlist.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxgrid.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxgrid.sort.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxgrid.pager.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxgrid.selection.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxgrid.edit.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxgrid.columnsresize.js') }}" type="text/javascript"></script>    
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxscrollbar.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxbuttons.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxcheckbox.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxdropdownlist.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxlistbox.js') }}" type="text/javascript"></script>
+    
+    
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var data = {{datos|raw}};
+            // prepare the data
+            var source =
+            {
+                datatype: "json",
+                updaterow: function (rowid, rowdata, commit) {
+                    // synchronize with the server - send update command
+                    // call commit with parameter true if the synchronization with the server is successful 
+                    // and with parameter false if the synchronization failder.
+                    alert(JSON.stringify(rowdata));
+                    commit(true);
+                },
+                datafields: [
+                    {% for campo in Frm.campos %}
+                        {% if campo.origenPivote %} 
+                            {% for campoPivote in pivotes[campo.codigo] %}
+                                { name: '{{campo.codigo}}_{{campoPivote.id}}', type: '{{campo.tipoDato.codigo}}' },
+                                {% if campo.origen %} 
+                                    { name: '{{campo.codigo}}Source', value: '{{campo.codigo}}', 
+                                        values: { source: {{origenes[campo.codigo]|raw}}, value: 'id', name: 'descripcion' } },
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            { name: '{{campo.codigo}}', type: '{{campo.tipoDato.codigo}}' },
+                            {% if campo.origen %} 
+                                { name: '{{campo.codigo}}Source', value: '{{campo.codigo}}', 
+                                    values: { source: {{origenes[campo.codigo]|raw}}, value: 'id', name: 'descripcion' } },
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}                    
+                ],
+                localdata: data
+            };
+            var dataAdapter = new $.jqx.dataAdapter(source);
+            $("#jqxgrid").jqxGrid(
+            {
+                width: '100%',
+                source: dataAdapter,
+                columnsresize: true,
+                enabletooltips: true,
+                editable: true,
+                selectionmode: 'multiplecellsadvanced',
+                editmode: 'click',
+                columns: [
+                    {% for campo in Frm.campos %}                        
+                        {% if campo.origenPivote %}
+                            {% set Pivotes_ =  pivotes[campo.codigo] %}
+                        {% else %}
+                            {% set Pivotes_ = [campo] %}
+                        {% endif %}
+                            
+                        {% for pivote in Pivotes_ %}
+                        {
+                            {% if campo.origenPivote %}
+                                text: '{{pivote.descripcion}}', 
+                                datafield: '{{campo.codigo}}_{{pivote.id}}', 
+                            {% else %}
+                                text: '{{campo.nombre}}', 
+                                datafield: '{{campo.codigo}}', 
+                            {% endif %}
+                            align: 'center',                            
+                            width: {{campo.ancho|default(100)}}, 
+                            cellsalign: '{{campo.alineacion.codigo|default('left')}}',
+                            editable: {{campo.esEditable|default('false')}},
+                            columntype: '{{campo.tipoControl.codigo}}',
+                            {% if campo.origen %} displayfield: '{{campo.codigo}}Source', {% endif %}
+                            {% if campo.grupoColumnas %} columngroup: '{{campo.grupoColumnas.codigo}}', {% endif %}
+                            {% if campo.formato %} cellsformat: '{{campo.formato.formato}}', {% endif %}
+                            {% if campo.reglaValidacion %}
+                                validation: function (cell, value) {
+                                    if ({{campo.reglaValidacion|raw}}) {
+                                        return true;
+                                    }
+                                    return { result: false, message: "{{campo.msjValidacion|default('_dato_no_valido_')|trans}}" };
+                                }
+                            {% endif %}
+                            {% if campo.formula %} 
+                                cellsrenderer: function (index, datafield, value, defaultvalue, column, rowdata) {
+                                    {{campo.formula|raw}};
+                                    return "<div  class='jqx-{{campo.alineacion.codigo|default('left')}}-align'>" + dataAdapter.formatNumber(result,'{{campo.formato.formato|default('')}}') + "</div>";
+                                }, 
+                            {% endif %}
+                        },
+                        {% endfor %}
+                    {% endfor %}
+                ],
+                {% if Frm.gruposColumnas %}
+                    columngroups: [
+                        {% for grp in Frm.gruposColumnas %}
+                            { text: '{{grp.descripcion}}', 
+                                align: 'center', 
+                                name: '{{grp.codigo}}',
+                                {% if grp.grupoPadre %} parentgroup: '{{grp.grupoPadre.codigo}}', {% endif %}
+                            },
+                        {% endfor %}
+                    ]       
+                {% endif %}
+            });
+        });
+    </script>
+{% endblock javascripts %}
+{% block content %}
+<body class='default'>
+    <div id='jqxWidget'>
+        <div id="jqxgrid"></div>
+    </div>
+</body>
+{% endblock content %}
