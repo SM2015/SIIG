@@ -8,7 +8,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * MINSAL\CostosBundle\Entity\Alineacion
  *
- * @ORM\Table(name="grupo_columnas")
+ * @ORM\Table(name="costos.grupo_columnas")
  * @UniqueEntity(fields="codigo", message="Código ya existe")
  * @ORM\Entity
  */

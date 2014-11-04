@@ -14,9 +14,9 @@ class LoadTipoDatoData extends AbstractFixture implements OrderedFixtureInterfac
     {
         $datos = array();
         $datos[1]['campos'] = array('Codigo'=>'float','Descripcion'=>'Número flotante');
-        $datos[3]['campos'] = array('Codigo'=>'date','Descripcion'=>'Fecha');
-        $datos[4]['campos'] = array('Codigo'=>'string','Descripcion'=>'Cadena de texto');
-        $datos[5]['campos'] = array('Codigo'=>'int','Descripcion'=>'Entero');
+        $datos[2]['campos'] = array('Codigo'=>'date','Descripcion'=>'Fecha');
+        $datos[3]['campos'] = array('Codigo'=>'string','Descripcion'=>'Cadena de texto');
+        $datos[4]['campos'] = array('Codigo'=>'int','Descripcion'=>'Entero');
         $datos[5]['campos'] = array('Codigo'=>'bool','Descripcion'=>'Falso/Verdadero');        
 
         $master = new LoadMaster();

@@ -8,7 +8,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * MINSAL\CostosBundle\Entity\Formulario
  *
- * @ORM\Table(name="formulario")
+ * @ORM\Table(name="costos.formulario")
  * @UniqueEntity(fields="codigo", message="Código ya existe")
  * @ORM\Entity
  */

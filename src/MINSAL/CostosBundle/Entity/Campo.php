@@ -8,7 +8,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * MINSAL\CostosBundle\Entity\Campo
  *
- * @ORM\Table(name="campo")
+ * @ORM\Table(name="costos.campo")
  * @UniqueEntity(fields="codigo", message="Código ya existe")
  * @ORM\Entity(repositoryClass="MINSAL\CostosBundle\Entity\CampoRepository")
  */

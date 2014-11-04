@@ -8,7 +8,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * MINSAL\CostosBundle\Entity\TipoControl
  *
- * @ORM\Table(name="tipo_control")
+ * @ORM\Table(name="costos.tipo_control")
  * @UniqueEntity(fields="codigo", message="Código ya existe")
  * @ORM\Entity
  */
