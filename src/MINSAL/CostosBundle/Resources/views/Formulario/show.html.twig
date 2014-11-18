@@ -1,9 +1,11 @@
-{# {% extends 'SonataAdminBundle::standard_layout.html.twig' %} #}
+{% extends 'IndicadoresBundle::standard_layout.html.twig' %}
 {% block stylesheets %}    
+    {{ parent() }}
     <link rel="stylesheet" href="{{ asset('bundles/costos/js/jqwidgets/styles/jqx.base.css') }}" type="text/css" media="all" />
+    <link rel="stylesheet" href="{{ asset('bundles/costos/js/jqwidgets/styles/jqx.energyblue.css') }}" type="text/css" media="all" />
 {% endblock stylesheets %}
 {% block javascripts %}
-    <script src="{{ asset('bundles/sonataadmin/vendor/jquery/dist/jquery.min.js') }}" type="text/javascript"></script>
+    {{ parent() }}
     <script src="{{ asset('bundles/costos/js/jqwidgets/jqxcore.js') }}" type="text/javascript"></script>
     <script src="{{ asset('bundles/costos/js/jqwidgets/jqxdata.js') }}" type="text/javascript"></script>
     <script src="{{ asset('bundles/costos/js/jqwidgets/jqxbuttons.js') }}" type="text/javascript"></script>
@@ -24,10 +26,10 @@
     <script src="{{ asset('bundles/costos/js/jqwidgets/jqxdropdownlist.js') }}" type="text/javascript"></script>
     <script src="{{ asset('bundles/costos/js/jqwidgets/jqxlistbox.js') }}" type="text/javascript"></script>
     
-    
     <script type="text/javascript">
         $(document).ready(function () {
-            var data = {{datos|raw}};
+            $.jqx.theme = 'energyblue';
+            var data = new Array();
             // prepare the data
             var source =
             {
@@ -42,23 +44,23 @@
                 datafields: [
                     {% for campo in Frm.campos %}
                         {% if campo.origenPivote %} 
-                            {% for campoPivote in pivotes[campo.codigo] %}
-                                { name: '{{campo.codigo}}_{{campoPivote.id}}', type: '{{campo.tipoDato.codigo}}' },
-                                {% if campo.origen %} 
-                                    { name: '{{campo.codigo}}Source', value: '{{campo.codigo}}', 
-                                        values: { source: {{origenes[campo.codigo]|raw}}, value: 'id', name: 'descripcion' } },
+                            {% for campoPivote in pivotes[campo.significadoCampo.codigo] %}
+                                { name: '{{campo.significadoCampo.codigo}}_{{campoPivote.id}}', type: '{{campo.tipoDato.codigo}}' },
+                                {% if campo.origen or campo.significadoCampo.catalogo != '' %} 
+                                    { name: '{{campo.significadoCampo.codigo}}Source', value: '{{campo.significadoCampo.codigo}}', 
+                                        values: { source: {{origenes[campo.significadoCampo.codigo]|raw}}, value: 'id', name: 'descripcion' } },
                                 {% endif %}
                             {% endfor %}
                         {% else %}
-                            { name: '{{campo.codigo}}', type: '{{campo.tipoDato.codigo}}' },
-                            {% if campo.origen %} 
-                                { name: '{{campo.codigo}}Source', value: '{{campo.codigo}}', 
-                                    values: { source: {{origenes[campo.codigo]|raw}}, value: 'id', name: 'descripcion' } },
+                            { name: '{{campo.significadoCampo.codigo}}', type: '{{campo.tipoDato.codigo}}' },
+                            {% if campo.origen or campo.significadoCampo.catalogo != '' %} 
+                                { name: '{{campo.significadoCampo.codigo}}Source', value: '{{campo.significadoCampo.codigo}}', 
+                                    values: { source: {{origenes[campo.significadoCampo.codigo]|raw}}, value: 'id', name: 'descripcion' } },
                             {% endif %}
                         {% endif %}
                     {% endfor %}                    
                 ],
-                localdata: data
+                localdata: data,                
             };
             var dataAdapter = new $.jqx.dataAdapter(source);
             $("#jqxgrid").jqxGrid(
@@ -66,10 +68,8 @@
                 width: '100%',
                 source: dataAdapter,
                 columnsresize: true,
-                enabletooltips: true,
                 editable: true,
                 selectionmode: 'multiplecellsadvanced',
-                editmode: 'click',
                 columns: [
                     {% for campo in Frm.campos %}                        
                         {% if campo.origenPivote %}
@@ -77,22 +77,26 @@
                         {% else %}
                             {% set Pivotes_ = [campo] %}
                         {% endif %}
-                            
+
                         {% for pivote in Pivotes_ %}
                         {
                             {% if campo.origenPivote %}
                                 text: '{{pivote.descripcion}}', 
-                                datafield: '{{campo.codigo}}_{{pivote.id}}', 
+                                datafield: '{{campo.significadoCampo.codigo}}_{{pivote.id}}', 
                             {% else %}
-                                text: '{{campo.nombre}}', 
-                                datafield: '{{campo.codigo}}', 
+                                text: '{{campo.significadoCampo.descripcion}}', 
+                                datafield: '{{campo.significadoCampo.codigo}}', 
                             {% endif %}
                             align: 'center',                            
                             width: {{campo.ancho|default(100)}}, 
                             cellsalign: '{{campo.alineacion.codigo|default('left')}}',
                             editable: {{campo.esEditable|default('false')}},
                             columntype: '{{campo.tipoControl.codigo}}',
-                            {% if campo.origen %} displayfield: '{{campo.codigo}}Source', {% endif %}
+                            {% if campo.origen or campo.significadoCampo.catalogo != '' %} displayfield: '{{campo.significadoCampo.codigo}}Source', 
+                                createeditor: function (row, value, editor) {
+                                    editor.jqxDropDownList({ source: {{origenes[campo.significadoCampo.codigo]|raw}}, displayMember: 'descripcion', valueMember: 'id' });
+                                }
+                            {% endif %}
                             {% if campo.grupoColumnas %} columngroup: '{{campo.grupoColumnas.codigo}}', {% endif %}
                             {% if campo.formato %} cellsformat: '{{campo.formato.formato}}', {% endif %}
                             {% if campo.reglaValidacion %}
@@ -113,7 +117,11 @@
                         {% endfor %}
                     {% endfor %}
                 ],
-                {% if Frm.gruposColumnas %}
+                {% set item_count = 0 %}
+                {% for grp in Frm.gruposColumnas %}
+                    {% set item_count = item_count+1 %}
+                {% endfor %}
+                {% if item_count > 0 %}
                     columngroups: [
                         {% for grp in Frm.gruposColumnas %}
                             { text: '{{grp.descripcion}}', 
@@ -125,13 +133,69 @@
                     ]       
                 {% endif %}
             });
+            
+            $("#cargar_datos").click(function () {        
+                if (checkFrm()){
+                    $.post(Routing.generate('{{url}}', {id: {{Frm.id}} }), {datos_frm: $('#frm_').serialize()},
+                    function(resp) {
+                        if (resp.estado == 'ok') {
+                            $('#mensaje').html('');
+                            source.localdata = resp.data;
+                            // passing "cells" to the 'updatebounddata' method will refresh only the cells 
+                            // values when the new rows count is equal to the previous rows count.
+                            $("#jqxgrid").jqxGrid('updatebounddata', 'cells');
+                            $("#jqxgrid").jqxGrid('autoresizecolumns');
+                        }
+                        else {
+                            $('#mensaje').html('<div class="alert alert-danger" role="alert">'+resp.msj+'</div>');
+                        }
+
+                    }, 'json');
+                }
+                
+            });
+            $("#clear").click(function () {
+                $("#jqxgrid").jqxGrid('clear');
+                $('#mensaje').html('');
+            });
         });
+        
+        function checkFrm() {
+            var error = false;
+            $.each(controles, function (index, value) {
+                if ($('#' + value).val() == '') {
+                    error = true;
+                    $('#' + value+'_f').addClass('has-error');
+                } else {
+                    $('#' + value+'_f').removeClass('has-error');
+                }
+            });
+            if (error == true) {
+                $('#mensaje').html('<div class="alert alert-danger" role="alert">{{'_faltan_datos_requeridos_'|trans}}</div>');
+                return false;
+            } else return true;
+        }
     </script>
 {% endblock javascripts %}
 {% block content %}
-<body class='default'>
-    <div id='jqxWidget'>
-        <div id="jqxgrid"></div>
-    </div>
-</body>
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="navbar-header">
+            <span class="navbar-brand">{{'_formulario_rrhh_valor_pagado_titulo_'|trans}}</span>
+        </div>
+    </nav>
+        <form id="frm_" class="form-inline" onsubmit="return false">
+        <div class="box-body">        
+            {% block frm_head %}
+                <button class="btn btn-success" name="cargar_datos" id="cargar_datos" >{{'_cargar_datos_'|trans}}</button>
+                <button class="btn btn-danger" name="clear" id="clear" >{{'_limpiar_'|trans}}</button>
+                <DIV id="mensaje"></div>
+            {% endblock frm_head %}
+            {% block grid %}
+                <div id='jqxWidget' style="padding: 10px;">
+                    <div id="jqxgrid" ></div>
+                </div>
+            {% endblock %}
+            {% block frm_foot %} {% endblock frm_foot %}
+        </div>
+    </form>
 {% endblock content %}
