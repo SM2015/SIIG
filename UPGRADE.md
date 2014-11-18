@@ -23,3 +23,34 @@ apt-get install redis-server
 
 ## Actualizar las dependencias
 php composer.phar update
+
+
+#Actualización módulo de costos
+## Crear el esquema costos
+## dentro de la base ejecutar
+CREATE SCHEMA costos;
+CREATE SCHEMA catalogos;
+
+##Actualizar la estructura de la base de datos
+app/console redis:flushall
+app/console doctrine:schema:update --force
+
+
+## Cargar datos iniciales
+app/console doctrine:fixtures:load --fixtures=src/MINSAL/CostosBundle/DataFixtures/ORM --append
+
+##Agregar desde la aplicación dos significados
+Código: tipo_contratacion
+Descripción: Tipo Contratación
+Utilizado para costeo: Sí
+Catálogo: catalogos.tipo_contratacion
+
+Código: tipo_recurso
+Descripción: Tipo Recurso
+Utilizado para costeo: Sí
+Catálogo: catalogos.tipo_recurso
+
+Código: especialidad
+Descripción: Especialidad
+Utilizado para costeo: Sí
+Catálogo: catalogos.especialidad
