@@ -22,6 +22,7 @@ class SignificadoCampoAdmin extends Admin
         $formMapper
                 ->add('codigo', null, array('label' => $this->getTranslator()->trans('codigo')))
                 ->add('descripcion', null, array('label' => $this->getTranslator()->trans('descripcion')))
+                ->add('usoCosteo', null, array('label' => $this->getTranslator()->trans('_uso_costeo_')))
                 ->add('usoEnCatalogo', null, array('label' => $this->getTranslator()->trans('uso_catalogo')))
                 ->add('catalogo', 'choice', array('label' => $this->getTranslator()->trans('catalogo'),
                     'required' => false,

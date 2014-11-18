@@ -32,7 +32,7 @@ class CargarOrigenDatoConsumer implements ConsumerInterface
         $tamanio = 10000;
 
         if ($origenDato->getSentenciaSql() != '') {
-            // Recorrer cada conexión que tenga asociado el origen de datos
+            $sql = $origenDato->getSentenciaSql();
             foreach ($origenDato->getConexiones() as $cnx) {
                 $leidos = 10001;
                 $i = 0;

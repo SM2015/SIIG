@@ -41,6 +41,13 @@ class SignificadoCampo
      * @ORM\Column(name="uso_en_catalogo", type="boolean", nullable=true)
      */
     private $usoEnCatalogo;
+    
+    /**
+     * @var string $usoCosteo
+     *
+     * @ORM\Column(name="uso_costeo", type="boolean", nullable=true)
+     */
+    private $usoCosteo;
 
     /**
      * @var string $catalogo
@@ -343,4 +350,27 @@ class SignificadoCampo
         return $graficos;
     }
 
+
+    /**
+     * Set usoCosteo
+     *
+     * @param boolean $usoCosteo
+     * @return SignificadoCampo
+     */
+    public function setUsoCosteo($usoCosteo)
+    {
+        $this->usoCosteo = $usoCosteo;
+
+        return $this;
+    }
+
+    /**
+     * Get usoCosteo
+     *
+     * @return boolean 
+     */
+    public function getUsoCosteo()
+    {
+        return $this->usoCosteo;
+    }
 }

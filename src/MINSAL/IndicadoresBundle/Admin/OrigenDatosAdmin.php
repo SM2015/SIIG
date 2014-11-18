@@ -31,6 +31,7 @@ class OrigenDatosAdmin extends Admin
             $formMapper
                     ->with($this->getTranslator()->trans('datos_generales'), array('collapsed' => false))
                     ->add('esCatalogo', null, array('label' => $this->getTranslator()->trans('es_catalogo')))
+                    ->add('usoCosteo', null, array('label' => $this->getTranslator()->trans('_uso_costeo_')))
                     ->end()
                     ->with($this->getTranslator()->trans('origen_datos_sql'), array('collapsed' => true))
                     ->add('conexiones', null, array('label' => $this->getTranslator()->trans('nombre_conexion'), 'required' => false, 'expanded' => true))
@@ -59,7 +60,7 @@ class OrigenDatosAdmin extends Admin
                 ->addIdentifier('nombre', null, array('label' => $this->getTranslator()->trans('nombre')))
                 ->add('descripcion', null, array('label' => $this->getTranslator()->trans('descripcion')))
                 ->add('esFusionado', null, array('label' => $this->getTranslator()->trans('fusion.es_fusionado')))
-                ->add('esCatalogo', null, array('label' => $this->getTranslator()->trans('es_catalogo')))
+                ->add('esCatalogo', null, array('label' => $this->getTranslator()->trans('es_catalogo')))                
                 ->add('sentenciaSql', null, array('label' => $this->getTranslator()->trans('sentencia_sql'),
                     'template'=>'IndicadoresBundle:CRUD:list_sentencia_sql.html.twig'))
                 ->add('archivoNombre', null, array('label' => $this->getTranslator()->trans('archivo_asociado')))

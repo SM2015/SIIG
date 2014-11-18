@@ -200,6 +200,8 @@ class OrigenDatoController extends Controller
             $campos[$campo->getNombre()]['id'] = $campo->getId();
 
         $resultado['campos'] = $campos;
+        //Por defecto poner tipo entero
+        $tipoCampo = $em->getRepository("IndicadoresBundle:TipoCampo")->findOneByCodigo('varchar(255)');
         if (count($campos_existentes) == 0 or $recargar == true) {
             if ($origenDato->getSentenciaSql() != '') {
                 $resultado['tipo_origen'] = 'sql';
@@ -276,9 +278,7 @@ class OrigenDatoController extends Controller
             // Guardar los campos
             if ($resultado['estado'] == 'ok') {
                 $nombres_id = array();
-                $campo = array();
-                //Por defecto poner tipo entero
-                $tipoCampo = $em->getRepository("IndicadoresBundle:TipoCampo")->findOneByCodigo('integer');
+                $campo = array();                
                 $util = new \MINSAL\IndicadoresBundle\Util\Util();
                 foreach ($resultado['nombre_campos'] as $k => $nombre) {
                     // si existe no guardarlo

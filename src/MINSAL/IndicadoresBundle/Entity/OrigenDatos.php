@@ -78,6 +78,13 @@ class OrigenDatos
      * @ORM\Column(name="es_catalogo", type="boolean", nullable=true)
      */
     private $esCatalogo;
+    
+    /**
+     * @var string $usoCosteo
+     *
+     * @ORM\Column(name="uso_costeo", type="boolean", nullable=true)
+     */
+    private $usoCosteo;
 
     /**
      * @var string $nombreCatalogo
@@ -563,4 +570,27 @@ class OrigenDatos
         return $this->esPivote;
     }
 
+
+    /**
+     * Set usoCosteo
+     *
+     * @param boolean $usoCosteo
+     * @return OrigenDatos
+     */
+    public function setUsoCosteo($usoCosteo)
+    {
+        $this->usoCosteo = $usoCosteo;
+
+        return $this;
+    }
+
+    /**
+     * Get usoCosteo
+     *
+     * @return boolean 
+     */
+    public function getUsoCosteo()
+    {
+        return $this->usoCosteo;
+    }
 }
