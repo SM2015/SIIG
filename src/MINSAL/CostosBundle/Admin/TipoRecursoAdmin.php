@@ -6,9 +6,8 @@ use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
 
-class FormularioAdmin extends Admin
+class TipoRecursoAdmin extends Admin
 {
     protected $datagridValues = array(
         '_page' => 1, // Display the first page (default = 1)
@@ -20,14 +19,7 @@ class FormularioAdmin extends Admin
     {
         $formMapper
             ->add('codigo', null, array('label'=> $this->getTranslator()->trans('_codigo_')))
-            ->add('nombre', null, array('label'=> $this->getTranslator()->trans('_nombre_')))
             ->add('descripcion', null, array('label'=> $this->getTranslator()->trans('_descripcion_')))
-            ->add('origenDatos', null, array('label'=> $this->getTranslator()->trans('_origen_formulario_')))
-            ->add('campos', null, 
-                    array('label'=> $this->getTranslator()->trans('_campos_'), 
-                        'expanded' => true, 
-                        'multiple' => true,
-                        'by_reference' => false))
         ;
     }
 
@@ -35,7 +27,7 @@ class FormularioAdmin extends Admin
     {
         $datagridMapper
             ->add('codigo', null, array('label'=> $this->getTranslator()->trans('_codigo_')))
-            ->add('nombre', null, array('label'=> $this->getTranslator()->trans('_nombre_')))            
+            ->add('descripcion', null, array('label'=> $this->getTranslator()->trans('_descripcion_')))            
         ;
     }
 
@@ -43,7 +35,6 @@ class FormularioAdmin extends Admin
     {
         $listMapper
             ->addIdentifier('codigo', null, array('label'=> $this->getTranslator()->trans('_codigo_')))
-            ->add('nombre', null, array('label'=> $this->getTranslator()->trans('_nombre_')))
             ->add('descripcion', null, array('label'=> $this->getTranslator()->trans('_descripcion_'))) 
         ;
     }
@@ -52,11 +43,5 @@ class FormularioAdmin extends Admin
     {
         $actions = parent::getBatchActions();
         $actions['delete'] = null;
-    }
-    
-    protected function configureRoutes(RouteCollection $collection)
-    {
-        $collection->add('rrhhValorPagado');
-
     }
 }

@@ -18,8 +18,7 @@ class CampoAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('codigo', null, array('label'=> $this->getTranslator()->trans('_codigo_')))
-            ->add('nombre', null, array('label'=> $this->getTranslator()->trans('_nombre_')))
+            ->add('significadoCampo', null, array('label'=> $this->getTranslator()->trans('_significado_campo_')))
             ->add('descripcion', null, array('label'=> $this->getTranslator()->trans('_descripcion_')))
             ->add('formularios', null, array('label'=> $this->getTranslator()->trans('_formulario_'), 'expanded' => true, 'multiple' => true))
             ->add('formula', null, array('label'=> $this->getTranslator()->trans('_formula_')))
@@ -34,7 +33,7 @@ class CampoAdmin extends Admin
             ->add('formato', null, array('label'=> $this->getTranslator()->trans('_formato_')))
             ->add('origen', null, array('label'=> $this->getTranslator()->trans('_origen_campo_')))
             ->add('grupoColumnas', null, array('label'=> $this->getTranslator()->trans('_grupo_columnas_')))
-            ->add('origenPivote', null, array('label'=> $this->getTranslator()->trans('_origen_pivote_')))
+            ->add('origenPivote', null, array('label'=> $this->getTranslator()->trans('_origen_pivote_')))            
             ->setHelps(array(
                 'formula' => $this->getTranslator()->trans('_ayuda_formula_campo_'),
                 'reglaValidacion' => $this->getTranslator()->trans('_ayuda_validacion_campo_'),
@@ -49,19 +48,21 @@ class CampoAdmin extends Admin
     {
         $datagridMapper
             ->add('formularios', null, array('label'=> $this->getTranslator()->trans('_formulario_')))
-            ->add('codigo', null, array('label'=> $this->getTranslator()->trans('_codigo_')))
-            ->add('nombre', null, array('label'=> $this->getTranslator()->trans('_nombre_')))
         ;
     }
 
     protected function configureListFields(ListMapper $listMapper)
     {
-        $listMapper
-            ->add('formulario', null, array('label'=> $this->getTranslator()->trans('_formulario_')))
-            ->addIdentifier('codigo', null, array('label'=> $this->getTranslator()->trans('_codigo_')))
-            ->add('nombre', null, array('label'=> $this->getTranslator()->trans('_nombre_')))
-            ->add('descripcion', null, array('label'=> $this->getTranslator()->trans('_descripcion_'))) 
+        $listMapper            
+            ->add('significadoCampo', null, array('label'=> $this->getTranslator()->trans('_significado_campo_')))
+            ->addIdentifier('descripcion', null, array('label'=> $this->getTranslator()->trans('_descripcion_'))) 
             ->add('posicion', null, array('label'=> $this->getTranslator()->trans('_posicion_')))
+            ->add('formularios', null, array('label'=> $this->getTranslator()->trans('_formulario_')))
+            ->add('_action', 'actions', array(
+            'actions' => array(
+                'edit' => array(),
+                'delete' => array(),
+            )))
         ;
     }
 
