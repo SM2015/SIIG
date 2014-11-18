@@ -9,7 +9,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * MINSAL\CostosBundle\Entity\Campo
  *
  * @ORM\Table(name="costos.campo")
- * @UniqueEntity(fields="codigo", message="Código ya existe")
  * @ORM\Entity(repositoryClass="MINSAL\CostosBundle\Entity\CampoRepository")
  */
 class Campo
@@ -21,21 +20,7 @@ class Campo
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
-    
-    /**
-     * @var string $codigo
-     *
-     * @ORM\Column(name="codigo", type="string", length=20, nullable=false)
-     */
-    private $codigo;
-
-    /**
-     * @var string $nombre
-     *
-     * @ORM\Column(name="nombre", type="string", length=100, nullable=false)
-     */
-    private $nombre;
+    private $id;    
 
     /**
      * @var string $descripcion
@@ -119,6 +104,8 @@ class Campo
     private $formato;
     
     /**
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     * 
      * @ORM\ManyToMany(targetEntity="Formulario", mappedBy="campos")     
      * */
     private $formularios;
@@ -135,9 +122,15 @@ class Campo
      * */
     private $grupoColumnas;
     
+    /**
+     * @ORM\ManyToOne(targetEntity="MINSAL\IndicadoresBundle\Entity\SignificadoCampo")
+     * @ORM\OrderBy({"descripcion" = "ASC"})
+     * */
+    private $significadoCampo;
+    
     public function __toString()
     {
-        return $this->nombre ? : '';
+        return $this->getSignificadoCampo()->getDescripcion() ? : '';
     }
 
 
@@ -175,27 +168,6 @@ class Campo
     }
 
     /**
-     * Set nombre
-     *
-     * @param string $nombre
-     * @return Campo
-     */
-    public function setNombre($nombre)
-    {
-        $this->nombre = $nombre;
-
-        return $this;
-    }
-
-    /**
-     * Get nombre
-     *
-     * @return string 
-     */
-    public function getNombre()
-    {
-        return $this->nombre;
-    }
 
     /**
      * Set descripcion
@@ -558,5 +530,28 @@ class Campo
     public function getFormularios()
     {
         return $this->formularios;
+    }
+
+    /**
+     * Set significadoCampo
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\SignificadoCampo $significadoCampo
+     * @return Campo
+     */
+    public function setSignificadoCampo(\MINSAL\IndicadoresBundle\Entity\SignificadoCampo $significadoCampo = null)
+    {
+        $this->significadoCampo = $significadoCampo;
+
+        return $this;
+    }
+
+    /**
+     * Get significadoCampo
+     *
+     * @return \MINSAL\IndicadoresBundle\Entity\SignificadoCampo 
+     */
+    public function getSignificadoCampo()
+    {
+        return $this->significadoCampo;
     }
 }

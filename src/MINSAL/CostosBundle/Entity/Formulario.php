@@ -10,7 +10,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @ORM\Table(name="costos.formulario")
  * @UniqueEntity(fields="codigo", message="Código ya existe")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="MINSAL\CostosBundle\Entity\FormularioRepository")
+
  */
 class Formulario
 {
@@ -48,6 +49,7 @@ class Formulario
      * @var \Doctrine\Common\Collections\ArrayCollection
      * 
      * @ORM\ManyToMany(targetEntity="Campo", inversedBy="formularios")
+     * @ORM\JoinTable(name="costos.formulario_campo")
      * @ORM\OrderBy({"posicion" = "ASC"})
      **/
     private $campos;
@@ -58,8 +60,13 @@ class Formulario
     * @ORM\OrderBy({"descripcion" = "ASC"})
     */
     private $gruposColumnas;
+   
     
-
+    /**
+     * @ORM\ManyToOne(targetEntity="MINSAL\IndicadoresBundle\Entity\OrigenDatos")
+     * */
+    private $origenDatos;
+    
     public function __toString()
     {
         return $this->nombre ? : '';
@@ -220,5 +227,28 @@ class Formulario
     public function getCampos()
     {
         return $this->campos;
+    }
+
+    /**
+     * Set origenDatos
+     *
+     * @param \MINSAL\IndicadoresBundle\Entity\OrigenDatos $origenDatos
+     * @return Formulario
+     */
+    public function setOrigenDatos(\MINSAL\IndicadoresBundle\Entity\OrigenDatos $origenDatos = null)
+    {
+        $this->origenDatos = $origenDatos;
+
+        return $this;
+    }
+
+    /**
+     * Get origenDatos
+     *
+     * @return \MINSAL\IndicadoresBundle\Entity\OrigenDatos 
+     */
+    public function getOrigenDatos()
+    {
+        return $this->origenDatos;
     }
 }

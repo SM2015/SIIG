@@ -8,23 +8,29 @@ use MINSAL\CostosBundle\Entity\Campo;
 class CampoRepository extends EntityRepository {
 
     public function getOrigenCampo(Campo $campo) {
+        $datos = array();
         if ($campo->getOrigen() !== null) {
             //Verificar si el origen ya está en json
-            $esSql = preg_match("/^SELECT/i", $campo->getOrigen());
+            $esSql = preg_match("/^SELECT/i", $campo->getOrigen());            
             $datos = array();
             if ($esSql) {
                 $q = $this->getEntityManager()->getConnection()->query($campo->getOrigen());
                 $datos = $q->fetchAll();
             } else {
                 $datos = json_decode($campo->getOrigen(), true);
+            }            
+        } else {           
+            if ($campo->getSignificadoCampo()->getCatalogo() != ''){
+                $sql = "SELECT codigo, descripcion FROM ".$campo->getSignificadoCampo()->getCatalogo();
+                $q = $this->getEntityManager()->getConnection()->query( $sql );
+                $datos = $q->fetchAll();
             }
-            $datos_ = array();
-            foreach ($datos as $f) {
-                $datos_[] = array('id' => array_shift($f), 'descripcion' => array_shift($f));
-            }
-
-            return json_encode($datos_);
-        }   
+        }
+        $datos_ = array();
+        foreach ($datos as $f) {
+            $datos_[] = array('id' => array_shift($f), 'descripcion' => array_shift($f));
+        }
+        return json_encode($datos_);
     }
     
     public function getOrigenPivote(Campo $campo) {
