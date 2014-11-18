@@ -4,6 +4,8 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.xml }
+    - { resource: @IndicadoresBundle/Resources/config/admin.xml }
+    - { resource: @CostosBundle/Resources/config/admin.xml }
 
 framework:
     #esi:             ~
@@ -51,6 +53,8 @@ doctrine:
         charset:  UTF8
         types:
             json: Sonata\Doctrine\Types\JsonType
+        mapping_types:
+            hstore: string
 
     orm:
         auto_generate_proxy_classes: %kernel.debug%

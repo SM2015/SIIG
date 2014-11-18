@@ -44,6 +44,7 @@ class AppKernel extends Kernel
             new SunCat\MobileDetectBundle\MobileDetectBundle(),
             
             new MINSAL\IndicadoresBundle\IndicadoresBundle(),
+            new MINSAL\CostosBundle\CostosBundle(),
             
             new FOS\RestBundle\FOSRestBundle(),
             

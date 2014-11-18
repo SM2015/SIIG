@@ -152,6 +152,16 @@ Al finalizar presionar la combinación Ctrl+D 2 veces para regresar al usuario s
 ### Crear la base de datos
 ~~~
 $ app/console doctrine:database:create
+~~~
+
+- Ejecutar dentro de la base de datos, con el usuario dueño de la base de datos, admin por ejemplo
+~~~
+create schema costos;
+create schema catalogos;
+~~~
+
+- Crear la estructura de la base de datos
+~~~
 $ app/console doctrine:schema:update --force
 ~~~
 
@@ -232,7 +242,7 @@ Pueden aparecer mensajes de aviso como "/usr/bin/nohup: redirecting stderr to st
  # /etc/init.d/rabbitmq-server restart
 ~~~
 
-- Cargar la interfaz web: entrar a la dirección http://server_name:55672/mgmt/
+- Cargar la interfaz web: entrar a la dirección http://server_name:15672
 El usuario por defecto es **guest** y la clave **guest**
 
 - Además es necesario configurar el CRON para que ejecute periodicamente la carga de datos, con esto se llamará al proceso origen-dato:cargar que verificará para cada indicador si le corresponde realizar la carga de datos según se haya configurado: diario, mensual, bimensual, trimestral o anual. Un ejemplo podría ser crear el archivo: /etc/cron.d/carga-php-siig

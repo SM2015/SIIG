@@ -7,6 +7,11 @@ indicadores:
     type:     annotation
     prefix:   /
 
+costos:
+    resource: "@CostosBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 indicadores_rest:
     type:     rest
     resource: MINSAL\IndicadoresBundle\Controller\IndicadorRESTController
