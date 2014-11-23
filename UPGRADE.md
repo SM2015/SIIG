@@ -30,6 +30,7 @@ php composer.phar update
 ## dentro de la base ejecutar
 CREATE SCHEMA costos;
 CREATE SCHEMA catalogos;
+CREATE SCHEMA temporales;
 
 ##Actualizar la estructura de la base de datos
 app/console redis:flushall
@@ -38,6 +39,11 @@ app/console doctrine:schema:update --force
 
 ## Cargar datos iniciales
 app/console doctrine:fixtures:load --fixtures=src/MINSAL/CostosBundle/DataFixtures/ORM --append
+
+- Ejecutar dentro de la base de datos, con el usuario dueño de la base
+~~~
+\i [directorio_instalacion]/src/MINSAL/CostosBundle/Resources/estructurasBD/estructuras.sql
+~~~
 
 ##Agregar desde la aplicación dos significados
 Código: tipo_contratacion

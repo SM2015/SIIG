@@ -154,27 +154,6 @@ Al finalizar presionar la combinación Ctrl+D 2 veces para regresar al usuario s
 $ app/console doctrine:database:create
 ~~~
 
-- Ejecutar dentro de la base de datos, con el usuario dueño de la base de datos, admin por ejemplo
-~~~
-create schema costos;
-create schema catalogos;
-~~~
-
-- Crear la estructura de la base de datos
-~~~
-$ app/console doctrine:schema:update --force
-~~~
-
-### Cargar datos iniciales
-
-~~~
-$ app/console doctrine:fixtures:load
-~~~
-
-### Crear un usuario administrador del SIIG
-~~~
-$ app/console fos:user:create --super-admin
-~~~
 
 ### Instalación de HStore
 [HStore](http://www.postgresql.org/docs/9.1/static/hstore.html) es un tipo especial de campo de PostgreSQL
@@ -195,6 +174,27 @@ CREATE TABLE fila_origen_dato(
 
     FOREIGN KEY (id_origen_dato) REFERENCES origen_datos(id) on update CASCADE on delete CASCADE
 );
+~~~
+
+- Ejecutar dentro de la base de datos, con el usuario dueño de la base
+~~~
+\i [directorio_instalacion]/src/MINSAL/CostosBundle/Resources/estructurasBD/estructuras.sql
+~~~
+
+- Crear la estructura de la base de datos
+~~~
+$ app/console doctrine:schema:update --force
+~~~
+
+### Cargar datos iniciales
+
+~~~
+$ app/console doctrine:fixtures:load
+~~~
+
+### Crear un usuario administrador del SIIG
+~~~
+$ app/console fos:user:create --super-admin
 ~~~
 
 ## Instalación de RabbitMQ
