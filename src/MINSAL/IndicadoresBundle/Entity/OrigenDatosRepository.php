@@ -41,7 +41,7 @@ class OrigenDatosRepository extends EntityRepository
                 return false;
             else
                 return true;
-        } elseif ($origen->getUsoCosteo()){
+        } elseif ($origen->getAreaCosteo() != ''){
             if ($tiene_null)
                 return false;
             else

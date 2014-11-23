@@ -6,12 +6,14 @@ _ayuda_formula_campo_: "Debe regresar el valor final: 'var result = '; otros cam
 _ayuda_origen_campo_: 'Cuando el tipo de control sea Cuadro desplegable, se utilizará "origen" para especificar qué valores se mostrarán en el combo, debe estar formado por dos campos (valor y etiqueta), puede ser una consulta SQL o en formato JSON. Ej.: [{"id":"E",  "descripcion": "Enfermera"}, {"id":"M", "descripcion": "Medico"}]'
 _ayuda_origen_pivote_: 'Es una sentencia SQL que recupera registros con dos campos (valor y etiqueta) y se creará un campo de entrada por cada fila del origen pivote. También puede usar formato JSON '
 _ayuda_validacion_campo_: 'Ingrese la condición para ser válido. Usar "value" para referirse al valor del campo dentro de la fórmula. Ej.: value > 0 || value <150'
+_area_costeo_: Área Costeo
 _cargar_datos_: Cargar
 _campo_: Campo
 _campos_: Campos
 _catalogos_: Catálogos
 _codigo_: Código
 _configuracion_: Configuración
+_datos_guardados_: Datos Guardados con éxito
 _dato_no_valido_: Dato no válido
 _descripcion_: Descripción
 _diciembre_: Diciembre
@@ -26,6 +28,7 @@ _formulario_: Formulario
 _formulario_rrhh_valor_pagado_titulo_ : "RRHH :: Valor pagado "
 _grupo_padre_: Grupo padre
 _grupo_columnas_: Grupo Columnas
+_guardar_: Guardar
 _junio_: Junio
 _julio_: Julio
 _limpiar_: Limpiar
@@ -40,6 +43,9 @@ _origen_campo_: Origen campo
 _origen_formulario_: Origen del formulario
 _origen_pivote_: Origen pivote
 _posicion_: Posición
+_rrhh_distribucion_horas_: 'RRHH :: Distribución de horas'
+_rrhh_valor_pagado_: 'RRHH :: VAlor Pagado'
+_rrhh_: Recurso Humano
 _septiembre_: Septiembre
 _significado_campo_: Significado
 _regla_validacion_: Regla de validación

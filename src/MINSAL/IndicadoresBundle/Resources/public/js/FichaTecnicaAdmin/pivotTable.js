@@ -59,6 +59,26 @@ $(document).ready(function() {
             idIndicadorActivo = id_indicador;
         });
     });
+    
+    $('A.elemento_costeo').click(function() {
+        var codigo = $(this).attr('data-id');
+        var nombre_elemento = $(this).html();
+        //var derivers = $.pivotUtilities.derivers;
+
+        var renderers = $.extend($.pivotUtilities.renderers,
+                $.pivotUtilities.gchart_renderers);
+                
+        
+        $.getJSON(Routing.generate('get_datos_costeo', {codigo: codigo}), function(mps) {
+            $("#output").pivotUI(mps, {
+                renderers: renderers,
+                menuLimit: 500,
+                unusedAttrsVertical: false
+            }, false, 'es');
+            $('#marco-sala').attr('data-content', nombre_elemento);
+            $('#myTab a:first').tab('show');
+        });
+    });
 });
 
 var tableToExcel = (function() {

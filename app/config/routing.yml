@@ -16,6 +16,11 @@ indicadores_rest:
     type:     rest
     resource: MINSAL\IndicadoresBundle\Controller\IndicadorRESTController
     prefix: /
+    
+costeo_rest:
+    type:     rest
+    resource: MINSAL\CostosBundle\Controller\CosteoRESTController
+    prefix: /
 # Internal routing configuration to handle ESI
 #_internal:
 #    resource: "@FrameworkBundle/Resources/config/routing/internal.xml"

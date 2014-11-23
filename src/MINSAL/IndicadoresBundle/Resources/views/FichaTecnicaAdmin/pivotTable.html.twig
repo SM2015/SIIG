@@ -25,6 +25,7 @@
     <ul class="nav nav-tabs" id="myTab">
         <li ><a href="#tab1">{{'_tabla_pivote_'|trans}}</a></li>    
         <li class="active"><a href="#listado_indicadores">{{"indicadores"|trans}}</a></li>
+        <li ><a href="#listado_costeo">{{"_costeo_"|trans}}</a></li>
     </ul>
 
     <div id='nombre_sala2' ></div>
@@ -35,7 +36,10 @@
             <button id='ver_ficha' class="btn btn-success" title="{{'ver_ficha_tecnica'|trans}}"><span class="glyphicon glyphicon-briefcase"></span> </button>  
             <div id="output" ></div>
         </div>
-        {% include 'IndicadoresBundle:FichaTecnicaAdmin:listado_indicadores.html.twig'%}
+        {% include 'IndicadoresBundle:FichaTecnicaAdmin:listado_indicadores.html.twig'%}   
+        {% if is_granted('ROLE_SONATA_ADMIN') or is_granted('ROLE_USER_COSTOS') %}
+            {% include 'IndicadoresBundle:FichaTecnicaAdmin:listado_origenes_costos.html.twig'%}
+        {% endif %}
     </div>
 </div>
 <div id="myModal2" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">

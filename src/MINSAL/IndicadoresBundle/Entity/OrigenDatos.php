@@ -78,13 +78,7 @@ class OrigenDatos
      * @ORM\Column(name="es_catalogo", type="boolean", nullable=true)
      */
     private $esCatalogo;
-    
-    /**
-     * @var string $usoCosteo
-     *
-     * @ORM\Column(name="uso_costeo", type="boolean", nullable=true)
-     */
-    private $usoCosteo;
+        
 
     /**
      * @var string $nombreCatalogo
@@ -93,7 +87,7 @@ class OrigenDatos
      */
     protected $nombreCatalogo;
 
-    /**
+    /**u
      * @var string $camposFusionados
      *
      * @ORM\Column(name="campos_fusionados", type="text", nullable=true)
@@ -108,6 +102,13 @@ class OrigenDatos
      *      )
      * */
     private $fusiones;
+    
+    /**
+     * @var string $areaCosteo
+     *
+     * @ORM\Column(name="area_costeo", type="string", length=50, nullable=true)
+     */
+    protected $areaCosteo;
 
     /**
      * @ORM\OneToMany(targetEntity="Campo", mappedBy="origenDato")
@@ -569,28 +570,28 @@ class OrigenDatos
     {
         return $this->esPivote;
     }
-
+    
 
     /**
-     * Set usoCosteo
+     * Set areaCosteo
      *
-     * @param boolean $usoCosteo
+     * @param string $areaCosteo
      * @return OrigenDatos
      */
-    public function setUsoCosteo($usoCosteo)
+    public function setAreaCosteo($areaCosteo)
     {
-        $this->usoCosteo = $usoCosteo;
+        $this->areaCosteo = $areaCosteo;
 
         return $this;
     }
 
     /**
-     * Get usoCosteo
+     * Get areaCosteo
      *
-     * @return boolean 
+     * @return string 
      */
-    public function getUsoCosteo()
+    public function getAreaCosteo()
     {
-        return $this->usoCosteo;
+        return $this->areaCosteo;
     }
 }

@@ -181,10 +181,13 @@ file that was distributed with this source code.
                                                     <li class="dropdown">
                                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">COSTEO <span class="caret"></span></a>
                                                         <ul class="dropdown-menu">
-                                                            {% for admin in group.items %}
+                                                            {% for admin in group.items %}                                                                
                                                                 {% if admin.hasroute('rrhhValorPagado') %}
-                                                                    <li><a href="{{ admin.generateUrl('rrhhValorPagado')}}">{{ '_valor_pagado_'|trans }}</a></li>
+                                                                    <li><a href="{{ admin.generateUrl('rrhhValorPagado')}}">{{ '_rrhh_valor_pagado_'|trans }}</a></li>
                                                                 {% endif %}
+                                                                {% if admin.hasroute('rrhhDistribucionHora') %}
+                                                                    <li><a href="{{ admin.generateUrl('rrhhDistribucionHora')}}">{{ '_rrhh_distribucion_horas_'|trans }}</a></li>
+                                                                {% endif %}                                                                
                                                             {% endfor %}
                                                         </ul>
                                                     </li>

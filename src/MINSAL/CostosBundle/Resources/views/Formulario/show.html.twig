@@ -38,8 +38,27 @@
                     // synchronize with the server - send update command
                     // call commit with parameter true if the synchronization with the server is successful 
                     // and with parameter false if the synchronization failder.
-                    alert(JSON.stringify(rowdata));
-                    commit(true);
+                    if (checkFrm()){
+                        $.post(Routing.generate('{{url_save}}', {id: {{Frm.id}} }), 
+                                    {datos_frm: $('#frm_').serialize(),
+                                        pk: $('#pk').val(),
+                                        fila: JSON.stringify(rowdata),
+                                    },
+                        function(resp) {
+                            if (resp == 'ok') {         
+                                $('#mensaje').html('');
+                                commit(true);
+                            }
+                            else {
+                                $('#mensaje').html('<div class="alert alert-danger" role="alert">'+resp+'</div>');
+                                commit(false);
+                            }
+
+                        }, 'html');
+                    } else {
+                        commit(false);
+                    }
+                    
                 },
                 datafields: [
                     {% for campo in Frm.campos %}
@@ -73,7 +92,7 @@
                 columns: [
                     {% for campo in Frm.campos %}                        
                         {% if campo.origenPivote %}
-                            {% set Pivotes_ =  pivotes[campo.codigo] %}
+                            {% set Pivotes_ =  pivotes[campo.significadoCampo.codigo] %}
                         {% else %}
                             {% set Pivotes_ = [campo] %}
                         {% endif %}
@@ -158,6 +177,9 @@
                 $("#jqxgrid").jqxGrid('clear');
                 $('#mensaje').html('');
             });
+            $("#guardar").click(function () {
+                $('#mensaje').html('<div class="alert alert-success" role="alert">{{'_datos_guardados_'|trans}}</div>');
+            });
         });
         
         function checkFrm() {
@@ -186,8 +208,9 @@
         <form id="frm_" class="form-inline" onsubmit="return false">
         <div class="box-body">        
             {% block frm_head %}
-                <button class="btn btn-success" name="cargar_datos" id="cargar_datos" >{{'_cargar_datos_'|trans}}</button>
-                <button class="btn btn-danger" name="clear" id="clear" >{{'_limpiar_'|trans}}</button>
+                <button class="btn btn-success" name="cargar_datos" id="cargar_datos" ><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>{{'_cargar_datos_'|trans}}</button>
+                <button class="btn btn-danger" name="clear" id="clear" ><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>{{'_limpiar_'|trans}}</button>
+                <button class="btn btn-success" name="guardar" id="guardar" ><i class="fa fa-save" data-original-title="" title=""></i>{{'_guardar_'|trans}}</button>
                 <DIV id="mensaje"></div>
             {% endblock frm_head %}
             {% block grid %}
@@ -197,5 +220,6 @@
             {% endblock %}
             {% block frm_foot %} {% endblock frm_foot %}
         </div>
+        <input type="hidden" name="pk" id='pk' value="{{pk}}" />
     </form>
 {% endblock content %}

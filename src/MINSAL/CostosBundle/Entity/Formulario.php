@@ -44,6 +44,13 @@ class Formulario
      * @ORM\Column(name="descripcion", type="text", nullable=true)
      */
     private $descripcion;
+    
+    /**
+     * @var string $areaCosteo
+     *
+     * @ORM\Column(name="area_costeo", type="string", length=50, nullable=true)
+     */
+    protected $areaCosteo;
         
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
@@ -250,5 +257,28 @@ class Formulario
     public function getOrigenDatos()
     {
         return $this->origenDatos;
+    }
+
+    /**
+     * Set areaCosteo
+     *
+     * @param string $areaCosteo
+     * @return Formulario
+     */
+    public function setAreaCosteo($areaCosteo)
+    {
+        $this->areaCosteo = $areaCosteo;
+
+        return $this;
+    }
+
+    /**
+     * Get areaCosteo
+     *
+     * @return string 
+     */
+    public function getAreaCosteo()
+    {
+        return $this->areaCosteo;
     }
 }

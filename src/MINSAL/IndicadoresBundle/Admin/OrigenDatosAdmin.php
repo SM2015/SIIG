@@ -31,7 +31,10 @@ class OrigenDatosAdmin extends Admin
             $formMapper
                     ->with($this->getTranslator()->trans('datos_generales'), array('collapsed' => false))
                     ->add('esCatalogo', null, array('label' => $this->getTranslator()->trans('es_catalogo')))
-                    ->add('usoCosteo', null, array('label' => $this->getTranslator()->trans('_uso_costeo_')))
+                    ->add('areaCosteo', 'choice', array('label' => $this->getTranslator()->trans('_area_costeo_'),
+                        'choices' => array('rrhh'=>$this->getTranslator()->trans('_rrhh_')),
+                        'required' => false
+                        ))
                     ->end()
                     ->with($this->getTranslator()->trans('origen_datos_sql'), array('collapsed' => true))
                     ->add('conexiones', null, array('label' => $this->getTranslator()->trans('nombre_conexion'), 'required' => false, 'expanded' => true))
