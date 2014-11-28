@@ -46,6 +46,7 @@ class SignificadoCampoAdmin extends Admin
         $datagridMapper
                 ->add('descripcion', null, array('label' => $this->getTranslator()->trans('descripcion')))
                 ->add('catalogo', null, array('label' => $this->getTranslator()->trans('catalogo')))
+                ->add('usoCosteo', null, array('label' => $this->getTranslator()->trans('_uso_costeo_')))
         ;
     }
 
