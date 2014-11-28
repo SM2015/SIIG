@@ -179,6 +179,7 @@ CREATE TABLE fila_origen_dato(
 - Ejecutar dentro de la base de datos, con el usuario dueño de la base
 ~~~
 \i [directorio_instalacion]/src/MINSAL/CostosBundle/Resources/estructurasBD/estructuras.sql
+\i [directorio_instalacion]/src/MINSAL/CostosBundle/Resources/estructurasBD/costos_rrhh.sql
 ~~~
 
 - Crear la estructura de la base de datos
