@@ -86,73 +86,79 @@ class FormularioRepository extends EntityRepository {
 
     public function getDatosCosteo($codigo) {
         $em = $this->getEntityManager();
-        if ($codigo == 'rrhhValorPagado') {
-            $codigo_fuente_costos = 'rrhhValorPagado';
-        }
-        $Frm = array_shift($em->getRepository('CostosBundle:Formulario')->findBy(array('codigo' => $codigo_fuente_costos)));
-/*
-        $sql = 'DROP TABLE IF EXISTS temporales.' . $codigo_fuente_costos.'; '.
-                ' CREATE TABLE temporales.' . $codigo_fuente_costos . '(';
-
-        $origen = $Frm->getOrigenDatos();
-        $diccionarios = array();
-        if ($origen->getEsFusionado()) {
-            $significados = explode(",", str_replace("'", '', $origen->getCamposFusionados()));
-            //Los tipos de campos sacarlos de uno de los orígenes de datos que ha sido fusionado
-            $fusionados = $origen->getFusiones();
-            $fusionado = $fusionados[0];
-            $tipos = array();
-            foreach ($fusionado->getCampos() as $campo) {
-                $tipos[$campo->getSignificado()->getCodigo()] = $campo->getTipoCampo()->getCodigo();
-            }
-            foreach ($significados as $campo) {
-                $sql .= $campo . ' ' . $tipos[$campo] . ', ';
-            }
-            //$sql .= 'calculo numeric, ';
-        } else {
-            foreach ($origen->getCampos() as $campo) {
-                $sql .= $campo->getSignificado()->getCodigo() . ' ' . $campo->getTipoCampo()->getCodigo() . ', ';
-                if ($campo->getDiccionario() != null) {
-                    $diccionarios[$campo->getSignificado()->getCodigo()] = $campo->getDiccionario()->getId();
+        $sql1 = '';
+        $sql2 = '';
+        if ($codigo == 'rrhh') {
+            $codigo_fuente_costos = 'rrhh';
+            $otros_campos = " datos->'isss_patronal' AS ". '"Aporte Patronal ISSS", '.
+                    " datos->'fondo_proteccion' AS ". '"Aporte Patronal Fondo Protección", '.
+                    " datos->'costo_con_aporte_y_aguinaldo' AS ". '"Costo con aporte y aguinaldo", '.
+                    " datos->'costo_hora_aporte_aguinaldo' AS ". '"Costo Hora con aporte y aguinaldo", '.
+                    " datos->'costo_hora_no_trab_CG' AS ". '"Costo hora no trabajada con goce", '.
+                    " datos->'costo_hora_no_trab_SG' AS ". '"Costo hora no trabajada SIN goce", '.
+                    " datos->'salario_descuentos_permisos' AS ". '"Salario con descuentos y permisos", '.
+                    " datos->'costo_hora_descuentos_permisos' AS ". '"Costo Hora con descuentos y permisos" ';
+            
+            $Frm = array_shift($em->getRepository('CostosBundle:Formulario')->findBy(array('codigo' => 'rrhhValorPagado')));
+        
+            $campos = '';
+            foreach ($Frm->getCampos() as $c){
+                if ($c->getOrigenPivote() == ''){
+                    $campos .= "datos->'".$c->getSignificadoCampo()->getCodigo(). "' AS ". '"'. $c->getSignificadoCampo()->getDescripcion().'", ';
                 }
             }
-        }
-        $sql = trim($sql, ', ') . ');';
-
-        // Si es fusionado recuperar los orígenes que están contenidos
-        $origenes = array();
-        if ($origen->getEsFusionado()){
-            foreach ($origen->getFusiones() as $of){
-                $origenes[] = $of->getId();
+        } elseif ($codigo == 'rrhh_resumen') {
+            $codigo_fuente_costos = 'rrhh';
+            
+            $Frm = array_shift($em->getRepository('CostosBundle:Formulario')->findBy(array('codigo' => 'rrhhDistribucionHora')));
+            $Frm2 = array_shift($em->getRepository('CostosBundle:Formulario')->findBy(array('codigo' => 'rrhhValorPagado')));
+            
+            $campos = '';
+            $campos2 = '';
+            foreach($Frm2->getCampos() as $c){
+                if ($c->getOrigenPivote() == '' and ($c->getTipoDato()->getCodigo() == 'string' or $c->getTipoDato()->getCodigo() == 'bool') ){
+                    $campos .= "datos->'".$c->getSignificadoCampo()->getCodigo(). "' AS ". '"'. $c->getSignificadoCampo()->getDescripcion().'", ';
+                    $campos2 .= '"'.$c->getSignificadoCampo()->getDescripcion().'", ';
+                }
+            }           
+            $campos .= " datos->'costo_hora_descuentos_permisos' AS costo_hora_recurso, ";
+            $campos2 .= '"costo_hora_recurso", ';
+            $pivotes = array();
+            foreach($Frm->getCampos() as $c){
+                if ($c->getOrigenPivote()){
+                    $pivotes[$c->getSignificadoCampo()->getCodigo()] = $em->getRepository('CostosBundle:Campo')->getOrigenPivote($c);
+                }
             }
+            $otros_campos = '';
+            $nombre_pivote = array_pop(array_keys($pivotes));
+            
+            $piv1 = '';
+            $piv2 = '';
+            foreach (array_pop($pivotes) as $p){
+                $cod = array_shift($p);
+                $otros_campos .= "datos->'".$nombre_pivote."_". $cod."' AS ".'"'.strtolower($cod).'"'.", ";
+                $piv1 .= "'".$cod."', ";
+                $piv2 .= strtolower($cod).", ";
+            }
+            $piv1 = trim($piv1, ', ');
+            $piv2 = trim($piv2, ', ');
+            $sql1 = 'SELECT *,  (costo_hora_recurso::numeric * horas_centro::numeric) AS CostoCentro FROM (SELECT '.$campos2.' unnest(array['.$piv1.']) AS CentroCostos,'
+                    . 'unnest(array['.$piv2.']) AS horas_centro FROM ( ';
+            $sql2 = ') as A) AS B';
+            $otros_campos = trim ($otros_campos, ', ');                        
+            
         }
-        else{
-            $origenes[] = $origen->getId();
-        }
-        $sql .= "INSERT INTO temporales.$codigo_fuente_costos
-                    SELECT (populate_record(null::temporales.$codigo_fuente_costos, datos)).*
-                    FROM fila_origen_dato
-                        WHERE id_origen_dato IN (" . implode(',', $origenes) . ")
-                    ;";
-        $em->getConnection()->exec($sql);
         
-        $sql = "
-            SELECT *, (salario::numeric * 0.0675) as isss_patronal
-            FROM temporales.$codigo_fuente_costos
-            ;";
-
-        try {
-            return $em->getConnection()->executeQuery($sql)->fetchAll();                        
-        } catch (\PDOException $e) {
-            return $e->getMessage();
-        }*/
+        
+        $campos .= $otros_campos;
+        
         $origenes = $this->getOrigenes($Frm->getOrigenDatos());
 
-        $sql = "
-            SELECT datos,
-            FROM fila_origen_dato
-            WHERE id_origen_dato IN (" . implode(',', $origenes) . ")
-            ;";
+        $sql = $sql1 . " 
+            SELECT $campos
+            FROM costos.fila_origen_dato_".$codigo_fuente_costos.
+            " WHERE id_origen_dato IN (" . implode(",", $origenes) . ")
+            " . $sql2 ;
 
         try {
             return $em->getConnection()->executeQuery($sql)->fetchAll();
