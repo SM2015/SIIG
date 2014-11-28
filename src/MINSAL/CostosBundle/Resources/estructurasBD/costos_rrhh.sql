@@ -1,44 +1,44 @@
 CREATE OR REPLACE FUNCTION costo_rrhh() RETURNS TRIGGER AS $costo_rrhh$
   DECLARE    
-    limite_isss numeric := 685.71;
-    isss_porc_patronal numeric := 0.075;
+    limite_isss numeric(15,4) := 685.71;
+    isss_porc_patronal numeric(15,4) := 0.075;
 
-    limite_ipsfa numeric := 2449.05;
-    ipsfa_porc_patronal numeric := 0.06;
+    limite_ipsfa numeric(15,4) := 2449.05;
+    ipsfa_porc_patronal numeric(15,4) := 0.06;
 
-    afp_porc_patronal numeric := 0.0675;
-    limite_afp numeric := 5467.52;
+    afp_porc_patronal numeric(15,4) := 0.0675;
+    limite_afp numeric(15,4) := 5467.52;
 
-    salario  numeric := 0;
-    salario_descuentos_permisos  numeric := 0;
-    isss_patronal numeric := 0;
+    salario  numeric(15,4) := 0;
+    salario_descuentos_permisos  numeric(15,4) := 0;
+    isss_patronal numeric(15,4) := 0;
     tipo_fondo_proteccion  varchar;
     
-    fondo_proteccion numeric := 0;
-    porc_fondo_proteccion numeric := 0;
-    limit_fondo_proteccion numeric := 0;
+    fondo_proteccion numeric(15,4) := 0;
+    porc_fondo_proteccion numeric(15,4) := 0;
+    limit_fondo_proteccion numeric(15,4) := 0;
 
-    costo_con_aporte_y_aguinaldo numeric :=0;
-    costo_hora_con_aporte_y_aguinaldo numeric :=0;
-    costo_hora_no_trab_CG numeric :=0;
-    costo_hora_no_trab_SG numeric :=0;
-    costo_hora_descuentos_permisos numeric :=0;
+    costo_con_aporte_y_aguinaldo numeric(15,4) :=0;
+    costo_hora_con_aporte_y_aguinaldo numeric(15,4) :=0;
+    costo_hora_no_trab_CG numeric(15,4) :=0;
+    costo_hora_no_trab_SG numeric(15,4) :=0;
+    costo_hora_descuentos_permisos numeric(15,4) :=0;
 
-    horas_trabajadas_mes numeric :=0;
-    horas_trabajadas_sg numeric :=0;
-    dependencias_donde_labora numeric :=0;
-    aguinaldo numeric :=0;
-    descuentos numeric :=0;
-    horas_no_trab_CG numeric :=0;
-    horas_no_trab_SG numeric :=0;
+    horas_trabajadas_mes numeric(15,4) :=0;
+    horas_trabajadas_sg numeric(15,4) :=0;
+    dependencias_donde_labora numeric(15,4) :=0;
+    aguinaldo numeric(15,4) :=0;
+    descuentos numeric(15,4) :=0;
+    horas_no_trab_CG numeric(15,4) :=0;
+    horas_no_trab_SG numeric(15,4) :=0;
     
   BEGIN   
     salario := (COALESCE(NULLIF(NEW.datos->'salario', ''),'0'))::numeric ;
     descuentos := (COALESCE(NULLIF(NEW.datos->'descuentos',''),'0'))::numeric ;
     tipo_fondo_proteccion := (COALESCE(NULLIF(NEW.datos->'fondo_proteccion', ''),''));
-    horas_trabajadas_mes := (COALESCE(NULLIF(NEW.datos->'horas_trabajadas_mes', ''),'0'))::numeric;
+    horas_trabajadas_mes := (COALESCE(NULLIF(NEW.datos->'horas_trab_mes', ''),'0'))::numeric;
     dependencias_donde_labora := (COALESCE(NULLIF(NEW.datos->'dependencias_donde_labora',''),'0'))::numeric;
-    horas_trabajadas_sg := (COALESCE(NULLIF(NEW.datos->'horas_trabajadas_sg',''),'0'))::numeric;
+    horas_trabajadas_sg := (COALESCE(NULLIF(NEW.datos->'horas_trab_sg',''),'0'))::numeric;
     aguinaldo := (COALESCE(NULLIF(NEW.datos->'aguinaldo', ''),'0'))::numeric;
     horas_no_trab_CG := (COALESCE(NULLIF(NEW.datos->'horas_no_trab_CG', ''),'0'))::numeric;
     horas_no_trab_SG := (COALESCE(NULLIF(NEW.datos->'horas_no_trab_SG', ''),'0'))::numeric;
