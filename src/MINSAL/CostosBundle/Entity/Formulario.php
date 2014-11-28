@@ -51,6 +51,13 @@ class Formulario
      * @ORM\Column(name="area_costeo", type="string", length=50, nullable=true)
      */
     protected $areaCosteo;
+    
+    /**
+     * @var string $columnas_fijas
+     *
+     * @ORM\Column(name="columnas_fijas", type="integer", nullable=true)
+     */
+    protected $columnasFijas;
         
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
@@ -280,5 +287,28 @@ class Formulario
     public function getAreaCosteo()
     {
         return $this->areaCosteo;
+    }
+
+    /**
+     * Set columnasFijas
+     *
+     * @param integer $columnasFijas
+     * @return Formulario
+     */
+    public function setColumnasFijas($columnasFijas)
+    {
+        $this->columnasFijas = $columnasFijas;
+
+        return $this;
+    }
+
+    /**
+     * Get columnasFijas
+     *
+     * @return integer 
+     */
+    public function getColumnasFijas()
+    {
+        return $this->columnasFijas;
     }
 }

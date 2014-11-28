@@ -96,16 +96,19 @@
                 filterable: true,
                 localization: getLocalization('{{app.request.locale}}'),
                 selectionmode: 'multiplecellsadvanced',
+                {% set columnas_fijas = Frm.columnasFijas|default(0) %}
                 columns: [
+                    {% set indice = 0 %}
                     {% for campo in Frm.campos %}                        
+                        {% set indice = indice+1 %}
                         {% if campo.origenPivote %}
                             {% set Pivotes_ =  pivotes[campo.significadoCampo.codigo] %}
                         {% else %}
                             {% set Pivotes_ = [campo] %}
                         {% endif %}
-
+                        
                         {% for pivote in Pivotes_ %}
-                        {
+                        {                            
                             {% if campo.origenPivote %}
                                 text: '{{pivote.descripcion}}', 
                                 datafield: '{{campo.significadoCampo.codigo}}_{{pivote.id}}', 
@@ -114,7 +117,10 @@
                                 datafield: '{{campo.significadoCampo.codigo}}', 
                             {% endif %}
                             align: 'center',                            
-                            width: {{campo.ancho|default(100)}}, 
+                            width: {{campo.ancho|default(100)}},
+                            {% if indice  <=  columnas_fijas %}
+                                pinned: true,
+                            {% endif %}
                             cellsalign: '{{campo.alineacion.codigo|default('left')}}',
                             editable: {{campo.esEditable|default('false')}},
                             columntype: '{{campo.tipoControl.codigo}}',
