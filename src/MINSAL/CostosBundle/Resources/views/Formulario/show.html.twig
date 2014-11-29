@@ -28,6 +28,7 @@
     <script src="{{ asset('bundles/costos/js/jqwidgets/jqxlistbox.js') }}" type="text/javascript"></script>
     <script src="{{ asset('bundles/costos/js/jqwidgets/jqxmenu.js') }}" type="text/javascript"></script>
     <script src="{{ asset('bundles/costos/js/jqwidgets/localization.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/jquery.mtz.monthpicker.js') }}" type="text/javascript"></script>    
     
     <script type="text/javascript">
         $(document).ready(function () {
@@ -41,26 +42,22 @@
                     // synchronize with the server - send update command
                     // call commit with parameter true if the synchronization with the server is successful 
                     // and with parameter false if the synchronization failder.
-                    if (checkFrm()){
-                        $.post(Routing.generate('{{url_save}}', {id: {{Frm.id}} }), 
-                                    {datos_frm: $('#frm_').serialize(),
-                                        pk: $('#pk').val(),
-                                        fila: JSON.stringify(rowdata),
-                                    },
-                        function(resp) {
-                            if (resp == 'ok') {         
-                                $('#mensaje').html('');
-                                commit(true);
-                            }
-                            else {
-                                $('#mensaje').html('<div class="alert alert-danger" role="alert">'+resp+'</div>');
-                                commit(false);
-                            }
+                    $.post(Routing.generate('{{url_save}}', {id: {{Frm.id}} }), 
+                                {datos_frm: $('#frm_').serialize(),
+                                    pk: $('#pk').val(),
+                                    fila: JSON.stringify(rowdata),
+                                },
+                    function(resp) {
+                        if (resp == 'ok') {         
+                            $('#mensaje').html('');
+                            commit(true);
+                        }
+                        else {
+                            $('#mensaje').html('<div class="alert alert-danger" role="alert">'+resp+'</div>');
+                            commit(false);
+                        }
 
-                        }, 'html');
-                    } else {
-                        commit(false);
-                    }
+                    }, 'html');
                     
                 },
                 datafields: [
@@ -167,23 +164,21 @@
             });
             
             $("#cargar_datos").click(function () {        
-                if (checkFrm()){
-                    $.post(Routing.generate('{{url}}', {id: {{Frm.id}} }), {datos_frm: $('#frm_').serialize()},
-                    function(resp) {
-                        if (resp.estado == 'ok') {
-                            $('#mensaje').html('');
-                            source.localdata = resp.data;
-                            // passing "cells" to the 'updatebounddata' method will refresh only the cells 
-                            // values when the new rows count is equal to the previous rows count.
-                            $("#jqxgrid").jqxGrid('updatebounddata', 'cells');
-                            $("#jqxgrid").jqxGrid('autoresizecolumns');
-                        }
-                        else {
-                            $('#mensaje').html('<div class="alert alert-danger" role="alert">'+resp.msj+'</div>');
-                        }
+                $.post(Routing.generate('{{url}}', {id: {{Frm.id}} }), {datos_frm: $('#frm_').serialize()},
+                function(resp) {
+                    if (resp.estado == 'ok') {
+                        $('#mensaje').html('');
+                        source.localdata = resp.data;
+                        // passing "cells" to the 'updatebounddata' method will refresh only the cells 
+                        // values when the new rows count is equal to the previous rows count.
+                        $("#jqxgrid").jqxGrid('updatebounddata', 'cells');
+                        $("#jqxgrid").jqxGrid('autoresizecolumns');
+                    }
+                    else {
+                        $('#mensaje').html('<div class="alert alert-danger" role="alert">'+resp.msj+'</div>');
+                    }
 
-                    }, 'json');
-                }
+                }, 'json');
                 
             });
             $("#clear").click(function () {
@@ -194,22 +189,7 @@
                 $('#mensaje').html('<div class="alert alert-success" role="alert">{{'_datos_guardados_'|trans}}</div>');
             });
         });
-        
-        function checkFrm() {
-            var error = false;
-            $.each(controles, function (index, value) {
-                if ($('#' + value).val() == '') {
-                    error = true;
-                    $('#' + value+'_f').addClass('has-error');
-                } else {
-                    $('#' + value+'_f').removeClass('has-error');
-                }
-            });
-            if (error == true) {
-                $('#mensaje').html('<div class="alert alert-danger" role="alert">{{'_faltan_datos_requeridos_'|trans}}</div>');
-                return false;
-            } else return true;
-        }
+                
     </script>
 {% endblock javascripts %}
 {% block content %}
@@ -221,10 +201,12 @@
         <form id="frm_" class="form-inline" onsubmit="return false">
         <div class="box-body">        
             {% block frm_head %}
-                <button class="btn btn-success" name="cargar_datos" id="cargar_datos" ><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>{{'_cargar_datos_'|trans}}</button>
-                <button class="btn btn-danger" name="clear" id="clear" ><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>{{'_limpiar_'|trans}}</button>
-                <button class="btn btn-success" name="guardar" id="guardar" ><i class="fa fa-save" data-original-title="" title=""></i>{{'_guardar_'|trans}}</button>
-                <DIV id="mensaje"></div>
+                <DIV style="width: 98%; text-align: right">                    
+                    <button class="btn btn-success" name="cargar_datos" id="cargar_datos" ><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>{{'_cargar_datos_'|trans}}</button>
+                    <button class="btn btn-danger" name="clear" id="clear" ><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>{{'_limpiar_'|trans}}</button>
+                    <button class="btn btn-success" name="guardar" id="guardar" ><i class="fa fa-save" data-original-title="" title=""></i>{{'_guardar_'|trans}}</button>
+                    <DIV id="mensaje"></div>
+                </div>                
             {% endblock frm_head %}
             {% block grid %}
                 <div id='jqxWidget' style="padding: 10px;">

@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 /**
  * FormularioRepository
- *
+ * 
  */
 class FormularioRepository extends EntityRepository {
 
@@ -50,7 +50,13 @@ class FormularioRepository extends EntityRepository {
             $params = explode('&', $parametros);
             foreach ($params as $p) {
                 $dato = explode('=', $p);
-                if ($dato[1] != '' and $dato[0] != 'pk') {
+                if ($dato[0] == 'anio_mes'){
+                    $campos = split('_', $dato[0]);
+                    $valores = split('%2F', $dato[1]);
+                    $params_string .= " AND (datos->'" . $campos[0] . "')::integer = '" . $valores[1] . "'::integer ";
+                    $params_string .= " AND (datos->'" . $campos[1] . "')::integer = '" . $valores[0] . "'::integer ";
+                }
+                elseif ($dato[1] != '' and $dato[0] != 'pk') {
                     $params_string .= " AND datos->'" . $dato[0] . "' = '" . $dato[1] . "' ";
                 }
             }

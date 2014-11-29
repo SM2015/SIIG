@@ -4,38 +4,11 @@
     <script src="{{ asset('bundles/costos/js/rrhhValorPagado.js') }}" type="text/javascript"></script>
 {% endblock %}
     
-{% block frm_head %} 
-    <div class="form-group" id="establecimiento_f">
-        <label for="establecimiento">Establecimiento</label>
-        <input type="text" class="form-control" id="establecimiento" name="establecimiento">
-    </div>
-    <div class="form-group" id="departamento_f">    
-        <label for="dependencia">Dependencia</label>
-        <input type="text" class="form-control" id="departamento" name="departamento">
-    </div>
-    <div class="form-group" id="anio_f">    
-        <label for="anio">A&ntilde;o</label>
-        <input type="text" class="form-control" id="anio" name="anio">
-    </div>
-    <div class="form-group" id="mes_f">    
-        <label for="mes">Mes</label>        
-        <select id="mes" name="mes">
-            <option value="1">{{'_enero_'|trans}}</option>
-            <option value="2">{{'_febrero_'|trans}}</option>
-            <option value="3">{{'_marzo_'|trans}}</option>
-            <option value="4">{{'_abril_'|trans}}</option>
-            <option value="5">{{'_mayo_'|trans}}</option>
-            <option value="6">{{'_junio_'|trans}}</option>
-            <option value="7">{{'_julio_'|trans}}</option>
-            <option value="8">{{'_agosto_'|trans}}</option>
-            <option value="9">{{'_septiembre_'|trans}}</option>
-            <option value="10">{{'_octubre_'|trans}}</option>
-            <option value="11">{{'_noviembre_'|trans}}</option>
-            <option value="12">{{'_diciembre_'|trans}}</option>
-        </select>
-    </div>
+{% block frm_head %}
+    {% include 'CostosBundle:Formulario:parametrosDependencia.html.twig' %}
     {{ parent() }}
 {% endblock %}
+
 {% block frm_foot %} 
     <input type="hidden" value="rrhhValorPagado" />
 {% endblock frm_foot %}
