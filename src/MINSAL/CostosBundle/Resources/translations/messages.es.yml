@@ -19,6 +19,7 @@ _costeo_: Costeo
 _datos_guardados_: Datos Guardados con éxito
 _dato_no_valido_: Dato no válido
 _descripcion_: Descripción
+_dependencia_: Dependencia
 _diciembre_: Diciembre
 _enero_: Enero
 _es_editable_: Editable
@@ -29,6 +30,7 @@ _formato_: Formato
 _formula_: Fórmula
 _formulario_: Formulario
 _formulario_rrhh_valor_pagado_titulo_ : "RRHH :: Valor pagado "
+_ga_af_: "Gastos Administrativos:: Activo Fijo"
 _grupo_padre_: Grupo padre
 _grupo_columnas_: Grupo Columnas
 _guardar_: Guardar
@@ -38,6 +40,7 @@ _limpiar_: Limpiar
 _marzo_: Marzo
 _mayo_: Mayo
 _msj_validacion_: Mensaje de validación
+_nivel_ : Nivel
 _no_datos_: 'No se encontraron datos con los parámetros especificados'
 _nombre_: Nombre
 _noviembre_: Noviembre
@@ -56,4 +59,5 @@ _tipo_contratacion_: Tipo contratación
 _tipo_control_: Tipo Control
 _tipo_dato_: Tipo Dato
 _tipo_recurso_: Tipo Recurso
+_unidad_superior_ : Unidad superior
 _uso_costeo_: Utilizado para Costeo
