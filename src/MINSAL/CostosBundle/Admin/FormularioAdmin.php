@@ -25,7 +25,8 @@ class FormularioAdmin extends Admin
             ->add('columnasFijas', null, array('label'=> $this->getTranslator()->trans('_columnas_fijas_')))
             ->add('origenDatos', null, array('label'=> $this->getTranslator()->trans('_origen_formulario_')))
             ->add('areaCosteo', 'choice', array('label' => $this->getTranslator()->trans('_area_costeo_'),
-                        'choices' => array('rrhh'=>$this->getTranslator()->trans('_rrhh_'))
+                        'choices' => array('rrhh'=>$this->getTranslator()->trans('_rrhh_'),
+                            'ga_af'=>$this->getTranslator()->trans('_ga_af_'))
                         ))
             ->add('campos', null, 
                     array('label'=> $this->getTranslator()->trans('_campos_'), 
@@ -61,6 +62,7 @@ class FormularioAdmin extends Admin
     protected function configureRoutes(RouteCollection $collection)
     {
         $collection->add('rrhhValorPagado');
-        $collection->add('rrhhDistribucionHora');        
+        $collection->add('rrhhDistribucionHora');
+        $collection->add('gaAf');  
     }
 }

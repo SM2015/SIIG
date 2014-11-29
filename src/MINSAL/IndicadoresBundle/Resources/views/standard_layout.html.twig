@@ -187,7 +187,10 @@ file that was distributed with this source code.
                                                                 {% endif %}
                                                                 {% if admin.hasroute('rrhhDistribucionHora') %}
                                                                     <li><a href="{{ admin.generateUrl('rrhhDistribucionHora')}}">{{ '_rrhh_distribucion_horas_'|trans }}</a></li>
-                                                                {% endif %}                                                                
+                                                                {% endif %}
+                                                                {% if admin.hasroute('gaAf') %}
+                                                                    <li><a href="{{ admin.generateUrl('gaAf')}}">{{ '_ga_af_'|trans }}</a></li>
+                                                                {% endif %}
                                                             {% endfor %}
                                                         </ul>
                                                     </li>

@@ -11,6 +11,8 @@ class FormularioAdminController extends Controller
     {        
         $em = $this->getDoctrine()->getManager();
         
+        $estructura = $em->getRepository("CostosBundle:Estructura")->findBy(array(), array('codigo' => 'ASC'));
+        
         $Frm = array_shift($em->getRepository('CostosBundle:Formulario')->findBy(array('codigo'=>'rrhhValorPagado')));
         
         return $this->render('CostosBundle:Formulario:rrhhValorPagado.html.twig', array('Frm' => $Frm, 
@@ -18,12 +20,15 @@ class FormularioAdminController extends Controller
             'pivotes' => $this->getPivotes($Frm),
             'url' => 'get_grid_data',
             'url_save' => 'set_grid_data',
+            'estructura' => $estructura,
             'pk' => 'nit'));
     }
     
     public function rrhhDistribucionHoraAction()
     {        
         $em = $this->getDoctrine()->getManager();
+        
+        $estructura = $em->getRepository("CostosBundle:Estructura")->findBy(array(), array('codigo' => 'ASC'));
         
         $Frm = array_shift($em->getRepository('CostosBundle:Formulario')->findBy(array('codigo'=>'rrhhDistribucionHora')));        
         
@@ -32,7 +37,25 @@ class FormularioAdminController extends Controller
             'pivotes' => $this->getPivotes($Frm),
             'url' => 'get_grid_data',
             'url_save' => 'set_grid_data',
+            'estructura' => $estructura,
             'pk' => 'nit'));
+    }
+    
+    public function gaAfAction()
+    {        
+        $em = $this->getDoctrine()->getManager();
+        
+        $estructura = $em->getRepository("CostosBundle:Estructura")->findBy(array(), array('codigo' => 'ASC'));
+        
+        $Frm = array_shift($em->getRepository('CostosBundle:Formulario')->findBy(array('codigo'=>'gaAf')));
+        
+        return $this->render('CostosBundle:Formulario:gaAf.html.twig', array('Frm' => $Frm, 
+            'origenes' => $this->getOrigenes($Frm),
+            'pivotes' => $this->getPivotes($Frm),
+            'url' => 'get_grid_data',
+            'url_save' => 'set_grid_data',
+            'estructura' => $estructura,
+            'pk' => 'codigo_af'));
     }
     
     private function getOrigenes($Frm) {
