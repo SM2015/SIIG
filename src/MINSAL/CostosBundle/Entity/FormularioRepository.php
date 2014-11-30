@@ -103,7 +103,9 @@ class FormularioRepository extends EntityRepository {
                     " datos->'costo_hora_no_trab_CG' AS ". '"Costo hora no trabajada con goce", '.
                     " datos->'costo_hora_no_trab_SG' AS ". '"Costo hora no trabajada SIN goce", '.
                     " datos->'salario_descuentos_permisos' AS ". '"Salario con descuentos y permisos", '.
-                    " datos->'costo_hora_descuentos_permisos' AS ". '"Costo Hora con descuentos y permisos" ';
+                    " datos->'costo_hora_descuentos_permisos' AS ". '"Costo Hora con descuentos y permisos", '.
+                    " datos->'dependencia' AS ". '"codigo_dependencia" '
+                    ;
             
             $Frm = array_shift($em->getRepository('CostosBundle:Formulario')->findBy(array('codigo' => 'rrhhValorPagado')));
         
@@ -127,8 +129,9 @@ class FormularioRepository extends EntityRepository {
                     $campos2 .= '"'.$c->getSignificadoCampo()->getDescripcion().'", ';
                 }
             }           
-            $campos .= " datos->'costo_hora_descuentos_permisos' AS costo_hora_recurso, ";
-            $campos2 .= '"costo_hora_recurso", ';
+            $campos .= " datos->'costo_hora_descuentos_permisos' AS costo_hora_recurso, ".
+                        " datos->'dependencia' AS codigo_dependencia, ";
+            $campos2 .= 'costo_hora_recurso, codigo_dependencia, ';
             $pivotes = array();
             foreach($Frm->getCampos() as $c){
                 if ($c->getOrigenPivote()){
@@ -148,7 +151,8 @@ class FormularioRepository extends EntityRepository {
             }
             $piv1 = trim($piv1, ', ');
             $piv2 = trim($piv2, ', ');
-            $sql1 = 'SELECT *,  (costo_hora_recurso::numeric * horas_centro::numeric) AS CostoCentro FROM (SELECT '.$campos2.' unnest(array['.$piv1.']) AS CentroCostos,'
+            $sql1 = 'SELECT *,  (costo_hora_recurso::numeric * horas_centro::numeric) AS CostoCentro '
+                    . 'FROM (SELECT '.$campos2.' unnest(array['.$piv1.']) AS CentroCostos, '
                     . 'unnest(array['.$piv2.']) AS horas_centro FROM ( ';
             $sql2 = ') as A) AS B';
             $otros_campos = trim ($otros_campos, ', ');                        
@@ -165,9 +169,16 @@ class FormularioRepository extends EntityRepository {
             FROM costos.fila_origen_dato_".$codigo_fuente_costos.
             " WHERE id_origen_dato IN (" . implode(",", $origenes) . ")
             " . $sql2 ;
-
+        // Leer desde la tabla temporal para poder establecer relaciones con otras tablas        
+        $sql_resp = 'SELECT A.*, B.nombre AS  "Nombre dependencia", C.nombre AS "Establecimiento", C.codigo AS codigo_establecimiento
+                FROM ('. $sql . ' ) AS A
+                    INNER JOIN costos.estructura B ON (A.codigo_dependencia = B.codigo)
+                    INNER JOIN costos.estructura C ON (substr(A.codigo_dependencia,1,2) = C.codigo)
+                    ' ;
+        
         try {
-            return $em->getConnection()->executeQuery($sql)->fetchAll();
+             $em->getConnection()->executeQuery($sql);
+            return $em->getConnection()->executeQuery($sql_resp)->fetchAll();
         } catch (\PDOException $e) {
             return $e->getMessage();
         }

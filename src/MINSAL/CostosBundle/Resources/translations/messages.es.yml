@@ -50,8 +50,9 @@ _origen_formulario_: Origen del formulario
 _origen_pivote_: Origen pivote
 _posicion_: Posición
 _rrhh_distribucion_horas_: 'RRHH :: Distribución de horas'
-_rrhh_valor_pagado_: 'RRHH :: VAlor Pagado'
 _rrhh_: Recurso Humano
+_rrhh_resumen_ : 'RRHH :: Resumen'
+_rrhh_valor_pagado_: 'RRHH :: VAlor Pagado'
 _septiembre_: Septiembre
 _significado_campo_: Significado
 _regla_validacion_: Regla de validación
