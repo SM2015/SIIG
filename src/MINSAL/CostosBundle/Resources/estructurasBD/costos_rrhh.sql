@@ -40,8 +40,8 @@ CREATE OR REPLACE FUNCTION costo_rrhh() RETURNS TRIGGER AS $costo_rrhh$
     dependencias_donde_labora := (COALESCE(NULLIF(NEW.datos->'dependencias_donde_labora',''),'0'))::numeric;
     horas_trabajadas_sg := (COALESCE(NULLIF(NEW.datos->'horas_trab_sg',''),'0'))::numeric;
     aguinaldo := (COALESCE(NULLIF(NEW.datos->'aguinaldo', ''),'0'))::numeric;
-    horas_no_trab_CG := (COALESCE(NULLIF(NEW.datos->'horas_no_trab_CG', ''),'0'))::numeric;
-    horas_no_trab_SG := (COALESCE(NULLIF(NEW.datos->'horas_no_trab_SG', ''),'0'))::numeric;
+    horas_no_trab_CG := (COALESCE(NULLIF(NEW.datos->'horas_no_trab_cobradas', ''),'0'))::numeric;
+    horas_no_trab_SG := (COALESCE(NULLIF(NEW.datos->'horas_no_trab_sin_goce', ''),'0'))::numeric;
 
      
     IF UPPER(tipo_fondo_proteccion) = 'AFP' THEN
@@ -68,13 +68,13 @@ CREATE OR REPLACE FUNCTION costo_rrhh() RETURNS TRIGGER AS $costo_rrhh$
     IF horas_trabajadas_mes > 0 THEN        
         IF dependencias_donde_labora >= 2 THEN
             costo_con_aporte_y_aguinaldo := isss_patronal + fondo_proteccion + 
-            (salario - ((salario / horas_trabajadas_mes) * horas_trabajadas_sg) + 
+            (salario - ((salario / horas_trabajadas_mes) * horas_no_trab_SG) + 
             aguinaldo) / dependencias_donde_labora;
         ELSE
             costo_con_aporte_y_aguinaldo := salario - (( salario / horas_trabajadas_mes) 
-            * horas_trabajadas_sg) + isss_patronal + fondo_proteccion +  aguinaldo; 
+            * horas_no_trab_SG) + isss_patronal + fondo_proteccion +  aguinaldo; 
         END IF;
-        costo_hora_con_aporte_y_aguinaldo := costo_con_aporte_y_aguinaldo / horas_trabajadas_mes;
+        costo_hora_con_aporte_y_aguinaldo := costo_con_aporte_y_aguinaldo / (horas_trabajadas_mes - horas_no_trab_CG) ;
     ELSE
         costo_con_aporte_y_aguinaldo := 0;
         costo_hora_con_aporte_y_aguinaldo := 0;
@@ -97,13 +97,13 @@ CREATE OR REPLACE FUNCTION costo_rrhh() RETURNS TRIGGER AS $costo_rrhh$
     IF horas_trabajadas_mes = horas_no_trab_CG THEN
         costo_hora_descuentos_permisos := salario_descuentos_permisos;
     ELSEIF horas_trabajadas_mes > 0 THEN
-        costo_hora_descuentos_permisos := salario_descuentos_permisos / horas_trabajadas_mes;
+        costo_hora_descuentos_permisos := salario_descuentos_permisos / (horas_trabajadas_mes - horas_no_trab_CG);
     ELSE
         costo_hora_descuentos_permisos := 0;
     END IF;
 
     NEW.datos := NEW.datos || ('"isss_patronal"=>"'||isss_patronal||'"')::hstore;
-    NEW.datos := NEW.datos || ('"fondo_proteccion"=>"'||fondo_proteccion||'"')::hstore;
+    NEW.datos := NEW.datos || ('"fondo_proteccion_patronal"=>"'||fondo_proteccion||'"')::hstore;
     NEW.datos := NEW.datos || ('"costo_con_aporte_y_aguinaldo"=>"'||( salario + isss_patronal + fondo_proteccion + aguinaldo )||'"')::hstore;
     NEW.datos := NEW.datos || ('"costo_hora_aporte_aguinaldo"=>"'||costo_hora_con_aporte_y_aguinaldo||'"')::hstore;
     NEW.datos := NEW.datos || ('"costo_hora_no_trab_CG"=>"'||costo_hora_no_trab_CG||'"')::hstore;
