@@ -43,6 +43,7 @@ app/console doctrine:fixtures:load --fixtures=src/MINSAL/CostosBundle/DataFixtur
 - Ejecutar dentro de la base de datos, con el usuario dueño de la base
 ~~~
 \i [directorio_instalacion]/src/MINSAL/CostosBundle/Resources/estructurasBD/estructuras.sql
+\i [directorio_instalacion]/src/MINSAL/CostosBundle/Resources/estructurasBD/costos_rrhh.sql
 ~~~
 
 ##Agregar desde la aplicación dos significados
