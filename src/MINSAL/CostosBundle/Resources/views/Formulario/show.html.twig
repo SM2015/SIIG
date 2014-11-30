@@ -91,10 +91,19 @@
                 sortable: true,
                 altrows: true,
                 filterable: true,
+                editmode: 'click',
                 localization: getLocalization('{{app.request.locale}}'),
                 selectionmode: 'multiplecellsadvanced',
                 {% set columnas_fijas = Frm.columnasFijas|default(0) %}
                 columns: [
+                    {
+                      text: '#', sortable: false, filterable: false, editable: false,
+                      groupable: false, draggable: false, resizable: false,
+                      datafield: '', columntype: 'number', width: 50, pinned: true,
+                      cellsrenderer: function (row, column, value) {
+                          return "<div style='margin:4px;'>" + (value + 1) + "</div>";
+                      }
+                    },
                     {% set indice = 0 %}
                     {% for campo in Frm.campos %}                        
                         {% set indice = indice+1 %}
