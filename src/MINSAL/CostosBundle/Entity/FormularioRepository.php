@@ -97,7 +97,7 @@ class FormularioRepository extends EntityRepository {
         if ($codigo == 'rrhh') {
             $codigo_fuente_costos = 'rrhh';
             $otros_campos = " datos->'isss_patronal' AS ". '"Aporte Patronal ISSS", '.
-                    " datos->'fondo_proteccion' AS ". '"Aporte Patronal Fondo Protección", '.
+                    " datos->'fondo_proteccion_patronal' AS ". '"Aporte Patronal Fondo Protección", '.
                     " datos->'costo_con_aporte_y_aguinaldo' AS ". '"Costo con aporte y aguinaldo", '.
                     " datos->'costo_hora_aporte_aguinaldo' AS ". '"Costo Hora con aporte y aguinaldo", '.
                     " datos->'costo_hora_no_trab_CG' AS ". '"Costo hora no trabajada con goce", '.
