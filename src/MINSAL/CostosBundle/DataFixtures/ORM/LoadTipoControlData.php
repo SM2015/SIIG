@@ -14,7 +14,7 @@ class LoadTipoControlData extends AbstractFixture implements OrderedFixtureInter
     {
         $datos = array();
         $datos[1]['campos'] = array('Codigo'=>'Number','Descripcion'=>'Número');
-        $datos[2]['campos'] = array('Codigo'=>'DateTime','Descripcion'=>'Fecha/Hora');
+        $datos[2]['campos'] = array('Codigo'=>'datetimeinput','Descripcion'=>'Fecha/Hora');
         $datos[3]['campos'] = array('Codigo'=>'text','Descripcion'=>'Texto');
         $datos[4]['campos'] = array('Codigo'=>'dropdownlist','Descripcion'=>'Lista desplegable');
         $datos[5]['campos'] = array('Codigo'=>'checkbox','Descripcion'=>'Cuadro de verificación');

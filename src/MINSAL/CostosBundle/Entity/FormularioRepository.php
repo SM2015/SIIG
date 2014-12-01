@@ -70,8 +70,11 @@ class FormularioRepository extends EntityRepository {
         $params_string = $this->getParameterString($request->get('datos_frm'));
         $origenes = $this->getOrigenes($Frm->getOrigenDatos());
 
-        $datosObj = json_decode($request->get('fila'));
-        $datos = str_replace(array('{', '}', ':'), array('', '', '=>'), $request->get('fila'));
+        $datosObj = json_decode($request->get('fila'));        
+        $datos = str_replace(array('{', '}', ':', 'null'), array('', '', '=>', '""'), $request->get('fila'));
+        
+        //Cambiar formato de fecha
+        $datos = preg_replace('/([0-9]{4})-([0-9]{2})-([0-9]{2})T[0-9]{2}=>[0-9]{2}=>[0-9]{2}.[0-9]{3}Z/', '${3}/${2}/${1}', $datos);
 
         $params_string .= "AND datos->'" . $request->get('pk') . "' = '" . $datosObj->{$request->get('pk')} . "'";
         $area = $Frm->getAreaCosteo();
