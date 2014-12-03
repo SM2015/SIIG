@@ -48,6 +48,7 @@ class CampoAdmin extends Admin
     {
         $datagridMapper
             ->add('formularios', null, array('label'=> $this->getTranslator()->trans('_formulario_')))
+            ->add('significadoCampo', null, array('label'=> $this->getTranslator()->trans('_significado_campo_')))
         ;
     }
 
