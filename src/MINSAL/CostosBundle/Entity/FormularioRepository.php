@@ -163,7 +163,7 @@ class FormularioRepository extends EntityRepository {
             }
             $piv1 = trim($piv1, ', ');
             $piv2 = trim($piv2, ', ');
-            $sql1 = 'SELECT *,  (costo_hora_recurso::numeric * horas_centro::numeric) AS CostoCentro '
+            $sql1 = "SELECT *,  ((COALESCE(NULLIF(costo_hora_recurso,''),'0'))::numeric * (COALESCE(NULLIF(horas_centro,''),'0'))::numeric) AS CostoCentro "
                     . 'FROM (SELECT '.$campos2.' unnest(array['.$piv1.']) AS CentroCostos, '
                     . 'unnest(array['.$piv2.']) AS horas_centro FROM ( ';
             $sql2 = ') as A) AS B';
