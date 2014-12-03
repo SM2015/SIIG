@@ -31,6 +31,8 @@ CREATE OR REPLACE FUNCTION costo_rrhh() RETURNS TRIGGER AS $costo_rrhh$
     descuentos numeric(15,4) :=0;
     horas_no_trab_CG numeric(15,4) :=0;
     horas_no_trab_SG numeric(15,4) :=0;
+
+    r RECORD;
     
   BEGIN   
     salario := (COALESCE(NULLIF(NEW.datos->'salario', ''),'0'))::numeric ;
@@ -102,6 +104,13 @@ CREATE OR REPLACE FUNCTION costo_rrhh() RETURNS TRIGGER AS $costo_rrhh$
         costo_hora_descuentos_permisos := 0;
     END IF;
 
+    -- Calcular el costo para cada centro
+    FOR r IN SELECT replace(key, 'distribucion_horas_','') as centro, value AS horas 
+        FROM (SELECT (each(NEW.datos)).* ) AS A WHERE key ~* 'distribucion_horas_' and (COALESCE(NULLIF(value,''),'0'))::numeric > 0
+    LOOP
+        NEW.datos := NEW.datos || ('"_costo_'||r.centro||'"=>"'|| (costo_hora_descuentos_permisos * r.horas::numeric) ||'"')::hstore;
+    END LOOP;
+
     NEW.datos := NEW.datos || ('"isss_patronal"=>"'||isss_patronal||'"')::hstore;
     NEW.datos := NEW.datos || ('"fondo_proteccion_patronal"=>"'||fondo_proteccion||'"')::hstore;
     NEW.datos := NEW.datos || ('"costo_con_aporte_y_aguinaldo"=>"'||( salario + isss_patronal + fondo_proteccion + aguinaldo )||'"')::hstore;
@@ -110,6 +119,7 @@ CREATE OR REPLACE FUNCTION costo_rrhh() RETURNS TRIGGER AS $costo_rrhh$
     NEW.datos := NEW.datos || ('"costo_hora_no_trab_SG"=>"'||costo_hora_no_trab_SG||'"')::hstore;
     NEW.datos := NEW.datos || ('"salario_descuentos_permisos"=>"'||salario_descuentos_permisos||'"')::hstore;
     NEW.datos := NEW.datos || ('"costo_hora_descuentos_permisos"=>"'||costo_hora_descuentos_permisos||'"')::hstore;
+    
    RETURN NEW;
   END;
 $costo_rrhh$ LANGUAGE plpgsql;
