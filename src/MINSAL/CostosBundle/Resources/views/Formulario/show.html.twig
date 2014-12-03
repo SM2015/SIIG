@@ -44,23 +44,27 @@
                     // synchronize with the server - send update command
                     // call commit with parameter true if the synchronization with the server is successful 
                     // and with parameter false if the synchronization failder.
-                    $.post(Routing.generate('{{url_save}}', {id: {{Frm.id}} }), 
-                                {datos_frm: $('#frm_').serialize(),
-                                    pk: $('#pk').val(),
-                                    fila: JSON.stringify(rowdata),
-                                },
-                    function(resp) {
-                        if (resp == 'ok') {         
-                            $('#mensaje').html('');
-                            commit(true);
-                        }
-                        else {
-                            $('#mensaje').html('<div class="alert alert-danger" role="alert">'+resp+'</div>');
-                            commit(false);
-                        }
+                    if (rowdata.local == 'si'){
+                        commit(true);
+                    } else {
+                        $.post(Routing.generate('{{url_save}}', {id: {{Frm.id}} }), 
+                                    {datos_frm: $('#frm_').serialize(),
+                                        pk: $('#pk').val(),
+                                        fila: JSON.stringify(rowdata),
+                                    },
+                        function(resp) {
+                            if (resp.estado == 'ok') {         
+                                $('#mensaje').html('');
+                                var commit_ = $("#jqxgrid").jqxGrid('updaterow', rowid, resp.data);
+                                commit(true);
+                            }
+                            else {
+                                $('#mensaje').html('<div class="alert alert-danger" role="alert">'+resp.msj+'</div>');
+                                commit(false);
+                            }
 
-                    }, 'html');
-                    
+                        }, 'json');
+                    }
                 },
                 datafields: [
                     {% for campo in Frm.campos %}

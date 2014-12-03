@@ -87,7 +87,16 @@ class FormularioRepository extends EntityRepository {
 
         try {
             $em->getConnection()->executeQuery($sql);
-            return true;
+            // Mandar los datos actualizados, para que muestre en el grid
+            // los campos calculados por el procedimiento de la base de datos
+            $sql = "
+            SELECT datos 
+            FROM costos.fila_origen_dato_$area
+            WHERE id_origen_dato IN (" . implode(',', $origenes) . ")
+                $params_string
+            ;";
+            return $em->getConnection()->executeQuery($sql)->fetchAll();
+            //return true;
         } catch (\PDOException $e) {
             return false;
         }

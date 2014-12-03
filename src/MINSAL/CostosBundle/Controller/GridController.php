@@ -51,11 +51,14 @@ class GridController extends Controller
         
         $guardar = $em->getRepository('CostosBundle:Formulario')->setDatos($Frm, $request);
         
-        if ($guardar){
-            $response->setContent('ok');
+        if ($guardar == false){
+            $response->setContent('{"estado" : "error", "msj": "' . $this->get('translator')->trans('_error_datos_no_guardados_') . '"}');
         }
         else{
-            $response->setContent($this->get('translator')->trans('_error_datos_no_guardados_'));
+            $fila = array_pop($guardar);            
+            $data_ .= '{'.  str_replace('=>', ':', $fila['datos']). ', "local": "si"}';
+
+            $response->setContent('{"estado" : "ok", "data": '. $data_. '}');
         }
         return $response;
     }
