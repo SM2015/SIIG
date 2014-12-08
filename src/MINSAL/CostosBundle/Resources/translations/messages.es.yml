@@ -8,9 +8,18 @@ _ayuda_origen_campo_: 'Cuando el tipo de control sea Cuadro desplegable, se util
 _ayuda_origen_pivote_: 'Es una sentencia SQL que recupera registros con dos campos (valor y etiqueta) y se creará un campo de entrada por cada fila del origen pivote. También puede usar formato JSON '
 _ayuda_validacion_campo_: 'Ingrese la condición para ser válido. Usar "value" para referirse al valor del campo dentro de la fórmula. Ej.: value > 0 || value <150'
 _area_costeo_: Área Costeo
+_area_con_climatizacion_chiller_: Área con climatización Chiler (mts2)
+_area_fisica_: Total Área Física (mts2)
 _cargar_datos_: Cargar
 _campo_: Campo
 _campos_: Campos
+_cant_aires_manto_externo_: Cantidad de A/C con mantto externo
+_cant_camas_: Cantidad de camas
+_cant_celulares_: Cantidad de celulares
+_cantidad_luminarias_: Cantidadad de luminarias
+_cantidad_radios_: Cant. de Radios asignados
+_cantidad_tel_fijos_: Cant. de aparatos telefonía fija
+_cantidad_tel_salida_0_: Cant. de aparatos telefónicos con salida a 0
 _catalogos_: Catálogos
 _codigo_: Código
 _columnas_fijas_: Columnas fijas
@@ -24,6 +33,7 @@ _diciembre_: Diciembre
 _enero_: Enero
 _es_editable_: Editable
 _especialidad_: Especialidad
+_estructura_organizativa_: Estructura organizativa
 _faltan_datos_requeridos_: Faltan datos requeridos
 _febrero_: Febrero
 _formato_: Formato
@@ -39,6 +49,7 @@ _julio_: Julio
 _limpiar_: Limpiar
 _marzo_: Marzo
 _mayo_: Mayo
+_mes_anio_: Mes/Anio
 _msj_validacion_: Mensaje de validación
 _nivel_ : Nivel
 _no_datos_: 'No se encontraron datos con los parámetros especificados'
@@ -49,6 +60,7 @@ _origen_campo_: Origen campo
 _origen_formulario_: Origen del formulario
 _origen_pivote_: Origen pivote
 _posicion_: Posición
+_promedio_usuarios_x_dia_: Promedio diario de usuarios
 _rrhh_distribucion_horas_: 'RRHH :: Distribución de horas'
 _rrhh_: Recurso Humano
 _rrhh_resumen_ : 'RRHH :: Resumen'
@@ -56,9 +68,12 @@ _rrhh_valor_pagado_: 'RRHH :: VAlor Pagado'
 _septiembre_: Septiembre
 _significado_campo_: Significado
 _regla_validacion_: Regla de validación
+_tiempo_utilizacion_luminarias_ : Tiempo promedio de utilización de luminarias (horas x día)
 _tipo_contratacion_: Tipo contratación
 _tipo_control_: Tipo Control
 _tipo_dato_: Tipo Dato
 _tipo_recurso_: Tipo Recurso
+_tomas_con_planta_emergencia_: Cant. de tomas con Planta de Emergencia
+_total_personal_: Total personal asignado
 _unidad_superior_ : Unidad superior
 _uso_costeo_: Utilizado para Costeo

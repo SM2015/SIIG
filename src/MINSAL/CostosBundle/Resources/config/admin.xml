@@ -68,5 +68,11 @@
             <argument>MINSAL\CostosBundle\Entity\Especialidad</argument>
             <argument />            
         </service>
+        <service id="sonata.costos.admin.variablesGA" class="MINSAL\CostosBundle\Admin\VariablesGastosAdministrativosAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="_costeo_" label="_variables_ga_"/>
+            <argument />
+            <argument>MINSAL\CostosBundle\Entity\VariablesGastosAdministrativos</argument>
+            <argument />            
+        </service>
     </services>
 </container>

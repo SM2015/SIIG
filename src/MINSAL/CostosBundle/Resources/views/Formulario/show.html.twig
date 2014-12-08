@@ -36,6 +36,8 @@
         $(document).ready(function () {
             $.jqx.theme = 'energyblue';
             var data = new Array();
+            var fila = 0;
+            var columna = 0;
             // prepare the data
             var source =
             {
@@ -45,7 +47,10 @@
                     // call commit with parameter true if the synchronization with the server is successful 
                     // and with parameter false if the synchronization failder.
                     if (rowdata.local == 'si'){
+                        rowdata.local = 'no';
+                        //alert(fila); alert(columna);
                         commit(true);
+                        //$("#jqxgrid").jqxGrid('selectcell', fila, columna);
                     } else {
                         $.post(Routing.generate('{{url_save}}', {id: {{Frm.id}} }), 
                                     {datos_frm: $('#frm_').serialize(),
@@ -55,7 +60,7 @@
                         function(resp) {
                             if (resp.estado == 'ok') {         
                                 $('#mensaje').html('');
-                                var commit_ = $("#jqxgrid").jqxGrid('updaterow', rowid, resp.data);
+                                //var commit_ = $("#jqxgrid").jqxGrid('updaterow', rowid, resp.data);
                                 commit(true);
                             }
                             else {
@@ -181,6 +186,11 @@
                 {% endif %}
             });
             
+            $("#jqxgrid").on('cellselect', function (event) {
+                columna = event.args.datafield;
+                fila = event.args.rowindex;
+            });
+            
             $("#cargar_datos").click(function () {        
                 $.post(Routing.generate('{{url}}', {id: {{Frm.id}} }), {datos_frm: $('#frm_').serialize()},
                 function(resp) {
@@ -207,6 +217,8 @@
                 $('#mensaje').html('<div class="alert alert-success" role="alert">{{'_datos_guardados_'|trans}}</div>');
             });
         });
+        
+        
                 
     </script>
 {% endblock javascripts %}
