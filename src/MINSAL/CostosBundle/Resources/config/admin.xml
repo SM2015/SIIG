@@ -68,6 +68,24 @@
             <argument>MINSAL\CostosBundle\Entity\Especialidad</argument>
             <argument />            
         </service>
+        <service id="sonata.costos.admin.criterios_distribucion" class="MINSAL\CostosBundle\Admin\CriteriosDistribucionGAAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="catalogos" label="_criterios_distribucion_"/>
+            <argument />
+            <argument>MINSAL\CostosBundle\Entity\CriteriosDistribucionGA</argument>
+            <argument />            
+        </service>
+        <service id="sonata.costos.admin.categorias_contratos" class="MINSAL\CostosBundle\Admin\CategoriasContratosFijosGAAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="catalogos" label="_categorias_contratos_"/>
+            <argument />
+            <argument>MINSAL\CostosBundle\Entity\CategoriasContratosFijosGA</argument>
+            <argument />            
+        </service>
+        <service id="sonata.costos.admin.contratos_fijos" class="MINSAL\CostosBundle\Admin\ContratosFijosGAAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="catalogos" label="_contratos_fijos_"/>
+            <argument />
+            <argument>MINSAL\CostosBundle\Entity\ContratosFijosGA</argument>
+            <argument />            
+        </service>
         <service id="sonata.costos.admin.variablesGA" class="MINSAL\CostosBundle\Admin\VariablesGastosAdministrativosAdmin">
             <tag name="sonata.admin" manager_type="orm" group="_costeo_" label="_variables_ga_"/>
             <argument />
