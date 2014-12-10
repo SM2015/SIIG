@@ -41,6 +41,87 @@ class FormularioAdminController extends Controller
             'pk' => 'nit'));
     }
     
+    public function rrhhCostosAction() {
+        $em = $this->getDoctrine()->getManager();
+        
+        $estructura = $em->getRepository("CostosBundle:Estructura")->findBy(array(), array('codigo' => 'ASC'));
+        
+        $campos = array('nit'=>10, 
+            'partida'=>20,
+            'subpartida' =>30,
+            'nombre_empleado' => 40,
+            'tipo_empleado' => 50,
+            'especialidad' => 60,
+            'forma_contrato' => 70);
+        $campos_calculados = array('isss_patronal'=>'ISSS patronal', 
+            'fondo_proteccion_patronal'=>'AFP / IPFA patronal',
+            'costo_con_aporte_y_aguinaldo' => 'Costo con aporte y aguinaldo',
+            'costo_hora_aporte_aguinaldo' => 'Costo por hora con aportes, permisos CG y aguinaldo',
+            'costo_hora_no_trab_CG' => 'Costo horas no trab. CG',
+            'costo_hora_no_trab_SG' => 'Costo horas no trab. SG',
+            'salario_descuentos_permisos' => 'Salario con desc. y permisos',
+            'costo_hora_descuentos_permisos' => 'Costo hora con desc. y permisos'
+            );
+        
+        $Frm = array_shift($em->getRepository('CostosBundle:Formulario')->findBy(array('codigo'=>'rrhhValorPagado')));
+        $Frm2 = array_shift($em->getRepository('CostosBundle:Formulario')->findBy(array('codigo'=>'rrhhDistribucionHora')));
+        $Frm_aux = new \MINSAL\CostosBundle\Entity\Formulario();
+        
+        $Frm_aux->setAreaCosteo('rrhh');
+        $Frm_aux->setColumnasFijas(4);
+        $Frm_aux->setIdentificador($Frm->getId());
+        $campos_aux = array();
+        foreach (array($Frm, $Frm2) as $F) {
+            foreach ($F->getCampos() as $c){            
+                if (array_key_exists($c->getSignificadoCampo()->getCodigo(), $campos)){
+                    $c->setPosicion($campos[$c->getSignificadoCampo()->getCodigo()]);
+                    $c->setEsEditable(false);
+                    $campos_aux[$c->getPosicion()] = $c;
+
+                }
+            }
+        }
+        ksort($campos_aux);
+        foreach($campos_aux as $c){
+            $Frm_aux->addCampo($c);
+        }
+        
+        foreach($campos_calculados as $k=>$v){
+            $significado_c = new \MINSAL\IndicadoresBundle\Entity\SignificadoCampo();
+            $tipo_dato = new \MINSAL\CostosBundle\Entity\TipoDato();
+            $campo_c = new \MINSAL\CostosBundle\Entity\Campo();
+            $tipo_control = new \MINSAL\CostosBundle\Entity\TipoControl();
+            $formato = new \MINSAL\CostosBundle\Entity\Formato();
+            
+            $tipo_dato->setCodigo('float');
+            $tipo_control->setCodigo('text');
+            $formato->setFormato('c2');
+            
+            $significado_c->setCodigo($k);
+            $significado_c->setDescripcion($v);
+            
+            $campo_c->setSignificadoCampo($significado_c);
+            $campo_c->setTipoDato($tipo_dato);
+            $campo_c->setTipoControl($tipo_control);
+            $campo_c->setEsEditable(false);
+            $campo_c->setEsCalculado(true);
+            $campo_c->setFormato($formato);
+            
+            $Frm_aux->addCampo($campo_c);
+        }
+        
+        $origenes = $this->getOrigenes($Frm) + $this->getOrigenes($Frm2);
+        $pivotes = $this->getPivotes($Frm) + $this->getPivotes($Frm2);
+        
+        return $this->render('CostosBundle:Formulario:rrhhCostos.html.twig', array('Frm' => $Frm_aux, 
+            'origenes' => $origenes,
+            'pivotes' => $pivotes,
+            'url' => 'get_grid_data',
+            'url_save' => 'set_grid_data',
+            'estructura' => $estructura,
+            'pk' => 'nit'));
+    }
+    
     public function gaAfAction()
     {        
         $em = $this->getDoctrine()->getManager();

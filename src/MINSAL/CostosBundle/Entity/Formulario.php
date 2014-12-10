@@ -98,6 +98,11 @@ class Formulario
     {
         return $this->id;
     }
+    
+    public function setIdentificador($id)
+    {
+        return $this->id = $id;
+    }
 
     /**
      * Set codigo

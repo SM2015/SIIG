@@ -3,6 +3,11 @@
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('bundles/costos/js/jqwidgets/styles/jqx.base.css') }}" type="text/css" media="all" />
     <link rel="stylesheet" href="{{ asset('bundles/costos/js/jqwidgets/styles/jqx.energyblue.css') }}" type="text/css" media="all" />
+    <style>
+        .jqx-grid-cell-pinned{
+            background-color: #F9F9F9 !important;
+        }
+    </style>
 {% endblock stylesheets %}
 {% block javascripts %}
     {{ parent() }}
@@ -29,9 +34,11 @@
     <script src="{{ asset('bundles/costos/js/jqwidgets/jqxmenu.js') }}" type="text/javascript"></script>
     <script src="{{ asset('bundles/costos/js/jqwidgets/localization.js') }}" type="text/javascript"></script>
     <script src="{{ asset('bundles/costos/js/jqwidgets/jqxcalendar.js') }}" type="text/javascript"></script>    
-    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxdatetimeinput.js') }}" type="text/javascript"></script>    
-    <script src="{{ asset('bundles/costos/js/jquery.mtz.monthpicker.js') }}" type="text/javascript"></script>    
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxdatetimeinput.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxgrid.aggregates.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/jquery.mtz.monthpicker.js') }}" type="text/javascript"></script> 
     
+    {% block frm %}
     <script type="text/javascript">
         $(document).ready(function () {
             $.jqx.theme = 'energyblue';
@@ -101,6 +108,9 @@
                 editable: true,
                 sortable: true,
                 altrows: true,
+                showaggregates: true,
+                showstatusbar: true,
+                autoheight: true,
                 filterable: true,
                 editmode: 'click',
                 localization: getLocalization('{{app.request.locale}}'),
@@ -141,6 +151,7 @@
                             cellsalign: '{{campo.alineacion.codigo|default('left')}}',
                             editable: {{campo.esEditable|default('false')}},
                             columntype: '{{campo.tipoControl.codigo}}',
+                            {% if campo.esCalculado %} aggregates: ['sum'], {% endif %}                            
                             {% if campo.tipoControl.codigo == 'datetimeinput' %}
                                 cellsformat: 'dd/MM/yyyy',
                             {% endif %}
@@ -217,10 +228,8 @@
                 $('#mensaje').html('<div class="alert alert-success" role="alert">{{'_datos_guardados_'|trans}}</div>');
             });
         });
-        
-        
-                
     </script>
+    {% endblock frm %}
 {% endblock javascripts %}
 {% block content %}
     <nav class="navbar navbar-default" role="navigation">

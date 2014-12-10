@@ -63,6 +63,7 @@ class FormularioAdmin extends Admin
     {
         $collection->add('rrhhValorPagado');
         $collection->add('rrhhDistribucionHora');
+        $collection->add('rrhhCostos');
         $collection->add('gaAf');  
     }
 }

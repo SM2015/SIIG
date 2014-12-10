@@ -12,7 +12,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity(repositoryClass="MINSAL\CostosBundle\Entity\CampoRepository")
  */
 class Campo
-{    
+{   
+    private $esCalculado;
+    
     /**
      * @var integer $id
      *
@@ -554,4 +556,15 @@ class Campo
     {
         return $this->significadoCampo;
     }
+    
+    public function getEsCalculado()
+    {
+        return ($this->esCalculado == true) ? true: false;
+    }
+    
+    public function setEsCalculado($estado)
+    {
+        return $this->esCalculado = $estado;
+    }
+    
 }
