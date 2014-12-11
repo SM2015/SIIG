@@ -108,8 +108,10 @@
                 editable: true,
                 sortable: true,
                 altrows: true,
-                showaggregates: true,
-                showstatusbar: true,
+                {% if mostrar_resumen %}
+                    showaggregates: true,
+                    showstatusbar: true,
+                {% endif %}
                 autoheight: true,
                 filterable: true,
                 editmode: 'click',
@@ -151,7 +153,7 @@
                             cellsalign: '{{campo.alineacion.codigo|default('left')}}',
                             editable: {{campo.esEditable|default('false')}},
                             columntype: '{{campo.tipoControl.codigo}}',
-                            {% if campo.esCalculado %} aggregates: ['sum'], {% endif %}                            
+                            {% if campo.esCalculado and mostrar_resumen %} aggregates: ['sum'], {% endif %}                            
                             {% if campo.tipoControl.codigo == 'datetimeinput' %}
                                 cellsformat: 'dd/MM/yyyy',
                             {% endif %}

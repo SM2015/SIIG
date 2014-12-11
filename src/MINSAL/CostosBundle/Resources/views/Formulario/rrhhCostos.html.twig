@@ -1,5 +1,6 @@
 {% extends 'CostosBundle:Formulario:show.html.twig' %}
 {% set titulo = '_rrhh_costos_' %}
+{% set mostrar_resumen = true %}
 {% block javascripts %} 
     {{ parent() }}
     <script src="{{ asset('bundles/costos/js/rrhhValorPagado.js') }}" type="text/javascript"></script>
