@@ -107,11 +107,11 @@ class VariablesGastosAdministrativosAdmin extends Admin {
     
     public function validate(ErrorElement $errorElement, $object)
     {
-        $errorElement            
+        /*$errorElement            
             ->with('mes_anio')
                 ->assertNotEqualTo(array('value'=>'/'))
             ->end()                
-        ;
+        ;*/
     }
 
 }

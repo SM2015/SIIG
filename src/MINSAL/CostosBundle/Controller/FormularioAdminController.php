@@ -52,7 +52,9 @@ class FormularioAdminController extends Controller
             'nombre_empleado' => 40,
             'tipo_empleado' => 50,
             'especialidad' => 60,
-            'forma_contrato' => 70);
+            'forma_contrato' => 70,
+            'distribucion_horas' => 1000
+            );
         $campos_calculados = array('isss_patronal'=>'ISSS patronal', 
             'fondo_proteccion_patronal'=>'AFP / IPFA patronal',
             'costo_con_aporte_y_aguinaldo' => 'Costo con aporte y aguinaldo',
@@ -71,32 +73,44 @@ class FormularioAdminController extends Controller
         $Frm_aux->setColumnasFijas(4);
         $Frm_aux->setIdentificador($Frm->getId());
         $campos_aux = array();
+        
+        $formato = new \MINSAL\CostosBundle\Entity\Formato();
+        $alineacion = new \MINSAL\CostosBundle\Entity\Alineacion();
+        $tipo_dato = new \MINSAL\CostosBundle\Entity\TipoDato();
+        $tipo_control = new \MINSAL\CostosBundle\Entity\TipoControl();
+        
+        $alineacion->setCodigo('right');
+        $formato->setFormato('c2');
+        $tipo_dato->setCodigo('float');
+        $tipo_control->setCodigo('text');
+                        
         foreach (array($Frm, $Frm2) as $F) {
-            foreach ($F->getCampos() as $c){            
+            foreach ($F->getCampos() as $c){
                 if (array_key_exists($c->getSignificadoCampo()->getCodigo(), $campos)){
                     $c->setPosicion($campos[$c->getSignificadoCampo()->getCodigo()]);
+                    if ($c->getSignificadoCampo()->getCodigo() == 'distribucion_horas'){
+                        $c->getSignificadoCampo()->setCodigo('_costo');                        
+                        $c->setFormato($formato);
+                        $c->setEsCalculado(true);
+                        $c->setAlineacion($alineacion);
+                    }
                     $c->setEsEditable(false);
                     $campos_aux[$c->getPosicion()] = $c;
-
                 }
             }
         }
         ksort($campos_aux);
+        $distribucion = $campos_aux[1000];
+        unset($campos_aux[1000]);
         foreach($campos_aux as $c){
             $Frm_aux->addCampo($c);
         }
-        
+               
         foreach($campos_calculados as $k=>$v){
             $significado_c = new \MINSAL\IndicadoresBundle\Entity\SignificadoCampo();
-            $tipo_dato = new \MINSAL\CostosBundle\Entity\TipoDato();
+            
             $campo_c = new \MINSAL\CostosBundle\Entity\Campo();
-            $tipo_control = new \MINSAL\CostosBundle\Entity\TipoControl();
-            $formato = new \MINSAL\CostosBundle\Entity\Formato();
-            
-            $tipo_dato->setCodigo('float');
-            $tipo_control->setCodigo('text');
-            $formato->setFormato('c2');
-            
+
             $significado_c->setCodigo($k);
             $significado_c->setDescripcion($v);
             
@@ -106,9 +120,12 @@ class FormularioAdminController extends Controller
             $campo_c->setEsEditable(false);
             $campo_c->setEsCalculado(true);
             $campo_c->setFormato($formato);
+            $campo_c->setAlineacion($alineacion);
             
             $Frm_aux->addCampo($campo_c);
         }
+        
+        $Frm_aux->addCampo($distribucion);
         
         $origenes = $this->getOrigenes($Frm) + $this->getOrigenes($Frm2);
         $pivotes = $this->getPivotes($Frm) + $this->getPivotes($Frm2);

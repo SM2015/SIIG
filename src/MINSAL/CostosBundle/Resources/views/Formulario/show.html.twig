@@ -95,14 +95,14 @@
                                     values: { source: {{origenes[campo.significadoCampo.codigo]|raw}}, value: 'id', name: 'descripcion' } },
                             {% endif %}
                         {% endif %}
-                    {% endfor %}                    
+                    {% endfor %}
                 ],
                 localdata: data,                
             };
             var dataAdapter = new $.jqx.dataAdapter(source);
             $("#jqxgrid").jqxGrid(
             {
-                width: '100%',
+                width: '95%',
                 source: dataAdapter,
                 columnsresize: true,
                 editable: true,
@@ -181,6 +181,14 @@
                         },
                         {% endfor %}
                     {% endfor %}
+                    {
+                      text: '', sortable: false, filterable: false, editable: false,
+                      groupable: false, draggable: false, resizable: false,
+                      datafield: '-', columntype: 'number', width: 50, pinned: false,
+                      cellsrenderer: function (row, column, value) {
+                          return "<div style='margin:4px;'></div>";
+                      }
+                    },
                 ],
                 {% set item_count = 0 %}
                 {% for grp in Frm.gruposColumnas %}
@@ -197,6 +205,29 @@
                         {% endfor %}
                     ]       
                 {% endif %}
+            });
+            
+            var listSource = [
+                {% for campo in Frm.campos %}
+                    {% if campo.origenPivote %} 
+                        {% for campoPivote in pivotes[campo.significadoCampo.codigo] %}
+                            { label: '{{campoPivote.descripcion}}', value: '{{campo.significadoCampo.codigo}}_{{campoPivote.id}}', checked: true },
+                        {% endfor %}
+                    {% else %}
+                        { label: '{{campo.significadoCampo.descripcion}}', value: '{{campo.significadoCampo.codigo}}', checked: true },
+                    {% endif %}
+                {% endfor %}                
+                ];
+            $("#jqxlistbox").jqxListBox({ source: listSource, width: 500, height: 400,  checkboxes: true });
+            $("#jqxlistbox").on('checkChange', function (event) {
+                $("#jqxgrid").jqxGrid('beginupdate');
+                if (event.args.checked) {
+                    $("#jqxgrid").jqxGrid('showcolumn', event.args.value);
+                }
+                else {
+                    $("#jqxgrid").jqxGrid('hidecolumn', event.args.value);
+                }
+                $("#jqxgrid").jqxGrid('endupdate');
             });
             
             $("#jqxgrid").on('cellselect', function (event) {
@@ -251,7 +282,16 @@
             {% endblock frm_head %}
             {% block grid %}
                 <div id='jqxWidget' style="padding: 10px;">
-                    <div id="jqxgrid" ></div>
+                    <div role="tabpanel">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#jqxgrid" role="tab" data-toggle="tab">{{'_cuadro_datos_'|trans}}</a></li>
+                            <li role="presentation"><a href="#jqxlistbox" aria-controls="profile" role="tab" data-toggle="tab">{{'_columnas_'|trans}}</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div id="jqxgrid" role="tabpanel" class="tab-pane active"></div>
+                            <div role="tabpanel" class="tab-pane" id="jqxlistbox"></div>                    
+                        </div>
+                    </div>                    
                 </div>
             {% endblock %}
             {% block frm_foot %} {% endblock frm_foot %}
