@@ -232,7 +232,7 @@ class OrigenDatoController extends Controller
                             $resultado['datos'] = $datos;
                             $resultado['nombre_campos'] = array_keys($resultado['datos'][0]);                            
                         }
-                        $query = $conn->query($sentenciaSQL);
+                        //$query = $conn->query($sentenciaSQL);
                                                         
                         $resultado['estado'] = 'ok';
                         $resultado['mensaje'] = '<span style="color: green">' . $this->get('translator')->trans('sentencia_success');

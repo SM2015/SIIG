@@ -55,6 +55,7 @@ doctrine:
             json: Sonata\Doctrine\Types\JsonType
         mapping_types:
             hstore: string
+            geometry: string
 
     orm:
         auto_generate_proxy_classes: %kernel.debug%

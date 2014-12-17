@@ -51,8 +51,8 @@ class FormularioRepository extends EntityRepository {
             foreach ($params as $p) {
                 $dato = explode('=', $p);
                 if ($dato[0] == 'anio_mes'){
-                    $campos = split('_', $dato[0]);
-                    $valores = split('%2F', $dato[1]);
+                    $campos = explode('_', $dato[0]);
+                    $valores = explode('%2F', $dato[1]);
                     $params_string .= " AND (datos->'" . $campos[0] . "')::integer = '" . $valores[1] . "'::integer ";
                     $params_string .= " AND (datos->'" . $campos[1] . "')::integer = '" . $valores[0] . "'::integer ";
                 }

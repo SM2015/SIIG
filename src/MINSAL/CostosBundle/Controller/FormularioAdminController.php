@@ -13,7 +13,8 @@ class FormularioAdminController extends Controller
         
         $estructura = $em->getRepository("CostosBundle:Estructura")->findBy(array(), array('codigo' => 'ASC'));
         
-        $Frm = array_shift($em->getRepository('CostosBundle:Formulario')->findBy(array('codigo'=>'rrhhValorPagado')));
+        $Frm = $em->getRepository('CostosBundle:Formulario')->findBy(array('codigo'=>'rrhhValorPagado'));
+        $Frm = array_shift($Frm);
         
         return $this->render('CostosBundle:Formulario:rrhhValorPagado.html.twig', array('Frm' => $Frm, 
             'origenes' => $this->getOrigenes($Frm),
@@ -30,7 +31,8 @@ class FormularioAdminController extends Controller
         
         $estructura = $em->getRepository("CostosBundle:Estructura")->findBy(array(), array('codigo' => 'ASC'));
         
-        $Frm = array_shift($em->getRepository('CostosBundle:Formulario')->findBy(array('codigo'=>'rrhhDistribucionHora')));        
+        $Frm = $em->getRepository('CostosBundle:Formulario')->findBy(array('codigo'=>'rrhhDistribucionHora'));
+        $Frm = array_shift($Frm);        
         
         return $this->render('CostosBundle:Formulario:rrhhDistribucionHora.html.twig', array('Frm' => $Frm, 
             'origenes' => $this->getOrigenes($Frm),
@@ -65,8 +67,10 @@ class FormularioAdminController extends Controller
             'costo_hora_descuentos_permisos' => 'Costo hora con desc. y permisos'
             );
         
-        $Frm = array_shift($em->getRepository('CostosBundle:Formulario')->findBy(array('codigo'=>'rrhhValorPagado')));
-        $Frm2 = array_shift($em->getRepository('CostosBundle:Formulario')->findBy(array('codigo'=>'rrhhDistribucionHora')));
+        $Frm = $em->getRepository('CostosBundle:Formulario')->findBy(array('codigo'=>'rrhhValorPagado'));
+        $Frm = array_shift($Frm);
+        $Frm2 = $em->getRepository('CostosBundle:Formulario')->findBy(array('codigo'=>'rrhhDistribucionHora'));
+        $Frm2 = array_shift($Frm2);
         $Frm_aux = new \MINSAL\CostosBundle\Entity\Formulario();
         
         $Frm_aux->setAreaCosteo('rrhh');
@@ -145,7 +149,8 @@ class FormularioAdminController extends Controller
         
         $estructura = $em->getRepository("CostosBundle:Estructura")->findBy(array(), array('codigo' => 'ASC'));
         
-        $Frm = array_shift($em->getRepository('CostosBundle:Formulario')->findBy(array('codigo'=>'gaAf')));
+        $Frm = $em->getRepository('CostosBundle:Formulario')->findBy(array('codigo'=>'gaAf'));
+        $Frm = array_shift($Frm);
         
         return $this->render('CostosBundle:Formulario:gaAf.html.twig', array('Frm' => $Frm, 
             'origenes' => $this->getOrigenes($Frm),

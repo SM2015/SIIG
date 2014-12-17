@@ -21,9 +21,19 @@ Descargar la versión 0.12 de wkhtmltopdf e instalarla según se indica en el ma
 ## Instalación de Redis
 apt-get install redis-server
 
+##Actualizar el código del siig
+git reset --hard
+git pull
+
 ## Actualizar las dependencias
+php composer.phar self-update
 php composer.phar update
 
+
+## Limpiar la caché
+app/console redis:flushall
+app/console cache:clear
+app/console cache:clear --env=prod
 
 #Actualización módulo de costos
 ## Crear el esquema costos
@@ -33,7 +43,6 @@ CREATE SCHEMA catalogos;
 CREATE SCHEMA temporales;
 
 ##Actualizar la estructura de la base de datos
-app/console redis:flushall
 app/console doctrine:schema:update --force
 
 
