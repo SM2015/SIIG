@@ -13,19 +13,11 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity
  */
 class Especialidad
-{
-    /**
-     * @var integer $id
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
+{    
 
     /**
      * @var string $codigo
-     *
+     * @ORM\Id
      * @ORM\Column(name="codigo", type="string", length=20, nullable=false)
      */
     private $codigo;
@@ -44,17 +36,6 @@ class Especialidad
         return $this->descripcion ? : '';
     }
 
-
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * Set codigo
