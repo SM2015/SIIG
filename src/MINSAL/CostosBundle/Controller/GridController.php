@@ -62,4 +62,27 @@ class GridController extends Controller
         }
         return $response;
     }
+    
+    /**
+     * @Route("/estructura/establecimiento/{codigo_establecimiento}/dependencias", name="get_dependencias", options={"expose"=true})
+     */
+    public function getDependencias($codigo_establecimiento, Request $request)
+    {
+        $response = new Response();
+        $em = $this->getDoctrine()->getManager();
+        
+        // Dejaré las consultas aquí porque aún no está definido cómo será la 
+        // estructura de tablas que tendrán estos datos
+        $sql = "SELECT codigo, nombre FROM costos.estructura WHERE parent_id IN (SELECT id FROM costos.estructura WHERE codigo = '$codigo_establecimiento' )";
+        $dependencias = $em->getConnection()->executeQuery($sql)->fetchAll();
+        
+        $dependencias_html = '';
+        foreach ($dependencias as $d){
+            $dependencias_html .= "<OPTION VALUE='$d[codigo]'> $d[nombre]</OPTION>";
+        }
+        $response->setContent($dependencias_html);
+        
+        return $response;
+        
+    }
 }

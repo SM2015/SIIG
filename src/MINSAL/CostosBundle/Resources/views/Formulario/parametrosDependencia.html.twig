@@ -3,19 +3,17 @@
     <input type="text" class="form-control" id="anio_mes" name="anio_mes" size="10">
 </div>
 <div class="form-group" id="dependencia_f">    
-    <label for="dependencia">{{'_dependencia_'|trans}}</label>
-    <select id="dependencia" name="dependencia">
+    <label for="establecimiento">{{'_establecimiento_'|trans}}</label>
+    <select id="establecimiento" name="establecimiento">
+        <option value="-1" selected>{{'_elija_establecimiento_'|trans}}</option>
         {% for unidad in estructura %}
             {% if unidad.nivel == 1 %}
-                <optgroup label="{{unidad.nombre}}">
-                    {% for unidad in estructura %}
-                        {% if unidad.nivel == 2 %}
-                            <option value="{{unidad.codigo}}">{{unidad.nombre}}</option>
-                        {% endif%}
-                    {% endfor %}
-                </optgroup>
+                <option value="{{unidad.codigo}}">{{unidad.nombre}}</option>
             {% endif%}
         {% endfor %}
+    </select>
+    <label for="dependencia">{{'_dependencia_'|trans}}</label>
+    <select id="dependencia" name="dependencia">        
     </select>
 </div>
 <br/>
