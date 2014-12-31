@@ -69,11 +69,23 @@ class GuardarRegistroOrigenDatoConsumer implements ConsumerInterface
         } elseif ($msg['method'] == 'DELETE') {
             $this->em->getConnection()->beginTransaction();
             $tabla = ($areaCosteo['area_costeo'] == '') ? 'fila_origen_dato' : 'costos.fila_origen_dato_' . $areaCosteo['area_costeo'];
-            //Borrar los datos existentes por el momento así será pero debería haber una forma de ir a traer solo los nuevos
-            $sql = "DELETE FROM $tabla WHERE id_origen_dato='$msg[id_origen_dato]'  ;
-                    INSERT INTO $tabla SELECT * FROM fila_origen_dato_aux WHERE id_origen_dato='$msg[id_origen_dato]';
-                    DELETE FROM fila_origen_dato_aux WHERE id_origen_dato='$msg[id_origen_dato]' ;
-                    ";
+            
+            if ($areaCosteo['area_costeo'] == 'rrhh'){
+                //Solo agregar los datos nuevos
+                $sql = " INSERT INTO $tabla 
+                            SELECT *  FROM fila_origen_dato_aux 
+                            WHERE id_origen_dato='$msg[id_origen_dato]'
+                                AND datos->'nit' 
+                                    NOT IN 
+                                    (SELECT datos->'nit' FROM $tabla); 
+                         ";
+            } else {
+                //Borrar los datos existentes por el momento así será pero debería haber una forma de ir a traer solo los nuevos
+                $sql = "DELETE FROM $tabla WHERE id_origen_dato='$msg[id_origen_dato]'  ;
+                        INSERT INTO $tabla SELECT * FROM fila_origen_dato_aux WHERE id_origen_dato='$msg[id_origen_dato]';
+                        DELETE FROM fila_origen_dato_aux WHERE id_origen_dato='$msg[id_origen_dato]' ;
+                        ";
+            }
             $this->em->getConnection()->exec($sql);
             $this->em->getConnection()->commit();
 
