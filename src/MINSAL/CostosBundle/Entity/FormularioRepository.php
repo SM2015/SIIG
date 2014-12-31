@@ -52,9 +52,13 @@ class FormularioRepository extends EntityRepository {
                 $dato = explode('=', $p);
                 if ($dato[0] == 'anio_mes'){
                     $campos = explode('_', $dato[0]);
-                    $valores = explode('%2F', $dato[1]);
-                    $params_string .= " AND (datos->'" . $campos[0] . "')::integer = '" . $valores[1] . "'::integer ";
-                    $params_string .= " AND (datos->'" . $campos[1] . "')::integer = '" . $valores[0] . "'::integer ";
+                    if ($dato[1] != ''){
+                        $valores = explode('%2F', $dato[1]);
+                        $params_string .= " AND (datos->'" . $campos[0] . "')::integer = '" . $valores[1] . "'::integer ";
+                        $params_string .= " AND (datos->'" . $campos[1] . "')::integer = '" . $valores[0] . "'::integer ";
+                    }else {
+                        $params_string .= " AND (datos->'anio')::integer = '-222'::integer ";
+                    }
                 }
                 elseif ($dato[1] != '' and $dato[0] != 'pk') {
                     $params_string .= " AND datos->'" . $dato[0] . "' = '" . $dato[1] . "' ";
