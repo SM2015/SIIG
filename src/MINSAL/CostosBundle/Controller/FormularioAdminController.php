@@ -4,10 +4,11 @@ namespace MINSAL\CostosBundle\Controller;
 
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 class FormularioAdminController extends Controller
 {           
-    public function rrhhValorPagadoAction()
+    public function rrhhValorPagadoAction(Request $request)
     {        
         $em = $this->getDoctrine()->getManager();
         
@@ -16,16 +17,19 @@ class FormularioAdminController extends Controller
         $Frm = $em->getRepository('CostosBundle:Formulario')->findBy(array('codigo'=>'rrhhValorPagado'));
         $Frm = array_shift($Frm);
         
+        $parametros = $this->getParametros($request);
+        
         return $this->render('CostosBundle:Formulario:rrhhValorPagado.html.twig', array('Frm' => $Frm, 
-            'origenes' => $this->getOrigenes($Frm),
-            'pivotes' => $this->getPivotes($Frm),
+            'origenes' => $this->getOrigenes($Frm, $parametros),
+            'pivotes' => $this->getPivotes($Frm, $parametros),
             'url' => 'get_grid_data',
             'url_save' => 'set_grid_data',
             'estructura' => $estructura,
+            'parametros' => $parametros,
             'pk' => 'nit'));
     }
     
-    public function rrhhDistribucionHoraAction()
+    public function rrhhDistribucionHoraAction(Request $request)
     {        
         $em = $this->getDoctrine()->getManager();
         
@@ -34,19 +38,24 @@ class FormularioAdminController extends Controller
         $Frm = $em->getRepository('CostosBundle:Formulario')->findBy(array('codigo'=>'rrhhDistribucionHora'));
         $Frm = array_shift($Frm);        
         
+        $parametros = $this->getParametros($request);
+        
         return $this->render('CostosBundle:Formulario:rrhhDistribucionHora.html.twig', array('Frm' => $Frm, 
-            'origenes' => $this->getOrigenes($Frm),
-            'pivotes' => $this->getPivotes($Frm),
+            'origenes' => $this->getOrigenes($Frm, $parametros),
+            'pivotes' => $this->getPivotes($Frm, $parametros),
             'url' => 'get_grid_data',
             'url_save' => 'set_grid_data',
             'estructura' => $estructura,
+            'parametros' => $parametros,
             'pk' => 'nit'));
     }
     
-    public function rrhhCostosAction() {
+    public function rrhhCostosAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         
         $estructura = $em->getRepository("CostosBundle:Estructura")->findBy(array(), array('codigo' => 'ASC'));
+        
+        $parametros = $this->getParametros($request);
         
         $campos = array('nit'=>10, 
             'partida'=>20,
@@ -131,8 +140,8 @@ class FormularioAdminController extends Controller
         
         $Frm_aux->addCampo($distribucion);
         
-        $origenes = $this->getOrigenes($Frm) + $this->getOrigenes($Frm2);
-        $pivotes = $this->getPivotes($Frm) + $this->getPivotes($Frm2);
+        $origenes = $this->getOrigenes($Frm, $parametros) + $this->getOrigenes($Frm2, $parametros);
+        $pivotes = $this->getPivotes($Frm, $parametros) + $this->getPivotes($Frm2, $parametros);
         
         return $this->render('CostosBundle:Formulario:rrhhCostos.html.twig', array('Frm' => $Frm_aux, 
             'origenes' => $origenes,
@@ -140,10 +149,11 @@ class FormularioAdminController extends Controller
             'url' => 'get_grid_data',
             'url_save' => 'set_grid_data',
             'estructura' => $estructura,
+            'parametros' => $parametros,
             'pk' => 'nit'));
     }
     
-    public function gaAfAction()
+    public function gaAfAction(Request $request)
     {        
         $em = $this->getDoctrine()->getManager();
         
@@ -152,34 +162,44 @@ class FormularioAdminController extends Controller
         $Frm = $em->getRepository('CostosBundle:Formulario')->findBy(array('codigo'=>'gaAf'));
         $Frm = array_shift($Frm);
         
+        $parametros = $this->getParametros($request);
+        
         return $this->render('CostosBundle:Formulario:gaAf.html.twig', array('Frm' => $Frm, 
-            'origenes' => $this->getOrigenes($Frm),
-            'pivotes' => $this->getPivotes($Frm),
+            'origenes' => $this->getOrigenes($Frm, $parametros),
+            'pivotes' => $this->getPivotes($Frm, $parametros),
             'url' => 'get_grid_data',
             'url_save' => 'set_grid_data',
             'estructura' => $estructura,
+            'parametros' => $parametros,
             'pk' => 'codigo_af'));
     }
     
-    private function getOrigenes($Frm) {
+    private function getOrigenes($Frm, $parametros) {
         $em = $this->getDoctrine()->getManager();
         $origenes = array();
         foreach($Frm->getCampos() as $c){
             if ($c->getOrigen() or $c->getSignificadoCampo()->getCatalogo() != ''){
-                $origenes[$c->getSignificadoCampo()->getCodigo()] = $em->getRepository('CostosBundle:Campo')->getOrigenCampo($c);
+                $origenes[$c->getSignificadoCampo()->getCodigo()] = $em->getRepository('CostosBundle:Campo')->getOrigenCampo($c, $parametros);
             }            
         }
         return $origenes;
     }
     
-    private function getPivotes($Frm) {        
+    private function getPivotes($Frm, $parametros) {
         $em = $this->getDoctrine()->getManager();
         $pivotes = array();
         foreach($Frm->getCampos() as $c){
             if ($c->getOrigenPivote()){
-                $pivotes[$c->getSignificadoCampo()->getCodigo()] = $em->getRepository('CostosBundle:Campo')->getOrigenPivote($c);
+                $pivotes[$c->getSignificadoCampo()->getCodigo()] = $em->getRepository('CostosBundle:Campo')->getOrigenPivote($c, $parametros);
             }
         }
         return $pivotes;
+    }
+    
+    private function getParametros($r){
+        return array('anio_mes'=>$r->get('anio_mes'), 
+                'establecimiento'=>$r->get('establecimiento'), 
+                'dependencia'=>$r->get('dependencia')
+                );
     }
 }

@@ -24,10 +24,7 @@ class GridController extends Controller
         
         $data = $em->getRepository('CostosBundle:Formulario')->getDatos($Frm, $request);
 
-        if (count($data) == 0){
-            $response->setContent('{"estado" : "error", "msj": "' . $this->get('translator')->trans('_no_datos_') . '"}');
-        }
-        else {
+        if (count($data) > 0){
             $data_ = '';
             $ultimo = array_pop($data);
             foreach ($data as $f){

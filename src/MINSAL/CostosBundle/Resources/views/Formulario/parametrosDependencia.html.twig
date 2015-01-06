@@ -1,19 +1,24 @@
 <div class="form-group" id="mes_anio_f">    
     <label for="anio_mes">Mes/A&ntilde;o</label>
-    <input type="text" class="form-control" id="anio_mes" name="anio_mes" size="10">
+    <input type="text" class="form-control" id="anio_mes" name="anio_mes" size="10" value="{{parametros.anio_mes}}">
 </div>
 <div class="form-group" id="dependencia_f">    
     <label for="establecimiento">{{'_establecimiento_'|trans}}</label>
     <select id="establecimiento" name="establecimiento">
         <option value="-1" selected>{{'_elija_establecimiento_'|trans}}</option>
         {% for unidad in estructura %}
-            {% if unidad.nivel == 1 %}
-                <option value="{{unidad.codigo}}">{{unidad.nombre}}</option>
+            {% if unidad.nivel == 1 %}                
+                <option value="{{unidad.codigo}}" {% if unidad.codigo == parametros.establecimiento %}selected="selected"{% endif %}>{{unidad.nombre}}</option>
             {% endif%}
         {% endfor %}
     </select>
     <label for="dependencia">{{'_dependencia_'|trans}}</label>
-    <select id="dependencia" name="dependencia">        
+    <select id="dependencia" name="dependencia">
+        {% for unidad in estructura %}
+            {% if unidad.nivel == 2 and unidad.parent.codigo == parametros.establecimiento%}
+                <option value="{{unidad.codigo}}" {% if unidad.codigo == parametros.dependencia %}selected="selected"{% endif %}>{{unidad.nombre}}</option>
+            {% endif%}
+        {% endfor %}
     </select>
 </div>
 <br/>
