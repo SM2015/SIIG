@@ -21,6 +21,11 @@ class Especialidad
      * @ORM\Column(name="codigo", type="string", length=20, nullable=false)
      */
     private $codigo;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Estructura", inversedBy="especialidades")
+     * */
+    private $establecimiento;
         
 
     /**
@@ -81,5 +86,28 @@ class Especialidad
     public function getDescripcion()
     {
         return $this->descripcion;
+    }
+
+    /**
+     * Set establecimiento
+     *
+     * @param \MINSAL\CostosBundle\Entity\Estructura $establecimiento
+     * @return Especialidad
+     */
+    public function setEstablecimiento(\MINSAL\CostosBundle\Entity\Estructura $establecimiento = null)
+    {
+        $this->establecimiento = $establecimiento;
+
+        return $this;
+    }
+
+    /**
+     * Get establecimiento
+     *
+     * @return \MINSAL\CostosBundle\Entity\Estructura 
+     */
+    public function getEstablecimiento()
+    {
+        return $this->establecimiento;
     }
 }

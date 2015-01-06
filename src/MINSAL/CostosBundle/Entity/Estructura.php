@@ -56,6 +56,16 @@ class Estructura
      **/
     private $parent;
     
+    /**
+     * @ORM\OneToMany(targetEntity="Dependencia", mappedBy="establecimiento")
+     **/
+    private $dependencias;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Especialidad", mappedBy="establecimiento")
+     **/
+    private $especialidades;
+    
 
     public function __toString()
     {
@@ -228,5 +238,71 @@ class Estructura
     public function getParent()
     {
         return $this->parent;
+    }
+
+    /**
+     * Add dependencias
+     *
+     * @param \MINSAL\CostosBundle\Entity\Dependencia $dependencias
+     * @return Estructura
+     */
+    public function addDependencia(\MINSAL\CostosBundle\Entity\Dependencia $dependencias)
+    {
+        $this->dependencias[] = $dependencias;
+
+        return $this;
+    }
+
+    /**
+     * Remove dependencias
+     *
+     * @param \MINSAL\CostosBundle\Entity\Dependencia $dependencias
+     */
+    public function removeDependencia(\MINSAL\CostosBundle\Entity\Dependencia $dependencias)
+    {
+        $this->dependencias->removeElement($dependencias);
+    }
+
+    /**
+     * Get dependencias
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getDependencias()
+    {
+        return $this->dependencias;
+    }
+
+    /**
+     * Add especialidades
+     *
+     * @param \MINSAL\CostosBundle\Entity\Especialidad $especialidades
+     * @return Estructura
+     */
+    public function addEspecialidade(\MINSAL\CostosBundle\Entity\Especialidad $especialidades)
+    {
+        $this->especialidades[] = $especialidades;
+
+        return $this;
+    }
+
+    /**
+     * Remove especialidades
+     *
+     * @param \MINSAL\CostosBundle\Entity\Especialidad $especialidades
+     */
+    public function removeEspecialidade(\MINSAL\CostosBundle\Entity\Especialidad $especialidades)
+    {
+        $this->especialidades->removeElement($especialidades);
+    }
+
+    /**
+     * Get especialidades
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getEspecialidades()
+    {
+        return $this->especialidades;
     }
 }
