@@ -19,7 +19,7 @@ class UnidadesProductivasAdmin extends Admin
     {
         $formMapper
             ->add('codigo', null, array('label'=> $this->getTranslator()->trans('_codigo_')))
-            ->add('descripcion', null, array('label'=> $this->getTranslator()->trans('_descripcion_')))
+            ->add('nombre', null, array('label'=> $this->getTranslator()->trans('_nombre_')))
             ->add('establecimiento', null, array('label'=> $this->getTranslator()->trans('_establecimiento_')))
         ;
     }
@@ -28,7 +28,7 @@ class UnidadesProductivasAdmin extends Admin
     {
         $datagridMapper
             ->add('codigo', null, array('label'=> $this->getTranslator()->trans('_codigo_')))
-            ->add('descripcion', null, array('label'=> $this->getTranslator()->trans('_descripcion_')))
+            ->add('nombre', null, array('label'=> $this->getTranslator()->trans('_nombre_')))
             ->add('establecimiento', null, array('label'=> $this->getTranslator()->trans('_establecimiento_')))
         ;
     }
@@ -37,7 +37,7 @@ class UnidadesProductivasAdmin extends Admin
     {
         $listMapper
             ->addIdentifier('codigo', null, array('label'=> $this->getTranslator()->trans('_codigo_')))
-            ->add('descripcion', null, array('label'=> $this->getTranslator()->trans('_descripcion_')))
+            ->add('nombre', null, array('label'=> $this->getTranslator()->trans('_nombre_')))
             ->add('establecimiento', null, array('label'=> $this->getTranslator()->trans('_establecimiento_')))
         ;
     }
