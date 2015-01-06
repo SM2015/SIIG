@@ -22,6 +22,7 @@ class ContratosFijosGAAdmin extends Admin
             ->add('descripcion', null, array('label'=> $this->getTranslator()->trans('_descripcion_')))
             ->add('categoria', null, array('label'=> $this->getTranslator()->trans('_categoria_')))
             ->add('criterioDistribucion', null, array('label'=> $this->getTranslator()->trans('_criterio_distribucion_')))
+            ->add('establecimiento', null, array('label'=> $this->getTranslator()->trans('_establecimiento_')))
             
         ;
     }
@@ -32,6 +33,7 @@ class ContratosFijosGAAdmin extends Admin
             ->add('descripcion', null, array('label'=> $this->getTranslator()->trans('_descripcion_')))
             ->add('categoria', null, array('label'=> $this->getTranslator()->trans('_categoria_')))
             ->add('criterioDistribucion', null, array('label'=> $this->getTranslator()->trans('_criterio_distribucion_')))
+            ->add('establecimiento', null, array('label'=> $this->getTranslator()->trans('_establecimiento_')))
         ;
     }
 
@@ -42,6 +44,7 @@ class ContratosFijosGAAdmin extends Admin
             ->add('descripcion', null, array('label'=> $this->getTranslator()->trans('_descripcion_'))) 
             ->add('categoria', null, array('label'=> $this->getTranslator()->trans('_categoria_')))
             ->add('criterioDistribucion', null, array('label'=> $this->getTranslator()->trans('_criterio_distribucion_')))
+            ->add('establecimiento', null, array('label' => $this->getTranslator()->trans('_establecimiento_')))
         ;
     }
 

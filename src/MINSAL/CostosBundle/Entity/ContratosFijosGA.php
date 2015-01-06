@@ -38,6 +38,11 @@ class ContratosFijosGA
      */
     private $descripcion;
     
+    /**
+     * @ORM\ManyToOne(targetEntity="Estructura", inversedBy="contratosFijos")
+     * */
+    private $establecimiento;
+    
 
     public function __toString()
     {
@@ -156,5 +161,28 @@ class ContratosFijosGA
     public function getCriterioDistribucion()
     {
         return $this->criterioDistribucion;
+    }
+
+    /**
+     * Set establecimiento
+     *
+     * @param \MINSAL\CostosBundle\Entity\Estructura $establecimiento
+     * @return ContratosFijosGA
+     */
+    public function setEstablecimiento(\MINSAL\CostosBundle\Entity\Estructura $establecimiento = null)
+    {
+        $this->establecimiento = $establecimiento;
+
+        return $this;
+    }
+
+    /**
+     * Get establecimiento
+     *
+     * @return \MINSAL\CostosBundle\Entity\Estructura 
+     */
+    public function getEstablecimiento()
+    {
+        return $this->establecimiento;
     }
 }

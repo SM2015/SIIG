@@ -32,6 +32,12 @@
             <argument>MINSAL\CostosBundle\Entity\UnidadesProductivas</argument>
             <argument />            
         </service>
+        <service id="sonata.costos.admin.contratos_fijos" class="MINSAL\CostosBundle\Admin\ContratosFijosGAAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="_configuracion_" label="_contratos_fijos_"/>
+            <argument />
+            <argument>MINSAL\CostosBundle\Entity\ContratosFijosGA</argument>
+            <argument />            
+        </service>
         <service id="sonata.costos.admin.formato" class="MINSAL\CostosBundle\Admin\FormatoAdmin">
             <tag name="sonata.admin" manager_type="orm" group="catalogos" label="_formato_"/>
             <argument />
@@ -87,7 +93,7 @@
             <argument />            
         </service>
         <service id="sonata.costos.admin.contratos_fijos" class="MINSAL\CostosBundle\Admin\ContratosFijosGAAdmin">
-            <tag name="sonata.admin" manager_type="orm" group="catalogos" label="_contratos_fijos_"/>
+            <tag name="sonata.admin" manager_type="orm" group="_configuracion_" label="_contratos_fijos_"/>
             <argument />
             <argument>MINSAL\CostosBundle\Entity\ContratosFijosGA</argument>
             <argument />            

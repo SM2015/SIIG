@@ -62,6 +62,11 @@ class Estructura
     private $unidadesProductivas;
     
     /**
+     * @ORM\OneToMany(targetEntity="ContratosFijosGA", mappedBy="establecimiento")
+     **/
+    private $contratosFijos;
+    
+    /**
      * @ORM\OneToMany(targetEntity="Especialidad", mappedBy="establecimiento")
      **/
     private $especialidades;
@@ -304,5 +309,38 @@ class Estructura
     public function getUnidadesProductivas()
     {
         return $this->unidadesProductivas;
+    }
+
+    /**
+     * Add contratosFijos
+     *
+     * @param \MINSAL\CostosBundle\Entity\ContratosFijosGA $contratosFijos
+     * @return Estructura
+     */
+    public function addContratosFijo(\MINSAL\CostosBundle\Entity\ContratosFijosGA $contratosFijos)
+    {
+        $this->contratosFijos[] = $contratosFijos;
+
+        return $this;
+    }
+
+    /**
+     * Remove contratosFijos
+     *
+     * @param \MINSAL\CostosBundle\Entity\ContratosFijosGA $contratosFijos
+     */
+    public function removeContratosFijo(\MINSAL\CostosBundle\Entity\ContratosFijosGA $contratosFijos)
+    {
+        $this->contratosFijos->removeElement($contratosFijos);
+    }
+
+    /**
+     * Get contratosFijos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getContratosFijos()
+    {
+        return $this->contratosFijos;
     }
 }
