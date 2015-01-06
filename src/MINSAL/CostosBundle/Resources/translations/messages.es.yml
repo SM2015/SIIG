@@ -23,6 +23,7 @@ _cantidad_tel_salida_0_: Cant. de aparatos telefónicos con salida a 0
 _catalogos_: Catálogos
 _categoria_ : Categoría
 _categorias_contratos_: Categorías de contratos de servicios
+_centros_de_produccion_: Centros de producción
 _codigo_: Código
 _columnas_: Columnas
 _columnas_fijas_: Columnas fijas
@@ -88,3 +89,4 @@ _total_personal_: Total personal asignado
 _unidad_superior_ : Unidad superior
 _unidades_productivas_ : Unidades productivas
 _uso_costeo_: Utilizado para Costeo
+_variables_ga_: Gastos Administrativos :: Variables

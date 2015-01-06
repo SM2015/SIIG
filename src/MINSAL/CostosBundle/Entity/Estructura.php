@@ -62,6 +62,11 @@ class Estructura
     private $unidadesProductivas;
     
     /**
+     * @ORM\OneToMany(targetEntity="CentrosDeProduccion", mappedBy="establecimiento")
+     **/
+    private $centrosDeProduccion;
+    
+    /**
      * @ORM\OneToMany(targetEntity="ContratosFijosGA", mappedBy="establecimiento")
      **/
     private $contratosFijos;
@@ -342,5 +347,38 @@ class Estructura
     public function getContratosFijos()
     {
         return $this->contratosFijos;
+    }
+
+    /**
+     * Add centrosDeProduccion
+     *
+     * @param \MINSAL\CostosBundle\Entity\CentrosDeProduccion $centrosDeProduccion
+     * @return Estructura
+     */
+    public function addCentrosDeProduccion(\MINSAL\CostosBundle\Entity\CentrosDeProduccion $centrosDeProduccion)
+    {
+        $this->centrosDeProduccion[] = $centrosDeProduccion;
+
+        return $this;
+    }
+
+    /**
+     * Remove centrosDeProduccion
+     *
+     * @param \MINSAL\CostosBundle\Entity\CentrosDeProduccion $centrosDeProduccion
+     */
+    public function removeCentrosDeProduccion(\MINSAL\CostosBundle\Entity\CentrosDeProduccion $centrosDeProduccion)
+    {
+        $this->centrosDeProduccion->removeElement($centrosDeProduccion);
+    }
+
+    /**
+     * Get centrosDeProduccion
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCentrosDeProduccion()
+    {
+        return $this->centrosDeProduccion;
     }
 }
