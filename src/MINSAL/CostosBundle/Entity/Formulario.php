@@ -27,7 +27,7 @@ class Formulario
     /**
      * @var string $codigo
      *
-     * @ORM\Column(name="codigo", type="string", length=20, nullable=false)
+     * @ORM\Column(name="codigo", type="string", length=40, nullable=false)
      */
     private $codigo;
     

@@ -1,0 +1,20 @@
+<div class="form-group" id="mes_anio_f">    
+    <label for="anio">A&ntilde;o</label>
+    <input type="text" class="form-control" id="anio" name="anio" size="10" value="{{parametros.anio}}">
+</div>
+<div class="form-group" id="dependencia_f">    
+    <label for="establecimiento">{{'_establecimiento_'|trans}}</label>
+    <select id="establecimiento" name="establecimiento">
+        <option value="-1" selected>{{'_elija_establecimiento_'|trans}}</option>
+        {% for unidad in estructura %}
+            {% if unidad.nivel == 1 %}                
+                <option value="{{unidad.codigo}}" {% if unidad.codigo == parametros.establecimiento %}selected="selected"{% endif %}>{{unidad.nombre}}</option>
+            {% endif%}
+        {% endfor %}
+    </select>    
+    <div style="visibility: hidden;">
+        <select id="dependencia" name="dependencia">        
+        </select>
+    </div>
+</div>
+<br/>

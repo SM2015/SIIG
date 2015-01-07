@@ -174,6 +174,27 @@ class FormularioAdminController extends Controller
             'pk' => 'codigo_af'));
     }
     
+    public function gaCompromisosFinancierosAction(Request $request)
+    {        
+        $em = $this->getDoctrine()->getManager();
+        
+        $estructura = $em->getRepository("CostosBundle:Estructura")->findBy(array(), array('codigo' => 'ASC'));
+        
+        $Frm = $em->getRepository('CostosBundle:Formulario')->findBy(array('codigo'=>'gaCompromisosFinancieros'));
+        $Frm = array_shift($Frm);
+        
+        $parametros = $this->getParametros($request);
+        
+        return $this->render('CostosBundle:Formulario:gaCompromisosFinancieros.html.twig', array('Frm' => $Frm, 
+            'origenes' => $this->getOrigenes($Frm, $parametros),
+            'pivotes' => $this->getPivotes($Frm, $parametros),
+            'url' => 'get_grid_data',
+            'url_save' => 'set_grid_data',
+            'estructura' => $estructura,
+            'parametros' => $parametros,
+            'pk' => 'codigo_af'));
+    }
+    
     private function getOrigenes($Frm, $parametros) {
         $em = $this->getDoctrine()->getManager();
         $origenes = array();
@@ -198,6 +219,7 @@ class FormularioAdminController extends Controller
     
     private function getParametros($r){
         return array('anio_mes'=>$r->get('anio_mes'), 
+                'anio'=>$r->get('anio'), 
                 'establecimiento'=>$r->get('establecimiento'), 
                 'dependencia'=>$r->get('dependencia')
                 );

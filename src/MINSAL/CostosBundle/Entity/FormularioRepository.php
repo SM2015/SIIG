@@ -14,13 +14,16 @@ class FormularioRepository extends EntityRepository {
 
     public function getDatos(Formulario $Frm, Request $request) {
         $em = $this->getEntityManager();
-
-        $params_string = $this->getParameterString($request->get('datos_frm'));
-        $origenes = $this->getOrigenes($Frm->getOrigenDatos());
         $area = $Frm->getAreaCosteo();
+
+        $parametros = $request->get('datos_frm');
+        
+        $params_string = $this->getParameterString($parametros);
+        $origenes = $this->getOrigenes($Frm->getOrigenDatos());
+        
         $sql = "
             SELECT datos
-            FROM costos.fila_origen_dato_$area
+            FROM costos.fila_origen_dato_".strtolower($area)." 
             WHERE id_origen_dato IN (" . implode(',', $origenes) . ")
                 $params_string
             ;";
