@@ -64,7 +64,7 @@ class Estructura
     /**
      * @ORM\OneToMany(targetEntity="CentrosDeProduccion", mappedBy="establecimiento")
      **/
-    private $centrosDeProduccion;
+    private $centrosDeProduccion;        
     
     /**
      * @ORM\OneToMany(targetEntity="ContratosFijosGA", mappedBy="establecimiento")

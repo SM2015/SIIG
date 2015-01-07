@@ -186,9 +186,9 @@ class VariablesGastosAdministrativos
     private $tiempoUtilizacionLuminarias;
     
     /**
-     * @ORM\ManyToOne(targetEntity="MINSAL\CostosBundle\Entity\Estructura")
+     * @ORM\ManyToOne(targetEntity="MINSAL\CostosBundle\Entity\CentrosDeProduccion")
      * */
-    private $estructura;
+    private $centroDeProduccion;
     
 
     public function __toString()
@@ -584,5 +584,28 @@ class VariablesGastosAdministrativos
     public function getEstructura()
     {
         return $this->estructura;
+    }
+
+    /**
+     * Set centroDeProduccion
+     *
+     * @param \MINSAL\CostosBundle\Entity\CentroDeProduccion $centroDeProduccion
+     * @return VariablesGastosAdministrativos
+     */
+    public function setCentroDeProduccion(\MINSAL\CostosBundle\Entity\CentroDeProduccion $centroDeProduccion = null)
+    {
+        $this->centroDeProduccion = $centroDeProduccion;
+
+        return $this;
+    }
+
+    /**
+     * Get centroDeProduccion
+     *
+     * @return \MINSAL\CostosBundle\Entity\CentroDeProduccion 
+     */
+    public function getCentroDeProduccion()
+    {
+        return $this->centroDeProduccion;
     }
 }

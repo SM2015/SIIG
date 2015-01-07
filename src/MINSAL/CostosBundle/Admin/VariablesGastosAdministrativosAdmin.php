@@ -18,9 +18,36 @@ class VariablesGastosAdministrativosAdmin extends Admin {
     );
     protected $baseRouteName = '';
 
-    protected function configureFormFields(FormMapper $formMapper) {
+    protected function configureFormFields(FormMapper $formMapper) {        
+        
+        //$entity = new \MyCompany\MyProjectBundle\Entity\Seria();
+        
+        //$query = $this->modelManager->getEntityManager($entity)->createQuery('SELECT s FROM MyCompany\MyProjectBundle\Entity\Seria s ORDER BY s.nameASC');
+        
+
+        
+        //$query = $this->modelManager->createQuery("SELECT cp FROM CostosBundle:CentrosDeProduccion cp WHERE $condicion ORDER BY cp.establecimiento");
         $formMapper
-                ->add('estructura', null, array('label' => $this->getTranslator()->trans('_estructura_organizativa_'), 'required' => true))
+                ->add('centroDeProduccion', null, array('label' => $this->getTranslator()->trans('_centro_de_produccion_'),
+                    'required' => true, 'expanded' => false,
+                    'class' => 'CostosBundle:CentrosDeProduccion',
+                    'property'=>'nombreCompleto',
+                    'query_builder' => function ($repository, $condicion) {
+                        $usuario = $this->getConfigurationPool()
+                                    ->getContainer()
+                                    ->get('security.context')
+                                    ->getToken()
+                                    ->getUser();
+                        $condicion = '1=1';
+                        if (!$this->isGranted('ROLE_SUPER_ADMIN', $usuario)){            
+                            //filtrar por el establecimiento del usuario
+                            // **** pendiente de hacer
+                            $condicion = '1=1';
+                        }
+                        return $repository->createQueryBuilder('cp')
+                                ->where($condicion)
+                                ->add('orderBy','cp.establecimiento');
+                    }))
                 ->add('mes_anio', 'text', array('label' => $this->getTranslator()->trans('_mes_anio_')))
                 ->add('totalPersonal', null, array('label' => $this->getTranslator()->trans('_total_personal_')))
                 ->add('promedioUsuariosDia', null, array('label' => $this->getTranslator()->trans('_promedio_usuarios_x_dia_')))
@@ -41,7 +68,7 @@ class VariablesGastosAdministrativosAdmin extends Admin {
     protected function configureDatagridFilters(DatagridMapper $datagridMapper) {
         $datagridMapper
                 ->add('anio', null, array('label' => $this->getTranslator()->trans('_anio_')))
-                ->add('estructura', null, array('label' => $this->getTranslator()->trans('_estructura_organizativa_')))
+                ->add('centroDeProduccion', null, array('label' => $this->getTranslator()->trans('_centro_de_produccion_'), 'required' => true))
         ;
     }
 
@@ -49,7 +76,7 @@ class VariablesGastosAdministrativosAdmin extends Admin {
         $listMapper
                 ->add('anio', null, array('label' => $this->getTranslator()->trans('_anio_')))
                 ->addIdentifier('mes', null, array('label' => $this->getTranslator()->trans('_mes_')))
-                ->add('estructura', null, array('label' => $this->getTranslator()->trans('_estructura_organizativa_')))
+                ->add('centroDeProduccion', null, array('label' => $this->getTranslator()->trans('_centro_de_produccion_'), 'required' => true))
         ;
     }
 

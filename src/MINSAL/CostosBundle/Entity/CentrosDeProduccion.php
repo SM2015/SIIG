@@ -41,6 +41,17 @@ class CentrosDeProduccion
      * @ORM\ManyToOne(targetEntity="Estructura")
      * */
     private $establecimiento;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="VariablesGastosAdministrativos", mappedBy="centroDeProduccion")
+     **/
+    private $variablesGastosAdministrativos;
+    
+    private $nombreCompleto;
+    
+    public function getNombreCompleto() {
+        return $this->getEstablecimiento()->getNombre().' - '. $this->getNombre();
+    }
         
 
     public function __toString()
@@ -126,5 +137,45 @@ class CentrosDeProduccion
     public function getEstablecimiento()
     {
         return $this->establecimiento;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->variablesGastosAdministrativos = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add variablesGastosAdministrativos
+     *
+     * @param \MINSAL\CostosBundle\Entity\VariablesGastosAdministrativos $variablesGastosAdministrativos
+     * @return CentrosDeProduccion
+     */
+    public function addVariablesGastosAdministrativo(\MINSAL\CostosBundle\Entity\VariablesGastosAdministrativos $variablesGastosAdministrativos)
+    {
+        $this->variablesGastosAdministrativos[] = $variablesGastosAdministrativos;
+
+        return $this;
+    }
+
+    /**
+     * Remove variablesGastosAdministrativos
+     *
+     * @param \MINSAL\CostosBundle\Entity\VariablesGastosAdministrativos $variablesGastosAdministrativos
+     */
+    public function removeVariablesGastosAdministrativo(\MINSAL\CostosBundle\Entity\VariablesGastosAdministrativos $variablesGastosAdministrativos)
+    {
+        $this->variablesGastosAdministrativos->removeElement($variablesGastosAdministrativos);
+    }
+
+    /**
+     * Get variablesGastosAdministrativos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getVariablesGastosAdministrativos()
+    {
+        return $this->variablesGastosAdministrativos;
     }
 }
