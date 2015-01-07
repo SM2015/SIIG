@@ -73,7 +73,7 @@ class GridController extends Controller
         $sql = "SELECT codigo, nombre FROM costos.estructura WHERE parent_id IN (SELECT id FROM costos.estructura WHERE codigo = '$codigo_establecimiento' )";
         $dependencias = $em->getConnection()->executeQuery($sql)->fetchAll();
         
-        $dependencias_html = '';
+        $dependencias_html = "<OPTION VALUE=''>".$this->get('translator')->trans('_seleccione_dependencia_')."</option>";
         foreach ($dependencias as $d){
             $dependencias_html .= "<OPTION VALUE='$d[codigo]'> $d[nombre]</OPTION>";
         }

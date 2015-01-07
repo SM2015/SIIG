@@ -77,6 +77,7 @@ _rrhh_: Recurso Humano
 _rrhh_costos_: 'RRHH :: Costos'
 _rrhh_resumen_ : 'RRHH :: Resumen'
 _rrhh_valor_pagado_: 'RRHH :: VAlor Pagado'
+_seleccione_dependencia_: 'Seleccione la dependencia'
 _septiembre_: Septiembre
 _significado_campo_: Significado
 _regla_validacion_: Regla de validación

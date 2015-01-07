@@ -14,6 +14,7 @@
     </select>
     <label for="dependencia">{{'_dependencia_'|trans}}</label>
     <select id="dependencia" name="dependencia">
+        <OPTION VALUE=''>{{'_seleccione_dependencia_'|trans}}</option>
         {% for unidad in estructura %}
             {% if unidad.nivel == 2 and unidad.parent.codigo == parametros.establecimiento%}
                 <option value="{{unidad.codigo}}" {% if unidad.codigo == parametros.dependencia %}selected="selected"{% endif %}>{{unidad.nombre}}</option>
