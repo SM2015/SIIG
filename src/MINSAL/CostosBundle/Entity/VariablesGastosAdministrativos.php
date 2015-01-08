@@ -564,35 +564,12 @@ class VariablesGastosAdministrativos
     }
 
     /**
-     * Set estructura
-     *
-     * @param \MINSAL\CostosBundle\Entity\Estructura $estructura
-     * @return VariablesGastosAdministrativos
-     */
-    public function setEstructura(\MINSAL\CostosBundle\Entity\Estructura $estructura = null)
-    {
-        $this->estructura = $estructura;
-
-        return $this;
-    }
-
-    /**
-     * Get estructura
-     *
-     * @return \MINSAL\CostosBundle\Entity\Estructura 
-     */
-    public function getEstructura()
-    {
-        return $this->estructura;
-    }
-
-    /**
      * Set centroDeProduccion
      *
-     * @param \MINSAL\CostosBundle\Entity\CentroDeProduccion $centroDeProduccion
+     * @param \MINSAL\CostosBundle\Entity\CentrosDeProduccion $centroDeProduccion
      * @return VariablesGastosAdministrativos
      */
-    public function setCentroDeProduccion(\MINSAL\CostosBundle\Entity\CentroDeProduccion $centroDeProduccion = null)
+    public function setCentroDeProduccion(\MINSAL\CostosBundle\Entity\CentrosDeProduccion $centroDeProduccion = null)
     {
         $this->centroDeProduccion = $centroDeProduccion;
 
@@ -602,7 +579,7 @@ class VariablesGastosAdministrativos
     /**
      * Get centroDeProduccion
      *
-     * @return \MINSAL\CostosBundle\Entity\CentroDeProduccion 
+     * @return \MINSAL\CostosBundle\Entity\CentrosDeProduccion 
      */
     public function getCentroDeProduccion()
     {
