@@ -60,14 +60,11 @@ class Estructura
      * @ORM\OneToMany(targetEntity="UnidadesProductivas", mappedBy="establecimiento")
      **/
     private $unidadesProductivas;
-    
+        
+        
     /**
-     * @ORM\OneToMany(targetEntity="CentrosDeProduccion", mappedBy="establecimiento")
-     **/
-    private $centrosDeProduccion;        
-    
-    /**
-     * @ORM\OneToMany(targetEntity="ContratosFijosGA", mappedBy="establecimiento")
+     * @ORM\ManyToMany(targetEntity="ContratosFijosGA", inversedBy="establecimientos")
+     * @ORM\OrderBy({"descripcion" = "ASC"})
      **/
     private $contratosFijos;
     

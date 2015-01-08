@@ -20,9 +20,12 @@ class EstructuraAdmin extends Admin
         $formMapper
             ->add('codigo', null, array('label'=> $this->getTranslator()->trans('_codigo_')))
             ->add('nombre', null, array('label'=> $this->getTranslator()->trans('_nombre_')))
-            ->add('nivel', null, array('label'=> $this->getTranslator()->trans('_nivel_')))
-            ->add('parent', null, array('label'=> $this->getTranslator()->trans('_unidad_superior_')))
+            ->add('parent', null, array('label'=> $this->getTranslator()->trans('_unidad_superior_')))            
         ;
+        if ($this->subject->getNivel() == 1){
+            $formMapper->add('contratosFijos', null, array('label'=> $this->getTranslator()->trans('_contratos_fijos_'),
+                'required' => true, 'expanded' => true));
+        }
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
@@ -39,6 +42,7 @@ class EstructuraAdmin extends Admin
         $listMapper
             ->addIdentifier('codigo', null, array('label'=> $this->getTranslator()->trans('_codigo_')))
             ->add('nombre', null, array('label'=> $this->getTranslator()->trans('_nombre_')))
+            ->add('nivel', null, array('label'=> $this->getTranslator()->trans('_nivel_')))
             ->add('parent', null, array('label'=> $this->getTranslator()->trans('_unidad_superior_')))
         ;
     }
@@ -48,4 +52,25 @@ class EstructuraAdmin extends Admin
         $actions = parent::getBatchActions();
         $actions['delete'] = null;
     }
+    
+    public function prePersist($estructura)
+    {
+        if ($estructura->getParent()){
+            $estructura->setNivel($estructura->getParent()->getNivel() + 1);
+        } else{
+            $estructura->setNivel(1);
+            $this->mostrarContratos = true;
+        }
+    }
+    
+    public function preUpdate($estructura) 
+    {
+        if ($estructura->getParent()){
+            $estructura->setNivel($estructura->getParent()->getNivel() + 1);
+        } else{
+            $estructura->setNivel(1);
+            $this->mostrarContratos = true;
+        }
+    }
+    
 }

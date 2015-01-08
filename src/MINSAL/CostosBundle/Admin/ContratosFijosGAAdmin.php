@@ -22,9 +22,8 @@ class ContratosFijosGAAdmin extends Admin
             ->add('descripcion', null, array('label'=> $this->getTranslator()->trans('_descripcion_')))
             ->add('categoria', null, array('label'=> $this->getTranslator()->trans('_categoria_')))
             ->add('criterioDistribucion', null, array('label'=> $this->getTranslator()->trans('_criterio_distribucion_')))
-            ->add('establecimiento', null, array('label'=> $this->getTranslator()->trans('_establecimiento_')))
-            ->add('establecimiento', null, array('label' => $this->getTranslator()->trans('_establecimiento_'),
-                    'required' => true, 'expanded' => false,
+            ->add('establecimientos', null, array('label' => $this->getTranslator()->trans('_establecimiento_'),
+                    'required' => true, 'expanded' => true,
                     'class' => 'CostosBundle:Estructura',
                     'query_builder' => function ($repository) {                        
                         return $repository->createQueryBuilder('e')
@@ -41,7 +40,7 @@ class ContratosFijosGAAdmin extends Admin
             ->add('descripcion', null, array('label'=> $this->getTranslator()->trans('_descripcion_')))
             ->add('categoria', null, array('label'=> $this->getTranslator()->trans('_categoria_')))
             ->add('criterioDistribucion', null, array('label'=> $this->getTranslator()->trans('_criterio_distribucion_')))
-            ->add('establecimiento', null, array('label'=> $this->getTranslator()->trans('_establecimiento_')))
+            ->add('establecimientos', null, array('label'=> $this->getTranslator()->trans('_establecimiento_')))
         ;
     }
 
@@ -52,7 +51,7 @@ class ContratosFijosGAAdmin extends Admin
             ->add('descripcion', null, array('label'=> $this->getTranslator()->trans('_descripcion_'))) 
             ->add('categoria', null, array('label'=> $this->getTranslator()->trans('_categoria_')))
             ->add('criterioDistribucion', null, array('label'=> $this->getTranslator()->trans('_criterio_distribucion_')))
-            ->add('establecimiento', null, array('label' => $this->getTranslator()->trans('_establecimiento_')))
+            ->add('establecimientos', null, array('label' => $this->getTranslator()->trans('_establecimiento_')))
         ;
     }
 

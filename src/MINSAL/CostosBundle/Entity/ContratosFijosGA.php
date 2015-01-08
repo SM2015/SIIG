@@ -38,11 +38,12 @@ class ContratosFijosGA
      */
     private $descripcion;
     
-    /**
-     * @ORM\ManyToOne(targetEntity="Estructura", inversedBy="contratosFijos")
-     * */
-    private $establecimiento;
     
+    /**
+     *
+     * @ORM\ManyToMany(targetEntity="Estructura", mappedBy="contratosFijos")     
+     */
+    private $establecimientos;
 
     public function __toString()
     {
@@ -161,28 +162,45 @@ class ContratosFijosGA
     public function getCriterioDistribucion()
     {
         return $this->criterioDistribucion;
+    }    
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->establecimientos = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
-     * Set establecimiento
+     * Add establecimientos
      *
-     * @param \MINSAL\CostosBundle\Entity\Estructura $establecimiento
+     * @param \MINSAL\CostosBundle\Entity\Estructura $establecimientos
      * @return ContratosFijosGA
      */
-    public function setEstablecimiento(\MINSAL\CostosBundle\Entity\Estructura $establecimiento = null)
+    public function addEstablecimiento(\MINSAL\CostosBundle\Entity\Estructura $establecimientos)
     {
-        $this->establecimiento = $establecimiento;
+        $this->establecimientos[] = $establecimientos;
 
         return $this;
     }
 
     /**
-     * Get establecimiento
+     * Remove establecimientos
      *
-     * @return \MINSAL\CostosBundle\Entity\Estructura 
+     * @param \MINSAL\CostosBundle\Entity\Estructura $establecimientos
      */
-    public function getEstablecimiento()
+    public function removeEstablecimiento(\MINSAL\CostosBundle\Entity\Estructura $establecimientos)
     {
-        return $this->establecimiento;
+        $this->establecimientos->removeElement($establecimientos);
+    }
+
+    /**
+     * Get establecimientos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getEstablecimientos()
+    {
+        return $this->establecimientos;
     }
 }
