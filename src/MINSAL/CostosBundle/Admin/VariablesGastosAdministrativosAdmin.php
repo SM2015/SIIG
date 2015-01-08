@@ -32,7 +32,7 @@ class VariablesGastosAdministrativosAdmin extends Admin {
                     'required' => true, 'expanded' => false,
                     'class' => 'CostosBundle:CentrosDeProduccion',
                     'property'=>'nombreCompleto',
-                    'query_builder' => function ($repository, $condicion) {
+                    'query_builder' => function ($repository) {
                         $usuario = $this->getConfigurationPool()
                                     ->getContainer()
                                     ->get('security.context')
