@@ -20,7 +20,14 @@ class EspecialidadAdmin extends Admin
         $formMapper
             ->add('codigo', null, array('label'=> $this->getTranslator()->trans('_codigo_')))
             ->add('descripcion', null, array('label'=> $this->getTranslator()->trans('_descripcion_')))
-            ->add('establecimiento', null, array('label'=> $this->getTranslator()->trans('_establecimiento_')))
+            ->add('establecimiento', null, array('label' => $this->getTranslator()->trans('_establecimiento_'),
+                    'required' => true, 'expanded' => false,
+                    'class' => 'CostosBundle:Estructura',
+                    'query_builder' => function ($repository) {                        
+                        return $repository->createQueryBuilder('e')
+                                ->where('e.nivel = 1 ')
+                                ->add('orderBy','e.nombre');
+                    }))
         ;
     }
 
@@ -29,7 +36,14 @@ class EspecialidadAdmin extends Admin
         $datagridMapper
             ->add('codigo', null, array('label'=> $this->getTranslator()->trans('_codigo_')))
             ->add('descripcion', null, array('label'=> $this->getTranslator()->trans('_descripcion_')))
-            ->add('establecimiento', null, array('label'=> $this->getTranslator()->trans('_establecimiento_')))
+            ->add('establecimiento', null, array('label' => $this->getTranslator()->trans('_establecimiento_'),
+                    'required' => true, 'expanded' => false,
+                    'class' => 'CostosBundle:Estructura',
+                    'query_builder' => function ($repository) {                        
+                        return $repository->createQueryBuilder('e')
+                                ->where('e.nivel = 1 ')
+                                ->add('orderBy','e.nombre');
+                    }))
         ;
     }
 

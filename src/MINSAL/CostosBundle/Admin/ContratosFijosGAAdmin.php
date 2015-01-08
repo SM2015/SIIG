@@ -23,6 +23,14 @@ class ContratosFijosGAAdmin extends Admin
             ->add('categoria', null, array('label'=> $this->getTranslator()->trans('_categoria_')))
             ->add('criterioDistribucion', null, array('label'=> $this->getTranslator()->trans('_criterio_distribucion_')))
             ->add('establecimiento', null, array('label'=> $this->getTranslator()->trans('_establecimiento_')))
+            ->add('establecimiento', null, array('label' => $this->getTranslator()->trans('_establecimiento_'),
+                    'required' => true, 'expanded' => false,
+                    'class' => 'CostosBundle:Estructura',
+                    'query_builder' => function ($repository) {                        
+                        return $repository->createQueryBuilder('e')
+                                ->where('e.nivel = 1 ')
+                                ->add('orderBy','e.nombre');
+                    }))
             
         ;
     }
