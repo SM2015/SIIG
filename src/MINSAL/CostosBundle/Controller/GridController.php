@@ -70,12 +70,20 @@ class GridController extends Controller
         
         // Dejaré las consultas aquí porque aún no está definido cómo será la 
         // estructura de tablas que tendrán estos datos
-        $sql = "SELECT codigo, nombre FROM costos.estructura WHERE parent_id IN (SELECT id FROM costos.estructura WHERE codigo = '$codigo_establecimiento' )";
+        $sql = "SELECT A.codigo, A.nombre, B.nombre as nombre_unidad_organizativa
+                    FROM costos.estructura A
+                    INNER JOIN costos.estructura B ON (A.parent_id = B.id)                    
+                    WHERE B.parent_id IN 
+                        (SELECT id FROM costos.estructura
+                            WHERE codigo = '$codigo_establecimiento' 
+                        )
+                    ORDER BY B.nombre, A.nombre
+                        ";
         $dependencias = $em->getConnection()->executeQuery($sql)->fetchAll();
         
         $dependencias_html = "<OPTION VALUE=''>".$this->get('translator')->trans('_seleccione_dependencia_')."</option>";
         foreach ($dependencias as $d){
-            $dependencias_html .= "<OPTION VALUE='$d[codigo]'> $d[nombre]</OPTION>";
+            $dependencias_html .= "<OPTION VALUE='$d[codigo]'>$d[nombre_unidad_organizativa] -- $d[nombre]</OPTION>";
         }
         $response->setContent($dependencias_html);
         
