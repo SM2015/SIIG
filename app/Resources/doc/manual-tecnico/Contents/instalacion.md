@@ -15,6 +15,7 @@ debe ser ejecutado como usuario root y "$" que debe ser ejecutado como un usuari
 ~~~
 # apt-get update
 # apt-get install php5 php5-pgsql php5-sqlite sqlite php5-xdebug  php-apc php5-cli php5-xsl php5-intl php5-mcrypt apache2 postgresql acl git-core curl postgresql-contrib php5-ldap php5-mysql php5-sybase php5-json postgresql-contrib redis-server
+# php5enmod mcrypt
 ~~~
 
 ### Crear usuario y directorio de trabajo
