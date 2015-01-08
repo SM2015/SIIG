@@ -33,7 +33,8 @@ class OrigenDatosAdmin extends Admin
                     ->add('esCatalogo', null, array('label' => $this->getTranslator()->trans('es_catalogo')))
                     ->add('areaCosteo', 'choice', array('label' => $this->getTranslator()->trans('_area_costeo_'),
                         'choices' => array('rrhh'=>$this->getTranslator()->trans('_rrhh_'),
-                            'ga_af'=>$this->getTranslator()->trans('_ga_af_')),
+                            'ga_af'=>$this->getTranslator()->trans('_ga_af_'),
+                            'ga_compromisosFinancieros'=>$this->getTranslator()->trans('_ga_compromisos_financieros_')),
                         'required' => false
                         ))
                     ->end()
