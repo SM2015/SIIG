@@ -20,7 +20,7 @@ class FormularioRepository extends EntityRepository {
         $parametros = $request->get('datos_frm');
         
         $params_string = $this->getParameterString($parametros);
-        if ($area != 'ga_variables'){
+        if ($area != 'ga_variables' and $area != 'ga_compromisosFinancieros'){
             $origenes = $this->getOrigenes($Frm->getOrigenDatos());
         }
         
@@ -46,10 +46,44 @@ class FormularioRepository extends EntityRepository {
                                     FROM costos.fila_origen_dato_ga 
                                     WHERE id_formulario = ".$Frm->getId()."
                                         AND datos->'establecimiento' = '".$this->parametros['establecimiento']."'
+                                        AND datos->'anio' = '".$this->parametros['anio']."'
+                                        AND datos->'mes' = '".$this->parametros['mes']."'
                                 )                            
                     )";
             $em->getConnection()->executeQuery($sql);
-        }        
+        }
+        
+        if ($area == 'ga_compromisosFinancieros'){
+            $origenes = array($Frm->getId());
+            $campo = 'id_formulario';
+            $area = 'ga';
+                                    
+            //Cargar los contratos que no están en el año elegido
+            $sql = "INSERT INTO costos.fila_origen_dato_".strtolower($area)."(id_formulario, datos)
+                    (SELECT ".$Frm->getId()." AS id_formulario, 
+                            hstore(
+                                ARRAY['codigo_contrato', 'anio', 'establecimiento', 'descripcion_contrato',
+                                        'criterio_distribucion', 'categoria_contrato'], 
+                                ARRAY[A.codigo , '".$this->parametros['anio']."', '".$this->parametros['establecimiento']."', A.descripcion,
+                                    B.descripcion, C.descripcion]
+                            ) 
+                        FROM costos.contratos_fijos_ga A 
+                            INNER JOIN costos.criterios_distribucion_ga B ON (A.criteriodistribucion_id = B.id) 
+                            INNER JOIN costos.categorias_contratos_fijos_ga C ON (A.categoria_id = C.id) 
+                            INNER JOIN estructura_contratosfijosga D ON (A.id = D.contratosfijosga_id) 
+                            INNER JOIN costos.estructura E ON (D.estructura_id = E.id)
+                        WHERE E.codigo = '".$this->parametros['establecimiento']."'
+                            AND (".$Frm->getId(). ", A.codigo, '".$this->parametros['anio']."', '".$this->parametros['establecimiento']."' )
+                                NOT IN 
+                                (SELECT id_formulario, datos->'dependencia', datos->'anio', datos->'establecimiento'
+                                    FROM costos.fila_origen_dato_ga 
+                                    WHERE id_formulario = ".$Frm->getId()."
+                                        AND datos->'establecimiento' = '".$this->parametros['establecimiento']."'
+                                        AND datos->'anio' = '".$this->parametros['anio']."'
+                                )                            
+                    )";
+            $em->getConnection()->executeQuery($sql);
+        }
         
         $sql = "
             SELECT datos
@@ -111,7 +145,7 @@ class FormularioRepository extends EntityRepository {
         $params_string = $this->getParameterString($request->get('datos_frm'));
         $area = $Frm->getAreaCosteo();
         
-        if ($area != 'ga_variables'){
+        if ($area != 'ga_variables' and $area != 'ga_compromisosFinancieros'){
             $origenes = $this->getOrigenes($Frm->getOrigenDatos());
             $campo = 'id_origen_dato';
         } else {
@@ -129,7 +163,7 @@ class FormularioRepository extends EntityRepository {
         $params_string .= "AND datos->'" . $request->get('pk') . "' = '" . $datosObj->{$request->get('pk')} . "'";
         
         $sql = "
-            UPDATE costos.fila_origen_dato_$area
+            UPDATE costos.fila_origen_dato_".strtolower($area)."
             SET datos = datos || '" . $datos . "'::hstore
             WHERE $campo IN (" . implode(',', $origenes) . ")
                 $params_string

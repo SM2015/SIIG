@@ -192,7 +192,7 @@ class FormularioAdminController extends Controller
             'url_save' => 'set_grid_data',
             'estructura' => $estructura,
             'parametros' => $parametros,
-            'pk' => 'codigo_af'));
+            'pk' => 'codigo_contrato'));
     }
     
     public function gaVariablesAction(Request $request)
