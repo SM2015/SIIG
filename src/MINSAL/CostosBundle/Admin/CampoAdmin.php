@@ -27,6 +27,7 @@ class CampoAdmin extends Admin
             ->add('posicion', null, array('label'=> $this->getTranslator()->trans('_posicion_')))
             ->add('ancho', null, array('label'=> $this->getTranslator()->trans('_ancho_')))
             ->add('esEditable', null, array('label'=> $this->getTranslator()->trans('_es_editable_')))
+            ->add('oculto', null, array('label'=> $this->getTranslator()->trans('_oculto_')))
             ->add('tipoDato', null, array('label'=> $this->getTranslator()->trans('_tipo_dato_')))
             ->add('tipoControl', null, array('label'=> $this->getTranslator()->trans('_tipo_control_')))            
             ->add('alineacion', null, array('label'=> $this->getTranslator()->trans('_alineacion_')))

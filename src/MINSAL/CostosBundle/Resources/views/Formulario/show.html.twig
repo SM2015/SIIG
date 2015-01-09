@@ -155,6 +155,7 @@
                             {% endif %}
                             cellsalign: '{{campo.alineacion.codigo|default('left')}}',
                             editable: {{campo.esEditable|default('false')}},
+                            hidden: {{campo.oculto|default('false')}},
                             columntype: '{{campo.tipoControl.codigo}}',
                             {% if campo.esCalculado and mostrar_resumen %} aggregates: ['sum'], {% endif %}                            
                             {% if campo.tipoControl.codigo == 'datetimeinput' %}
@@ -217,7 +218,9 @@
                             { label: '{{campoPivote.descripcion}}', value: '{{campo.significadoCampo.codigo}}_{{campoPivote.id}}', checked: true },
                         {% endfor %}
                     {% else %}
-                        { label: '{{campo.significadoCampo.descripcion}}', value: '{{campo.significadoCampo.codigo}}', checked: true },
+                        {% if not(campo.oculto) %}
+                            { label: '{{campo.significadoCampo.descripcion}}', value: '{{campo.significadoCampo.codigo}}', checked: true },
+                        {% endif %}
                     {% endif %}
                 {% endfor %}                
                 ];

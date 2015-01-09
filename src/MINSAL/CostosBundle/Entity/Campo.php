@@ -81,6 +81,13 @@ class Campo
     private $esEditable;
     
     /**
+     * @var string $oculto
+     *
+     * @ORM\Column(name="es_oculto", type="boolean", nullable=true)
+     */
+    private $oculto;
+    
+    /**
      * @var string $origen_pivote
      *
      * @ORM\Column(name="origen_pivote", type="text", nullable=true)
@@ -567,4 +574,27 @@ class Campo
         return $this->esCalculado = $estado;
     }
     
+
+    /**
+     * Set oculto
+     *
+     * @param boolean $oculto
+     * @return Campo
+     */
+    public function setOculto($oculto)
+    {
+        $this->oculto = $oculto;
+
+        return $this;
+    }
+
+    /**
+     * Get oculto
+     *
+     * @return boolean 
+     */
+    public function getOculto()
+    {
+        return $this->oculto;
+    }
 }
