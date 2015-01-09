@@ -238,24 +238,6 @@
                 fila = event.args.rowindex;
             });
             
-            {#$("#cargar_datos").click(function () {        
-                $.post(Routing.generate('{{url}}', {id: {{Frm.id}} }), {datos_frm: $('#frm_').serialize()},
-                function(resp) {
-                    if (resp.estado == 'ok') {
-                        $('#mensaje').html('');
-                        source.localdata = resp.data;
-                        // passing "cells" to the 'updatebounddata' method will refresh only the cells 
-                        // values when the new rows count is equal to the previous rows count.
-                        $("#jqxgrid").jqxGrid('updatebounddata', 'cells');
-                        $("#jqxgrid").jqxGrid('autoresizecolumns');
-                    }
-                    else {
-                        $('#mensaje').html('<div class="alert alert-danger" role="alert">'+resp.msj+'</div>');
-                    }
-
-                }, 'json');
-                
-            });#}
             $("#clear").click(function () {
                 $("#jqxgrid").jqxGrid('clear');
                 $('#mensaje').html('');
@@ -279,8 +261,8 @@
             {% block frm_head %}
                 <DIV style="width: 98%; text-align: right">                    
                     <button class="btn btn-success" type="submit" name="cargar_datos" id="cargar_datos" ><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>{{'_cargar_datos_'|trans}}</button>
-                    <button class="btn btn-danger" name="clear" id="clear" ><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>{{'_limpiar_'|trans}}</button>
-                    <button class="btn btn-success" name="guardar" id="guardar" ><i class="fa fa-save" data-original-title="" title=""></i>{{'_guardar_'|trans}}</button>
+                    {#<button class="btn btn-danger" name="clear" id="clear" ><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>{{'_limpiar_'|trans}}</button>#}
+                    <button class="btn btn-instagram" type="button" name="guardar" id="guardar" ><i class="fa fa-save" data-original-title="" title=""></i>{{'_guardar_'|trans}}</button>
                     <DIV id="mensaje"></div>
                 </div>                
             {% endblock frm_head %}

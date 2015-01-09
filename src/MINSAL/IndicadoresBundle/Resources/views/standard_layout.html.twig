@@ -165,15 +165,15 @@ file that was distributed with this source code.
                                                                 {% if admin2.hasroute('rrhhCostos') %}
                                                                     <li><a href="{{ admin2.generateUrl('rrhhCostos')}}">{{ '_rrhh_costos_'|trans }}</a></li>
                                                                 {% endif %}
+                                                                {% if admin2.hasroute('gaVariables') %}
+                                                                    <li><a href="{{ admin2.generateUrl('gaVariables')}}">{{ '_ga_variables_'|trans }}</a></li>
+                                                                {% endif %}
                                                                 {% if admin2.hasroute('gaAf') %}
                                                                     <li><a href="{{ admin2.generateUrl('gaAf')}}">{{ '_ga_af_'|trans }}</a></li>
                                                                 {% endif %}
                                                                 {% if admin2.hasroute('gaCompromisosFinancieros') %}
                                                                     <li><a href="{{ admin2.generateUrl('gaCompromisosFinancieros')}}">{{ '_ga_compromisos_financieros_'|trans }}</a></li>
-                                                                {% endif %}
-                                                                {% if admin2.hasroute('gaVariables') %}
-                                                                    <li><a href="{{ admin2.generateUrl('gaVariables')}}">{{ '_ga_variables_'|trans }}</a></li>
-                                                                {% endif %}
+                                                                {% endif %}                                                                
                                                             {% endfor %}
                                                         {% endif %}
                                                         {% for admin in group.items %}
