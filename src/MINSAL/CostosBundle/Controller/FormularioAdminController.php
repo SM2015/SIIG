@@ -195,6 +195,27 @@ class FormularioAdminController extends Controller
             'pk' => 'codigo_af'));
     }
     
+    public function gaVariablesAction(Request $request)
+    {        
+        $em = $this->getDoctrine()->getManager();
+        
+        $estructura = $em->getRepository("CostosBundle:Estructura")->findBy(array(), array('codigo' => 'ASC'));
+        
+        $Frm = $em->getRepository('CostosBundle:Formulario')->findBy(array('codigo'=>'gaVariables'));
+        $Frm = array_shift($Frm);
+        
+        $parametros = $this->getParametros($request);
+        
+        return $this->render('CostosBundle:Formulario:gaVariables.html.twig', array('Frm' => $Frm, 
+            'origenes' => $this->getOrigenes($Frm, $parametros),
+            'pivotes' => $this->getPivotes($Frm, $parametros),
+            'url' => 'get_grid_data',
+            'url_save' => 'set_grid_data',
+            'estructura' => $estructura,
+            'parametros' => $parametros,
+            'pk' => 'dependencia'));
+    }
+    
     private function getOrigenes($Frm, $parametros) {
         $em = $this->getDoctrine()->getManager();
         $origenes = array();

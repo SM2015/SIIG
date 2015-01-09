@@ -35,3 +35,11 @@ CREATE TABLE IF NOT EXISTS costos.fila_origen_dato_ga_compromisosfinancieros(
 
     FOREIGN KEY (id_origen_dato) REFERENCES origen_datos(id) on update CASCADE on delete CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS costos.fila_origen_dato_ga(
+    id_formulario integer,
+    datos hstore,
+    ultima_lectura timestamp,
+
+    FOREIGN KEY (id_formulario) REFERENCES costos.formulario(id) on update CASCADE on delete CASCADE
+);

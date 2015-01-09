@@ -21,7 +21,7 @@
             <argument />            
         </service>
         <service id="sonata.costos.admin.estructura" class="MINSAL\CostosBundle\Admin\EstructuraAdmin">
-            <tag name="sonata.admin" manager_type="orm" group="_configuracion_" label="_estructura_organizativa_"/>
+            <tag name="sonata.admin" manager_type="orm" group="_costeo_" label="_estructura_organizativa_"/>
             <argument />
             <argument>MINSAL\CostosBundle\Entity\Estructura</argument>
             <argument />            
@@ -97,12 +97,6 @@
             <argument />
             <argument>MINSAL\CostosBundle\Entity\ContratosFijosGA</argument>
             <argument />            
-        </service>
-        <service id="sonata.costos.admin.variablesGA" class="MINSAL\CostosBundle\Admin\VariablesGastosAdministrativosAdmin">
-            <tag name="sonata.admin" manager_type="orm" group="_costeo_" label="_variables_ga_"/>
-            <argument />
-            <argument>MINSAL\CostosBundle\Entity\VariablesGastosAdministrativos</argument>
-            <argument />            
-        </service>
+        </service>        
     </services>
 </container>

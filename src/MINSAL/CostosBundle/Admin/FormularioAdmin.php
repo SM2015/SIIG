@@ -27,7 +27,8 @@ class FormularioAdmin extends Admin
             ->add('areaCosteo', 'choice', array('label' => $this->getTranslator()->trans('_area_costeo_'),
                         'choices' => array('rrhh'=>$this->getTranslator()->trans('_rrhh_'),
                             'ga_af'=>$this->getTranslator()->trans('_ga_af_'),
-                            'ga_compromisosFinancieros' => $this->getTranslator()->trans('_ga_compromisos_financieros_')
+                            'ga_compromisosFinancieros' => $this->getTranslator()->trans('_ga_compromisos_financieros_'),
+                            'ga_variables' => $this->getTranslator()->trans('_ga_variables_')
                             )
                         ))
             ->add('campos', null, 
@@ -68,5 +69,6 @@ class FormularioAdmin extends Admin
         $collection->add('rrhhCostos');
         $collection->add('gaAf');
         $collection->add('gaCompromisosFinancieros');
+        $collection->add('gaVariables');
     }
 }

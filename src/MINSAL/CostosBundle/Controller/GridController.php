@@ -23,7 +23,6 @@ class GridController extends Controller
         $em = $this->getDoctrine()->getManager();        
         
         $data = $em->getRepository('CostosBundle:Formulario')->getDatos($Frm, $request);
-
         if (count($data) > 0){
             $data_ = '';
             $ultimo = array_pop($data);

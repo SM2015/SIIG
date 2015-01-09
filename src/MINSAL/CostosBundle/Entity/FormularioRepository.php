@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class FormularioRepository extends EntityRepository {
 
+    private $parametros = array();
     public function getDatos(Formulario $Frm, Request $request) {
         $em = $this->getEntityManager();
         $area = $Frm->getAreaCosteo();
@@ -19,12 +20,41 @@ class FormularioRepository extends EntityRepository {
         $parametros = $request->get('datos_frm');
         
         $params_string = $this->getParameterString($parametros);
-        $origenes = $this->getOrigenes($Frm->getOrigenDatos());
+        if ($area != 'ga_variables'){
+            $origenes = $this->getOrigenes($Frm->getOrigenDatos());
+        }
+        
+        if ($area == 'ga_variables'){
+            $origenes = array($Frm->getId());
+            $campo = 'id_formulario';
+            $area = 'ga';
+            
+            //Cargar las dependencias que no estén en el mes y año elegido
+            $sql = "INSERT INTO costos.fila_origen_dato_".strtolower($area)."(id_formulario, datos)
+                    (SELECT ".$Frm->getId()." AS id_formulario, hstore(ARRAY['dependencia', 'mes', 'anio', 'establecimiento'], 
+                            ARRAY[codigo , '".$this->parametros['mes']."', '".$this->parametros['anio']."', '".$this->parametros['establecimiento']."']) 
+                        FROM costos.estructura
+                        WHERE parent_id 
+                            IN
+                            (SELECT A.id FROM costos.estructura A
+                                INNER JOIN costos.estructura B ON (A.parent_id = B.id )
+                                WHERE B.codigo = '".$this->parametros['establecimiento']."'
+                            )
+                            AND (".$Frm->getId(). ", codigo, '".$this->parametros['mes']."', '".$this->parametros['anio']."', '".$this->parametros['establecimiento']."' )
+                                NOT IN 
+                                (SELECT id_formulario, datos->'dependencia', datos->'mes', datos->'anio', datos->'establecimiento'
+                                    FROM costos.fila_origen_dato_ga 
+                                    WHERE id_formulario = ".$Frm->getId()."
+                                        AND datos->'establecimiento' = '".$this->parametros['establecimiento']."'
+                                )                            
+                    )";
+            $em->getConnection()->executeQuery($sql);
+        }        
         
         $sql = "
             SELECT datos
             FROM costos.fila_origen_dato_".strtolower($area)." 
-            WHERE id_origen_dato IN (" . implode(',', $origenes) . ")
+            WHERE $campo IN (" . implode(',', $origenes) . ")
                 $params_string
             ;";
 
@@ -34,6 +64,7 @@ class FormularioRepository extends EntityRepository {
             return $e->getMessage();
         }
     }
+    
 
     private function getOrigenes($origen) {
         $origenes = array();
@@ -59,12 +90,15 @@ class FormularioRepository extends EntityRepository {
                         $valores = explode('%2F', $dato[1]);
                         $params_string .= " AND (datos->'" . $campos[0] . "')::integer = '" . $valores[1] . "'::integer ";
                         $params_string .= " AND (datos->'" . $campos[1] . "')::integer = '" . $valores[0] . "'::integer ";
+                        $this->parametros['mes'] = $valores[0];
+                        $this->parametros['anio'] = $valores[1];
                     }else {
                         $params_string .= " AND (datos->'anio')::integer = '-222'::integer ";
                     }
                 }
                 elseif ($dato[1] != '' and $dato[0] != 'pk') {
                     $params_string .= " AND datos->'" . $dato[0] . "' = '" . $dato[1] . "' ";
+                    $this->parametros[$dato[0]] = $dato[1];
                 }
             }
         }
@@ -75,7 +109,16 @@ class FormularioRepository extends EntityRepository {
         $em = $this->getEntityManager();
 
         $params_string = $this->getParameterString($request->get('datos_frm'));
-        $origenes = $this->getOrigenes($Frm->getOrigenDatos());
+        $area = $Frm->getAreaCosteo();
+        
+        if ($area != 'ga_variables'){
+            $origenes = $this->getOrigenes($Frm->getOrigenDatos());
+            $campo = 'id_origen_dato';
+        } else {
+            $origenes = array($Frm->getId());
+            $campo = 'id_formulario';
+            $area = 'ga';
+        }
 
         $datosObj = json_decode($request->get('fila'));        
         $datos = str_replace(array('{', '}', ':', 'null'), array('', '', '=>', '""'), $request->get('fila'));
@@ -84,11 +127,11 @@ class FormularioRepository extends EntityRepository {
         $datos = preg_replace('/([0-9]{4})-([0-9]{2})-([0-9]{2})T[0-9]{2}=>[0-9]{2}=>[0-9]{2}.[0-9]{3}Z/', '${3}/${2}/${1}', $datos);
 
         $params_string .= "AND datos->'" . $request->get('pk') . "' = '" . $datosObj->{$request->get('pk')} . "'";
-        $area = $Frm->getAreaCosteo();
+        
         $sql = "
             UPDATE costos.fila_origen_dato_$area
             SET datos = datos || '" . $datos . "'::hstore
-            WHERE id_origen_dato IN (" . implode(',', $origenes) . ")
+            WHERE $campo IN (" . implode(',', $origenes) . ")
                 $params_string
             ;";
 
@@ -99,7 +142,7 @@ class FormularioRepository extends EntityRepository {
             $sql = "
             SELECT datos 
             FROM costos.fila_origen_dato_$area
-            WHERE id_origen_dato IN (" . implode(',', $origenes) . ")
+            WHERE $campo IN (" . implode(',', $origenes) . ")
                 $params_string
             ;";
             return $em->getConnection()->executeQuery($sql)->fetchAll();
