@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class FormularioAdminController extends Controller
 {           
-    public function mostrarPlantilla(Request $request, $codigoFrm, $pk) {
+    public function mostrarPlantilla(Request $request, $codigoFrm, $pk, $titulo, $mostrar_resumen, $plantilla) {
         $em = $this->getDoctrine()->getManager();
         
         $estructura = $em->getRepository("CostosBundle:Estructura")->findBy(array(), array('codigo' => 'ASC'));
@@ -18,23 +18,25 @@ class FormularioAdminController extends Controller
         
         $parametros = $this->getParametros($request);
         
-        return $this->render('CostosBundle:Formulario:'.$codigoFrm.'.html.twig', array('Frm' => $Frm, 
+        return $this->render('CostosBundle:Formulario:'.$plantilla.'.html.twig', array('Frm' => $Frm, 
             'origenes' => $this->getOrigenes($Frm, $parametros),
             'pivotes' => $this->getPivotes($Frm, $parametros),
             'url' => 'get_grid_data',
             'url_save' => 'set_grid_data',
             'estructura' => $estructura,
             'parametros' => $parametros,
+            'titulo' => $titulo,
+            'mostrar_resumen' => $mostrar_resumen,
             'pk' => $pk));
     }
     public function rrhhValorPagadoAction(Request $request)
     {        
-        return $this->mostrarPlantilla($request, 'rrhhValorPagado', 'nit');
+        return $this->mostrarPlantilla($request, 'rrhhValorPagado', 'nit', '_formulario_rrhh_valor_pagado_titulo_', false, 'parametrosDependencia');
     }
     
     public function rrhhDistribucionHoraAction(Request $request)
     {        
-        return $this->mostrarPlantilla($request, 'rrhhDistribucionHora', 'nit');                
+        return $this->mostrarPlantilla($request, 'rrhhDistribucionHora', 'nit', '_rrhh_distribucion_horas_', false, 'parametrosDependencia');
     }
     
     public function rrhhCostosAction(Request $request) {
@@ -130,34 +132,36 @@ class FormularioAdminController extends Controller
         $origenes = $this->getOrigenes($Frm, $parametros) + $this->getOrigenes($Frm2, $parametros);
         $pivotes = $this->getPivotes($Frm, $parametros) + $this->getPivotes($Frm2, $parametros);
         
-        return $this->render('CostosBundle:Formulario:rrhhCostos.html.twig', array('Frm' => $Frm_aux, 
+        return $this->render('CostosBundle:Formulario:parametrosDependencia.html.twig', array('Frm' => $Frm_aux, 
             'origenes' => $origenes,
             'pivotes' => $pivotes,
             'url' => 'get_grid_data',
             'url_save' => 'set_grid_data',
             'estructura' => $estructura,
             'parametros' => $parametros,
+            'titulo' => '_rrhh_costos_',
+            'mostrar_resumen' => true,
             'pk' => 'nit'));
     }
     
     public function gaAfAction(Request $request)
     {        
-        return $this->mostrarPlantilla($request, 'gaAf', 'codigo_af');
+        return $this->mostrarPlantilla($request, 'gaAf', 'codigo_af', '_ga_af_', false, 'parametrosDependencia');
     }
     
     public function gaCompromisosFinancierosAction(Request $request)
     {        
-        return $this->mostrarPlantilla($request, 'gaCompromisosFinancieros', 'codigo_contrato');
+        return $this->mostrarPlantilla($request, 'gaCompromisosFinancieros', 'codigo_contrato', '_ga_compromisos_financieros_', false, 'parametrosEstablecimiento');
     }
     
     public function gaVariablesAction(Request $request)
     {        
-        return $this->mostrarPlantilla($request, 'gaVariables', 'dependencia');
+        return $this->mostrarPlantilla($request, 'gaVariables', 'dependencia', '_ga_variables_', false, 'parametrosDependencia');
     }        
     
     public function gaDistribucionAction(Request $request)
     {        
-        return $this->mostrarPlantilla($request, 'gaDistribucion', 'dependencia');        
+        return $this->mostrarPlantilla($request, 'gaDistribucion', 'dependencia', '_ga_distribucion_', false, 'parametrosDependencia');        
     }
     
     private function getOrigenes($Frm, $parametros) {
