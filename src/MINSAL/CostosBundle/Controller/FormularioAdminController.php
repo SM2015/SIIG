@@ -8,46 +8,33 @@ use Symfony\Component\HttpFoundation\Request;
 
 class FormularioAdminController extends Controller
 {           
-    public function rrhhValorPagadoAction(Request $request)
-    {        
+    public function mostrarPlantilla(Request $request, $codigoFrm, $pk) {
         $em = $this->getDoctrine()->getManager();
         
         $estructura = $em->getRepository("CostosBundle:Estructura")->findBy(array(), array('codigo' => 'ASC'));
         
-        $Frm = $em->getRepository('CostosBundle:Formulario')->findBy(array('codigo'=>'rrhhValorPagado'));
+        $Frm = $em->getRepository('CostosBundle:Formulario')->findBy(array('codigo'=>$codigoFrm));
         $Frm = array_shift($Frm);
         
         $parametros = $this->getParametros($request);
         
-        return $this->render('CostosBundle:Formulario:rrhhValorPagado.html.twig', array('Frm' => $Frm, 
+        return $this->render('CostosBundle:Formulario:'.$codigoFrm.'.html.twig', array('Frm' => $Frm, 
             'origenes' => $this->getOrigenes($Frm, $parametros),
             'pivotes' => $this->getPivotes($Frm, $parametros),
             'url' => 'get_grid_data',
             'url_save' => 'set_grid_data',
             'estructura' => $estructura,
             'parametros' => $parametros,
-            'pk' => 'nit'));
+            'pk' => $pk));
+    }
+    public function rrhhValorPagadoAction(Request $request)
+    {        
+        return $this->mostrarPlantilla($request, 'rrhhValorPagado', 'nit');
     }
     
     public function rrhhDistribucionHoraAction(Request $request)
     {        
-        $em = $this->getDoctrine()->getManager();
-        
-        $estructura = $em->getRepository("CostosBundle:Estructura")->findBy(array(), array('codigo' => 'ASC'));
-        
-        $Frm = $em->getRepository('CostosBundle:Formulario')->findBy(array('codigo'=>'rrhhDistribucionHora'));
-        $Frm = array_shift($Frm);        
-        
-        $parametros = $this->getParametros($request);
-        
-        return $this->render('CostosBundle:Formulario:rrhhDistribucionHora.html.twig', array('Frm' => $Frm, 
-            'origenes' => $this->getOrigenes($Frm, $parametros),
-            'pivotes' => $this->getPivotes($Frm, $parametros),
-            'url' => 'get_grid_data',
-            'url_save' => 'set_grid_data',
-            'estructura' => $estructura,
-            'parametros' => $parametros,
-            'pk' => 'nit'));
+        return $this->mostrarPlantilla($request, 'rrhhDistribucionHora', 'nit');                
     }
     
     public function rrhhCostosAction(Request $request) {
@@ -155,86 +142,22 @@ class FormularioAdminController extends Controller
     
     public function gaAfAction(Request $request)
     {        
-        $em = $this->getDoctrine()->getManager();
-        
-        $estructura = $em->getRepository("CostosBundle:Estructura")->findBy(array(), array('codigo' => 'ASC'));
-        
-        $Frm = $em->getRepository('CostosBundle:Formulario')->findBy(array('codigo'=>'gaAf'));
-        $Frm = array_shift($Frm);
-        
-        $parametros = $this->getParametros($request);
-        
-        return $this->render('CostosBundle:Formulario:gaAf.html.twig', array('Frm' => $Frm, 
-            'origenes' => $this->getOrigenes($Frm, $parametros),
-            'pivotes' => $this->getPivotes($Frm, $parametros),
-            'url' => 'get_grid_data',
-            'url_save' => 'set_grid_data',
-            'estructura' => $estructura,
-            'parametros' => $parametros,
-            'pk' => 'codigo_af'));
+        return $this->mostrarPlantilla($request, 'gaAf', 'codigo_af');
     }
     
     public function gaCompromisosFinancierosAction(Request $request)
     {        
-        $em = $this->getDoctrine()->getManager();
-        
-        $estructura = $em->getRepository("CostosBundle:Estructura")->findBy(array(), array('codigo' => 'ASC'));
-        
-        $Frm = $em->getRepository('CostosBundle:Formulario')->findBy(array('codigo'=>'gaCompromisosFinancieros'));
-        $Frm = array_shift($Frm);
-        
-        $parametros = $this->getParametros($request);
-        
-        return $this->render('CostosBundle:Formulario:gaCompromisosFinancieros.html.twig', array('Frm' => $Frm, 
-            'origenes' => $this->getOrigenes($Frm, $parametros),
-            'pivotes' => $this->getPivotes($Frm, $parametros),
-            'url' => 'get_grid_data',
-            'url_save' => 'set_grid_data',
-            'estructura' => $estructura,
-            'parametros' => $parametros,
-            'pk' => 'codigo_contrato'));
+        return $this->mostrarPlantilla($request, 'gaCompromisosFinancieros', 'codigo_contrato');
     }
     
     public function gaVariablesAction(Request $request)
     {        
-        $em = $this->getDoctrine()->getManager();
-        
-        $estructura = $em->getRepository("CostosBundle:Estructura")->findBy(array(), array('codigo' => 'ASC'));
-        
-        $Frm = $em->getRepository('CostosBundle:Formulario')->findBy(array('codigo'=>'gaVariables'));
-        $Frm = array_shift($Frm);
-        
-        $parametros = $this->getParametros($request);
-        
-        return $this->render('CostosBundle:Formulario:gaVariables.html.twig', array('Frm' => $Frm, 
-            'origenes' => $this->getOrigenes($Frm, $parametros),
-            'pivotes' => $this->getPivotes($Frm, $parametros),
-            'url' => 'get_grid_data',
-            'url_save' => 'set_grid_data',
-            'estructura' => $estructura,
-            'parametros' => $parametros,
-            'pk' => 'dependencia'));
+        return $this->mostrarPlantilla($request, 'gaVariables', 'dependencia');
     }        
     
     public function gaDistribucionAction(Request $request)
     {        
-        $em = $this->getDoctrine()->getManager();
-        
-        $estructura = $em->getRepository("CostosBundle:Estructura")->findBy(array(), array('codigo' => 'ASC'));
-        
-        $Frm = $em->getRepository('CostosBundle:Formulario')->findBy(array('codigo'=>'gaDistribucion'));
-        $Frm = array_shift($Frm);
-        
-        $parametros = $this->getParametros($request);
-        
-        return $this->render('CostosBundle:Formulario:gaDistribucion.html.twig', array('Frm' => $Frm, 
-            'origenes' => $this->getOrigenes($Frm, $parametros),
-            'pivotes' => $this->getPivotes($Frm, $parametros),
-            'url' => 'get_grid_data',
-            'url_save' => 'set_grid_data',
-            'estructura' => $estructura,
-            'parametros' => $parametros,
-            'pk' => 'dependencia'));
+        return $this->mostrarPlantilla($request, 'gaDistribucion', 'dependencia');        
     }
     
     private function getOrigenes($Frm, $parametros) {
