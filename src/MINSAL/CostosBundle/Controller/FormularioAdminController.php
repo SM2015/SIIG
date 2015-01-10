@@ -214,6 +214,27 @@ class FormularioAdminController extends Controller
             'estructura' => $estructura,
             'parametros' => $parametros,
             'pk' => 'dependencia'));
+    }        
+    
+    public function gaDistribucionAction(Request $request)
+    {        
+        $em = $this->getDoctrine()->getManager();
+        
+        $estructura = $em->getRepository("CostosBundle:Estructura")->findBy(array(), array('codigo' => 'ASC'));
+        
+        $Frm = $em->getRepository('CostosBundle:Formulario')->findBy(array('codigo'=>'gaDistribucion'));
+        $Frm = array_shift($Frm);
+        
+        $parametros = $this->getParametros($request);
+        
+        return $this->render('CostosBundle:Formulario:gaDistribucion.html.twig', array('Frm' => $Frm, 
+            'origenes' => $this->getOrigenes($Frm, $parametros),
+            'pivotes' => $this->getPivotes($Frm, $parametros),
+            'url' => 'get_grid_data',
+            'url_save' => 'set_grid_data',
+            'estructura' => $estructura,
+            'parametros' => $parametros,
+            'pk' => 'dependencia'));
     }
     
     private function getOrigenes($Frm, $parametros) {

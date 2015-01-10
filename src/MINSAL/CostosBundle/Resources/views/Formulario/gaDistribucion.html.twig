@@ -1,5 +1,5 @@
 {% extends 'CostosBundle:Formulario:show.html.twig' %}
-{% set titulo = '_ga_compromisos_financieros_' %}
+{% set titulo = '_ga_distribucion_' %}
 {% set mostrar_resumen = false %}
 {% block javascripts %} 
     {{ parent() }}
@@ -7,10 +7,10 @@
 {% endblock %}
     
 {% block frm_head %}
-    {% include 'CostosBundle:Formulario:parametrosEstablecimiento.html.twig' %}
+    {% include 'CostosBundle:Formulario:parametrosDependencia.html.twig' %}
     {{ parent() }}
 {% endblock %}
 
 {% block frm_foot %} 
-    <input type="hidden" value="ga_compromisosFinancieros" />
+    <input type="hidden" value="gaVariables" />
 {% endblock frm_foot %}

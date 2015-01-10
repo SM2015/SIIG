@@ -20,11 +20,11 @@ class FormularioRepository extends EntityRepository {
         $parametros = $request->get('datos_frm');
         
         $params_string = $this->getParameterString($parametros);
-        if ($area != 'ga_variables' and $area != 'ga_compromisosFinancieros'){
+        if ($area != 'ga_variables' and $area != 'ga_compromisosFinancieros' and $area != 'ga_distribucion'){
             $origenes = $this->getOrigenes($Frm->getOrigenDatos());
         }
-        
-        if ($area == 'ga_variables'){
+        $campo = 'id_origen_dato';
+        if ($area == 'ga_variables' or $area == 'ga_distribucion'){
             $origenes = array($Frm->getId());
             $campo = 'id_formulario';
             $area = 'ga';
@@ -145,7 +145,7 @@ class FormularioRepository extends EntityRepository {
         $params_string = $this->getParameterString($request->get('datos_frm'));
         $area = $Frm->getAreaCosteo();
         
-        if ($area != 'ga_variables' and $area != 'ga_compromisosFinancieros'){
+        if ($area != 'ga_variables' and $area != 'ga_compromisosFinancieros' and $area != 'ga_distribucion'){
             $origenes = $this->getOrigenes($Frm->getOrigenDatos());
             $campo = 'id_origen_dato';
         } else {

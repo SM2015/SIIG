@@ -173,6 +173,9 @@ file that was distributed with this source code.
                                                                 {% endif %}
                                                                 {% if admin2.hasroute('gaCompromisosFinancieros') %}
                                                                     <li><a href="{{ admin2.generateUrl('gaCompromisosFinancieros')}}">{{ '_ga_compromisos_financieros_'|trans }}</a></li>
+                                                                {% endif %}
+                                                                {% if admin2.hasroute('gaDistribucion') %}
+                                                                    <li><a href="{{ admin2.generateUrl('gaDistribucion')}}">{{ '_ga_distribucion_'|trans }}</a></li>
                                                                 {% endif %}                                                                
                                                             {% endfor %}
                                                         {% endif %}
