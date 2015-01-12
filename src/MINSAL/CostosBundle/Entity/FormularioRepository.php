@@ -20,7 +20,8 @@ class FormularioRepository extends EntityRepository {
         $parametros = $request->get('datos_frm');
         
         $params_string = $this->getParameterString($parametros);
-        if ($area != 'ga_variables' and $area != 'ga_compromisosFinancieros' and $area != 'ga_distribucion'){
+        if ($area != 'ga_variables' and $area != 'ga_compromisosFinancieros' and 
+                $area != 'ga_distribucion' and $area != 'ga_costos'){
             $origenes = $this->getOrigenes($Frm->getOrigenDatos());
         }
         $campo = 'id_origen_dato';
@@ -30,8 +31,8 @@ class FormularioRepository extends EntityRepository {
             $area = 'ga';
             
             //Cargar las dependencias que no estén en el mes y año elegido
-            $sql = "INSERT INTO costos.fila_origen_dato_".strtolower($area)."(id_formulario, datos)
-                    (SELECT ".$Frm->getId()." AS id_formulario, hstore(ARRAY['dependencia', 'mes', 'anio', 'establecimiento'], 
+            $sql = "INSERT INTO costos.fila_origen_dato_".strtolower($area)."(id_formulario, area_costeo, datos)
+                    (SELECT ".$Frm->getId()." AS id_formulario, '".$Frm->getAreaCosteo()."' AS area_costeo, hstore(ARRAY['dependencia', 'mes', 'anio', 'establecimiento'], 
                             ARRAY[codigo , '".$this->parametros['mes']."', '".$this->parametros['anio']."', '".$this->parametros['establecimiento']."']) 
                         FROM costos.estructura
                         WHERE parent_id 
@@ -59,8 +60,8 @@ class FormularioRepository extends EntityRepository {
             $area = 'ga';
                                     
             //Cargar los contratos que no están en el año elegido
-            $sql = "INSERT INTO costos.fila_origen_dato_".strtolower($area)."(id_formulario, datos)
-                    (SELECT ".$Frm->getId()." AS id_formulario, 
+            $sql = "INSERT INTO costos.fila_origen_dato_".strtolower($area)."(id_formulario, area_costeo, datos)
+                    (SELECT ".$Frm->getId()." AS id_formulario, '".$Frm->getAreaCosteo()."' AS area_costeo, 
                             hstore(
                                 ARRAY['codigo_contrato', 'anio', 'establecimiento', 'descripcion_contrato',
                                         'criterio_distribucion', 'categoria_contrato'], 
@@ -73,9 +74,9 @@ class FormularioRepository extends EntityRepository {
                             INNER JOIN estructura_contratosfijosga D ON (A.id = D.contratosfijosga_id) 
                             INNER JOIN costos.estructura E ON (D.estructura_id = E.id)
                         WHERE E.codigo = '".$this->parametros['establecimiento']."'
-                            AND (".$Frm->getId(). ", A.codigo, '".$this->parametros['anio']."', '".$this->parametros['establecimiento']."' )
+                            AND (".$Frm->getId(). ", '".$Frm->getAreaCosteo(). "', A.codigo, '".$this->parametros['anio']."', '".$this->parametros['establecimiento']."' )
                                 NOT IN 
-                                (SELECT id_formulario, datos->'dependencia', datos->'anio', datos->'establecimiento'
+                                (SELECT id_formulario, area_costeo, datos->'codigo_contrato', datos->'anio', datos->'establecimiento'
                                     FROM costos.fila_origen_dato_ga 
                                     WHERE id_formulario = ".$Frm->getId()."
                                         AND datos->'establecimiento' = '".$this->parametros['establecimiento']."'
@@ -85,13 +86,178 @@ class FormularioRepository extends EntityRepository {
             $em->getConnection()->executeQuery($sql);
         }
         
-        $sql = "
+        if ($area == 'ga_costos' ){
+            $area = 'ga';
+            $origenes = array($Frm->getId());
+            $campo = 'id_formulario';
+            list($mes, $anio) = explode('/',$request->get('anio_mes'));
+            $this->parametros = array('anio'=>$anio, 'mes'=>$mes, 'establecimiento'=>$request->get('establecimiento'));
+            
+            //Recuperar las variables de los gastos administrativos
+            $FrmVar = $em->getRepository('CostosBundle:Formulario')->findOneBy(array('codigo'=>'gaVariables'));
+            $campos_gaVar = '';
+            $campos_gaVar2 = '';
+            foreach($FrmVar->getCampos() as $c){
+                if ($c->getOrigenPivote() == ''){
+                    $campos_gaVar .= "datos->'".$c->getSignificadoCampo()->getCodigo(). "' AS ". $c->getSignificadoCampo()->getCodigo().', ';
+                    if ($c->getSignificadoCampo()->getCodigo() != 'dependencia')
+                        $campos_gaVar2 .= $c->getSignificadoCampo()->getCodigo().', ';
+                }
+            }
+            $campos_gaVar = trim ($campos_gaVar, ', ');
+            $campos_gaVar2 = trim ($campos_gaVar2, ', ');
+            
+            
+            $campos = "datos->'establecimiento' AS establecimiento, datos->'anio' AS anio, 
+                        datos->'mes' AS mes, datos->'dependencia' AS dependencia, ";
+            
+            $pivotes = array();
+            
+            foreach($Frm->getCampos() as $c){
+                if ($c->getOrigenPivote()){
+                    $pivotes[$c->getSignificadoCampo()->getCodigo()] = $em->getRepository('CostosBundle:Campo')->getOrigenPivote($c, $this->parametros);
+                }
+            }
+            
+            $otros_campos = '';            
+            $piv1 = '';
+            $piv2 = '';
+            
+            foreach ($pivotes as $nombre_pivote=>$p){
+                foreach ($p as $piv){
+                    $cod = array_shift($piv);
+                    $otros_campos .= "datos->'".$nombre_pivote."_". $cod."' AS ".'"'.strtolower($cod).'"'.", ";
+                    $piv1 .= "'".$cod."', ";
+                    $piv2 .= strtolower($cod).", ";
+                }
+            }
+
+            $piv1 = trim($piv1, ', ');
+            $piv2 = trim($piv2, ', ');
+            $otros_campos = trim($otros_campos, ', ');
+            
+            $campos .=  $otros_campos;
+            $campos = trim($campos, ', ');
+            
+            $sql = "SELECT B.* INTO TEMP gastos_administrativos_tmp "
+                    . 'FROM (SELECT establecimiento, dependencia, anio, mes, unnest(array['.$piv1.']) AS codigo_compromiso, '
+                    . 'unnest(array['.$piv2.']) AS consumo_dependencia FROM ( '.
+                    "
+                        SELECT $campos
+                        FROM costos.fila_origen_dato_".strtolower($area)." 
+                        WHERE $campo IN (" . implode(',', $origenes) . ")
+                            $params_string
+                        ) as A) AS B         
+                    ";
+            
+            
+                    //Agregar los compromisos por area, estos no están en la distribución
+            $sql .= "
+                    UNION
+                        (SELECT  D.establecimiento, D.dependencia, 
+                                '".$this->parametros['anio']."' AS anio , 
+                                '".$this->parametros['mes']."'AS mes, 
+                                A.codigo AS codigo_compromiso, '0' AS consumo_dependencia
+                            FROM costos.contratos_fijos_ga A 
+                                INNER JOIN estructura_contratosfijosga B ON (A.id = B.contratosfijosga_id) 
+                                INNER JOIN costos.estructura C ON (B.estructura_id = C.id) 
+                                INNER JOIN (
+                                    SELECT A.codigo AS dependencia, C.codigo AS establecimiento 
+                                        FROM costos.estructura A  
+                                        INNER JOIN costos.estructura B ON (A.parent_id = B.id) 
+                                        INNER JOIN costos.estructura C ON (B.parent_id = C.id) 
+                                ) AS D ON (C.codigo = D.establecimiento) 
+                                INNER JOIN costos.criterios_distribucion_ga E ON (A.criteriodistribucion_id = E.id) 
+                            WHERE E.codigo = 'area_mt2'
+                            )
+                    ;
+                     ";
+
+            $em->getConnection()->executeQuery($sql);
+            
+            $sql = "
+                    SELECT *,
+                            CASE 
+                                WHEN (criterio_distribucion = 'consumo' OR criterio_distribucion = 'asignacion_directa' OR criterio_distribucion = 'personas') 
+                                    THEN compromiso::numeric * consumo_dependencia::numeric / consumo_establecimiento::numeric
+                                WHEN criterio_distribucion = 'area_mt2' THEN compromiso::numeric * area_tot::numeric / area_tot_establecimiento::numeric
+                            END AS total_gasto 
+                        INTO TEMP ga 
+                        FROM (SELECT A.*, $campos_gaVar2, 
+                            ( SELECT SUM(consumo_dependencia::numeric) 
+                                FROM gastos_administrativos_tmp 
+                                WHERE establecimiento = A.establecimiento
+                                    AND anio = A.anio
+                                    AND mes = A.mes
+                                    AND codigo_compromiso = A.codigo_compromiso
+                            ) AS consumo_establecimiento,
+                            ( SELECT SUM(importe::numeric) 
+                                FROM 
+                                (SELECT establecimiento, anio, codigo_contrato, 
+                                        unnest(array['m01', 'm02', 'm03', 'm04', 'm05', 'm06', 'm07', 'm08', 'm08', 'm10', 'm11', 'm12']) as mes,
+                                        unnest(array[m01, m02, m03, m04, m05, m06, m07, m08, m08, m10, m11, m12]) as importe                                        
+                                        FROM 
+                                        (SELECT datos->'establecimiento' AS establecimiento, datos->'anio' AS anio, 
+                                                    datos->'codigo_contrato' AS codigo_contrato, 
+                                                    datos->'importe_mensual_01' as ".'"m01"'. ", datos->'importe_mensual_02' as ".'"m02",'.
+                                                    "datos->'importe_mensual_03' as ".'"m03"'. " , datos->'importe_mensual_04' as ". '"m04", '.
+                                                    "datos->'importe_mensual_05' as ".'"m05"'. " , datos->'importe_mensual_06' as ". '"m06", '.
+                                                    "datos->'importe_mensual_07' as ".'"m07"'. " , datos->'importe_mensual_08' as ". '"m08", '.
+                                                    "datos->'importe_mensual_09' as ".'"m09"'. " , datos->'importe_mensual_11' as ". '"m10", '.
+                                                    "datos->'importe_mensual_11' as ".'"m11"'. " , datos->'importe_mensual_12' as ". '"m12" '.
+                                                "FROM costos.fila_origen_dato_ga 
+                                                WHERE datos->'establecimiento' = A.establecimiento
+                                                    AND datos->'anio' = A.anio
+                                                    AND datos->'codigo_contrato' = A.codigo_compromiso
+                                        ) AS SS
+                                ) AS AA
+                                WHERE establecimiento = A.establecimiento
+                                    AND anio = A.anio
+                                    AND codigo_contrato = A.codigo_compromiso
+                                    AND mes = 'm'||A.mes
+                            ) AS compromiso,
+                            (SELECT B1.codigo
+                                FROM costos.contratos_fijos_ga A1
+                                    INNER JOIN costos.criterios_distribucion_ga B1 ON (A1.criteriodistribucion_id = B1.id)
+                                WHERE A1.codigo = A.codigo_compromiso
+                            )  AS criterio_distribucion,
+                            (SELECT SUM(area_tot::numeric)
+                                FROM (SELECT datos->'area_tot' AS area_tot
+                                    FROM costos.fila_origen_dato_ga
+                                    WHERE area_costeo = 'ga_variables'
+                                        AND datos->'establecimiento' = A.establecimiento
+                                        AND datos->'anio' = A.anio
+                                        AND datos->'mes' = A.mes
+                                    ) AS CC
+                            )  AS area_tot_establecimiento
+                    FROM gastos_administrativos_tmp A
+                    LEFT JOIN (SELECT datos->'establecimiento' AS establecimiento, datos->'anio' AS anio, datos->'mes' as mes,
+                                    $campos_gaVar                                
+                                    FROM costos.fila_origen_dato_ga
+                                    WHERE area_costeo = 'ga_variables'
+                                ) AS B ON (A.establecimiento = B.establecimiento AND A.anio = B.anio 
+                                    AND A.mes = B.mes AND A.dependencia = B.dependencia)
+                    ) AS gastosAd
+                    ";
+            $em->getConnection()->executeQuery($sql);
+            
+            $sql = "SELECT A.establecimiento, A.dependencia, A.anio, A.mes, A.criterio_distribucion, A.codigo_compromiso, A.total_gasto, 
+                            B.nombre AS nombre_dependencia, C.descripcion AS nombre_criterio_distribucion, D.descripcion AS nombre_compromiso
+                     FROM ga A
+                        INNER JOIN costos.estructura B ON (A.dependencia = B.codigo)
+                        INNER JOIN costos.criterios_distribucion_ga C ON (A.criterio_distribucion = C.codigo)
+                        INNER JOIN costos.contratos_fijos_ga D ON (A.codigo_compromiso = D.codigo)
+                     ORDER BY A.establecimiento, A.dependencia, A.anio, A.mes, A.criterio_distribucion, A.codigo_compromiso";
+            
+        }
+        else{ 
+            $sql = "
             SELECT datos
             FROM costos.fila_origen_dato_".strtolower($area)." 
             WHERE $campo IN (" . implode(',', $origenes) . ")
                 $params_string
             ;";
-
+        }
         try {
             return $em->getConnection()->executeQuery($sql)->fetchAll();
         } catch (\PDOException $e) {
