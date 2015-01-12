@@ -55,6 +55,7 @@ _ga_af_: "Gastos Administrativos:: Activo Fijo"
 _ga_compromisos_financieros_: 'Gastos Administrativos:: Compromisos financieros'
 _ga_distribucion_: 'Gastos Administrativos:: Distribución'
 _ga_variables_: 'Gastos Administrativos:: Variables'
+_ga_costos_: 'Gastos Administrativos:: Costeo'
 _grupo_padre_: Grupo padre
 _grupo_columnas_: Grupo Columnas
 _guardar_: Guardar
@@ -91,6 +92,7 @@ _tipo_control_: Tipo Control
 _tipo_dato_: Tipo Dato
 _tipo_recurso_: Tipo Recurso
 _tomas_con_planta_emergencia_: Cant. de tomas con Planta de Emergencia
+_total_: Total
 _total_personal_: Total personal asignado
 _unidad_superior_ : Unidad superior
 _unidades_productivas_ : Unidades productivas

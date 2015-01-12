@@ -44,7 +44,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $.jqx.theme = 'energyblue';
-            var url = Routing.generate('{{url}}', {id: {{Frm.id}}, datos_frm: $('#frm_').serialize() });
+            var url = Routing.generate('{{url}}', {id: {{Frm.id}},titulo_frm : '{{titulo}}', datos_frm: $('#frm_').serialize() });
             var fila = 0;
             var columna = 0;
             // prepare the data
@@ -108,7 +108,7 @@
                 width: '95%',
                 source: dataAdapter,
                 columnsresize: true,
-                editable: true,
+                editable: {{editable|default(true)}},
                 sortable: true,
                 altrows: true,
                 {% if mostrar_resumen %}
@@ -154,7 +154,7 @@
                                 pinned: true,
                             {% endif %}
                             cellsalign: '{{campo.alineacion.codigo|default('left')}}',
-                            editable: {{campo.esEditable|default('false')}},
+                            editable: {% if editable == true %}{{campo.esEditable|default('false')}}{% else %} false {% endif %},
                             hidden: {{campo.oculto|default('false')}},
                             columntype: '{{campo.tipoControl.codigo}}',
                             {% if campo.esCalculado and mostrar_resumen %} aggregates: ['sum'], {% endif %}                            

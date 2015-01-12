@@ -29,7 +29,8 @@ class FormularioAdmin extends Admin
                             'ga_af'=>$this->getTranslator()->trans('_ga_af_'),
                             'ga_compromisosFinancieros' => $this->getTranslator()->trans('_ga_compromisos_financieros_'),
                             'ga_variables' => $this->getTranslator()->trans('_ga_variables_'),
-                            'ga_distribucion' => $this->getTranslator()->trans('_ga_distribucion_')
+                            'ga_distribucion' => $this->getTranslator()->trans('_ga_distribucion_'),
+                            'ga_costos' => $this->getTranslator()->trans('_ga_costos_')
                             )
                         ))
             ->add('campos', null, 
@@ -72,5 +73,6 @@ class FormularioAdmin extends Admin
         $collection->add('gaCompromisosFinancieros');
         $collection->add('gaVariables');
         $collection->add('gaDistribucion');
+        $collection->add('gaCostos');
     }
 }

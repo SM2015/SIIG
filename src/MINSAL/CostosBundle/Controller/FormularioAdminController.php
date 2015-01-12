@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class FormularioAdminController extends Controller
 {           
-    public function mostrarPlantilla(Request $request, $codigoFrm, $pk, $titulo, $mostrar_resumen, $plantilla) {
+    public function mostrarPlantilla(Request $request, $codigoFrm, $pk, $titulo, $mostrar_resumen, $plantilla, $editable = true) {
         $em = $this->getDoctrine()->getManager();
         
         $estructura = $em->getRepository("CostosBundle:Estructura")->findBy(array(), array('codigo' => 'ASC'));
@@ -26,6 +26,7 @@ class FormularioAdminController extends Controller
             'estructura' => $estructura,
             'parametros' => $parametros,
             'titulo' => $titulo,
+            'editable' => $editable,
             'mostrar_resumen' => $mostrar_resumen,
             'pk' => $pk));
     }
@@ -162,6 +163,47 @@ class FormularioAdminController extends Controller
     public function gaDistribucionAction(Request $request)
     {        
         return $this->mostrarPlantilla($request, 'gaDistribucion', 'dependencia', '_ga_distribucion_', false, 'parametrosDependencia');        
+    }
+    
+    public function gaCostosAction(Request $request)
+    {        
+        //Request $request, $codigoFrm, $pk, $titulo, $mostrar_resumen, $plantilla, $editable = true
+        //return $this->mostrarPlantilla($request, 'gaDistribucion', 'dependencia', '_ga_costos_', true, 'parametrosDependenciaGACosteo', false);
+        $em = $this->getDoctrine()->getManager();
+        
+        $estructura = $em->getRepository("CostosBundle:Estructura")->findBy(array(), array('codigo' => 'ASC'));
+        
+        $Frm = $em->getRepository('CostosBundle:Formulario')->findOneBy(array('codigo'=>'gaDistribucion'));
+        $Frm->setAreaCosteo('ga_costos');
+        
+        $parametros = $this->getParametros($request);
+        $datos = array();
+        $dependencias = array();
+        $grupos = array();
+        $datos_costos = array();
+        $totales = array();
+        if ($parametros['anio_mes'] != null and $parametros['establecimiento'] != null){       
+            $datos = $em->getRepository('CostosBundle:Formulario')->getDatos($Frm, $request);
+            
+            foreach($datos as $f){
+                $dependencias[$f['dependencia']] = $f['nombre_dependencia'];
+                $grupos[$f['criterio_distribucion']]['nombre'] = $f['nombre_criterio_distribucion'];
+                $grupos[$f['criterio_distribucion']]['compromisos'][$f['codigo_compromiso']] = $f['nombre_compromiso'];
+                $datos_costos[$f['dependencia']][$f['codigo_compromiso']] = $f['total_gasto'];
+                $totales[$f['dependencia']] += $f['total_gasto'];
+                $totales[$f['codigo_compromiso']] += $f['total_gasto'];
+                $totales['general'] += $f['total_gasto'];
+            }        
+        }
+        return $this->render('CostosBundle:Formulario:parametrosDependenciaGACosteo.html.twig', array(
+            'estructura' => $estructura,
+            'parametros' => $parametros,
+            'dependencias' => $dependencias,
+            'grupos' => $grupos,
+            'datos_costos' => $datos_costos,
+            'totales' => $totales,
+            'titulo' => '_ga_costos_',
+            ));
     }
     
     private function getOrigenes($Frm, $parametros) {

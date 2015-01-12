@@ -38,6 +38,7 @@ CREATE TABLE IF NOT EXISTS costos.fila_origen_dato_ga_compromisosfinancieros(
 
 CREATE TABLE IF NOT EXISTS costos.fila_origen_dato_ga(
     id_formulario integer,
+    area_costeo varchar(40),
     datos hstore,
     ultima_lectura timestamp,
 

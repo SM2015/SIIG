@@ -176,6 +176,9 @@ file that was distributed with this source code.
                                                                 {% endif %}
                                                                 {% if admin2.hasroute('gaDistribucion') %}
                                                                     <li><a href="{{ admin2.generateUrl('gaDistribucion')}}">{{ '_ga_distribucion_'|trans }}</a></li>
+                                                                {% endif %}
+                                                                {% if admin2.hasroute('gaCostos') %}
+                                                                    <li><a href="{{ admin2.generateUrl('gaCostos')}}">{{ '_ga_costos_'|trans }}</a></li>
                                                                 {% endif %}                                                                
                                                             {% endfor %}
                                                         {% endif %}
