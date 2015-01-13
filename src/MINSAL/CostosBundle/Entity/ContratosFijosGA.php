@@ -38,6 +38,13 @@ class ContratosFijosGA
      */
     private $descripcion;
     
+    /**
+     * @var string $formula_consumo
+     *
+     * @ORM\Column(name="formula_consumo", type="text", nullable=true)
+     */
+    private $formulaConsumo;
+    
     
     /**
      *
@@ -202,5 +209,28 @@ class ContratosFijosGA
     public function getEstablecimientos()
     {
         return $this->establecimientos;
+    }
+
+    /**
+     * Set formulaConsumo
+     *
+     * @param string $formulaConsumo
+     * @return ContratosFijosGA
+     */
+    public function setFormulaConsumo($formulaConsumo)
+    {
+        $this->formulaConsumo = $formulaConsumo;
+
+        return $this;
+    }
+
+    /**
+     * Get formulaConsumo
+     *
+     * @return string 
+     */
+    public function getFormulaConsumo()
+    {
+        return $this->formulaConsumo;
     }
 }

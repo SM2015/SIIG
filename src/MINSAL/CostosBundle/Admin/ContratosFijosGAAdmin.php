@@ -20,6 +20,7 @@ class ContratosFijosGAAdmin extends Admin
         $formMapper
             ->add('codigo', null, array('label'=> $this->getTranslator()->trans('_codigo_')))
             ->add('descripcion', null, array('label'=> $this->getTranslator()->trans('_descripcion_')))
+            ->add('formulaConsumo', null, array('label'=> $this->getTranslator()->trans('_formula_consumo_')))
             ->add('categoria', null, array('label'=> $this->getTranslator()->trans('_categoria_')))
             ->add('criterioDistribucion', null, array('label'=> $this->getTranslator()->trans('_criterio_distribucion_')))
             ->add('establecimientos', null, array('label' => $this->getTranslator()->trans('_establecimiento_'),
