@@ -142,6 +142,7 @@ class FormularioAdminController extends Controller
             'parametros' => $parametros,
             'titulo' => '_rrhh_costos_',
             'mostrar_resumen' => true,
+            'editable' => false,
             'pk' => 'nit'));
     }
     
