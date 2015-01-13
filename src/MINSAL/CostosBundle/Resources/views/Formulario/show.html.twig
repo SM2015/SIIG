@@ -42,7 +42,9 @@
     <script src="{{ asset('bundles/costos/js/jqwidgets/localization.js') }}" type="text/javascript"></script>
     <script src="{{ asset('bundles/costos/js/jqwidgets/jqxcalendar.js') }}" type="text/javascript"></script>    
     <script src="{{ asset('bundles/costos/js/jqwidgets/jqxdatetimeinput.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxgrid.aggregates.js') }}" type="text/javascript"></script>    
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxgrid.aggregates.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxdata.export.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxgrid.export.js') }}" type="text/javascript"></script>    
     <script src="{{ asset('bundles/costos/js/jquery.mtz.monthpicker.js') }}" type="text/javascript"></script> 
     <script src="{{ asset('bundles/costos/js/parametrosDependencia.js') }}" type="text/javascript"></script> 
     
@@ -256,7 +258,10 @@
             });
             $("#guardar").click(function () {
                 $('#mensaje').html('<div class="alert alert-success" role="alert">{{'_datos_guardados_'|trans}}</div>');
-            });            
+            });
+            $("#exportar").click(function () {
+                $("#jqxgrid").jqxGrid('exportdata', 'xls', 'jqxGrid');           
+            });
         });
     </script>
     {% endif %}
