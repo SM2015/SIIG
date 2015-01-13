@@ -13,6 +13,8 @@ CREATE OR REPLACE FUNCTION costo_rrhh() RETURNS TRIGGER AS $costo_rrhh$
     salario_descuentos_permisos  numeric(15,4) := 0;
     isss_patronal numeric(15,4) := 0;
     tipo_fondo_proteccion  varchar;
+    no_genera_costos_patronales varchar;
+    forma_contrato varchar;
     
     fondo_proteccion numeric(15,4) := 0;
     porc_fondo_proteccion numeric(15,4) := 0;
@@ -44,6 +46,8 @@ CREATE OR REPLACE FUNCTION costo_rrhh() RETURNS TRIGGER AS $costo_rrhh$
     aguinaldo := (COALESCE(NULLIF(NEW.datos->'aguinaldo', ''),'0'))::numeric;
     horas_no_trab_CG := (COALESCE(NULLIF(NEW.datos->'horas_no_trab_cobradas', ''),'0'))::numeric;
     horas_no_trab_SG := (COALESCE(NULLIF(NEW.datos->'horas_no_trab_sin_goce', ''),'0'))::numeric;
+    no_genera_costos_patronales := (COALESCE(NULLIF(NEW.datos->'no_genera_costo_patronal', ''),'false'));
+    forma_contrato := (COALESCE(NULLIF(NEW.datos->'forma_contrato', ''),''));
 
      
     IF UPPER(tipo_fondo_proteccion) = 'AFP' THEN
@@ -59,12 +63,16 @@ CREATE OR REPLACE FUNCTION costo_rrhh() RETURNS TRIGGER AS $costo_rrhh$
     ELSE
         fondo_proteccion := salario * porc_fondo_proteccion;
     END IF;
-    
-    
+
     IF (salario > limite_isss) THEN
         isss_patronal := limite_isss * isss_porc_patronal;
     ELSE
         isss_patronal := salario * isss_porc_patronal;
+    END IF;
+
+    IF (forma_contrato <> 'AD' AND forma_contrato <> 'LS' AND forma_contrato <> 'CG' AND no_genera_costos_patronales = 'true' ) THEN
+        fondo_proteccion := 0;
+        isss_patronal := 0;
     END IF;
 
     IF horas_trabajadas_mes > 0 THEN        
