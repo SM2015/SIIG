@@ -7,13 +7,30 @@
         .jqx-grid-cell-pinned{
             background-color: #F9F9F9 !important;
         }
-        .jqx-grid-header{
-            height: 70px !important;
-        }
-        .jqx-grid-column-header
-        {            
-            white-space: normal !important;
-        }
+        {% if Frm.gruposColumnas|length > 0 %}
+            .jqx-grid-header{
+                height: 100px !important;
+            }
+            .jqx-grid-column-header
+            {            
+                white-space: normal !important;
+                height: 70px !important;
+            }
+            .jqx-grid-columngroup-header{
+                height: 30px !important;
+            }
+        {% else %}
+            .jqx-grid-header{
+                height: 60px !important;
+            }
+            .jqx-grid-column-header
+            {            
+                white-space: normal !important;
+            }
+            .jqx-grid-columngroup-header{
+                height: 30px !important;            
+        {% endif %}
+        
     </style>
 {% endblock stylesheets %}
 {% block javascripts %}
@@ -44,7 +61,7 @@
     <script src="{{ asset('bundles/costos/js/jqwidgets/jqxdatetimeinput.js') }}" type="text/javascript"></script>
     <script src="{{ asset('bundles/costos/js/jqwidgets/jqxgrid.aggregates.js') }}" type="text/javascript"></script>
     <script src="{{ asset('bundles/costos/js/jqwidgets/jqxdata.export.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxgrid.export.js') }}" type="text/javascript"></script>    
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxgrid.export.js') }}" type="text/javascript"></script>
     <script src="{{ asset('bundles/costos/js/jquery.mtz.monthpicker.js') }}" type="text/javascript"></script> 
     <script src="{{ asset('bundles/costos/js/parametrosDependencia.js') }}" type="text/javascript"></script> 
     
@@ -119,9 +136,7 @@
                 columnsresize: true,
                 editable: {{editable|default(true)}},
                 sortable: true,
-                altrows: true,
-                autorowheight: true,
-                autoheight: true,                 
+                altrows: true,                 
                 {% if mostrar_resumen %}
                     showaggregates: true,
                     showstatusbar: true,
