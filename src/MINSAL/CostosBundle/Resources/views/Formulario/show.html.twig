@@ -7,6 +7,13 @@
         .jqx-grid-cell-pinned{
             background-color: #F9F9F9 !important;
         }
+        .jqx-grid-header{
+            height: 70px !important;
+        }
+        .jqx-grid-column-header
+        {            
+            white-space: normal !important;
+        }
     </style>
 {% endblock stylesheets %}
 {% block javascripts %}
@@ -35,7 +42,7 @@
     <script src="{{ asset('bundles/costos/js/jqwidgets/localization.js') }}" type="text/javascript"></script>
     <script src="{{ asset('bundles/costos/js/jqwidgets/jqxcalendar.js') }}" type="text/javascript"></script>    
     <script src="{{ asset('bundles/costos/js/jqwidgets/jqxdatetimeinput.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxgrid.aggregates.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxgrid.aggregates.js') }}" type="text/javascript"></script>    
     <script src="{{ asset('bundles/costos/js/jquery.mtz.monthpicker.js') }}" type="text/javascript"></script> 
     <script src="{{ asset('bundles/costos/js/parametrosDependencia.js') }}" type="text/javascript"></script> 
     
@@ -111,6 +118,8 @@
                 editable: {{editable|default(true)}},
                 sortable: true,
                 altrows: true,
+                autorowheight: true,
+                autoheight: true,                 
                 {% if mostrar_resumen %}
                     showaggregates: true,
                     showstatusbar: true,
@@ -247,7 +256,7 @@
             });
             $("#guardar").click(function () {
                 $('#mensaje').html('<div class="alert alert-success" role="alert">{{'_datos_guardados_'|trans}}</div>');
-            });
+            });            
         });
     </script>
     {% endif %}
@@ -266,6 +275,7 @@
                     <button class="btn btn-success" type="submit" name="cargar_datos" id="cargar_datos" ><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>{{'_cargar_datos_'|trans}}</button>
                     {#<button class="btn btn-danger" name="clear" id="clear" ><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>{{'_limpiar_'|trans}}</button>#}
                     <button class="btn btn-instagram" type="button" name="guardar" id="guardar" ><i class="fa fa-save" data-original-title="" title=""></i>{{'_guardar_'|trans}}</button>
+                    <button class="btn btn-file" type="button" name="exportar" id="exportar" ><i class="fa fa-archive" data-original-title="" title=""></i>{{'_exportar_'|trans}}</button>
                     <DIV id="mensaje"></div>
                 </div>                
             {% endblock frm_head %}
