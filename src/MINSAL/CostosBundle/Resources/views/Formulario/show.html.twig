@@ -6,30 +6,12 @@
     <style>
         .jqx-grid-cell-pinned{
             background-color: #F9F9F9 !important;
+        }        
+        .jqx-grid-column-header
+        {            
+            white-space: normal !important;
+            vertical-align: middle !important;
         }
-        {% if Frm.gruposColumnas|length > 0 %}
-            .jqx-grid-header{
-                height: 100px !important;
-            }
-            .jqx-grid-column-header
-            {            
-                white-space: normal !important;
-                height: 70px !important;
-            }
-            .jqx-grid-columngroup-header{
-                height: 30px !important;
-            }
-        {% else %}
-            .jqx-grid-header{
-                height: 60px !important;
-            }
-            .jqx-grid-column-header
-            {            
-                white-space: normal !important;
-            }
-            .jqx-grid-columngroup-header{
-                height: 30px !important;            
-        {% endif %}
         
     </style>
 {% endblock stylesheets %}
@@ -132,6 +114,7 @@
             $("#jqxgrid").jqxGrid(
             {
                 width: '95%',
+                columnsheight: {% if Frm.gruposColumnas|length > 0 %}'42px'{% else %}'65px'{% endif %},
                 source: dataAdapter,
                 columnsresize: true,
                 editable: {{editable|default(true)}},
@@ -233,8 +216,13 @@
                                 {% if grp.grupoPadre %} parentgroup: '{{grp.grupoPadre.codigo}}', {% endif %}
                             },
                         {% endfor %}
-                    ]       
+                    ],
                 {% endif %}
+                rendered: function(){                 
+                    $('.jqx-grid-column-header').each(function(i, nodo){
+                        $($($(nodo).children()[0]).children()[0]).css('margin-top',0).css('margin-bottom',0);
+                    });
+                }
             });
             
             var listSource = [
