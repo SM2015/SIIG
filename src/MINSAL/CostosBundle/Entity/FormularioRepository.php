@@ -150,47 +150,44 @@ class FormularioRepository extends EntityRepository {
                         ) as A) AS B         
                     ";
             
-            
-                    //Agregar los compromisos por area, estos no están en la distribución
-            $sql .= "
-                    UNION
-                        (SELECT  D.establecimiento, D.dependencia, 
-                                '".$this->parametros['anio']."' AS anio , 
-                                '".$this->parametros['mes']."'AS mes, 
-                                A.codigo AS codigo_compromiso, '0' AS consumo_dependencia
-                            FROM costos.contratos_fijos_ga A 
-                                INNER JOIN estructura_contratosfijosga B ON (A.id = B.contratosfijosga_id) 
-                                INNER JOIN costos.estructura C ON (B.estructura_id = C.id) 
-                                INNER JOIN (
-                                    SELECT A.codigo AS dependencia, C.codigo AS establecimiento 
-                                        FROM costos.estructura A  
-                                        INNER JOIN costos.estructura B ON (A.parent_id = B.id) 
-                                        INNER JOIN costos.estructura C ON (B.parent_id = C.id) 
-                                ) AS D ON (C.codigo = D.establecimiento) 
-                                INNER JOIN costos.criterios_distribucion_ga E ON (A.criteriodistribucion_id = E.id) 
-                            WHERE E.codigo = 'area_mt2'
-                            )
-                    ;
-                     ";
-
             $em->getConnection()->executeQuery($sql);
             
+                    //Agregar los compromisos por area, estos no están en la distribución
+            $sql = "INSERT INTO gastos_administrativos_tmp 
+                        SELECT  D.establecimiento, D.dependencia, 
+                            '".$this->parametros['anio']."' AS anio , 
+                            '".$this->parametros['mes']."' AS mes, 
+                            A.codigo AS codigo_compromiso, '0' AS consumo_dependencia
+                        FROM costos.contratos_fijos_ga A 
+                            INNER JOIN estructura_contratosfijosga B ON (A.id = B.contratosfijosga_id) 
+                            INNER JOIN costos.estructura C ON (B.estructura_id = C.id) 
+                            INNER JOIN (
+                                SELECT A.codigo AS dependencia, C.codigo AS establecimiento 
+                                    FROM costos.estructura A  
+                                    INNER JOIN costos.estructura B ON (A.parent_id = B.id) 
+                                    INNER JOIN costos.estructura C ON (B.parent_id = C.id) 
+                            ) AS D ON (C.codigo = D.establecimiento) 
+                            INNER JOIN costos.criterios_distribucion_ga E ON (A.criteriodistribucion_id = E.id) 
+                        WHERE (D.establecimiento, D.dependencia, '".$this->parametros['anio']."' , '".$this->parametros['mes']."' , A.codigo)
+                            NOT IN (SELECT establecimiento, dependencia, anio, mes, codigo_compromiso FROM gastos_administrativos_tmp)
+                     ";
+            $em->getConnection()->executeQuery($sql);
+
             $sql = "
-                    SELECT *,
+                    SELECT *,                            
+                            -- ********** FORMULA PARA CALCULO DEL CONSUMO DEL AGUA
                             CASE 
-                                WHEN (criterio_distribucion = 'consumo' OR criterio_distribucion = 'asignacion_directa' OR criterio_distribucion = 'personas') 
-                                    THEN compromiso::numeric * consumo_dependencia::numeric / consumo_establecimiento::numeric
-                                WHEN criterio_distribucion = 'area_mt2' THEN compromiso::numeric * area_tot::numeric / area_tot_establecimiento::numeric
-                            END AS total_gasto 
-                        INTO TEMP ga 
-                        FROM (SELECT A.*, $campos_gaVar2, 
-                            ( SELECT SUM(consumo_dependencia::numeric) 
-                                FROM gastos_administrativos_tmp 
-                                WHERE establecimiento = A.establecimiento
-                                    AND anio = A.anio
-                                    AND mes = A.mes
-                                    AND codigo_compromiso = A.codigo_compromiso
-                            ) AS consumo_establecimiento,
+                                WHEN (codigo_compromiso = 'h2o' AND tot_personal::numeric = 0 AND prom_usuarios_dia::numeric = 0) THEN 0
+                                WHEN (codigo_compromiso = 'h2o' AND (tipo_centro::numeric = 5 OR tipo_centro::numeric = 6)) 
+                                    THEN (cant_camas::numeric * 0.18) + (tot_personal::numeric *0.06) + (prom_usuarios_dia::numeric * 0.03) + (area_tot::numeric * 0.006)
+                                WHEN (codigo_compromiso = 'h2o' AND tipo_centro::numeric <> 5 AND tipo_centro::numeric <> 6) 
+                                    THEN (tot_personal::numeric * 0.06) + (prom_usuarios_dia::numeric * 0.03) + (area_tot::numeric::numeric * 0.006 / 3)
+                                ELSE
+                                    consumo_dependencia::numeric
+                            END AS consumo_dependencia_final
+                            -- ************ FIN FORMULA PARA CALCULO DE CONSUMO DE AGUA
+                        INTO TEMP ga_tmp 
+                        FROM (SELECT A.*, $campos_gaVar2,                             
                             ( SELECT SUM(importe::numeric) 
                                 FROM 
                                 (SELECT establecimiento, anio, codigo_contrato, 
@@ -237,17 +234,31 @@ class FormularioRepository extends EntityRepository {
                                     WHERE area_costeo = 'ga_variables'
                                 ) AS B ON (A.establecimiento = B.establecimiento AND A.anio = B.anio 
                                     AND A.mes = B.mes AND A.dependencia = B.dependencia)
-                    ) AS gastosAd
+                    ) AS gastosAd                                        
                     ";
             $em->getConnection()->executeQuery($sql);
+            $em->getConnection()->executeQuery('UPDATE ga_tmp SET consumo_dependencia = consumo_dependencia_final ');
             
-            $sql = "SELECT A.establecimiento, A.dependencia, A.anio, A.mes, A.criterio_distribucion, A.codigo_compromiso, A.total_gasto, 
-                            B.nombre AS nombre_dependencia, C.descripcion AS nombre_criterio_distribucion, D.descripcion AS nombre_compromiso
-                     FROM ga A
-                        INNER JOIN costos.estructura B ON (A.dependencia = B.codigo)
-                        INNER JOIN costos.criterios_distribucion_ga C ON (A.criterio_distribucion = C.codigo)
-                        INNER JOIN costos.contratos_fijos_ga D ON (A.codigo_compromiso = D.codigo)
-                     ORDER BY A.establecimiento, A.dependencia, A.anio, A.mes, A.criterio_distribucion, A.codigo_compromiso";
+            $sql = "SELECT *, CASE 
+                                WHEN (criterio_distribucion = 'consumo' OR criterio_distribucion = 'asignacion_directa' OR criterio_distribucion = 'personas') 
+                                    THEN compromiso::numeric * consumo_dependencia::numeric / consumo_establecimiento::numeric
+                                WHEN criterio_distribucion = 'area_mt2' THEN compromiso::numeric * area_tot::numeric / area_tot_establecimiento::numeric
+                            END AS total_gasto
+                    FROM (SELECT A.*,
+                                B.nombre AS nombre_dependencia, C.descripcion AS nombre_criterio_distribucion, D.descripcion AS nombre_compromiso,
+                                (SELECT SUM(consumo_dependencia::numeric) 
+                                    FROM ga_tmp 
+                                    WHERE establecimiento = A.establecimiento
+                                        AND anio = A.anio
+                                        AND mes = A.mes
+                                        AND codigo_compromiso = A.codigo_compromiso
+                                ) AS consumo_establecimiento
+                            FROM ga_tmp A
+                               INNER JOIN costos.estructura B ON (A.dependencia = B.codigo)
+                               INNER JOIN costos.criterios_distribucion_ga C ON (A.criterio_distribucion = C.codigo)
+                               INNER JOIN costos.contratos_fijos_ga D ON (A.codigo_compromiso = D.codigo)
+                        ) AS A
+                    ORDER BY A.establecimiento, A.dependencia, A.anio, A.mes, A.criterio_distribucion, A.codigo_compromiso";
             
         }
         else{ 
