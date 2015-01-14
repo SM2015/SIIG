@@ -3,6 +3,11 @@ window.SONATA_CONFIG = {
 };
 
 $(document).ready(function () {
+    options = {
+        monthNames: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dec']
+    };
+    $('#anio_mes').monthpicker(options);
+    
     var sSwfPath = "/bundles/indicadores/js/DataTables/media/swf/copy_csv_xls_pdf.swf";
     
     var oLanguage = {
