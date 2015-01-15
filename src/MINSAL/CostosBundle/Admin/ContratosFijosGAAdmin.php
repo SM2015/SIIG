@@ -31,7 +31,19 @@ class ContratosFijosGAAdmin extends Admin
                                 ->where('e.nivel = 1 ')
                                 ->add('orderBy','e.nombre');
                     }))
-            
+            ->add('variableCalculoConsumo', null, array('label' => $this->getTranslator()->trans('_variable_calculo_consumo_'),
+                    'required' => false, 'expanded' => false,
+                    'class' => 'CostosBundle:Campo',
+                    'query_builder' => function ($repository) {                        
+                        return $repository->createQueryBuilder('c')
+                                ->join('c.formularios', 'f')
+                                ->join('c.significadoCampo', 's')
+                                ->where("f.areaCosteo = 'ga_variables' ")
+                                ->add('orderBy','s.descripcion');
+                    }))
+            ->setHelps(array(
+                'variableCalculoConsumo' => $this->getTranslator()->trans('_ayuda_variable_calculo_consumo_')                
+            ))
         ;
     }
 

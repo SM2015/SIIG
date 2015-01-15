@@ -66,6 +66,11 @@ class ContratosFijosGA
      * @ORM\ManyToOne(targetEntity="MINSAL\CostosBundle\Entity\CriteriosDistribucionGA")
      * */
     private $criterioDistribucion;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="MINSAL\CostosBundle\Entity\Campo")
+     * */
+    private $variableCalculoConsumo;
 
     
 
@@ -232,5 +237,28 @@ class ContratosFijosGA
     public function getFormulaConsumo()
     {
         return $this->formulaConsumo;
+    }
+
+    /**
+     * Set variableCalculoConsumo
+     *
+     * @param \MINSAL\CostosBundle\Entity\Campo $variableCalculoConsumo
+     * @return ContratosFijosGA
+     */
+    public function setVariableCalculoConsumo(\MINSAL\CostosBundle\Entity\Campo $variableCalculoConsumo = null)
+    {
+        $this->variableCalculoConsumo = $variableCalculoConsumo;
+
+        return $this;
+    }
+
+    /**
+     * Get variableCalculoConsumo
+     *
+     * @return \MINSAL\CostosBundle\Entity\Campo 
+     */
+    public function getVariableCalculoConsumo()
+    {
+        return $this->variableCalculoConsumo;
     }
 }
