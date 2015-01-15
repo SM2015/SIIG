@@ -204,7 +204,9 @@ class FormularioRepository extends EntityRepository {
             $sqlMontoCompromiso = "
                 ( SELECT SUM(importe::numeric) 
                     FROM 
-                        -- ************* Compromisos financieros por cada mes
+                        -- **************************************************************** 
+                        -- * Compromisos financieros por cada mes
+                        -- *****************************************************************
                         (SELECT establecimiento, anio, codigo_contrato, 
                             unnest(array['m01', 'm02', 'm03', 'm04', 'm05', 'm06', 'm07', 'm08', 'm08', 'm10', 'm11', 'm12']) as mes,
                             unnest(array[m01, m02, m03, m04, m05, m06, m07, m08, m08, m10, m11, m12]) as importe                                        
@@ -227,7 +229,7 @@ class FormularioRepository extends EntityRepository {
                         AND anio = A.anio
                         AND codigo_contrato = A.codigo_compromiso
                         AND mes = 'm'||A.mes
-                ) AS compromiso,
+                ) AS compromiso
                      ";
             
             /**************************************************************
