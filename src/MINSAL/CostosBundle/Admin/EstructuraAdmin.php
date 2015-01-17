@@ -20,11 +20,28 @@ class EstructuraAdmin extends Admin
         $formMapper
             ->add('codigo', null, array('label'=> $this->getTranslator()->trans('_codigo_')))
             ->add('nombre', null, array('label'=> $this->getTranslator()->trans('_nombre_')))
-            ->add('parent', null, array('label'=> $this->getTranslator()->trans('_unidad_superior_')))            
+            ->add('parent', null, array('label' => $this->getTranslator()->trans('_unidad_superior_'),
+                    'required' => true, 'expanded' => false,
+                    'class' => 'CostosBundle:Estructura',
+                    'property' => 'codigoNombre',
+                    'query_builder' => function ($repository) {                        
+                        return $repository->createQueryBuilder('e')
+                                ->add('orderBy','e.codigo');
+                    }));
         ;
         if ($this->subject->getNivel() == 1){
             $formMapper->add('contratosFijos', null, array('label'=> $this->getTranslator()->trans('_contratos_fijos_'),
                 'required' => true, 'expanded' => true));
+        }
+        if ($this->subject->getNivel() == 3){
+            $formMapper->add('ubicacionDependencia', null, array('label' => $this->getTranslator()->trans('_ubicacion_'),
+                    'required' => true, 'expanded' => false,
+                    'class' => 'CostosBundle:Ubicacion',
+                    'query_builder' => function ($repository) {                        
+                        return $repository->createQueryBuilder('u')
+                                ->where('u.establecimiento = '.$this->subject->getParent()->getParent()->getCodigo())
+                                ->add('orderBy','u.nombre');
+                    }));
         }
     }
 

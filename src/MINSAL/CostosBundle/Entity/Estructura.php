@@ -73,6 +73,11 @@ class Estructura
      **/
     private $especialidades;
     
+    /**
+     * @ORM\ManyToOne(targetEntity="Ubicacion", inversedBy="dependencias")
+     * */
+    private $ubicacionDependencia;
+    
 
     public function __toString()
     {
@@ -113,6 +118,10 @@ class Estructura
     public function getCodigo()
     {
         return $this->codigo;
+    }
+    
+    public function getCodigoNombre() {
+        return str_repeat("****", $this->getNivel()-1).$this->codigo . ' - '. $this->nombre;
     }
 
     /**
@@ -347,35 +356,25 @@ class Estructura
     }
 
     /**
-     * Add centrosDeProduccion
+     * Set ubicacionDependencia
      *
-     * @param \MINSAL\CostosBundle\Entity\CentrosDeProduccion $centrosDeProduccion
+     * @param \MINSAL\CostosBundle\Entity\Ubicacion $ubicacionDependencia
      * @return Estructura
      */
-    public function addCentrosDeProduccion(\MINSAL\CostosBundle\Entity\CentrosDeProduccion $centrosDeProduccion)
+    public function setUbicacionDependencia(\MINSAL\CostosBundle\Entity\Ubicacion $ubicacionDependencia = null)
     {
-        $this->centrosDeProduccion[] = $centrosDeProduccion;
+        $this->ubicacionDependencia = $ubicacionDependencia;
 
         return $this;
     }
 
     /**
-     * Remove centrosDeProduccion
+     * Get ubicacionDependencia
      *
-     * @param \MINSAL\CostosBundle\Entity\CentrosDeProduccion $centrosDeProduccion
+     * @return \MINSAL\CostosBundle\Entity\Ubicacion 
      */
-    public function removeCentrosDeProduccion(\MINSAL\CostosBundle\Entity\CentrosDeProduccion $centrosDeProduccion)
+    public function getUbicacionDependencia()
     {
-        $this->centrosDeProduccion->removeElement($centrosDeProduccion);
-    }
-
-    /**
-     * Get centrosDeProduccion
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getCentrosDeProduccion()
-    {
-        return $this->centrosDeProduccion;
+        return $this->ubicacionDependencia;
     }
 }
