@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * MINSAL\CostosBundle\Entity\TipoRecurso
+ * MINSAL\CostosBundle\Entity\TipoContratacion
  *
  * @ORM\Table(name="catalogos.tipo_contratacion")
  * @UniqueEntity(fields="codigo", message="Código ya existe")

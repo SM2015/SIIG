@@ -6,13 +6,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * MINSAL\CostosBundle\Entity\UnidadesProductivas
+ * MINSAL\CostosBundle\Entity\Ubicacion
  *
- * @ORM\Table(name="costos.unidades_productivas")
+ * @ORM\Table(name="costos.ubicacion")
  * @UniqueEntity(fields="codigo", message="Código ya existe")
  * @ORM\Entity
  */
-class UnidadesProductivas
+class Ubicacion
 {
     /**
      * @var integer $id
@@ -41,6 +41,11 @@ class UnidadesProductivas
      * @ORM\ManyToOne(targetEntity="Estructura")
      * */
     private $establecimiento;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Estructura", mappedBy="ubicacionDependencia")
+     **/
+    private $dependencias;
         
 
     public function __toString()
@@ -48,6 +53,15 @@ class UnidadesProductivas
         return $this->nombre ? : '';
     }
 
+
+    
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->dependencias = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -63,7 +77,7 @@ class UnidadesProductivas
      * Set codigo
      *
      * @param string $codigo
-     * @return Dependencia
+     * @return Ubicacion
      */
     public function setCodigo($codigo)
     {
@@ -86,7 +100,7 @@ class UnidadesProductivas
      * Set nombre
      *
      * @param string $nombre
-     * @return Dependencia
+     * @return Ubicacion
      */
     public function setNombre($nombre)
     {
@@ -109,7 +123,7 @@ class UnidadesProductivas
      * Set establecimiento
      *
      * @param \MINSAL\CostosBundle\Entity\Estructura $establecimiento
-     * @return Dependencia
+     * @return Ubicacion
      */
     public function setEstablecimiento(\MINSAL\CostosBundle\Entity\Estructura $establecimiento = null)
     {
@@ -126,5 +140,38 @@ class UnidadesProductivas
     public function getEstablecimiento()
     {
         return $this->establecimiento;
+    }
+
+    /**
+     * Add dependencias
+     *
+     * @param \MINSAL\CostosBundle\Entity\Estructura $dependencias
+     * @return Ubicacion
+     */
+    public function addDependencia(\MINSAL\CostosBundle\Entity\Estructura $dependencias)
+    {
+        $this->dependencias[] = $dependencias;
+
+        return $this;
+    }
+
+    /**
+     * Remove dependencias
+     *
+     * @param \MINSAL\CostosBundle\Entity\Estructura $dependencias
+     */
+    public function removeDependencia(\MINSAL\CostosBundle\Entity\Estructura $dependencias)
+    {
+        $this->dependencias->removeElement($dependencias);
+    }
+
+    /**
+     * Get dependencias
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getDependencias()
+    {
+        return $this->dependencias;
     }
 }
