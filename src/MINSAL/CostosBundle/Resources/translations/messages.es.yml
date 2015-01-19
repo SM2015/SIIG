@@ -10,7 +10,7 @@ _ayuda_formula_campo_: "Debe regresar el valor final: 'var result = '; otros cam
 _ayuda_origen_campo_: 'Cuando el tipo de control sea Cuadro desplegable, se utilizará "origen" para especificar qué valores se mostrarán en el combo, debe estar formado por dos campos (valor y etiqueta), puede ser una consulta SQL o en formato JSON. Ej.: [{"id":"E",  "descripcion": "Enfermera"}, {"id":"M", "descripcion": "Medico"}]'
 _ayuda_origen_pivote_: 'Es una sentencia SQL que recupera registros con dos campos (valor y etiqueta) y se creará un campo de entrada por cada fila del origen pivote. También puede usar formato JSON '
 _ayuda_validacion_campo_: 'Ingrese la condición para ser válido. Usar "value" para referirse al valor del campo dentro de la fórmula. Ej.: value > 0 || value <150'
-_ayuda_variable_calculo_consumo_: 'Cuando el consumo del compromiso financiera se determine a partir de otra variable. Ej.: El mantenimiento la planta telefónica, será a partir de la cantidad de aparatos fijos asignados a la dependencia'
+_ayuda_variable_calculo_consumo_: 'Cuando el consumo del compromiso financiero se determine a partir de otra variable. Ej.: El mantenimiento la planta telefónica, será a partir de la cantidad de aparatos fijos asignados a la dependencia'
 _cargar_datos_: Cargar
 _campo_: Campo
 _campos_: Campos
@@ -30,7 +30,7 @@ _codigo_: Código
 _columnas_: Columnas
 _columnas_fijas_: Columnas fijas
 _configuracion_: Configuración
-_contratos_fijos_: Contratos fijos
+_contratos_fijos_: Compromisos financieros
 _costeo_: Costeo
 _cuadro_datos_: Cuadro de datos
 _criterios_distribucion_: Criterios de distribución
@@ -54,10 +54,10 @@ _formula_consumo_: Fórmula consumo
 _formulario_: Formulario
 _formulario_rrhh_valor_pagado_titulo_ : "RRHH :: Valor pagado "
 _ga_af_: "Gastos Administrativos:: Activo Fijo"
-_ga_compromisos_financieros_: 'Gastos Administrativos:: Compromisos financieros'
+_ga_compromisos_financieros_: 'Gastos Administrativos:: Monto compromisos financieros'
 _ga_distribucion_: 'Gastos Administrativos:: Distribución'
 _ga_variables_: 'Gastos Administrativos:: Variables'
-_ga_costos_: 'Gastos Administrativos:: Costeo'
+_ga_costos_: 'Gastos Administrativos:: Costos'
 _grupo_padre_: Grupo padre
 _grupo_columnas_: Grupo Columnas
 _guardar_: Guardar
@@ -87,6 +87,7 @@ _rrhh_valor_pagado_: 'RRHH :: VAlor Pagado'
 _seleccione_dependencia_: 'Seleccione la dependencia'
 _septiembre_: Septiembre
 _significado_campo_: Significado
+_solo_establecimiento_de_ubicacion_: Solo puede seleccionar el establecimiento al que pertenece la ubicación
 _regla_validacion_: Regla de validación
 _tiempo_utilizacion_luminarias_ : Tiempo promedio de utilización de luminarias (horas x día)
 _tipo_contratacion_: Tipo contratación

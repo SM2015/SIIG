@@ -517,6 +517,7 @@ class Campo
     public function addFormulario(\MINSAL\CostosBundle\Entity\Formulario $formularios)
     {
         $this->formularios[] = $formularios;
+        $formularios->addCampo($this);
 
         return $this;
     }
@@ -529,6 +530,7 @@ class Campo
     public function removeFormulario(\MINSAL\CostosBundle\Entity\Formulario $formularios)
     {
         $this->formularios->removeElement($formularios);
+        $formularios->removeCampo($this);
     }
 
     /**

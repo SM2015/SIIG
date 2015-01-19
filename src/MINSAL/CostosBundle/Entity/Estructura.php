@@ -287,7 +287,7 @@ class Estructura
     public function getEspecialidades()
     {
         return $this->especialidades;
-    }
+    }    
 
     /**
      * Add unidadesProductivas

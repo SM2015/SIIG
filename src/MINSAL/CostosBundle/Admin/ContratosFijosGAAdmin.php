@@ -6,6 +6,7 @@ use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Validator\ErrorElement;
 
 class ContratosFijosGAAdmin extends Admin
 {
@@ -20,15 +21,25 @@ class ContratosFijosGAAdmin extends Admin
         $formMapper
             ->add('codigo', null, array('label'=> $this->getTranslator()->trans('_codigo_')))
             ->add('descripcion', null, array('label'=> $this->getTranslator()->trans('_descripcion_')))
-            ->add('formulaConsumo', null, array('label'=> $this->getTranslator()->trans('_formula_consumo_')))
             ->add('categoria', null, array('label'=> $this->getTranslator()->trans('_categoria_')))
             ->add('criterioDistribucion', null, array('label'=> $this->getTranslator()->trans('_criterio_distribucion_')))
             ->add('establecimientos', null, array('label' => $this->getTranslator()->trans('_establecimiento_'),
                     'required' => true, 'expanded' => true,
                     'class' => 'CostosBundle:Estructura',
+                    'by_reference' => false,
+                    'property' => 'codigoNombre',
                     'query_builder' => function ($repository) {                        
                         return $repository->createQueryBuilder('e')
                                 ->where('e.nivel = 1 ')
+                                ->add('orderBy','e.nombre');
+                    }))
+            ->add('ubicacion', null, array('label' => $this->getTranslator()->trans('_ubicacion_'),
+                    'required' => false, 'expanded' => false,
+                    'class' => 'CostosBundle:Ubicacion',
+                    'property' => 'codigoEstablecimientoNombreUbicacion',
+                    'query_builder' => function ($repository) {                        
+                        return $repository->createQueryBuilder('u')
+                                ->join('u.establecimiento', 'e')
                                 ->add('orderBy','e.nombre');
                     }))
             ->add('variableCalculoConsumo', null, array('label' => $this->getTranslator()->trans('_variable_calculo_consumo_'),
@@ -72,5 +83,26 @@ class ContratosFijosGAAdmin extends Admin
     {
         $actions = parent::getBatchActions();
         $actions['delete'] = null;
+    }
+    
+    public function validate(ErrorElement $errorElement, $object)
+    {        
+        if ($object->getUbicacion() != null){
+            // Si elije una ubicación en particular para este compromiso
+            // solo debe seleccionar el establecimiento al que pertenece 
+            // la ubicación
+            foreach ($object->getEstablecimientos() as $e){
+                if ($e->getCodigo() != $object->getUbicacion()->getEstablecimiento()->getCodigo()){
+                    $errorElement
+                        ->with('ubicacion')
+                            ->addViolation($this->getTranslator()->trans('_solo_establecimiento_de_ubicacion_'))
+                        ->end()
+                        ->with('establecimientos')
+                            ->addViolation($this->getTranslator()->trans('_solo_establecimiento_de_ubicacion_'))
+                        ->end();
+                    break;
+                }
+            }
+        }     
     }
 }

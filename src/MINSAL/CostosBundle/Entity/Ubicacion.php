@@ -95,6 +95,10 @@ class Ubicacion
     {
         return $this->codigo;
     }
+    
+    public function getCodigoEstablecimientoNombreUbicacion() {
+        return '(Establecimiento: '.$this->getEstablecimiento()->getCodigo() . ') ' . $this->getNombre();
+    }
 
     /**
      * Set nombre

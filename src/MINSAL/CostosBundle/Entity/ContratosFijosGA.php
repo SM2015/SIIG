@@ -71,9 +71,13 @@ class ContratosFijosGA
      * @ORM\ManyToOne(targetEntity="MINSAL\CostosBundle\Entity\Campo")
      * */
     private $variableCalculoConsumo;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="MINSAL\CostosBundle\Entity\Ubicacion")
+     * */
+    private $ubicacion;
 
     
-
     /**
      * Get id
      *
@@ -192,6 +196,7 @@ class ContratosFijosGA
     public function addEstablecimiento(\MINSAL\CostosBundle\Entity\Estructura $establecimientos)
     {
         $this->establecimientos[] = $establecimientos;
+        $establecimientos->addContratosFijo($this);
 
         return $this;
     }
@@ -204,6 +209,7 @@ class ContratosFijosGA
     public function removeEstablecimiento(\MINSAL\CostosBundle\Entity\Estructura $establecimientos)
     {
         $this->establecimientos->removeElement($establecimientos);
+        $establecimientos->removeContratosFijo($this);
     }
 
     /**
@@ -260,5 +266,28 @@ class ContratosFijosGA
     public function getVariableCalculoConsumo()
     {
         return $this->variableCalculoConsumo;
+    }
+
+    /**
+     * Set ubicacion
+     *
+     * @param \MINSAL\CostosBundle\Entity\Ubicacion $ubicacion
+     * @return ContratosFijosGA
+     */
+    public function setUbicacion(\MINSAL\CostosBundle\Entity\Ubicacion $ubicacion = null)
+    {
+        $this->ubicacion = $ubicacion;
+
+        return $this;
+    }
+
+    /**
+     * Get ubicacion
+     *
+     * @return \MINSAL\CostosBundle\Entity\Ubicacion 
+     */
+    public function getUbicacion()
+    {
+        return $this->ubicacion;
     }
 }
