@@ -22,7 +22,6 @@ class GuardarRegistroOrigenDatoConsumer implements ConsumerInterface
         //Verificar si tiene código de costeo
         $sql = "SELECT area_costeo FROM origen_datos WHERE id = $msg[id_origen_dato]";
         $areaCosteo =  $this->em->getConnection()->executeQuery($sql)->fetch();
-        var_dump($areaCosteo);
             
         // Si se retorna falso se enviará un mensaje que le indicará al producer que no se pudo procesar
         // correctamente el mensaje y será enviado nuevamente
@@ -78,7 +77,18 @@ class GuardarRegistroOrigenDatoConsumer implements ConsumerInterface
                                 AND datos->'nit' 
                                     NOT IN 
                                     (SELECT datos->'nit' FROM $tabla); 
+                        DELETE FROM fila_origen_dato_aux WHERE id_origen_dato='$msg[id_origen_dato]'
                          ";
+            } elseif ($areaCosteo['area_costeo'] == 'ga_af'){
+                //Solo agregar los datos nuevos
+                $sql = " INSERT INTO $tabla 
+                            SELECT *  FROM fila_origen_dato_aux 
+                            WHERE id_origen_dato='$msg[id_origen_dato]'
+                                AND datos->'codigo_af' 
+                                    NOT IN 
+                                    (SELECT datos->'codigo_af' FROM $tabla); 
+                        DELETE FROM fila_origen_dato_aux WHERE id_origen_dato='$msg[id_origen_dato]'
+                        ";
             } else {
                 //Borrar los datos existentes por el momento así será pero debería haber una forma de ir a traer solo los nuevos
                 $sql = "DELETE FROM $tabla WHERE id_origen_dato='$msg[id_origen_dato]'  ;

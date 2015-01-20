@@ -38,9 +38,11 @@ class CargarOrigenDatoConsumer implements ConsumerInterface
                 $i = 0;
                 $nombre_conexion = $cnx->getNombreConexion();
                 while ($leidos >= $tamanio) {
-                    if ($cnx->getIdMotor()->getCodigo() == 'oci8' or $cnx->getIdMotor()->getCodigo() == 'pdo_dblib') {
+                    if ($cnx->getIdMotor()->getCodigo() == 'oci8' ) {
                         $sql_aux = 'SELECT * FROM (' . $sql . ')  sqlOriginal '.
                             'WHERE ROWNUM >= ' . $i * $tamanio . ' AND ROWNUM < '.  ($tamanio * ($i + 1));
+                    }elseif($cnx->getIdMotor()->getCodigo() == 'pdo_dblib'){
+                        $sql_aux = $sql;                        
                     }
                     else {
                         $sql_aux = $sql . ' LIMIT ' . $tamanio . ' OFFSET ' . $i * $tamanio;
@@ -49,7 +51,9 @@ class CargarOrigenDatoConsumer implements ConsumerInterface
                     $datos = $em->getRepository('IndicadoresBundle:OrigenDatos')->getDatos($sql_aux, $cnx);
 
                     $this->enviarDatos($idOrigen, $datos, $campos_sig, $ahora, $nombre_conexion);
-                    $leidos = count($datos);
+                    if ($cnx->getIdMotor()->getCodigo() == 'pdo_dblib')
+                        $leidos = count($datos);
+                    else $leidos = 1;
                     $i++;
                 }                
             }
