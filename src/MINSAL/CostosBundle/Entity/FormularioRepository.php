@@ -152,7 +152,7 @@ class FormularioRepository extends EntityRepository {
              * Agregar todos los gastos que se han puesto en el formulario 
              * de distribución de compromisos
             ****************************************************************/
-            $sql = "SELECT B.*, B1.codigo AS criterio_distribucion,  D.codigo as variable_calculo_consumo "
+            $sql = "SELECT B.*, B1.codigo AS criterio_distribucion,  D.codigo as variable_calculo_consumo, A1.ubicacion_id "
                     . "INTO TEMP ini_gastos_administrativos_tmp "
                     . 'FROM (SELECT establecimiento, dependencia, anio, mes, unnest(array['.$piv1.']) AS codigo_compromiso, '
                                     . 'unnest(array['.$piv2.']) AS consumo_dependencia 
@@ -183,7 +183,8 @@ class FormularioRepository extends EntityRepository {
                             '".$this->parametros['anio']."' AS anio , 
                             '".$this->parametros['mes']."' AS mes, 
                             A.codigo AS codigo_compromiso, '0' AS consumo_dependencia,
-                            E.codigo AS criterio_distribucion , DD.codigo as variable_calculo_consumo
+                            E.codigo AS criterio_distribucion , DD.codigo as variable_calculo_consumo,
+                            A.ubicacion_id
                         FROM costos.contratos_fijos_ga A 
                             INNER JOIN estructura_contratosfijosga B ON (A.id = B.contratosfijosga_id)
                             LEFT JOIN costos.campo CC ON (A.variablecalculoconsumo_id = CC.id)
@@ -441,6 +442,36 @@ class FormularioRepository extends EntityRepository {
                                 WHEN (criterio_distribucion = 'consumo' OR criterio_distribucion = 'asignacion_directa' 
                                     OR criterio_distribucion = 'personas' OR criterio_distribucion = 'dependencia') 
                                     THEN compromiso::numeric * consumo_dependencia::numeric / consumo_establecimiento::numeric
+                                WHEN (ubicacion_id IS NOT NULL)
+                                    THEN 
+                                        compromiso::numeric * (SELECT SUM((datos->A.variable_calculo_consumo)::numeric)  
+                                            FROM costos.fila_origen_dato_ga 
+                                            WHERE area_costeo = 'ga_variables' 
+                                                AND datos->'establecimiento' = A.establecimiento 
+                                                AND datos->'dependencia' = A.dependencia
+                                                AND datos->'mes' = A.mes 
+                                                AND datos->'anio' = A.anio 
+                                                AND datos->'dependencia' 
+                                                    IN 
+                                                    (SELECT codigo
+                                                        FROM costos.estructura
+                                                        WHERE ubicaciondependencia_id = A.ubicacion_id
+                                                    )
+                                        )::numeric
+                                        / 
+                                        (SELECT SUM((datos->A.variable_calculo_consumo)::numeric)  
+                                            FROM costos.fila_origen_dato_ga 
+                                            WHERE area_costeo = 'ga_variables' 
+                                                AND datos->'establecimiento' = A.establecimiento
+                                                AND datos->'mes' = A.mes 
+                                                AND datos->'anio' = A.anio
+                                                AND datos->'dependencia' 
+                                                    IN 
+                                                    (SELECT codigo
+                                                        FROM costos.estructura
+                                                        WHERE ubicaciondependencia_id = A.ubicacion_id
+                                                    )
+                                        )::numeric
                                 WHEN criterio_distribucion = 'area_mt2' THEN compromiso::numeric * area_tot::numeric / area_tot_establecimiento::numeric
                                 WHEN (codigo_compromiso = 'depreciacion_contable_mobiliario' OR codigo_compromiso = 'depreciacion_contable_equipo')
                                     THEN consumo_dependencia::numeric

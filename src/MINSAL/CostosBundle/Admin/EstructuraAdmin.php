@@ -35,7 +35,7 @@ class EstructuraAdmin extends Admin
         }
         if ($this->subject->getNivel() == 3){
             $formMapper->add('ubicacionDependencia', null, array('label' => $this->getTranslator()->trans('_ubicacion_'),
-                    'required' => true, 'expanded' => false,
+                    'required' => false, 'expanded' => false,
                     'class' => 'CostosBundle:Ubicacion',
                     'query_builder' => function ($repository) {                        
                         return $repository->createQueryBuilder('u')
