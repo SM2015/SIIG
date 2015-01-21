@@ -21,6 +21,9 @@ $(document).ready(function () {
     var table = $('#gaCostos').DataTable({
             "bJQueryUI": true,
             "paging": false,
+            "scrollY": "400px",
+            "scrollCollapse": true,
+            "scrollX": true,
             "sDom": '<"H"Tfr>t<"F"ip>',
             "oTableTools": {
                 "sSwfPath": sSwfPath,
