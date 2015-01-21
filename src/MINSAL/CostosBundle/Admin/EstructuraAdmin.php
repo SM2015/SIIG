@@ -21,7 +21,7 @@ class EstructuraAdmin extends Admin
             ->add('codigo', null, array('label'=> $this->getTranslator()->trans('_codigo_')))
             ->add('nombre', null, array('label'=> $this->getTranslator()->trans('_nombre_')))
             ->add('parent', null, array('label' => $this->getTranslator()->trans('_unidad_superior_'),
-                    'required' => true, 'expanded' => false,
+                    'required' => false, 'expanded' => false,
                     'class' => 'CostosBundle:Estructura',
                     'property' => 'codigoNombre',
                     'query_builder' => function ($repository) {                        

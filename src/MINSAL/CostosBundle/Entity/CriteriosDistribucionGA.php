@@ -19,7 +19,8 @@ class CriteriosDistribucionGA
      *
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="costos.criterios_id_seq")
      */
     private $id;
 
