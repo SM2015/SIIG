@@ -314,24 +314,14 @@ class FormularioRepository extends EntityRepository {
                                 -- *****************************************************************
                                 WHEN (codigo_compromiso = 'energia_electrica' OR codigo_compromiso = 'subestacion_electrica') 
                                     THEN A.consumo_kw_dependecia::numeric
-                                
-                                -- **************************************************************** 
-                                -- * Energía electrica y mantenimiento de subestacion electrica
-                                -- *****************************************************************
-                                WHEN (codigo_compromiso = 'planta_emergencia' OR codigo_compromiso = 'combustible_planta_emergencia') 
-                                    THEN A.carga_con_planta_emerg_dependecia::numeric
+                                                                
                                     
                                 -- **************************************************************** 
                                 -- * Mantenimiento de planta electrica y combustible
                                 -- *****************************************************************
                                 WHEN (codigo_compromiso = 'planta_emergencia' OR codigo_compromiso = 'combustible_planta_emergencia') 
                                     THEN A.carga_con_planta_emerg_dependecia::numeric
-                                
-                                -- **************************************************************** 
-                                -- * Depreciacion contable de equipo
-                                -- *****************************************************************
-                                WHEN (codigo_compromiso = 'planta_emergencia' OR codigo_compromiso = 'combustible_planta_emergencia') 
-                                    THEN A.carga_con_planta_emerg_dependecia::numeric
+                                                                
                                     
                                 -- **************************************************************** 
                                 -- * Depreciacion contable de mobiliario
