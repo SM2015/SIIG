@@ -303,37 +303,44 @@ class FormularioRepository extends EntityRepository {
                                 -- **************************************************************** 
                                 -- * DEL CONSUMO DEL AGUA
                                 -- *****************************************************************
-                                WHEN (codigo_compromiso = 'h2o' AND tot_personal::numeric = 0 AND prom_usuarios_dia::numeric = 0) THEN 0
-                                WHEN (codigo_compromiso = 'h2o' AND (tipo_centro::numeric = 5 OR tipo_centro::numeric = 6)) 
-                                    THEN (cant_camas::numeric * 0.18) + (tot_personal::numeric *0.06) + (prom_usuarios_dia::numeric * 0.03) + (area_tot::numeric * 0.006)
-                                WHEN (codigo_compromiso = 'h2o' AND tipo_centro::numeric <> 5 AND tipo_centro::numeric <> 6) 
-                                    THEN (tot_personal::numeric * 0.06) + (prom_usuarios_dia::numeric * 0.03) + (area_tot::numeric * 0.006 / 3)
+                                WHEN (codigo_compromiso = 'h2o' AND (COALESCE(NULLIF(tot_personal, ''),'0'))::numeric = 0 
+                                            AND (COALESCE(NULLIF(prom_usuarios_dia, ''),'0'))::numeric = 0) 
+                                    THEN 0
+                                WHEN (codigo_compromiso = 'h2o' AND (tipo_centro = '5' OR tipo_centro = '6')) 
+                                    THEN ((COALESCE(NULLIF(cant_camas, ''),'0'))::numeric * 0.18) + 
+                                        ((COALESCE(NULLIF(tot_personal, ''),'0'))::numeric *0.06) + 
+                                        ((COALESCE(NULLIF(prom_usuarios_dia, ''),'0'))::numeric * 0.03) + 
+                                        ((COALESCE(NULLIF(area_tot, ''),'0'))::numeric * 0.006)
+                                WHEN (codigo_compromiso = 'h2o' AND tipo_centro <> '5' AND tipo_centro <> '6') 
+                                    THEN ((COALESCE(NULLIF(tot_personal, ''),'0'))::numeric * 0.06) + 
+                                        ((COALESCE(NULLIF(prom_usuarios_dia, ''),'0'))::numeric * 0.03) + 
+                                        ((COALESCE(NULLIF(area_tot, ''),'0'))::numeric * 0.006 / 3)
                                 
                                 -- **************************************************************** 
                                 -- * Energía electrica y mantenimiento de subestacion electrica
                                 -- *****************************************************************
                                 WHEN (codigo_compromiso = 'energia_electrica' OR codigo_compromiso = 'subestacion_electrica') 
-                                    THEN A.consumo_kw_dependecia::numeric
+                                    THEN (A.consumo_kw_dependecia)::numeric
                                                                 
                                     
                                 -- **************************************************************** 
                                 -- * Mantenimiento de planta electrica y combustible
                                 -- *****************************************************************
                                 WHEN (codigo_compromiso = 'planta_emergencia' OR codigo_compromiso = 'combustible_planta_emergencia') 
-                                    THEN A.carga_con_planta_emerg_dependecia::numeric
+                                    THEN (A.carga_con_planta_emerg_dependecia)::numeric
                                                                 
                                     
                                 -- **************************************************************** 
                                 -- * Depreciacion contable de mobiliario
                                 -- *****************************************************************
                                 WHEN (codigo_compromiso = 'depreciacion_contable_mobiliario') 
-                                    THEN A.depreciacion_equip_medic_y_mobiliario::numeric
+                                    THEN (A.depreciacion_equip_medic_y_mobiliario)::numeric
                                 
                                 -- **************************************************************** 
                                 -- * Depreciacion contable equipo informatico y transporte
                                 -- *****************************************************************
                                 WHEN (codigo_compromiso = 'depreciacion_contable_equipo') 
-                                    THEN A.depreciacion_equip_infor_y_transporte::numeric
+                                    THEN (A.depreciacion_equip_infor_y_transporte)::numeric
                         
                                 -- **************************************************************** 
                                 -- * Cuando es criterio de distribución es dependencia (ubicación) 
@@ -349,7 +356,7 @@ class FormularioRepository extends EntityRepository {
                                                                     AND datos->A.codigo_compromiso = 'true'
                                                             )::numeric > 0
                                         ) THEN
-                                            (SELECT SUM((datos->A.variable_calculo_consumo)::numeric)  
+                                            (SELECT SUM((COALESCE(NULLIF(datos->A.variable_calculo_consumo, ''),'0'))::numeric)  
                                                 FROM costos.fila_origen_dato_ga 
                                                 WHERE area_costeo = 'ga_variables' 
                                                     AND datos->'establecimiento' = A.establecimiento 
@@ -359,7 +366,7 @@ class FormularioRepository extends EntityRepository {
                                                     AND datos->A.codigo_compromiso = 'true'
                                             )::numeric
                                             / 
-                                            (SELECT SUM((datos->A.variable_calculo_consumo)::numeric)  
+                                            (SELECT SUM((COALESCE(NULLIF(datos->A.variable_calculo_consumo, ''),'0'))::numeric)  
                                                 FROM costos.fila_origen_dato_ga 
                                                 WHERE area_costeo = 'ga_variables' 
                                                     AND datos->'establecimiento' = A.establecimiento 
@@ -374,15 +381,15 @@ class FormularioRepository extends EntityRepository {
                                 -- * de radios que posee la dependencia
                                 -- *****************************************************************
                                 WHEN (A.variable_calculo_consumo IS NOT NULL
-                                            AND (SELECT COUNT(datos->A.variable_calculo_consumo)  
-                                                                FROM costos.fila_origen_dato_ga 
-                                                                WHERE area_costeo = 'ga_variables' 
-                                                                    AND datos->'establecimiento' = A.establecimiento
-                                                                    AND datos->'mes' = A.mes 
-                                                                    AND datos->'anio' = A.anio 
-                                                            )::numeric > 0
+                                            AND (SELECT SUM(( (COALESCE(NULLIF(datos->A.variable_calculo_consumo, ''),'0')))::numeric)  
+                                                    FROM costos.fila_origen_dato_ga 
+                                                    WHERE area_costeo = 'ga_variables' 
+                                                        AND datos->'establecimiento' = A.establecimiento 
+                                                        AND datos->'mes' = A.mes 
+                                                        AND datos->'anio' = A.anio
+                                                )::numeric > 0
                                         ) THEN
-                                            (SELECT SUM((datos->A.variable_calculo_consumo)::numeric)  
+                                            (SELECT SUM(( (COALESCE(NULLIF(datos->A.variable_calculo_consumo, ''),'0')))::numeric)  
                                                 FROM costos.fila_origen_dato_ga 
                                                 WHERE area_costeo = 'ga_variables' 
                                                     AND datos->'establecimiento' = A.establecimiento 
@@ -391,7 +398,7 @@ class FormularioRepository extends EntityRepository {
                                                     AND datos->'anio' = A.anio 
                                             )::numeric
                                             / 
-                                            (SELECT SUM((datos->A.variable_calculo_consumo)::numeric)  
+                                            (SELECT SUM(( (COALESCE(NULLIF(datos->A.variable_calculo_consumo, ''),'0')))::numeric)  
                                                 FROM costos.fila_origen_dato_ga 
                                                 WHERE area_costeo = 'ga_variables' 
                                                     AND datos->'establecimiento' = A.establecimiento 
@@ -406,9 +413,9 @@ class FormularioRepository extends EntityRepository {
                         INTO TEMP ga_tmp 
                         FROM 
                             (SELECT A.*,
-                                -- El area de todo el establecimiento
+                                -- El area de todo el establecimiento                                
                                 (SELECT SUM(area_tot::numeric)
-                                    FROM (SELECT datos->'area_tot' AS area_tot
+                                    FROM (SELECT (COALESCE(NULLIF(datos->'area_tot', ''),'0'))::numeric AS area_tot
                                         FROM costos.fila_origen_dato_ga
                                         WHERE area_costeo = 'ga_variables'
                                             AND datos->'establecimiento' = A.establecimiento
@@ -422,15 +429,15 @@ class FormularioRepository extends EntityRepository {
                     ";
             $em->getConnection()->executeQuery($sql);
             $em->getConnection()->executeQuery('UPDATE ga_tmp SET consumo_dependencia = consumo_dependencia_final ');
-            
+
             /**********************************************************
              * Se hace la distribución del compromiso financiero 
              * del establecimiento 
              * de acuerdo el consumo de cada dependencia
              **********************************************************/
             $sql = "SELECT *, CASE 
-                                WHEN (criterio_distribucion = 'consumo' OR criterio_distribucion = 'asignacion_directa' 
-                                    OR criterio_distribucion = 'personas' OR criterio_distribucion = 'dependencia') 
+                                WHEN (consumo_establecimiento::numeric >0 AND (criterio_distribucion = 'consumo' OR criterio_distribucion = 'asignacion_directa' 
+                                    OR criterio_distribucion = 'personas' OR criterio_distribucion = 'dependencia')) 
                                     THEN compromiso::numeric * consumo_dependencia::numeric / consumo_establecimiento::numeric
                                 WHEN (ubicacion_id IS NOT NULL)
                                     THEN 
@@ -462,7 +469,7 @@ class FormularioRepository extends EntityRepository {
                                                         WHERE ubicaciondependencia_id = A.ubicacion_id
                                                     )
                                         )::numeric
-                                WHEN criterio_distribucion = 'area_mt2' THEN compromiso::numeric * area_tot::numeric / area_tot_establecimiento::numeric
+                                WHEN (criterio_distribucion = 'area_mt2' AND area_tot_establecimiento::numeric > 0) THEN compromiso::numeric * area_tot::numeric / area_tot_establecimiento::numeric
                                 WHEN (codigo_compromiso = 'depreciacion_contable_mobiliario' OR codigo_compromiso = 'depreciacion_contable_equipo')
                                     THEN consumo_dependencia::numeric
                             END AS total_gasto
