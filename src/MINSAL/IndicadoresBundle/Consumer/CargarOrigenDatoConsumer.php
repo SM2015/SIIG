@@ -52,8 +52,8 @@ class CargarOrigenDatoConsumer implements ConsumerInterface
 
                     $this->enviarDatos($idOrigen, $datos, $campos_sig, $ahora, $nombre_conexion);
                     if ($cnx->getIdMotor()->getCodigo() == 'pdo_dblib')
-                        $leidos = count($datos);
-                    else $leidos = 1;
+                        $leidos = 1;
+                    else $leidos = count($datos);
                     $i++;
                 }                
             }
