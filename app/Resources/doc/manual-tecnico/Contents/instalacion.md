@@ -165,6 +165,12 @@ $ app/console doctrine:database:create
 create extension hstore;
 ~~~
 
+- Crear la estructura de la base de datos
+~~~
+$ app/console doctrine:schema:update --force
+~~~
+
+
 - Crear la tabla especial que no se manejará con el ORM, hacerlo con el usuario dueño de la base de datos 
 - (no con el usuario postrgres, a menos que este mismo sea el dueño de la base de datos)
 ~~~
@@ -181,12 +187,9 @@ CREATE TABLE fila_origen_dato(
 ~~~
 \i [directorio_instalacion]/src/MINSAL/CostosBundle/Resources/estructurasBD/estructuras.sql
 \i [directorio_instalacion]/src/MINSAL/CostosBundle/Resources/estructurasBD/costos_rrhh.sql
+\i [directorio_instalacion]/src/MINSAL/CostosBundle/Resources/estructurasBD/costos_activo_fijo.sql
 ~~~
 
-- Crear la estructura de la base de datos
-~~~
-$ app/console doctrine:schema:update --force
-~~~
 
 ### Cargar datos iniciales
 
