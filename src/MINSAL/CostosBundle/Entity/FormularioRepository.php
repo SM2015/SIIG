@@ -243,15 +243,15 @@ class FormularioRepository extends EntityRepository {
              * consumo_watt, carga_con_planta_emerg
             *****************************************************************/
             $sqlActivoFijo = " 
-                        (SELECT SUM((datos->'consumo_watt_mes')::numeric)
+                        (SELECT SUM((datos->'consumo_kw_mes')::numeric)
                             FROM costos.fila_origen_dato_ga_af
                             WHERE datos->'establecimiento' = A.establecimiento
                                 AND datos->'dependencia' = A.dependencia
                                 AND datos->'anio' = A.anio
                                 AND datos->'mes' = A.mes
                             
-                        ) AS consumo_watt_dependecia,
-                        (SELECT SUM((datos->'consumo_watt_mes')::numeric)
+                        ) AS consumo_kw_dependecia,
+                        (SELECT SUM((datos->'consumo_kw_mes')::numeric)
                             FROM costos.fila_origen_dato_ga_af
                             WHERE datos->'establecimiento' = A.establecimiento
                                 AND datos->'dependencia' = A.dependencia
@@ -313,7 +313,7 @@ class FormularioRepository extends EntityRepository {
                                 -- * Energía electrica y mantenimiento de subestacion electrica
                                 -- *****************************************************************
                                 WHEN (codigo_compromiso = 'energia_electrica' OR codigo_compromiso = 'subestacion_electrica') 
-                                    THEN A.consumo_watt_dependecia::numeric
+                                    THEN A.consumo_kw_dependecia::numeric
                                 
                                 -- **************************************************************** 
                                 -- * Energía electrica y mantenimiento de subestacion electrica

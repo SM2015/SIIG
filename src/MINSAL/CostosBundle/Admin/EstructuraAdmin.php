@@ -33,7 +33,7 @@ class EstructuraAdmin extends Admin
             $formMapper->add('contratosFijos', null, array('label'=> $this->getTranslator()->trans('_contratos_fijos_'),
                 'required' => true, 'expanded' => true));
         }
-        if ($this->subject->getNivel() == 3){
+        if ($this->subject->getNivel() == 3 and $this->subject->getParent()->getParent()){
             $formMapper->add('ubicacionDependencia', null, array('label' => $this->getTranslator()->trans('_ubicacion_'),
                     'required' => false, 'expanded' => false,
                     'class' => 'CostosBundle:Ubicacion',
