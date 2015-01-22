@@ -410,7 +410,7 @@ class FormularioRepository extends EntityRepository {
                                 ELSE
                                     consumo_dependencia::numeric
                             END AS consumo_dependencia_final
-                        INTO TEMP ga_tmp 
+                        INTO ga_tmp 
                         FROM 
                             (SELECT A.*,
                                 -- El area de todo el establecimiento                                
@@ -436,6 +436,8 @@ class FormularioRepository extends EntityRepository {
              * de acuerdo el consumo de cada dependencia
              **********************************************************/
             $sql = "SELECT *, CASE 
+                                WHEN (codigo_compromiso = 'depreciacion_contable_mobiliario' OR codigo_compromiso = 'depreciacion_contable_equipo')
+                                    THEN consumo_dependencia::numeric
                                 WHEN (consumo_establecimiento::numeric >0 AND (criterio_distribucion = 'consumo' OR criterio_distribucion = 'asignacion_directa' 
                                     OR criterio_distribucion = 'personas' OR criterio_distribucion = 'dependencia')) 
                                     THEN compromiso::numeric * consumo_dependencia::numeric / consumo_establecimiento::numeric
@@ -469,9 +471,7 @@ class FormularioRepository extends EntityRepository {
                                                         WHERE ubicaciondependencia_id = A.ubicacion_id
                                                     )
                                         )::numeric
-                                WHEN (criterio_distribucion = 'area_mt2' AND area_tot_establecimiento::numeric > 0) THEN compromiso::numeric * area_tot::numeric / area_tot_establecimiento::numeric
-                                WHEN (codigo_compromiso = 'depreciacion_contable_mobiliario' OR codigo_compromiso = 'depreciacion_contable_equipo')
-                                    THEN consumo_dependencia::numeric
+                                WHEN (criterio_distribucion = 'area_mt2' AND area_tot_establecimiento::numeric > 0) THEN compromiso::numeric * area_tot::numeric / area_tot_establecimiento::numeric                              
                             END AS total_gasto
                     FROM (SELECT A.*,
                                 B.nombre AS nombre_dependencia, C.descripcion AS nombre_criterio_distribucion, D.descripcion AS nombre_compromiso,
