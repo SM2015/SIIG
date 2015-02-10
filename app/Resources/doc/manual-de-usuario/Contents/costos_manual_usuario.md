@@ -65,8 +65,8 @@ En el menú principal **Costos** se encuentra la opción **RRHH::Costos**. Esta 
 
 La forma en que se han calculado los costos es según el siguiente algoritmo
 
-```
-/*Declaraciónd de constantes */
+~~~~~~~~~~~~~~~~~~~~~
+// Declaración de constantes 
 limite_isss = 685.71;
 isss_porc_patronal = 0.075;
 limite_ipsfa  = 2449.05;
@@ -75,14 +75,14 @@ afp_porc_patronal = 0.0675;
 limite_afp = 5467.52;
 
 INICIO
-    IF tipo_fondo_proteccion = 'AFP' THEN
+	IF tipo_fondo_proteccion = 'AFP' THEN
         porc_fondo_proteccion = afp_porc_patronal;
         limit_fondo_proteccion = limite_afp;
     ELSEIF tipo_fondo_proteccion = 'IPSFA' THEN
         porc_fondo_proteccion = ipsfa_porc_patronal;
         limit_fondo_proteccion = limite_ipsfa;
     END IF;
-    
+
     IF (salario > limit_fondo_proteccion) THEN
         fondo_proteccion = limit_fondo_proteccion * porc_fondo_proteccion;
     ELSE
@@ -133,4 +133,78 @@ INICIO
     ELSE
         costo_hora_descuentos_permisos = 0;
     END IF;
-```
+~~~~~~~~~~~~~~~~~~~~~
+
+## Gastos Administrativos
+
+Se consideran como gastos generales o gastos administrativos a los elementos del gasto asociados a un servicio y con relación a los elementos de apoyo o administración necesarios para mantener el servicio funcional, como son los servicios públicos, la vigilancia, los seguros, etc. Estos gastos también deben ser distribuidos a todos los centros de costos de la manera más específica posible.
+La lista de los gastos generales puede ser tan amplia como la normatividad existente en cada región lo requiere,  algunos elementos comunes son:
+- Seguros generales
+- Servicios públicos
+- Impresos y publicaciones
+   - Publicidad y propaganda
+   - Impresos, publicaciones, suscripciones y afiliaciones
+   - Fotocopias
+- Materiales y suministros
+   - Loza y cristalería
+   - Elementos de aseo, lavandería y cafetería
+   - Equipo de seguridad industrial
+- Impuestos, contribuciones y tasas
+- Mantenimiento y repuestos
+- Gastos financieros
+   - Procesamiento de información
+   - Gastos por control de calidad
+   - Consulta centrales de riesgo
+- Combustibles y lubricantes
+- Depreciaciones y amortizaciones
+- Compra de servicios
+   - Estudios y proyectos
+   - Comisiones, honorarios y servicios
+   - Vigilancia y seguridad
+   - Promoción y divulgación
+   - Diseños de estudios
+   - Contratos de administración
+   - Organización de eventos
+   - Bodegaje
+   - Concurso y licitaciones
+   - Videos
+   - Licencias y salvoconductos
+   - Contratos de aprendizaje
+   - Gastos legales
+- Otros gastos generales
+   - Arrendamiento
+   - Gastos de organización y puesta en marcha
+   - Viáticos y gastos de viaje
+   - Comunicaciones y transporte
+   - Servicios de aseo, cafetería, restaurante y lavandería.
+   - Relaciones públicas
+   - Otros gastos
+
+### Variables
+En el menú principal **Costos** se encuentra la opción **Gastos Administrativos::Variables**. En esta cuadrícula se ingresarán los datos generales relativos al centro de costos.
+![Variables](images/ga_variables.png)
+
+Algunos de los datos a ingresar para cada centro de costos serán:
+- Área total del centro de costos en metros cuadrados
+- Cantidad de personal asignado
+- Tomas de corriente con instalación de planta eléctrica.
+- Cantidad de luminarias
+- Promedio de utilización de luminarias (horas por día)
+- Cantidad de Aires acondicionados con mantenimiento externo
+- Área con climatizaicón centralizada (metros cuadrados)
+- Cantidad de celulares asignados
+- Cantidad de radios asignados
+- Cantidad de aparatos de telefonía fija
+- Cantidad de aparatos de telefonía fija con salida a 0
+- Cantidad de camas
+- Promedio diario de usuarios
+
+
+### Activo fijo
+En el menú principal **Costos** se encuentra la opción **Gastos Administrativos::Activo Fijo**. Esta cuadrícula se utilizará para ingresar los datos referentes a activos fijos, varios de estos valores se recuperarán del sistema de activo fijo
+![Activo fijo](images/ga_activo_fijo.png)
+
+### Compromisos financieos
+En el menú principal **Costos** se encuentra la opción **Gastos Administrativos::Compromisos financieros**. Son todos los contratos u otros compromisos financieros del establecimiento
+
+![Compromisos financieros](images/ga_compromisos.png)
