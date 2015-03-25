@@ -20,6 +20,7 @@ file that was distributed with this source code.
 {% set _breadcrumb   = block('breadcrumb') %}
 {% set _actions      = block('actions') %}
 {% set _navbar_title = block('navbar_title') %}
+{% set _list_filters_actions = block('list_filters_actions') %}
 <!DOCTYPE html>
 <html class="no-js">
     <head>
@@ -49,12 +50,29 @@ file that was distributed with this source code.
                     CONFIRM_EXIT:  '{{ 'confirm_exit'|trans({}, 'SonataAdminBundle')|escape('js') }}'
                };
             </script>
+            
             {% if admin_pool is defined %}
                 {% for javascript in admin_pool.getOption('javascripts', []) %}
                     <script src="{{ asset(javascript) }}" type="text/javascript"></script>
                 {% endfor %}
             {% endif %}
-                
+            
+            {% set locale = app.request.locale %}
+            {# localize moment #}
+            {% if locale[:2] != 'en' %}
+                <script src="{{ asset('bundles/sonatacore/vendor/moment/locale/' ~ locale|replace({'_':'-'}) ~ '.js') }}"></script>
+            {% endif %}
+
+            {# localize select2 #}
+            {% if admin_pool is defined and admin_pool.getOption('use_select2') %}             
+                {% if locale == 'pt' %}{% set locale = 'pt_PT' %}{% endif %}
+
+                {# omit default EN locale #}
+                {% if locale[:2] != 'en' %}
+                    <script src="{{ asset('bundles/sonatacore/vendor/select2/select2_locale_' ~ locale|replace({'_':'-'}) ~ '.js') }}"></script>
+                {% endif %}
+            {% endif %}
+            
             <script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
             <script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
 
@@ -219,29 +237,35 @@ file that was distributed with this source code.
                         <section class="content-header">
                             {% block sonata_page_content_header %}
                                 {% block sonata_page_content_nav %}
-                                    {% if _tab_menu is not empty or _actions is not empty %}
+                                    {% if _tab_menu is not empty or _actions is not empty or _list_filters_actions is not empty %}
                                         <nav class="navbar navbar-default" role="navigation">
-                                            {% if _navbar_title is not empty %}
-                                                <div class="navbar-header">
-                                                    <span class="navbar-brand">{{ _navbar_title|raw }}</span>
-                                                </div>
-                                            {% endif %}
+                                            {% block tab_menu_navbar_header %}
+                                                {% if _navbar_title is not empty %}
+                                                    <div class="navbar-header">
+                                                        <span class="navbar-brand">{{ _navbar_title|raw }}</span>
+                                                    </div>
+                                                {% endif %}
+                                            {% endblock %}
                                             <div class="container-fluid">
                                                 <div class="navbar-left">
                                                     {% if _tab_menu is not empty %}
                                                         {{ _tab_menu|raw }}
                                                     {% endif %}
                                                 </div>
-
-                                                {% if _actions is not empty %}
+                                                
+                                                {% if _actions|replace({ '<li>': '', '</li>': '' })|trim is not empty %}
                                                     <ul class="nav navbar-nav navbar-right">
                                                         <li class="dropdown sonata-actions">
-                                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{'_acciones_'|trans}} <b class="caret"></b></a>
+                                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ 'link_actions'|trans({}, 'SonataAdminBundle') }} <b class="caret"></b></a>
                                                             <ul class="dropdown-menu" role="menu">
                                                                 {{ _actions|raw }}
                                                             </ul>
                                                         </li>
                                                     </ul>
+                                                {% endif %}
+
+                                                {% if _list_filters_actions is not empty %}
+                                                    {{ _list_filters_actions|raw }}
                                                 {% endif %}
                                             </div>
                                         </nav>
@@ -275,16 +299,14 @@ file that was distributed with this source code.
                                 {% endif %}
 
                                 {% if _list_table is not empty or _list_filters is not empty %}
-                                    <div class="row">
-                                        <div class="sonata-ba-list {% if _list_filters|trim %}col-md-10{% else %}col-md-12{% endif %}">
-                                            {{ _list_table|raw }}
+                                    {% if _list_filters|trim %}
+                                        <div class="row">
+                                            {{ _list_filters|raw }}
                                         </div>
+                                    {% endif %}
 
-                                        {% if _list_filters|trim %}
-                                            <div class="sonata-ba-filter col-md-2">
-                                                {{ _list_filters|raw }}
-                                            </div>
-                                        {% endif %}
+                                    <div class="row">
+                                        {{ _list_table|raw }}
                                     </div>
                                 {% endif %}
                             {% endblock sonata_admin_content %}

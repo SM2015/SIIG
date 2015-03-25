@@ -7,7 +7,7 @@
     "require": {
         "php": ">=5.3.3",
                 
-        "symfony/symfony": "v2.5.3",
+        "symfony/symfony": "2.6.*",
         "doctrine/orm": "v2.4.4",
         "doctrine/doctrine-bundle": "v1.2.0",
         "twig/extensions": "v1.0.1",
@@ -25,15 +25,15 @@
         
         "knplabs/knp-menu-bundle":"1.1.2",
         
-        "sonata-project/cache": "v1.0.3",
-        "sonata-project/cache-bundle": "v2.1.7",
-        "sonata-project/datagrid-bundle": "2.2.*@dev",
-        "sonata-project/core-bundle": "v2.2.6",
-        "sonata-project/admin-bundle": "dev-master#0dfc4c427e3a68d8cf39e3d8b6b6776791ee9046",
-        "sonata-project/doctrine-orm-admin-bundle": "v2.2.7",
-        "sonata-project/block-bundle": "v2.2.11",
-        "sonata-project/easy-extends-bundle": "v2.1.6",
-        "sonata-project/user-bundle": "dev-master#57d20958394769fb4238916950b6dfe652555154",
+        "sonata-project/cache": "dev-master#019b481caa08446a7b9dee434c099bb495a32d2e",
+        "sonata-project/cache-bundle": "dev-master#771f97a9945f7135d7c888b7a2055171e377287c",
+        "sonata-project/datagrid-bundle": "dev-master",
+        "sonata-project/core-bundle": "dev-master#1e5b503d76b2fddf4690f1fd31f622f7cc32740e",
+        "sonata-project/admin-bundle": "dev-master#69ea82552521311c2b36df30e02b26a92859ffdd",
+        "sonata-project/doctrine-orm-admin-bundle": "dev-master#c9127a233f4d5da81c5b01541c487332506302eb",
+        "sonata-project/block-bundle": "dev-master#f4ca92b038dcca9cb433a94b9302ab5f670cfc45",
+        "sonata-project/easy-extends-bundle": "dev-master#d9020db119d6a0030272d163d14f419084561830",
+        "sonata-project/user-bundle": "dev-master#4bcbf7de354ccf0844b2e4e261b8b3b94dce50da",
         
         	
         "simplethings/entity-audit-bundle": "v0.6",

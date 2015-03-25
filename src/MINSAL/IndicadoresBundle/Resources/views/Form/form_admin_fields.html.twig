@@ -58,3 +58,99 @@
         </div>
     </div>
 {% endblock repeated_row %}
+
+{# Para que utilice el formulario horizontal por defecto#}
+{% block form_label %}
+{% spaceless %}
+    {% if label is not sameas(false) and admin_pool is defined and admin_pool.getOption('form_type') == 'horizontal'  or admin_pool is not defined %}
+        {% set label_class = 'col-sm-3' %}
+    {% endif %}
+
+    {% set label_class = label_class|default('') ~ ' control-label' %}
+
+    {#{{ sonata_admin.admin.getConfigurationPool().getOption('form_type') }}#}
+    {% if label is not sameas(false) %}
+        {% set label_attr = label_attr|merge({'class': label_attr.class|default('') ~ label_class }) %}
+
+        {% if not compound %}
+            {% set label_attr = label_attr|merge({'for': id}) %}
+        {% endif %}
+        {% if required %}
+            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
+        {% endif %}
+
+        {% if label is empty %}
+            {% set label = name|humanize %}
+        {% endif %}
+
+        {% if in_list_checkbox is defined and in_list_checkbox and widget is defined %}
+            <label{% for attrname,attrvalue in attr %} {{attrname}}="{{attrvalue}}"{% endfor %}>
+                {{ widget|raw }}
+                <span>
+                    {% if not sonata_admin.admin %}
+                        {{- label|trans({}, translation_domain) -}}
+                    {% else %}
+                        {{- label|trans({}, sonata_admin.field_description.translationDomain) -}}
+                    {% endif%}
+                </span>
+            </label>
+        {% else %}
+            <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
+                {% if not sonata_admin.admin%}
+                    {{- label|trans({}, translation_domain) -}}
+                {% else %}
+                    {{ sonata_admin.admin.trans(label, {}, sonata_admin.field_description.translationDomain) }}
+                {% endif %}
+            </label>
+        {% endif %}
+    {% endif %}
+{% endspaceless %}
+{% endblock form_label %}
+
+{% block form_row %}
+    <div class="form-group{% if errors|length > 0 %} has-error{% endif %}" id="sonata-ba-field-container-{{ id }}">
+        {% set label = sonata_admin.field_description.options.name|default(label)  %}
+
+        {% set div_class = 'sonata-ba-field' %}
+
+        {% if label is sameas(false) %}
+            {% set div_class = div_class ~ ' sonata-collection-row-without-label' %}
+        {% endif %}
+
+        {% if admin_pool is defined and admin_pool.getOption('form_type') == 'horizontal' or admin_pool is not defined %}
+            {% if label is sameas(false) %}
+                {% if 'collection' in form.parent.vars.block_prefixes %}
+                    {% set div_class = div_class ~ ' col-sm-12' %}
+                {% else %}
+                    {% set div_class = div_class ~ ' col-sm-9 col-sm-offset-3' %}
+                {% endif %}
+            {% else %}
+                {% set div_class = div_class ~ ' col-sm-9' %}
+            {% endif %}
+        {% endif %}
+
+        {{ form_label(form, label|default(null)) }}
+
+        {% if sonata_admin is defined and sonata_admin_enabled %}
+            {% set div_class = div_class ~ ' sonata-ba-field-' ~ sonata_admin.edit ~ '-' ~ sonata_admin.inline %}
+        {% endif %}
+
+        {% if errors|length > 0 %}
+            {% set div_class = div_class ~ ' sonata-ba-field-error' %}
+        {% endif %}
+
+        <div class="{{ div_class }}">
+            {{ form_widget(form, {'horizontal': false, 'horizontal_input_wrapper_class': ''}) }} {# {'horizontal': false, 'horizontal_input_wrapper_class': ''} needed to avoid MopaBootstrapBundle messing with the DOM #}
+
+            {% if errors|length > 0 %}
+                <div class="help-block sonata-ba-field-error-messages">
+                    {{ form_errors(form) }}
+                </div>
+            {% endif %}
+
+            {% if sonata_admin is defined and sonata_admin_enabled and sonata_admin.field_description.help|default(false) %}
+                <span class="help-block sonata-ba-field-help">{{ sonata_admin.admin.trans(sonata_admin.field_description.help, {}, sonata_admin.field_description.translationDomain)|raw }}</span>
+            {% endif %}
+        </div>
+    </div>
+{% endblock form_row %}
