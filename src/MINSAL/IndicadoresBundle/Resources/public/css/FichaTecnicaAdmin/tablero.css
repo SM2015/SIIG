@@ -75,13 +75,23 @@ input.valores_filtro{
     border: 1px gray dashed; 
 }
 
+.grupo_indicadores{     
+    height: 400px;
+    width: 370px;
+    margin: 3px 12px 3px 0; 
+    float: left;     
+    overflow-y: auto;
+    border: 1px green solid; 
+}
+
 .zona_actual{
     border: 1.5px solid green;
 }
 
 .zona_maximizada{
-    width: 50% !important; 
-    height: 80% !important;
+    height: 98% !important;
+    margin: 0 20% 0 20% !important;
+    width: 57% !important; 
 }
 
 .titulo{    
@@ -154,7 +164,7 @@ div.popover-content, div.popover-title{
     background-color: #FFFFFF;
     border: 1px solid #DDDDDD;
     border-radius: 4px 4px 4px 4px;
-    
+
     padding: 25px 19px 14px;
     position: relative;
 }
@@ -176,8 +186,8 @@ div.popover-content, div.popover-title{
 }
 
 #chat-mensajes {
-  overflow: auto;
-  max-height: 150px;
+    overflow: auto;
+    max-height: 150px;
 }
 
 .usuariosSala{
@@ -190,7 +200,7 @@ div.popover-content, div.popover-title{
     width: 100%;
     border: 1px solid #D8DFEA;
     background-color: #EDEFF4;
-        
+
 }
 .chat-usuario{
     color: #3B6EC6;
@@ -208,7 +218,7 @@ div.popover-content, div.popover-title{
 }
 
 .dropdown-menu > li > a:hover {
-  color: inherit;
+    color: inherit;
 }
 
 .indicador{

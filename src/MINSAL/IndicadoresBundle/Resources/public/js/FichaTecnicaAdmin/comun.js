@@ -498,6 +498,9 @@ function dibujarControles(zona, datos) {
     });
     $('#' + zona + ' .zoom').click(function() {
         $('#' + zona).toggleClass('zona_maximizada');
+        $(this).hide();
+        goFullscreen('z'+zona);
+        
     });
     $('#' + zona + ' .quitar_indicador').click(function() {
         //limpiarZona2(zona);
