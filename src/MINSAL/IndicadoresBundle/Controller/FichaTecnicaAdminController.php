@@ -155,13 +155,13 @@ class FichaTecnicaAdminController extends Controller {
             if (array_key_exists('HTTPS', $_SERVER)) {
                 $http = ($_SERVER['HTTPS'] == null or $_SERVER['HTTPS'] == 'off') ? 'http' : 'https';
             }
-
-            $html = str_replace(array('href="/bundles', 'src="/bundles', 'src="/app_dev.php'), array('href="' . $http . '://' . $_SERVER['HTTP_HOST'] . '/bundles',
-                'src="' . $http . '://' . $_SERVER['HTTP_HOST'] . '/bundles',
-                'src="' . $http . '://' . $_SERVER['HTTP_HOST'] . '/app_dev.php'), $html);
+            $html = str_replace(array('href="/bundles', 'src="/bundles', 'src="/app_dev.php'), 
+                    array('href="' . $http . '://' . $_SERVER['HTTP_HOST'] . $this->container->getParameter('directorio') . '/bundles',
+                            'src="' . $http . '://' . $_SERVER['HTTP_HOST']. $this->container->getParameter('directorio') . '/bundles',
+                            'src="' . $http . '://'. $_SERVER['HTTP_HOST'] . $this->container->getParameter('directorio') . '/app_dev.php'), $html);
             $html .= $info_indicador;
             $html = $this->get('knp_snappy.pdf')->getOutputFromHtml($html);
-
+            
             $redis->set('sala_' . $sala, $html);
             $redis->set('sala_' . $tipo_reporte . '_' . $sala, $html);
             $redis->set('sala_time_' . $tipo_reporte . '_' . $sala, time());
@@ -233,6 +233,7 @@ class FichaTecnicaAdminController extends Controller {
             'alto_area_grafico' => $this->container->getParameter('alto_area_grafico'),
             'titulo_sala_tamanio_fuente' => $this->container->getParameter('titulo_sala_tamanio_fuente'),
             'ocultar_menu_principal' => $this->container->getParameter('ocultar_menu_principal'),
+            'directorio' => $this->container->getParameter('directorio'),
         );
 
         return $this->render('IndicadoresBundle:FichaTecnicaAdmin:tablero.html.twig', array(

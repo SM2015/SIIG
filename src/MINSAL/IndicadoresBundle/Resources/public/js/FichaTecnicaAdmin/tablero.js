@@ -1,13 +1,14 @@
-//Variables de configuración de datables
-var sSwfPath = "/bundles/indicadores/js/DataTables/media/swf/copy_csv_xls_pdf.swf";
-var oLanguage = {
-    "sLengthMenu": "Display _MENU_ records per page",
-    "sZeroRecords": trans.nada_encontrado,
-    "sInfo": trans.mostrando_n_de_n,
-    "sInfoEmpty": trans.mostrando_0,
-    "sInfoFiltered": trans.filtrados_dequ
-};
 $(document).ready(function() {
+    //Variables de configuración de datables
+    var sSwfPath = $('#directorio').val() + "/bundles/indicadores/js/DataTables/media/swf/copy_csv_xls_pdf.swf";
+    var oLanguage = {
+        "sLengthMenu": "Display _MENU_ records per page",
+        "sZeroRecords": trans.nada_encontrado,
+        "sInfo": trans.mostrando_n_de_n,
+        "sInfoEmpty": trans.mostrando_0,
+        "sInfoFiltered": trans.filtrados_dequ
+    }; 
+
     // *****************
     //Con esto se verifica el comportamiento del area de gráfico
     //Si se despliega algún menú dentro del gráfico se modifica un atributo
@@ -114,7 +115,7 @@ $(document).ready(function() {
         var cant = $('DIV.area_grafico').length;
         $('.zona_actual').removeClass('zona_actual');
 
-        var html = '<div class="area_grafico zona_actual panel panel-success" id="grafico_' + parseInt(cant + 1) + '" >' +
+        var html = '<div id="zgrafico_' + parseInt(cant + 1) + '" ><div class="area_grafico zona_actual panel panel-success" id="grafico_' + parseInt(cant + 1) + '" >' +
                 "<DIV class= 'titulo panel-heading'><h5><span class='titulo_indicador '></span>" +
                 "<span>(" + trans.por + " <span class='dimension' ></span>)</span></h5>" +
                 '</DIV>' +
@@ -126,7 +127,7 @@ $(document).ready(function() {
                 '<div class="grafico" ></div>' +
                 '</div>' +
                 '</div>' +
-                '</DIV>';
+                '</DIV></div>';
 
 
         $('#sala').append(html);
@@ -332,14 +333,16 @@ $(document).ready(function() {
         if ($('.marco-sala').attr('id-sala')) {
             $('#usuarios_sala').load(
                     Routing.generate('sala_get_usuarios', {idSala: $('.marco-sala').attr('id-sala')}),
-                    function(response, status, xhr) {
-                        $('.usuariosSala').change(function() {
-                            var accion = ($(this).is(':checked')) ? 'agregar' : 'borrar';
+                    function(response, status, xhr) {                        
+                        $('#usuarios_sala_').select2();
+                        $('#usuarios_sala_').on("change", function (e) { 
+                            var accion = (e.added !== undefined) ? 'agregar' : 'borrar';
+                            var id_usuario = (e.added !== undefined) ? e.added.id : e.removed.id;
                             $.get(Routing.generate('sala_set_usuario',
-                                    {id: $('.marco-sala').attr('id-sala'), id_usuario: $(this).val(), accion: accion}
+                                {id: $('.marco-sala').attr('id-sala'), id_usuario: id_usuario, accion: accion}
                             ));
                         });
-                    });
+                    });        
         }
     }
 
