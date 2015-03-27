@@ -103,15 +103,16 @@ class SocialController extends Controller {
         $usuarios = $em->getRepository('IndicadoresBundle:User')
                         ->findBy(array(), array('username'=>'ASC'));
         
-        $ret = '';
+        $ret = '<SELECT id="usuarios_sala_" multiple="" style="width:100%">';
         foreach ($usuarios as $u){
             if ($u->getId() != $this->getUser()->getId()){
-                $check = (in_array($u->getId(), $usuarios_sala)) ? 'checked': '';
-                $disable = ($check=='checked' and !in_array($u->getId(), $usuarios_sala_por_usuario_actual)) ? 'disabled="disabled"': '';
-                $ret .= '<INPUT class="usuariosSala" TYPE="checkbox" VALUE="'.$u->getId().'" NAME="usuariosSala[]" '.$check.' '.$disable.'/>'.$u->getUsername().'<BR>';
+                $selected = (in_array($u->getId(), $usuarios_sala)) ? 'selected="selected"': '';
+                $disable = ($selected=='selected="selected"' and !in_array($u->getId(), $usuarios_sala_por_usuario_actual)) ? 'disabled="disabled"': '';
+                //$ret .= '<INPUT class="usuariosSala" TYPE="checkbox" VALUE="'.$u->getId().'" NAME="usuariosSala[]" '.$check.' '.$disable.'/>'.$u->getUsername().'<BR>';
+                $ret .= '<OPTION VALUE="'.$u->getId().'" '.$selected.' '.$disable.'>'.$u->getFirstname().' '.$u->getLastname().'</OPTION>';
             }
         }
-        
+        $ret .= '</SELECT>';
         $response = new Response($ret);
 
         return $response;

@@ -24,41 +24,58 @@ class FichaTecnicaAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-                ->with($this->getTranslator()->trans('_datos_generales_'))
-                ->add('nombre', null, array('label' => $this->getTranslator()->trans('nombre_indicador')))
-                ->add('tema', null, array('label' => $this->getTranslator()->trans('_interpretacion_')))
-                ->add('concepto', null, array('label' => $this->getTranslator()->trans('concepto')))
-                ->add('unidadMedida', null, array('label' => $this->getTranslator()->trans('unidad_medida')))
-                ->add('esAcumulado', null, array('label' => $this->getTranslator()->trans('es_acumulado')))
-                ->add('variables', null, array('label' => $this->getTranslator()->trans('variables'), 'expanded' => true))
-                ->add('formula', null, array('label' => $this->getTranslator()->trans('formula'),
-                    'help' => $this->getTranslator()->trans('ayuda_ingreso_formula')
-                ))
-                ->add('clasificacionTecnica', null, array('label' => $this->getTranslator()->trans('clasificacion_tecnica'),
-                    'required' => true, 'expanded' => true,
-                    'class' => 'IndicadoresBundle:ClasificacionTecnica',
-                    'query_builder' => function ($repository) {
-                        return $repository->createQueryBuilder('ct')
-                                ->orderBy('ct.clasificacionUso');
-                    }))
-                ->add('clasificacionPrivacidad', null, array('label' => $this->getTranslator()->trans('_nivel_de_usuario_'), 'expanded' => true))
-                ->add('periodo', null, array('label' => $this->getTranslator()->trans('periodicidad')))
-                ->add('confiabilidad', null, array('label' => $this->getTranslator()->trans('confiabilidad'), 'required' => false))
-                ->add('reporte', null, array('label' => $this->getTranslator()->trans('_reporte_'), 'required' => false))
-                ->add('observacion', 'textarea', array('label' => $this->getTranslator()->trans('_observacion_'), 'required' => false))
+            ->tab($this->getTranslator()->trans('ficha_tecnica'))
+                ->with($this->getTranslator()->trans('_datos_generales_'), array('class' => 'col-md-8'))->end()
+                ->with($this->getTranslator()->trans('_clasificacion_'), array('class' => 'col-md-4'))->end()
+            ->end()
+            ->tab($this->getTranslator()->trans('_configuracion_'))
+                ->with($this->getTranslator()->trans('_dimensiones_'), array('class' => 'col-md-4'))->end()
+                ->with($this->getTranslator()->trans('alertas'), array('class' => 'col-md-8'))->end()                
+            ->end()
+        ;
+        $formMapper
+                ->tab($this->getTranslator()->trans('ficha_tecnica'))
+                    ->with($this->getTranslator()->trans('_datos_generales_'))
+                        ->add('nombre', null, array('label' => $this->getTranslator()->trans('nombre_indicador')))
+                        ->add('tema', null, array('label' => $this->getTranslator()->trans('_interpretacion_')))
+                        ->add('concepto', null, array('label' => $this->getTranslator()->trans('concepto')))
+                        ->add('unidadMedida', null, array('label' => $this->getTranslator()->trans('unidad_medida')))
+                        ->add('esAcumulado', null, array('label' => $this->getTranslator()->trans('es_acumulado')))
+                        ->add('variables', null, array('label' => $this->getTranslator()->trans('variables'), 'expanded' => false))
+                        ->add('formula', null, array('label' => $this->getTranslator()->trans('formula'),
+                            'help' => $this->getTranslator()->trans('ayuda_ingreso_formula')
+                        ))
+                        ->add('periodo', null, array('label' => $this->getTranslator()->trans('periodicidad')))
+                        ->add('confiabilidad', null, array('label' => $this->getTranslator()->trans('confiabilidad'), 'required' => false))
+                        ->add('reporte', null, array('label' => $this->getTranslator()->trans('_reporte_'), 'required' => false))
+                        ->add('observacion', 'textarea', array('label' => $this->getTranslator()->trans('_observacion_'), 'required' => false))
+                    ->end()
+                    ->with($this->getTranslator()->trans('_clasificacion_'))
+                        ->add('clasificacionTecnica', null, array('label' => $this->getTranslator()->trans('clasificacion_tecnica'),
+                            'required' => true, 'expanded' => true,
+                            'class' => 'IndicadoresBundle:ClasificacionTecnica',
+                            'query_builder' => function ($repository) {
+                                return $repository->createQueryBuilder('ct')
+                                        ->orderBy('ct.clasificacionUso');
+                            }))
+                        ->add('clasificacionPrivacidad', null, array('label' => $this->getTranslator()->trans('_nivel_de_usuario_'), 'expanded' => true))                
+                    ->end()
                 ->end()
-                ->with($this->getTranslator()->trans('alertas'))
-                ->add('alertas', 'sonata_type_collection', array(
-                    'label' => $this->getTranslator()->trans('alertas'),
-                    'required' => true), array(
-                    'edit' => 'inline',
-                    'inline' => 'table',
-                    'sortable' => 'position'
-                ))
+                ->tab($this->getTranslator()->trans('_configuracion_'))
+                    ->with($this->getTranslator()->trans('alertas'))
+                        ->add('alertas', 'sonata_type_collection', array(
+                            'label' => $this->getTranslator()->trans('alertas'),
+                            'required' => true), array(
+                            'edit' => 'inline',
+                            'inline' => 'table',
+                            'sortable' => 'position'
+                        ))
+                    ->end()
+                    ->with($this->getTranslator()->trans('_dimensiones_'))
+                        ->add('camposIndicador', null, array('label' => $this->getTranslator()->trans('campos_indicador')))
+                    ->end()
                 ->end()
-                ->with($this->getTranslator()->trans('_dimensiones_'))
-                ->add('camposIndicador', null, array('label' => $this->getTranslator()->trans('campos_indicador')))
-                ->end();
+                ;
         $acciones = explode('/', $this->getRequest()->server->get("REQUEST_URI"));
         $accion = array_pop($acciones);
         if ($accion == 'create') {

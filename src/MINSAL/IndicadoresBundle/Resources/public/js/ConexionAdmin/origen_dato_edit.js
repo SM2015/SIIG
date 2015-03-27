@@ -170,17 +170,16 @@ $(document).ready(function() {
                                 .attr('disabled', false)
                     guardar_cambio($(this));
                 });
-
-                $('SELECT.tipo_campo').change(function() {
-                    guardar_cambio($(this));
-                });
-
+                
                 $('SELECT.diccionario').change(function() {
                     guardar_cambio($(this));
                 });
 
-                $objs = $('SELECT.tipo_campo');
+                $objs = $('SELECT.significado');
                 $objs[parseInt($objs.length / 2)].focus();
+                
+                $('.significado').select2();
+                $('.diccionario').select2();
             }
         });
     }
