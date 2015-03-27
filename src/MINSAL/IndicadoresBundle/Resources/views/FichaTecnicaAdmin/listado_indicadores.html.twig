@@ -21,20 +21,18 @@
                     <input type="text" class="form-control" value="{{clasificacion_seleccionada}}" readonly />
                     
                     <div class="input-group-addon btn-success btn"><span class="glyphicon glyphicon-search"></span></div>
-                    <input class="form-control" type="search" id='FiltroNoClasificados' placeholder="{{'_buscar_indicador_'|trans}}...">
+                    <input class="form-control" type="search" id='FiltroNoClasificados' placeholder="{{'_buscar_indicador_'|trans}}...">                    
                 </div>                
             </div><br/><br/>
             <div class="panel-group" id="accordion2">
-                <div class="panel panel-default panel-info">
+                <div class="panel panel-default panel-info grupo_indicadores">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                          <a data-toggle="collapse" data-parent="#accordion2" href="#collapse4">
-                                {{"favoritos"|trans}} <span class="badge" id='cantidad_favoritos'>{{app.user.favoritos|length}}</span>
-                          </a>
+                            {{"favoritos"|trans}} <span class="badge" id='cantidad_favoritos'>{{app.user.favoritos|length}}</span>
                         </h4>
                     </div>
                     <div class="panel-body">
-                        <div id="collapse4" class="panel-collapse collapse in">
+                        <div id="collapse4">
                             <div class="accordion-inner list-group" id='listado-favoritos'>
                                 {% for indicador in app.user.favoritos %}
                                 <A id='fav-{{indicador.id}}' class='indicador list-group-item'
@@ -49,16 +47,14 @@
                 </div>                
                 {% for categoria in categorias %}
                     {% if categoria.indicadores|length > 0 %}
-                        <div class="panel panel-default panel-info">
+                        <div class="panel panel-default panel-info grupo_indicadores">
                             <div class="panel-heading">
                                 <h4 class="panel-title">
-                                  <a data-toggle="collapse" data-parent="#accordion2" href="#collapsecat{{categoria.cat.id}}">
-                                      {{categoria.cat.descripcion}} <span class="badge" >({{categoria.indicadores|length}})</span>
-                                  </a>
+                                    {{categoria.cat.descripcion}} <span class="badge" >({{categoria.indicadores|length}})</span>                                  
                                 </h4>
                             </div>                            
-                             <div id="collapsecat{{categoria.cat.id}}" class="panel-collapse collapse">
-                                 <div class="accordion-inner list-group">
+                             <div id="collapsecat{{categoria.cat.id}}" >
+                                 <div class="list-group">
                                     {% for indicador in categoria.indicadores %}
                                     <A id='{{indicador.id}}' class='indicador list-group-item'
                                             data-id='{{indicador.id}}'
@@ -73,25 +69,21 @@
                 {% endfor %}
                 
                 {% if indicadores_no_clasificados|length > 0 %}
-                    <div class="panel panel-default panel-info">
+                    <div class="panel panel-default panel-info grupo_indicadores">
                         <div class="panel-heading">
                                 <h4 class="panel-title">
-                                  <a data-toggle="collapse" data-parent="#accordion2" href="#collapseNC">
-                                        {{"_no_clasificados_"|trans}} <span class="badge" id='cantidad_no_clasificados'>{{indicadores_no_clasificados|length}}</span>
-                                  </a>
+                                    {{"_no_clasificados_"|trans}} <span class="badge" id='cantidad_no_clasificados'>{{indicadores_no_clasificados|length}}</span>                                 
                                 </h4>
                         </div>  
-                        <div class="panel-body">
-                            <div id="collapseNC" class="accordion-body collapse">                                
-                                <div class="accordion-inner list-group">
-                                {% for indicador in indicadores_no_clasificados %}
-                                    <A class='indicador list-group-item' id='{{indicador.id}}' 
-                                            data-id='{{indicador.id}}'
-                                            data-unidad-medida='{{indicador.unidadMedida}}'>
-                                                        {{indicador.nombre}}
-                                    </A>
-                                {% endfor %}
-                                </div>
+                        <div id="collapseNC" >
+                            <div class="list-group">
+                            {% for indicador in indicadores_no_clasificados %}
+                                <A class='indicador list-group-item' id='{{indicador.id}}' 
+                                        data-id='{{indicador.id}}'
+                                        data-unidad-medida='{{indicador.unidadMedida}}'>
+                                                    {{indicador.nombre}}
+                                </A>
+                            {% endfor %}
                             </div>
                         </div>
                     </div>
