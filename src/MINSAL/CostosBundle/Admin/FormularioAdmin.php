@@ -37,7 +37,13 @@ class FormularioAdmin extends Admin
                     array('label'=> $this->getTranslator()->trans('_campos_'), 
                         'expanded' => false, 
                         'multiple' => true,
-                        'by_reference' => false))
+                        'by_reference' => false,
+                        'class' => 'CostosBundle:Campo',
+                            'query_builder' => function ($repository) {
+                                return $repository->createQueryBuilder('c')
+                                        ->join('c.significadoCampo', 's')
+                                        ->orderBy('s.descripcion');
+                            }))
         ;
     }
 
