@@ -189,6 +189,31 @@
             <argument>SonataAdminBundle:CRUD</argument>
             <call method="setMaxPerPage"><argument>10</argument></call>
         </service>
+        
+        <service id="sonata.admin.categoria_variable_captura" class="MINSAL\IndicadoresBundle\Admin\CategoriaVariableCapturaAdmin">
+            <tag name="sonata.admin"
+                 manager_type="orm" 
+                 group="origen_datos" 
+                 label="_categoria_variable_captura_"
+            />    
+            <argument />            
+            <argument>MINSAL\IndicadoresBundle\Entity\CategoriaVariableCaptura</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+            <call method="setMaxPerPage"><argument>10</argument></call>
+        </service>
+        
+        <service id="sonata.admin.variable_captura" class="MINSAL\IndicadoresBundle\Admin\VariableCapturaAdmin">
+            <tag name="sonata.admin"
+                 manager_type="orm" 
+                 group="origen_datos" 
+                 label="_variable_captura_"
+            />    
+            <argument />            
+            <argument>MINSAL\IndicadoresBundle\Entity\VariableCaptura</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+            <call method="setMaxPerPage"><argument>10</argument></call>
+        </service>
+        
         <service id="sonata.admin.variable" class="MINSAL\IndicadoresBundle\Admin\VariableDatoAdmin">
             <tag name="sonata.admin"
                  manager_type="orm" 
