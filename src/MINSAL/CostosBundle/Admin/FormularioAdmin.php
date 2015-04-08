@@ -35,7 +35,7 @@ class FormularioAdmin extends Admin
                         ))
             ->add('campos', null, 
                     array('label'=> $this->getTranslator()->trans('_campos_'), 
-                        'expanded' => true, 
+                        'expanded' => false, 
                         'multiple' => true,
                         'by_reference' => false))
         ;
