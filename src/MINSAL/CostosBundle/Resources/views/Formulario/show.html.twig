@@ -37,8 +37,7 @@
     <script src="{{ asset('bundles/costos/js/jqwidgets/jqxcheckbox.js') }}" type="text/javascript"></script>
     <script src="{{ asset('bundles/costos/js/jqwidgets/jqxdropdownlist.js') }}" type="text/javascript"></script>
     <script src="{{ asset('bundles/costos/js/jqwidgets/jqxlistbox.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxmenu.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('bundles/costos/js/jqwidgets/localization.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxmenu.js') }}" type="text/javascript"></script>    
     <script src="{{ asset('bundles/costos/js/jqwidgets/jqxcalendar.js') }}" type="text/javascript"></script>    
     <script src="{{ asset('bundles/costos/js/jqwidgets/jqxdatetimeinput.js') }}" type="text/javascript"></script>
     <script src="{{ asset('bundles/costos/js/jqwidgets/jqxgrid.aggregates.js') }}" type="text/javascript"></script>
@@ -46,6 +45,9 @@
     <script src="{{ asset('bundles/costos/js/jqwidgets/jqxgrid.export.js') }}" type="text/javascript"></script>
     <script src="{{ asset('bundles/costos/js/jquery.mtz.monthpicker.js') }}" type="text/javascript"></script> 
     <script src="{{ asset('bundles/costos/js/parametrosDependencia.js') }}" type="text/javascript"></script> 
+    <script src="{{ asset('bundles/costos/js/jqwidgets/globalization/globalize.js') }}" type="text/javascript"></script>
+    
+    <script src="{{ asset('bundles/costos/js/jqwidgets/globalization/globalize.culture.#{app.request.locale}.js') }}" type="text/javascript"></script>
     
     {% block frm %}
     {% if parametros.establecimiento %}
@@ -125,8 +127,7 @@
                     showstatusbar: true,
                 {% endif %}
                 filterable: true,
-                editmode: 'click',
-                localization: getLocalization('{{app.request.locale}}'),
+                editmode: 'click',                
                 selectionmode: 'multiplecellsadvanced',
                 {% set columnas_fijas = Frm.columnasFijas|default(0) %}
                 columns: [

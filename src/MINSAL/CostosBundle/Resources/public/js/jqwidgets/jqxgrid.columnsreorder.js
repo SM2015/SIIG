@@ -1,6 +1,6 @@
 /*
-jQWidgets v3.5.0 (2014-Sep-15)
-Copyright (c) 2011-2014 jQWidgets.
+jQWidgets v3.7.1 (2015-Feb)
+Copyright (c) 2011-2015 jQWidgets.
 License: http://jqwidgets.com/license/
 */
 
