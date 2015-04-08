@@ -23,7 +23,7 @@ class VariableCapturaAdmin extends Admin
                 ->add('descripcion', null, array('label' => $this->getTranslator()->trans('_descripcion_')))
                 ->add('categoria', 'entity', array('label' => $this->getTranslator()->trans('_categoria_'),
                     'class' => 'IndicadoresBundle:CategoriaVariableCaptura',
-                    'property' => 'nombre',
+                    'property' => 'descripcion',
                     'query_builder' => function(EntityRepository $er) {
                         return $er->createQueryBuilder('c')
                                 ->orderBy('c.descripcion');

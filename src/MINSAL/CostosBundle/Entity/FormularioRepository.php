@@ -21,7 +21,7 @@ class FormularioRepository extends EntityRepository {
         
         $params_string = $this->getParameterString($parametros);
         if ($area != 'ga_variables' and $area != 'ga_compromisosFinancieros' and 
-                $area != 'ga_distribucion' and $area != 'ga_costos'){
+                $area != 'ga_distribucion' and $area != 'ga_costos' and $area != 'almacen_datos'){
             $origenes = $this->getOrigenes($Frm->getOrigenDatos());
         }
         $campo = 'id_origen_dato';
@@ -54,6 +54,33 @@ class FormularioRepository extends EntityRepository {
             $em->getConnection()->executeQuery($sql);
         }
         
+        if ($area == 'almacen_datos'){
+            $origenes = array($Frm->getId());
+            $campo = 'id_formulario';
+            
+            //Cargar las variables que no están en el año elegido
+            $sql = "INSERT INTO almacen_datos.repositorio (id_formulario, datos)
+                    (SELECT ".$Frm->getId()." AS id_formulario, 
+                            hstore(
+                                ARRAY['codigo_variable', 'anio', 'establecimiento', 'descripcion_variable',
+                                        'codigo_categoria_variable', 'descripcion_categoria_variable'], 
+                                ARRAY[A.codigo , '".$this->parametros['anio']."', '".$this->parametros['establecimiento']."', A.descripcion,
+                                    B.codigo, B.descripcion]
+                            ) 
+                        FROM variable_captura A 
+                            INNER JOIN categoria_variable_captura B ON (A.id_categoria_captura = B.id)                             
+                        WHERE 
+                             (".$Frm->getId(). ", A.codigo, '".$this->parametros['anio']."', '".$this->parametros['establecimiento']."' )
+                                NOT IN 
+                                (SELECT id_formulario,  datos->'codigo_variable', datos->'anio', datos->'establecimiento'
+                                    FROM almacen_datos.repositorio
+                                    WHERE id_formulario = ".$Frm->getId()."
+                                        AND datos->'establecimiento' = '".$this->parametros['establecimiento']."'
+                                        AND datos->'anio' = '".$this->parametros['anio']."'
+                                )                            
+                    )";
+            $em->getConnection()->executeQuery($sql);
+        }
         if ($area == 'ga_compromisosFinancieros'){
             $origenes = array($Frm->getId());
             $campo = 'id_formulario';
@@ -491,9 +518,10 @@ class FormularioRepository extends EntityRepository {
             
         }
         else{ 
+            $tabla =  ($area == 'almacen_datos') ? 'almacen_datos.repositorio' : 'costos.fila_origen_dato_'.strtolower($area);
             $sql = "
             SELECT datos
-            FROM costos.fila_origen_dato_".strtolower($area)." 
+            FROM  $tabla
             WHERE $campo IN (" . implode(',', $origenes) . ")
                 $params_string
             ;";

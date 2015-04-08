@@ -156,6 +156,11 @@ class FormularioAdminController extends Controller
         return $this->mostrarPlantilla($request, 'gaCompromisosFinancieros', 'codigo_contrato', '_ga_compromisos_financieros_', false, 'parametrosEstablecimiento');
     }
     
+    public function almacenDatosAction(Request $request)
+    {        
+        return $this->mostrarPlantilla($request, 'captura_variables', 'codigo_variable', '_captura_datos_', false, 'parametrosEstablecimiento');
+    }
+    
     public function gaVariablesAction(Request $request)
     {        
         return $this->mostrarPlantilla($request, 'gaVariables', 'dependencia', '_ga_variables_', false, 'parametrosDependencia');

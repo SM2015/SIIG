@@ -126,4 +126,8 @@ class VariableCaptura
     {
         return $this->categoria;
     }
+    
+    public function __toString() {
+        return $this->descripcion;
+    }
 }

@@ -200,6 +200,13 @@ file that was distributed with this source code.
                                                                 {% endif %}                                                                
                                                             {% endfor %}
                                                         {% endif %}
+                                                        {% if group.label == 'origen_datos' %}
+                                                            {% for admin2 in admin_pool.dashboardgroups['_configuracion_'].items %}
+                                                                {% if admin2.hasroute('almacenDatos') %}
+                                                                    <li><a href="{{ admin2.generateUrl('almacenDatos')}}">{{ '_almacen_datos_'|trans }}</a></li>
+                                                                {% endif %}                                                                                                                              
+                                                            {% endfor %}
+                                                        {% endif %}
                                                         {% for admin in group.items %}
                                                             {% if admin.hasroute('list') and admin.isGranted('LIST') %}
                                                                 <li><a href="{{ admin.generateUrl('list')}}">{{ admin.label|trans }}</a></li>
