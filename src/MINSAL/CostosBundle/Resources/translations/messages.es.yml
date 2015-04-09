@@ -2,6 +2,7 @@ _abril_: Abril
 _agosto_: Agosto
 _alineacion_: Alineación
 _almacenes_costos_: Almacenes de costos
+_almacen_datos_: Captura de datos
 _ancho_: Ancho
 _anio_: Año
 _area_con_climatizacion_chiller_: Área con climatización Chiler (mts2)
@@ -22,8 +23,10 @@ _cantidad_luminarias_: Cantidadad de luminarias
 _cantidad_radios_: Cant. de Radios asignados
 _cantidad_tel_fijos_: Cant. de aparatos telefonía fija
 _cantidad_tel_salida_0_: Cant. de aparatos telefónicos con salida a 0
+_captura_datos_: Captura de datos
 _catalogos_: Catálogos
 _categoria_ : Categoría
+_categoria_variable_captura_ : Categoría variable de captura
 _categorias_contratos_: Categorías de contratos de servicios
 _centros_de_produccion_: Centros de producción
 _centro_de_produccion_: Centro de producción
@@ -103,4 +106,5 @@ _unidad_superior_ : Unidad superior
 _unidades_productivas_ : Unidades productivas
 _uso_costeo_: Utilizado para Costeo
 _variable_calculo_consumo_ : Variable para cálculo de consumo
+_variable_captura_: Variables de captura
 _variables_ga_: Gastos Administrativos :: Variables
