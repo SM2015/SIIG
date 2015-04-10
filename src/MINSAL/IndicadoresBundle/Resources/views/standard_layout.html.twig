@@ -174,35 +174,35 @@ file that was distributed with this source code.
                                                     <ul class="dropdown-menu">
                                                         {% if group.label == '_costeo_' %}
                                                             {% for admin2 in admin_pool.dashboardgroups['_configuracion_'].items %}
-                                                                {% if admin2.hasroute('rrhhValorPagado') %}
+                                                                {% if admin2.hasroute('rrhhValorPagado') (is_granted('ROLE_SONATA_ADMIN') or is_granted('ROLE_USER_COSTEO')) %}
                                                                     <li><a href="{{ admin2.generateUrl('rrhhValorPagado')}}">{{ '_rrhh_valor_pagado_'|trans }}</a></li>
                                                                 {% endif %}
-                                                                {% if admin2.hasroute('rrhhDistribucionHora') %}
+                                                                {% if admin2.hasroute('rrhhDistribucionHora') (is_granted('ROLE_SONATA_ADMIN') or is_granted('ROLE_USER_COSTEO')) %}
                                                                     <li><a href="{{ admin2.generateUrl('rrhhDistribucionHora')}}">{{ '_rrhh_distribucion_horas_'|trans }}</a></li>
                                                                 {% endif %}
-                                                                {% if admin2.hasroute('rrhhCostos') %}
+                                                                {% if admin2.hasroute('rrhhCostos') (is_granted('ROLE_SONATA_ADMIN') or is_granted('ROLE_USER_COSTEO')) %}
                                                                     <li><a href="{{ admin2.generateUrl('rrhhCostos')}}">{{ '_rrhh_costos_'|trans }}</a></li>
                                                                 {% endif %}
-                                                                {% if admin2.hasroute('gaVariables') %}
+                                                                {% if admin2.hasroute('gaVariables') (is_granted('ROLE_SONATA_ADMIN') or is_granted('ROLE_USER_COSTEO')) %}
                                                                     <li><a href="{{ admin2.generateUrl('gaVariables')}}">{{ '_ga_variables_'|trans }}</a></li>
                                                                 {% endif %}
-                                                                {% if admin2.hasroute('gaAf') %}
+                                                                {% if admin2.hasroute('gaAf') (is_granted('ROLE_SONATA_ADMIN') or is_granted('ROLE_USER_COSTEO')) %}
                                                                     <li><a href="{{ admin2.generateUrl('gaAf')}}">{{ '_ga_af_'|trans }}</a></li>
                                                                 {% endif %}
-                                                                {% if admin2.hasroute('gaCompromisosFinancieros') %}
+                                                                {% if admin2.hasroute('gaCompromisosFinancieros') (is_granted('ROLE_SONATA_ADMIN') or is_granted('ROLE_USER_COSTEO')) %}
                                                                     <li><a href="{{ admin2.generateUrl('gaCompromisosFinancieros')}}">{{ '_ga_compromisos_financieros_'|trans }}</a></li>
                                                                 {% endif %}
-                                                                {% if admin2.hasroute('gaDistribucion') %}
+                                                                {% if admin2.hasroute('gaDistribucion') (is_granted('ROLE_SONATA_ADMIN') or is_granted('ROLE_USER_COSTEO')) %}
                                                                     <li><a href="{{ admin2.generateUrl('gaDistribucion')}}">{{ '_ga_distribucion_'|trans }}</a></li>
                                                                 {% endif %}
-                                                                {% if admin2.hasroute('gaCostos') %}
+                                                                {% if admin2.hasroute('gaCostos') and (is_granted('ROLE_SONATA_ADMIN') or is_granted('ROLE_USER_COSTEO')) %}
                                                                     <li><a href="{{ admin2.generateUrl('gaCostos')}}">{{ '_ga_costos_'|trans }}</a></li>
                                                                 {% endif %}                                                                
                                                             {% endfor %}
                                                         {% endif %}
                                                         {% if group.label == 'origen_datos' %}
                                                             {% for admin2 in admin_pool.dashboardgroups['_configuracion_'].items %}
-                                                                {% if admin2.hasroute('almacenDatos') %}
+                                                                {% if admin2.hasroute('almacenDatos') and (is_granted('ROLE_SONATA_ADMIN') or is_granted('ROLE_USER_CAPTURA_DATOS')) %}
                                                                     <li><a href="{{ admin2.generateUrl('almacenDatos')}}">{{ '_almacen_datos_'|trans }}</a></li>
                                                                 {% endif %}                                                                                                                              
                                                             {% endfor %}
