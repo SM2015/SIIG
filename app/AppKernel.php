@@ -39,7 +39,7 @@ class AppKernel extends Kernel
             new OldSound\RabbitMqBundle\OldSoundRabbitMqBundle(),
             new Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
             
-            new FR3D\LdapBundle\FR3DLdapBundle(),
+            //new FR3D\LdapBundle\FR3DLdapBundle(),
             
             new SunCat\MobileDetectBundle\MobileDetectBundle(),
             
