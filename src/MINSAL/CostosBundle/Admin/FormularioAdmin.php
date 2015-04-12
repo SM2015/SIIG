@@ -80,7 +80,6 @@ class FormularioAdmin extends Admin
         $collection->add('gaCompromisosFinancieros');
         $collection->add('gaVariables');
         $collection->add('gaDistribucion');
-        $collection->add('gaCostos');
-        $collection->add('almacenDatos');
+        $collection->add('gaCostos');        
     }
 }

@@ -57,11 +57,11 @@ _formula_: Fórmula
 _formula_consumo_: Fórmula consumo
 _formulario_: Formulario
 _formulario_rrhh_valor_pagado_titulo_ : "RRHH :: Valor pagado "
-_ga_af_: "Gastos Administrativos:: Activo Fijo"
-_ga_compromisos_financieros_: 'Gastos Administrativos:: Monto compromisos financieros'
-_ga_distribucion_: 'Gastos Administrativos:: Distribución'
-_ga_variables_: 'Gastos Administrativos:: Variables'
-_ga_costos_: 'Gastos Administrativos:: Costos'
+_gaAf_: "Gastos Administrativos:: Activo Fijo"
+_gaCompromisosFinancieros_: 'Gastos Administrativos:: Monto compromisos financieros'
+_gaDistribucion_: 'Gastos Administrativos:: Distribución'
+_gaVariables_: 'Gastos Administrativos:: Variables'
+_gaCostos_: 'Gastos Administrativos:: Costos'
 _grupo_padre_: Grupo padre
 _grupo_columnas_: Grupo Columnas
 _guardar_: Guardar
@@ -83,11 +83,11 @@ _origen_formulario_: Origen del formulario
 _origen_pivote_: Origen pivote
 _posicion_: Posición
 _promedio_usuarios_x_dia_: Promedio diario de usuarios
-_rrhh_distribucion_horas_: 'RRHH :: Distribución de horas'
+_rrhhDistribucionHora_: 'RRHH :: Distribución de horas'
 _rrhh_: Recurso Humano
-_rrhh_costos_: 'RRHH :: Costos'
+_rrhhCostos_: 'RRHH :: Costos'
 _rrhh_resumen_ : 'RRHH :: Resumen'
-_rrhh_valor_pagado_: 'RRHH :: VAlor Pagado'
+_rrhhValorPagado_: 'RRHH :: VAlor Pagado'
 _seleccione_dependencia_: 'Seleccione la dependencia'
 _septiembre_: Septiembre
 _significado_campo_: Significado

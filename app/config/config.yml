@@ -128,6 +128,7 @@ sonata_admin:
         # se personalizó la plantilla de borrar
         #delete:  IndicadoresBundle:CRUD:delete.html.twig
         list_block: IndicadoresBundle:Block:block_admin_list.html.twig
+        knp_menu_template: IndicadoresBundle:Menu:main_menu.html.twig
                 
         
 fos_user:

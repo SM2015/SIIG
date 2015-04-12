@@ -7,6 +7,7 @@ use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use MINSAL\IndicadoresBundle\Entity\OrigenDatos;
 use MINSAL\IndicadoresBundle\Entity\Campo;
+use Symfony\Component\HttpFoundation\Request;
 
 //use Symfony\Component\Console\Input\ArrayInput;
 
@@ -232,5 +233,11 @@ class OrigenDatosAdminController extends Controller
             return new RedirectResponse($this->admin->generateUrl('list', $this->admin->getFilterParameters()));
         }
     }
-
+    
+    public function almacenAction()
+    {        
+        //return $this->mostrarPlantilla($request, 'captura_variables', 'codigo_variable', '_captura_datos_', false, 'parametrosEstablecimiento');
+        //return new RedirectResponse($this->admin->generateUrl('list', $this->admin->getFilterParameters()));
+        return $this->forward("CostosBundle:FormularioAdmin:almacenDatos", array('_sonata_admin' => $this->container->get('request')->get('_sonata_admin')));
+    }
 }
