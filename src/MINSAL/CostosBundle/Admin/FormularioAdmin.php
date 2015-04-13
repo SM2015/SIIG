@@ -45,6 +45,12 @@ class FormularioAdmin extends Admin
                                         ->join('c.significadoCampo', 's')
                                         ->orderBy('s.descripcion');
                             }))
+            ->add('periodosIngreso', null, 
+                    array('label'=> $this->getTranslator()->trans('_periodos_ingreso_'), 
+                        'expanded' => false, 
+                        'multiple' => true,
+                        'by_reference' => false
+                        ))
         ;
     }
 
@@ -80,6 +86,7 @@ class FormularioAdmin extends Admin
         $collection->add('gaCompromisosFinancieros');
         $collection->add('gaVariables');
         $collection->add('gaDistribucion');
-        $collection->add('gaCostos');        
+        $collection->add('gaCostos');
+        $collection->add('almacenDatos');
     }
 }

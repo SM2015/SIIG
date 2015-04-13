@@ -216,7 +216,6 @@ class OrigenDatosAdmin extends Admin
     {
         $collection->add('merge_save', 'merge/save');
         $collection->add('load_data');
-        $collection->add('almacen');
     }
 
 }

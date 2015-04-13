@@ -70,10 +70,10 @@ class SonataAdminExtension extends TwigExtension_ {
                     if ($usuario != 'anon.') {
                         foreach ($admin->getRoutes()->getElements() as $r) {
                             $ruta = array_pop(explode('/', $r->getPath()));
-                            if (in_array($ruta, array('almacen'))) {
-                                if ($admin->hasRoute('almacen') and ( $usuario->hasRole('ROLE_SUPER_ADMIN') or $usuario->hasRole('ROLE_USER_CAPTURA_DATOS'))) {
-                                    $menu[$name]
-                                            ->addChild('_almacen_datos_', array('uri' => $admin->generateUrl('almacen')))
+                            if (in_array($ruta, array('almacenDatos'))) {
+                                if ($admin->hasRoute('almacenDatos') and ( $usuario->hasRole('ROLE_SUPER_ADMIN') or $usuario->hasRole('ROLE_USER_CAPTURA_DATOS'))) {
+                                    $menu['origen_datos']
+                                            ->addChild('_almacen_datos_', array('uri' => $admin->generateUrl('almacenDatos')))
                                             ->setExtra('translationdomain', $admin->getTranslationDomain())
                                             ->setExtra('admin', $admin)
                                     ;
