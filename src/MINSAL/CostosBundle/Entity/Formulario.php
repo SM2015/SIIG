@@ -332,7 +332,7 @@ class Formulario
     public function addPeriodosIngreso(\MINSAL\CostosBundle\Entity\PeriodoIngreso $periodosIngreso)
     {
         $this->periodosIngreso[] = $periodosIngreso;
-
+        $periodosIngreso->addFormulario($this);
         return $this;
     }
 
@@ -344,6 +344,7 @@ class Formulario
     public function removePeriodosIngreso(\MINSAL\CostosBundle\Entity\PeriodoIngreso $periodosIngreso)
     {
         $this->periodosIngreso->removeElement($periodosIngreso);
+        $periodosIngreso->removeFormulario($this);
     }
 
     /**
