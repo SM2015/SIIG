@@ -32,12 +32,12 @@ class FormularioAdminController extends Controller
     }
     public function rrhhValorPagadoAction(Request $request)
     {        
-        return $this->mostrarPlantilla($request, 'rrhhValorPagado', 'nit', '_formulario_rrhh_valor_pagado_titulo_', false, 'parametrosDependencia');
+        return $this->mostrarPlantilla($request, 'rrhhValorPagado', 'nit', '_rrhhValorPagado_', false, 'parametrosDependencia');
     }
     
     public function rrhhDistribucionHoraAction(Request $request)
     {        
-        return $this->mostrarPlantilla($request, 'rrhhDistribucionHora', 'nit', '_rrhh_distribucion_horas_', false, 'parametrosDependencia');
+        return $this->mostrarPlantilla($request, 'rrhhDistribucionHora', 'nit', '_rrhhDistribucionHora_', false, 'parametrosDependencia');
     }
     
     public function rrhhCostosAction(Request $request) {
@@ -140,7 +140,7 @@ class FormularioAdminController extends Controller
             'url_save' => 'set_grid_data',
             'estructura' => $estructura,
             'parametros' => $parametros,
-            'titulo' => '_rrhh_costos_',
+            'titulo' => '_rrhhCostos_',
             'mostrar_resumen' => true,
             'editable' => false,
             'pk' => 'nit'));
@@ -148,12 +148,12 @@ class FormularioAdminController extends Controller
     
     public function gaAfAction(Request $request)
     {        
-        return $this->mostrarPlantilla($request, 'gaAf', 'codigo_af', '_ga_af_', false, 'parametrosDependencia');
+        return $this->mostrarPlantilla($request, 'gaAf', 'codigo_af', '_gaAf_', false, 'parametrosDependencia');
     }
     
     public function gaCompromisosFinancierosAction(Request $request)
     {        
-        return $this->mostrarPlantilla($request, 'gaCompromisosFinancieros', 'codigo_contrato', '_ga_compromisos_financieros_', false, 'parametrosEstablecimiento');
+        return $this->mostrarPlantilla($request, 'gaCompromisosFinancieros', 'codigo_contrato', '_gaCompromisosFinancieros_', false, 'parametrosEstablecimiento');
     }
     
     public function almacenDatosAction(Request $request)
@@ -163,12 +163,12 @@ class FormularioAdminController extends Controller
     
     public function gaVariablesAction(Request $request)
     {        
-        return $this->mostrarPlantilla($request, 'gaVariables', 'dependencia', '_ga_variables_', false, 'parametrosDependencia');
+        return $this->mostrarPlantilla($request, 'gaVariables', 'dependencia', '_gaVariables_', false, 'parametrosDependencia');
     }        
     
     public function gaDistribucionAction(Request $request)
     {        
-        return $this->mostrarPlantilla($request, 'gaDistribucion', 'dependencia', '_ga_distribucion_', false, 'parametrosDependencia');        
+        return $this->mostrarPlantilla($request, 'gaDistribucion', 'dependencia', '_gaDistribucion_', false, 'parametrosDependencia');        
     }
     
     public function gaCostosAction(Request $request)
@@ -208,7 +208,7 @@ class FormularioAdminController extends Controller
             'grupos' => $grupos,
             'datos_costos' => $datos_costos,
             'totales' => $totales,
-            'titulo' => '_ga_costos_',
+            'titulo' => '_gaCostos_',
             ));
     }
     

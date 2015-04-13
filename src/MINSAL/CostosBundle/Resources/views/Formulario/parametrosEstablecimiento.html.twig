@@ -12,7 +12,14 @@
                 <TD><label for="establecimiento">{{'_establecimiento_'|trans}}</label></TD>
             </TR>
             <TR>
-                <TD><input type="text" class="form-control" id="anio" name="anio" size="10" value="{{parametros.anio}}"></TD>
+                <TD>
+                    <select id="anio" name="anio">
+                        {% for p in Frm.periodosIngreso %}
+                            {% set periodo = p|split('/') %}
+                            <option value="{{periodo[1]}}" {% if p == parametros.anio %}selected="selected"{% endif %}>{{periodo[1]}}</option>
+                        {% endfor %}
+                    </select>
+                </TD>
                 <TD>
                     <select id="establecimiento" name="establecimiento">
                         <option value="-1" selected>{{'_elija_establecimiento_'|trans}}</option>

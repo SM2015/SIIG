@@ -43,7 +43,13 @@
             <argument />
             <argument>MINSAL\CostosBundle\Entity\Ubicacion</argument>
             <argument />            
-        </service>        
+        </service>
+        <service id="sonata.costos.periodos.ingreso" class="MINSAL\CostosBundle\Admin\PeriodoIngresoAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="_configuracion_" label="_periodo_ingreso_"/>
+            <argument />
+            <argument>MINSAL\CostosBundle\Entity\PeriodoIngreso</argument>
+            <argument />            
+        </service>
         <service id="sonata.costos.admin.formato" class="MINSAL\CostosBundle\Admin\FormatoAdmin">
             <tag name="sonata.admin" manager_type="orm" group="catalogos" label="_formato_"/>
             <argument />

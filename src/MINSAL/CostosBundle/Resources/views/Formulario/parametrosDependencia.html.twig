@@ -13,7 +13,17 @@
                 <TD><label for="dependencia">{{'_dependencia_'|trans}}</label></TD>            
             </TR>
             <TR>
-                <TD><input type="text" class="form-control" id="anio_mes" name="anio_mes" size="10" value="{{parametros.anio_mes}}"></TD>
+                <TD>
+                    {% if titulo == '_rrhhCostos_'%}
+                        <input type="text" class="form-control" id="anio_mes" name="anio_mes" size="10" value="{{parametros.anio_mes}}">
+                    {% else %}
+                        <select id="anio" name="anio">
+                            {% for p in Frm.periodosIngreso %}
+                                <option value="{{p}}" {% if p == parametros.anio_mes %}selected="selected"{% endif %}>{{p}}</option>
+                            {% endfor %}
+                        </select>
+                    {% endif %}
+                </TD>
                 <TD>
                     <select id="establecimiento" name="establecimiento">
                         <option value="-1" selected>{{'_elija_establecimiento_'|trans}}</option>

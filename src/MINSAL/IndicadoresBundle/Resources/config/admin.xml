@@ -251,7 +251,7 @@
         <service id="sonata.admin.sala_acciones" class="MINSAL\IndicadoresBundle\Admin\SalaAccionesAdmin">
             <tag name="sonata.admin"
                  manager_type="orm" 
-                 group="indicadores.prueba" 
+                 group="indicadores" 
                  label="_sala_acciones_"
             />
             <argument />
