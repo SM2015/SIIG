@@ -58,10 +58,15 @@ _formula_consumo_: Fórmula consumo
 _formulario_: Formulario
 _formulario_rrhh_valor_pagado_titulo_ : "RRHH :: Valor pagado "
 _gaAf_: "Gastos Administrativos:: Activo Fijo"
+_ga_af_: "Gastos Administrativos:: Activo Fijo"
 _gaCompromisosFinancieros_: 'Gastos Administrativos:: Monto compromisos financieros'
+_ga_compromisos_financieros_: 'Gastos Administrativos:: Monto compromisos financieros'
 _gaDistribucion_: 'Gastos Administrativos:: Distribución'
+_ga_distribucion_: 'Gastos Administrativos:: Distribución'
 _gaVariables_: 'Gastos Administrativos:: Variables'
+_ga_variables_: 'Gastos Administrativos:: Variables'
 _gaCostos_: 'Gastos Administrativos:: Costos'
+_ga_costos_: 'Gastos Administrativos:: Costos'
 _grupo_padre_: Grupo padre
 _grupo_columnas_: Grupo Columnas
 _guardar_: Guardar
@@ -81,6 +86,8 @@ _oculto_: Oculto
 _origen_campo_: Origen campo
 _origen_formulario_: Origen del formulario
 _origen_pivote_: Origen pivote
+_periodos_ingreso_: Períodos de ingreso
+_periodo_ingreso_: Período de ingreso
 _posicion_: Posición
 _promedio_usuarios_x_dia_: Promedio diario de usuarios
 _rrhhDistribucionHora_: 'RRHH :: Distribución de horas'
