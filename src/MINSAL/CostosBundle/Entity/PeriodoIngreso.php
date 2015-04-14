@@ -23,7 +23,7 @@ class PeriodoIngreso
     /**
      * @var string $mes
      * @ORM\Id
-     * @ORM\Column(name="mes", type="integer", nullable=false)
+     * @ORM\Column(name="mes", type="string", length=20, nullable=false)
      */
     private $mes;
 
