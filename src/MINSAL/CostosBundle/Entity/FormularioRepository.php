@@ -437,7 +437,7 @@ class FormularioRepository extends EntityRepository {
                                 ELSE
                                     consumo_dependencia::numeric
                             END AS consumo_dependencia_final
-                        INTO ga_tmp 
+                        INTO TEMP ga_tmp 
                         FROM 
                             (SELECT A.*,
                                 -- El area de todo el establecimiento                                
