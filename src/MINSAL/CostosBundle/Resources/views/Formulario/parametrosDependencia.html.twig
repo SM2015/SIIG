@@ -17,7 +17,7 @@
                     {% if titulo == '_rrhhCostos_'%}
                         <input type="text" class="form-control" id="anio_mes" name="anio_mes" size="10" value="{{parametros.anio_mes}}">
                     {% else %}
-                        <select id="anio" name="anio">
+                        <select id="anio_mes" name="anio_mes">
                             {% for p in Frm.periodosIngreso %}
                                 <option value="{{p}}" {% if p == parametros.anio_mes %}selected="selected"{% endif %}>{{p}}</option>
                             {% endfor %}
