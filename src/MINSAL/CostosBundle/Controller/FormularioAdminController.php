@@ -188,17 +188,33 @@ class FormularioAdminController extends Controller
         $grupos = array();
         $datos_costos = array();
         $totales = array();
+        $i=0;
         if ($parametros['anio_mes'] != null and $parametros['establecimiento'] != null){       
             $datos = $em->getRepository('CostosBundle:Formulario')->getDatos($Frm, $request);
             
             foreach($datos as $f){
+                $f['total_gasto'] = ($f['total_gasto'] == null)? 0: $f['total_gasto'];
                 $dependencias[$f['dependencia']] = $f['nombre_dependencia'];
                 $grupos[$f['criterio_distribucion']]['nombre'] = $f['nombre_criterio_distribucion'];
                 $grupos[$f['criterio_distribucion']]['compromisos'][$f['codigo_compromiso']] = $f['nombre_compromiso'];
                 $datos_costos[$f['dependencia']][$f['codigo_compromiso']] = $f['total_gasto'];
-                $totales[$f['dependencia']] += $f['total_gasto'];
-                $totales[$f['codigo_compromiso']] += $f['total_gasto'];
-                $totales['general'] += $f['total_gasto'];
+                
+                if (array_key_exists('d'.$f['dependencia'], $totales))
+                    $totales['d'.$f['dependencia']] += $f['total_gasto'];
+                else
+                    $totales = array_merge ($totales, array('d'.$f['dependencia']=> $f['total_gasto']));
+                
+                if (array_key_exists($f['codigo_compromiso'], $totales))
+                    $totales[$f['codigo_compromiso']] += $f['total_gasto'];
+                else
+                    $totales = array_merge ($totales, array($f['codigo_compromiso']=> $f['total_gasto']));
+                
+                if (array_key_exists('general', $totales))
+                    $totales['general'] += $f['total_gasto'];
+                else
+                    $totales = array_merge ($totales, array('general'=> $f['total_gasto']));
+                //$totales[$f['codigo_compromiso']] += $f['total_gasto'];
+                //$totales['general'] += $f['total_gasto'];
             }        
         }
         return $this->render('CostosBundle:Formulario:parametrosDependenciaGACosteo.html.twig', array(
