@@ -251,8 +251,9 @@ class FormularioAdminController extends Controller
     }
     
     private function getParametros($r){
+        $anio = (strpos($r->get('anio'), '/')) ? array_pop(explode('/', $r->get('anio'))) : $r->get('anio');
         return array('anio_mes'=>$r->get('anio_mes'), 
-                'anio'=>$r->get('anio'), 
+                'anio'=>$anio, 
                 'establecimiento'=>$r->get('establecimiento'), 
                 'dependencia'=>$r->get('dependencia')
                 );

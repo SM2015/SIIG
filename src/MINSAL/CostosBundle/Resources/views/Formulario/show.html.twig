@@ -163,7 +163,19 @@
                                 pinned: true,
                             {% endif %}
                             cellsalign: '{{campo.alineacion.codigo|default('left')}}',
-                            editable: {% if editable == true %}{{campo.esEditable|default('false')}}{% else %} false {% endif %},
+                            editable: 
+                                {% if editable == true %}
+                                    {%if (campo.significadoCampo.codigo == 'cant_mensual' or campo.significadoCampo.codigo == 'importe_mensual') and campo.origenPivote %}
+                                        {% set periodo = parametros.anio|split('/') %}
+                                        {% if pivote.id == periodo[0] %} true
+                                        {% else %} false
+                                        {% endif %}
+                                    {% else %}
+                                        {{campo.esEditable|default('false')}}
+                                    {% endif %}
+                                {% else %} 
+                                    false 
+                                {% endif %},
                             hidden: {{campo.oculto|default('false')}},
                             columntype: '{{campo.tipoControl.codigo}}',
                             {% if campo.esCalculado and mostrar_resumen %} aggregates: ['sum'], {% endif %}                            
