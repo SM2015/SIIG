@@ -552,6 +552,8 @@ class FormularioRepository extends EntityRepository {
             $params = explode('&', $parametros);
             foreach ($params as $p) {
                 $dato = explode('=', $p);
+                $dato[1] = ($dato[0] == 'anio' and strpos($dato[1], '/')) ? array_pop(explode('/', $dato[1])) : $dato[1];
+                                   
                 if ($dato[0] == 'anio_mes'){
                     $campos = explode('_', $dato[0]);
                     if ($dato[1] != ''){
@@ -563,7 +565,7 @@ class FormularioRepository extends EntityRepository {
                     }else {
                         $params_string .= " AND (datos->'anio')::integer = '-222'::integer ";
                     }
-                }
+                }                
                 elseif ($dato[1] != '' and $dato[0] != 'pk') {
                     $params_string .= " AND datos->'" . $dato[0] . "' = '" . $dato[1] . "' ";
                     $this->parametros[$dato[0]] = $dato[1];

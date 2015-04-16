@@ -250,10 +250,9 @@ class FormularioAdminController extends Controller
         return $pivotes;
     }
     
-    private function getParametros($r){
-        $anio = (strpos($r->get('anio'), '/')) ? array_pop(explode('/', $r->get('anio'))) : $r->get('anio');
+    private function getParametros($r){        
         return array('anio_mes'=>$r->get('anio_mes'), 
-                'anio'=>$anio, 
+                'anio'=>$r->get('anio'), 
                 'establecimiento'=>$r->get('establecimiento'), 
                 'dependencia'=>$r->get('dependencia')
                 );

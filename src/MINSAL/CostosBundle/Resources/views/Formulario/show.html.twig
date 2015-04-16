@@ -13,6 +13,10 @@
             vertical-align: middle !important;
         }
         
+        .celda_no_editable {
+            background-color: #D6D6D6;
+        }
+        
     </style>
 {% endblock stylesheets %}
 {% block javascripts %}
@@ -56,7 +60,7 @@
             $.jqx.theme = 'energyblue';
             var url = Routing.generate('{{url}}', {id: {{Frm.id}},titulo_frm : '{{titulo}}', datos_frm: $('#frm_').serialize() });
             var fila = 0;
-            var columna = 0;
+            var columna = 0;            
             // prepare the data
             var source =
             {
@@ -150,6 +154,18 @@
                         
                         {% for pivote in Pivotes_ %}
                         {                            
+                            {% if editable == true %}
+                                {%if (campo.significadoCampo.codigo == 'cant_mensual' or campo.significadoCampo.codigo == 'importe_mensual') and campo.origenPivote %}
+                                    {% set periodo = parametros.anio|split('/') %}
+                                    {% if pivote.id == periodo[0] %} {% set celda_editable = true %}
+                                    {% else %} {% set celda_editable = false %}
+                                    {% endif %}
+                                {% else %}
+                                    {% set celda_editable = campo.esEditable|default('false') %} 
+                                {% endif %}
+                            {% else %} 
+                                {% set celda_editable = false %} 
+                            {% endif %}
                             {% if campo.origenPivote %}
                                 text: '{{pivote.descripcion}}', 
                                 datafield: '{{campo.significadoCampo.codigo}}_{{pivote.id}}', 
@@ -163,19 +179,11 @@
                                 pinned: true,
                             {% endif %}
                             cellsalign: '{{campo.alineacion.codigo|default('left')}}',
-                            editable: 
-                                {% if editable == true %}
-                                    {%if (campo.significadoCampo.codigo == 'cant_mensual' or campo.significadoCampo.codigo == 'importe_mensual') and campo.origenPivote %}
-                                        {% set periodo = parametros.anio|split('/') %}
-                                        {% if pivote.id == periodo[0] %} true
-                                        {% else %} false
-                                        {% endif %}
-                                    {% else %}
-                                        {{campo.esEditable|default('false')}}
-                                    {% endif %}
-                                {% else %} 
-                                    false 
-                                {% endif %},
+                            {% if not celda_editable %}
+                                cellclassname: 'celda_no_editable',
+                            {% endif%}                            
+                            editable: {{ (celda_editable)? 'true' : 'false' }}, 
+                                
                             hidden: {{campo.oculto|default('false')}},
                             columntype: '{{campo.tipoControl.codigo}}',
                             {% if campo.esCalculado and mostrar_resumen %} aggregates: ['sum'], {% endif %}                            
