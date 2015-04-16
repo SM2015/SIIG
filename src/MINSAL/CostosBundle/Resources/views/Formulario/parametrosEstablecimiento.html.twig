@@ -15,8 +15,7 @@
                 <TD>
                     <select id="anio" name="anio">
                         {% for p in Frm.periodosIngreso %}
-                            {% set periodo = p|split('/') %}
-                            <option value="{{periodo[1]}}" {% if p == parametros.anio %}selected="selected"{% endif %}>{{periodo[1]}}</option>
+                            <option value="{{p}}" {% if p == parametros.anio %}selected="selected"{% endif %}>{{p}}</option>
                         {% endfor %}
                     </select>
                 </TD>
