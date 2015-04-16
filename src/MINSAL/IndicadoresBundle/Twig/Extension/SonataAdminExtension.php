@@ -91,7 +91,7 @@ class SonataAdminExtension extends TwigExtension_ {
                             if (in_array($ruta, array('pivotTable'))) {
                                 if ($admin->hasRoute('pivotTable') and ( $usuario->hasRole('ROLE_SUPER_ADMIN') or $usuario->hasRole('ROLE_USER_PIVOT_TABLE'))) {
                                     $menu[$name]
-                                            ->addChild('_tabla_pivote_', array('uri' => $admin->generateUrl('tablero')))
+                                            ->addChild('_tabla_pivote_', array('uri' => $admin->generateUrl('pivotTable')))
                                             ->setExtra('translationdomain', $admin->getTranslationDomain())
                                             ->setExtra('admin', $admin)
                                     ;
