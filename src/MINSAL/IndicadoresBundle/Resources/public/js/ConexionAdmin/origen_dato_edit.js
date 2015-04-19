@@ -15,8 +15,8 @@ $(document).ready(function() {
             /* A cada nombre de campo se le agrega como prefijo el id que se está usando 
              * para el formulario, lo quitaré para que sea más fácil de manipular del lado del servidor
              */
-            var $conexiones = $('#' + $id + '_conexiones input:checked');
-            if ($('#' + $id + '_sentenciaSql').val() == '' || $conexiones.length == 0) {
+            var $conexiones = $('#' + $id + '_conexiones');            
+            if ($('#' + $id + '_sentenciaSql').val() == '' || $conexiones.select2('val') == '') {
                 alert(trans.sentencia_sql_origen_requeridos);
                 return;
             }
