@@ -32,6 +32,20 @@ class VariableCaptura
      */
     private $codigo;
     
+    /**
+     * @var string $texto_ayuda
+     *
+     * @ORM\Column(name="texto_ayuda", type="text", nullable=true)
+     */
+    private $textoAyuda;
+    
+    /**
+     * @var string $esPoblacion
+     *
+     * @ORM\Column(name="es_poblacion", type="boolean", nullable=true)
+     */
+    private $esPoblacion;
+    
     
     /**
      * @var string $nombre
@@ -129,5 +143,51 @@ class VariableCaptura
     
     public function __toString() {
         return $this->descripcion;
+    }
+
+    /**
+     * Set textoAyuda
+     *
+     * @param string $textoAyuda
+     * @return VariableCaptura
+     */
+    public function setTextoAyuda($textoAyuda)
+    {
+        $this->textoAyuda = $textoAyuda;
+
+        return $this;
+    }
+
+    /**
+     * Get textoAyuda
+     *
+     * @return string 
+     */
+    public function getTextoAyuda()
+    {
+        return $this->textoAyuda;
+    }
+
+    /**
+     * Set esPoblacion
+     *
+     * @param boolean $esPoblacion
+     * @return VariableCaptura
+     */
+    public function setEsPoblacion($esPoblacion)
+    {
+        $this->esPoblacion = $esPoblacion;
+
+        return $this;
+    }
+
+    /**
+     * Get esPoblacion
+     *
+     * @return boolean 
+     */
+    public function getEsPoblacion()
+    {
+        return $this->esPoblacion;
     }
 }

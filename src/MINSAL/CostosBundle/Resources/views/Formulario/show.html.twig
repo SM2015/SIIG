@@ -112,6 +112,8 @@
                             {% endif %}
                         {% endif %}
                     {% endfor %}
+                    {name: 'es_poblacion'},
+                    {name: 'ayuda'}
                 ],
                 url: url,
                 root: 'data'
@@ -211,6 +213,12 @@
                                     return "<div  class='jqx-{{campo.alineacion.codigo|default('left')}}-align'>" + dataAdapter.formatNumber(result,'{{campo.formato.formato|default('')}}') + "</div>";
                                 }, 
                             {% endif %}
+                            cellsrenderer: function (index, datafield, value, defaultvalue, column, rowdata) {
+                                valor = value.split('||');
+                                ayuda = (valor[1] != undefined) ? valor[1]: '';
+                                estilo = (rowdata.es_poblacion == 'true') ? "style='color: blue;'" :  '';
+                                return "<div "+ estilo + " title='"+ayuda.replace("'", '"')+"'  data-toggle='tooltip' data-placement= 'top' >" + valor[0] +"</div>";
+                            },
                         },
                         {% endfor %}
                     {% endfor %}

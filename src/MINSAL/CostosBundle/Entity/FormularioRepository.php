@@ -19,6 +19,8 @@ class FormularioRepository extends EntityRepository {
 
         $parametros = $request->get('datos_frm');
         
+        $orden = '';
+        
         $params_string = $this->getParameterString($parametros);
         if ($area != 'ga_variables' and $area != 'ga_compromisosFinancieros' and 
                 $area != 'ga_distribucion' and $area != 'ga_costos' and $area != 'almacen_datos'){
@@ -63,9 +65,9 @@ class FormularioRepository extends EntityRepository {
                     (SELECT ".$Frm->getId()." AS id_formulario, 
                             hstore(
                                 ARRAY['codigo_variable', 'anio', 'establecimiento', 'descripcion_variable',
-                                        'codigo_categoria_variable', 'descripcion_categoria_variable'], 
-                                ARRAY[A.codigo , '".$this->parametros['anio']."', '".$this->parametros['establecimiento']."', A.descripcion,
-                                    B.codigo, B.descripcion]
+                                        'codigo_categoria_variable', 'descripcion_categoria_variable', 'es_poblacion'], 
+                                ARRAY[A.codigo , '".$this->parametros['anio']."', '".$this->parametros['establecimiento']."', A.descripcion||'||'||COALESCE(A.texto_ayuda,''),
+                                    B.codigo, B.descripcion,  A.es_poblacion::varchar]
                             ) 
                         FROM variable_captura A 
                             INNER JOIN categoria_variable_captura B ON (A.id_categoria_captura = B.id)                             
@@ -77,8 +79,9 @@ class FormularioRepository extends EntityRepository {
                                     WHERE id_formulario = ".$Frm->getId()."
                                         AND datos->'establecimiento' = '".$this->parametros['establecimiento']."'
                                         AND datos->'anio' = '".$this->parametros['anio']."'
-                                )                            
+                                )
                     )";
+            $orden = "ORDER BY datos->'es_poblacion' DESC, datos->'descripcion_categoria_variable', datos->'descripcion_variable'";
             $em->getConnection()->executeQuery($sql);
         }
         if ($area == 'ga_compromisosFinancieros'){
@@ -524,6 +527,7 @@ class FormularioRepository extends EntityRepository {
             FROM  $tabla
             WHERE $campo IN (" . implode(',', $origenes) . ")
                 $params_string
+                $orden
             ;";
         }
         try {
@@ -613,7 +617,7 @@ class FormularioRepository extends EntityRepository {
             SELECT datos 
             FROM costos.fila_origen_dato_$area
             WHERE $campo IN (" . implode(',', $origenes) . ")
-                $params_string
+                $params_string                
             ;";
             return $em->getConnection()->executeQuery($sql)->fetchAll();
             //return true;

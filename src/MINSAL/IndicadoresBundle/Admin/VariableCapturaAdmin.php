@@ -21,6 +21,8 @@ class VariableCapturaAdmin extends Admin
         $formMapper                
                 ->add('codigo', null, array('label' => $this->getTranslator()->trans('_codigo_')))
                 ->add('descripcion', null, array('label' => $this->getTranslator()->trans('_descripcion_')))
+                ->add('textoAyuda', null, array('label' => $this->getTranslator()->trans('_ayuda_')))
+                ->add('esPoblacion', null, array('label' => $this->getTranslator()->trans('_es_poblacion_')))
                 ->add('categoria', 'entity', array('label' => $this->getTranslator()->trans('_categoria_'),
                     'class' => 'IndicadoresBundle:CategoriaVariableCaptura',
                     'property' => 'descripcion',
