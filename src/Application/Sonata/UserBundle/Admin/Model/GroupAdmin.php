@@ -23,22 +23,25 @@ class GroupAdmin extends BaseAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('name')
-            ->add('roles', 'sonata_security_roles', array(
-                'expanded' => true,
-                'multiple' => true,
-                'required' => false
-            ))
+            ->tab($this->getTranslator()->trans('_general_'))
+                ->add('name')
+                ->add('roles', 'sonata_security_roles', array(
+                    'expanded' => true,
+                    'multiple' => true,
+                    'required' => false
+                ))
+            ->end()
+                ->end()
         ;
-        if ($this->getSubject() && !$this->getSubject()->hasRole('ROLE_SUPER_ADMIN')) {
+        if ($this->getSubject() and !$this->getSubject()->hasRole('ROLE_SUPER_ADMIN')) {
             $acciones = explode('/', $this->getRequest()->server->get("REQUEST_URI"));
             $accion = array_pop($acciones);
             $accion = explode('?',$accion);
             if ($accion[0] == 'edit') {
                 $formMapper
-                    ->with($this->getTranslator()->trans('_indicadores_y_salas_'))
-                        ->add('indicadores', null, array('label' => $this->getTranslator()->trans('indicadores'), 'expanded' => true))
-                        ->add('salas', null, array('label' => $this->getTranslator()->trans('_salas_situacionales_'), 'expanded' => true))
+                    ->tab($this->getTranslator()->trans('_indicadores_y_salas_'))
+                            ->add('indicadores', null, array('label' => $this->getTranslator()->trans('indicadores'), 'expanded' => true))
+                            ->add('salas', null, array('label' => $this->getTranslator()->trans('_salas_situacionales_'), 'expanded' => true))
                     ->end()
                 ;
             }
