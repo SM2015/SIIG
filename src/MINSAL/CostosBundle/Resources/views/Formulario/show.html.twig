@@ -195,7 +195,7 @@
                             {% if campo.origen or campo.significadoCampo.catalogo != '' %} displayfield: '{{campo.significadoCampo.codigo}}Source', 
                                 createeditor: function (row, value, editor) {
                                     editor.jqxDropDownList({ source: {{origenes[campo.significadoCampo.codigo]|raw}}, displayMember: 'descripcion', valueMember: 'id' });
-                                }
+                                },
                             {% endif %}
                             {% if campo.grupoColumnas %} columngroup: '{{campo.grupoColumnas.codigo}}', {% endif %}
                             {% if campo.formato %} cellsformat: '{{campo.formato.formato}}', {% endif %}
@@ -205,7 +205,7 @@
                                         return true;
                                     }
                                     return { result: false, message: "{{campo.msjValidacion|default('_dato_no_valido_')|trans}}" };
-                                }
+                                },
                             {% endif %}
                             {% if campo.formula %} 
                                 cellsrenderer: function (index, datafield, value, defaultvalue, column, rowdata) {
