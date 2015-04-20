@@ -42,6 +42,7 @@ class GridController extends Controller
      */
     public function setGridDataAction(Formulario $Frm, Request $request)
     {
+        $data_ = '';
         $response = new Response();
         $em = $this->getDoctrine()->getManager();
         

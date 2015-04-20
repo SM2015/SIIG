@@ -214,10 +214,18 @@
                                 }, 
                             {% endif %}
                             cellsrenderer: function (index, datafield, value, defaultvalue, column, rowdata) {
-                                valor = value.split('||');
-                                ayuda = (valor[1] != undefined) ? valor[1]: '';
+                                if (typeof value == 'string'){
+                                    valor = value.split('||');
+                                    ayuda = (valor[1] != undefined) ? valor[1]: '';
+                                    valor = valor[0];
+                                }
+                                else {
+                                    ayuda = '';
+                                    valor = value;
+                                }
+                                
                                 estilo = (rowdata.es_poblacion == 'true') ? "style='color: blue;'" :  '';
-                                return "<div "+ estilo + " title='"+ayuda.replace("'", '"')+"'  data-toggle='tooltip' data-placement= 'top' >" + valor[0] +"</div>";
+                                return "<div "+ estilo + " title='"+ayuda.replace("'", '"')+"'  data-toggle='tooltip' data-placement= 'top' >" + valor +"</div>";
                             },
                         },
                         {% endfor %}

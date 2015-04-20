@@ -556,8 +556,7 @@ class FormularioRepository extends EntityRepository {
             $params = explode('&', $parametros);
             foreach ($params as $p) {
                 $dato = explode('=', $p);
-                $dato[1] = ($dato[0] == 'anio' and strpos($dato[1], '/')) ? array_pop(explode('/', $dato[1])) : $dato[1];
-                                   
+                $dato[1] = ($dato[0] == 'anio' and strpos($dato[1], '%2F')) ? array_pop(explode('%2F', $dato[1])) : $dato[1];
                 if ($dato[0] == 'anio_mes'){
                     $campos = explode('_', $dato[0]);
                     if ($dato[1] != ''){
@@ -584,26 +583,28 @@ class FormularioRepository extends EntityRepository {
 
         $params_string = $this->getParameterString($request->get('datos_frm'));
         $area = $Frm->getAreaCosteo();
-        
-        if ($area != 'ga_variables' and $area != 'ga_compromisosFinancieros' and $area != 'ga_distribucion'){
+        if ($area != 'ga_variables' and $area != 'ga_compromisosFinancieros' and $area != 'ga_distribucion' and $area != 'almacen_datos'){
             $origenes = $this->getOrigenes($Frm->getOrigenDatos());
             $campo = 'id_origen_dato';
         } else {
             $origenes = array($Frm->getId());
             $campo = 'id_formulario';
-            $area = 'ga';
+            $area_aux = 'ga';
+            $tabla =  ($area == 'almacen_datos') ? 'almacen_datos.repositorio' : 'costos.fila_origen_dato_'.strtolower($area_aux);
         }
 
-        $datosObj = json_decode($request->get('fila'));        
+        $datosObj = json_decode($request->get('fila'));
         $datos = str_replace(array('{', '}', ':', 'null'), array('', '', '=>', '""'), $request->get('fila'));
+        // eliminar mensajes de ayuda que vienen separados por ||
+        $datos = preg_replace('/\|\|[\s\S]+?"/', '","', $datos);
         
         //Cambiar formato de fecha
         $datos = preg_replace('/([0-9]{4})-([0-9]{2})-([0-9]{2})T[0-9]{2}=>[0-9]{2}=>[0-9]{2}.[0-9]{3}Z/', '${3}/${2}/${1}', $datos);
 
         $params_string .= "AND datos->'" . $request->get('pk') . "' = '" . $datosObj->{$request->get('pk')} . "'";
-        
+                
         $sql = "
-            UPDATE costos.fila_origen_dato_".strtolower($area)."
+            UPDATE $tabla
             SET datos = datos || '" . $datos . "'::hstore
             WHERE $campo IN (" . implode(',', $origenes) . ")
                 $params_string
@@ -615,7 +616,7 @@ class FormularioRepository extends EntityRepository {
             // los campos calculados por el procedimiento de la base de datos
             $sql = "
             SELECT datos 
-            FROM costos.fila_origen_dato_$area
+            FROM $tabla
             WHERE $campo IN (" . implode(',', $origenes) . ")
                 $params_string                
             ;";
