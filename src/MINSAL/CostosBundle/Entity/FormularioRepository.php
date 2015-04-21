@@ -596,7 +596,7 @@ class FormularioRepository extends EntityRepository {
         $datosObj = json_decode($request->get('fila'));
         $datos = str_replace(array('{', '}', ':', 'null'), array('', '', '=>', '""'), $request->get('fila'));
         // eliminar mensajes de ayuda que vienen separados por ||
-        $datos = preg_replace('/\|\|[\s\S]+?"/', '","', $datos);
+        //$datos = preg_replace('/\|\|[\s\S]*j?"/', '"', $datos);
         
         //Cambiar formato de fecha
         $datos = preg_replace('/([0-9]{4})-([0-9]{2})-([0-9]{2})T[0-9]{2}=>[0-9]{2}=>[0-9]{2}.[0-9]{3}Z/', '${3}/${2}/${1}', $datos);
