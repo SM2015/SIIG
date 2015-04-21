@@ -387,7 +387,6 @@ class FichaTecnicaRepository extends EntityRepository {
             $origenDato[$k] = $variable->getOrigenDatos();
             if ($origenDato[$k]->getEsFusionado()) {
                 $significados = explode(',', $origenDato[$k]->getCamposFusionados());
-                var_dump($origenDato[$k]);
                 //Los tipos de campos sacarlos de uno de los orígenes de datos que ha sido fusionado
                 $fusionados = $origenDato[$k]->getFusiones();
                 $fusionado = $fusionados[0];
@@ -396,11 +395,8 @@ class FichaTecnicaRepository extends EntityRepository {
                     $tipos[$campo->getSignificado()->getCodigo()] = $campo->getTipoCampo()->getCodigo();
                 }
                 foreach ($significados as $sig) {
-                    var_dump($sig);
                     $sig_ = str_replace("'", '', $sig);
                     $significado = $em->getRepository('IndicadoresBundle:SignificadoCampo')->findOneBy(array('codigo' => $sig_));
-                    var_dump($sig_);
-                    var_dump($significado);
                     $llave = $significado->getCodigo() . '-' . $tipos[$sig_];
                     $origen_campos[$origenDato[$k]->getId()][$llave]['significado'] = $sig_;
                 }
