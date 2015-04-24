@@ -66,7 +66,7 @@ class FormularioRepository extends EntityRepository {
                             hstore(
                                 ARRAY['codigo_variable', 'anio', 'establecimiento', 'descripcion_variable',
                                         'codigo_categoria_variable', 'descripcion_categoria_variable', 'es_poblacion'], 
-                                ARRAY[A.codigo , '".$this->parametros['anio']."', '".$this->parametros['establecimiento']."', A.descripcion||'||'||COALESCE(A.texto_ayuda,''),
+                                ARRAY[A.codigo , '".$this->parametros['anio']."', '".$this->parametros['establecimiento']."', A.descripcion,
                                     B.codigo, B.descripcion,  COALESCE(A.es_poblacion::varchar,'')]
                             ) 
                         FROM variable_captura A 
@@ -82,6 +82,12 @@ class FormularioRepository extends EntityRepository {
                                 )
                     )";
             $orden = "ORDER BY datos->'es_poblacion' DESC, datos->'descripcion_categoria_variable', datos->'descripcion_variable'";
+            $em->getConnection()->executeQuery($sql);
+            
+            $sql = " UPDATE almacen_datos.repositorio 
+                        SET datos = datos ||('\"ayuda\"=>'||'\"'||COALESCE(variable_captura.texto_ayuda,'')||'\"')::hstore 
+                        FROM variable_captura 
+                        WHERE almacen_datos.repositorio.datos->'codigo_variable' = variable_captura.codigo";
             $em->getConnection()->executeQuery($sql);
         }
         if ($area == 'ga_compromisosFinancieros'){

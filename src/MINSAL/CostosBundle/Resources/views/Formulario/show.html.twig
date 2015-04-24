@@ -112,7 +112,8 @@
                             {% endif %}
                         {% endif %}
                     {% endfor %}
-                    {name: 'es_poblacion'}
+                    {name: 'es_poblacion'},
+                    {name: 'ayuda'}
                 ],
                 url: url,
                 root: 'data'
@@ -213,18 +214,8 @@
                                 }, 
                             {% endif %}
                             cellsrenderer: function (index, datafield, value, defaultvalue, column, rowdata) {
-                                if (typeof value == 'string'){
-                                    valor = value.split('||');
-                                    ayuda = (valor[1] != undefined) ? valor[1]: '';
-                                    valor = valor[0];
-                                }
-                                else {
-                                    ayuda = '';
-                                    valor = value;
-                                }
-                                
                                 estilo = (rowdata.es_poblacion == 'true') ? "style='color: blue;'" :  '';
-                                return "<div class='jqx-{{campo.alineacion.codigo|default('left')}}-align' "+ estilo + " title='"+ayuda.replace("'", '"')+"'  data-toggle='tooltip' data-placement= 'top' >" + valor +"</div>";
+                                return "<div class='jqx-{{campo.alineacion.codigo|default('left')}}-align' "+ estilo + " title='"+rowdata.ayuda+"'  data-toggle='tooltip' data-placement= 'top' >" + value +"</div>";
                             },
                         },
                         {% endfor %}
