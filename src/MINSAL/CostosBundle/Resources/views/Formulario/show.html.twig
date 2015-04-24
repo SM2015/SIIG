@@ -224,7 +224,7 @@
                                 }
                                 
                                 estilo = (rowdata.es_poblacion == 'true') ? "style='color: blue;'" :  '';
-                                return "<div "+ estilo + " title='"+ayuda.replace("'", '"')+"'  data-toggle='tooltip' data-placement= 'top' >" + valor +"</div>";
+                                return "<div class='jqx-{{campo.alineacion.codigo|default('left')}}-align' "+ estilo + " title='"+ayuda.replace("'", '"')+"'  data-toggle='tooltip' data-placement= 'top' >" + valor +"</div>";
                             },
                         },
                         {% endfor %}
