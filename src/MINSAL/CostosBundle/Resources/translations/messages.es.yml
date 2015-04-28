@@ -92,6 +92,7 @@ _origen_formulario_: Origen del formulario
 _origen_pivote_: Origen pivote
 _periodos_ingreso_: Períodos de ingreso
 _periodo_ingreso_: Período de ingreso
+_periodo_ingreso_datos_formulario_: 'Periodo Ingreso - Datos formulario'
 _posicion_: Posición
 _promedio_usuarios_x_dia_: Promedio diario de usuarios
 _rrhhDistribucionHora_: 'RRHH :: Distribución de horas'
@@ -113,6 +114,7 @@ _tomas_con_planta_emergencia_: Cant. de tomas con Planta de Emergencia
 _total_: Total
 _total_personal_: Total personal asignado
 _ubicacion_: Ubicación
+_unidad_: Unidad
 _unidad_superior_ : Unidad superior
 _unidades_productivas_ : Unidades productivas
 _uso_costeo_: Utilizado para Costeo

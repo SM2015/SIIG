@@ -5,7 +5,7 @@ namespace MINSAL\CostosBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * MINSAL\CostosBundle\Entity\Campo
+ * MINSAL\CostosBundle\Entity\PeriodoIngreso
  *
  * @ORM\Table(name="costos.periodo_ingreso")
  * @ORM\Entity
