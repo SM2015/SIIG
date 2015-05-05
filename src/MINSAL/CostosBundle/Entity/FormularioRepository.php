@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityRepository;
 use MINSAL\CostosBundle\Entity\Formulario;
 use Symfony\Component\HttpFoundation\Request;
 
+use MINSAL\CostosBundle\Entity\PeriodoIngresoDatosFormulario;
 /**
  * FormularioRepository
  * 
@@ -13,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 class FormularioRepository extends EntityRepository {
 
     private $parametros = array();
-    public function getDatos(Formulario $Frm, Request $request) {
+    public function getDatos(Formulario $Frm, PeriodoIngresoDatosFormulario $periodoIngreso, Request $request) {
         $em = $this->getEntityManager();
         $area = $Frm->getAreaCosteo();
 
@@ -21,7 +22,7 @@ class FormularioRepository extends EntityRepository {
         
         $orden = '';
         
-        $params_string = $this->getParameterString($parametros);
+        $params_string = $this->getParameterString($periodoIngreso, $parametros);
         if ($area != 'ga_variables' and $area != 'ga_compromisosFinancieros' and 
                 $area != 'ga_distribucion' and $area != 'ga_costos' and $area != 'almacen_datos'){
             $origenes = $this->getOrigenes($Frm->getOrigenDatos());
@@ -556,38 +557,31 @@ class FormularioRepository extends EntityRepository {
         return $origenes;
     }
 
-    private function getParameterString($parametros) {
-        $params_string = '';
-        if ($parametros != '') {
-            $params = explode('&', $parametros);
-            foreach ($params as $p) {
-                $dato = explode('=', $p);
-                $dato[1] = ($dato[0] == 'anio' and strpos($dato[1], '%2F')) ? array_pop(explode('%2F', $dato[1])) : $dato[1];
-                if ($dato[0] == 'anio_mes'){
-                    $campos = explode('_', $dato[0]);
-                    if ($dato[1] != ''){
-                        $valores = explode('%2F', $dato[1]);
-                        $params_string .= " AND (datos->'" . $campos[0] . "')::integer = '" . $valores[1] . "'::integer ";
-                        $params_string .= " AND (datos->'" . $campos[1] . "')::integer = '" . $valores[0] . "'::integer ";
-                        $this->parametros['mes'] = $valores[0];
-                        $this->parametros['anio'] = $valores[1];
-                    }else {
-                        $params_string .= " AND (datos->'anio')::integer = '-222'::integer ";
-                    }
-                }                
-                elseif ($dato[1] != '' and $dato[0] != 'pk') {
-                    $params_string .= " AND datos->'" . $dato[0] . "' = '" . $dato[1] . "' ";
-                    $this->parametros[$dato[0]] = $dato[1];
-                }
-            }
+    private function getParameterString(PeriodoIngresoDatosFormulario $periodoIngreso, $parametros) {
+        $params_string = '';        
+        
+        if ($periodoIngreso->getFormulario()->getPeriodoLecturaDatos() == 'mensual')
+            $this->parametros['mes'] = $periodoIngreso->getPeriodo()->getMes();
+        $this->parametros['anio'] = $periodoIngreso->getPeriodo()->getAnio();
+        if ($periodoIngreso->getUnidad()->getNivel() == 1 ) {
+            $this->parametros['establecimiento'] = $periodoIngreso->getUnidad()->getId();
+        } else {
+            $this->parametros['establecimiento'] = $periodoIngreso->getUnidad()->getParent()->getId();
+            $this->parametros['dependencia'] = $periodoIngreso->getUnidad()->getId();
         }
+        
+        foreach ($this->parametros as $key => $value) {
+            $params_string .= " AND datos->'" . $key . "' = '" . $value . "' ";
+        }
+        
         return $params_string;
     }
 
-    public function setDatos(Formulario $Frm, Request $request) {
+    public function setDatos(Formulario $Frm, PeriodoIngresoDatosFormulario $periodoIngreso, Request $request) {
         $em = $this->getEntityManager();
+        $parametros = $request->get('datos_frm');
 
-        $params_string = $this->getParameterString($request->get('datos_frm'));
+        $params_string = $this->getParameterString($periodoIngreso, $parametros);
         $area = $Frm->getAreaCosteo();
         if ($area != 'ga_variables' and $area != 'ga_compromisosFinancieros' and $area != 'ga_distribucion' and $area != 'almacen_datos'){
             $origenes = $this->getOrigenes($Frm->getOrigenDatos());

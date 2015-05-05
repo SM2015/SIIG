@@ -14,50 +14,61 @@ use MINSAL\CostosBundle\Entity\Formulario;
 class GridController extends Controller
 {
     /**
-     * @Route("/grid/{id}", name="get_grid_data", options={"expose"=true})
+     * @Route("/grid/{id}/{periodo_ingreso}", name="get_grid_data", options={"expose"=true})
      * @Template()
      */
-    public function getGridDataAction(Formulario $Frm, Request $request)
+    public function getGridDataAction(Formulario $Frm, $periodo_ingreso, Request $request)
     {
         $response = new Response();
-        $em = $this->getDoctrine()->getManager();        
+        $em = $this->getDoctrine()->getManager();
         
-        $data = $em->getRepository('CostosBundle:Formulario')->getDatos($Frm, $request);
-        if (count($data) > 0){
-            $data_ = '';
-            $ultimo = array_pop($data);
-            foreach ($data as $f){
-                $data_ .= '{'.  str_replace('=>', ':', $f['datos']). '},';
-            }
-            $data_ .= '{'.  str_replace('=>', ':', $ultimo['datos']). '}';
+        $periodoEstructura =  $em->getRepository('CostosBundle:PeriodoIngresoDatosFormulario')->find($periodo_ingreso);
+        if (!$periodoEstructura) {
+            //$response->setContent('{"estado" : "ok", "data": []}');
+            $response->setContent('{"estado" : "error", "msj": "' . $this->get('translator')->trans('_parametros_no_establecidos_') . '"}');
+        } else{
+            $data = $em->getRepository('CostosBundle:Formulario')->getDatos($Frm, $periodoEstructura, $request);
+            if (count($data) > 0){
+                $data_ = '';
+                $ultimo = array_pop($data);
+                foreach ($data as $f){
+                    $data_ .= '{'.  str_replace('=>', ':', $f['datos']). '},';
+                }
+                $data_ .= '{'.  str_replace('=>', ':', $ultimo['datos']). '}';
 
-            $response->setContent('{"estado" : "ok", "data": ['. $data_. ']}');
+                $response->setContent('{"estado" : "ok", "data": ['. $data_. ']}');
+            }
         }
         return $response;
     }
     
     /**
-     * @Route("/grid/save/{id}", name="set_grid_data", options={"expose"=true})
+     * @Route("/grid/save/{id}/{periodo_ingreso}", name="set_grid_data", options={"expose"=true})
      * @Template()
      */
-    public function setGridDataAction(Formulario $Frm, Request $request)
+    public function setGridDataAction(Formulario $Frm, $periodo_ingreso, Request $request)
     {
         $data_ = '';
         $response = new Response();
         $em = $this->getDoctrine()->getManager();
         
-        $guardar = $em->getRepository('CostosBundle:Formulario')->setDatos($Frm, $request);
+        $periodoEstructura =  $em->getRepository('CostosBundle:PeriodoIngresoDatosFormulario')->find($periodo_ingreso);
+        if (!$periodoEstructura) {
+            $response->setContent('{"estado" : "error", "msj": "' . $this->get('translator')->trans('_parametros_no_establecidos_') . '"}');
+        } else{
+            $guardar = $em->getRepository('CostosBundle:Formulario')->setDatos($Frm, $periodoEstructura, $request);
         
-        if ($guardar == false){
-            $response->setContent('{"estado" : "error", "msj": "' . $this->get('translator')->trans('_error_datos_no_guardados_') . '"}');
-        }
-        else{
-            $fila = array_pop($guardar);            
-            $data_ .= '{'.  str_replace('=>', ':', $fila['datos']). ', "local": "si"}';
+            if ($guardar == false){
+                $response->setContent('{"estado" : "error", "msj": "' . $this->get('translator')->trans('_error_datos_no_guardados_') . '"}');
+            }
+            else{
+                $fila = array_pop($guardar);            
+                $data_ .= '{'.  str_replace('=>', ':', $fila['datos']). ', "local": "si"}';
 
-            $response->setContent('{"estado" : "ok", "data": '. $data_. '}');
+                $response->setContent('{"estado" : "ok", "data": '. $data_. '}');
+            }
         }
-        return $response;
+        return $response;        
     }
     
     /**

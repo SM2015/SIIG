@@ -59,6 +59,13 @@ class Formulario
      * @ORM\Column(name="columnas_fijas", type="integer", nullable=true)
      */
     protected $columnasFijas;
+    
+    /**
+     * @var string $periodoLecturaDatos
+     *
+     * @ORM\Column(name="periodo_lectura_datos", type="string", length=20, nullable=true)
+     */
+    protected $periodoLecturaDatos;
         
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
@@ -355,5 +362,28 @@ class Formulario
     public function getPeriodosIngreso()
     {
         return $this->periodosIngreso;
+    }
+
+    /**
+     * Set periodoLecturaDatos
+     *
+     * @param string $periodoLecturaDatos
+     * @return Formulario
+     */
+    public function setPeriodoLecturaDatos($periodoLecturaDatos)
+    {
+        $this->periodoLecturaDatos = $periodoLecturaDatos;
+
+        return $this;
+    }
+
+    /**
+     * Get periodoLecturaDatos
+     *
+     * @return string 
+     */
+    public function getPeriodoLecturaDatos()
+    {
+        return $this->periodoLecturaDatos;
     }
 }

@@ -16,7 +16,14 @@ class FormularioAdminController extends Controller
         $Frm = $em->getRepository('CostosBundle:Formulario')->findBy(array('codigo'=>$codigoFrm));
         $Frm = array_shift($Frm);
         
+        $periodosEstructura = $em->getRepository("CostosBundle:PeriodoIngresoDatosFormulario")
+                ->findBy(array('usuario' => $this->getUser(), 'formulario'=>$Frm), 
+                        array('periodo' => 'ASC', 'unidad'=>'ASC'));
+        
         $parametros = $this->getParametros($request);
+        $periodoSeleccionado = ($request->get('periodo_estructura') != '-1') ? 
+                                $em->getRepository("CostosBundle:PeriodoIngresoDatosFormulario")->find($request->get('periodo_estructura')):
+                                null;
         
         return $this->render('CostosBundle:Formulario:'.$plantilla.'.html.twig', array('Frm' => $Frm, 
             'origenes' => $this->getOrigenes($Frm, $parametros),
@@ -25,6 +32,8 @@ class FormularioAdminController extends Controller
             'url_save' => 'set_grid_data',
             'estructura' => $estructura,
             'parametros' => $parametros,
+            'periodosEstructura' => $periodosEstructura,
+            'periodoSeleccionado' => $periodoSeleccionado,
             'titulo' => $titulo,
             'editable' => $editable,
             'mostrar_resumen' => $mostrar_resumen,
@@ -254,7 +263,8 @@ class FormularioAdminController extends Controller
         return array('anio_mes'=>$r->get('anio_mes'), 
                 'anio'=>$r->get('anio'), 
                 'establecimiento'=>$r->get('establecimiento'), 
-                'dependencia'=>$r->get('dependencia')
+                'dependencia'=>$r->get('dependencia'),
+                'periodo_estructura' => $r->get('periodo_estructura')
                 );
     }
 }

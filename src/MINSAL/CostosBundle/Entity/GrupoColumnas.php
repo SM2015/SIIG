@@ -39,7 +39,7 @@ class GrupoColumnas
     private $descripcion;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Formulario")
+     * @ORM\ManyToOne(targetEntity="Formulario", inversedBy="gruposColumnas")
      * @ORM\JoinColumn(name="id_formulario", referencedColumnName="id")
      * */
     private $formulario;

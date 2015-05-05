@@ -34,6 +34,11 @@ class FormularioAdmin extends Admin
                             'almacen_datos' => $this->getTranslator()->trans('_almacen_datos_')
                             )
                         ))
+            ->add('periodoLecturaDatos', 'choice', array('label' => $this->getTranslator()->trans('_periodo_lectura_datos_'),
+                        'choices' => array('mensual'=>$this->getTranslator()->trans('_mensual_'),
+                            'anual'=>$this->getTranslator()->trans('_anual_')                            
+                            )
+                        ))
             ->add('campos', null, 
                     array('label'=> $this->getTranslator()->trans('_campos_'), 
                         'expanded' => false, 

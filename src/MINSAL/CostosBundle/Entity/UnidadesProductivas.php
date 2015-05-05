@@ -39,7 +39,7 @@ class UnidadesProductivas
     private $nombre;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Estructura")
+     * @ORM\ManyToOne(targetEntity="Estructura", inversedBy="unidadesProductivas")
      * */
     private $establecimiento;
         
