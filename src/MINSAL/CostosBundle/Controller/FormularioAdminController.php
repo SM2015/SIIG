@@ -21,8 +21,9 @@ class FormularioAdminController extends Controller
                         array('periodo' => 'ASC', 'unidad'=>'ASC'));
         
         $parametros = $this->getParametros($request);
+        $periodo = (is_null($request->get('periodo_estructura')) ) ? -1: $request->get('periodo_estructura');        
         $periodoSeleccionado = ($request->get('periodo_estructura') != '-1') ? 
-                                $em->getRepository("CostosBundle:PeriodoIngresoDatosFormulario")->find($request->get('periodo_estructura')):
+                                $em->getRepository("CostosBundle:PeriodoIngresoDatosFormulario")->find($periodo):
                                 null;
         
         return $this->render('CostosBundle:Formulario:'.$plantilla.'.html.twig', array('Frm' => $Frm, 

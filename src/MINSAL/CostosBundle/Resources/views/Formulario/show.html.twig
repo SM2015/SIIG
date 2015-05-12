@@ -54,7 +54,7 @@
     <script src="{{ asset('bundles/costos/js/jqwidgets/globalization/globalize.culture.#{app.request.locale}.js') }}" type="text/javascript"></script>
     
     {% block frm %}
-    {% if parametros.periodo_estructura != '-1' %}
+    {% if periodoSeleccionado != null and parametros.periodo_estructura != '-1' %}
     <script type="text/javascript">
         $(document).ready(function () {
             $.jqx.theme = 'energyblue';
