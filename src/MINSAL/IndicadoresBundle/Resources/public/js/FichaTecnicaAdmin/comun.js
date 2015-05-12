@@ -9,7 +9,8 @@ var formatAsPercentage = d3.format("%"),
         fdat = d3.time.format("%d d"),
         fmon = d3.time.format("%b")
         ;
-
+var sSwfPath = '';
+var oLanguage = '';
 var zona = 1;
 var max_zonas = 3;
 

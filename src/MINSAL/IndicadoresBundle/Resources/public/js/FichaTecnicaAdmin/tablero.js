@@ -1,7 +1,7 @@
 $(document).ready(function() {
     //Variables de configuración de datables
-    var sSwfPath = $('#directorio').val() + "/bundles/indicadores/js/DataTables/media/swf/copy_csv_xls_pdf.swf";
-    var oLanguage = {
+    sSwfPath = $('#directorio').val() + "/bundles/indicadores/js/DataTables/media/swf/copy_csv_xls_pdf.swf";   
+    oLanguage = {
         "sLengthMenu": "Display _MENU_ records per page",
         "sZeroRecords": trans.nada_encontrado,
         "sInfo": trans.mostrando_n_de_n,
