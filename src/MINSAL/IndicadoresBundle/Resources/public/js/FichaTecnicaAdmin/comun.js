@@ -689,7 +689,7 @@ function procesarDimensiones(resp, datos, zona_g) {
         } else {
             dibujarControles(zona_g, resp);
             if (datos !== null) {
-                if (datos.filtro != null) {
+                if (datos.filtro != null && datos.filtro != '') {
                     var $filtro = $('#' + zona_g + ' .filtros_dimensiones');
                     $filtro.attr('data', datos.filtro);
                     filtro_obj = jQuery.parseJSON($filtro.attr('data'));
