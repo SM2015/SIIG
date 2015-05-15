@@ -236,7 +236,7 @@ $(document).ready(function() {
             $('DIV.zona_actual').removeClass('zona_actual');
             $('#grafico_' + graficos[num_gra].posicion).addClass('zona_actual');
 
-            recuperarDimensiones(graficos[num_gra].idIndicador, graficos[num_gra]);
+            recuperarDimensiones(graficos[num_gra].idIndicador, graficos[num_gra], true);
         }
 
         $('#myTab a:first').tab('show');
@@ -244,10 +244,10 @@ $(document).ready(function() {
         $('li[sala-id="' + $('.marco-sala').attr('id-sala') + '"]').addClass('active');
 
         if ($('#sala_default').val() == 0) {
-            cargarMensajes();
-            cargarUsuarios();
-            cargarImagenes();
-            cargarAcciones();
+            //cargarMensajes();
+            //cargarUsuarios();
+            //cargarImagenes();
+            //cargarAcciones();
         } else {
             $('.area_grafico').css('height', '290');
         }
