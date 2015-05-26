@@ -81,6 +81,7 @@ class FormularioRepository extends EntityRepository {
                                         AND datos->'establecimiento' = '".$this->parametros['establecimiento']."'
                                         AND datos->'anio' = '".$this->parametros['anio']."'
                                 )
+                            AND A.formulario_id =  ".$Frm->getId()."
                     )";
             $orden = "ORDER BY datos->'es_poblacion' DESC, datos->'descripcion_categoria_variable', datos->'descripcion_variable'";
             $em->getConnection()->executeQuery($sql);

@@ -21,6 +21,7 @@ class VariableCapturaAdmin extends Admin
         $formMapper                
                 ->add('codigo', null, array('label' => $this->getTranslator()->trans('_codigo_')))
                 ->add('descripcion', null, array('label' => $this->getTranslator()->trans('_descripcion_')))
+                ->add('formulario', null, array('label' => $this->getTranslator()->trans('_formulario_')))
                 ->add('textoAyuda', null, array('label' => $this->getTranslator()->trans('_ayuda_')))
                 ->add('esPoblacion', null, array('label' => $this->getTranslator()->trans('_es_poblacion_')))
                 ->add('categoria', 'entity', array('label' => $this->getTranslator()->trans('_categoria_'),
@@ -39,6 +40,7 @@ class VariableCapturaAdmin extends Admin
         $datagridMapper
                 ->add('codigo', null, array('label' => $this->getTranslator()->trans('_codigo_')))
                 ->add('descripcion', null, array('label' => $this->getTranslator()->trans('_descripcion_')))
+                ->add('formulario', null, array('label' => $this->getTranslator()->trans('_formulario_')))
                 ->add('categoria', null, array('label' => $this->getTranslator()->trans('_categoria_')))
         ;
     }

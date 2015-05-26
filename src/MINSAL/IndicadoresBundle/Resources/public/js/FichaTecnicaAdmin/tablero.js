@@ -244,10 +244,10 @@ $(document).ready(function() {
         $('li[sala-id="' + $('.marco-sala').attr('id-sala') + '"]').addClass('active');
 
         if ($('#sala_default').val() == 0) {
-            //cargarMensajes();
-            //cargarUsuarios();
-            //cargarImagenes();
-            //cargarAcciones();
+            cargarMensajes();
+            cargarUsuarios();
+            cargarImagenes();
+            cargarAcciones();
         } else {
             $('.area_grafico').css('height', '290');
         }

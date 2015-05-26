@@ -59,6 +59,11 @@ class VariableCaptura
      * @ORM\JoinColumn(name="id_categoria_captura", referencedColumnName="id")
      * */
     private $categoria;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="MINSAL\CostosBundle\Entity\Formulario")
+     * */
+    private $formulario;
 
    
 
@@ -189,5 +194,30 @@ class VariableCaptura
     public function getEsPoblacion()
     {
         return $this->esPoblacion;
+    }
+
+    
+
+    /**
+     * Set formulario
+     *
+     * @param \MINSAL\CostosBundle\Entity\Formulario $formulario
+     * @return VariableCaptura
+     */
+    public function setFormulario(\MINSAL\CostosBundle\Entity\Formulario $formulario = null)
+    {
+        $this->formulario = $formulario;
+
+        return $this;
+    }
+
+    /**
+     * Get formulario
+     *
+     * @return \MINSAL\CostosBundle\Entity\Formulario 
+     */
+    public function getFormulario()
+    {
+        return $this->formulario;
     }
 }
