@@ -19,12 +19,13 @@ class FormularioAdminController extends Controller
         $periodosEstructura = $em->getRepository("CostosBundle:PeriodoIngresoDatosFormulario")
                 ->findBy(array('usuario' => $this->getUser(), 'formulario'=>$Frm), 
                         array('periodo' => 'ASC', 'unidad'=>'ASC'));
+
         
-        $parametros = $this->getParametros($request);
         $periodo = (is_null($request->get('periodo_estructura')) ) ? -1: $request->get('periodo_estructura');        
         $periodoSeleccionado = ($request->get('periodo_estructura') != '-1') ? 
                                 $em->getRepository("CostosBundle:PeriodoIngresoDatosFormulario")->find($periodo):
                                 null;
+        $parametros = $this->getParametros($periodoSeleccionado);
         
         return $this->render('CostosBundle:Formulario:'.$plantilla.'.html.twig', array('Frm' => $Frm, 
             'origenes' => $this->getOrigenes($Frm, $parametros),
@@ -42,12 +43,12 @@ class FormularioAdminController extends Controller
     }
     public function rrhhValorPagadoAction(Request $request)
     {        
-        return $this->mostrarPlantilla($request, 'rrhhValorPagado', 'nit', '_rrhhValorPagado_', false, 'parametrosDependencia');
+        return $this->mostrarPlantilla($request, 'rrhhValorPagado', 'nit', '_rrhhValorPagado_', false, 'parametros');
     }
     
     public function rrhhDistribucionHoraAction(Request $request)
     {        
-        return $this->mostrarPlantilla($request, 'rrhhDistribucionHora', 'nit', '_rrhhDistribucionHora_', false, 'parametrosDependencia');
+        return $this->mostrarPlantilla($request, 'rrhhDistribucionHora', 'nit', '_rrhhDistribucionHora_', false, 'parametros');
     }
     
     public function rrhhCostosAction(Request $request) {
@@ -56,6 +57,17 @@ class FormularioAdminController extends Controller
         $estructura = $em->getRepository("CostosBundle:Estructura")->findBy(array(), array('codigo' => 'ASC'));
         
         $parametros = $this->getParametros($request);
+        $Frm = $em->getRepository('CostosBundle:Formulario')->findBy(array('codigo'=>'rrhhValorPagado'));
+        $Frm = array_shift($Frm);
+        
+        $periodosEstructura = $em->getRepository("CostosBundle:PeriodoIngresoDatosFormulario")
+                ->findBy(array('usuario' => $this->getUser(), 'formulario'=>$Frm), 
+                        array('periodo' => 'ASC', 'unidad'=>'ASC'));
+        
+        $periodo = (is_null($request->get('periodo_estructura')) ) ? -1: $request->get('periodo_estructura');        
+        $periodoSeleccionado = ($request->get('periodo_estructura') != '-1') ? 
+                                $em->getRepository("CostosBundle:PeriodoIngresoDatosFormulario")->find($periodo):
+                                null;
         
         $campos = array('nit'=>10, 
             'partida'=>20,
@@ -75,9 +87,7 @@ class FormularioAdminController extends Controller
             'salario_descuentos_permisos' => 'Salario con desc. y permisos',
             'costo_hora_descuentos_permisos' => 'Costo hora con desc. y permisos'
             );
-        
-        $Frm = $em->getRepository('CostosBundle:Formulario')->findBy(array('codigo'=>'rrhhValorPagado'));
-        $Frm = array_shift($Frm);
+                
         $Frm2 = $em->getRepository('CostosBundle:Formulario')->findBy(array('codigo'=>'rrhhDistribucionHora'));
         $Frm2 = array_shift($Frm2);
         $Frm_aux = new \MINSAL\CostosBundle\Entity\Formulario();
@@ -143,13 +153,15 @@ class FormularioAdminController extends Controller
         $origenes = $this->getOrigenes($Frm, $parametros) + $this->getOrigenes($Frm2, $parametros);
         $pivotes = $this->getPivotes($Frm, $parametros) + $this->getPivotes($Frm2, $parametros);
         
-        return $this->render('CostosBundle:Formulario:parametrosDependencia.html.twig', array('Frm' => $Frm_aux, 
+        return $this->render('CostosBundle:Formulario:parametros.html.twig', array('Frm' => $Frm_aux, 
             'origenes' => $origenes,
             'pivotes' => $pivotes,
             'url' => 'get_grid_data',
             'url_save' => 'set_grid_data',
             'estructura' => $estructura,
             'parametros' => $parametros,
+            'periodosEstructura' => $periodosEstructura,
+            'periodoSeleccionado' => $periodoSeleccionado,
             'titulo' => '_rrhhCostos_',
             'mostrar_resumen' => true,
             'editable' => false,
@@ -158,27 +170,27 @@ class FormularioAdminController extends Controller
     
     public function gaAfAction(Request $request)
     {        
-        return $this->mostrarPlantilla($request, 'gaAf', 'codigo_af', '_gaAf_', false, 'parametrosDependencia');
+        return $this->mostrarPlantilla($request, 'gaAf', 'codigo_af', '_gaAf_', false, 'parametros');
     }
     
     public function gaCompromisosFinancierosAction(Request $request)
     {        
-        return $this->mostrarPlantilla($request, 'gaCompromisosFinancieros', 'codigo_contrato', '_gaCompromisosFinancieros_', false, 'parametrosEstablecimiento');
+        return $this->mostrarPlantilla($request, 'gaCompromisosFinancieros', 'codigo_contrato', '_gaCompromisosFinancieros_', false, 'parametros');
     }
     
     public function almacenDatosAction(Request $request)
     {        
-        return $this->mostrarPlantilla($request, 'captura_variables', 'codigo_variable', '_captura_datos_', false, 'parametrosEstablecimiento');
+        return $this->mostrarPlantilla($request, 'captura_variables', 'codigo_variable', '_captura_datos_', false, 'parametros');
     }
     
     public function gaVariablesAction(Request $request)
     {        
-        return $this->mostrarPlantilla($request, 'gaVariables', 'dependencia', '_gaVariables_', false, 'parametrosDependencia');
+        return $this->mostrarPlantilla($request, 'gaVariables', 'dependencia', '_gaVariables_', false, 'parametros');
     }        
     
     public function gaDistribucionAction(Request $request)
     {        
-        return $this->mostrarPlantilla($request, 'gaDistribucion', 'dependencia', '_gaDistribucion_', false, 'parametrosDependencia');        
+        return $this->mostrarPlantilla($request, 'gaDistribucion', 'dependencia', '_gaDistribucion_', false, 'parametros');
     }
     
     public function gaCostosAction(Request $request)
@@ -200,7 +212,7 @@ class FormularioAdminController extends Controller
         $totales = array();
         $i=0;
         if ($parametros['anio_mes'] != null and $parametros['establecimiento'] != null){       
-            $datos = $em->getRepository('CostosBundle:Formulario')->getDatos($Frm, $request);
+            $datos = $em->getRepository('CostosBundle:Formulario')->getDatosCostosGA($Frm, $request);
             
             foreach($datos as $f){
                 $f['total_gasto'] = ($f['total_gasto'] == null)? 0: $f['total_gasto'];
@@ -260,12 +272,30 @@ class FormularioAdminController extends Controller
         return $pivotes;
     }
     
-    private function getParametros($r){        
-        return array('anio_mes'=>$r->get('anio_mes'), 
-                'anio'=>$r->get('anio'), 
-                'establecimiento'=>$r->get('establecimiento'), 
-                'dependencia'=>$r->get('dependencia'),
-                'periodo_estructura' => $r->get('periodo_estructura')
+    private function getParametros($periodoIngreso){
+        $parametros = array();
+        if ($periodoIngreso !=  null ){
+            if ($periodoIngreso->getFormulario()->getPeriodoLecturaDatos() == 'mensual')
+                $parametros['mes'] = $periodoIngreso->getPeriodo()->getMes();
+            $parametros['anio'] = $periodoIngreso->getPeriodo()->getAnio();
+            if ($periodoIngreso->getUnidad()->getNivel() == 1 ) {
+                $parametros['establecimiento'] = $periodoIngreso->getUnidad()->getCodigo();
+            } elseif ($periodoIngreso->getUnidad()->getNivel() == 2 ) {
+                $parametros['establecimiento'] = $periodoIngreso->getUnidad()->getParent()->getCodigo();
+                $parametros['dependencia'] = $periodoIngreso->getUnidad()->getId();
+            } elseif ($periodoIngreso->getUnidad()->getNivel() == 3 ) {
+                $parametros['establecimiento'] = $periodoIngreso->getUnidad()->getParent()->getParent()->getCodigo();
+                $parametros['dependencia'] = $periodoIngreso->getUnidad()->getCodigo();
+            }
+            $parametros['periodo_estructura'] =  $periodoIngreso->getId();
+        } else {
+            $parametros =  array('anio_mes'=>null, 
+                'anio'=>null, 
+                'establecimiento'=>null, 
+                'dependencia'=>null,
+                'periodo_estructura' => null
                 );
+        }
+        return $parametros;
     }
 }

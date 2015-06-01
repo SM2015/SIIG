@@ -88,11 +88,7 @@ class Formulario
      * @ORM\ManyToOne(targetEntity="MINSAL\IndicadoresBundle\Entity\OrigenDatos")
      * */
     private $origenDatos;
-    
-    /** 
-     *  @ORM\ManyToMany(targetEntity="PeriodoIngreso", mappedBy="formularios") 
-     */ 
-    private $periodosIngreso;
+        
     
     public function __toString()
     {
@@ -328,41 +324,7 @@ class Formulario
     public function getColumnasFijas()
     {
         return $this->columnasFijas;
-    }
-
-    /**
-     * Add periodosIngreso
-     *
-     * @param \MINSAL\CostosBundle\Entity\PeriodoIngreso $periodosIngreso
-     * @return Formulario
-     */
-    public function addPeriodosIngreso(\MINSAL\CostosBundle\Entity\PeriodoIngreso $periodosIngreso)
-    {
-        $this->periodosIngreso[] = $periodosIngreso;
-        $periodosIngreso->addFormulario($this);
-        return $this;
-    }
-
-    /**
-     * Remove periodosIngreso
-     *
-     * @param \MINSAL\CostosBundle\Entity\PeriodoIngreso $periodosIngreso
-     */
-    public function removePeriodosIngreso(\MINSAL\CostosBundle\Entity\PeriodoIngreso $periodosIngreso)
-    {
-        $this->periodosIngreso->removeElement($periodosIngreso);
-        $periodosIngreso->removeFormulario($this);
-    }
-
-    /**
-     * Get periodosIngreso
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getPeriodosIngreso()
-    {
-        return $this->periodosIngreso;
-    }
+    }    
 
     /**
      * Set periodoLecturaDatos

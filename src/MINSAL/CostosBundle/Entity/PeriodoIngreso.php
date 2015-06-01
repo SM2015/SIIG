@@ -28,22 +28,6 @@ class PeriodoIngreso
     private $mes;
 
     /**
-     * @var \Doctrine\Common\Collections\ArrayCollection
-     * 
-     * @ORM\ManyToMany(targetEntity="Formulario", inversedBy="periodosIngreso")
-     * @ORM\JoinTable(name="costos.formulario_periodo_ingreso",
-     *      joinColumns={@ORM\JoinColumn(name="anio_periodo", referencedColumnName="anio"), 
-     *                   @ORM\JoinColumn(name="mes_periodo", referencedColumnName="mes")
-     *                  },
-     *      inverseJoinColumns={@ORM\JoinColumn(name="formulario_id", referencedColumnName="id")}
-     *      
-     * )
-     *
-     **/   
-    private $formularios;
-        
-
-    /**
      * Set anio
      *
      * @param integer $anio
@@ -91,46 +75,5 @@ class PeriodoIngreso
     
     public function __toString() {
         return $this->mes.'/'.$this->anio;
-    }
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->formularios = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Add formularios
-     *
-     * @param \MINSAL\CostosBundle\Entity\Formulario $formularios
-     * @return PeriodoIngreso
-     */
-    public function addFormulario(\MINSAL\CostosBundle\Entity\Formulario $formularios)
-    {
-        $this->formularios[] = $formularios;
-
-        return $this;
-    }
-
-    /**
-     * Remove formularios
-     *
-     * @param \MINSAL\CostosBundle\Entity\Formulario $formularios
-     */
-    public function removeFormulario(\MINSAL\CostosBundle\Entity\Formulario $formularios)
-    {
-        $this->formularios->removeElement($formularios);
-    }
-
-    /**
-     * Get formularios
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getFormularios()
-    {
-        return $this->formularios;
     }
 }

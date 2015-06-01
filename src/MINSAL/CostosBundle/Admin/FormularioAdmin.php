@@ -49,13 +49,7 @@ class FormularioAdmin extends Admin
                                 return $repository->createQueryBuilder('c')
                                         ->join('c.significadoCampo', 's')
                                         ->orderBy('s.descripcion');
-                            }))
-            ->add('periodosIngreso', null, 
-                    array('label'=> $this->getTranslator()->trans('_periodos_ingreso_'), 
-                        'expanded' => false, 
-                        'multiple' => true,
-                        'by_reference' => false
-                        ))
+                            }))            
         ;
     }
 

@@ -14,122 +14,22 @@ use MINSAL\CostosBundle\Entity\PeriodoIngresoDatosFormulario;
 class FormularioRepository extends EntityRepository {
 
     private $parametros = array();
-    public function getDatos(Formulario $Frm, PeriodoIngresoDatosFormulario $periodoIngreso, Request $request) {
+    public function getDatosCostosGA(Formulario $Frm,  Request $request) {
         $em = $this->getEntityManager();
         $area = $Frm->getAreaCosteo();
 
-        $parametros = $request->get('datos_frm');
+        list($mes, $anio) = explode('/',$request->get('anio_mes'));
+        $this->parametros = array('anio'=>$anio, 'mes'=>$mes, 'establecimiento'=>$request->get('establecimiento'));
         
         $orden = '';
         
-        $params_string = $this->getParameterString($periodoIngreso, $parametros);
-        if ($area != 'ga_variables' and $area != 'ga_compromisosFinancieros' and 
-                $area != 'ga_distribucion' and $area != 'ga_costos' and $area != 'almacen_datos'){
-            $origenes = $this->getOrigenes($Frm->getOrigenDatos());
-        }
-        $campo = 'id_origen_dato';
-        if ($area == 'ga_variables' or $area == 'ga_distribucion'){
-            $origenes = array($Frm->getId());
-            $campo = 'id_formulario';
-            $area = 'ga';
-            
-            //Cargar las dependencias que no estén en el mes y año elegido
-            $sql = "INSERT INTO costos.fila_origen_dato_".strtolower($area)."(id_formulario, area_costeo, datos)
-                    (SELECT ".$Frm->getId()." AS id_formulario, '".$Frm->getAreaCosteo()."' AS area_costeo, hstore(ARRAY['dependencia', 'mes', 'anio', 'establecimiento'], 
-                            ARRAY[codigo , '".$this->parametros['mes']."', '".$this->parametros['anio']."', '".$this->parametros['establecimiento']."']) 
-                        FROM costos.estructura
-                        WHERE parent_id 
-                            IN
-                            (SELECT A.id FROM costos.estructura A
-                                INNER JOIN costos.estructura B ON (A.parent_id = B.id )
-                                WHERE B.codigo = '".$this->parametros['establecimiento']."'
-                            )
-                            AND (".$Frm->getId(). ", codigo, '".$this->parametros['mes']."', '".$this->parametros['anio']."', '".$this->parametros['establecimiento']."' )
-                                NOT IN 
-                                (SELECT id_formulario, datos->'dependencia', datos->'mes', datos->'anio', datos->'establecimiento'
-                                    FROM costos.fila_origen_dato_ga 
-                                    WHERE id_formulario = ".$Frm->getId()."
-                                        AND datos->'establecimiento' = '".$this->parametros['establecimiento']."'
-                                        AND datos->'anio' = '".$this->parametros['anio']."'
-                                        AND datos->'mes' = '".$this->parametros['mes']."'
-                                )                            
-                    )";
-            $em->getConnection()->executeQuery($sql);
-        }
-        
-        if ($area == 'almacen_datos'){
-            $origenes = array($Frm->getId());
-            $campo = 'id_formulario';
-            
-            //Cargar las variables que no están en el año elegido
-            $sql = "INSERT INTO almacen_datos.repositorio (id_formulario, datos)
-                    (SELECT ".$Frm->getId()." AS id_formulario, 
-                            hstore(
-                                ARRAY['codigo_variable', 'anio', 'establecimiento', 'descripcion_variable',
-                                        'codigo_categoria_variable', 'descripcion_categoria_variable', 'es_poblacion'], 
-                                ARRAY[A.codigo , '".$this->parametros['anio']."', '".$this->parametros['establecimiento']."', A.descripcion,
-                                    B.codigo, B.descripcion,  COALESCE(A.es_poblacion::varchar,'')]
-                            ) 
-                        FROM variable_captura A 
-                            INNER JOIN categoria_variable_captura B ON (A.id_categoria_captura = B.id)                             
-                        WHERE 
-                             (".$Frm->getId(). ", A.codigo, '".$this->parametros['anio']."', '".$this->parametros['establecimiento']."' )
-                                NOT IN 
-                                (SELECT id_formulario,  datos->'codigo_variable', datos->'anio', datos->'establecimiento'
-                                    FROM almacen_datos.repositorio
-                                    WHERE id_formulario = ".$Frm->getId()."
-                                        AND datos->'establecimiento' = '".$this->parametros['establecimiento']."'
-                                        AND datos->'anio' = '".$this->parametros['anio']."'
-                                )
-                            AND A.formulario_id =  ".$Frm->getId()."
-                    )";
-            $orden = "ORDER BY datos->'es_poblacion' DESC, datos->'descripcion_categoria_variable', datos->'descripcion_variable'";
-            $em->getConnection()->executeQuery($sql);
-            
-            $sql = " UPDATE almacen_datos.repositorio 
-                        SET datos = datos ||('\"ayuda\"=>'||'\"'||COALESCE(variable_captura.texto_ayuda,'')||'\"')::hstore 
-                        FROM variable_captura 
-                        WHERE almacen_datos.repositorio.datos->'codigo_variable' = variable_captura.codigo";
-            $em->getConnection()->executeQuery($sql);
-        }
-        if ($area == 'ga_compromisosFinancieros'){
-            $origenes = array($Frm->getId());
-            $campo = 'id_formulario';
-            $area = 'ga';
-                                    
-            //Cargar los contratos que no están en el año elegido
-            $sql = "INSERT INTO costos.fila_origen_dato_".strtolower($area)."(id_formulario, area_costeo, datos)
-                    (SELECT ".$Frm->getId()." AS id_formulario, '".$Frm->getAreaCosteo()."' AS area_costeo, 
-                            hstore(
-                                ARRAY['codigo_contrato', 'anio', 'establecimiento', 'descripcion_contrato',
-                                        'criterio_distribucion', 'categoria_contrato'], 
-                                ARRAY[A.codigo , '".$this->parametros['anio']."', '".$this->parametros['establecimiento']."', A.descripcion,
-                                    B.descripcion, C.descripcion]
-                            ) 
-                        FROM costos.contratos_fijos_ga A 
-                            INNER JOIN costos.criterios_distribucion_ga B ON (A.criteriodistribucion_id = B.id) 
-                            INNER JOIN costos.categorias_contratos_fijos_ga C ON (A.categoria_id = C.id) 
-                            INNER JOIN estructura_contratosfijosga D ON (A.id = D.contratosfijosga_id) 
-                            INNER JOIN costos.estructura E ON (D.estructura_id = E.id)
-                        WHERE E.codigo = '".$this->parametros['establecimiento']."'
-                            AND (".$Frm->getId(). ", '".$Frm->getAreaCosteo(). "', A.codigo, '".$this->parametros['anio']."', '".$this->parametros['establecimiento']."' )
-                                NOT IN 
-                                (SELECT id_formulario, area_costeo, datos->'codigo_contrato', datos->'anio', datos->'establecimiento'
-                                    FROM costos.fila_origen_dato_ga 
-                                    WHERE id_formulario = ".$Frm->getId()."
-                                        AND datos->'establecimiento' = '".$this->parametros['establecimiento']."'
-                                        AND datos->'anio' = '".$this->parametros['anio']."'
-                                )                            
-                    )";
-            $em->getConnection()->executeQuery($sql);
-        }
+        $params_string = "AND datos->'mes' = '$mes' AND datos->'anio' = '$anio' AND datos->'establecimiento' = '".$this->parametros['establecimiento']."' ";
         
         if ($area == 'ga_costos' ){
             $area = 'ga';
             $origenes = array($Frm->getId());
             $campo = 'id_formulario';
-            list($mes, $anio) = explode('/',$request->get('anio_mes'));
-            $this->parametros = array('anio'=>$anio, 'mes'=>$mes, 'establecimiento'=>$request->get('establecimiento'));
+            
             
             //Recuperar las variables de los gastos administrativos
             $FrmVar = $em->getRepository('CostosBundle:Formulario')->findOneBy(array('codigo'=>'gaVariables'));
@@ -207,9 +107,7 @@ class FormularioRepository extends EntityRepository {
                                 LEFT JOIN significado_campo D ON (C.significadocampo_id = D.id)
                                 INNER JOIN costos.criterios_distribucion_ga B1 ON (A1.criteriodistribucion_id = B1.id)
                     ";
-            
-            $em->getConnection()->executeQuery($sql);
-            
+            $em->getConnection()->executeQuery($sql);   
             
             /**************************************************************
              * Agregar otros compromisos que no están en el formulario 
@@ -239,13 +137,12 @@ class FormularioRepository extends EntityRepository {
                             NOT IN (SELECT establecimiento, dependencia, anio, mes, codigo_compromiso FROM ini_gastos_administrativos_tmp)
                      ";
             $em->getConnection()->executeQuery($sql);
-            
-            
+
             /**************************************************************
              * El monto de cada compromiso mensual del establecimiento
             *****************************************************************/
             $sqlMontoCompromiso = "
-                ( SELECT SUM(importe::numeric) 
+                ( SELECT SUM((COALESCE(NULLIF(importe, ''),'0'))::numeric)
                     FROM 
                         -- **************************************************************** 
                         -- * Compromisos financieros por cada mes
@@ -281,7 +178,7 @@ class FormularioRepository extends EntityRepository {
              * consumo_watt, carga_con_planta_emerg
             *****************************************************************/
             $sqlActivoFijo = " 
-                        (SELECT SUM((datos->'consumo_kw_mes')::numeric)
+                        (SELECT SUM((COALESCE(NULLIF(datos->'consumo_kw_mes', ''),'0'))::numeric)
                             FROM costos.fila_origen_dato_ga_af
                             WHERE datos->'establecimiento' = A.establecimiento
                                 AND datos->'dependencia' = A.dependencia
@@ -289,7 +186,7 @@ class FormularioRepository extends EntityRepository {
                                 AND datos->'mes' = A.mes
                             
                         ) AS consumo_kw_dependecia,
-                        (SELECT SUM((datos->'consumo_kw_mes')::numeric)
+                        (SELECT SUM((COALESCE(NULLIF(datos->'consumo_kw_mes', ''),'0'))::numeric)
                             FROM costos.fila_origen_dato_ga_af
                             WHERE datos->'establecimiento' = A.establecimiento
                                 AND datos->'dependencia' = A.dependencia
@@ -297,7 +194,7 @@ class FormularioRepository extends EntityRepository {
                                 AND datos->'mes' = A.mes
                                 AND datos->'usa_planta_emergencia' = 'true'
                         ) AS carga_con_planta_emerg_dependecia,
-                        (SELECT SUM((datos->'depreciacion')::numeric)
+                        (SELECT SUM((COALESCE(NULLIF(datos->'depreciacion', ''),'0'))::numeric)
                             FROM costos.fila_origen_dato_ga_af
                             WHERE datos->'establecimiento' = A.establecimiento
                                 AND datos->'dependencia' = A.dependencia
@@ -305,7 +202,7 @@ class FormularioRepository extends EntityRepository {
                                 AND datos->'mes' = A.mes
                                 AND datos->'tipo_activo' = 'EM'
                         ) AS depreciacion_equip_medic_y_mobiliario,
-                        (SELECT SUM((datos->'depreciacion')::numeric)
+                        (SELECT SUM((COALESCE(NULLIF(datos->'depreciacion', ''),'0'))::numeric)
                             FROM costos.fila_origen_dato_ga_af
                             WHERE datos->'establecimiento' = A.establecimiento
                                 AND datos->'dependencia' = A.dependencia
@@ -329,9 +226,10 @@ class FormularioRepository extends EntityRepository {
                                         ) AS B ON (A.establecimiento = B.establecimiento AND A.anio = B.anio 
                                             AND A.mes = B.mes AND A.dependencia = B.dependencia)
                      ";
+
             $em->getConnection()->executeQuery($sql);
             
-            
+
             /**************************************************************
              * Se agregan los cálculos para ciertos compromisos
             *****************************************************************/
@@ -528,6 +426,121 @@ class FormularioRepository extends EntityRepository {
                     ORDER BY A.establecimiento, A.dependencia, A.anio, A.mes, A.criterio_distribucion, A.codigo_compromiso";
             
         }
+        try {
+            return $em->getConnection()->executeQuery($sql)->fetchAll();
+        } catch (\PDOException $e) {
+            return $e->getMessage();
+        }
+    }
+    public function getDatos(Formulario $Frm, PeriodoIngresoDatosFormulario $periodoIngreso, Request $request) {
+        $em = $this->getEntityManager();
+        $area = $Frm->getAreaCosteo();
+
+        $parametros = $request->get('datos_frm');
+        
+        $orden = '';
+        
+        $params_string = $this->getParameterString( $parametros, $periodoIngreso);
+        if ($area != 'ga_variables' and $area != 'ga_compromisosFinancieros' and 
+                $area != 'ga_distribucion' and $area != 'ga_costos' and $area != 'almacen_datos'){
+            $origenes = $this->getOrigenes($Frm->getOrigenDatos());
+        }
+        $campo = 'id_origen_dato';
+        if ($area == 'ga_variables' or $area == 'ga_distribucion'){
+            $origenes = array($Frm->getId());
+            $campo = 'id_formulario';
+            $area = 'ga';
+            
+            //Cargar las dependencias que no estén en el mes y año elegido
+            $sql = "INSERT INTO costos.fila_origen_dato_".strtolower($area)."(id_formulario, area_costeo, datos)
+                    (SELECT ".$Frm->getId()." AS id_formulario, '".$Frm->getAreaCosteo()."' AS area_costeo, hstore(ARRAY['dependencia', 'mes', 'anio', 'establecimiento'], 
+                            ARRAY[codigo , '".$this->parametros['mes']."', '".$this->parametros['anio']."', '".$this->parametros['establecimiento']."']) 
+                        FROM costos.estructura
+                        WHERE parent_id 
+                            IN
+                            (SELECT A.id FROM costos.estructura A
+                                INNER JOIN costos.estructura B ON (A.parent_id = B.id )
+                                WHERE B.codigo = '".$this->parametros['establecimiento']."'
+                            )
+                            AND (".$Frm->getId(). ", codigo, '".$this->parametros['mes']."', '".$this->parametros['anio']."', '".$this->parametros['establecimiento']."' )
+                                NOT IN 
+                                (SELECT id_formulario, datos->'dependencia', datos->'mes', datos->'anio', datos->'establecimiento'
+                                    FROM costos.fila_origen_dato_ga 
+                                    WHERE id_formulario = ".$Frm->getId()."
+                                        AND datos->'establecimiento' = '".$this->parametros['establecimiento']."'
+                                        AND datos->'anio' = '".$this->parametros['anio']."'
+                                        AND datos->'mes' = '".$this->parametros['mes']."'
+                                )                            
+                    )";
+            $em->getConnection()->executeQuery($sql);
+        }
+        
+        if ($area == 'almacen_datos'){
+            $origenes = array($Frm->getId());
+            $campo = 'id_formulario';
+            
+            //Cargar las variables que no están en el año elegido
+            $sql = "INSERT INTO almacen_datos.repositorio (id_formulario, datos)
+                    (SELECT ".$Frm->getId()." AS id_formulario, 
+                            hstore(
+                                ARRAY['codigo_variable', 'anio', 'establecimiento', 'descripcion_variable',
+                                        'codigo_categoria_variable', 'descripcion_categoria_variable', 'es_poblacion'], 
+                                ARRAY[A.codigo , '".$this->parametros['anio']."', '".$this->parametros['establecimiento']."', A.descripcion,
+                                    B.codigo, B.descripcion,  COALESCE(A.es_poblacion::varchar,'')]
+                            ) 
+                        FROM variable_captura A 
+                            INNER JOIN categoria_variable_captura B ON (A.id_categoria_captura = B.id)                             
+                        WHERE 
+                             (".$Frm->getId(). ", A.codigo, '".$this->parametros['anio']."', '".$this->parametros['establecimiento']."' )
+                                NOT IN 
+                                (SELECT id_formulario,  datos->'codigo_variable', datos->'anio', datos->'establecimiento'
+                                    FROM almacen_datos.repositorio
+                                    WHERE id_formulario = ".$Frm->getId()."
+                                        AND datos->'establecimiento' = '".$this->parametros['establecimiento']."'
+                                        AND datos->'anio' = '".$this->parametros['anio']."'
+                                )
+                            AND A.formulario_id =  ".$Frm->getId()."
+                    )";
+            $orden = "ORDER BY datos->'es_poblacion' DESC, datos->'descripcion_categoria_variable', datos->'descripcion_variable'";
+            $em->getConnection()->executeQuery($sql);
+            
+            $sql = " UPDATE almacen_datos.repositorio 
+                        SET datos = datos ||('\"ayuda\"=>'||'\"'||COALESCE(variable_captura.texto_ayuda,'')||'\"')::hstore 
+                        FROM variable_captura 
+                        WHERE almacen_datos.repositorio.datos->'codigo_variable' = variable_captura.codigo";
+            $em->getConnection()->executeQuery($sql);
+        }
+        if ($area == 'ga_compromisosFinancieros'){
+            $origenes = array($Frm->getId());
+            $campo = 'id_formulario';
+            $area = 'ga';
+                                    
+            //Cargar los contratos que no están en el año elegido
+            $sql = "INSERT INTO costos.fila_origen_dato_".strtolower($area)."(id_formulario, area_costeo, datos)
+                    (SELECT ".$Frm->getId()." AS id_formulario, '".$Frm->getAreaCosteo()."' AS area_costeo, 
+                            hstore(
+                                ARRAY['codigo_contrato', 'anio', 'establecimiento', 'descripcion_contrato',
+                                        'criterio_distribucion', 'categoria_contrato'], 
+                                ARRAY[A.codigo , '".$this->parametros['anio']."', '".$this->parametros['establecimiento']."', A.descripcion,
+                                    B.descripcion, C.descripcion]
+                            ) 
+                        FROM costos.contratos_fijos_ga A 
+                            INNER JOIN costos.criterios_distribucion_ga B ON (A.criteriodistribucion_id = B.id) 
+                            INNER JOIN costos.categorias_contratos_fijos_ga C ON (A.categoria_id = C.id) 
+                            INNER JOIN estructura_contratosfijosga D ON (A.id = D.contratosfijosga_id) 
+                            INNER JOIN costos.estructura E ON (D.estructura_id = E.id)
+                        WHERE E.codigo = '".$this->parametros['establecimiento']."'
+                            AND (".$Frm->getId(). ", '".$Frm->getAreaCosteo(). "', A.codigo, '".$this->parametros['anio']."', '".$this->parametros['establecimiento']."' )
+                                NOT IN 
+                                (SELECT id_formulario, area_costeo, datos->'codigo_contrato', datos->'anio', datos->'establecimiento'
+                                    FROM costos.fila_origen_dato_ga 
+                                    WHERE id_formulario = ".$Frm->getId()."
+                                        AND datos->'establecimiento' = '".$this->parametros['establecimiento']."'
+                                        AND datos->'anio' = '".$this->parametros['anio']."'
+                                )                            
+                    )";
+            $em->getConnection()->executeQuery($sql);
+        }               
         else{ 
             $tabla =  ($area == 'almacen_datos') ? 'almacen_datos.repositorio' : 'costos.fila_origen_dato_'.strtolower($area);
             $sql = "
@@ -558,19 +571,23 @@ class FormularioRepository extends EntityRepository {
         return $origenes;
     }
 
-    private function getParameterString(PeriodoIngresoDatosFormulario $periodoIngreso, $parametros) {
+    private function getParameterString($parametros, PeriodoIngresoDatosFormulario $periodoIngreso = null ) {
         $params_string = '';        
         
-        if ($periodoIngreso->getFormulario()->getPeriodoLecturaDatos() == 'mensual')
-            $this->parametros['mes'] = $periodoIngreso->getPeriodo()->getMes();
-        $this->parametros['anio'] = $periodoIngreso->getPeriodo()->getAnio();
-        if ($periodoIngreso->getUnidad()->getNivel() == 1 ) {
-            $this->parametros['establecimiento'] = $periodoIngreso->getUnidad()->getId();
-        } else {
-            $this->parametros['establecimiento'] = $periodoIngreso->getUnidad()->getParent()->getId();
-            $this->parametros['dependencia'] = $periodoIngreso->getUnidad()->getId();
+        if ($periodoIngreso !=  null ){
+            if ($periodoIngreso->getFormulario()->getPeriodoLecturaDatos() == 'mensual')
+                $this->parametros['mes'] = $periodoIngreso->getPeriodo()->getMes();
+            $this->parametros['anio'] = $periodoIngreso->getPeriodo()->getAnio();
+            if ($periodoIngreso->getUnidad()->getNivel() == 1 ) {
+                $this->parametros['establecimiento'] = $periodoIngreso->getUnidad()->getCodigo();
+            } elseif ($periodoIngreso->getUnidad()->getNivel() == 2 ) {
+                $this->parametros['establecimiento'] = $periodoIngreso->getUnidad()->getParent()->getCodigo();
+                $this->parametros['dependencia'] = $periodoIngreso->getUnidad()->getId();
+            } elseif ($periodoIngreso->getUnidad()->getNivel() == 3 ) {
+                $this->parametros['establecimiento'] = $periodoIngreso->getUnidad()->getParent()->getParent()->getCodigo();
+                $this->parametros['dependencia'] = $periodoIngreso->getUnidad()->getCodigo();
+            }
         }
-        
         foreach ($this->parametros as $key => $value) {
             $params_string .= " AND datos->'" . $key . "' = '" . $value . "' ";
         }
@@ -582,7 +599,7 @@ class FormularioRepository extends EntityRepository {
         $em = $this->getEntityManager();
         $parametros = $request->get('datos_frm');
 
-        $params_string = $this->getParameterString($periodoIngreso, $parametros);
+        $params_string = $this->getParameterString($parametros, $periodoIngreso);
         $area = $Frm->getAreaCosteo();
         if ($area != 'ga_variables' and $area != 'ga_compromisosFinancieros' and $area != 'ga_distribucion' and $area != 'almacen_datos'){
             $origenes = $this->getOrigenes($Frm->getOrigenDatos());
