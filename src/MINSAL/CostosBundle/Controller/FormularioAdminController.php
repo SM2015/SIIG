@@ -25,7 +25,7 @@ class FormularioAdminController extends Controller
         $periodoSeleccionado = ($request->get('periodo_estructura') != '-1') ? 
                                 $em->getRepository("CostosBundle:PeriodoIngresoDatosFormulario")->find($periodo):
                                 null;
-        $parametros = $this->getParametros($periodoSeleccionado);
+        $parametros = $this->getParametros2($periodoSeleccionado);
         
         return $this->render('CostosBundle:Formulario:'.$plantilla.'.html.twig', array('Frm' => $Frm, 
             'origenes' => $this->getOrigenes($Frm, $parametros),
@@ -272,7 +272,7 @@ class FormularioAdminController extends Controller
         return $pivotes;
     }
     
-    private function getParametros($periodoIngreso){
+    private function getParametros2($periodoIngreso){
         $parametros = array();
         if ($periodoIngreso !=  null ){
             if ($periodoIngreso->getFormulario()->getPeriodoLecturaDatos() == 'mensual')
@@ -297,5 +297,14 @@ class FormularioAdminController extends Controller
                 );
         }
         return $parametros;
+    }
+    
+    private function getParametros($r){
+        return array('anio_mes'=>$r->get('anio_mes'),
+            'anio'=>$r->get('anio'),
+            'establecimiento'=>$r->get('establecimiento'),
+            'dependencia'=>$r->get('dependencia'),
+            'periodo_estructura' => $r->get('periodo_estructura')
+            );
     }
 }
