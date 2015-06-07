@@ -20,22 +20,29 @@ class SignificadoCampoAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-                ->add('codigo', null, array('label' => $this->getTranslator()->trans('codigo')))
-                ->add('descripcion', null, array('label' => $this->getTranslator()->trans('descripcion')))
-                ->add('usoEnCatalogo', null, array('label' => $this->getTranslator()->trans('uso_catalogo')))
-                ->add('catalogo', 'choice', array('label' => $this->getTranslator()->trans('catalogo'),
-                    'required' => false,
-                    'choices' => $this->repository->getCatalogos()
+                ->tab($this->getTranslator()->trans('_general_'))
+                    ->with('')
+                        ->add('codigo', null, array('label' => $this->getTranslator()->trans('codigo')))
+                        ->add('descripcion', null, array('label' => $this->getTranslator()->trans('descripcion')))
+                        ->add('usoCosteo', null, array('label' => $this->getTranslator()->trans('_uso_costeo_')))
+                        ->add('usoEnCatalogo', null, array('label' => $this->getTranslator()->trans('uso_catalogo')))
+                        ->add('catalogo', 'choice', array('label' => $this->getTranslator()->trans('catalogo'),
+                            'required' => false,
+                            'choices' => $this->repository->getCatalogos()
 
-                ))
-                ->add('tiposGraficos', null, array('label' => $this->getTranslator()->trans('_tipos_graficos_'),
-                            'expanded' => true
                         ))
-                ->with($this->getTranslator()->trans('_datos_geograficos_'), array('collapsed' => false))
-                    ->add('nombreMapa', null, array('label' => $this->getTranslator()->trans('nombre_archivo_mapa')))
-                    ->add('escala', null, array('label' => $this->getTranslator()->trans('_escala_')))
-                    ->add('origenX', null, array('label' => $this->getTranslator()->trans('_origen_x_')))
-                    ->add('origenY', null, array('label' => $this->getTranslator()->trans('_origen_y_')))
+                        ->add('tiposGraficos', null, array('label' => $this->getTranslator()->trans('_tipos_graficos_'),
+                                    'expanded' => true
+                                ))
+                    ->end()
+                ->end()                
+                ->tab($this->getTranslator()->trans('_datos_geograficos_'), array('collapsed' => false))
+                    ->with('')
+                        ->add('nombreMapa', null, array('label' => $this->getTranslator()->trans('nombre_archivo_mapa')))
+                        ->add('escala', null, array('label' => $this->getTranslator()->trans('_escala_')))
+                        ->add('origenX', null, array('label' => $this->getTranslator()->trans('_origen_x_')))
+                        ->add('origenY', null, array('label' => $this->getTranslator()->trans('_origen_y_')))
+                    ->end()
                 ->end()
                 ;
     }
@@ -45,6 +52,7 @@ class SignificadoCampoAdmin extends Admin
         $datagridMapper
                 ->add('descripcion', null, array('label' => $this->getTranslator()->trans('descripcion')))
                 ->add('catalogo', null, array('label' => $this->getTranslator()->trans('catalogo')))
+                ->add('usoCosteo', null, array('label' => $this->getTranslator()->trans('_uso_costeo_')))
         ;
     }
 

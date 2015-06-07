@@ -15,8 +15,8 @@ $(document).ready(function() {
             /* A cada nombre de campo se le agrega como prefijo el id que se está usando 
              * para el formulario, lo quitaré para que sea más fácil de manipular del lado del servidor
              */
-            var $conexiones = $('#' + $id + '_conexiones input:checked');
-            if ($('#' + $id + '_sentenciaSql').val() == '' || $conexiones.length == 0) {
+            var $conexiones = $('#' + $id + '_conexiones');            
+            if ($('#' + $id + '_sentenciaSql').val() == '' || $conexiones.select2('val') == '') {
                 alert(trans.sentencia_sql_origen_requeridos);
                 return;
             }
@@ -70,12 +70,12 @@ $(document).ready(function() {
                 $('#mensajito_cambio').html('<DIV class="alert alert-error">' + resp.mensaje + '</DIV>');
             }
             else {
-                $.each(resp.tipos_datos, function(indice, fila) {
+                /*$.each(resp.tipos_datos, function(indice, fila) {
                     seleccionado = '';
                     if (fila.codigo == 'texto')
                         seleccionado = 'selected';
                     tipos_datos = tipos_datos + "<OPTION VALUE='" + fila.id + "' " + seleccionado + ">" + fila.descripcion + "</OPTION>";
-                });
+                });*/
 
                 // Construir las opciones de significado de datos
                 var significado_datos = '<OPTION value=-1>' + trans.elija_significado_dato + '</OPTION>';
@@ -95,7 +95,7 @@ $(document).ready(function() {
                         "<THEAD>" +
                         "<TR id='fila_enc' class='info'>" +
                         "<TH>" + trans.nombre_campo + "</TH>" +
-                        "<TH>" + trans.tipo + "</TH>" +
+                        //"<TH>" + trans.tipo + "</TH>" +
                         "<TH>" + trans.significado + "</TH>" +
                         "<TH>" + trans.diccionario_transformacion + "</TH>" +
                         "<TH>" + trans.datos_muestra + "</TH>" +
@@ -104,9 +104,9 @@ $(document).ready(function() {
                 $.each(resp.nombre_campos, function(id, valor) {
                     fila = "<TR>" +
                             "<TD>" + valor + "</TD>" +
-                            "<TD>" +
+                            /*"<TD>" +
                             "<SELECT class='tipo_campo' id='tipo_campo__" + id + "' title='" + trans.elija_tipo_dato + "' >" + tipos_datos + "</SELECT>" +
-                            "</TD>" +
+                            "</TD>" +*/
                             "<TD>" +
                             "<SELECT class='significado' data-significado_codigo='" + resp.campos[valor]['significado_codigo'] + "' id='significado_variable__" + id + "' title='" + trans.elija_significado_dato + "' >" + significado_datos + "</SELECT>" +
                             "</TD>" +
@@ -170,17 +170,16 @@ $(document).ready(function() {
                                 .attr('disabled', false)
                     guardar_cambio($(this));
                 });
-
-                $('SELECT.tipo_campo').change(function() {
-                    guardar_cambio($(this));
-                });
-
+                
                 $('SELECT.diccionario').change(function() {
                     guardar_cambio($(this));
                 });
 
-                $objs = $('SELECT.tipo_campo');
+                $objs = $('SELECT.significado');
                 $objs[parseInt($objs.length / 2)].focus();
+                
+                $('.significado').select2();
+                $('.diccionario').select2();
             }
         });
     }

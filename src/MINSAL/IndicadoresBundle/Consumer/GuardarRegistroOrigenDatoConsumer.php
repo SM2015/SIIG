@@ -18,24 +18,21 @@ class GuardarRegistroOrigenDatoConsumer implements ConsumerInterface
     public function execute(AMQPMessage $mensaje)
     {
         $msg = unserialize($mensaje->body);
-
+        
+        //Verificar si tiene código de costeo
+        $sql = "SELECT area_costeo FROM origen_datos WHERE id = $msg[id_origen_dato]";
+        $areaCosteo =  $this->em->getConnection()->executeQuery($sql)->fetch();
+            
         // Si se retorna falso se enviará un mensaje que le indicará al producer que no se pudo procesar
         // correctamente el mensaje y será enviado nuevamente
         if ($msg['method'] == 'PUT') {
-            $fila1 = $msg['datos'][0];
+            $fila1 = $msg['datos'][0];                       
 
             $llaves_aux1 = '';
             foreach ($fila1 as $k => $campo)
                 $llaves_aux1 .= "'$k', ";
             $llaves_aux1 = trim($llaves_aux1, ', ');
-
-            // Verificar si existe la tabla fila_origen_dato_aux, sino existe crearla
-            try {
-                $this->em->getConnection()->exec("SELECT 1 FROM fila_origen_dato_aux LIMIT 1");
-            } catch (\Exception $exc) {
-                $this->em->getConnection()->exec("SELECT id_origen_dato, datos, ultima_lectura INTO fila_origen_dato_aux FROM fila_origen_dato LIMIT 0");
-            }
-
+            
             $sql = "INSERT INTO fila_origen_dato_aux(id_origen_dato, datos, ultima_lectura)
                     VALUES ";
             $i = 0;
@@ -70,11 +67,35 @@ class GuardarRegistroOrigenDatoConsumer implements ConsumerInterface
             return true;
         } elseif ($msg['method'] == 'DELETE') {
             $this->em->getConnection()->beginTransaction();
-            //Borrar los datos existentes por el momento así será pero debería haber una forma de ir a traer solo los nuevos
-            $sql = "DELETE FROM fila_origen_dato WHERE id_origen_dato='$msg[id_origen_dato]'  ;
-                    INSERT INTO fila_origen_dato SELECT * FROM fila_origen_dato_aux WHERE id_origen_dato='$msg[id_origen_dato]';
-                    DELETE FROM fila_origen_dato_aux WHERE id_origen_dato='$msg[id_origen_dato]' ;
-                    ";
+            $tabla = ($areaCosteo['area_costeo'] == '') ? 'fila_origen_dato' : 'costos.fila_origen_dato_' . $areaCosteo['area_costeo'];
+            
+            if ($areaCosteo['area_costeo'] == 'rrhh'){
+                //Solo agregar los datos nuevos
+                $sql = " INSERT INTO $tabla 
+                            SELECT *  FROM fila_origen_dato_aux 
+                            WHERE id_origen_dato='$msg[id_origen_dato]'
+                                AND datos->'nit' 
+                                    NOT IN 
+                                    (SELECT datos->'nit' FROM $tabla); 
+                        DELETE FROM fila_origen_dato_aux WHERE id_origen_dato='$msg[id_origen_dato]'
+                         ";
+            } elseif ($areaCosteo['area_costeo'] == 'ga_af'){
+                //Solo agregar los datos nuevos
+                $sql = " INSERT INTO $tabla 
+                            SELECT *  FROM fila_origen_dato_aux 
+                            WHERE id_origen_dato='$msg[id_origen_dato]'
+                                AND datos->'codigo_af' 
+                                    NOT IN 
+                                    (SELECT datos->'codigo_af' FROM $tabla); 
+                        DELETE FROM fila_origen_dato_aux WHERE id_origen_dato='$msg[id_origen_dato]'
+                        ";
+            } else {
+                //Borrar los datos existentes por el momento así será pero debería haber una forma de ir a traer solo los nuevos
+                $sql = "DELETE FROM $tabla WHERE id_origen_dato='$msg[id_origen_dato]'  ;
+                        INSERT INTO $tabla SELECT * FROM fila_origen_dato_aux WHERE id_origen_dato='$msg[id_origen_dato]';
+                        DELETE FROM fila_origen_dato_aux WHERE id_origen_dato='$msg[id_origen_dato]' ;
+                        ";
+            }
             $this->em->getConnection()->exec($sql);
             $this->em->getConnection()->commit();
 

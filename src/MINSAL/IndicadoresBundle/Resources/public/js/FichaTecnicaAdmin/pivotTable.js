@@ -37,6 +37,8 @@ $(document).ready(function() {
         }
     });
     
+    $("#FiltroNoClasificados").searchFilter({targetSelector: ".indicador", charCount: 2});
+    
     $('A.indicador').click(function() {
         var id_indicador = $(this).attr('data-id');
         var nombre_indicador = $(this).html();
@@ -55,6 +57,26 @@ $(document).ready(function() {
             $('#marco-sala').attr('data-content', nombre_indicador);
             $('#myTab a:first').tab('show');
             idIndicadorActivo = id_indicador;
+        });
+    });
+    
+    $('A.elemento_costeo').click(function() {
+        var codigo = $(this).attr('data-id');
+        var nombre_elemento = $(this).html();
+        //var derivers = $.pivotUtilities.derivers;
+
+        var renderers = $.extend($.pivotUtilities.renderers,
+                $.pivotUtilities.gchart_renderers);
+                
+        
+        $.getJSON(Routing.generate('get_datos_costeo', {codigo: codigo}), function(mps) {
+            $("#output").pivotUI(mps, {
+                renderers: renderers,
+                menuLimit: 500,
+                unusedAttrsVertical: false
+            }, false, 'es');
+            $('#marco-sala').attr('data-content', nombre_elemento);
+            $('#myTab a:first').tab('show');
         });
     });
 });

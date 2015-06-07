@@ -4,6 +4,8 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.xml }
+    - { resource: @IndicadoresBundle/Resources/config/admin.xml }
+    - { resource: @CostosBundle/Resources/config/admin.xml }
 
 framework:
     #esi:             ~
@@ -51,6 +53,9 @@ doctrine:
         charset:  UTF8
         types:
             json: Sonata\Doctrine\Types\JsonType
+        mapping_types:
+            hstore: string
+            geometry: string
 
     orm:
         auto_generate_proxy_classes: %kernel.debug%
@@ -123,6 +128,7 @@ sonata_admin:
         # se personalizó la plantilla de borrar
         #delete:  IndicadoresBundle:CRUD:delete.html.twig
         list_block: IndicadoresBundle:Block:block_admin_list.html.twig
+        knp_menu_template: IndicadoresBundle:Menu:main_menu.html.twig
                 
         
 fos_user:
@@ -215,16 +221,16 @@ services:
 
 
 #Fr3d_LDAP
-fr3d_ldap:
-    driver:
-        host:         10.10.20.2 # Servidor LDAP Zimbra
-        port:         389    # Optional
-    user:
-        baseDn:          ou=people,dc=salud,dc=gob,dc=sv
-        filter: (objectClass=organizationalPerson)
-        attributes:          # Specify ldap attributes mapping [ldap attribute, user object method]
-            - { ldap_attr: uid,  user_method: setUsername } # Default
-            - { ldap_attr: mail,   user_method: setEmail }     # Optional
+#fr3d_ldap:
+#    driver:
+#        host:         10.10.20.2 # Servidor LDAP Zimbra
+#        port:         389    # Optional
+#    user:
+#        baseDn:          ou=people,dc=salud,dc=gob,dc=sv
+#        filter: (objectClass=organizationalPerson)
+#        attributes:          # Specify ldap attributes mapping [ldap attribute, user object method]
+#            - { ldap_attr: uid,  user_method: setUsername } # Default
+#            - { ldap_attr: mail,   user_method: setEmail }     # Optional
 #            - { ldap_attr: cn,  user_method: setName }         # Optional
 #   service:
 #       user_manager: fos_user.user_manager          # Overrides default user manager

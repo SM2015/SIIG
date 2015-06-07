@@ -165,8 +165,8 @@ action_load_data: 'Cargar Datos'
 archivo_asociado: 'Archivo asociado'
 subir_nuevo_archivo: 'Subir nuevo archivo'
 origen_datos: 'Origen de Datos'
-origen_datos_archivo: 'Cargar datos desde archivo: Hoja de cálculo (Excel y OpenOffice/LibreOffice) o archivo de texto (CSV) '
-origen_datos_sql: 'Cargar datos desde sentencia SQL'
+origen_datos_archivo: 'Desde archivo: Hoja de cálculo o archivo de texto (CSV)'
+origen_datos_sql: 'Desde base de datos'
 tipo_campo_cambiado_a: 'Tipo de campo cambiado a'
 significado_campo_cambiado_a: 'Significado de campo cambiado a'
 flash_batch_load_data_success: 'Se ha iniciado el proceso de carga de datos para los orígenes especificados'
@@ -362,3 +362,6 @@ _reporte_: Reporte
 _mostrar_reporte_: Mostrar Reporte
 _buscar_indicador_: Buscar indicador
 _agregar_accion_: Agregar acción
+_origen_datos_: Origen de los datos
+_clasificacion_: Clasificación
+_general_: General

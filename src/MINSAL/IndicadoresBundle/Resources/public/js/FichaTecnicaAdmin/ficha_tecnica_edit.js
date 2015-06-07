@@ -1,5 +1,6 @@
 window.SONATA_CONFIG = {
-    USE_ICHECK: false
+    USE_ICHECK: true,
+    USE_SELECT2: true
 };
 $(document).ready(function() {
     // id que se está usando para los nombres de los formularios (es aleatorio)
@@ -23,34 +24,29 @@ $(document).ready(function() {
     });
 
     //Al seleccionar una variable pasarla al campo de la fórmula
-    $('ul[id$="_variables"] input[type=checkbox]').change(function() {        
-        var variable = $.trim($(this).next('span').html()).match(/(\([0-9A-Z_]+\)$)/g);        
-        variable = variable[0].replace('(','{').replace(')','}');        
-        
-        if ($(this).is(':checked'))
-            $("input[id$='_formula']").atCaret('insert', variable);
-        else
-            $("input[id$='_formula']").val($("input[id$='_formula']").val().replace(variable, ''));
-
+    //.on("select2-removing", function(e) { log ("removing val="+ e.val+" choice="+ JSON.stringify(e.choice));})
+    $('select[id$="_variables"]').on("select2-selecting", function(e) { 
+        var variable = $.trim(e.choice.text.match(/(\([0-9A-Z_]+\)$)/g));
+        variable = variable.replace('(','{').replace(')','}');
+        $("input[id$='_formula']").atCaret('insert', variable);
+    }).on("select2-removed", function(e) { 
+        var variable = $.trim(e.choice.text.match(/(\([0-9A-Z_]+\)$)/g));
+        variable = variable.replace('(','{').replace(')','}');
+        $("input[id$='_formula']").val($("input[id$='_formula']").val().replace(variable, ''));
     });
 
     //Verificar que cuando se elija la clasificación técnica
     // solo se pueda marcar uno por categoría
-    $('ul[id$="_clasificacionTecnica"] input:checkbox').change(function() {
+    $('ul[id$="_clasificacionTecnica"] input').on('ifChecked', function(event){
         var categoria, $cambiar;
-        //Si está marcado desmarcar todos los demas de la misma categoria
         var id = $(this).attr('id');
-        if ($(this).is(':checked')) {
-            categoria = $(this).next('span').html().split(' -- ')[0];
-            //Seleccionar todos los demás de la misma categoría
-            $cambiar = $('ul[id$="_clasificacionTecnica"] input:checkbox + span:contains(' + categoria + ')');
-            $cambiar.each(function(i, nodo) {
-                if ($(nodo).prev('input:checkbox').attr('id') !== id)
-                    $(nodo).prev('input:checkbox').attr('checked', false);
-            });
-        }
+        
+        categoria = $(this).parent().next('span').html().trim().split(' -- ')[0];
+        
+        $('ul[id$="_clasificacionTecnica"] span:contains(' + categoria + ')').prev().children('input[id!='+id+']').iCheck('uncheck');
+        
     });
-
+    
     function cambiar_orden() {
         var campos_nvo_orden = '';
         $("#campos_orden").children().each(function(i, nodo) {
@@ -67,6 +63,7 @@ $(document).ready(function() {
     
     function alertas_aplicar_estilos(){
         $('div[id$=_alertas] select[id$=_color]').css('width','150px');
+        $('div[id$=_alertas] label').remove();
         $('div[id$=_alertas] textarea[id$=_comentario]').css('width','350px');
     }
 });

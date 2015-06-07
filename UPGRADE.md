@@ -21,5 +21,52 @@ Descargar la versión 0.12 de wkhtmltopdf e instalarla según se indica en el ma
 ## Instalación de Redis
 apt-get install redis-server
 
+##Actualizar el código del siig
+git reset --hard
+git pull
+
 ## Actualizar las dependencias
+php composer.phar self-update
 php composer.phar update
+
+
+## Limpiar la caché
+app/console redis:flushall
+app/console cache:clear
+app/console cache:clear --env=prod
+
+#Actualización módulo de costos
+## Crear el esquema costos
+## dentro de la base ejecutar
+CREATE SCHEMA costos;
+CREATE SCHEMA catalogos;
+CREATE SCHEMA temporales;
+
+##Actualizar la estructura de la base de datos
+app/console doctrine:schema:update --force
+
+
+## Cargar datos iniciales
+app/console doctrine:fixtures:load --fixtures=src/MINSAL/CostosBundle/DataFixtures/ORM --append
+
+- Ejecutar dentro de la base de datos, con el usuario dueño de la base
+~~~
+\i [directorio_instalacion]/src/MINSAL/CostosBundle/Resources/estructurasBD/estructuras.sql
+\i [directorio_instalacion]/src/MINSAL/CostosBundle/Resources/estructurasBD/costos_rrhh.sql
+~~~
+
+##Agregar desde la aplicación dos significados
+Código: tipo_contratacion
+Descripción: Tipo Contratación
+Utilizado para costeo: Sí
+Catálogo: catalogos.tipo_contratacion
+
+Código: tipo_recurso
+Descripción: Tipo Recurso
+Utilizado para costeo: Sí
+Catálogo: catalogos.tipo_recurso
+
+Código: especialidad
+Descripción: Especialidad
+Utilizado para costeo: Sí
+Catálogo: catalogos.especialidad

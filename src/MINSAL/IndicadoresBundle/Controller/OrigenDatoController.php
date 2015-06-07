@@ -200,6 +200,8 @@ class OrigenDatoController extends Controller
             $campos[$campo->getNombre()]['id'] = $campo->getId();
 
         $resultado['campos'] = $campos;
+        //Por defecto poner tipo entero
+        $tipoCampo = $em->getRepository("IndicadoresBundle:TipoCampo")->findOneByCodigo('varchar(255)');
         if (count($campos_existentes) == 0 or $recargar == true) {
             if ($origenDato->getSentenciaSql() != '') {
                 $resultado['tipo_origen'] = 'sql';
@@ -230,7 +232,7 @@ class OrigenDatoController extends Controller
                             $resultado['datos'] = $datos;
                             $resultado['nombre_campos'] = array_keys($resultado['datos'][0]);                            
                         }
-                        $query = $conn->query($sentenciaSQL);
+                        //$query = $conn->query($sentenciaSQL);
                                                         
                         $resultado['estado'] = 'ok';
                         $resultado['mensaje'] = '<span style="color: green">' . $this->get('translator')->trans('sentencia_success');
@@ -276,9 +278,7 @@ class OrigenDatoController extends Controller
             // Guardar los campos
             if ($resultado['estado'] == 'ok') {
                 $nombres_id = array();
-                $campo = array();
-                //Por defecto poner tipo entero
-                $tipoCampo = $em->getRepository("IndicadoresBundle:TipoCampo")->findOneByCodigo('integer');
+                $campo = array();                
                 $util = new \MINSAL\IndicadoresBundle\Util\Util();
                 foreach ($resultado['nombre_campos'] as $k => $nombre) {
                     // si existe no guardarlo

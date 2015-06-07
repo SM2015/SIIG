@@ -36,16 +36,23 @@ class OrigenDatosRepository extends EntityRepository
             } else
                 $tiene_null = true;
         }
-        if ($origen->getEsCatalogo())
+        if ($origen->getEsCatalogo()){
             if (!$tiene_pk or $tiene_null or !$tiene_descripcion)
                 return false;
             else
                 return true;
-        else
-        if (!$tiene_campo_calculo or $tiene_null)
-            return false;
-        else
-            return true;
+        } elseif ($origen->getAreaCosteo() != ''){
+            if ($tiene_null)
+                return false;
+            else
+                return true;
+        }
+        else{
+            if (!$tiene_campo_calculo or $tiene_null)
+                return false;
+            else
+                return true;
+        }
     }
 
     public function getTotalRegistros(OrigenDatos $origenDato)
@@ -224,9 +231,12 @@ class OrigenDatosRepository extends EntityRepository
     {
         //Consulta directa sobre el gestor postgresql, no funcionará en otro
         // Recupero todas las tablas cuyo nombre empieza con ctl_
-        $sql = "SELECT relname AS nombre, relname AS nombre_tabla
+        $sql = "SELECT schemaname||'.'|| relname AS nombre, relname AS nombre_tabla
             FROM pg_stat_user_tables
-            WHERE relname LIKE 'ctl_%'
+            WHERE 
+                relname LIKE 'ctl_%'
+                OR
+                schemaname = 'catalogos'
             ORDER BY relname";
 
         $datos = $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();

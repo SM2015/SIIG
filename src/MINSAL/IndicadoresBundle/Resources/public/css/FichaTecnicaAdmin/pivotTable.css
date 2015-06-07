@@ -112,3 +112,12 @@ div.popover-content, div.popover-title{
     border: none;
     box-shadow: none;
 }
+
+.grupo_indicadores{     
+    height: 400px;
+    width: 370px;
+    margin: 3px 12px 3px 0; 
+    float: left;     
+    overflow-y: auto;
+    border: 1px green solid; 
+}

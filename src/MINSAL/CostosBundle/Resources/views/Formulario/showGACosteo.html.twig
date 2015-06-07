@@ -1,0 +1,105 @@
+{% extends 'IndicadoresBundle::standard_layout.html.twig' %}
+{% block stylesheets %}    
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/indicadores/js/DataTables/media/css/jquery.dataTables.css') }}" type="text/css" media="all" />
+    <link rel="stylesheet" href="{{ asset('bundles/indicadores/js/DataTables/media/css/TableTools.css') }}" type="text/css" media="all" />
+{% endblock stylesheets %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/costos/js/jquery.mtz.monthpicker.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/indicadores/js/DataTables/jquery.dataTables.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/indicadores/js/DataTables/TableTools.min.js') }}" type="text/javascript"></script>    
+    <script src="{{ asset('bundles/costos/js/GA/costeo.js') }}" type="text/javascript"></script>
+{% endblock javascripts %}
+{% block content %}
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="navbar-header">
+            <span class="navbar-brand">{{titulo|trans}}</span>
+        </div>
+    </nav>
+    <form id="frm_" class="form-inline" >
+        <div class="box-body">        
+            {% block frm_head %}
+                <DIV style="width: 98%; text-align: right">                    
+                    <button class="btn btn-success" type="submit" name="cargar_datos" id="cargar_datos" ><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>{{'_cargar_datos_'|trans}}</button>
+                    <DIV id="mensaje"></div>
+                </div>                
+            {% endblock frm_head %}
+            {% block grid %}
+                <div id='jqxWidget' style="padding: 10px;">
+                    <div role="tabpanel">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#jqxgrid" role="tab" data-toggle="tab">{{'_cuadro_datos_'|trans}}</a></li>
+                            <li role="presentation"><a href="#jqxlistbox" aria-controls="profile" role="tab" data-toggle="tab">{{'_columnas_'|trans}}</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div id="jqxgrid" role="tabpanel" class="tab-pane active">
+                                <TABlE border="1" id="gaCostos">
+                                    <thead>
+                                        <TR>
+                                            <TH rowspan="2" >{{'_dependencia_'|trans}}</th>
+                                            {% for grp in grupos %}
+                                                <TH colspan="{{grp.compromisos|length}}" style="text-align: center;">{{grp.nombre}}</TH>
+                                            {% endfor %}
+                                            <TH rowspan="2" style="text-align: center;">{{'_total_'|trans}}</TH>
+                                        </TR>
+                                        <TR>
+                                            {% for grp in grupos %}
+                                                {% for compromiso in grp.compromisos %}
+                                                    <TH >{{compromiso}}</TH>
+                                                {% endfor %}
+                                            {% endfor %}
+                                        </TR>
+                                    </thead>
+                                    <tbody>
+                                        {% for key, dependencia in dependencias %}
+                                            <TR>
+                                                <TD>{{dependencia}}</TD>
+                                                {% for grp in grupos %}
+                                                    {% for compromiso_k in grp.compromisos|keys %}
+                                                        <TD style="text-align: right">
+                                                            {% if datos_costos[key] is defined and datos_costos[key][compromiso_k] is defined %}
+                                                                {{datos_costos[key][compromiso_k]|number_format(3, '.', ',')}}
+                                                            {% else %}
+                                                                {{0|number_format(3, '.', ',')}}
+                                                            {% endif %}
+                                                        </TD>
+                                                    {% endfor %}
+                                                {% endfor %}
+                                                
+                                                {% if totales['d'~key] is defined %}
+                                                    <TH style="text-align: right">${{totales['d'~key]|number_format(3, '.', ',')}}</TH>
+                                                {% else %}
+                                                    <TH style="text-align: right">${{1|number_format(3, '.', ',')}}</TH>
+                                                {% endif %}
+                                            </TR>
+                                        {% endfor %}
+                                        {#<TR>
+                                            <TD>{{'_total_'|trans}}</TD>
+                                            {% for grp in grupos %}
+                                                {% for compromiso_k in grp.compromisos|keys %}
+                                                    <TH style="text-align: right">${{totales[compromiso_k]|number_format(3, '.', ',')}}</TH>
+                                                {% endfor %}
+                                            {% endfor %}
+                                            <TH>${{totales.general|number_format(3, '.', ',')}}</TH>
+                                        </TR>#}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="jqxlistbox">
+                                {% set counter = 1 %}
+                                {% for grp in grupos %}
+                                    {% for compromiso in grp.compromisos %}
+                                        <input class="togle_columns" type="checkbox" data-column="{{counter}}" checked="checked">{{compromiso}}<BR/>
+                                        {% set counter = counter + 1 %}
+                                    {% endfor %}
+                                {% endfor %}
+                            </div>                    
+                        </div>                        
+                    </div>                    
+                </div>
+            {% endblock %}
+            {% block frm_foot %} {% endblock frm_foot %}
+        </div>
+    </form>
+{% endblock content %}

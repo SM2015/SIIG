@@ -10,7 +10,7 @@ parameters:
     mailer_user: null
     mailer_password: null
     locale: es_SV
-    secret: 295125e6c66ab2a1038b62ad3c910733510
+    secret: ThisTokenIsNotSoSecretChangeIt
     database_path: null
     archivo_vitacora: %kernel.logs_dir%/minsal.log
     
@@ -20,17 +20,6 @@ parameters:
     alto_area_grafico: 400
     titulo_sala_tamanio_fuente: 12
     ocultar_menu_principal: 0
+    directorio: ''
     
-    ##Variables de Saiku  
-    # Carpeta de Esquemas generados por el Siig para Pentaho  
-    carpeta_siig_mondrian: '%kernel.root_dir%/mondrian/'
-
-    # Nombre de Conexion de Base de Datos dentro de Pentaho
-    conexion_bd_pentaho: 'Minsal'
-
-    # Archivo que lista esquemas existentes y su conexion 
-    # Este archivo debe estar ligado al fichero ../pentaho-solutions/system/olap/datasources.xml
-    listado_metadata: 'datasources.siig'
-
-    # Carpeta para guardar las busquedas usadas para generar reportes usando Pentaho CDA
-    carpeta_pentaho_cda: '/home/siig/pentaho/pentaho-solutions/reportes'
+   

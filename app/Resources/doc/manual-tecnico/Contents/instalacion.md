@@ -15,6 +15,7 @@ debe ser ejecutado como usuario root y "$" que debe ser ejecutado como un usuari
 ~~~
 # apt-get update
 # apt-get install php5 php5-pgsql php5-sqlite sqlite php5-xdebug  php-apc php5-cli php5-xsl php5-intl php5-mcrypt apache2 postgresql acl git-core curl postgresql-contrib php5-ldap php5-mysql php5-sybase php5-json postgresql-contrib redis-server
+# php5enmod mcrypt
 ~~~
 
 ### Crear usuario y directorio de trabajo
@@ -152,19 +153,8 @@ Al finalizar presionar la combinación Ctrl+D 2 veces para regresar al usuario s
 ### Crear la base de datos
 ~~~
 $ app/console doctrine:database:create
-$ app/console doctrine:schema:update --force
 ~~~
 
-### Cargar datos iniciales
-
-~~~
-$ app/console doctrine:fixtures:load
-~~~
-
-### Crear un usuario administrador del SIIG
-~~~
-$ app/console fos:user:create --super-admin
-~~~
 
 ### Instalación de HStore
 [HStore](http://www.postgresql.org/docs/9.1/static/hstore.html) es un tipo especial de campo de PostgreSQL
@@ -174,6 +164,12 @@ $ app/console fos:user:create --super-admin
 ~~~
 create extension hstore;
 ~~~
+
+- Crear la estructura de la base de datos
+~~~
+$ app/console doctrine:schema:update --force
+~~~
+
 
 - Crear la tabla especial que no se manejará con el ORM, hacerlo con el usuario dueño de la base de datos 
 - (no con el usuario postrgres, a menos que este mismo sea el dueño de la base de datos)
@@ -185,6 +181,25 @@ CREATE TABLE fila_origen_dato(
 
     FOREIGN KEY (id_origen_dato) REFERENCES origen_datos(id) on update CASCADE on delete CASCADE
 );
+~~~
+
+- Ejecutar dentro de la base de datos, con el usuario dueño de la base
+~~~
+\i [directorio_instalacion]/src/MINSAL/CostosBundle/Resources/estructurasBD/estructuras.sql
+\i [directorio_instalacion]/src/MINSAL/CostosBundle/Resources/estructurasBD/costos_rrhh.sql
+\i [directorio_instalacion]/src/MINSAL/CostosBundle/Resources/estructurasBD/costos_activo_fijo.sql
+~~~
+
+
+### Cargar datos iniciales
+
+~~~
+$ app/console doctrine:fixtures:load
+~~~
+
+### Crear un usuario administrador del SIIG
+~~~
+$ app/console fos:user:create --super-admin
 ~~~
 
 ## Instalación de RabbitMQ
@@ -232,7 +247,7 @@ Pueden aparecer mensajes de aviso como "/usr/bin/nohup: redirecting stderr to st
  # /etc/init.d/rabbitmq-server restart
 ~~~
 
-- Cargar la interfaz web: entrar a la dirección http://server_name:55672/mgmt/
+- Cargar la interfaz web: entrar a la dirección http://server_name:15672
 El usuario por defecto es **guest** y la clave **guest**
 
 - Además es necesario configurar el CRON para que ejecute periodicamente la carga de datos, con esto se llamará al proceso origen-dato:cargar que verificará para cada indicador si le corresponde realizar la carga de datos según se haya configurado: diario, mensual, bimensual, trimestral o anual. Un ejemplo podría ser crear el archivo: /etc/cron.d/carga-php-siig

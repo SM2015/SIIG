@@ -22,26 +22,47 @@ class OrigenDatosAdmin extends Admin
         $esFusionado = $this->getSubject()->getEsFusionado();
 
         $formMapper
-                ->with($this->getTranslator()->trans('datos_generales'), array('collapsed' => false))
-                ->add('nombre', null, array('label' => $this->getTranslator()->trans('nombre')))
-                ->add('descripcion', null, array('label' => $this->getTranslator()->trans('descripcion'), 'required' => false))
+                ->tab($this->getTranslator()->trans('datos_generales'))
+                    ->with('', array('class' => 'col-md-12'))->end()
+                ->end()
+                ->tab($this->getTranslator()->trans('_origen_datos_'))
+                    ->with($this->getTranslator()->trans('origen_datos_sql'), array('class' => 'col-md-8'))->end()
+                    ->with($this->getTranslator()->trans('origen_datos_archivo'), array('class' => 'col-md-4'))->end()
+                ->end()
+        ;
+        
+        $formMapper            
+                ->tab($this->getTranslator()->trans('datos_generales'), array('collapsed' => false))
+                    ->with('', array('class' => 'col-md-12'))
+                        ->add('nombre', null, array('label' => $this->getTranslator()->trans('nombre')))
+                        ->add('descripcion', null, array('label' => $this->getTranslator()->trans('descripcion'), 'required' => false))
+                    ->end()
                 ->end()
         ;
         if ($esFusionado == false)
             $formMapper
-                    ->with($this->getTranslator()->trans('datos_generales'), array('collapsed' => false))
-                    ->add('esCatalogo', null, array('label' => $this->getTranslator()->trans('es_catalogo')))
+                    ->tab($this->getTranslator()->trans('datos_generales'), array('collapsed' => false))
+                        ->with('', array('class' => 'col-md-12'))
+                            ->add('esCatalogo', null, array('label' => $this->getTranslator()->trans('es_catalogo')))
+                            ->add('areaCosteo', 'choice', array('label' => $this->getTranslator()->trans('_area_costeo_'),
+                                'choices' => array('rrhh'=>$this->getTranslator()->trans('_rrhh_'),
+                                    'ga_af'=>$this->getTranslator()->trans('_ga_af_')),
+                                'required' => false
+                                ))
+                        ->end()
                     ->end()
-                    ->with($this->getTranslator()->trans('origen_datos_sql'), array('collapsed' => true))
-                    ->add('conexiones', null, array('label' => $this->getTranslator()->trans('nombre_conexion'), 'required' => false, 'expanded' => true))
-                    ->add('sentenciaSql', null, array('label' => $this->getTranslator()->trans('sentencia_sql'),
-                        'required' => false,
-                        'attr' => array('rows' => 7, 'cols' => 50)
-                    ))
-                    ->end()
-                    ->with($this->getTranslator()->trans('origen_datos_archivo'), array('collapsed' => true))
-                    ->add('archivoNombre', null, array('label' => $this->getTranslator()->trans('archivo_asociado'), 'required' => false, 'read_only' => true))
-                    ->add('file', 'file', array('label' => $this->getTranslator()->trans('subir_nuevo_archivo'), 'required' => false))
+                    ->tab($this->getTranslator()->trans('_origen_datos_'), array('collapsed' => true))
+                        ->with($this->getTranslator()->trans('origen_datos_sql'))
+                            ->add('conexiones', null, array('label' => $this->getTranslator()->trans('nombre_conexion'), 'required' => false, 'expanded' => false))
+                            ->add('sentenciaSql', null, array('label' => $this->getTranslator()->trans('sentencia_sql'),
+                                'required' => false,
+                                'attr' => array('rows' => 7, 'cols' => 50)
+                            ))
+                        ->end()
+                        ->with($this->getTranslator()->trans('origen_datos_archivo'))
+                            ->add('archivoNombre', null, array('label' => $this->getTranslator()->trans('archivo_asociado'), 'required' => false, 'read_only' => true))
+                            ->add('file', 'file', array('label' => $this->getTranslator()->trans('subir_nuevo_archivo'), 'required' => false))
+                        ->end()
                     ->end()
             ;
     }
@@ -59,7 +80,7 @@ class OrigenDatosAdmin extends Admin
                 ->addIdentifier('nombre', null, array('label' => $this->getTranslator()->trans('nombre')))
                 ->add('descripcion', null, array('label' => $this->getTranslator()->trans('descripcion')))
                 ->add('esFusionado', null, array('label' => $this->getTranslator()->trans('fusion.es_fusionado')))
-                ->add('esCatalogo', null, array('label' => $this->getTranslator()->trans('es_catalogo')))
+                ->add('esCatalogo', null, array('label' => $this->getTranslator()->trans('es_catalogo')))                
                 ->add('sentenciaSql', null, array('label' => $this->getTranslator()->trans('sentencia_sql'),
                     'template'=>'IndicadoresBundle:CRUD:list_sentencia_sql.html.twig'))
                 ->add('archivoNombre', null, array('label' => $this->getTranslator()->trans('archivo_asociado')))

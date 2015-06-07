@@ -1,0 +1,7 @@
+{% extends 'IndicadoresBundle:CRUD:edit.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/costos/js/jquery.mtz.monthpicker.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/GA/variables_edit.js') }}" type="text/javascript"></script>    
+{% endblock %}

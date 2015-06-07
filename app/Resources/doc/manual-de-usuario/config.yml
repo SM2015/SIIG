@@ -15,12 +15,15 @@ book:
         - { element: cover }
         - { element: toc   }
         - { element: introduction, content: introduccion.md }
+        - { element: part, title: 'Indicadores y tablero electrónico' }
         - { element: chapter, number: 1, content: premilinares.md }
         - { element: chapter, number: 2, content: etl.md }
         - { element: chapter, number: 3, content: ficha_tecnica.md }
         - { element: chapter, number: 4, content: tablero.md }
         - { element: chapter, number: 5, content: pivottable.md }
         - { element: chapter, number: 6, content: usuarios_grupos.md }
+        - { element: part, title: 'Módulo de costos' }
+        - { element: chapter, number: 7, content: costos_manual_usuario.md }
         - { element: lof}
 
     editions:

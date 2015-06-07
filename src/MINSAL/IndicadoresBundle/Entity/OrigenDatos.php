@@ -78,6 +78,7 @@ class OrigenDatos
      * @ORM\Column(name="es_catalogo", type="boolean", nullable=true)
      */
     private $esCatalogo;
+        
 
     /**
      * @var string $nombreCatalogo
@@ -86,7 +87,7 @@ class OrigenDatos
      */
     protected $nombreCatalogo;
 
-    /**
+    /**u
      * @var string $camposFusionados
      *
      * @ORM\Column(name="campos_fusionados", type="text", nullable=true)
@@ -101,6 +102,13 @@ class OrigenDatos
      *      )
      * */
     private $fusiones;
+    
+    /**
+     * @var string $areaCosteo
+     *
+     * @ORM\Column(name="area_costeo", type="string", length=50, nullable=true)
+     */
+    protected $areaCosteo;
 
     /**
      * @ORM\OneToMany(targetEntity="Campo", mappedBy="origenDato")
@@ -562,5 +570,28 @@ class OrigenDatos
     {
         return $this->esPivote;
     }
+    
 
+    /**
+     * Set areaCosteo
+     *
+     * @param string $areaCosteo
+     * @return OrigenDatos
+     */
+    public function setAreaCosteo($areaCosteo)
+    {
+        $this->areaCosteo = $areaCosteo;
+
+        return $this;
+    }
+
+    /**
+     * Get areaCosteo
+     *
+     * @return string 
+     */
+    public function getAreaCosteo()
+    {
+        return $this->areaCosteo;
+    }
 }

@@ -403,8 +403,8 @@ class FichaTecnicaRepository extends EntityRepository {
             } elseif ($origenDato[$k]->getEsPivote()) {
                 foreach ($origenDato[$k]->getFusiones() as $or) {
                     foreach ($or->getAllFields() as $campo) {
-                        //La llave para considerar campo comun será el mismo tipo y significado
-                        $llave = $campo->getSignificado()->getCodigo() . '-' . $campo->getTipoCampo()->getCodigo();
+                        //La llave para considerar campo comun será el mismo significado
+                        $llave = $campo->getSignificado()->getCodigo();
                         //$llave = $campo->getSignificado()->getId();
                         $origen_campos[$origenDato[$k]->getId()][$llave]['significado'] = $campo->getSignificado()->getCodigo();
                     }

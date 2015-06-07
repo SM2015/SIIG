@@ -1,17 +1,5 @@
 #Modelo De Datos
 
-### Esquema general de la Aplicacion
-
-![Esquema de la aplicación](images/esquema_app.png)
-
-Los datos que maneja el sistema provienen de distintas fuentes y son de una naturaleza tal que es necesario utilizar el modelo de
-base datos sin esquema/genérico EAV. Las tabla EAV (Fila_origen_dato) y demás tablas auxiliares son parte del
-almacenamiento de datos transaccional (OLTP) de la aplicación. Esto facilita el manejo de datos
-de cualquier indicador sin importar sus propiedades. Los cubos de análisis multidimensional
-(OLAP) son generados usando estos valores genéricos y estan descritos en la seccion de Gesition de Cubos OLAP.
-Las tablas de los cubos OLAP usan un esquema de estrella mientras que las tablas del almacenamiento OLTP usan un modelo relacional.
-El Siguiente Diccionario de Datos y Diagrama ER describen la estructura del almacenamiento transaccional (OLTP) de la Aplicacion.
-
 ### Diagrama Entidad Relacion
 
 

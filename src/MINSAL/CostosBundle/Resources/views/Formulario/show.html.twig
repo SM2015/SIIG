@@ -1,0 +1,333 @@
+{% extends 'IndicadoresBundle::standard_layout.html.twig' %}
+{% block stylesheets %}    
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/costos/js/jqwidgets/styles/jqx.base.css') }}" type="text/css" media="all" />
+    <link rel="stylesheet" href="{{ asset('bundles/costos/js/jqwidgets/styles/jqx.energyblue.css') }}" type="text/css" media="all" />
+    <style>
+        .jqx-grid-cell-pinned{
+            background-color: #F9F9F9 !important;
+        }        
+        .jqx-grid-column-header
+        {            
+            white-space: normal !important;
+            vertical-align: middle !important;
+        }
+        
+        .celda_no_editable {
+            background-color: #D6D6D6;
+        }
+        
+    </style>
+{% endblock stylesheets %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxcore.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxdata.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxbuttons.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxscrollbar.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxmenu.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxcheckbox.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxlistbox.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxdropdownlist.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxgrid.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxgrid.sort.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxgrid.pager.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxgrid.selection.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxgrid.edit.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxgrid.filter.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxgrid.columnsresize.js') }}" type="text/javascript"></script>    
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxscrollbar.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxbuttons.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxcheckbox.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxdropdownlist.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxlistbox.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxmenu.js') }}" type="text/javascript"></script>    
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxcalendar.js') }}" type="text/javascript"></script>    
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxdatetimeinput.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxgrid.aggregates.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxdata.export.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/jqwidgets/jqxgrid.export.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/costos/js/jquery.mtz.monthpicker.js') }}" type="text/javascript"></script> 
+    <script src="{{ asset('bundles/costos/js/parametrosDependencia.js') }}" type="text/javascript"></script> 
+    <script src="{{ asset('bundles/costos/js/jqwidgets/globalization/globalize.js') }}" type="text/javascript"></script>
+    
+    <script src="{{ asset('bundles/costos/js/jqwidgets/globalization/globalize.culture.#{app.request.locale}.js') }}" type="text/javascript"></script>
+    
+    {% block frm %}
+    {% if periodoSeleccionado != null and parametros.periodo_estructura != '-1' %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.jqx.theme = 'energyblue';
+            var url = Routing.generate('{{url}}', {id: {{Frm.id}}, periodo_ingreso: $('#periodo_estructura').val(),titulo_frm : '{{titulo}}', datos_frm: $('#frm_').serialize() });
+            var fila = 0;
+            var columna = 0;            
+            // prepare the data
+            var source =
+            {
+                datatype: "json",
+                updaterow: function (rowid, rowdata, commit) {
+                    // synchronize with the server - send update command
+                    // call commit with parameter true if the synchronization with the server is successful 
+                    // and with parameter false if the synchronization failder.
+                    if (rowdata.local == 'si'){
+                        rowdata.local = 'no';
+                        //alert(fila); alert(columna);
+                        commit(true);
+                        //$("#jqxgrid").jqxGrid('selectcell', fila, columna);
+                    } else {
+                        $.post(Routing.generate('{{url_save}}', {id: {{Frm.id}}, periodo_ingreso: $('#periodo_estructura').val() }), 
+                                    {datos_frm: $('#frm_').serialize(),
+                                        pk: $('#pk').val(),
+                                        fila: JSON.stringify(rowdata),
+                                    },
+                        function(resp) {
+                            if (resp.estado == 'ok') {         
+                                $('#mensaje').html('');
+                                //var commit_ = $("#jqxgrid").jqxGrid('updaterow', rowid, resp.data);
+                                commit(true);
+                            }
+                            else {
+                                $('#mensaje').html('<div class="alert alert-danger" role="alert">'+resp.msj+'</div>');
+                                commit(false);
+                            }
+
+                        }, 'json');
+                    }
+                },
+                datafields: [
+                    {% for campo in Frm.campos %}
+                        {% if campo.origenPivote %} 
+                            {% for campoPivote in pivotes[campo.significadoCampo.codigo] %}
+                                { name: '{{campo.significadoCampo.codigo}}_{{campoPivote.id}}', type: '{{campo.tipoDato.codigo}}' },
+                                {% if campo.origen or campo.significadoCampo.catalogo != '' %} 
+                                    { name: '{{campo.significadoCampo.codigo}}Source', value: '{{campo.significadoCampo.codigo}}', 
+                                        values: { source: {{origenes[campo.significadoCampo.codigo]|raw}}, value: 'id', name: 'descripcion' } },
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            { name: '{{campo.significadoCampo.codigo}}', type: '{{campo.tipoDato.codigo}}' },
+                            {% if campo.origen or campo.significadoCampo.catalogo != '' %} 
+                                { name: '{{campo.significadoCampo.codigo}}Source', value: '{{campo.significadoCampo.codigo}}', 
+                                    values: { source: {{origenes[campo.significadoCampo.codigo]|raw}}, value: 'id', name: 'descripcion' } },
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                    {name: 'es_poblacion'},
+                    {name: 'ayuda'}
+                ],
+                url: url,
+                root: 'data'
+            };
+            var dataAdapter = new $.jqx.dataAdapter(source);
+            $("#jqxgrid").jqxGrid(
+            {
+                width: '95%',
+                columnsheight: {% if Frm.gruposColumnas|length > 0 %}'42px'{% else %}'65px'{% endif %},
+                source: dataAdapter,
+                columnsresize: true,
+                editable: {{editable|default(true)}},
+                sortable: true,
+                altrows: true,
+                {% if mostrar_resumen %}
+                    showaggregates: true,
+                    showstatusbar: true,
+                {% endif %}
+                filterable: true,
+                editmode: 'click',                
+                selectionmode: 'multiplecellsadvanced',
+                {% set columnas_fijas = Frm.columnasFijas|default(0) %}
+                columns: [
+                    {
+                      text: '#', sortable: false, filterable: false, editable: false,
+                      groupable: false, draggable: false, resizable: false,
+                      datafield: '', columntype: 'number', width: 50, pinned: true,
+                      cellsrenderer: function (row, column, value) {
+                          return "<div style='margin:4px;'>" + (value + 1) + "</div>";
+                      }
+                    },
+                    {% set indice = 0 %}
+                    {% for campo in Frm.campos %}                        
+                        {% set indice = indice+1 %}
+                        {% if campo.origenPivote %}
+                            {% set Pivotes_ =  pivotes[campo.significadoCampo.codigo] %}
+                        {% else %}
+                            {% set Pivotes_ = [campo] %}
+                        {% endif %}
+                        
+                        {% for pivote in Pivotes_ %}
+                        {                            
+                            {% if editable == true %}
+                                {%if (campo.significadoCampo.codigo == 'cant_mensual' or campo.significadoCampo.codigo == 'importe_mensual') and campo.origenPivote %}
+                                    {% if pivote.id == periodoSeleccionado.periodo.mes %} {% set celda_editable = true %}
+                                    {% else %} {% set celda_editable = false %}
+                                    {% endif %}
+                                {% else %}
+                                    {% set celda_editable = campo.esEditable|default('false') %} 
+                                {% endif %}
+                            {% else %} 
+                                {% set celda_editable = false %} 
+                            {% endif %}
+                            {% if campo.origenPivote %}
+                                text: '{{pivote.descripcion}}', 
+                                datafield: '{{campo.significadoCampo.codigo}}_{{pivote.id}}', 
+                            {% else %}
+                                text: '{{campo.significadoCampo.descripcion}}', 
+                                datafield: '{{campo.significadoCampo.codigo}}', 
+                            {% endif %}
+                            align: 'center',                            
+                            width: {{campo.ancho|default(100)}},
+                            {% if indice  <=  columnas_fijas %}
+                                pinned: true,
+                            {% endif %}
+                            cellsalign: '{{campo.alineacion.codigo|default('left')}}',
+                            {% if not celda_editable %}
+                                cellclassname: 'celda_no_editable',
+                            {% endif%}                            
+                            editable: {{ (celda_editable)? 'true' : 'false' }}, 
+                                
+                            hidden: {{campo.oculto|default('false')}},
+                            columntype: '{{campo.tipoControl.codigo}}',
+                            {% if campo.esCalculado and mostrar_resumen %} aggregates: ['sum'], {% endif %}                            
+                            {% if campo.tipoControl.codigo == 'datetimeinput' %}
+                                cellsformat: 'dd/MM/yyyy',
+                            {% endif %}
+                            {% if campo.origen or campo.significadoCampo.catalogo != '' %} displayfield: '{{campo.significadoCampo.codigo}}Source', 
+                                createeditor: function (row, value, editor) {
+                                    editor.jqxDropDownList({ source: {{origenes[campo.significadoCampo.codigo]|raw}}, displayMember: 'descripcion', valueMember: 'id' });
+                                },
+                            {% endif %}
+                            {% if campo.grupoColumnas %} columngroup: '{{campo.grupoColumnas.codigo}}', {% endif %}
+                            {% if campo.formato %} cellsformat: '{{campo.formato.formato}}', {% endif %}
+                            {% if campo.reglaValidacion %}
+                                validation: function (cell, value) {
+                                    if ({{campo.reglaValidacion|raw}}) {
+                                        return true;
+                                    }
+                                    return { result: false, message: "{{campo.msjValidacion|default('_dato_no_valido_')|trans}}" };
+                                },
+                            {% endif %}
+                            {% if campo.formula %} 
+                                cellsrenderer: function (index, datafield, value, defaultvalue, column, rowdata) {
+                                    {{campo.formula|raw}};
+                                    return "<div  class='jqx-{{campo.alineacion.codigo|default('left')}}-align'>" + dataAdapter.formatNumber(result,'{{campo.formato.formato|default('')}}') + "</div>";
+                                }, 
+                            {% endif %}
+                            cellsrenderer: function (index, datafield, value, defaultvalue, column, rowdata) {
+                                estilo = (rowdata.es_poblacion == 'true') ? "style='color: blue;'" :  '';
+                                return "<div class='jqx-{{campo.alineacion.codigo|default('left')}}-align' "+ estilo + " title='"+rowdata.ayuda+"'  data-toggle='tooltip' data-placement= 'top' >" + value +"</div>";
+                            },
+                        },
+                        {% endfor %}
+                    {% endfor %}
+                    {
+                      text: '', sortable: false, filterable: false, editable: false,
+                      groupable: false, draggable: false, resizable: false,
+                      datafield: '-', columntype: 'number', width: 50, pinned: false,
+                      cellsrenderer: function (row, column, value) {
+                          return "<div style='margin:4px;'></div>";
+                      }
+                    },
+                ],
+                {% set item_count = 0 %}
+                {% for grp in Frm.gruposColumnas %}
+                    {% set item_count = item_count+1 %}
+                {% endfor %}
+                {% if item_count > 0 %}
+                    columngroups: [
+                        {% for grp in Frm.gruposColumnas %}
+                            { text: '{{grp.descripcion}}', 
+                                align: 'center', 
+                                name: '{{grp.codigo}}',
+                                {% if grp.grupoPadre %} parentgroup: '{{grp.grupoPadre.codigo}}', {% endif %}
+                            },
+                        {% endfor %}
+                    ],
+                {% endif %}
+                rendered: function(){                 
+                    $('.jqx-grid-column-header').each(function(i, nodo){
+                        $($($(nodo).children()[0]).children()[0]).css('margin-top',0).css('margin-bottom',0);
+                    });
+                }
+            });
+            
+            var listSource = [
+                {% for campo in Frm.campos %}
+                    {% if campo.origenPivote %} 
+                        {% for campoPivote in pivotes[campo.significadoCampo.codigo] %}
+                            { label: '{{campoPivote.descripcion}}', value: '{{campo.significadoCampo.codigo}}_{{campoPivote.id}}', checked: true },
+                        {% endfor %}
+                    {% else %}
+                        {% if not(campo.oculto) %}
+                            { label: '{{campo.significadoCampo.descripcion}}', value: '{{campo.significadoCampo.codigo}}', checked: true },
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}                
+                ];
+            $("#jqxlistbox").jqxListBox({ source: listSource, width: 500, height: 400,  checkboxes: true });
+            $("#jqxlistbox").on('checkChange', function (event) {
+                $("#jqxgrid").jqxGrid('beginupdate');
+                if (event.args.checked) {
+                    $("#jqxgrid").jqxGrid('showcolumn', event.args.value);
+                }
+                else {
+                    $("#jqxgrid").jqxGrid('hidecolumn', event.args.value);
+                }
+                $("#jqxgrid").jqxGrid('endupdate');
+            });
+            
+            $("#jqxgrid").on('cellselect', function (event) {
+                columna = event.args.datafield;
+                fila = event.args.rowindex;
+            });
+            
+            $("#clear").click(function () {
+                $("#jqxgrid").jqxGrid('clear');
+                $('#mensaje').html('');
+            });
+            $("#guardar").click(function () {
+                $('#mensaje').html('<div class="alert alert-success" role="alert">{{'_datos_guardados_'|trans}}</div>');
+            });
+            $("#exportar").click(function () {
+                $("#jqxgrid").jqxGrid('exportdata', 'xls', 'jqxGrid');           
+            });
+        });
+    </script>
+    {% endif %}
+    {% endblock frm %}
+{% endblock javascripts %}
+{% block content %}
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="navbar-header">
+            <span class="navbar-brand">{{titulo|trans}}</span>
+        </div>
+    </nav>
+        <form id="frm_" class="form-inline" >
+        <div class="box-body">        
+            {% block frm_head %}
+                <DIV style="width: 98%; text-align: right">                    
+                    <button class="btn btn-success" type="submit" name="cargar_datos" id="cargar_datos" ><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>{{'_cargar_datos_'|trans}}</button>
+                    {#<button class="btn btn-danger" name="clear" id="clear" ><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>{{'_limpiar_'|trans}}</button>#}
+                    <button class="btn btn-instagram" type="button" name="guardar" id="guardar" ><i class="fa fa-save" data-original-title="" title=""></i>{{'_guardar_'|trans}}</button>
+                    <button class="btn btn-file" type="button" name="exportar" id="exportar" ><i class="fa fa-archive" data-original-title="" title=""></i>{{'_exportar_'|trans}}</button>
+                    <DIV id="mensaje"></div>
+                </div>                
+            {% endblock frm_head %}
+            {% block grid %}
+                <div id='jqxWidget' style="padding: 10px;">
+                    <div role="tabpanel">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#jqxgrid" role="tab" data-toggle="tab">{{'_cuadro_datos_'|trans}}</a></li>
+                            <li role="presentation"><a href="#jqxlistbox" aria-controls="profile" role="tab" data-toggle="tab">{{'_columnas_'|trans}}</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div id="jqxgrid" role="tabpanel" class="tab-pane active"></div>
+                            <div role="tabpanel" class="tab-pane" id="jqxlistbox"></div>                    
+                        </div>
+                    </div>                    
+                </div>
+            {% endblock %}
+            {% block frm_foot %} {% endblock frm_foot %}
+        </div>
+        <input type="hidden" name="pk" id='pk' value="{{pk}}" />
+    </form>
+{% endblock content %}

@@ -164,8 +164,8 @@ action_load_data: 'Load Data'
 archivo_asociado: 'Related file'
 subir_nuevo_archivo: 'Upload new file'
 origen_datos: 'Data Source'
-origen_datos_archivo: 'Load data from file: Spreadsheet (Excel/OpenOffice) or  CSV text file.'
-origen_datos_sql: 'Load data using an SQL statement'
+origen_datos_archivo: 'From file: Spreadsheet or  CSV text file.'
+origen_datos_sql: 'From Database'
 tipo_campo_cambiado_a: 'Field type changed to '
 significado_campo_cambiado_a: "Field's meaning changed to"
 flash_batch_load_data_success: 'A process to load data has been started using the specified sources'
@@ -360,3 +360,6 @@ _reporte_: Report
 _mostrar_reporte_: Show Report
 _buscar_indicador_: Search indicator
 _agregar_accion_: Add Action
+_origen_datos_: Data Source
+_general_: General
+_clasificacion_: Classification

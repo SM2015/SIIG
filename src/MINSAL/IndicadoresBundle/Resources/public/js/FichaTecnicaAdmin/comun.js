@@ -9,7 +9,8 @@ var formatAsPercentage = d3.format("%"),
         fdat = d3.time.format("%d d"),
         fmon = d3.time.format("%b")
         ;
-
+var sSwfPath = '';
+var oLanguage = '';
 var zona = 1;
 var max_zonas = 3;
 
@@ -173,7 +174,7 @@ function descenderNivelDimension(zona, category) {
     $('#' + zona + '.ordenar_medida').children('option[value="-1"]').attr('selected', 'selected');
 }
 
-function dibujarGrafico(zona, dimension) {
+function dibujarGrafico(zona, dimension, desde_sala) {
     if (dimension === null)
         return;
     var filtro = $('#' + zona + ' .filtros_dimensiones').attr('data');
@@ -185,14 +186,14 @@ function dibujarGrafico(zona, dimension) {
                 {id: id_indicador, dimension: dimension}),
                 {filtro: filtro, ver_sql: false},
         function(resp) {
-            procesarDibujarGrafico(resp, zona);
+            procesarDibujarGrafico(resp, zona, desde_sala);
         });
-    } else {        
-        procesarDibujarGrafico(indicadoresDatos[id_indicador], zona);
+    } else {
+        procesarDibujarGrafico(indicadoresDatos[id_indicador], zona, desde_sala);
     }
 }
 
-function procesarDibujarGrafico(resp, zona) {
+function procesarDibujarGrafico(resp, zona, desde_sala) {
     var datos = JSON.stringify(resp.datos);
     $('#' + zona).attr('datasetPrincipal_bk', datos);
     if ($('#' + zona).attr('orden') !== undefined
@@ -210,6 +211,9 @@ function procesarDibujarGrafico(resp, zona) {
 
     dibujarGraficoPrincipal(zona, $('#' + zona + ' .tipo_grafico_principal').val());
     controles_filtros(zona);
+    if (desde_sala){
+        aplicarFiltro(zona);
+    }
 }
 
 function ordenarDatos(zona, ordenar_por, modo_orden) {
@@ -498,6 +502,9 @@ function dibujarControles(zona, datos) {
     });
     $('#' + zona + ' .zoom').click(function() {
         $('#' + zona).toggleClass('zona_maximizada');
+        $(this).hide();
+        goFullscreen('z'+zona);
+        
     });
     $('#' + zona + ' .quitar_indicador').click(function() {
         //limpiarZona2(zona);
@@ -661,7 +668,7 @@ function limpiarZona(zona) {
     $('#' + zona).attr('orden', null);
 }
 
-function recuperarDimensiones(id_indicador, datos) {
+function recuperarDimensiones(id_indicador, datos, desde_sala) {
     var zona_g = $('DIV.zona_actual').attr('id');
     limpiarZona(zona_g);
     
@@ -669,14 +676,14 @@ function recuperarDimensiones(id_indicador, datos) {
         $.getJSON(
             Routing.generate('indicador_dimensiones', {id: id_indicador}),
             function(resp) {
-                procesarDimensiones(resp, datos, zona_g);
+                procesarDimensiones(resp, datos, zona_g, desde_sala);
             });
     } else {
-        procesarDimensiones(indicadoresDimensiones[id_indicador], datos, zona_g);
+        procesarDimensiones(indicadoresDimensiones[id_indicador], datos, zona_g, desde_sala);
     }
 }
 
-function procesarDimensiones(resp, datos, zona_g) {
+function procesarDimensiones(resp, datos, zona_g, desde_sala) {
     //Construir el campo con las dimensiones disponibles
 
     if (resp.resultado === 'ok') {
@@ -685,7 +692,7 @@ function procesarDimensiones(resp, datos, zona_g) {
         } else {
             dibujarControles(zona_g, resp);
             if (datos !== null) {
-                if (datos.filtro != null) {
+                if (datos.filtro != null && datos.filtro != '') {
                     var $filtro = $('#' + zona_g + ' .filtros_dimensiones');
                     $filtro.attr('data', datos.filtro);
                     filtro_obj = jQuery.parseJSON($filtro.attr('data'));
@@ -712,7 +719,7 @@ function procesarDimensiones(resp, datos, zona_g) {
                 $('#' + zona_g + ' .titulo_indicador').attr('filtro-elementos', datos.filtroElementos);
                 $('#' + zona_g + ' .tipo_grafico_principal').val(datos.tipoGrafico);
             }
-            dibujarGrafico(zona_g, $('#' + zona_g + ' .dimensiones').val());
+            dibujarGrafico(zona_g, $('#' + zona_g + ' .dimensiones').val(), desde_sala);            
             if ($('#' + zona_g + ' .titulo_indicador').attr('vista') == 'tabla'){
                 $('#'+zona_g+' .row_grafico').toggle();
                 $('#'+zona_g+' .info').toggle();

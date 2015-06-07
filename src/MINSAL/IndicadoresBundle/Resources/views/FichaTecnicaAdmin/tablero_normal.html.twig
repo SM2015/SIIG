@@ -9,6 +9,7 @@
 
     {# sección de configuración #}    
     <input type="hidden" value="{{confTablero.ocultar_menu_principal}}" id="ocultar_menu_principal" />
+    <input type="hidden" value="{{confTablero.directorio}}" id="directorio" />
     <input type="hidden" value="{{id_sala|default(0)}}" id="sala_default" />
     
     <style>
@@ -55,28 +56,34 @@
         </div>        
         {% include 'IndicadoresBundle:FichaTecnicaAdmin:listado_indicadores.html.twig'%}
         <div class="content tab-pane" id="social">
-            <div class='row'>
-            <div class="col-md-3" >
-                <form id="compartir_frm">
-                    <fieldset>
-                      <legend>{{'javascript._compartir_sala_'|trans}}</legend>
-                      <div id="usuarios_sala"></div>
-                    </fieldset>
-                </form> 
+            <div class="panel-group col-md-4" >
+                <div class="panel panel-default panel-info ">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">{{'javascript._compartir_sala_'|trans}}</h4>
+                    </div>
+                    <div class="panel-body">                        
+                        <form id="compartir_frm">                            
+                            <div id="usuarios_sala"></div>
+                        </form> 
+                    </div>
+                </div> 
             </div>
-            <div class="col-md-6 comentarios" >
-                <div id="chat">                    
-                    <form id="chat-form">
-                        <fieldset>
-                            <legend>{{'_comentarios_'|trans}}</legend>
-                            <textarea name="chat-mensaje" id="chat-form-mensaje" required="true"></textarea>
-                            <button type="submit" class="btn btn-primary">{{'_enviar_'|trans}}</button>
-                      </fieldset>
-                    </form>
-                    <div id="chat-mensajes"></div>
-                </div>
-            </div>
-            </div>
+            <div class="panel-group col-md-8" >
+                <div class="panel panel-default panel-info ">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">{{'_comentarios_'|trans}}</h4>
+                    </div>
+                    <div class="panel-body">                        
+                        <div id="chat">                    
+                            <form id="chat-form">                            
+                                <textarea name="chat-mensaje" id="chat-form-mensaje" required="true"></textarea>
+                                <button type="submit" class="btn btn-primary">{{'_enviar_'|trans}}</button>
+                            </form>
+                            <div id="chat-mensajes"></div>
+                        </div>
+                    </div>
+                </div> 
+            </div>            
         </div>
         <div id="acciones_sala" class="content tab-pane" ></div>
     </div>

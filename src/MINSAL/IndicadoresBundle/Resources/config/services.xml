@@ -17,4 +17,14 @@
         </service>
     </services>
     -->
+    <services>
+        <service id="sonata.admin.twig.extension" class="MINSAL\IndicadoresBundle\Twig\Extension\SonataAdminExtension">
+            <tag name="twig.extension"/>
+
+            <argument type="service" id="sonata.admin.pool" />            
+            <argument type="service" id="router" />
+            <argument type="service" id="logger" on-invalid="ignore" />
+            <argument type="service" id="security.context" />
+        </service>
+    </services>
 </container>

@@ -1,0 +1,127 @@
+_abril_: Abril
+_agosto_: Agosto
+_alineacion_: Alineación
+_almacenes_costos_: Almacenes de costos
+_almacen_datos_: Captura de datos
+_ancho_: Ancho
+_anio_: Año
+_anual_: Anual
+_area_con_climatizacion_chiller_: Área con climatización Chiler (mts2)
+_area_costeo_: Área
+_area_fisica_: Total Área Física (mts2)
+_ayuda_: Ayuda
+_ayuda_formula_campo_: "Debe regresar el valor final: 'var result = '; otros campos de la misma fila 'rowdata.codigo_campo'; Ej.: 'var result = (rowdata.salario) * 0.01"
+_ayuda_origen_campo_: 'Cuando el tipo de control sea Cuadro desplegable, se utilizará "origen" para especificar qué valores se mostrarán en el combo, debe estar formado por dos campos (valor y etiqueta), puede ser una consulta SQL o en formato JSON. Ej.: [{"id":"E",  "descripcion": "Enfermera"}, {"id":"M", "descripcion": "Medico"}]'
+_ayuda_origen_pivote_: 'Es una sentencia SQL que recupera registros con dos campos (valor y etiqueta) y se creará un campo de entrada por cada fila del origen pivote. También puede usar formato JSON '
+_ayuda_validacion_campo_: 'Ingrese la condición para ser válido. Usar "value" para referirse al valor del campo dentro de la fórmula. Ej.: value > 0 || value <150'
+_ayuda_variable_calculo_consumo_: 'Cuando el consumo del compromiso financiero se determine a partir de otra variable. Ej.: El mantenimiento la planta telefónica, será a partir de la cantidad de aparatos fijos asignados a la dependencia'
+_cargar_datos_: Cargar
+_campo_: Campo
+_campos_: Campos
+_cant_aires_manto_externo_: Cantidad de A/C con mantto externo
+_cant_camas_: Cantidad de camas
+_cant_celulares_: Cantidad de celulares
+_cantidad_luminarias_: Cantidadad de luminarias
+_cantidad_radios_: Cant. de Radios asignados
+_cantidad_tel_fijos_: Cant. de aparatos telefonía fija
+_cantidad_tel_salida_0_: Cant. de aparatos telefónicos con salida a 0
+_captura_datos_: Captura de datos
+_catalogos_: Catálogos
+_categoria_ : Categoría
+_categoria_variable_captura_ : Categoría variable de captura
+_categorias_contratos_: Categorías de contratos de servicios
+_centros_de_produccion_: Centros de producción
+_centro_de_produccion_: Centro de producción
+_codigo_: Código
+_columnas_: Columnas
+_columnas_fijas_: Columnas fijas
+_configuracion_: Configuración
+_contratos_fijos_: Compromisos financieros
+_costeo_: Costeo
+_cuadro_datos_: Cuadro de datos
+_criterios_distribucion_: Criterios de distribución
+_criterio_distribucion_ : Criterio de distribución
+_datos_guardados_: Datos Guardados con éxito
+_dato_no_valido_: Dato no válido
+_descripcion_: Descripción
+_dependencia_: Dependencia
+_diciembre_: Diciembre
+_elija_establecimiento_: Elija el Establecimiento
+_elija_parametros_: Elija parámetros
+_enero_: Enero
+_es_editable_: Editable
+_es_poblacion_: Es variable de población
+_especialidad_: Especialidad
+_establecimiento_: Establecimiento
+_estructura_organizativa_: Estructura organizativa
+_faltan_datos_requeridos_: Faltan datos requeridos
+_febrero_: Febrero
+_formato_: Formato
+_formula_: Fórmula
+_formula_consumo_: Fórmula consumo
+_formulario_: Formulario
+_formularios_: Formularios
+_formulario_rrhh_valor_pagado_titulo_ : "RRHH :: Valor pagado "
+_gaAf_: "Gastos Administrativos:: Activo Fijo"
+_ga_af_: "Gastos Administrativos:: Activo Fijo"
+_gaCompromisosFinancieros_: 'Gastos Administrativos:: Monto compromisos financieros'
+_ga_compromisos_financieros_: 'Gastos Administrativos:: Monto compromisos financieros'
+_gaDistribucion_: 'Gastos Administrativos:: Distribución'
+_ga_distribucion_: 'Gastos Administrativos:: Distribución'
+_gaVariables_: 'Gastos Administrativos:: Variables'
+_ga_variables_: 'Gastos Administrativos:: Variables'
+_gaCostos_: 'Gastos Administrativos:: Costos'
+_ga_costos_: 'Gastos Administrativos:: Costos'
+_grupo_padre_: Grupo padre
+_grupo_columnas_: Grupo Columnas
+_guardar_: Guardar
+_junio_: Junio
+_julio_: Julio
+_limpiar_: Limpiar
+_marzo_: Marzo
+_mayo_: Mayo
+_mensual_: Mensual
+_mes_anio_: Mes/Anio
+_mes_: Mes
+_msj_validacion_: Mensaje de validación
+_nivel_ : Nivel
+_no_datos_: 'No se encontraron datos con los parámetros especificados'
+_nombre_: Nombre
+_noviembre_: Noviembre
+_octubre_: Octubre
+_oculto_: Oculto
+_origen_campo_: Origen campo
+_origen_formulario_: Origen del formulario
+_origen_pivote_: Origen pivote
+_periodos_ingreso_: Períodos de ingreso
+_periodo_ingreso_: Período de ingreso
+_periodo_ingreso_datos_formulario_: 'Periodo Ingreso - Datos formulario'
+_periodo_lectura_datos_: 'Periodo de lectura de datos'
+_posicion_: Posición
+_promedio_usuarios_x_dia_: Promedio diario de usuarios
+_rrhhDistribucionHora_: 'RRHH :: Distribución de horas'
+_rrhh_: Recurso Humano
+_rrhhCostos_: 'RRHH :: Costos'
+_rrhh_resumen_ : 'RRHH :: Resumen'
+_rrhhValorPagado_: 'RRHH :: VAlor Pagado'
+_seleccione_dependencia_: 'Seleccione la dependencia'
+_septiembre_: Septiembre
+_significado_campo_: Significado
+_solo_establecimiento_de_ubicacion_: Solo puede seleccionar el establecimiento al que pertenece la ubicación
+_regla_validacion_: Regla de validación
+_tiempo_utilizacion_luminarias_ : Tiempo promedio de utilización de luminarias (horas x día)
+_tipo_contratacion_: Tipo contratación
+_tipo_control_: Tipo Control
+_tipo_dato_: Tipo Dato
+_tipo_recurso_: Tipo Recurso
+_tomas_con_planta_emergencia_: Cant. de tomas con Planta de Emergencia
+_total_: Total
+_total_personal_: Total personal asignado
+_ubicacion_: Ubicación
+_unidad_: Unidad
+_unidad_superior_ : Unidad superior
+_unidades_productivas_ : Unidades productivas
+_uso_costeo_: Utilizado para Costeo
+_variable_calculo_consumo_ : Variable para cálculo de consumo
+_variable_captura_: Variables de captura
+_variables_ga_: Gastos Administrativos :: Variables
