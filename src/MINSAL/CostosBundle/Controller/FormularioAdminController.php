@@ -11,35 +11,56 @@ class FormularioAdminController extends Controller
     public function mostrarPlantilla(Request $request, $codigoFrm, $pk, $titulo, $mostrar_resumen, $plantilla, $editable = true) {
         $em = $this->getDoctrine()->getManager();
         
-        $estructura = $em->getRepository("CostosBundle:Estructura")->findBy(array(), array('codigo' => 'ASC'));
-        
-        $Frm = $em->getRepository('CostosBundle:Formulario')->findBy(array('codigo'=>$codigoFrm));
-        $Frm = array_shift($Frm);
-        
-        $periodosEstructura = $em->getRepository("CostosBundle:PeriodoIngresoDatosFormulario")
-                ->findBy(array('usuario' => $this->getUser(), 'formulario'=>$Frm), 
-                        array('periodo' => 'ASC', 'unidad'=>'ASC'));
-
-        
-        $periodo = (is_null($request->get('periodo_estructura')) ) ? -1: $request->get('periodo_estructura');        
-        $periodoSeleccionado = ($request->get('periodo_estructura') != '-1') ? 
+        $periodo = (is_null($request->get('periodo_estructura')) ) ? '-1': $request->get('periodo_estructura');
+        $periodoSeleccionado = ($periodo != '-1' ) ? 
                                 $em->getRepository("CostosBundle:PeriodoIngresoDatosFormulario")->find($periodo):
                                 null;
-        $parametros = $this->getParametros2($periodoSeleccionado);
+        $parametros = $this->getParametros2($periodoSeleccionado);                
         
-        return $this->render('CostosBundle:Formulario:'.$plantilla.'.html.twig', array('Frm' => $Frm, 
-            'origenes' => $this->getOrigenes($Frm, $parametros),
-            'pivotes' => $this->getPivotes($Frm, $parametros),
+        $cantFrm = 1;
+        // Si es el código de formulario de captura de datos, 
+        // pueden haber varios formularios para el usuario
+        if ($codigoFrm == 'captura_variables'){
+            if ($periodo != '-1'){
+                //Si ya se eligió un periodo ya se puede determinar el formulario, seleccionado
+                $Frm = $periodoSeleccionado->getFormulario();
+            }
+            //Buscar todos los formularios del areaCosteo almacen_datos asignados al usuario
+            $aux = $em->getRepository("CostosBundle:PeriodoIngresoDatosFormulario")
+                ->findBy(array('usuario' => $this->getUser()), 
+                        array('periodo' => 'ASC', 'unidad'=>'ASC'));
+
+            foreach ($aux as $p ) { 
+                if ($p->getFormulario()->getAreaCosteo() == 'almacen_datos')
+                    $periodosEstructura [] = $p;
+            }
+            $cantFrm = count($periodosEstructura);
+        }
+        else{ 
+            $Frm = $em->getRepository('CostosBundle:Formulario')->findOneBy(array('codigo'=>$codigoFrm));
+            $periodosEstructura = $em->getRepository("CostosBundle:PeriodoIngresoDatosFormulario")
+                ->findBy(array('usuario' => $this->getUser(), 'formulario'=>$Frm), 
+                        array('periodo' => 'ASC', 'unidad'=>'ASC'));
+        }                
+        
+        $parametrosPlantilla = array(
             'url' => 'get_grid_data',
             'url_save' => 'set_grid_data',
-            'estructura' => $estructura,
             'parametros' => $parametros,
             'periodosEstructura' => $periodosEstructura,
             'periodoSeleccionado' => $periodoSeleccionado,
             'titulo' => $titulo,
+            'cantFrm' => $cantFrm,
             'editable' => $editable,
             'mostrar_resumen' => $mostrar_resumen,
-            'pk' => $pk));
+            'pk' => $pk);
+        
+        if ($periodo != '-1'){
+            $parametrosPlantilla['Frm'] = $Frm;
+            $parametrosPlantilla['origenes'] = $this->getOrigenes($Frm, $parametros);
+            $parametrosPlantilla['pivotes'] = $this->getPivotes($Frm, $parametros);
+        }             
+        return $this->render('CostosBundle:Formulario:'.$plantilla.'.html.twig', $parametrosPlantilla);
     }
     public function rrhhValorPagadoAction(Request $request)
     {        

@@ -8,18 +8,21 @@
                     <select id="periodo_estructura" name="periodo_estructura">
                         <option value="-1" selected>{{'_elija_parametros_'|trans}}</option>
                         {% for pEstructura in periodosEstructura %}
-                            {% if pEstructura.unidad.nivel == 1 %}
-                                <option value="{{pEstructura.id}}" {% if pEstructura.id == parametros.periodo_estructura %}selected="selected"{% endif %} >
-                                    {{pEstructura.periodo}} - {{pEstructura.unidad}}
+                            
+                            {% if cantFrm > 1 %}
+                                <optgroup label="{{'_formulario_'|trans}}: {{pEstructura.formulario}}">
+                            {% endif %}
+                                <option value="{{pEstructura.id}}" {% if pEstructura.id == parametros.periodo_estructura %}selected="selected"{% endif %} >                                    
+                                    {% if pEstructura.unidad.nivel == 1 %}
+                                        {{pEstructura.periodo}} - {{pEstructura.unidad}}
+                                    {% elseif pEstructura.unidad.nivel == 2 %}
+                                        {{pEstructura.periodo}} - {{pEstructura.unidad.parent}}::{{pEstructura.unidad}}
+                                    {% elseif pEstructura.unidad.nivel == 3 %}
+                                        {{pEstructura.periodo}} - {{pEstructura.unidad.parent.parent}} :: {{pEstructura.unidad.parent}} :: {{pEstructura.unidad}}
+                                    {% endif%}
                                 </option>
-                            {% elseif pEstructura.unidad.nivel == 2 %}
-                                <option value="{{pEstructura.id}}" {% if pEstructura.id == parametros.periodo_estructura %}selected="selected"{% endif %} >
-                                    {{pEstructura.periodo}} - {{pEstructura.unidad.parent}}::{{pEstructura.unidad}}
-                                </option>
-                            {% elseif pEstructura.unidad.nivel == 3 %}
-                                <option value="{{pEstructura.id}}" {% if pEstructura.id == parametros.periodo_estructura %}selected="selected"{% endif %} >
-                                    {{pEstructura.periodo}} - {{pEstructura.unidad.parent.parent}} :: {{pEstructura.unidad.parent}} :: {{pEstructura.unidad}}
-                                </option>
+                            {% if cantFrm > 1 %}
+                                </optgroup>
                             {% endif%}
                         {% endfor %}
                     </select>
